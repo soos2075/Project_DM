@@ -32,6 +32,8 @@ public class MonsterEditor : Editor
         EditorGUILayout.LabelField("¿Ã∏ß", value.Name);
         EditorGUILayout.LabelField("HP", value.HP.ToString());
         EditorGUILayout.LabelField("LV", value.LV.ToString());
+        EditorGUILayout.LabelField("ATK", value.ATK.ToString());
+        EditorGUILayout.LabelField("DEF", value.DEF.ToString());
 
 
         //EditorGUILayout.EndHorizontal();

@@ -11,20 +11,22 @@ public class UI_Management : UI_Base
         Training,
         Special,
         Guild,
-        Batch,
+        Placement,
     }
 
 
     public override void Init()
     {
         Bind<Button>(typeof(ButtonEvent));
+        GetButton((int)ButtonEvent.Summon).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Summon>());
+        GetButton((int)ButtonEvent.Training).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Training>());
+        GetButton((int)ButtonEvent.Placement).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_DungeonPlacement>());
     }
 
     void Start()
     {
         Init();
-        GetButton((int)ButtonEvent.Summon).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_Summon>());
-        GetButton((int)ButtonEvent.Training).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_Training>());
+
     }
 
     void Update()

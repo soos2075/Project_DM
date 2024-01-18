@@ -85,6 +85,34 @@ public class UIManager
         component.transform.SetParent(parents);
         return component;
     }
+    public T ClearAndShowPopUp<T>(string name = null) where T : UI_PopUp
+    {
+        CloseAll();
+        return ShowPopUp<T>(name);
+    }
+
+    public T ShowPopUpAlone<T>(string name = null) where T : UI_PopUp
+    {
+        if (string.IsNullOrEmpty(name))
+        {
+            name = typeof(T).Name;
+        }
+        GameObject go = Managers.Resource.Instantiate($"UI/PopUp/{name}", UI_Root.transform);
+        T uiComponent = Util.GetOrAddComponent<T>(go);
+
+        if (_popupStack.Peek().GetType() == uiComponent.GetType())
+        {
+            ClosePopUp();
+        }
+
+        _popupStack.Push(uiComponent);
+
+        return uiComponent;
+    }
+
+
+
+
 
     public void ClosePopUp()
     {

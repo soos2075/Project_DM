@@ -40,7 +40,12 @@ public class UI_Content : UI_Base
         if (training.resumeCount > 0 && State == ContentState.Possible)
         {
             State = ContentState.Chosen;
-            training.ResumeCountUpdate();
+            training.ResumeCountUpdate(-1);
+        }
+        else if (State == ContentState.Chosen)
+        {
+            State = ContentState.Possible;
+            training.ResumeCountUpdate(1);
         }
     }
 

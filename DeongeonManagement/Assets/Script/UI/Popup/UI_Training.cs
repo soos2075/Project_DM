@@ -15,7 +15,7 @@ public class UI_Training : UI_PopUp
     }
 
     UI_Content[] contentData;
-    public int resumeCount;
+    public int resumeCount { get; set; }
 
     public override void Init()
     {
@@ -23,8 +23,8 @@ public class UI_Training : UI_PopUp
         Bind<GameObject>(typeof(Contents));
         contentData = new UI_Content[Main.Instance.monsters.Length];
 
-        resumeCount = Main.Instance.TrainingCount + 1;
-        ResumeCountUpdate();
+        resumeCount = Main.Instance.TrainingCount;
+        ResumeCountUpdate(0);
         GetObject((int)Contents.Return).AddUIEvent((data) => ClosePopUp());
         GetObject((int)Contents.Confirm).AddUIEvent((data) => TrainingConfirm());
     }
@@ -43,9 +43,9 @@ public class UI_Training : UI_PopUp
     }
 
 
-    public void ResumeCountUpdate()
+    public void ResumeCountUpdate(int value)
     {
-        resumeCount--;
+        resumeCount += value;
         GetObject((int)Contents.ResumeCount).GetComponent<TextMeshProUGUI>().text = $"선택 가능 횟수 : {resumeCount}";
     }
 
@@ -81,8 +81,16 @@ public class UI_Training : UI_PopUp
 
 
 
+
     void TrainingConfirm()
     {
+        for (int i = 0; i < contentData.Length; i++)
+        {
+            if (contentData[i].State == UI_Content.ContentState.Chosen)
+            {
+                Main.Instance.monsters[i].Training();
+            }
+        }
         Debug.Log("선택된 몬스터들 훈련진행");
     }
 
