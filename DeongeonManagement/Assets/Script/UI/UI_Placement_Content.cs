@@ -13,13 +13,21 @@ public class UI_Placement_Content : UI_Base
 
 
     public int MonsterID { get; set; }
-    public string Place { get; set; }
+
+    Monster monster;
+    BasementFloor current;
+    UI_Placement_Monster parent;
 
 
     public override void Init()
     {
         Bind<GameObject>(typeof(Contents));
-        
+        current = Main.Instance.CurrentFloor;
+        parent = GetComponentInParent<UI_Placement_Monster>();
+        if (MonsterID != -1)
+        {
+            monster = Main.Instance.Monsters[MonsterID];
+        }
     }
 
     void Start()
@@ -29,73 +37,92 @@ public class UI_Placement_Content : UI_Base
     }
 
 
-    void FillContents()
+    void ContentsUpdate()
     {
-        if (MonsterID == -1) return;
+        var text = GetObject((int)Contents.Textinfo).GetComponent<TextMeshProUGUI>();
 
-        GetObject((int)Contents.Image).GetComponent<Image>().sprite = Main.Instance.monsters[MonsterID].Sprite;
-        GetObject((int)Contents.Textinfo).GetComponent<TextMeshProUGUI>().text =
-            $"이름 : {Main.Instance.monsters[MonsterID].name}\n" +
-            $"HP : {Main.Instance.monsters[MonsterID].HP}\n" +
-            $"LV : {Main.Instance.monsters[MonsterID].LV}";
+        text.text =
+            $"이름 : {monster.name}\n" +
+            $"HP : {monster.HP}\n" +
+            $"LV : {monster.LV}";
 
-
-        switch (Main.Instance.monsters[MonsterID].State)
+        switch (monster.State)
         {
             case Monster.MonsterState.Standby:
-                GetObject((int)Contents.Textinfo).GetComponent<TextMeshProUGUI>().text +=
-                $"\n상태 : 대기중";
-
-                State = ContentState.White;
-                gameObject.AddUIEvent(data =>
-                    {
-                        Main.Instance.monsters[MonsterID].Placement(Place);
-                        State = ContentState.Blue;
-                    });
+                text.text += $"\n상태 : 대기중";
+                PanelState = ContentState.White;
                 break;
 
             case Monster.MonsterState.Placement:
-                GetObject((int)Contents.Textinfo).GetComponent<TextMeshProUGUI>().text +=
-                $"\n상태 : {Main.Instance.monsters[MonsterID].Place}";
-
-                if (Main.Instance.monsters[MonsterID].Place == Place)
+                text.text += $"\n상태 : {monster.Place.Name_KR}";
+                if (monster.Place == current)
                 {
-                    State = ContentState.Blue;
-                    gameObject.AddUIEvent(data =>
-                    {
-                        Main.Instance.monsters[MonsterID].PlacementClear();
-                        State = ContentState.White;
-                    });
+                    PanelState = ContentState.Blue;
                 }
                 else
                 {
-                    State = ContentState.Green; //? 여긴 다른곳에 배치된 몬스터를 옮길거냐고 선택지 하나 띄워주는게 좋을듯.
-                    gameObject.AddUIEvent(data => 
-                    {
-                        Main.Instance.monsters[MonsterID].Placement(Place);
-                        State = ContentState.Blue;
-                    });
+                    PanelState = ContentState.Green;
                 }
                 break;
 
             case Monster.MonsterState.Injury:
-                GetObject((int)Contents.Textinfo).GetComponent<TextMeshProUGUI>().text +=
-                $"\n상태 : 부상중";
-
-                State = ContentState.Red;
+                text.text += $"\n상태 : 부상중";
+                PanelState = ContentState.Red;
                 break;
         }
     }
 
-
-    void PlacementCheck() //? 이건 이제 층 / 공간오브젝트 + 컴포넌트가 필요함. 공간오브젝트에 해당 위치가 찼는지 안찼는지를 검사해서 해제/교체등의 작업을 진행하면댐
+    void FillContents()
     {
+        if (!monster) return;
 
+        GetObject((int)Contents.Image).GetComponent<Image>().sprite = monster.Sprite;
+        ContentsUpdate();
+
+        gameObject.AddUIEvent((data) => ClickEvent());
+    }
+
+
+    void ClickEvent()
+    {
+        switch (monster.State)
+        {
+            case Monster.MonsterState.Standby:
+                if (parent.resumeCount > 0)
+                {
+                    monster.Placement(current);
+                    parent.ResumeCountUpdate(-1);
+                }
+                break;
+
+            case Monster.MonsterState.Placement:
+                if (monster.Place == current)
+                {
+                    Main.Instance.Monsters[MonsterID].PlacementClear();
+                    parent.ResumeCountUpdate(1);
+                }
+                else if(parent.resumeCount > 0)
+                {
+                    Main.Instance.Monsters[MonsterID].PlacementClear();
+                    Main.Instance.Monsters[MonsterID].Placement(current);
+                    parent.ResumeCountUpdate(-1);
+                }
+                break;
+
+            case Monster.MonsterState.Injury:
+                break;
+        }
+
+        ContentsUpdate();
     }
 
 
 
 
+
+
+
+    #region Panel
     public enum ContentState
     {
         White,
@@ -104,14 +131,14 @@ public class UI_Placement_Content : UI_Base
         Red,
     }
 
-    ContentState _state;
-    public ContentState State
+    ContentState _panelState;
+    public ContentState PanelState
     {
-        get { return _state; }
+        get { return _panelState; }
         set
         {
-            _state = value;
-            GetComponent<Image>().color = ColorTint(_state);
+            _panelState = value;
+            GetComponent<Image>().color = ColorTint(_panelState);
         }
     }
     Color32 ColorTint(ContentState _state)
@@ -131,4 +158,5 @@ public class UI_Placement_Content : UI_Base
                 return new Color32(255, 255, 255, 175);
         }
     }
+    #endregion
 }

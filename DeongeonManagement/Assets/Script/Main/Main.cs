@@ -24,15 +24,34 @@ public class Main : MonoBehaviour
     #endregion
 
 
+    void Start()
+    {
+        MonsterInit();
+        BasementFloorInit();
+    }
 
-    public Monster[] monsters;
+    void Update()
+    {
+
+    }
+
+
+
+    #region Monster
+
+    public Monster[] Monsters { get; set; }
 
     public int TrainingCount { get; set; } = 2;
 
 
+    void MonsterInit()
+    {
+        Monsters = new Monster[5];
+    }
+
     public bool MaximumCheck()
     {
-        foreach (var monster in monsters)
+        foreach (var monster in Monsters)
         {
             if (monster == null)
             {
@@ -45,26 +64,40 @@ public class Main : MonoBehaviour
     }
     public void AddMonster(Monster mon)
     {
-        for (int i = 0; i < monsters.Length; i++)
+        for (int i = 0; i < Monsters.Length; i++)
         {
-            if (monsters[i] == null)
+            if (Monsters[i] == null)
             {
                 //mon.SetStatus();
-                monsters[i] = mon;
+                Monsters[i] = mon;
                 break;
             }
         }
     }
+    #endregion Monster
 
 
 
-    void Start()
+
+
+
+    #region Floor
+
+    public BasementFloor[] Floor { get; set; }
+
+    public BasementFloor CurrentFloor { get; set; }
+
+    void BasementFloorInit()
     {
-        monsters = new Monster[5];
+        Floor = FindObjectsOfType<BasementFloor>();
+        System.Array.Reverse(Floor);
+
+
+
+
     }
 
-    void Update()
-    {
-        
-    }
+
+
+    #endregion
 }

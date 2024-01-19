@@ -35,6 +35,23 @@ public class UIManager
             canvas.sortingOrder = 0;
         }
     }
+    public void SetCanvasWorld(GameObject go, bool sort = true)
+    {
+        Canvas canvas = Util.GetOrAddComponent<Canvas>(go);
+        canvas.renderMode = RenderMode.WorldSpace;
+        canvas.worldCamera = Camera.main;
+        canvas.overrideSorting = true;
+
+        if (sort)
+        {
+            canvas.sortingOrder = _sortOrder;
+            _sortOrder++;
+        }
+        else
+        {
+            canvas.sortingOrder = 0;
+        }
+    }
 
 
     public T ShowSceneUI<T>(string name)
@@ -54,7 +71,7 @@ public class UIManager
 
     #region Popup
 
-    Stack<UI_PopUp> _popupStack = new Stack<UI_PopUp>();
+    public Stack<UI_PopUp> _popupStack = new Stack<UI_PopUp>();
 
     public T ShowPopUp<T>(string name = null) where T : UI_PopUp
     {
@@ -85,6 +102,7 @@ public class UIManager
         component.transform.SetParent(parents);
         return component;
     }
+
     public T ClearAndShowPopUp<T>(string name = null) where T : UI_PopUp
     {
         CloseAll();
@@ -111,9 +129,6 @@ public class UIManager
     }
 
 
-
-
-
     public void ClosePopUp()
     {
         if (_popupStack.Count == 0)
@@ -125,6 +140,7 @@ public class UIManager
         Managers.Resource.Destroy(uiObject.gameObject);
         uiObject = null;
         //_sortOrder--;
+
     }
     public void ClosePopUp(UI_PopUp popup)
     {
@@ -150,6 +166,7 @@ public class UIManager
             ClosePopUp();
         }
     }
+
 
     #endregion
 

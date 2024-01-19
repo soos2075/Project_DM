@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class UI_Placement_Facility : UI_PopUp
 {
 
-    public string Place { get; set; }
     enum Buttons
     {
         Return,

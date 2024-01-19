@@ -21,7 +21,7 @@ public class UI_Training : UI_PopUp
     {
         base.Init();
         Bind<GameObject>(typeof(Contents));
-        contentData = new UI_Content[Main.Instance.monsters.Length];
+        contentData = new UI_Content[Main.Instance.Monsters.Length];
 
         resumeCount = Main.Instance.TrainingCount;
         ResumeCountUpdate(0);
@@ -34,7 +34,6 @@ public class UI_Training : UI_PopUp
     {
         Init();
         GenerateContents();
-        FillContent();
     }
 
     void Update()
@@ -53,45 +52,43 @@ public class UI_Training : UI_PopUp
 
     void GenerateContents()
     {
-        for (int i = 0; i < Main.Instance.monsters.Length; i++)
+        for (int i = 0; i < Main.Instance.Monsters.Length; i++)
         {
-            var content = Managers.Resource.Instantiate("UI/PopUp/Element/Content", GetObject((int)Contents.LayoutGroup).transform);
-            contentData[i] = content.GetComponent<UI_Content>();
-        }
-    }
-    void FillContent()
-    {
-        for (int i = 0; i < contentData.Length; i++)
-        {
-            if (Main.Instance.monsters[i] != null)
+            UI_Content content = Managers.Resource.Instantiate("UI/PopUp/Element/Content", GetObject((int)Contents.LayoutGroup).transform)
+                .GetComponent<UI_Content>();
+            contentData[i] = content;
+            if (Main.Instance.Monsters[i] != null)
             {
-                contentData[i].transform.GetChild(0).GetComponent<Image>().sprite = Main.Instance.monsters[i].Sprite;
-                contentData[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text =
-                    $"이름 : {Main.Instance.monsters[i].name}\n" +
-                    $"HP : {Main.Instance.monsters[i].HP}\n" +
-                    $"LV : {Main.Instance.monsters[i].LV}";
-                contentData[i].State = UI_Content.ContentState.Possible;
+                content.MonsterID = i;
             }
             else
             {
-                contentData[i].State = UI_Content.ContentState.Nothing;
+                content.MonsterID = -1;
             }
         }
     }
-
-
 
 
     void TrainingConfirm()
     {
         for (int i = 0; i < contentData.Length; i++)
         {
-            if (contentData[i].State == UI_Content.ContentState.Chosen)
+            if (contentData[i].State == UI_Content.ContentState.Blue)
             {
-                Main.Instance.monsters[i].Training();
+                Main.Instance.Monsters[i].Training();
+                Main.Instance.TrainingCount--;
+                Debug.Log($"{Main.Instance.Monsters[i].name} 훈련진행");
             }
         }
-        Debug.Log("선택된 몬스터들 훈련진행");
+        
+        ShowResult();
+    }
+
+    void ShowResult()
+    {
+        ClosePopUp();
+
+        Debug.Log("몬스터 스펙업 된거 애니메이션 진행하거나 팝업창 훈련진행개수만큼 띄워놓고 클릭해서 없애기");
     }
 
 }

@@ -35,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 628.00934, y: -480.57745}
-  m_SizeDelta: {x: 663.9799, y: 118.8407}
+  m_AnchoredPosition: {x: 610.789, y: -480.57745}
+  m_SizeDelta: {x: 629.5392, y: 118.8407}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1141359433748884473
 CanvasRenderer:
@@ -68,15 +68,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC120\uD0DD \uAC00\uB2A5 \uD69F\uC218 : 2"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8cb9d2381e34a54498c0bee8f280a16c, type: 2}
-  m_sharedMaterial: {fileID: 7391171939889952828, guid: 8cb9d2381e34a54498c0bee8f280a16c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 76444e04da3553c4c869e3ce5e822a8f, type: 2}
+  m_sharedMaterial: {fileID: 1096574345976159072, guid: 76444e04da3553c4c869e3ce5e822a8f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -93,13 +93,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 84.7
+  m_fontSize: 100
   m_fontSizeBase: 84.7
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontSizeMax: 100
+  m_fontStyle: 1
   m_HorizontalAlignment: 4
   m_VerticalAlignment: 1024
   m_textAlignment: 65535

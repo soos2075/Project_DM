@@ -1,35 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
-public class UI_Placement_TypeSelect : UI_PopUp
+public class UI_Placement_TypeSelect : UI_PopUp, UI_Interface.IWorldSpace
 {
-    public string Place { get; set; }
 
     enum Objects
     {
         Panel,
+        Place,
         Facility,
         Monster,
     }
 
-
+    public void SetCanvasWorldSpace()
+    {
+        Managers.UI.SetCanvasWorld(gameObject);
+    }
 
     public override void Init()
     {
-        base.Init();
+        SetCanvasWorldSpace();
+
+
         Bind<GameObject>(typeof(Objects));
 
         GetObject((int)Objects.Facility).AddUIEvent(data =>
         {
+            ClosePopUp();
             var facility = Managers.UI.ShowPopUp<UI_Placement_Facility>();
-            facility.Place = Place;
         });
         GetObject((int)Objects.Monster).AddUIEvent(data =>
         {
+            ClosePopUp();
             var monster = Managers.UI.ShowPopUp<UI_Placement_Monster>();
-            monster.Place = Place;
         });
+
+        GetObject((int)Objects.Place).GetComponent<TextMeshProUGUI>().text = Main.Instance.CurrentFloor.Name_KR;
     }
 
 

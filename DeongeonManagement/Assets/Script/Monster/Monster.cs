@@ -51,10 +51,9 @@ public class Monster : MonoBehaviour
         Injury,
     }
     public MonsterState State { get; set; }
+    public BasementFloor Place { get; set; }
 
-    public string Place { get; set; }
-
-
+    public bool isTraining;
 
 
 
@@ -84,24 +83,25 @@ public class Monster : MonoBehaviour
 
     }
 
-    public void Placement(string place)
+    public void Placement(BasementFloor place)
     {
-        Debug.Log($"{name} 가 {place} 에 배치됨.");
+        //Debug.Log($"{name} 가 {place} 에 배치됨.");
         State = MonsterState.Placement;
         Place = place;
     }
     public void PlacementClear()
     {
-        Debug.Log($"{name} 가 대기상태로 들어감.");
+        //Debug.Log($"{name} 가 대기상태로 들어감.");
         State = MonsterState.Standby;
-        Place = "";
+        Place.Size++;
+        Place = null;
     }
 
 
     public void Training()
     {
         LevelUp();
-
+        isTraining = true;
     }
 
     public void LevelUp()
