@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_DungeonPlacement : UI_PopUp, UI_Interface.IWorldSpace
+public class UI_DungeonPlacement : UI_PopUp, Interface.IWorldSpaceUI
 {
     enum Floor
     {

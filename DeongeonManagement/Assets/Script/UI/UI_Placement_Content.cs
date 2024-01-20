@@ -54,8 +54,8 @@ public class UI_Placement_Content : UI_Base
                 break;
 
             case Monster.MonsterState.Placement:
-                text.text += $"\n상태 : {monster.Place.Name_KR}";
-                if (monster.Place == current)
+                text.text += $"\n상태 : {monster.Place_Floor.Name_KR}";
+                if (monster.Place_Floor == current)
                 {
                     PanelState = ContentState.Blue;
                 }
@@ -96,7 +96,7 @@ public class UI_Placement_Content : UI_Base
                 break;
 
             case Monster.MonsterState.Placement:
-                if (monster.Place == current)
+                if (monster.Place_Floor == current)
                 {
                     Main.Instance.Monsters[MonsterID].PlacementClear();
                     parent.ResumeCountUpdate(1);

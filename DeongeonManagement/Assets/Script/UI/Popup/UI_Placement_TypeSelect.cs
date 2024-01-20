@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class UI_Placement_TypeSelect : UI_PopUp, UI_Interface.IWorldSpace
+public class UI_Placement_TypeSelect : UI_PopUp, Interface.IWorldSpaceUI
 {
 
     enum Objects

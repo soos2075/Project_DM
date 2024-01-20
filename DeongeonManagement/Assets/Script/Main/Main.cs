@@ -28,6 +28,7 @@ public class Main : MonoBehaviour
     {
         MonsterInit();
         BasementFloorInit();
+        NPCInit();
     }
 
     void Update()
@@ -68,7 +69,6 @@ public class Main : MonoBehaviour
         {
             if (Monsters[i] == null)
             {
-                //mon.SetStatus();
                 Monsters[i] = mon;
                 break;
             }
@@ -76,6 +76,56 @@ public class Main : MonoBehaviour
     }
     #endregion Monster
 
+
+
+
+
+
+
+
+
+    #region NPC
+    public List<NPC> NPCs;
+    int NPC_index;
+
+    Transform guild;
+    Transform dungeonEnterance;
+
+    void NPCInit()
+    {
+        NPCs = new List<NPC>();
+
+        guild = Util.FindChild<Transform>(gameObject, "Guild");
+        dungeonEnterance = Util.FindChild<Transform>(gameObject, "Dungeon");
+
+        AddNPC();
+        AddNPC();
+        AddNPC();
+
+
+        Invoke("ActiveNPC", 3);
+    }
+
+
+    public void AddNPC()
+    {
+        var npc = Managers.Resource.Instantiate("NPC/Herbalist", transform);
+        NPCs.Add(npc.GetComponent<NPC>());
+    }
+
+
+    public void ActiveNPC()
+    {
+        if (NPC_index < NPCs.Count)
+        {
+            NPCs[NPC_index].Departure(guild.position, dungeonEnterance.position);
+            NPC_index++;
+        }
+    }
+
+
+
+    #endregion
 
 
 
@@ -90,10 +140,10 @@ public class Main : MonoBehaviour
     void BasementFloorInit()
     {
         Floor = FindObjectsOfType<BasementFloor>();
-        System.Array.Reverse(Floor);
-
-
-
+        System.Array.Sort(Floor, (a, b) =>
+        {
+            return a.transform.GetSiblingIndex().CompareTo(b.transform.GetSiblingIndex());
+        });
 
     }
 
