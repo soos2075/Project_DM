@@ -1,9 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class Monster : MonoBehaviour, Interface.IPlacementable
+public abstract class Monster : MonoBehaviour, Interface.IPlacementable
 {
     protected void Awake()
     {
@@ -11,11 +9,11 @@ public class Monster : MonoBehaviour, Interface.IPlacementable
     }
     protected void Start()
     {
-        Initialize();
+        Initialize_Status();
 
         SetSprite($"Sprite/Monster/{this.name}");
-        monsterSprite = GetComponentInChildren<SpriteRenderer>();
-        monsterSprite.enabled = false;
+        monsterRenderer = GetComponentInChildren<SpriteRenderer>();
+        Disable();
 
         hp_chance = hp_origin;
         atk_chance = atk_origin;
@@ -27,9 +25,85 @@ public class Monster : MonoBehaviour, Interface.IPlacementable
     }
 
 
-    #region Monster Status Property
+    #region Placementable
+    public BasementFloor Place_Floor { get; set; }
+    public BasementTile Place_Tile { get; set; }
+    public Define.PlacementType PlacementType { get; set; }
 
+    SpriteRenderer monsterRenderer;
+
+
+
+    public void Placement(BasementFloor place)
+    {
+        PlacementConfirm(place, place.GetRandomTile(this));
+        Debug.Log($"{name} 가 {Place_Floor} - {Place_Tile.index} 에 배치됨.");
+    }
+
+    protected void PlacementConfirm(BasementFloor place_floor, BasementTile place_tile)
+    {
+        State = MonsterState.Placement;
+
+        Place_Floor = place_floor;
+        Place_Tile = place_tile;
+        Place_Tile.SetPlacement(this);
+
+        transform.position = Place_Tile.worldPosition;
+        Visible();
+    }
+
+    public void PlacementClear()
+    {
+        //Debug.Log($"{name} 가 {Place_Floor} - {Place_Tile.index}에서 비활성화");
+        State = MonsterState.Standby;
+
+        Place_Floor.Size++;
+        Place_Tile.ClearPlacement();
+        Place_Floor = null;
+        Place_Tile = null;
+        Disable();
+    }
+    protected void Visible()
+    {
+        monsterRenderer.enabled = true;
+    }
+
+    protected void Disable()
+    {
+        monsterRenderer.enabled = false;
+    }
+    #endregion
+
+
+
+    #region For GUI Traing Etc
+    public enum MonsterState
+    {
+        Standby,
+        Placement,
+        Injury,
+    }
+    public MonsterState State { get; set; }
     public Sprite Sprite { get; set; }
+
+    public bool isTraining;
+
+    protected void SetSprite(string _path)
+    {
+        Sprite = Managers.Resource.Load<Sprite>(_path);
+    }
+
+
+    #endregion
+
+
+
+
+
+
+
+
+    #region Monster Status
     public string Name { get; set; }
     public int LV { get; set; }
     public int HP { get; set; }
@@ -46,86 +120,67 @@ public class Monster : MonoBehaviour, Interface.IPlacementable
     private readonly float def_origin = 0.25f;
     private float def_chance;
 
+    public enum MonsterType
+    {
+        Normal_Move,
+        Normal_Fixed,
+        Boss,
+    }
+
+    public abstract MonsterType Type { get; set; }
+    protected abstract void MonsterInit();
+    protected abstract void Initialize_Status();
+
+    protected void SetStatus(string name, int lv, int hp, int atk, int def)
+    {
+        Name = name; LV = lv; HP = hp; ATK = atk; DEF = def;
+    }
+
     #endregion
 
-    public enum MonsterState
+
+
+
+    Coroutine Cor_Battle;
+
+    public virtual Coroutine Battle(NPC npc)
     {
-        Standby,
-        Placement,
-        Injury,
-    }
-    public MonsterState State { get; set; }
-    public BasementFloor Place_Floor { get; set; }
-    public BasementTile Place_Tile { get; set; }
-    public Define.PlacementType PlacementType { get; set; }
-
-    public bool isTraining;
-
-    SpriteRenderer monsterSprite;
-
-
-    protected virtual void Initialize()
-    {
-        SetStatus("Slime", 10, 1);
+        Cor_Battle = StartCoroutine(SetBattleConfigure(npc));
+        return Cor_Battle;
     }
 
-    protected void SetStatus(string _name, int _hp, int _lv)
+    protected IEnumerator SetBattleConfigure(NPC npc)
     {
-        Name = _name;
-        HP = _hp;
-        LV = _lv;
+        while (true)
+        {
+            yield return new WaitForSeconds(0.5f);
+            GiveAndTakeOnce(this, npc);
+
+            if (this.HP <= 0)
+            {
+                Debug.Log("몬스터 패배");
+                break;
+            }
+
+            if (npc.HP <= 0)
+            {
+                Debug.Log("NPC 패배");
+                break;
+            }
+        }
     }
 
-    protected void SetSprite(string _path)
+    private void GiveAndTakeOnce(Monster monster, NPC npc)
     {
-        Sprite = Managers.Resource.Load<Sprite>(_path);
-    }
+        Debug.Log("한대씩 주고받기");
+        monster.HP -= Mathf.Clamp((npc.ATK - monster.DEF), 1, monster.HP);
 
-
-
-
-
-    public void Summon()
-    {
-
-    }
-
-    private void PlacementConfirm(BasementFloor place_floor, BasementTile place_tile)
-    {
-        State = MonsterState.Placement;
-
-        Place_Floor = place_floor;
-        Place_Tile = place_tile;
-        Place_Tile.SetPlacement(this);
-
-        transform.position = Place_Tile.worldPosition;
-        monsterSprite.enabled = true;
+        npc.HP -= Mathf.Clamp((monster.ATK - npc.DEF), 1, npc.HP);
     }
 
 
-    public void Placement(BasementFloor place)
-    {
-        //Debug.Log($"{name} 가 {place} 에 배치됨.");
-        PlacementConfirm(place, place.GetRandomTile(this));
 
-        moveCoroutine = StartCoroutine(MoveCor());
-    }
-
-
-    public void PlacementClear()
-    {
-        //Debug.Log($"{name} 가 대기상태로 들어감.");
-        State = MonsterState.Standby;
-
-        Place_Floor.Size++;
-        Place_Tile.ClearPlacement();
-        Place_Floor = null;
-        Place_Tile = null;
-        monsterSprite.enabled = false;
-
-        StopCoroutine(moveCoroutine);
-    }
-
+    
 
     public void Training()
     {
@@ -169,60 +224,10 @@ public class Monster : MonoBehaviour, Interface.IPlacementable
 
 
 
+    public Coroutine moveCoroutine;
 
 
 
-
-    #region MonsterMove
-
-    Coroutine moveCoroutine;
-
-    IEnumerator MoveCor()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(Random.Range(0.5f, 1.0f));
-            MoveAround();
-        }
-    }
-
-    void MoveAround()
-    {
-        BasementTile newTile;
-
-        int dir = Random.Range(0, 5);
-        switch (dir)
-        {
-            case 0:
-                newTile = Place_Floor.MoveUp(this, Place_Tile);
-                break;
-
-            case 1:
-                newTile = Place_Floor.MoveDown(this, Place_Tile);
-                break;
-
-            case 2:
-                newTile = Place_Floor.MoveLeft(this, Place_Tile);
-                break;
-
-            case 3:
-                newTile = Place_Floor.MoveRight(this, Place_Tile);
-                break;
-
-            default:
-                newTile = null;
-                break;
-        }
-
-        if (newTile != null)
-        {
-            Place_Tile.ClearPlacement();
-            PlacementConfirm(Place_Floor, newTile);
-        }
-    }
-
-
-    #endregion
 
 
 }

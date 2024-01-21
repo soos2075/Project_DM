@@ -38,8 +38,5 @@ public class MonsterEditor : Editor
 
         //EditorGUILayout.EndHorizontal();
     }
-
-
-
-
 }
+

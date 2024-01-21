@@ -4,9 +4,17 @@ using UnityEngine;
 
 public class Goblin : Monster
 {
-    protected override void Initialize()
+    public override MonsterType Type { get; set; }
+
+
+    protected override void MonsterInit()
     {
-        SetStatus("Goblin", 15, 1);
+        Type = MonsterType.Normal_Fixed;
+    }
+
+    protected override void Initialize_Status()
+    {
+        SetStatus("Goblin", 1, 15, 5, 3);
     }
 
 

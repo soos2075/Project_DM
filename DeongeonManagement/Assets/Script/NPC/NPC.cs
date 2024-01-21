@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class NPC : MonoBehaviour, Interface.IPlacementable
@@ -8,8 +9,8 @@ public abstract class NPC : MonoBehaviour, Interface.IPlacementable
     void Start()
     {
         PlacementType = Define.PlacementType.NPC;
-        npcSprite = GetComponentInChildren<SpriteRenderer>();
-        npcSprite.enabled = false;
+        npcRenderer = GetComponentInChildren<SpriteRenderer>();
+        Disable();
     }
     void Update()
     {
@@ -56,23 +57,12 @@ public abstract class NPC : MonoBehaviour, Interface.IPlacementable
     public BasementTile Place_Tile { get; set; }
     public Define.PlacementType PlacementType { get; set; }
 
-    SpriteRenderer npcSprite;
+    SpriteRenderer npcRenderer;
 
     int floorIndex;
 
 
-    protected abstract void BehaviourPriority();
-
-
-    protected void SetPriority()
-    {
-        //? 여기서 우선순위 WishList를 작성하고 거기에 따라 움직이면 될듯.
-        //? 꼭 하나의 목표일 필요는 없음. 리스트니까 우선순위에 맞춰 1. 약초 2. 몬스터 3. 광석 이런식으로 하고 순차진행하는식으로.
-        //? 물론 중간에 다른 목표물을 만나면 처리해줘야함. 여기선 List를 실제로 작성하는곳은 아니고 우선순위만 정하는걸로
-        //? 애초에 리스트는 플로어 들어가고 나서만들어야 에러가 안뜸
-    }
-
-
+    protected abstract void SetPriorityList();
 
 
 
@@ -82,7 +72,7 @@ public abstract class NPC : MonoBehaviour, Interface.IPlacementable
     public void Departure(Vector3 startPoint, Vector3 endPoint)
     {
         transform.position = startPoint;
-        npcSprite.enabled = true;
+        Visible();
 
         StartCoroutine(MoveToPoint(endPoint));
     }
@@ -92,7 +82,7 @@ public abstract class NPC : MonoBehaviour, Interface.IPlacementable
         Vector3 dir = point - transform.position;
         float dis = Vector3.Distance(transform.position, point);
 
-        while(dis > 0.1f)
+        while (dis > 0.1f)
         {
             transform.Translate(dir.normalized * Time.deltaTime * 1);
             dis = Vector3.Distance(transform.position, point);
@@ -102,14 +92,22 @@ public abstract class NPC : MonoBehaviour, Interface.IPlacementable
         Debug.Log("입구도착");
 
         Placement(Main.Instance.Floor[floorIndex]);
-        SearchTarget();
+        SetPriorityList();
     }
     #endregion Ground
 
 
 
 
+
+
     #region InDungeon
+
+    public void Placement(BasementFloor place)
+    {
+        //Debug.Log($"{name} 가 {place} 에 배치됨.");
+        PlacementConfirm(place, place.GetRandomTile(this));
+    }
 
     private void PlacementConfirm(BasementFloor place_floor, BasementTile place_tile)
     {
@@ -120,16 +118,8 @@ public abstract class NPC : MonoBehaviour, Interface.IPlacementable
         Place_Tile.SetPlacement(this);
 
         transform.position = Place_Tile.worldPosition;
-        npcSprite.enabled = true;
+        Visible();
     }
-
-
-    public void Placement(BasementFloor place)
-    {
-        //Debug.Log($"{name} 가 {place} 에 배치됨.");
-        PlacementConfirm(place, place.GetRandomTile(this));
-    }
-
 
     public void PlacementClear()
     {
@@ -139,11 +129,24 @@ public abstract class NPC : MonoBehaviour, Interface.IPlacementable
         Place_Tile.ClearPlacement();
         Place_Floor = null;
         Place_Tile = null;
-        npcSprite.enabled = false;
+        Disable();
+    }
+
+    protected void Visible()
+    {
+        npcRenderer.enabled = true;
+    }
+
+    protected void Disable()
+    {
+        npcRenderer.enabled = false;
     }
 
 
 
+
+    Coroutine Cor_Encounter;
+    Coroutine Cor_Move;
 
 
     public void NextFloor()
@@ -186,37 +189,149 @@ public abstract class NPC : MonoBehaviour, Interface.IPlacementable
         }
     }
 
+    public abstract List<BasementTile> PriorityList { get; set; }
 
-    List<BasementTile> WishList;
-    int wishObjectCount;
-    List<BasementTile> path;
-
-    public void SearchTarget()
+    protected List<BasementTile> GetFloorObjectsAll(Define.TileType searchType = Define.TileType.Empty)
     {
-        WishList = Place_Floor.SearchAllObjects(Define.TileType.Facility);
+        var newList = Place_Floor.SearchAllObjects(searchType);
+        var refresh = AddDistinctList(newList);
 
-        if (WishList.Count == 0)
+        if (newList.Count == 0)
         {
-            Debug.Log("갈만한곳이 없음");
-            return;
+            Debug.Log("탐색결과 없음");
+            return null;
         }
 
-        path = Place_Floor.PathFinding(Place_Tile, WishList[wishObjectCount]);
-        wishObjectCount++;
+        return refresh;
 
-        StartCoroutine(DungeonMoveToTarget());
+        
+    }
+
+    protected List<BasementTile> GetPriorityPick(Type type, bool includeList = false)
+    {
+        if (PriorityList == null)
+        {
+            PriorityList = Place_Floor.SearchAllObjects();
+        }
+
+        List<BasementTile> oldList = PriorityList;
+        List<BasementTile> newList = new List<BasementTile>();
+
+        for (int i = 0; i < oldList.Count; i++)
+        {
+            if (oldList[i].placementable.GetType() == type)
+            {
+                newList.Add(oldList[i]);
+            }
+        }
+
+        return includeList
+            ? AddDistinctList(newList)
+            : newList;
+    }
+
+    protected void PriorityRemove(BasementTile item)
+    {
+        if (PriorityList == null) return;
+
+        PriorityList.Remove(item);
+    }
+
+    List<BasementTile> AddDistinctList(List<BasementTile> addList)
+    {
+        var newList = addList;
+        if (PriorityList != null)
+        {
+            newList.AddRange(PriorityList);
+        }
+        return newList.Distinct().ToList();
+    }
+
+    bool RefreshList()
+    {
+        if (PriorityList == null) return false;
+
+        for (int i = PriorityList.Count - 1; i >= 0; i--)
+        {
+            if (PriorityList[i].tileType == Define.TileType.Empty)
+            {
+                PriorityList.RemoveAt(i);
+            }
+        }
+
+        if (PriorityList.Count == 0) return false;
+        return true;
     }
 
 
-    IEnumerator DungeonMoveToTarget()
+
+
+
+
+
+
+    public void MoveToTargetTile(BasementTile target)
+    {
+        List<BasementTile> path = Place_Floor.PathFinding(Place_Tile, target);
+
+        Cor_Move = StartCoroutine(DungeonMoveToPath(path));
+    }
+
+
+    IEnumerator DungeonMoveToPath(List<BasementTile> path)
     {
         for (int i = 0; i < path.Count; i++)
         {
             yield return new WaitForSeconds(1);
-            Place_Tile.ClearPlacement();
-            PlacementConfirm(Place_Floor, path[i]);
+
+            var encount = path[i].TryPlacement(this);
+
+            if (encount == Define.PlaceEvent.Interaction)
+            {
+                Cor_Encounter = StartCoroutine(Encounter_Facility(path[i]));
+                Cor_Move = null;
+                break;
+            }
+            else if (encount == Define.PlaceEvent.Battle)
+            {
+                Cor_Encounter = StartCoroutine(Encounter_Monster(path[i]));
+                Cor_Move = null;
+                break;
+            }
+            else
+            {
+                Place_Tile.ClearPlacement();
+                PlacementConfirm(Place_Floor, path[i]);
+            }
         }
     }
+
+    IEnumerator Encounter_Facility(BasementTile tile)
+    {
+        var type = tile.placementable as Facility;
+
+        if (type)
+        {
+            yield return type.NPC_Interaction(this);
+            if (RefreshList())
+            {
+                MoveToTargetTile(PriorityList[0]);
+            }
+        }
+    }
+
+    IEnumerator Encounter_Monster(BasementTile tile)
+    {
+        var type = tile.placementable as Monster;
+
+        if (type)
+        {
+            Debug.Log("배틀 시작");
+            yield return type.Battle(this);
+            Debug.Log("배틀 종료");
+        }
+    }
+
 
 
     public void Move()

@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class Miner : NPC
 {
-    protected override void BehaviourPriority()
-    {
+    public override List<BasementTile> PriorityList { get; set; }
 
+    protected override void SetPriorityList()
+    {
+        PriorityList = GetFloorObjectsAll(Define.TileType.Facility);
+        PriorityList = GetPriorityPick(typeof(Mineral_Low));
     }
 }

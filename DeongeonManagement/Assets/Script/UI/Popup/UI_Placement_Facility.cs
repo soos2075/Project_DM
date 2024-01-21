@@ -41,7 +41,7 @@ public class UI_Placement_Facility : UI_PopUp
         {
             var obj = Managers.Resource.Instantiate($"Facility/{prefab}").GetComponent<Facility>();
 
-            obj.Placement(Main.Instance.CurrentFloor);
+            //obj.Placement(Main.Instance.CurrentFloor);
 
             Main.Instance.CurrentFloor.facilityList.Add(obj);
         }
