@@ -30,8 +30,10 @@ public class Define
 
     public enum UIEvent
     {
-        Click,
+        LeftClick,
+        RightClick,
         Drag,
+        Move,
     }
 
 
@@ -41,6 +43,8 @@ public class Define
         Monster,
         NPC,
         Facility,
+        Entrance,
+        Exit,
     }
 
     public enum PlacementType
@@ -56,7 +60,92 @@ public class Define
         Placement,
         Battle,
         Interaction,
+        Entrance,
+        Exit,
     }
+
+
+    #region Image_Color
+    public static readonly Color Color_Green = new Color32(100, 255, 100, 175);
+    public static readonly Color Color_Blue = new Color32(100, 100, 255, 175);
+    public static readonly Color Color_Red = new Color32(255, 100, 100, 175);
+    public static readonly Color Color_White = new Color32(255, 255, 255, 175);
+    #endregion Image_Color
+
+
+    #region Boundary
+    //? 짝수의 경우 0,0기준 오른쪽/위쪽 우선함 
+    public static readonly Vector2Int[] Boundary_1x1 = { new Vector2Int(0, 0) };
+
+    public static readonly Vector2Int[] Boundary_1x2 = { new Vector2Int(0, 0), new Vector2Int(0, 1) };
+
+    public static readonly Vector2Int[] Boundary_1x3 = { new Vector2Int(0, 0), new Vector2Int(0, 1), new Vector2Int(0, -1) };
+
+
+
+    public static readonly Vector2Int[] Boundary_2x1 = { new Vector2Int(0, 0), new Vector2Int(1, 0) };
+
+    public static readonly Vector2Int[] Boundary_2x2 = {
+        new Vector2Int(0, 0), new Vector2Int(1, 0),
+        new Vector2Int(0, 1), new Vector2Int(1, 1)};
+
+    public static readonly Vector2Int[] Boundary_2x3 = {
+        new Vector2Int(0, 0), new Vector2Int(1, 0),
+        new Vector2Int(0, 1), new Vector2Int(1, 1),
+        new Vector2Int(0, -1), new Vector2Int(1, -1)};
+
+
+
+    public static readonly Vector2Int[] Boundary_3x1 = {
+        new Vector2Int(0, 0), new Vector2Int(1, 0), new Vector2Int(-1, 0)};
+
+    public static readonly Vector2Int[] Boundary_3x2 = {
+        new Vector2Int(0, 0), new Vector2Int(1, 0), new Vector2Int(-1, 0),
+        new Vector2Int(0, 1), new Vector2Int(1, 1), new Vector2Int(-1, 1)};
+
+    public static readonly Vector2Int[] Boundary_3x3 = {
+        new Vector2Int(0, 0), new Vector2Int(1, 0), new Vector2Int(-1, 0),
+        new Vector2Int(0, 1), new Vector2Int(1, 1), new Vector2Int(-1, 1),
+        new Vector2Int(0, -1), new Vector2Int(1, -1), new Vector2Int(-1, -1)};
+
+
+
+
+    public static readonly Vector2Int[] Boundary_Cross_1 = {
+        new Vector2Int(0, 0),
+        new Vector2Int(1, 0), new Vector2Int(-1, 0),
+        new Vector2Int(0, 1), new Vector2Int(0, -1)};
+
+    public static readonly Vector2Int[] Boundary_Cross_2 = {
+        new Vector2Int(0, 0),
+        new Vector2Int(1, 0), new Vector2Int(-1, 0), new Vector2Int(2, 0), new Vector2Int(-2, 0),
+        new Vector2Int(0, 1), new Vector2Int(0, -1), new Vector2Int(0, 2), new Vector2Int(0, -2)};
+
+    public static readonly Vector2Int[] Boundary_Cross_3 = {
+        new Vector2Int(0, 0),
+        new Vector2Int(1, 0), new Vector2Int(-1, 0), new Vector2Int(2, 0), new Vector2Int(-2, 0),
+        new Vector2Int(0, 1), new Vector2Int(0, -1), new Vector2Int(0, 2), new Vector2Int(0, -2),
+        new Vector2Int(1, 1), new Vector2Int(1, -1), new Vector2Int(-1, 1), new Vector2Int(-1, -1)};
+
+
+
+    public static readonly Vector2Int[] Boundary_X_1 = {
+        new Vector2Int(0, 0),
+        new Vector2Int(1, 1), new Vector2Int(1, -1), new Vector2Int(-1, 1), new Vector2Int(-1, -1)};
+
+
+
+    public static readonly Vector2Int[] Boundary_Side_All = {
+        new Vector2Int(1, 0), new Vector2Int(-1, 0), new Vector2Int(0, 1), new Vector2Int(0, -1),
+        new Vector2Int(1, 1), new Vector2Int(1, -1), new Vector2Int(-1, 1), new Vector2Int(-1, -1)};
+
+    public static readonly Vector2Int[] Boundary_Side_X = {
+        new Vector2Int(1, 1), new Vector2Int(1, -1), new Vector2Int(-1, 1), new Vector2Int(-1, -1)};
+
+    public static readonly Vector2Int[] Boundary_Side_Cross = {
+        new Vector2Int(1, 0), new Vector2Int(-1, 0), new Vector2Int(0, 1), new Vector2Int(0, -1)};
+    #endregion Boundary
+
 
 
 }

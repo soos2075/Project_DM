@@ -44,20 +44,31 @@ public abstract class UI_Base : MonoBehaviour
 
 
 
-    public static void AddUIEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.Click)
+    public static void AddUIEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.LeftClick)
     {
         UI_EventHandler evt = Util.GetOrAddComponent<UI_EventHandler>(go);
 
         switch (type)
         {
-            case Define.UIEvent.Click:
-                evt.OnClickHandler -= action;
-                evt.OnClickHandler += action;
+            case Define.UIEvent.LeftClick:
+                evt.OnLeftClickHandler -= action;
+                evt.OnLeftClickHandler += action;
                 break;
-            case Define.UIEvent.Drag:
+
+			case Define.UIEvent.RightClick:
+				evt.OnRightClickHandler -= action;
+				evt.OnRightClickHandler += action;
+				break;
+
+			case Define.UIEvent.Drag:
                 evt.OnDragHandler -= action;
                 evt.OnDragHandler += action;
                 break;
-        }
+
+			case Define.UIEvent.Move:
+				evt.OnMoveHandler -= action;
+				evt.OnMoveHandler += action;
+				break;
+		}
     }
 }

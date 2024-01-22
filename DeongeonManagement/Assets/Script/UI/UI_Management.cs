@@ -12,6 +12,7 @@ public class UI_Management : UI_Base
         Special,
         Guild,
         Placement,
+        TurnOver,
     }
 
     public enum Panels
@@ -25,11 +26,14 @@ public class UI_Management : UI_Base
         Bind<Button>(typeof(ButtonEvent));
         Bind<Image>(typeof(Panels));
 
-        GetImage((int)Panels.ClosePanel).gameObject.AddUIEvent((data) => Managers.UI.ClosePopUp());
-
+        GetImage((int)Panels.ClosePanel).gameObject.AddUIEvent((data) => LeftClickEvent(), Define.UIEvent.LeftClick);
+        GetImage((int)Panels.ClosePanel).gameObject.AddUIEvent((data) => RightClickEvent(), Define.UIEvent.RightClick);
+        
         GetButton((int)ButtonEvent.Summon).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Summon>());
         GetButton((int)ButtonEvent.Training).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Training>());
         GetButton((int)ButtonEvent.Placement).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_DungeonPlacement>());
+
+        GetButton((int)ButtonEvent.TurnOver).gameObject.AddUIEvent((data) => TurnOverEvent());
     }
 
     void Start()
@@ -43,5 +47,30 @@ public class UI_Management : UI_Base
         
     }
 
+    void TurnOverEvent()
+    {
+        Main.Instance.ActiveNPC();
+    }
+
+
+    void LeftClickEvent()
+    {
+        if (Main.Instance.CurrentAction != null) return;
+
+        Managers.UI.ClosePopUp();
+    }
+
+
+    void RightClickEvent()
+    {
+        if (Managers.UI._paused != null)
+        {
+            Managers.UI.PauseOpen();
+        }
+        else
+        {
+            Managers.UI.ClosePopUp();
+        }
+    }
 
 }

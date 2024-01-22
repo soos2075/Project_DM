@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -85,44 +86,43 @@ public class Main : MonoBehaviour
 
 
     #region NPC
-    public List<NPC> NPCs;
-    int NPC_index;
+    public Queue<NPC> NPCs;
 
-    Transform guild;
-    Transform dungeonEnterance;
+    public Transform guild;
+    public Transform dungeonEntrance;
 
     void NPCInit()
     {
-        NPCs = new List<NPC>();
+        NPCs = new Queue<NPC>();
 
         guild = Util.FindChild<Transform>(gameObject, "Guild");
-        dungeonEnterance = Util.FindChild<Transform>(gameObject, "Dungeon");
+        dungeonEntrance = Util.FindChild<Transform>(gameObject, "Dungeon");
 
-        AddNPC();
-        AddNPC();
-        AddNPC();
-
-
-        Invoke("ActiveNPC", 3);
+        AddNPC("Adventurer");
+        AddNPC("Herbalist");
+        AddNPC("Miner");
     }
 
 
-    public void AddNPC()
+    public void AddNPC(string npcName)
     {
-        var npc = Managers.Resource.Instantiate("NPC/Herbalist", transform);
-        NPCs.Add(npc.GetComponent<NPC>());
+        var npc = Managers.Resource.Instantiate($"NPC/{npcName}", transform);
+        NPCs.Enqueue(npc.GetComponent<NPC>());
     }
 
 
     public void ActiveNPC()
     {
-        if (NPC_index < NPCs.Count)
+        if (NPCs.Count > 0)
         {
-            NPCs[NPC_index].Departure(guild.position, dungeonEnterance.position);
-            NPC_index++;
+            NPCs.Dequeue().Departure(guild.position, dungeonEntrance.position);
         }
     }
 
+    public void InactiveNPC(NPC npc)
+    {
+        Managers.Resource.Destroy(npc.gameObject);
+    }
 
 
     #endregion
@@ -136,6 +136,11 @@ public class Main : MonoBehaviour
     public BasementFloor[] Floor { get; set; }
 
     public BasementFloor CurrentFloor { get; set; }
+
+    public BasementTile CurrentTile { get; set; }
+    public Action CurrentAction { get; set; }
+
+    public Vector2Int[] CurrentBoundary { get; set; } = Define.Boundary_Cross_1;
 
     void BasementFloorInit()
     {

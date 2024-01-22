@@ -6,14 +6,21 @@ public class Herbalist : NPC
 {
     public override List<BasementTile> PriorityList { get; set; }
 
+    protected override void Initialize_Status()
+    {
+        SetStatus("¾àÃÊ²Û",
+            lv: 1,
+            atk: 3,
+            def: 3,
+            hp: 15,
+            ap: 2,
+            mp: 10,
+            speed: 1.5f,
+            delay: 0.8f);
+    }
     protected override void SetPriorityList()
     {
+        if (PriorityList != null) PriorityList.Clear();
         PriorityList = GetPriorityPick(typeof(Herb_Low));
-        PriorityRemove(Place_Tile);
-
-        if (PriorityList.Count > 0)
-        {
-            MoveToTargetTile(PriorityList[0]);
-        }
     }
 }

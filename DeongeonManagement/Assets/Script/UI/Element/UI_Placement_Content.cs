@@ -37,10 +37,10 @@ public class UI_Placement_Content : UI_Base
     }
 
 
-    void ContentsUpdate()
+    void UIContentsUpdate()
     {
         var text = GetObject((int)Contents.Textinfo).GetComponent<TextMeshProUGUI>();
-
+        
         text.text =
             $"¿Ã∏ß : {monster.name}\n" +
             $"HP : {monster.HP}\n" +
@@ -70,6 +70,7 @@ public class UI_Placement_Content : UI_Base
                 PanelState = ContentState.Red;
                 break;
         }
+        parent.ResumeCountUpdate();
     }
 
     void FillContents()
@@ -77,10 +78,12 @@ public class UI_Placement_Content : UI_Base
         if (!monster) return;
 
         GetObject((int)Contents.Image).GetComponent<Image>().sprite = monster.Sprite;
-        ContentsUpdate();
+        UIContentsUpdate();
 
         gameObject.AddUIEvent((data) => ClickEvent());
     }
+
+
 
 
     void ClickEvent()
@@ -88,10 +91,9 @@ public class UI_Placement_Content : UI_Base
         switch (monster.State)
         {
             case Monster.MonsterState.Standby:
-                if (parent.resumeCount > 0)
+                if (Main.Instance.CurrentFloor.MaxMonsterSize > 0)
                 {
-                    monster.Placement(current);
-                    parent.ResumeCountUpdate(-1);
+                    parent.SetBoundary(Define.Boundary_1x1, () => parent.CreateAll(MonsterID));
                 }
                 break;
 
@@ -99,13 +101,11 @@ public class UI_Placement_Content : UI_Base
                 if (monster.Place_Floor == current)
                 {
                     Main.Instance.Monsters[MonsterID].PlacementClear();
-                    parent.ResumeCountUpdate(1);
                 }
-                else if(parent.resumeCount > 0)
+                else if(Main.Instance.CurrentFloor.MaxMonsterSize > 0)
                 {
                     Main.Instance.Monsters[MonsterID].PlacementClear();
-                    Main.Instance.Monsters[MonsterID].Placement(current);
-                    parent.ResumeCountUpdate(-1);
+                    parent.SetBoundary(Define.Boundary_1x1, () => parent.CreateAll(MonsterID));
                 }
                 break;
 
@@ -113,7 +113,7 @@ public class UI_Placement_Content : UI_Base
                 break;
         }
 
-        ContentsUpdate();
+        UIContentsUpdate();
     }
 
 

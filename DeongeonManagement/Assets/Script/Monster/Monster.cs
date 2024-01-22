@@ -34,13 +34,13 @@ public abstract class Monster : MonoBehaviour, Interface.IPlacementable
 
 
 
-    public void Placement(BasementFloor place)
+    void Placement_Random(BasementFloor place)
     {
         PlacementConfirm(place, place.GetRandomTile(this));
         Debug.Log($"{name} 가 {Place_Floor} - {Place_Tile.index} 에 배치됨.");
     }
 
-    protected void PlacementConfirm(BasementFloor place_floor, BasementTile place_tile)
+    public void PlacementConfirm(BasementFloor place_floor, BasementTile place_tile)
     {
         State = MonsterState.Placement;
 
@@ -50,6 +50,8 @@ public abstract class Monster : MonoBehaviour, Interface.IPlacementable
 
         transform.position = Place_Tile.worldPosition;
         Visible();
+
+        Place_Floor.MaxMonsterSize--;
     }
 
     public void PlacementClear()
@@ -57,10 +59,11 @@ public abstract class Monster : MonoBehaviour, Interface.IPlacementable
         //Debug.Log($"{name} 가 {Place_Floor} - {Place_Tile.index}에서 비활성화");
         State = MonsterState.Standby;
 
-        Place_Floor.Size++;
+        Place_Floor.MaxMonsterSize++;
         Place_Tile.ClearPlacement();
         Place_Floor = null;
         Place_Tile = null;
+
         Disable();
     }
     protected void Visible()
@@ -153,12 +156,13 @@ public abstract class Monster : MonoBehaviour, Interface.IPlacementable
     {
         while (true)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1f);
             GiveAndTakeOnce(this, npc);
 
             if (this.HP <= 0)
             {
                 Debug.Log("몬스터 패배");
+                MonsterDie();
                 break;
             }
 
@@ -172,11 +176,20 @@ public abstract class Monster : MonoBehaviour, Interface.IPlacementable
 
     private void GiveAndTakeOnce(Monster monster, NPC npc)
     {
-        Debug.Log("한대씩 주고받기");
         monster.HP -= Mathf.Clamp((npc.ATK - monster.DEF), 1, monster.HP);
 
         npc.HP -= Mathf.Clamp((monster.ATK - npc.DEF), 1, npc.HP);
+        Debug.Log($"배틀 상세 : {monster}의 남은 체력 : {monster.HP} / {npc}의 남은 체력 : {npc.HP}");
     }
+
+
+    void MonsterDie()
+    {
+        PlacementClear();
+        State = MonsterState.Injury;
+    }
+
+
 
 
 

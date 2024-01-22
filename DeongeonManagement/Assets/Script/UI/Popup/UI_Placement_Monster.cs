@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -14,29 +15,31 @@ public class UI_Placement_Monster : UI_PopUp
         ResumeCount,
     }
 
-    public int resumeCount { get; set; }
 
     public override void Init()
     {
         base.Init();
+        AddRightClickCloseAllEvent();
 
         Bind<GameObject>(typeof(Objects));
 
-        GetObject((int)Objects.Return).gameObject.AddUIEvent(data => ClosePopUp());
-        resumeCount = Main.Instance.CurrentFloor.Size;
+        GetObject((int)Objects.Return).gameObject.AddUIEvent(data => CloseAll());
     }
     void Start()
     {
         Init();
         GenerateContents();
-        ResumeCountUpdate(0);
+        ResumeCountUpdate();
     }
 
-    public void ResumeCountUpdate(int value)
+
+    public UI_Floor parents;
+
+
+
+    public void ResumeCountUpdate()
     {
-        resumeCount += value;
-        Main.Instance.CurrentFloor.Size = resumeCount;
-        GetObject((int)Objects.ResumeCount).GetComponent<TextMeshProUGUI>().text = $"배치 가능 횟수 : {resumeCount}";
+        GetObject((int)Objects.ResumeCount).GetComponent<TextMeshProUGUI>().text = $"배치 가능 횟수 : {Main.Instance.CurrentFloor.MaxMonsterSize}";
     }
 
 
@@ -58,5 +61,65 @@ public class UI_Placement_Monster : UI_PopUp
         }
     }
 
+
+
+
+
+    public void SetBoundary(Vector2Int[] vector2Ints, Action action)
+    {
+        Main.Instance.CurrentBoundary = vector2Ints;
+        Main.Instance.CurrentAction = action;
+
+        parents.ShowTile();
+
+        Managers.UI.PausePopUp(this);
+    }
+
+    void ResetAction()
+    {
+        Main.Instance.CurrentBoundary = null;
+        Main.Instance.CurrentAction = null;
+        Main.Instance.CurrentTile = null;
+    }
+
+    void CreateOver()
+    {
+        Debug.Log("배치완료. 이제 돈받는처리같은거 하면 됨");
+        Managers.UI.PauseClose();
+        Managers.UI.ClosePopUp();
+        ResetAction();
+    }
+
+    bool Create(int monsterID, Vector2Int[] boundary)
+    {
+        if (Main.Instance.CurrentTile == null) return false;
+
+        var tile = Main.Instance.CurrentTile;
+        foreach (var item in boundary)
+        {
+            int _deltaX = tile.index.x + item.x;
+            int _deltaY = tile.index.y + item.y;
+
+            var content = Main.Instance.CurrentFloor.TileMap[_deltaX, _deltaY];
+
+
+            var obj = Main.Instance.Monsters[monsterID];
+            obj.PlacementConfirm(Main.Instance.CurrentFloor, content);
+        }
+
+        return true;
+    }
+
+    public void CreateAll(int monsterID)
+    {
+        if (Create(monsterID, Main.Instance.CurrentBoundary))
+        {
+            CreateOver();
+        }
+        else
+        {
+            Debug.Log("배치할 수 없음");
+        }
+    }
 
 }

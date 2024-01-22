@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public static class Extension
 {
-    public static void AddUIEvent(this GameObject go, Action<PointerEventData> act, Define.UIEvent event_type = Define.UIEvent.Click)
+    public static void AddUIEvent(this GameObject go, Action<PointerEventData> act, Define.UIEvent event_type = Define.UIEvent.LeftClick)
     {
         UI_Base.AddUIEvent(go, act, event_type);
     }

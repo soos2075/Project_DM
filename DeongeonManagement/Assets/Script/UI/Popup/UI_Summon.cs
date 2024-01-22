@@ -10,15 +10,12 @@ public class UI_Summon : UI_PopUp
     {
         Slime,
         Goblin,
-
     }
 
     public override void Init()
     {
         base.Init();
         Bind<Button>(typeof(Summon));
-
-
     }
 
     void Start()

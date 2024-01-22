@@ -73,6 +73,9 @@ public class UIManager
 
     public Stack<UI_PopUp> _popupStack = new Stack<UI_PopUp>();
 
+    public UI_PopUp _paused;
+
+
     public T ShowPopUp<T>(string name = null) where T : UI_PopUp
     {
         if (string.IsNullOrEmpty(name))
@@ -127,6 +130,12 @@ public class UIManager
 
         return uiComponent;
     }
+    public T ShowPopUpAlone<T>(Transform parents, string name = null) where T : UI_PopUp
+    {
+        T component = ShowPopUpAlone<T>(name);
+        component.transform.SetParent(parents);
+        return component;
+    }
 
 
     public void ClosePopUp()
@@ -165,6 +174,48 @@ public class UIManager
         {
             ClosePopUp();
         }
+        PauseClose();
+    }
+
+
+    public void PausePopUp(UI_PopUp popup)
+    {
+        if (_popupStack.Count == 0)
+        {
+            return;
+        }
+
+        if (_popupStack.Peek() != popup)
+        {
+            Debug.Log($"Close Popup Failed : {popup.name}");
+            return;
+        }
+
+        _paused = _popupStack.Pop();
+        for (int i = 0; i < _paused.transform.childCount; i++)
+        {
+            _paused.transform.GetChild(i).gameObject.SetActive(false);
+        }
+    }
+
+    public void PauseClose()
+    {
+        if (_paused == null) return;
+
+        Managers.Resource.Destroy(_paused.gameObject);
+        _paused = null;
+    }
+
+    public void PauseOpen()
+    {
+        if (_paused == null) return;
+
+        for (int i = 0; i < _paused.transform.childCount; i++)
+        {
+            _paused.transform.GetChild(i).gameObject.SetActive(true);
+        }
+        _popupStack.Push(_paused);
+        _paused = null;
     }
 
 

@@ -14,7 +14,7 @@ public abstract class Facility : MonoBehaviour, Interface.IPlacementable
 
         facilityRenderer = GetComponentInChildren<SpriteRenderer>();
 
-        Placement(Main.Instance.CurrentFloor);
+        //Placement(Main.Instance.CurrentFloor);
     }
     protected void Update()
     {
@@ -28,7 +28,8 @@ public abstract class Facility : MonoBehaviour, Interface.IPlacementable
         Mineral,
         RestZone,
         Trap,
-
+        Entrance,
+        Exit,
     }
 
 
@@ -51,14 +52,14 @@ public abstract class Facility : MonoBehaviour, Interface.IPlacementable
 
 
 
-    public void Placement(BasementFloor place)
+    void Placement_Random(BasementFloor place)
     {
         PlacementConfirm(place, place.GetRandomTile(this));
         Debug.Log($"{name} 가 {Place_Floor} - {Place_Tile.index} 에 배치됨.");
     }
 
 
-    protected void PlacementConfirm(BasementFloor place_floor, BasementTile place_tile)
+    public void PlacementConfirm(BasementFloor place_floor, BasementTile place_tile)
     {
         Place_Floor = place_floor;
         Place_Tile = place_tile;
@@ -70,7 +71,7 @@ public abstract class Facility : MonoBehaviour, Interface.IPlacementable
 
     public void PlacementClear()
     {
-        Debug.Log($"{name} 가 {Place_Floor} - {Place_Tile.index}에서 비활성화");
+        //Debug.Log($"{name} 가 {Place_Floor} - {Place_Tile.index}에서 비활성화");
 
         Place_Tile.ClearPlacement();
         Place_Floor = null;
@@ -81,10 +82,12 @@ public abstract class Facility : MonoBehaviour, Interface.IPlacementable
 
     protected void Visible()
     {
+        if (facilityRenderer == null) return;
         facilityRenderer.enabled = true;
     }
     protected void Disable()
     {
+        if (facilityRenderer == null) return;
         facilityRenderer.enabled = false;
     }
 }

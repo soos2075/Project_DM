@@ -5,10 +5,42 @@ public class BasementFloor : MonoBehaviour
 {
     void Start()
     {
-        boxCollider = GetComponent<BoxCollider2D>();
         Floor = gameObject.name;
+        boxCollider = GetComponent<BoxCollider2D>();
+
+        npcList = new List<NPC>();
+        monsterList = new List<Monster>();
+        facilityList = new List<Facility>();
+
+        Init_TileMap();
+        Init_Entrance();
+    }
 
 
+
+    public string Floor { get; set; }
+
+    public string Name_KR;
+
+    public int MaxMonsterSize { get; set; } = 3;
+
+    public BoxCollider2D boxCollider;
+
+    public List<NPC> npcList;
+
+    public List<Monster> monsterList;
+
+    public List<Facility> facilityList;
+
+    public BasementTile[,] TileMap { get; set; }
+
+
+    public Facility entrance;
+    public Facility exit;
+
+
+    void Init_TileMap()
+    {
         Vector2Int size = new Vector2Int((int)(boxCollider.bounds.size.x * 2), (int)(boxCollider.bounds.size.y * 2));
         TileMap = new BasementTile[size.x, size.y];
 
@@ -27,22 +59,39 @@ public class BasementFloor : MonoBehaviour
     }
 
 
+    void Init_Entrance()
+    {
+        List<BasementTile> oldList = SearchAllObjects();
 
-    public string Floor { get; set; }
+        for (int i = 0; i < oldList.Count; i++)
+        {
+            if (oldList[i].placementable.GetType() == typeof(Entrance))
+            {
+                entrance = oldList[i].placementable as Facility;
+            }
+            if (oldList[i].placementable.GetType() == typeof(Exit))
+            {
+                exit = oldList[i].placementable as Facility;
+            }
+        }
 
-    public string Name_KR;
+        if (entrance == null)
+        {
+            var obj = Managers.Resource.Instantiate($"Facility/Entrance").GetComponent<Facility>();
+            obj.PlacementConfirm(this, GetRandomTile(obj));
+            entrance = obj;
+        }
+        if (exit == null)
+        {
+            var obj = Managers.Resource.Instantiate($"Facility/Exit").GetComponent<Facility>();
+            obj.PlacementConfirm(this, GetRandomTile(obj));
+            exit = obj;
+        }
+    }
 
-    public int Size { get; set; } = 1;
 
-    public BoxCollider2D boxCollider;
 
-    public List<NPC> npcList;
 
-    public List<Monster> monsterList;
-
-    public List<Facility> facilityList;
-
-    public BasementTile[,] TileMap { get; set; }
 
 
 
@@ -245,7 +294,18 @@ public class BasementTile
         switch (_placementable.PlacementType)
         {
             case Define.PlacementType.Facility:
-                tileType = Define.TileType.Facility;
+                if (_placementable.GetType() == typeof(Entrance))
+                {
+                    tileType = Define.TileType.Entrance;
+                }
+                else if (_placementable.GetType() == typeof(Exit))
+                {
+                    tileType = Define.TileType.Exit;
+                }
+                else
+                {
+                    tileType = Define.TileType.Facility;
+                }
                 break;
             case Define.PlacementType.Monster:
                 tileType = Define.TileType.Monster;
@@ -269,6 +329,12 @@ public class BasementTile
         {
             case Define.TileType.Empty:
                 return Define.PlaceEvent.Placement;
+
+            case Define.TileType.Entrance:
+                return Define.PlaceEvent.Entrance;
+
+            case Define.TileType.Exit:
+                return Define.PlaceEvent.Exit;
 
 
             case Define.TileType.Monster:
