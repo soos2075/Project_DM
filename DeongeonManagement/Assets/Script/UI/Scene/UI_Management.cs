@@ -40,6 +40,7 @@ public class UI_Management : UI_Base
     {
         Init();
 
+        Managers.UI.ShowSceneUI<UI_ScenePlacement>("UI_ScenePlacement");
     }
 
     void Update()
@@ -50,6 +51,7 @@ public class UI_Management : UI_Base
     void TurnOverEvent()
     {
         Main.Instance.ActiveNPC();
+        Main.Instance.ManagementOver();
     }
 
 
@@ -57,7 +59,7 @@ public class UI_Management : UI_Base
     {
         if (Main.Instance.CurrentAction != null) return;
 
-        Managers.UI.ClosePopUp();
+        Managers.UI.CloseAll();
     }
 
 
@@ -69,7 +71,7 @@ public class UI_Management : UI_Base
         }
         else
         {
-            Managers.UI.ClosePopUp();
+            Managers.UI.CloseAll();
         }
     }
 

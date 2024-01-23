@@ -60,7 +60,7 @@ public class CameraControl : MonoBehaviour
             return;
         }
 
-        var ui = Managers.UI._popupStack.Peek() as Interface.IWorldSpaceUI;
+        var ui = Managers.UI._popupStack.Peek() as IWorldSpaceUI;
         if (ui == null)
         {
             Move = false;

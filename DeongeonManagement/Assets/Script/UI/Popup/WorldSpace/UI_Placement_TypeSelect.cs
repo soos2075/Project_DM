@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class UI_Placement_TypeSelect : UI_PopUp, Interface.IWorldSpaceUI
+public class UI_Placement_TypeSelect : UI_PopUp, IWorldSpaceUI
 {
 
     enum Objects
     {
-        Panel,
+        //Panel,
         Place,
         Facility,
         Monster,
@@ -22,7 +22,7 @@ public class UI_Placement_TypeSelect : UI_PopUp, Interface.IWorldSpaceUI
     public override void Init()
     {
         SetCanvasWorldSpace();
-
+        AddRightClickCloseAllEvent();
 
         Bind<GameObject>(typeof(Objects));
 

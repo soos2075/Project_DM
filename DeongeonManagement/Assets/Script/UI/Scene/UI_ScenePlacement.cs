@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UI_DungeonPlacement : UI_PopUp, IWorldSpaceUI
+public class UI_ScenePlacement : UI_Scene, IWorldSpaceUI
 {
-
-
     public void SetCanvasWorldSpace()
     {
         Managers.UI.SetCanvasWorld(gameObject);
@@ -18,35 +16,31 @@ public class UI_DungeonPlacement : UI_PopUp, IWorldSpaceUI
         GenerateFloorUI();
     }
 
+    //public override void Refresh()
+    //{
+    //    base.Refresh();
+    //    GenerateFloorUI();
+    //}
 
-    void Awake()
-    {
-        //Init();
-    }
+
     void Start()
     {
         Init();
     }
 
 
-    public List<UI_Floor> uI_Floors = new List<UI_Floor>();
 
     void GenerateFloorUI()
     {
 
         for (int i = 0; i < Main.Instance.Floor.Length; i++)
         {
-            UI_Floor content = Managers.Resource.Instantiate("UI/PopUp/Element/Floor", transform).
-                GetComponent<UI_Floor>();
+            UI_TileView_Floor content = Managers.Resource.Instantiate("UI/PopUp/Element/TileView_Floor", transform).
+                GetComponent<UI_TileView_Floor>();
 
             content.SetFloorSize(Main.Instance.Floor[i].transform.position, Main.Instance.Floor[i].boxCollider.bounds.size);
             content.FloorID = i;
-
-            uI_Floors.Add(content);
         }
     }
-
-
-
 
 }

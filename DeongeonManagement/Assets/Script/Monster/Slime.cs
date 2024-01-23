@@ -42,19 +42,19 @@ public class Slime : Monster
         switch (dir)
         {
             case 0:
-                newTile = Place_Floor.MoveUp(this, Place_Tile);
+                newTile = PlacementInfo.Place_Floor.MoveUp(this, PlacementInfo.Place_Tile);
                 break;
 
             case 1:
-                newTile = Place_Floor.MoveDown(this, Place_Tile);
+                newTile = PlacementInfo.Place_Floor.MoveDown(this, PlacementInfo.Place_Tile);
                 break;
 
             case 2:
-                newTile = Place_Floor.MoveLeft(this, Place_Tile);
+                newTile = PlacementInfo.Place_Floor.MoveLeft(this, PlacementInfo.Place_Tile);
                 break;
 
             case 3:
-                newTile = Place_Floor.MoveRight(this, Place_Tile);
+                newTile = PlacementInfo.Place_Floor.MoveRight(this, PlacementInfo.Place_Tile);
                 break;
 
             default:
@@ -64,8 +64,7 @@ public class Slime : Monster
 
         if (newTile != null)
         {
-            Place_Tile.ClearPlacement();
-            PlacementConfirm(Place_Floor, newTile);
+            Managers.Placement.PlacementMove(this, new PlacementInfo(PlacementInfo.Place_Floor, newTile));
         }
     }
 

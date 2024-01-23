@@ -4,65 +4,26 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public abstract class NPC : MonoBehaviour, Interface.IPlacementable
+public abstract class NPC : MonoBehaviour, IPlacementable
 {
     void Start()
     {
-        PlacementType = Define.PlacementType.NPC;
-        npcRenderer = GetComponentInChildren<SpriteRenderer>();
-        Disable();
-
         Initialize_Status();
     }
-    void Update()
-    {
+    //void Update()
+    //{
 
-    }
+    //}
 
-    SpriteRenderer npcRenderer;
-
-    #region Placement
-
-    public BasementFloor Place_Floor { get; set; }
-    public BasementTile Place_Tile { get; set; }
+    #region IPlacementable
     public Define.PlacementType PlacementType { get; set; }
-
-
-    public void Placement(BasementFloor place)
+    public PlacementInfo PlacementInfo { get; set; }
+    public GameObject GetObject()
     {
-        //Debug.Log($"{name} 가 {place} 에 배치됨.");
-        PlacementConfirm(place, place.GetRandomTile(this));
+        return this.gameObject;
     }
-
-    private void PlacementConfirm(BasementFloor place_floor, BasementTile place_tile)
-    {
-        Place_Floor = place_floor;
-        Place_Tile = place_tile;
-        Place_Tile.SetPlacement(this);
-
-        transform.position = Place_Tile.worldPosition;
-        Visible();
-    }
-
-    public void PlacementClear()
-    {
-        Place_Tile.ClearPlacement();
-        Place_Floor = null;
-        Place_Tile = null;
-        Disable();
-    }
-
-    protected void Visible()
-    {
-        npcRenderer.enabled = true;
-    }
-
-    protected void Disable()
-    {
-        npcRenderer.enabled = false;
-    }
-
     #endregion
+
 
 
 
@@ -73,7 +34,7 @@ public abstract class NPC : MonoBehaviour, Interface.IPlacementable
 
     protected List<BasementTile> GetFloorObjectsAll(Define.TileType searchType = Define.TileType.Empty)
     {
-        var newList = Place_Floor.SearchAllObjects(searchType);
+        var newList = PlacementInfo.Place_Floor.GetFloorObjectList(searchType);
         var refresh = AddDistinctList(newList);
         return refresh;
     }
@@ -82,7 +43,7 @@ public abstract class NPC : MonoBehaviour, Interface.IPlacementable
     {
         if (PriorityList == null)
         {
-            PriorityList = Place_Floor.SearchAllObjects();
+            PriorityList = PlacementInfo.Place_Floor.GetFloorObjectList();
         }
 
         List<BasementTile> oldList = PriorityList;
@@ -115,26 +76,9 @@ public abstract class NPC : MonoBehaviour, Interface.IPlacementable
         {
             newList.AddRange(PriorityList);
         }
-        PriorityRemove(Place_Tile);
+        PriorityRemove(PlacementInfo.Place_Tile);
         return newList.Distinct().ToList();
     }
-
-    bool RefreshList()
-    {
-        if (PriorityList == null) return false;
-
-        for (int i = PriorityList.Count - 1; i >= 0; i--)
-        {
-            if (PriorityList[i].tileType == Define.TileType.Empty)
-            {
-                PriorityList.RemoveAt(i);
-            }
-        }
-
-        if (PriorityList.Count == 0) return false;
-        return true;
-    }
-
 
     #endregion
 
@@ -148,7 +92,7 @@ public abstract class NPC : MonoBehaviour, Interface.IPlacementable
     public void Departure(Vector3 startPoint, Vector3 endPoint)
     {
         transform.position = startPoint;
-        Visible();
+        Managers.Placement.Visible(this);
 
         StartCoroutine(MoveToPoint(endPoint));
     }
@@ -171,7 +115,7 @@ public abstract class NPC : MonoBehaviour, Interface.IPlacementable
     public void Arrival()
     {
         transform.position = Main.Instance.dungeonEntrance.position;
-        Visible();
+        Managers.Placement.Visible(this);
         StartCoroutine(MoveToHome(Main.Instance.guild.position));
     }
 
@@ -232,7 +176,10 @@ public abstract class NPC : MonoBehaviour, Interface.IPlacementable
 
     enum NPCState
     {
-        Standby,
+        Next,
+
+        Priority,
+
         Runaway,
         Return,
 
@@ -264,35 +211,50 @@ public abstract class NPC : MonoBehaviour, Interface.IPlacementable
             return;
         }
 
-        Placement(Main.Instance.Floor[FloorLevel]);
+        Managers.Placement.PlacementClear(this);
+
+        //? 랜덤위치로 소환
+        //var info = Managers.Placement.GetRandomPlacement(this, Main.Instance.Floor[FloorLevel]); 
+        //? 입구에서 소환
+        var info_Entrance = new PlacementInfo(Main.Instance.Floor[FloorLevel], Main.Instance.Floor[FloorLevel].Exit.PlacementInfo.Place_Tile);
+        Managers.Placement.PlacementConfirm(this, info_Entrance);
+
         FloorLevel++;
         Debug.Log($"{name}(이)가 {FloorLevel}층에 도착");
 
         SetPriorityList(); //? 우선순위에 맞춰 맵탐색
 
-        State = NPCState.Standby;
+        if (PriorityList.Count > 0)
+        {
+            State = NPCState.Priority;
+        }
+        else
+        {
+            State = NPCState.Next;
+        }
+        
     }
     void FloorPrevious() //? 지상층으로 올라가는 입구에 도착했을 때 호출
     {
         FloorLevel--;
         if (FloorLevel == 0)
         {
-            Debug.Log($"{name}(이)가 던전 출구에 도착함");
             FloorEscape();
             return;
         }
+        //Debug.Log($"{name}(이)가 {FloorLevel}층에 도착");
 
-        Debug.Log($"{name}(이)가 {FloorLevel}층에 도착");
-        Placement(Main.Instance.Floor[FloorLevel - 1]);
+        Managers.Placement.PlacementClear(this);
 
-        SearchPreviousFloor(); //? 지상으로 올라가는 경우는 나가는 경우니까 우선순위상관없이 출구만 1순위로 찾음.
-        //State = NPCState.Standby;
+        var info_Exit = new PlacementInfo(Main.Instance.Floor[FloorLevel - 1], Main.Instance.Floor[FloorLevel - 1].Entrance.PlacementInfo.Place_Tile);
+        Managers.Placement.PlacementConfirm(this, info_Exit);
+
+        SearchPreviousFloor(); //? 지상으로 올라가는 경우는 나가는 경우니까 우선순위상관없이 출구만 1순위로 찾음. 추가로 State의 변경도 하면 안됨.
     }
 
     void FloorEscape() //? 긴급탈출 - 바로 지상으로 감
     {
         Debug.Log($"{name}(이)가 지상으로 탈출");
-        PlacementClear();
         Arrival();
     }
 
@@ -300,13 +262,13 @@ public abstract class NPC : MonoBehaviour, Interface.IPlacementable
 
     void SearchNextFloor()
     {
-        PriorityList.Add(Place_Floor.entrance.Place_Tile);
+        PriorityList.Add(PlacementInfo.Place_Floor.Entrance.PlacementInfo.Place_Tile);
         MoveToTargetTile(PriorityList[0]);
     }
     void SearchPreviousFloor()
     {
         PriorityList.Clear();
-        PriorityList.Add(Place_Floor.exit.Place_Tile);
+        PriorityList.Add(PlacementInfo.Place_Floor.Exit.PlacementInfo.Place_Tile);
         MoveToTargetTile(PriorityList[0]);
     }
 
@@ -340,32 +302,40 @@ public abstract class NPC : MonoBehaviour, Interface.IPlacementable
             return NPCState.Runaway;
         }
 
+        PriorityList.RemoveAll(r => r.tileType == Define.TileType.Empty);
 
-        RefreshList();
-        return NPCState.Standby;
+        if (PriorityList.Count == 0)
+        {
+            return NPCState.Next;
+        }
+
+        if (PriorityList[0].tileType == Define.TileType.Entrance || PriorityList[0].tileType == Define.TileType.Exit)
+        {
+            return NPCState.Next;
+        }
+
+        return NPCState.Priority;
     }
+
 
     void BehaviourByState()
     {
-        //? 출구를 최우선으로 찾음 (PriorityUpdate)
-        //? 출구를 향해 움직임. 가는길에도 이벤트 발생 가능 / 다만 전투이벤트만 가능.
-        //? 만약 오브젝트에 길막당해서 못간다? 라는 상황은 없을거임. 애초에 들어올 수 있으면 나갈수도 있는거
-        //? 근데 미로같은거라서 들어오면 뒤로는 못가는 함정같은경우가 있을 수 있음. 이런경우는 패닉상태에 빠져서 HP를 줄이던가 포로로잡히던가 둘중하나.
-
         switch (State)
         {
-            case NPCState.Standby:
+            case NPCState.Next:
                 if (PriorityList.Count > 0)
                 {
                     MoveToTargetTile(PriorityList[0]);
                 }
                 else
                 {
-                    Debug.Log("탐색결과 없음");
                     SearchNextFloor();
                 }
                 break;
 
+            case NPCState.Priority:
+                MoveToTargetTile(PriorityList[0]);
+                break;
 
             case NPCState.Return:
                 SearchPreviousFloor();
@@ -381,9 +351,9 @@ public abstract class NPC : MonoBehaviour, Interface.IPlacementable
                 break;
 
 
-
             case NPCState.Interaction:
                 break;
+
             case NPCState.Battle:
                 break;
         }
@@ -399,7 +369,7 @@ public abstract class NPC : MonoBehaviour, Interface.IPlacementable
 
     public void MoveToTargetTile(BasementTile target)
     {
-        List<BasementTile> path = Place_Floor.PathFinding(Place_Tile, target);
+        List<BasementTile> path = PlacementInfo.Place_Floor.PathFinding(PlacementInfo.Place_Tile, target);
 
         if (Cor_Move != null)
         {
@@ -420,7 +390,7 @@ public abstract class NPC : MonoBehaviour, Interface.IPlacementable
 
             if (encount == Define.PlaceEvent.Entrance)
             {
-                if (PriorityList.Count == 1 && State != NPCState.Return)
+                if (State == NPCState.Next)
                 {
                     FloorNext();
                     Cor_Move = null;
@@ -456,10 +426,8 @@ public abstract class NPC : MonoBehaviour, Interface.IPlacementable
                 State = NPCState.Battle;
                 break;
             }
-
-
-            Place_Tile.ClearPlacement();
-            PlacementConfirm(Place_Floor, path[i]);
+            var next = new PlacementInfo(PlacementInfo.Place_Floor, path[i]);
+            Managers.Placement.PlacementMove(this, next);
         }
     }
 

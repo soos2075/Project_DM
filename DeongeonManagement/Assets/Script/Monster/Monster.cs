@@ -1,81 +1,39 @@
 using System.Collections;
 using UnityEngine;
 
-public abstract class Monster : MonoBehaviour, Interface.IPlacementable
+public abstract class Monster : MonoBehaviour, IPlacementable
 {
     protected void Awake()
     {
-        PlacementType = Define.PlacementType.Monster;
+        
     }
     protected void Start()
     {
         Initialize_Status();
 
         SetSprite($"Sprite/Monster/{this.name}");
-        monsterRenderer = GetComponentInChildren<SpriteRenderer>();
-        Disable();
 
         hp_chance = hp_origin;
         atk_chance = atk_origin;
         def_chance = def_origin;
     }
-    protected void Update()
-    {
+    //protected void Update()
+    //{
         
-    }
+    //}
 
 
-    #region Placementable
-    public BasementFloor Place_Floor { get; set; }
-    public BasementTile Place_Tile { get; set; }
+    #region IPlacementable
     public Define.PlacementType PlacementType { get; set; }
-
-    SpriteRenderer monsterRenderer;
-
-
-
-    void Placement_Random(BasementFloor place)
+    public PlacementInfo PlacementInfo { get; set; }
+    public GameObject GetObject()
     {
-        PlacementConfirm(place, place.GetRandomTile(this));
-        Debug.Log($"{name} 가 {Place_Floor} - {Place_Tile.index} 에 배치됨.");
+        return this.gameObject;
     }
 
-    public void PlacementConfirm(BasementFloor place_floor, BasementTile place_tile)
-    {
-        State = MonsterState.Placement;
-
-        Place_Floor = place_floor;
-        Place_Tile = place_tile;
-        Place_Tile.SetPlacement(this);
-
-        transform.position = Place_Tile.worldPosition;
-        Visible();
-
-        Place_Floor.MaxMonsterSize--;
-    }
-
-    public void PlacementClear()
-    {
-        //Debug.Log($"{name} 가 {Place_Floor} - {Place_Tile.index}에서 비활성화");
-        State = MonsterState.Standby;
-
-        Place_Floor.MaxMonsterSize++;
-        Place_Tile.ClearPlacement();
-        Place_Floor = null;
-        Place_Tile = null;
-
-        Disable();
-    }
-    protected void Visible()
-    {
-        monsterRenderer.enabled = true;
-    }
-
-    protected void Disable()
-    {
-        monsterRenderer.enabled = false;
-    }
     #endregion
+
+
 
 
 
@@ -95,8 +53,6 @@ public abstract class Monster : MonoBehaviour, Interface.IPlacementable
     {
         Sprite = Managers.Resource.Load<Sprite>(_path);
     }
-
-
     #endregion
 
 
@@ -131,6 +87,8 @@ public abstract class Monster : MonoBehaviour, Interface.IPlacementable
     }
 
     public abstract MonsterType Type { get; set; }
+
+
     protected abstract void MonsterInit();
     protected abstract void Initialize_Status();
 
@@ -162,7 +120,7 @@ public abstract class Monster : MonoBehaviour, Interface.IPlacementable
             if (this.HP <= 0)
             {
                 Debug.Log("몬스터 패배");
-                MonsterDie();
+                MonsterOutFloor();
                 break;
             }
 
@@ -179,21 +137,22 @@ public abstract class Monster : MonoBehaviour, Interface.IPlacementable
         monster.HP -= Mathf.Clamp((npc.ATK - monster.DEF), 1, monster.HP);
 
         npc.HP -= Mathf.Clamp((monster.ATK - npc.DEF), 1, npc.HP);
-        Debug.Log($"배틀 상세 : {monster}의 남은 체력 : {monster.HP} / {npc}의 남은 체력 : {npc.HP}");
+        Debug.Log($"배틀 상세 : {monster.name}의 남은 체력 : {monster.HP} / {npc.name}의 남은 체력 : {npc.HP}");
     }
 
 
-    void MonsterDie()
+
+
+
+    public void MonsterOutFloor()
     {
-        PlacementClear();
-        State = MonsterState.Injury;
+        PlacementInfo.Place_Floor.MaxMonsterSize++;
+        State = HP <= 0 ? MonsterState.Injury : MonsterState.Standby;
+        Managers.Placement.PlacementClear(this);
     }
 
 
 
-
-
-    
 
     public void Training()
     {

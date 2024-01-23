@@ -54,8 +54,8 @@ public class UI_Placement_Content : UI_Base
                 break;
 
             case Monster.MonsterState.Placement:
-                text.text += $"\n상태 : {monster.Place_Floor.Name_KR}";
-                if (monster.Place_Floor == current)
+                text.text += $"\n상태 : {monster.PlacementInfo.Place_Floor.Name_KR}";
+                if (monster.PlacementInfo.Place_Floor == current)
                 {
                     PanelState = ContentState.Blue;
                 }
@@ -98,13 +98,12 @@ public class UI_Placement_Content : UI_Base
                 break;
 
             case Monster.MonsterState.Placement:
-                if (monster.Place_Floor == current)
+                if (monster.PlacementInfo.Place_Floor == current)
                 {
-                    Main.Instance.Monsters[MonsterID].PlacementClear();
+                    Main.Instance.Monsters[MonsterID].MonsterOutFloor();
                 }
                 else if(Main.Instance.CurrentFloor.MaxMonsterSize > 0)
                 {
-                    Main.Instance.Monsters[MonsterID].PlacementClear();
                     parent.SetBoundary(Define.Boundary_1x1, () => parent.CreateAll(MonsterID));
                 }
                 break;

@@ -48,7 +48,7 @@ public class Mineral_High : Facility
     {
         if (InteractionOfTimes <= 0)
         {
-            PlacementClear();
+            Managers.Placement.PlacementClear(this);
         }
     }
 }

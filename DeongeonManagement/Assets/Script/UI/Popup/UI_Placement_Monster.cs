@@ -85,9 +85,10 @@ public class UI_Placement_Monster : UI_PopUp
     void CreateOver()
     {
         Debug.Log("배치완료. 이제 돈받는처리같은거 하면 됨");
-        Managers.UI.PauseClose();
-        Managers.UI.ClosePopUp();
+        //Managers.UI.PauseClose();
+        //Managers.UI.ClosePopUp();
         ResetAction();
+        Managers.UI.CloseAll();
     }
 
     bool Create(int monsterID, Vector2Int[] boundary)
@@ -104,9 +105,13 @@ public class UI_Placement_Monster : UI_PopUp
 
 
             var obj = Main.Instance.Monsters[monsterID];
-            obj.PlacementConfirm(Main.Instance.CurrentFloor, content);
-        }
+            //obj.PlacementConfirm(Main.Instance.CurrentFloor, content);
 
+            Managers.Placement.PlacementConfirm(obj, new PlacementInfo(Main.Instance.CurrentFloor, content));
+
+            obj.PlacementInfo.Place_Floor.MaxMonsterSize--;
+            obj.State = Monster.MonsterState.Placement;
+        }
         return true;
     }
 

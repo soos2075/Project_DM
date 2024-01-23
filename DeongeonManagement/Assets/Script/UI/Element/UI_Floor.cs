@@ -16,17 +16,17 @@ public class UI_Floor : UI_Base
     public override void Init()
     {
         Bind<GameObject>(typeof(Contents));
-
         GetObject((int)Contents.Floor).AddUIEvent((data) => OpenPlacementType(data));
     }
 
+    private void Awake()
+    {
+        //Init();
+    }
     private void Start()
     {
         Init();
     }
-
-
-
 
 
     public void SetFloorSize(Vector3 pos, Vector2 sizeXY)
@@ -37,7 +37,9 @@ public class UI_Floor : UI_Base
         rect.sizeDelta = sizeXY;
     }
 
-    void OpenPlacementType(PointerEventData data)
+
+
+    public void OpenPlacementType(PointerEventData data)
     {
         Main.Instance.CurrentFloor = Main.Instance.Floor[FloorID];
 

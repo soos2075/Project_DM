@@ -36,8 +36,11 @@ public class UI_Summon : UI_PopUp
     {
         if (Main.Instance.MaximumCheck())
         {
-            var monster = Managers.Resource.Instantiate(_name, Main.Instance.transform);
-            Main.Instance.AddMonster(monster.GetOrAddComponent<Monster>());
+            var mon = Managers.Placement.CreatePlacementObject(_name, null, Define.PlacementType.Monster);
+
+            //var monster = Managers.Resource.Instantiate(_name, Main.Instance.transform);
+
+            Main.Instance.AddMonster(mon as Monster);
         }
     }
 }

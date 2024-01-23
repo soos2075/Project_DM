@@ -30,12 +30,54 @@ public class Main : MonoBehaviour
         MonsterInit();
         BasementFloorInit();
         NPCInit();
+        AnimationInit();
     }
 
     void Update()
     {
 
     }
+
+
+
+
+    #region Day
+
+    public bool Management = true;
+
+
+    Animator ani_MainUI;
+    void AnimationInit()
+    {
+        ani_MainUI = FindObjectOfType<UI_Management>().GetComponent<Animator>();
+    }
+
+
+    public void ManagementStart()
+    {
+        Management = true;
+        ani_MainUI.SetBool("Hide", false);
+    }
+    public void ManagementOver()
+    {
+        Management = false;
+        ani_MainUI.SetBool("Hide", true);
+    }
+
+
+
+
+    #endregion
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -106,8 +148,9 @@ public class Main : MonoBehaviour
 
     public void AddNPC(string npcName)
     {
-        var npc = Managers.Resource.Instantiate($"NPC/{npcName}", transform);
-        NPCs.Enqueue(npc.GetComponent<NPC>());
+        var npc = Managers.Placement.CreatePlacementObject($"NPC/{npcName}", null, Define.PlacementType.NPC);
+
+        NPCs.Enqueue(npc as NPC);
     }
 
 
@@ -121,7 +164,8 @@ public class Main : MonoBehaviour
 
     public void InactiveNPC(NPC npc)
     {
-        Managers.Resource.Destroy(npc.gameObject);
+        Managers.Placement.PlacementClear(npc);
+        //Managers.Resource.Destroy(npc.gameObject);
     }
 
 

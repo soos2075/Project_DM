@@ -13,10 +13,14 @@ public class Managers : MonoBehaviour
     PoolManager _pool = new PoolManager();
     UIManager _ui = new UIManager();
 
+    PlacementManager _placement = new PlacementManager();
+
 
     public static ResourceManager Resource { get { return Instance._resource; } }
     public static PoolManager Pool { get { return Instance._pool; } }
     public static UIManager UI { get { return Instance._ui; } }
+
+    public static PlacementManager Placement { get { return Instance._placement; } }
 
 
 
@@ -38,6 +42,7 @@ public class Managers : MonoBehaviour
     void Start()
     {
         Init();
+        _placement.Init();
     }
 
     void Update()

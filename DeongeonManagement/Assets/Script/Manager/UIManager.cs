@@ -63,7 +63,18 @@ public class UIManager
         T sceneUI = go.GetComponent<T>();
         go.transform.SetParent(UI_Root.transform);
 
+        _sceneList.Add(sceneUI as UI_Scene);
         return sceneUI;
+    }
+
+    List<UI_Scene> _sceneList = new List<UI_Scene>();
+
+    void SceneUIRefresh()
+    {
+        foreach (var item in _sceneList)
+        {
+            item.Refresh();
+        }
     }
 
 
@@ -121,7 +132,7 @@ public class UIManager
         GameObject go = Managers.Resource.Instantiate($"UI/PopUp/{name}", UI_Root.transform);
         T uiComponent = Util.GetOrAddComponent<T>(go);
 
-        if (_popupStack.Peek().GetType() == uiComponent.GetType())
+        if (_popupStack.Count > 0 && _popupStack.Peek().GetType() == uiComponent.GetType())
         {
             ClosePopUp();
         }
@@ -175,6 +186,8 @@ public class UIManager
             ClosePopUp();
         }
         PauseClose();
+
+        SceneUIRefresh();
     }
 
 

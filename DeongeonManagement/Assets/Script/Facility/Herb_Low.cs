@@ -52,7 +52,7 @@ public class Herb_Low : Facility
     {
         if (InteractionOfTimes <= 0)
         {
-            PlacementClear();
+            Managers.Placement.PlacementClear(this);
         }
     }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ public class BasementFloor : MonoBehaviour
         npcList = new List<NPC>();
         monsterList = new List<Monster>();
         facilityList = new List<Facility>();
+
 
         Init_TileMap();
         Init_Entrance();
@@ -27,16 +29,72 @@ public class BasementFloor : MonoBehaviour
     public BoxCollider2D boxCollider;
 
     public List<NPC> npcList;
-
     public List<Monster> monsterList;
-
     public List<Facility> facilityList;
+
 
     public BasementTile[,] TileMap { get; set; }
 
 
-    public Facility entrance;
-    public Facility exit;
+    public IPlacementable Entrance
+    {
+        get
+        {
+            var obj = PickObjectOfType(typeof(Entrance));
+            if (obj == null)
+            {
+                obj = Managers.Placement.CreatePlacementObject("Facility/Entrance", null, Define.PlacementType.Facility);
+                var info = Managers.Placement.GetRandomPlacement(obj, this);
+                Managers.Placement.PlacementConfirm(obj, info, true);
+            }
+            return obj;
+        }
+    }
+
+    public IPlacementable Exit
+    {
+        get
+        {
+            var obj = PickObjectOfType(typeof(Exit));
+            if (obj == null)
+            {
+                obj = Managers.Placement.CreatePlacementObject("Facility/Exit", null, Define.PlacementType.Facility);
+                var info = Managers.Placement.GetRandomPlacement(obj, this);
+                Managers.Placement.PlacementConfirm(obj, info, true);
+            }
+            return obj;
+        }
+    }
+
+
+
+
+    public void AddObject(IPlacementable placementable)
+    {
+        var npc = placementable as NPC;
+        var monster = placementable as Monster;
+        var facility = placementable as Facility;
+
+
+        if (npc) npcList.Add(npc);
+        if (monster) monsterList.Add(monster);
+        if (facility) facilityList.Add(facility);
+    }
+
+    public void RemoveObject(IPlacementable placementable)
+    {
+        var npc = placementable as NPC;
+        var monster = placementable as Monster;
+        var facility = placementable as Facility;
+
+        if (npc) npcList.Remove(npc);
+        if (monster) monsterList.Remove(monster);
+        if (facility) facilityList.Remove(facility);
+
+        //npcList.RemoveAll(a => a == null);
+    }
+
+
 
 
     void Init_TileMap()
@@ -61,89 +119,111 @@ public class BasementFloor : MonoBehaviour
 
     void Init_Entrance()
     {
-        List<BasementTile> oldList = SearchAllObjects();
+        var entrance = Managers.Placement.CreatePlacementObject("Facility/Entrance", null, Define.PlacementType.Facility);
+        var info = Managers.Placement.GetRandomPlacement(entrance, this);
+        Managers.Placement.PlacementConfirm(entrance, info, true);
 
-        for (int i = 0; i < oldList.Count; i++)
-        {
-            if (oldList[i].placementable.GetType() == typeof(Entrance))
-            {
-                entrance = oldList[i].placementable as Facility;
-            }
-            if (oldList[i].placementable.GetType() == typeof(Exit))
-            {
-                exit = oldList[i].placementable as Facility;
-            }
-        }
 
-        if (entrance == null)
-        {
-            var obj = Managers.Resource.Instantiate($"Facility/Entrance").GetComponent<Facility>();
-            obj.PlacementConfirm(this, GetRandomTile(obj));
-            entrance = obj;
-        }
-        if (exit == null)
-        {
-            var obj = Managers.Resource.Instantiate($"Facility/Exit").GetComponent<Facility>();
-            obj.PlacementConfirm(this, GetRandomTile(obj));
-            exit = obj;
-        }
+        var exit = Managers.Placement.CreatePlacementObject("Facility/Exit", null, Define.PlacementType.Facility);
+        var exit_info = Managers.Placement.GetRandomPlacement(exit, this);
+        Managers.Placement.PlacementConfirm(exit, exit_info, true);
     }
 
 
 
 
+    public IPlacementable PickObjectOfType(Type type)
+    {
+        foreach (var item in facilityList)
+        {
+            if (item.GetType() == type)
+            {
+                return item;
+            }
+        }
+        foreach (var item in monsterList)
+        {
+            if (item.GetType() == type)
+            {
+                return item;
+            }
+        }
+        foreach (var item in npcList)
+        {
+            if (item.GetType() == type)
+            {
+                return item;
+            }
+        }
 
 
+        Debug.Log($"{type}의 클래스가 존재하지 않음");
+        return null;
+    }
 
 
-    public List<BasementTile> SearchAllObjects(Define.TileType searchType = Define.TileType.Empty)
+    public List<BasementTile> GetFloorObjectList(Define.TileType getType = Define.TileType.Empty)
     {
         List<BasementTile> objectsList = new List<BasementTile>();
 
-        for (int i = 0; i < TileMap.GetLength(0); i++)
+        switch (getType)
         {
-            for (int k = 0; k < TileMap.GetLength(1); k++)
-            {
-                if (TileMap[i,k].placementable != null)
+            case Define.TileType.Empty:
+                foreach (var item in monsterList)
                 {
-                    objectsList.Add(TileMap[i, k]);
+                    objectsList.Add(item.PlacementInfo.Place_Tile);
                 }
-            }
+                foreach (var item in npcList)
+                {
+                    objectsList.Add(item.PlacementInfo.Place_Tile);
+                }
+                foreach (var item in facilityList)
+                {
+                    objectsList.Add(item.PlacementInfo.Place_Tile);
+                }
+                break;
+
+            case Define.TileType.Monster:
+                foreach (var item in monsterList)
+                {
+                    objectsList.Add(item.PlacementInfo.Place_Tile);
+                }
+                break;
+
+            case Define.TileType.NPC:
+                foreach (var item in npcList)
+                {
+                    objectsList.Add(item.PlacementInfo.Place_Tile);
+                }
+                break;
+
+            case Define.TileType.Facility:
+                foreach (var item in facilityList)
+                {
+                    objectsList.Add(item.PlacementInfo.Place_Tile);
+                }
+                break;
         }
 
-        if (searchType == Define.TileType.Empty)
-        {
-            return objectsList;
-        }
-        return SearchTarget(objectsList, searchType);
+        return objectsList;
     }
 
-    List<BasementTile> SearchTarget(List<BasementTile> listAll, Define.TileType type)
-    {
-        List<BasementTile> targetList = new List<BasementTile>();
-        
-        foreach (var item in listAll)
-        {
-            if (item.tileType == type)
-            {
-                targetList.Add(item);
-            }
-        }
-        return targetList;
-    }
 
 
 
-    public BasementTile GetRandomTile(Interface.IPlacementable placementable)
+
+
+
+    public BasementTile GetRandomTile(IPlacementable placementable)
     {
         int whileCount = 0; //? 무한루프 방지용
-        var randomTile = new Vector2Int(Random.Range(0, TileMap.GetLength(0)), Random.Range(0, TileMap.GetLength(1)));
+        var randomTile = new Vector2Int(UnityEngine.Random.Range(0, TileMap.GetLength(0)), UnityEngine.Random.Range(0, TileMap.GetLength(1)));
 
         var tile = TileMap[randomTile.x, randomTile.y].TryPlacement(placementable);
         while (tile != Define.PlaceEvent.Placement && whileCount < 20)
         {
             whileCount++;
-            randomTile = new Vector2Int(Random.Range(0, TileMap.GetLength(0)), Random.Range(0, TileMap.GetLength(1)));
+            randomTile = new Vector2Int(UnityEngine.Random.Range(0, TileMap.GetLength(0)), UnityEngine.Random.Range(0, TileMap.GetLength(1)));
             tile = TileMap[randomTile.x, randomTile.y].TryPlacement(placementable);
         }
 
@@ -151,28 +231,28 @@ public class BasementFloor : MonoBehaviour
     }
 
 
-    public BasementTile MoveUp(Interface.IPlacementable placementable, BasementTile currentTile)
+    public BasementTile MoveUp(IPlacementable placementable, BasementTile currentTile)
     {
         if (currentTile.index.y + 1 == TileMap.GetLength(1)) return null;
         if (TileMap[currentTile.index.x, currentTile.index.y + 1].TryPlacement(placementable) != Define.PlaceEvent.Placement) return null;
 
         return TileMap[currentTile.index.x, currentTile.index.y + 1];
     }
-    public BasementTile MoveDown(Interface.IPlacementable placementable, BasementTile currentTile)
+    public BasementTile MoveDown(IPlacementable placementable, BasementTile currentTile)
     {
         if (currentTile.index.y == 0) return null;
         if (TileMap[currentTile.index.x, currentTile.index.y - 1].TryPlacement(placementable) != Define.PlaceEvent.Placement) return null;
 
         return TileMap[currentTile.index.x, currentTile.index.y - 1];
     }
-    public BasementTile MoveLeft(Interface.IPlacementable placementable, BasementTile currentTile)
+    public BasementTile MoveLeft(IPlacementable placementable, BasementTile currentTile)
     {
         if (currentTile.index.x == 0) return null;
         if (TileMap[currentTile.index.x - 1, currentTile.index.y].TryPlacement(placementable) != Define.PlaceEvent.Placement) return null;
 
         return TileMap[currentTile.index.x - 1, currentTile.index.y];
     }
-    public BasementTile MoveRight(Interface.IPlacementable placementable, BasementTile currentTile)
+    public BasementTile MoveRight(IPlacementable placementable, BasementTile currentTile)
     {
         if (currentTile.index.x + 1 == TileMap.GetLength(0)) return null;
         if (TileMap[currentTile.index.x + 1, currentTile.index.y].TryPlacement(placementable) != Define.PlaceEvent.Placement) return null;
@@ -276,7 +356,9 @@ public class BasementTile
     public Vector2Int index;
     public Vector3 worldPosition;
     public Define.TileType tileType;
-    public Interface.IPlacementable placementable;
+    public IPlacementable placementable;
+    public IPlacementable unchangeable;
+    bool isUnchangeable { get { return (unchangeable != null); } }
 
 
     public BasementTile(Vector2Int _index, Vector3 _worldPosition, Define.TileType _type)
@@ -287,43 +369,72 @@ public class BasementTile
     }
 
 
-    public void SetPlacement(Interface.IPlacementable _placementable)
+    public void SetUnchangeable(IPlacementable _placementable)
     {
         placementable = _placementable;
-        
-        switch (_placementable.PlacementType)
+        unchangeable = _placementable;
+
+        if (_placementable.GetType() == typeof(Entrance))
         {
-            case Define.PlacementType.Facility:
-                if (_placementable.GetType() == typeof(Entrance))
-                {
-                    tileType = Define.TileType.Entrance;
-                }
-                else if (_placementable.GetType() == typeof(Exit))
-                {
-                    tileType = Define.TileType.Exit;
-                }
-                else
-                {
+            tileType = Define.TileType.Entrance;
+        }
+        else if (_placementable.GetType() == typeof(Exit))
+        {
+            tileType = Define.TileType.Exit;
+        }
+        else
+        {
+            tileType = Define.TileType.Facility; //? 입구 출구가 아니고 변하지 않는 퍼실리티 = 지나가면 발동하는 설치형 함정 등등
+        }
+    }
+
+    public void SetPlacement(IPlacementable _placementable)
+    {
+        if (isUnchangeable) //? 얘는 타입을 바꾸지않음.(다른 객체가 들어올 순 있어도 타입은 불변이라 Clear에서도 바꿔줄 필요 없음)
+        {
+            placementable = _placementable;
+            return;
+        }
+        else
+        {
+            placementable = _placementable;
+
+            switch (_placementable.PlacementType)
+            {
+                case Define.PlacementType.Facility:
                     tileType = Define.TileType.Facility;
-                }
-                break;
-            case Define.PlacementType.Monster:
-                tileType = Define.TileType.Monster;
-                break;
-            case Define.PlacementType.NPC:
-                tileType = Define.TileType.NPC;
-                break;
+                    break;
+                case Define.PlacementType.Monster:
+                    tileType = Define.TileType.Monster;
+                    break;
+                case Define.PlacementType.NPC:
+                    tileType = Define.TileType.NPC;
+                    break;
+            }
         }
     }
 
     public void ClearPlacement()
     {
+        if (isUnchangeable)
+        {
+            placementable = unchangeable;
+        }
+        else
+        {
+            placementable = null;
+            tileType = Define.TileType.Empty;
+        }
+    }
+    public void ClearAbsolute()
+    {
         placementable = null;
+        unchangeable = null;
         tileType = Define.TileType.Empty;
     }
 
 
-    public Define.PlaceEvent TryPlacement(Interface.IPlacementable _placementable)
+    public Define.PlaceEvent TryPlacement(IPlacementable _placementable)
     {
         switch (tileType)
         {
