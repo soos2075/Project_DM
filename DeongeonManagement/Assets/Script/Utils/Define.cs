@@ -62,6 +62,8 @@ public class Define
         Interaction,
         Entrance,
         Exit,
+        Avoid,
+        Overlap,
     }
 
 

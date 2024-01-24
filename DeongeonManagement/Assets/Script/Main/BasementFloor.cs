@@ -21,6 +21,7 @@ public class BasementFloor : MonoBehaviour
 
 
     public string Floor { get; set; }
+    public int FloorIndex { get; set; }
 
     public string Name_KR;
 
@@ -111,7 +112,7 @@ public class BasementFloor : MonoBehaviour
             {
                 Vector3 pos = new Vector2((-size.x * offset) + (standard * i) + offset, (-size.y * offset) + (standard * k) + offset);
                 Vector3 worldPos = pos + transform.position;
-                TileMap[i, k] = new BasementTile(new Vector2Int(i, k), worldPos, Define.TileType.Empty);
+                TileMap[i, k] = new BasementTile(new Vector2Int(i, k), worldPos, Define.TileType.Empty, this);
             }
         }
     }
@@ -205,6 +206,7 @@ public class BasementFloor : MonoBehaviour
                 break;
         }
 
+
         return objectsList;
     }
 
@@ -264,7 +266,102 @@ public class BasementFloor : MonoBehaviour
 
 
 
-    public List<BasementTile> PathFinding(BasementTile startPoint, BasementTile targetPoint)
+
+
+
+
+
+
+    #region PathFinding
+
+
+    public List<BasementTile> PathFinding(BasementTile startPoint, BasementTile targetPoint, Define.TileType[] avoidType, out bool isFind)
+    {
+        //? 순서는 위 아래 왼쪽 오른쪽 순서
+        int[] deltaX = new int[4] { 0, 0, -1, 1 };
+        int[] deltaY = new int[4] { 1, -1, 0, 0 };
+
+        bool[,] closed = new bool[TileMap.GetLength(0), TileMap.GetLength(1)];
+
+        PriorityQueue<PQNode> priorityQueue = new PriorityQueue<PQNode>();
+        Vector2Int[,] pathTile = new Vector2Int[TileMap.GetLength(0), TileMap.GetLength(1)];
+
+
+        priorityQueue.Push(new PQNode()
+        {
+            F = Vector3.Distance(startPoint.worldPosition, targetPoint.worldPosition),
+            posX = startPoint.index.x,
+            posY = startPoint.index.y
+        });
+
+        //? 첨에 엔드포인트도 정해줌
+        pathTile[startPoint.index.x, startPoint.index.y] = new Vector2Int(startPoint.index.x, startPoint.index.y);
+        pathTile[targetPoint.index.x, targetPoint.index.y] = new Vector2Int(targetPoint.index.x, targetPoint.index.y);
+
+        while (priorityQueue.Count > 0)
+        {
+            PQNode node = priorityQueue.Pop();
+
+            //? 이미 방문한곳이면 스킵
+            if (closed[node.posX, node.posY])
+                continue;
+
+            closed[node.posX, node.posY] = true;
+
+            //? 도착이면 스킵
+            if (node.posX == targetPoint.index.x && node.posY == targetPoint.index.y)
+            {
+                break;
+            }
+                
+            for (int i = 0; i < deltaX.Length; i++)
+            {
+                int nextX = node.posX + deltaX[i];
+                int nextY = node.posY + deltaY[i];
+
+                if (nextX == TileMap.GetLength(0) || nextX < 0 || nextY == TileMap.GetLength(1) || nextY < 0)
+                {
+                    continue;
+                }
+                if (closed[nextX, nextY])
+                    continue;
+
+                //? 추가한 회피 조건
+                bool avoid = false;
+                foreach (var type in avoidType)
+                {
+                    if (TileMap[nextX, nextY].tileType == type)
+                    {
+                        avoid = true;
+                        break;
+                    }
+                }
+                if (avoid) 
+                {
+                    continue;
+                }
+
+
+                priorityQueue.Push(new PQNode()
+                {
+                    F = Vector3.Distance(TileMap[nextX, nextY].worldPosition, targetPoint.worldPosition),
+                    posX = nextX,
+                    posY = nextY
+                });
+                pathTile[nextX, nextY] = new Vector2Int(node.posX, node.posY);
+            }
+        }
+
+        return (MoveList(pathTile, targetPoint, out isFind));
+    }
+
+
+
+
+
+
+
+    public List<BasementTile> PathFinding(BasementTile startPoint, BasementTile targetPoint, out bool isFind)
     {
         //? 순서는 위 아래 왼쪽 오른쪽 순서
         int[] deltaX = new int[4] { 0, 0, -1, 1 };
@@ -311,6 +408,8 @@ public class BasementFloor : MonoBehaviour
                 if (closed[nextX, nextY])
                     continue;
 
+
+
                 priorityQueue.Push(new PQNode()
                 {
                     F = Vector3.Distance(TileMap[nextX, nextY].worldPosition, targetPoint.worldPosition),
@@ -322,12 +421,12 @@ public class BasementFloor : MonoBehaviour
         }
 
 
-        return (MoveList(pathTile, targetPoint));
+        return (MoveList(pathTile, targetPoint, out isFind));
     }
 
 
 
-    List<BasementTile> MoveList(Vector2Int[,] path, BasementTile destination)
+    List<BasementTile> MoveList(Vector2Int[,] path, BasementTile destination, out bool isFind)
     {
         List<BasementTile> moveList = new List<BasementTile>();
         moveList.Add(destination);
@@ -335,7 +434,7 @@ public class BasementFloor : MonoBehaviour
         int x = destination.index.x;
         int y = destination.index.y;
 
-        while (path[x, y].x != x || path[x, y].y != y)  //? 목적지부터 경로를 거슬러 올라가서 하나씩 추가
+        while (path[x, y].x != x || path[x, y].y != y)  //? 여기서 path[x,y]는 목적지를 거쳐온 경로임. 목적지에 도달할 경로가 없으면 스킵되는거
         {
             moveList.Add(TileMap[path[x, y].x, path[x, y].y]);
             Vector2Int pos = path[x, y];
@@ -344,15 +443,28 @@ public class BasementFloor : MonoBehaviour
         }
         moveList.Reverse();      //? 전체 경로를 추가했으면 시작부터 탐색해야하므로 반전시켜준다.
 
+        if (moveList.Count == 1)
+        {
+            isFind = false;
+            return moveList;
+        }
+
+        isFind = true;
         return moveList;
     }
 
 
+
+
+
+    #endregion Pathfinding
 }
 
 
 public class BasementTile
 {
+    public BasementFloor floor;
+
     public Vector2Int index;
     public Vector3 worldPosition;
     public Define.TileType tileType;
@@ -361,8 +473,9 @@ public class BasementTile
     bool isUnchangeable { get { return (unchangeable != null); } }
 
 
-    public BasementTile(Vector2Int _index, Vector3 _worldPosition, Define.TileType _type)
+    public BasementTile(Vector2Int _index, Vector3 _worldPosition, Define.TileType _type, BasementFloor _floor)
     {
+        floor = _floor;
         index = _index;
         worldPosition = _worldPosition;
         tileType = _type;
@@ -434,7 +547,7 @@ public class BasementTile
     }
 
 
-    public Define.PlaceEvent TryPlacement(IPlacementable _placementable)
+    public Define.PlaceEvent TryPlacement(IPlacementable _placementable, bool overlap = false)
     {
         switch (tileType)
         {
@@ -466,6 +579,22 @@ public class BasementTile
 
                     case Define.PlacementType.Monster:
                         return Define.PlaceEvent.Battle;
+
+                    case Define.PlacementType.NPC:
+                        if (overlap)
+                        {
+                            return Define.PlaceEvent.Overlap;
+                        }
+                        return Define.PlaceEvent.Avoid;
+                    //var npc = placementable as NPC;
+                    //if (npc.State == NPC.NPCState.Interaction)
+                    //{
+                    //    return Define.PlaceEvent.Avoid;
+                    //}
+                    //else
+                    //{
+                    //    return Define.PlaceEvent.Nothing;
+                    //}
 
                     default:
                         return Define.PlaceEvent.Nothing;

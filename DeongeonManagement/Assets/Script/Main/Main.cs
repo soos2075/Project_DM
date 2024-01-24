@@ -140,11 +140,15 @@ public class Main : MonoBehaviour
         guild = Util.FindChild<Transform>(gameObject, "Guild");
         dungeonEntrance = Util.FindChild<Transform>(gameObject, "Dungeon");
 
-        AddNPC("Adventurer");
-        AddNPC("Herbalist");
-        AddNPC("Miner");
+
     }
 
+
+    public void AddAndActive(string npcName)
+    {
+        AddNPC(npcName);
+        ActiveNPC();
+    }
 
     public void AddNPC(string npcName)
     {
@@ -194,6 +198,10 @@ public class Main : MonoBehaviour
             return a.transform.GetSiblingIndex().CompareTo(b.transform.GetSiblingIndex());
         });
 
+        for (int i = 0; i < Floor.Length; i++)
+        {
+            Floor[i].FloorIndex = i;
+        }
     }
 
 

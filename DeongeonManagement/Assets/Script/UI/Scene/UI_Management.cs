@@ -13,6 +13,9 @@ public class UI_Management : UI_Base
         Guild,
         Placement,
         TurnOver,
+
+        Test2,
+        Test3,
     }
 
     public enum Panels
@@ -34,6 +37,8 @@ public class UI_Management : UI_Base
         GetButton((int)ButtonEvent.Placement).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_DungeonPlacement>());
 
         GetButton((int)ButtonEvent.TurnOver).gameObject.AddUIEvent((data) => TurnOverEvent());
+        GetButton((int)ButtonEvent.Test2).gameObject.AddUIEvent((data) => Main.Instance.AddAndActive("Herbalist"));
+        GetButton((int)ButtonEvent.Test3).gameObject.AddUIEvent((data) => Main.Instance.AddAndActive("Miner"));
     }
 
     void Start()
@@ -50,8 +55,10 @@ public class UI_Management : UI_Base
 
     void TurnOverEvent()
     {
-        Main.Instance.ActiveNPC();
-        Main.Instance.ManagementOver();
+        //Main.Instance.ActiveNPC();
+        //Main.Instance.ManagementOver();
+
+        Main.Instance.AddAndActive("Adventurer");
     }
 
 

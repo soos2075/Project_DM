@@ -5,6 +5,12 @@ using UnityEngine;
 public class Miner : NPC
 {
     public override List<BasementTile> PriorityList { get; set; }
+    protected override Define.TileType[] AvoidTileType { get; set; }
+
+    void Init_AvoidType()
+    {
+        AvoidTileType = new Define.TileType[] { Define.TileType.NPC };
+    }
 
 
     protected override void Initialize_Status()
@@ -18,12 +24,14 @@ public class Miner : NPC
             mp: 10,
             speed: 1f,
             delay: 1f);
+
+        Init_AvoidType();
     }
     protected override void SetPriorityList()
     {
         if (PriorityList != null) PriorityList.Clear();
 
         PriorityList = GetFloorObjectsAll(Define.TileType.Facility);
-        PriorityList = GetPriorityPick(typeof(Mineral_High));
+        PriorityList = GetPriorityPick(typeof(Mineral_High), true);
     }
 }

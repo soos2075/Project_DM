@@ -28,6 +28,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
 
     #region PriorityList
+    protected abstract Define.TileType[] AvoidTileType { get; set; }
     public abstract List<BasementTile> PriorityList { get; set; }
     protected abstract void SetPriorityList();
 
@@ -35,11 +36,16 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     protected List<BasementTile> GetFloorObjectsAll(Define.TileType searchType = Define.TileType.Empty)
     {
         var newList = PlacementInfo.Place_Floor.GetFloorObjectList(searchType);
-        var refresh = AddDistinctList(newList);
-        return refresh;
+
+        if (PriorityList != null)
+        {
+            newList.AddRange(PriorityList);
+        }
+
+        return RefinementList(newList);
     }
 
-    protected List<BasementTile> GetPriorityPick(Type type, bool includeList = false)
+    protected List<BasementTile> GetPriorityPick(Type type, bool includeOrigin = false)
     {
         if (PriorityList == null)
         {
@@ -57,9 +63,26 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             }
         }
 
-        return includeList
-            ? AddDistinctList(newList)
-            : newList;
+        newList = Util.ListShuffle(newList);
+
+        if (includeOrigin)
+        {
+            newList.AddRange(PriorityList);
+        }
+
+        return RefinementList(newList);
+    }
+
+
+    List<BasementTile> RefinementList(List<BasementTile> _list) //? 출입구와 자기자신, 중복참조를 모두 제거하는 작업
+    {
+        var newList = _list.Distinct().ToList();
+
+        newList.Remove(PlacementInfo.Place_Tile);
+        newList.Remove(PlacementInfo.Place_Floor.Entrance.PlacementInfo.Place_Tile);
+        newList.Remove(PlacementInfo.Place_Floor.Exit.PlacementInfo.Place_Tile);
+
+        return newList;
     }
 
     protected void PriorityRemove(BasementTile item)
@@ -67,17 +90,6 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         if (PriorityList == null) return;
 
         PriorityList.Remove(item);
-    }
-
-    List<BasementTile> AddDistinctList(List<BasementTile> addList)
-    {
-        var newList = addList;
-        if (PriorityList != null)
-        {
-            newList.AddRange(PriorityList);
-        }
-        PriorityRemove(PlacementInfo.Place_Tile);
-        return newList.Distinct().ToList();
     }
 
     #endregion
@@ -88,6 +100,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
 
     #region Ground
+
+    bool inDungeon;
 
     public void Departure(Vector3 startPoint, Vector3 endPoint)
     {
@@ -109,11 +123,15 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             yield return null;
         }
 
+        inDungeon = true;
         FloorNext();
     }
 
+
+
     public void Arrival()
     {
+        inDungeon = false;
         transform.position = Main.Instance.dungeonEntrance.position;
         Managers.Placement.Visible(this);
         StartCoroutine(MoveToHome(Main.Instance.guild.position));
@@ -174,7 +192,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
 
 
-    enum NPCState
+    public enum NPCState
     {
         Next,
 
@@ -187,10 +205,12 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         Interaction,
         Battle,
+
+        Non,
     }
 
     NPCState _state;
-    NPCState State
+    public NPCState State
     {
         get { return _state; }
         set 
@@ -220,7 +240,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         Managers.Placement.PlacementConfirm(this, info_Entrance);
 
         FloorLevel++;
-        Debug.Log($"{name}(이)가 {FloorLevel}층에 도착");
+        //Debug.Log($"{name}(이)가 {FloorLevel}층에 도착");
 
         SetPriorityList(); //? 우선순위에 맞춰 맵탐색
 
@@ -287,6 +307,13 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
     NPCState StateRefresh()
     {
+        if (!inDungeon)
+        {
+            return NPCState.Non;
+        }
+
+        NPCState prevState = State;
+
         if (HP <= 0)
         {
             return NPCState.Die;
@@ -302,16 +329,29 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             return NPCState.Runaway;
         }
 
-        PriorityList.RemoveAll(r => r.tileType == Define.TileType.Empty);
+
+        PriorityList.RemoveAll(r => r.tileType == Define.TileType.Empty || r.tileType == Define.TileType.NPC);
 
         if (PriorityList.Count == 0)
         {
             return NPCState.Next;
         }
-
-        if (PriorityList[0].tileType == Define.TileType.Entrance || PriorityList[0].tileType == Define.TileType.Exit)
+        if (PriorityList[0].unchangeable == PlacementInfo.Place_Floor.Entrance.PlacementInfo.Place_Tile.unchangeable)
         {
             return NPCState.Next;
+        }
+        if (PriorityList[0].unchangeable == PlacementInfo.Place_Floor.Exit.PlacementInfo.Place_Tile.unchangeable)
+        {
+            return NPCState.Return;
+        }
+
+        if (prevState == NPCState.Return)
+        {
+            return NPCState.Return;
+        }
+        if (prevState == NPCState.Runaway)
+        {
+            return NPCState.Runaway;
         }
 
         return NPCState.Priority;
@@ -369,67 +409,128 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
     public void MoveToTargetTile(BasementTile target)
     {
-        List<BasementTile> path = PlacementInfo.Place_Floor.PathFinding(PlacementInfo.Place_Tile, target);
+        bool pathFind = false;
+        bool pathRefind = false;
+        List<BasementTile> path = PlacementInfo.Place_Floor.PathFinding(PlacementInfo.Place_Tile, target, AvoidTileType, out pathFind);
+
+        //Debug.Log($"우선순위 길찾기 결과 : {pathFind}");
+
+        if (!pathFind) //? 길을 못찾았으면 장애물없이 찾을 한번의 기회는 더 줌.
+        {
+            path = PlacementInfo.Place_Floor.PathFinding(PlacementInfo.Place_Tile, target, out pathRefind);
+            //Debug.Log($"일반 길찾기 결과 : {pathRefind}");
+        }
 
         if (Cor_Move != null)
         {
-            Debug.Log("중복코루틴 있었음");
+            //Debug.Log("중복코루틴 있었음");
             StopCoroutine(Cor_Move);
         }
-        Cor_Move = StartCoroutine(DungeonMoveToPath(path));
+
+        if (pathFind || pathRefind)
+        {
+            Cor_Move = StartCoroutine(DungeonMoveToPath(path, pathRefind));
+        }
+        else
+        {
+            Cor_Move = StartCoroutine(Wandering());
+        }
     }
 
 
-    IEnumerator DungeonMoveToPath(List<BasementTile> path)
+
+
+
+    IEnumerator DungeonMoveToPath(List<BasementTile> path, bool overlap = false)
     {
-        for (int i = 1; i <= path.Count; i++)
+        for (int i = 1; i < path.Count; i++)
         {
             yield return new WaitForSeconds(ActionDelay);
 
-            var encount = path[i].TryPlacement(this);
-
-            if (encount == Define.PlaceEvent.Entrance)
+            var encount = path[i].TryPlacement(this, overlap);
+            //Debug.Log($"{name} 좌표 : {PlacementInfo.Place_Floor.Floor} / {PlacementInfo.Place_Tile.index} / 상태 : {State} / \n" +
+            //    $"다음타일타입 : {path[i].tileType} /좌표 : {path[i].floor.Floor} / {path[i].index} / 이벤트타입 : {encount}\n" +
+            //    $"현재 리스트 수 :{PriorityList.Count} / 0번 타일 : {PriorityList[0]} / 입구 타일 {PlacementInfo.Place_Floor.Entrance}");
+            if (EncountOver(encount, path[i]))
             {
+                yield return new WaitForEndOfFrame();
+                break;
+            }
+            else
+            {
+                var next = new PlacementInfo(PlacementInfo.Place_Floor, path[i]);
+                Managers.Placement.PlacementMove(this, next);
+            }
+        }
+        yield return new WaitForEndOfFrame();
+        Cor_Move = null;
+        State = StateRefresh(); //? 모든 경로를 탐색했는데 이벤트가 발생을 안했다? 뭔가 이상이 있는것. 상태업데이트 필요
+    }
+
+    bool EncountOver(Define.PlaceEvent encount, BasementTile tile)
+    {
+        switch (encount)
+        {
+            case Define.PlaceEvent.Entrance:
                 if (State == NPCState.Next)
                 {
                     FloorNext();
-                    Cor_Move = null;
-                    break;
+                    return true;
                 }
-            }
-            else if (encount == Define.PlaceEvent.Exit)
-            {
+                if (State == NPCState.Priority)
+                {
+                    return false;
+                }
+                return false;
+
+            case Define.PlaceEvent.Exit:
                 if (State == NPCState.Return)
                 {
                     FloorPrevious();
-                    Cor_Move = null;
-                    break;
+                    return true;
                 }
                 else if (State == NPCState.Runaway)
                 {
                     FloorEscape();
-                    Cor_Move = null;
-                    break;
+                    return true;
                 }
-            }
-            else if (encount == Define.PlaceEvent.Interaction)
-            {
-                Cor_Encounter = StartCoroutine(Encounter_Facility(path[i]));
-                Cor_Move = null;
-                State = NPCState.Interaction;
+                if (State == NPCState.Priority)
+                {
+                    return false;
+                }
+                return false;
+
+            case Define.PlaceEvent.Avoid:
+                State = StateRefresh();
+                return true;
+
+            case Define.PlaceEvent.Overlap:
                 break;
-            }
-            else if (encount == Define.PlaceEvent.Battle)
-            {
-                Cor_Encounter = StartCoroutine(Encounter_Monster(path[i]));
-                Cor_Move = null;
+
+
+            case Define.PlaceEvent.Battle:
+                Cor_Encounter = StartCoroutine(Encounter_Monster(tile));
                 State = NPCState.Battle;
+                return true;
+
+            case Define.PlaceEvent.Interaction:
+                Cor_Encounter = StartCoroutine(Encounter_Facility(tile));
+                State = NPCState.Interaction;
+                return true;
+
+            case Define.PlaceEvent.Placement:
                 break;
-            }
-            var next = new PlacementInfo(PlacementInfo.Place_Floor, path[i]);
-            Managers.Placement.PlacementMove(this, next);
+
+            case Define.PlaceEvent.Nothing:
+                break;
+
+            default:
+                break;
         }
+
+        return false;
     }
+
 
     IEnumerator Encounter_Facility(BasementTile tile)
     {
@@ -455,5 +556,47 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         }
     }
 
+
+
+    IEnumerator Wandering()
+    {
+        yield return new WaitForSeconds(ActionDelay);
+
+        BasementTile newTile;
+        int dir = UnityEngine.Random.Range(0, 5);
+        switch (dir)
+        {
+            case 0:
+                newTile = PlacementInfo.Place_Floor.MoveUp(this, PlacementInfo.Place_Tile);
+                break;
+
+            case 1:
+                newTile = PlacementInfo.Place_Floor.MoveDown(this, PlacementInfo.Place_Tile);
+                break;
+
+            case 2:
+                newTile = PlacementInfo.Place_Floor.MoveLeft(this, PlacementInfo.Place_Tile);
+                break;
+
+            case 3:
+                newTile = PlacementInfo.Place_Floor.MoveRight(this, PlacementInfo.Place_Tile);
+                break;
+
+            default:
+                newTile = null;
+                break;
+        }
+
+        if (newTile != null)
+        {
+            var next = new PlacementInfo(PlacementInfo.Place_Floor, newTile);
+            Managers.Placement.PlacementMove(this, next);
+        }
+        yield return new WaitForEndOfFrame();
+        Cor_Move = null;
+        ActionPoint--;
+        //Debug.Log(ActionPoint);
+        State = StateRefresh();
+    }
 
 }

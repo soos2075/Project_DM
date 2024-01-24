@@ -59,7 +59,7 @@ public class PlacementManager
         Visible(obj);
 
         obj.PlacementInfo.Place_Floor.AddObject(obj);
-        Debug.Log($"{obj.GetObject().name} 가 {newPlace.Place_Floor.Name_KR} - {newPlace.Place_Tile.index} 에 배치");
+        //Debug.Log($"{obj.GetObject().name} 가 {newPlace.Place_Floor.Name_KR} - {newPlace.Place_Tile.index} 에 배치");
     }
 
     public void PlacementClear(IPlacementable obj)
@@ -69,7 +69,7 @@ public class PlacementManager
             return;
         }
 
-        Debug.Log($"{obj.GetObject().name} 가 {obj.PlacementInfo.Place_Floor.Name_KR} - {obj.PlacementInfo.Place_Tile.index} 에서 해제");
+        //Debug.Log($"{obj.GetObject().name} 가 {obj.PlacementInfo.Place_Floor.Name_KR} - {obj.PlacementInfo.Place_Tile.index} 에서 해제");
 
         obj.PlacementInfo.Place_Floor.RemoveObject(obj);
 

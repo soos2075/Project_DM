@@ -5,41 +5,43 @@ using UnityEngine;
 public class Mineral_High : Facility
 {
     public override FacilityType Type { get; set; }
-    public override int InteractionOfTimes
-    {
-        get { return times; }
-        set { times = value; TimesCheck(); }
-    }
+    public override int InteractionOfTimes { get; set; }
 
-    private int times;
 
     public override void FacilityInit()
     {
         Type = FacilityType.Mineral;
-        InteractionOfTimes = 3;
+        InteractionOfTimes = 5;
     }
 
     public override Coroutine NPC_Interaction(NPC npc)
     {
-        Cor_Facility = StartCoroutine(FacilityEvent(npc));
-
-        return Cor_Facility;
+        if (InteractionOfTimes > 0)
+        {
+            InteractionOfTimes--;
+            Cor_Facility = StartCoroutine(FacilityEvent(npc));
+            return Cor_Facility;
+        }
+        else
+        {
+            Debug.Log($"{name}의 이벤트 횟수없음");
+            return null;
+        }
     }
 
 
     Coroutine Cor_Facility;
     IEnumerator FacilityEvent(NPC npc)
     {
-        Debug.Log("광물 채집 이벤트 진행");
+        Debug.Log($"{name} 이벤트 진행");
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1);
 
-        Debug.Log("광물 채집 이벤트 종료");
+        Debug.Log($"{npc.name} 의 AP : {npc.ActionPoint} - 1, {name} 의 횟수 : {InteractionOfTimes}");
 
-        Debug.Log($"{npc.name} 의 AP : {npc.ActionPoint} - 1, {name} 의 횟수 : {InteractionOfTimes} - 1");
         npc.ActionPoint--;
-        InteractionOfTimes--;
 
+        TimesCheck();
         Cor_Facility = null;
     }
 

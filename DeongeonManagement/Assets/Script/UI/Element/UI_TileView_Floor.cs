@@ -46,26 +46,35 @@ public class UI_TileView_Floor : UI_Base
             return;
         }
 
-        if (CurrentTile == null && view != null)
+        if (CurrentTile == null)
         {
-            Managers.UI.ClosePopUp(view);
-            view = null;
+            if (view)
+            {
+                Managers.UI.ClosePopUp(view);
+                view = null;
+            }
+            return;
+        }
+
+        if (CurrentTile.placementable == null)
+        {
+            if (view)
+            {
+                Managers.UI.ClosePopUp(view);
+                view = null;
+            }
             return;
         }
 
 
-        if (CurrentTile != null && view == null)
+        if (view == null)
         {
             view = Managers.UI.ShowPopUpAlone<UI_TileView>();
         }
 
-
-        if (CurrentTile != null)
-        {
-            var pos = Camera.main.ScreenToWorldPoint(data.position);
-            view.transform.localPosition = new Vector3(pos.x, pos.y, 0);
-            view.ViewContents(CurrentTile.placementable.GetObject().name, $"{CurrentTile.placementable } 자세한 설명은 생략한다.");
-        }
+        var pos = Camera.main.ScreenToWorldPoint(data.position);
+        view.transform.localPosition = new Vector3(pos.x, pos.y, 0);
+        view.ViewContents(CurrentTile.placementable.GetObject().name, $"{CurrentTile.placementable } 자세한 설명은 생략한다.");
     }
 
 
