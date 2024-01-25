@@ -25,6 +25,7 @@ public abstract class Facility : MonoBehaviour, IPlacementable
     {
         return this.gameObject;
     }
+    public string Name_KR { get { return Name; } }
     #endregion
 
 
@@ -40,11 +41,35 @@ public abstract class Facility : MonoBehaviour, IPlacementable
     }
     public abstract FacilityType Type { get; set; }
     public abstract int InteractionOfTimes { get; set; }
-
+    public abstract string Name { get; set; }
 
     public abstract void FacilityInit();
 
     public abstract Coroutine NPC_Interaction(NPC npc);
+
+
+    protected Coroutine Cor_Facility;
+
+    protected IEnumerator FacilityEvent(NPC npc, float time, int ap, int mp, string text)
+    {
+        UI_EventBox.AddEventText($"●{npc.Name_KR} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 {text}");
+
+        yield return new WaitForSeconds(time);
+
+        npc.ActionPoint -= ap;
+        npc.Mana -= mp;
+        Cor_Facility = null;
+        ClearCheck();
+    }
+
+    protected void ClearCheck()
+    {
+        if (InteractionOfTimes <= 0)
+        {
+            //UI_EventBox.AddEventText($"{Name} (이)가 사라짐");
+            Managers.Placement.PlacementClear(this);
+        }
+    }
 
 
 }

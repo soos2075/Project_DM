@@ -14,7 +14,14 @@ public class Goblin : Monster
 
     protected override void Initialize_Status()
     {
-        SetStatus("Goblin", 1, 15, 5, 3);
+        SetStatus(
+            name: "½ºÄÌ·¹Åæ",
+            lv: 1,
+            hp: 25,
+            atk: 5,
+            def: 3,
+            agi: 3,
+            luk: 3);
     }
 
 

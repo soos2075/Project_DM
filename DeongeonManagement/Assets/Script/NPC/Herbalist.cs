@@ -14,15 +14,21 @@ public class Herbalist : NPC
 
     protected override void Initialize_Status()
     {
+        int index = Random.Range(0, 100);
+        Name_Index = index;
+
         SetStatus("æ‡√ ≤€",
             lv: 1,
             atk: 3,
             def: 3,
-            hp: 15,
-            ap: 2,
-            mp: 10,
+            agi: 3,
+            luk: 10,
+            hp: 10,
+            ap: 3,
+            mp: 50,
             speed: 1.5f,
-            delay: 0.8f);
+            delay: 1.0f);
+
 
         Init_AvoidType();
     }

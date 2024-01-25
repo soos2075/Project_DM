@@ -12,7 +12,7 @@ public class UI_TileView : UI_PopUp, IWorldSpaceUI
     }
     void Start()
     {
-
+        
     }
 
     public void SetCanvasWorldSpace()

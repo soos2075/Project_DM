@@ -6,55 +6,33 @@ public class Herb_Low : Facility
 {
 
     public override FacilityType Type { get; set; }
-    public override int InteractionOfTimes 
-    {
-        get { return times; }
-        set { times = value; TimesCheck(); }
-    }
-
-    private int times;
+    public override int InteractionOfTimes { get; set; }
+    public override string Name { get; set; }
 
     public override void FacilityInit()
     {
         Type = FacilityType.Herb;
         InteractionOfTimes = 1;
+        Name = "하급 약초";
     }
+
 
     public override Coroutine NPC_Interaction(NPC npc)
     {
-        Cor_Facility = StartCoroutine(FacilityEvent(npc));
-
-        return Cor_Facility;
-    }
-
-
-    Coroutine Cor_Facility;
-
-    IEnumerator FacilityEvent(NPC npc)
-    {
-        Debug.Log("약초 채집 이벤트 진행");
-
-        yield return new WaitForSeconds(3);
-
-        Debug.Log("약초 채집 이벤트 종료");
-
-        Debug.Log($"{npc.name} 의 AP : {npc.ActionPoint} - 1, {name} 의 횟수 : {InteractionOfTimes} - 1");
-        npc.ActionPoint--;
-        InteractionOfTimes--;
-
-        Cor_Facility = null;
-    }
-
-
-
-
-    void TimesCheck()
-    {
-        if (InteractionOfTimes <= 0)
+        if (InteractionOfTimes > 0)
         {
-            Managers.Placement.PlacementClear(this);
+            InteractionOfTimes--;
+            Cor_Facility = StartCoroutine(FacilityEvent(npc, 3, 1, 5, "약초 채집중..."));
+            return Cor_Facility;
+        }
+        else
+        {
+            Debug.Log($"{Name}의 이벤트 횟수없음");
+            return null;
         }
     }
+
+
 
 
 

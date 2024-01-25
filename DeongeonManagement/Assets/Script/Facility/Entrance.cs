@@ -6,32 +6,18 @@ public class Entrance : Facility
 {
     public override FacilityType Type { get; set; }
     public override int InteractionOfTimes { get; set; }
+    public override string Name { get; set; }
 
     public override void FacilityInit()
     {
         InteractionOfTimes = 100;
-        Type = FacilityType.Entrance;
+        Type = FacilityType.Exit;
+        Name = "하행통로";
     }
 
     public override Coroutine NPC_Interaction(NPC npc)
     {
-        Cor_Facility = StartCoroutine(FacilityEvent(npc));
-
-        return Cor_Facility;
-    }
-
-
-    Coroutine Cor_Facility;
-
-    IEnumerator FacilityEvent(NPC npc)
-    {
-        Debug.Log("계층이동중");
-
-        yield return new WaitForSeconds(1);
-
-        Debug.Log($"{npc.name} 의 AP : {npc.ActionPoint} - 1, {name} 의 횟수 : {InteractionOfTimes} - 1");
-        npc.ActionPoint--;
-
-        Cor_Facility = null;
+        Debug.Log($"잘못된 이벤트 - {Name}");
+        return null;
     }
 }

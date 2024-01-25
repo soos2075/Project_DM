@@ -67,6 +67,15 @@ public class Define
     }
 
 
+    #region Animation
+    public static readonly int ANIM_attack = Animator.StringToHash("attack");
+    public static readonly int ANIM_idle = Animator.StringToHash("idle");
+    public static readonly int ANIM_dead = Animator.StringToHash("dead");
+
+    #endregion
+
+
+
     #region Image_Color
     public static readonly Color Color_Green = new Color32(100, 255, 100, 175);
     public static readonly Color Color_Blue = new Color32(100, 100, 255, 175);

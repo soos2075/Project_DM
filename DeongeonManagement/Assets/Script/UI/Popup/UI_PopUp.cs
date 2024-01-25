@@ -37,10 +37,22 @@ public class UI_PopUp : UI_Base
 
     public void AddRightClickCloseEvent()
     {
-        Util.FindChild(gameObject, "Panel").AddUIEvent((data) => Managers.UI.ClosePopUp(), Define.UIEvent.RightClick);
+        var obj = Util.FindChild(gameObject, "Panel");
+        if (obj)
+        {
+            obj.AddUIEvent((data) => Managers.UI.ClosePopUp(), Define.UIEvent.RightClick);
+            Debug.Log($"{name} : 우클릭 창닫기 이벤트 추가됨");
+        }
+
+        
     }
     public void AddRightClickCloseAllEvent()
     {
-        Util.FindChild(gameObject, "Panel").AddUIEvent((data) => Managers.UI.CloseAll(), Define.UIEvent.RightClick);
+        var obj = Util.FindChild(gameObject, "Panel");
+        if (obj)
+        {
+            obj.AddUIEvent((data) => Managers.UI.CloseAll(), Define.UIEvent.RightClick);
+            Debug.Log($"{name}우클릭 전체닫기 이벤트 추가됨");
+        }
     }
 }

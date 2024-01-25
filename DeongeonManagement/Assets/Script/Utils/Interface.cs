@@ -19,8 +19,10 @@ public interface IWorldSpaceUI
 public interface IPlacementable
 {
     Define.PlacementType PlacementType { get; set; }
+    string Name_KR { get; }
 
     PlacementInfo PlacementInfo { get; set; }
 
     GameObject GetObject();
+
 }

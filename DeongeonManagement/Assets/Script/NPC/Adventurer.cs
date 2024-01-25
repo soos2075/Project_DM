@@ -14,15 +14,20 @@ public class Adventurer : NPC
 
     protected override void Initialize_Status()
     {
+        int index = Random.Range(0, 100);
+        Name_Index = index;
+
         SetStatus("¸ðÇè°¡",
             lv: 1,
-            atk: 5,
-            def: 5,
+            atk: 8,
+            def: 6,
+            agi: 5,
+            luk: 5,
             hp: 20,
-            ap: 20,
-            mp: 20,
+            ap: 10,
+            mp: 100,
             speed: 2f,
-            delay: 0.5f);
+            delay: 0.8f);
 
         Init_AvoidType();
     }

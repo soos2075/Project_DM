@@ -15,7 +15,15 @@ public class Slime : Monster
 
     protected override void Initialize_Status()
     {
-        SetStatus("Slime", 1, 10, 3, 1);
+        SetStatus(
+            name: "ΩΩ∂Û¿”", 
+            lv: 1,
+            hp: 15,
+            atk: 2,
+            def: 4,
+            agi: 2,
+            luk: 3
+            );
     }
 
 
@@ -31,6 +39,7 @@ public class Slime : Monster
         {
             yield return new WaitForSeconds(Random.Range(0.5f, 1.0f));
             MoveAround();
+
         }
     }
 

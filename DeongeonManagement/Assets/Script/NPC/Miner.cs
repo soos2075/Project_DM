@@ -15,15 +15,20 @@ public class Miner : NPC
 
     protected override void Initialize_Status()
     {
+        int index = Random.Range(0, 100);
+        Name_Index = index;
+
         SetStatus("±¤ºÎ",
             lv: 1,
-            atk: 6,
-            def: 1,
+            atk: 5,
+            def: 4,
+            agi: 2,
+            luk: 7,
             hp: 15,
-            ap: 7,
-            mp: 10,
-            speed: 1f,
-            delay: 1f);
+            ap: 5,
+            mp: 50,
+            speed: 1.2f,
+            delay: 1.2f);
 
         Init_AvoidType();
     }
@@ -32,6 +37,7 @@ public class Miner : NPC
         if (PriorityList != null) PriorityList.Clear();
 
         PriorityList = GetFloorObjectsAll(Define.TileType.Facility);
-        PriorityList = GetPriorityPick(typeof(Mineral_High), true);
+        PriorityList = GetPriorityPick(typeof(Mineral_High), false);
+        PriorityList = GetPriorityPick(typeof(Mineral_Low), true);
     }
 }

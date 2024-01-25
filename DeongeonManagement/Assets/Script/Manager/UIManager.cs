@@ -187,7 +187,7 @@ public class UIManager
         }
         PauseClose();
 
-        SceneUIRefresh();
+        //SceneUIRefresh();
     }
 
 

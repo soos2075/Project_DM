@@ -30,7 +30,9 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     {
         return this.gameObject;
     }
-
+    public string Name_KR { get { return $"{name_Tag_Start}{Name}{name_Tag_End}"; } }
+    private string name_Tag_Start = "<color=#44ff44ff>";
+    private string name_Tag_End = "</color>";
     #endregion
 
 
@@ -69,6 +71,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
     public int ATK { get; set; }
     public int DEF { get; set; }
+    public int AGI { get; set; }
+    public int LUK { get; set; }
 
     private readonly float hp_origin = 1.2f;
     private float hp_chance;
@@ -92,9 +96,14 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     protected abstract void MonsterInit();
     protected abstract void Initialize_Status();
 
-    protected void SetStatus(string name, int lv, int hp, int atk, int def)
+    protected void SetStatus(string name, int lv, int hp, int atk, int def, int agi, int luk)
     {
-        Name = name; LV = lv; HP = hp; ATK = atk; DEF = def;
+        Name = name; LV = lv;
+
+        HP = hp;
+
+        ATK = atk; DEF = def;
+        AGI = agi; LUK = luk;
     }
 
     #endregion
@@ -106,12 +115,66 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
     public virtual Coroutine Battle(NPC npc)
     {
-        Cor_Battle = StartCoroutine(SetBattleConfigure(npc));
-        return Cor_Battle;
+        if (this.HP > 0)
+        {
+            Cor_Battle = StartCoroutine(BattleWait(npc));
+            return Cor_Battle;
+        }
+        else
+        {
+            Debug.Log($"{Name} 가 배틀 불가능");
+            return null;
+        }
     }
+
+    IEnumerator BattleWait(NPC npc)
+    {
+        UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 전투발생 : " +
+            $"{npc.Name_KR} vs " +
+            $"{Name_KR}");
+
+        var bf = Managers.Resource.Instantiate("Battle/BattleField").GetComponent<BattleField>();
+        bf.transform.position = transform.position;
+        var result = bf.Battle(npc, this);
+
+
+        yield return bf.BattlePlay();
+        Managers.Resource.Destroy(bf.gameObject);
+
+        switch (result)
+        {
+            case BattleField.BattleResult.Nothing:
+                UI_EventBox.AddEventText($"★{Name_KR} vs {npc.Name_KR} 의 전투가 종료되었습니다.");
+                break;
+
+            case BattleField.BattleResult.Monster_Die:
+                UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 {Name_KR} (이)가 전투에서 패배했습니다..");
+                MonsterOutFloor();
+                break;
+
+            case BattleField.BattleResult.NPC_Die:
+                UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 {Name_KR} (이)가 {npc.Name_KR} {npc.Name_Index} 에게 승리하였습니다!");
+                break;
+        }
+
+    }
+
+    public void MonsterOutFloor()
+    {
+        PlacementInfo.Place_Floor.MaxMonsterSize++;
+        State = HP <= 0 ? MonsterState.Injury : MonsterState.Standby;
+        Managers.Placement.PlacementClear(this);
+    }
+
+
+
+
 
     protected IEnumerator SetBattleConfigure(NPC npc)
     {
+        UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 전투발생 : " +
+            $"{npc.Name_KR} vs " +
+            $"{Name_KR}");
         while (true)
         {
             yield return new WaitForSeconds(1f);
@@ -119,6 +182,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
             if (this.HP <= 0)
             {
+                UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 {Name_KR} (이)가 전투에서 패배했습니다..");
                 Debug.Log("몬스터 패배");
                 MonsterOutFloor();
                 break;
@@ -126,6 +190,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
             if (npc.HP <= 0)
             {
+                UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 {Name_KR} (이)가 {npc.Name_KR} {npc.Name_Index} 에게 승리하였습니다!");
                 Debug.Log("NPC 패배");
                 break;
             }
@@ -137,19 +202,13 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         monster.HP -= Mathf.Clamp((npc.ATK - monster.DEF), 1, monster.HP);
 
         npc.HP -= Mathf.Clamp((monster.ATK - npc.DEF), 1, npc.HP);
-        Debug.Log($"배틀 상세 : {monster.name}의 남은 체력 : {monster.HP} / {npc.name}의 남은 체력 : {npc.HP}");
+        //Debug.Log($"배틀 상세 : {monster.name}의 남은 체력 : {monster.HP} / {npc.name}의 남은 체력 : {npc.HP}");
     }
 
 
 
 
 
-    public void MonsterOutFloor()
-    {
-        PlacementInfo.Place_Floor.MaxMonsterSize++;
-        State = HP <= 0 ? MonsterState.Injury : MonsterState.Standby;
-        Managers.Placement.PlacementClear(this);
-    }
 
 
 

@@ -22,6 +22,9 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     {
         return this.gameObject;
     }
+    public string Name_KR { get { return $"{name_Tag_Start}{Name}_{Name_Index}{name_Tag_End}"; } }
+    string name_Tag_Start = "<color=#ff4444ff>";
+    string name_Tag_End = "</color>";
     #endregion
 
 
@@ -49,7 +52,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     {
         if (PriorityList == null)
         {
-            PriorityList = PlacementInfo.Place_Floor.GetFloorObjectList();
+            PriorityList = GetFloorObjectsAll();
         }
 
         List<BasementTile> oldList = PriorityList;
@@ -123,6 +126,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             yield return null;
         }
 
+        UI_EventBox.AddEventText($"◆{Name_KR} (이)가 던전에 입장");
         inDungeon = true;
         FloorNext();
     }
@@ -157,11 +161,13 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
 
     #region Npc Status Property
-
+    public int Name_Index { get; set; }
     public string Name { get; set; }
     public int LV { get; set; }
     public int ATK { get; set; }
     public int DEF { get; set; }
+    public int AGI { get; set; }
+    public int LUK { get; set; }
 
 
 
@@ -178,11 +184,15 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
     protected abstract void Initialize_Status();
 
-    protected void SetStatus(string name, int lv, int atk, int def, int hp, int ap, int mp, float speed, float delay)
+    protected void SetStatus(string name, int lv, int atk, int def, int agi, int luk, int hp, int ap, int mp, float speed, float delay)
     {
-        Name = name; LV = lv;  ATK = atk; DEF = def;
-        HP = hp; ActionPoint = ap; Mana = mp;
+        Name = name; LV = lv;  
+        
+        ATK = atk; DEF = def;
+        AGI = agi; LUK = luk;
 
+        HP = hp; ActionPoint = ap; Mana = mp;
+        
         Speed_Ground = speed; ActionDelay = delay;
 
         _HP_Origin = hp;
@@ -274,7 +284,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
     void FloorEscape() //? 긴급탈출 - 바로 지상으로 감
     {
-        Debug.Log($"{name}(이)가 지상으로 탈출");
+        UI_EventBox.AddEventText($"◆{Name_KR} (이)가 지상으로 탈출");
+        //Debug.Log($"{name}(이)가 지상으로 탈출");
         Arrival();
     }
 
@@ -423,12 +434,13 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         if (Cor_Move != null)
         {
-            //Debug.Log("중복코루틴 있었음");
+            //Debug.Log("중복코루틴 멈춤");
             StopCoroutine(Cor_Move);
         }
 
         if (pathFind || pathRefind)
         {
+            //Debug.Log("코루틴 시작");
             Cor_Move = StartCoroutine(DungeonMoveToPath(path, pathRefind));
         }
         else
@@ -454,6 +466,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             if (EncountOver(encount, path[i]))
             {
                 yield return new WaitForEndOfFrame();
+                //Debug.Log("이거 읽으면 안됌");
                 break;
             }
             else
@@ -509,11 +522,15 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
 
             case Define.PlaceEvent.Battle:
+                StopCoroutine(Cor_Move);
+                Cor_Move = null;
                 Cor_Encounter = StartCoroutine(Encounter_Monster(tile));
                 State = NPCState.Battle;
                 return true;
 
             case Define.PlaceEvent.Interaction:
+                StopCoroutine(Cor_Move);
+                Cor_Move = null;
                 Cor_Encounter = StartCoroutine(Encounter_Facility(tile));
                 State = NPCState.Interaction;
                 return true;
@@ -539,19 +556,21 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         if (type)
         {
             yield return type.NPC_Interaction(this);
+            yield return new WaitForEndOfFrame();
             State = StateRefresh();
         }
     }
 
     IEnumerator Encounter_Monster(BasementTile tile)
     {
-        var type = tile.placementable as Monster;
+        var monster = tile.placementable as Monster;
 
-        if (type)
+        if (monster)
         {
-            Debug.Log("배틀 시작");
-            yield return type.Battle(this);
-            Debug.Log("배틀 종료");
+            //Debug.Log("배틀 시작");
+            yield return monster.Battle(this);
+            //Debug.Log("배틀 종료");
+            yield return new WaitForEndOfFrame();
             State = StateRefresh();
         }
     }

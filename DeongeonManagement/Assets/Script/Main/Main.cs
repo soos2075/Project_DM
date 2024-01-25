@@ -139,8 +139,6 @@ public class Main : MonoBehaviour
 
         guild = Util.FindChild<Transform>(gameObject, "Guild");
         dungeonEntrance = Util.FindChild<Transform>(gameObject, "Dungeon");
-
-
     }
 
 
@@ -162,7 +160,9 @@ public class Main : MonoBehaviour
     {
         if (NPCs.Count > 0)
         {
-            NPCs.Dequeue().Departure(guild.position, dungeonEntrance.position);
+            var n = NPCs.Dequeue();
+            n.Departure(guild.position, dungeonEntrance.position);
+            //UI_EventBox.AddEventText($"{n.Name} {n.Name_Index} (이)가 길드에서 출발");
         }
     }
 

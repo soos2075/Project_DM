@@ -14,6 +14,7 @@ public class Managers : MonoBehaviour
     UIManager _ui = new UIManager();
 
     PlacementManager _placement = new PlacementManager();
+    SpriteManager _sprite = new SpriteManager();
 
 
     public static ResourceManager Resource { get { return Instance._resource; } }
@@ -21,6 +22,7 @@ public class Managers : MonoBehaviour
     public static UIManager UI { get { return Instance._ui; } }
 
     public static PlacementManager Placement { get { return Instance._placement; } }
+    public static SpriteManager Sprite { get { return Instance._sprite; } }
 
 
 
@@ -39,16 +41,23 @@ public class Managers : MonoBehaviour
         }
     }
 
-    void Start()
+
+    void Awake()
     {
         Init();
         _placement.Init();
+        _sprite.Init();
     }
 
-    void Update()
+    void Start()
     {
 
     }
+
+    //void Update()
+    //{
+
+    //}
 
 
 

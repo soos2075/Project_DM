@@ -46,6 +46,7 @@ public class UI_Management : UI_Base
         Init();
 
         Managers.UI.ShowSceneUI<UI_ScenePlacement>("UI_ScenePlacement");
+        Managers.UI.ShowSceneUI<UI_EventBox>("UI_EventBox");
     }
 
     void Update()
