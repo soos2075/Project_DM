@@ -6,18 +6,7 @@ using UnityEngine.UI;
 
 public class UI_Floor : UI_Base
 {
-    enum Contents
-    {
-        Floor,
-    }
-    public int FloorID { get; set; }
 
-
-    public override void Init()
-    {
-        Bind<GameObject>(typeof(Contents));
-        GetObject((int)Contents.Floor).AddUIEvent((data) => OpenPlacementType(data));
-    }
 
     private void Awake()
     {
@@ -27,6 +16,31 @@ public class UI_Floor : UI_Base
     {
         Init();
     }
+
+
+    enum Contents
+    {
+        Floor,
+    }
+    public int FloorID { get; set; }
+
+
+
+    public override void Init()
+    {
+        Bind<GameObject>(typeof(Contents));
+        GetObject((int)Contents.Floor).AddUIEvent((data) => OpenPlacementType(data));
+
+        Main.Instance.Floor[FloorID].UI_Floor = this;
+    }
+
+
+    public enum BuildMode
+    {
+        Build,
+        Clear,
+    }
+    public BuildMode Mode { get; set; }
 
 
     public void SetFloorSize(Vector3 pos, Vector2 sizeXY)

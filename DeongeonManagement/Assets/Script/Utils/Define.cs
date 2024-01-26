@@ -34,6 +34,8 @@ public class Define
         RightClick,
         Drag,
         Move,
+        Enter,
+        Exit,
     }
 
 
@@ -81,6 +83,9 @@ public class Define
     public static readonly Color Color_Blue = new Color32(100, 100, 255, 175);
     public static readonly Color Color_Red = new Color32(255, 100, 100, 175);
     public static readonly Color Color_White = new Color32(255, 255, 255, 175);
+    public static readonly Color Color_Gray = new Color32(155, 155, 155, 255);
+
+    public static readonly Color Color_Yellow = new Color32(255, 255, 100, 175);
     #endregion Image_Color
 
 
@@ -118,6 +123,14 @@ public class Define
         new Vector2Int(0, 0), new Vector2Int(1, 0), new Vector2Int(-1, 0),
         new Vector2Int(0, 1), new Vector2Int(1, 1), new Vector2Int(-1, 1),
         new Vector2Int(0, -1), new Vector2Int(1, -1), new Vector2Int(-1, -1)};
+
+
+    public static readonly Vector2Int[] Boundary_5x5 = {
+        new Vector2Int(0, 0), new Vector2Int(1, 0), new Vector2Int(-1, 0), new Vector2Int(2, 0), new Vector2Int(-2, 0),
+        new Vector2Int(0, 1), new Vector2Int(1, 1), new Vector2Int(-1, 1), new Vector2Int(2, 1), new Vector2Int(-2, 1),
+        new Vector2Int(0, -1), new Vector2Int(1, -1), new Vector2Int(-1, -1), new Vector2Int(2, -1), new Vector2Int(-2, -1),
+        new Vector2Int(0, -2), new Vector2Int(1, -2), new Vector2Int(-1, -2), new Vector2Int(2, -2), new Vector2Int(-2, -2),
+        new Vector2Int(0, 2), new Vector2Int(1, 2), new Vector2Int(-1, 2), new Vector2Int(2, 2), new Vector2Int(-2, 2)    };
 
 
 

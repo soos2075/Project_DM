@@ -19,27 +19,15 @@ public class UIManager
 
     int _sortOrder = 10;
 
-    public void SetCanvas(GameObject go, bool sort = true)
+    public void SetCanvas(GameObject go, RenderMode renderMode = RenderMode.ScreenSpaceOverlay, bool sort = true)
     {
         Canvas canvas = Util.GetOrAddComponent<Canvas>(go);
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvas.overrideSorting = true;
+        canvas.renderMode = renderMode;
+        if (renderMode != RenderMode.ScreenSpaceOverlay)
+        {
+            canvas.worldCamera = Camera.main;
+        }
 
-        if (sort)
-        {
-            canvas.sortingOrder = _sortOrder;
-            _sortOrder++;
-        }
-        else
-        {
-            canvas.sortingOrder = 0;
-        }
-    }
-    public void SetCanvasWorld(GameObject go, bool sort = true)
-    {
-        Canvas canvas = Util.GetOrAddComponent<Canvas>(go);
-        canvas.renderMode = RenderMode.WorldSpace;
-        canvas.worldCamera = Camera.main;
         canvas.overrideSorting = true;
 
         if (sort)
@@ -105,7 +93,7 @@ public class UIManager
         var uiComponent = ShowPopUp<T>(name);
         if (setCanvasOrder)
         {
-            SetCanvas(uiComponent.gameObject, true);
+            SetCanvas(uiComponent.gameObject);
         }
         return uiComponent;
     }
@@ -191,6 +179,19 @@ public class UIManager
     }
 
 
+    public void PausePopUp()
+    {
+        if (_popupStack.Count == 0)
+        {
+            return;
+        }
+
+        _paused = _popupStack.Pop();
+        for (int i = 0; i < _paused.transform.childCount; i++)
+        {
+            _paused.transform.GetChild(i).gameObject.SetActive(false);
+        }
+    }
     public void PausePopUp(UI_PopUp popup)
     {
         if (_popupStack.Count == 0)

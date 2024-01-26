@@ -134,12 +134,13 @@ public abstract class Monster : MonoBehaviour, IPlacementable
             $"{Name_KR}");
 
         var bf = Managers.Resource.Instantiate("Battle/BattleField").GetComponent<BattleField>();
-        bf.transform.position = transform.position;
+        bf.transform.position = npc.transform.position + new Vector3(Random.value, Random.value, 0);
         var result = bf.Battle(npc, this);
 
-
+        Time.timeScale = 0;
         yield return bf.BattlePlay();
         Managers.Resource.Destroy(bf.gameObject);
+        Time.timeScale = 1;
 
         switch (result)
         {

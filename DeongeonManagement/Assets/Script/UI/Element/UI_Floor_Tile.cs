@@ -52,6 +52,7 @@ public class UI_Floor_Tile : UI_Base
         parent.TileUpdate();
 
         bool allClean = true;
+        bool allEmpty = false;
 
         foreach (var item in boundary)
         {
@@ -69,23 +70,68 @@ public class UI_Floor_Tile : UI_Base
                 break;
             }
 
-            allClean &= TileCheck(Main.Instance.CurrentFloor.TileMap[deltaX, deltaY]);
+            switch (parent.Mode)
+            {
+                case UI_Floor.BuildMode.Build:
+                    allClean &= TileCheck(Main.Instance.CurrentFloor.TileMap[deltaX, deltaY], Define.TileType.Empty);
+                    break;
+                case UI_Floor.BuildMode.Clear:
+                    //allClean &= TileCheck_Clear(Main.Instance.CurrentFloor.TileMap[deltaX, deltaY]);
+                    allEmpty |= TileCheck(Main.Instance.CurrentFloor.TileMap[deltaX, deltaY], 
+                        Define.TileType.Facility, Define.TileType.Entrance, Define.TileType.Exit);
+                    break;
+            }
         }
 
         if (allClean)
         {
             //? 실제 타일 변경 And 시설컨펌 준비
-            foreach (var item in boundary)
+            switch (parent.Mode)
             {
-                int _deltaX = Tile.index.x + item.x;
-                int _deltaY = Tile.index.y + item.y;
+                case UI_Floor.BuildMode.Build:
+                    foreach (var item in boundary)
+                    {
+                        int _deltaX = Tile.index.x + item.x;
+                        int _deltaY = Tile.index.y + item.y;
 
-                var content = parent.TileList[_deltaX, _deltaY];
+                        var content = parent.TileList[_deltaX, _deltaY];
 
-                content.GetComponent<Image>().color = Define.Color_Green;
+                        content.GetComponent<Image>().color = Define.Color_Green;
+                    }
+
+                    Main.Instance.CurrentTile = Tile;
+                    return;
+
+                case UI_Floor.BuildMode.Clear:
+                    foreach (var item in boundary)
+                    {
+                        int _deltaX = Tile.index.x + item.x;
+                        int _deltaY = Tile.index.y + item.y;
+
+                        var content = parent.TileList[_deltaX, _deltaY];
+
+                        if (TileCheck(Main.Instance.CurrentFloor.TileMap[_deltaX, _deltaY],
+                            Define.TileType.Facility, Define.TileType.Entrance, Define.TileType.Exit))
+                        {
+                            content.GetComponent<Image>().color = Define.Color_Green;
+                        }
+                        else
+                        {
+                            content.GetComponent<Image>().color = Define.Color_Yellow;
+                        }
+                    }
+                    if (allEmpty)
+                    {
+                        Main.Instance.CurrentTile = Tile;
+                        return;
+                    }
+                    else
+                    {
+                        Main.Instance.CurrentTile = null;
+                        return;
+                    }
             }
 
-            Main.Instance.CurrentTile = Tile;
         }
         else
         {
@@ -94,9 +140,9 @@ public class UI_Floor_Tile : UI_Base
     }
 
 
-    bool TileCheck(BasementTile tile)
+    bool TileCheck(BasementTile tile, Define.TileType type)
     {
-        if (tile.tileType == Define.TileType.Empty)
+        if (tile.tileType == type)
         {
             return true;
         }
@@ -105,6 +151,16 @@ public class UI_Floor_Tile : UI_Base
             return false;
         }
     }
-
+    bool TileCheck(BasementTile tile, Define.TileType type, Define.TileType type2, Define.TileType type3)
+    {
+        if (tile.tileType == type || tile.tileType == type2 || tile.tileType == type3)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 }

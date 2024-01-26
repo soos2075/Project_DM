@@ -8,7 +8,7 @@ public class UI_DungeonPlacement : UI_PopUp, IWorldSpaceUI
 
     public void SetCanvasWorldSpace()
     {
-        Managers.UI.SetCanvasWorld(gameObject);
+        Managers.UI.SetCanvas(gameObject, RenderMode.WorldSpace);
     }
 
     public override void Init()

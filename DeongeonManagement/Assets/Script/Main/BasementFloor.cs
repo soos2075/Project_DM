@@ -18,7 +18,7 @@ public class BasementFloor : MonoBehaviour
         Init_Entrance();
     }
 
-
+    public UI_Floor UI_Floor { get; set; }
 
     public string Floor { get; set; }
     public int FloorIndex { get; set; }

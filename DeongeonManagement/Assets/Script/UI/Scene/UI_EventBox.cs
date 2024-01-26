@@ -56,6 +56,7 @@ public class UI_EventBox : UI_Scene
     public override void Init()
     {
         //Managers.UI.SetCanvas(gameObject, true);
+        Managers.UI.SetCanvas(gameObject, RenderMode.ScreenSpaceCamera);
 
         Bind<GameObject>(typeof(Contents));
 

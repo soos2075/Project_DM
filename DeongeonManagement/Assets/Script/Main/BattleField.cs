@@ -53,11 +53,11 @@ public class BattleField : MonoBehaviour
                 Debug.Log("npc 공격 애니메이션!");
             }
 
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSecondsRealtime(1);
         }
         yield return new WaitUntil(() => ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_idle);
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSecondsRealtime(1);
         Debug.Log("재생종료");
 
     }

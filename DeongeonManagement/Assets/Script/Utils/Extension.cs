@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -11,6 +9,10 @@ public static class Extension
         UI_Base.AddUIEvent(go, act, event_type);
     }
 
+    public static void RemoveUIEventAll(this GameObject go)
+    {
+        UI_Base.RemoveUIEventAll(go);
+    }
 
     public static T GetOrAddComponent<T>(this GameObject go) where T : UnityEngine.Component
     {

@@ -27,8 +27,7 @@ public class PlacementManager
         {
             if (newObj.GetType() == item.placementable.GetType())
             {
-                PlacementClear(item.placementable);
-                item.ClearAbsolute();
+                PlacementClear_Completely(item.placementable);
             }
         }
         return newObj;
@@ -72,10 +71,16 @@ public class PlacementManager
         //Debug.Log($"{obj.GetObject().name} 가 {obj.PlacementInfo.Place_Floor.Name_KR} - {obj.PlacementInfo.Place_Tile.index} 에서 해제");
 
         obj.PlacementInfo.Place_Floor.RemoveObject(obj);
-
         obj.PlacementInfo.Place_Tile.ClearPlacement();
         obj.PlacementInfo = null;
         Disable(obj);
+    }
+
+    public void PlacementClear_Completely(IPlacementable obj)
+    {
+        obj.PlacementInfo.Place_Tile.ClearAbsolute();
+        PlacementClear(obj);
+
     }
 
 

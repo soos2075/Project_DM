@@ -38,6 +38,15 @@ public class SpriteManager
         return ui_small_buttons[(int)name];
     }
 
+    public Sprite GetSprite (string path)
+    {
+        Sprite sprite = Resources.Load<Sprite>($"Sprite/{path}");
+        if (sprite == null)
+        {
+            Debug.Log($"Sprite Not Exist : Sprite/{path}");
+        }
+        return sprite;
+    }
 
 
 }
