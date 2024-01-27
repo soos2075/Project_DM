@@ -19,4 +19,10 @@ public static class Extension
         return Util.GetOrAddComponent<T>(go);
     }
 
+    public static string SetTextColorTag(this string text, Define.TextColor color)
+    {
+        return Util.SetTextColorTag(text, color);
+    }
+
+
 }

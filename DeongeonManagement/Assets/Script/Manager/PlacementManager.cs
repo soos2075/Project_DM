@@ -42,10 +42,10 @@ public class PlacementManager
         return obj;
     }
 
-    public void PlacementConfirm(IPlacementable obj, PlacementInfo newPlace, bool isUnique = false)
+    public void PlacementConfirm(IPlacementable obj, PlacementInfo newPlace, bool isUnchange = false)
     {
         obj.PlacementInfo = newPlace;
-        if (isUnique)
+        if (isUnchange)
         {
             obj.PlacementInfo.Place_Tile.SetUnchangeable(obj);
         }

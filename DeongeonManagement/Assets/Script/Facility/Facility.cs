@@ -50,7 +50,7 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
     protected Coroutine Cor_Facility;
 
-    protected IEnumerator FacilityEvent(NPC npc, float durationTime, int ap, int mp, string text)
+    protected IEnumerator FacilityEvent(NPC npc, float durationTime, string text, int ap = 1, int mp = 1, int hp = 0)
     {
         UI_EventBox.AddEventText($"●{npc.Name_KR} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 {text}");
 
@@ -58,8 +58,8 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
         npc.ActionPoint -= ap;
         npc.Mana -= mp;
+        npc.HP -= hp;
         Main.Instance.CurrentDay.AddMana(mp); 
-
 
         Cor_Facility = null;
         ClearCheck();
@@ -70,7 +70,8 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         if (InteractionOfTimes <= 0)
         {
             //UI_EventBox.AddEventText($"{Name} (이)가 사라짐");
-            Managers.Placement.PlacementClear(this);
+            //Managers.Placement.PlacementClear(this);
+            Managers.Placement.PlacementClear_Completely(this);
         }
     }
 

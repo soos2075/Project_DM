@@ -69,4 +69,42 @@ public class Util
 
         return _list;
     }
+
+
+
+    public static string SetTextColorTag(string text, Define.TextColor color)
+    {
+        switch (color)
+        {
+            case Define.TextColor.red:
+                return $"<color=red>{text}</color>";
+
+            case Define.TextColor.green:
+                return $"<color=green>{text}</color>";
+
+            case Define.TextColor.blue:
+                return $"<color=blue>{text}</color>";
+
+            case Define.TextColor.yellow:
+                return $"<color=yellow>{text}</color>";
+
+            case Define.TextColor.white:
+                return $"<color=white>{text}</color>";
+
+            case Define.TextColor.black:
+                return $"<color=black>{text}</color>";
+
+
+
+            case Define.TextColor.npc:
+                return $"<color=ff4444ff>{text}</color>";
+
+            case Define.TextColor.monster:
+                return $"<color=44ff44ff>{text}</color>";
+
+
+            default:
+                return $"<color=white>{text}</color>";
+        }
+    }
 }

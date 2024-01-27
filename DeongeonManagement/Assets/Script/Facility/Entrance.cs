@@ -10,14 +10,14 @@ public class Entrance : Facility
 
     public override void FacilityInit()
     {
-        InteractionOfTimes = 100;
+        InteractionOfTimes = 10000;
         Type = FacilityType.Exit;
         Name = "입구";
     }
 
     public override Coroutine NPC_Interaction(NPC npc)
     {
-        Cor_Facility = StartCoroutine(FacilityEvent(npc, 1, 1, 5, "다음층으로 이동중..."));
+        Cor_Facility = StartCoroutine(FacilityEvent(npc, 1, "다음층으로 이동중...", ap: 1, mp: 3, hp: 0));
         return Cor_Facility;
     }
 }

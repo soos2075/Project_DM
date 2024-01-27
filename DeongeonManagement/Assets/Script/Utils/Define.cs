@@ -42,12 +42,15 @@ public class Define
     public enum TileType
     {
         Empty,
+
         Monster,
         NPC,
         Facility,
         Entrance,
         Exit,
-        Trap,
+
+        //Trap,
+        Using,
     }
 
     public enum PlacementType
@@ -59,16 +62,31 @@ public class Define
 
     public enum PlaceEvent
     {
-        Nothing,
-        Placement,
+        Nothing, 
+
+        Placement, // 이동 / 혼자
         Battle,
-        Interaction,
+        Interaction, // 이동없이 상호작용
         Entrance,
         Exit,
-        Avoid,
-        Overlap,
-        Trap, //? 일단 이동 후 상호작용하는걸 Trap으로 정의 / 근데 출입구도 이방식으로 해도 될 것 같은데?
+        Avoid, // 상태 리셋
+        Overlap, // 이동 / 겹침
+        Using, // 이동 후 상호작용
     }
+
+    public enum TextColor
+    {
+        red,
+        green,
+        blue,
+        yellow,
+        white,
+        black,
+
+        npc,
+        monster,
+    }
+
 
 
     #region Animation

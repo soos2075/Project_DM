@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Trab_Base : Facility
+public class Trap_Base : Facility
 {
     public override FacilityType Type { get; set; }
     public override int InteractionOfTimes { get; set; }
@@ -11,7 +11,7 @@ public class Trab_Base : Facility
     public override void FacilityInit()
     {
         Type = FacilityType.Trap;
-        InteractionOfTimes = 10;
+        InteractionOfTimes = 1;
         Name = "발밑 함정";
     }
 
@@ -21,7 +21,7 @@ public class Trab_Base : Facility
         if (InteractionOfTimes > 0)
         {
             InteractionOfTimes--;
-            Cor_Facility = StartCoroutine(FacilityEvent(npc, 5, 3, 0, "함정에 빠짐..."));
+            Cor_Facility = StartCoroutine(FacilityEvent(npc, 5, "함정에 빠짐...", ap: 1, mp: 0, hp: 5));
             return Cor_Facility;
         }
         else

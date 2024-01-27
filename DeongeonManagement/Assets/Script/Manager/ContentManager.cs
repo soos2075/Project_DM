@@ -41,7 +41,7 @@ public class ContentManager
             content.SetCondition(10, 0, 1);
             content.sprite = Managers.Sprite.GetSprite("Nothing");
             content.AddOption("\n적용 범위는 1 x 1 입니다.", Define.Boundary_1x1,
-                data => SetBoundary(Define.Boundary_1x1, () => CreateOnlyOne("Entrance")));
+                data => SetBoundary(Define.Boundary_1x1, () => CreateOnlyOne("Entrance", useMana: 10)));
 
             Contents.Add(content);
         }
@@ -52,7 +52,7 @@ public class ContentManager
             content.SetCondition(10, 0, 1);
             content.sprite = Managers.Sprite.GetSprite("Nothing");
             content.AddOption("\n적용 범위는 1 x 1 입니다.", Define.Boundary_1x1,
-                data => SetBoundary(Define.Boundary_1x1, () => CreateOnlyOne("Exit")));
+                data => SetBoundary(Define.Boundary_1x1, () => CreateOnlyOne("Exit", useMana: 10)));
 
             Contents.Add(content);
         }
@@ -67,12 +67,12 @@ public class ContentManager
             content.sprite = Managers.Sprite.GetSprite("Nothing");
 
             content.AddOption("\n적용 범위는 2 x 2 입니다.", Define.Boundary_2x2,
-                data => SetBoundary(Define.Boundary_2x2, () => CreateAll("Herb_Low")));
+                data => SetBoundary(Define.Boundary_2x2, () => CreateAll("Herb_Low", useMana: 25)));
             content.AddOption("\n적용 범위는 3 x 3 입니다.", Define.Boundary_3x3,
-                data => SetBoundary(Define.Boundary_3x3, () => CreateAll("Herb_Low")),
+                data => SetBoundary(Define.Boundary_3x3, () => CreateAll("Herb_Low", useMana: 45)),
                 mana: 20);
             content.AddOption("\n적용 범위는 5 x 5 입니다.", Define.Boundary_5x5,
-                data => SetBoundary(Define.Boundary_5x5, () => CreateAll("Herb_Low")),
+                data => SetBoundary(Define.Boundary_5x5, () => CreateAll("Herb_Low", useMana: 100)),
                 mana:75);
 
             Contents.Add(content);
@@ -100,7 +100,7 @@ public class ContentManager
             content.sprite = Managers.Sprite.GetSprite("Nothing");
             content.AddOption("\n적용 범위는 작은 십자모양 입니다.", Define.Boundary_Cross_1,
                 data => SetBoundary(Define.Boundary_Cross_1, () =>
-                CreateTwo("Mineral_Diamond", "Mineral_Rock", Define.Boundary_1x1, Define.Boundary_Side_Cross)));
+                CreateTwo("Mineral_Diamond", "Mineral_Rock", Define.Boundary_1x1, Define.Boundary_Side_Cross, useMana: 40)));
 
             Contents.Add(content);
         }
@@ -112,12 +112,12 @@ public class ContentManager
             content.sprite = Managers.Sprite.GetSprite("Nothing");
 
             content.AddOption("\n적용 범위는 1 x 1 입니다.", Define.Boundary_1x1,
-                data => SetBoundary(Define.Boundary_1x1, () => CreateAll("Trap", true)));
+                data => SetBoundary(Define.Boundary_1x1, () => CreateAll("Trap", true, useGold: 50)));
             content.AddOption("\n적용 범위는 1 x 3 입니다.", Define.Boundary_1x3,
-                data => SetBoundary(Define.Boundary_1x3, () => CreateAll("Trap", true)),
+                data => SetBoundary(Define.Boundary_1x3, () => CreateAll("Trap", true, useGold: 100)),
                 mana: 0, gold: 50);
             content.AddOption("\n적용 범위는 3 x 1 입니다.", Define.Boundary_3x1,
-                data => SetBoundary(Define.Boundary_3x1, () => CreateAll("Trap", true)),
+                data => SetBoundary(Define.Boundary_3x1, () => CreateAll("Trap", true, useGold: 100)),
                 mana: 0, gold: 50);
 
             Contents.Add(content);
@@ -174,11 +174,11 @@ public class ContentManager
 
 
     #region Create 메서드
-    void CreateAll(string prefab, bool isUnchangeable = false)
+    void CreateAll(string prefab, bool isUnchangeable = false, int useMana = 0, int useGold = 0)
     {
         if (Create(prefab, Main.Instance.CurrentBoundary, isUnchangeable))
         {
-            CreateOver();
+            CreateOver(useMana, useGold);
         }
         else
         {
@@ -186,11 +186,11 @@ public class ContentManager
         }
     }
 
-    void CreateOnlyOne(string prefab)
+    void CreateOnlyOne(string prefab, int useMana = 0, int useGold = 0)
     {
         if (CreateUnique(prefab, Main.Instance.CurrentBoundary))
         {
-            CreateOver();
+            CreateOver(useMana, useGold);
         }
         else
         {
@@ -199,28 +199,28 @@ public class ContentManager
     }
 
 
-    void CreateTwo(string prefab1, string prefab2, Vector2Int[] boundary1, Vector2Int[] boundary2)
+    void CreateTwo(string prefab1, string prefab2, Vector2Int[] boundary1, Vector2Int[] boundary2, int useMana = 0, int useGold = 0)
     {
         if (Create(prefab1, boundary1) && Create(prefab2, boundary2))
         {
-            CreateOver();
+            CreateOver(useMana, useGold);
         }
         else
         {
             Debug.Log("배치할 수 없음");
         }
     }
-    void CreateThree(string prefab1, string prefab2, string prefab3, Vector2Int[] boundary1, Vector2Int[] boundary2, Vector2Int[] boundary3)
-    {
-        if (Create(prefab1, boundary1) && Create(prefab2, boundary2) && Create(prefab3, boundary3))
-        {
-            CreateOver();
-        }
-        else
-        {
-            Debug.Log("배치할 수 없음");
-        }
-    }
+    //void CreateThree(string prefab1, string prefab2, string prefab3, Vector2Int[] boundary1, Vector2Int[] boundary2, Vector2Int[] boundary3)
+    //{
+    //    if (Create(prefab1, boundary1) && Create(prefab2, boundary2) && Create(prefab3, boundary3))
+    //    {
+    //        CreateOver();
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("배치할 수 없음");
+    //    }
+    //}
 
     #endregion UIEvent 함수
 
@@ -249,9 +249,14 @@ public class ContentManager
         Main.Instance.CurrentTile = null;
     }
 
-    void CreateOver()
+    void CreateOver(int mana, int gold)
     {
         Debug.Log($"{Main.Instance.CurrentTile.index} : {Main.Instance.CurrentTile.placementable.Name_KR} 설치완료");
+
+
+        Main.Instance.CurrentDay.SubtractMana(mana);
+        Main.Instance.CurrentDay.SubtractGold(gold);
+
         //Managers.UI.PauseClose();
         //Managers.UI.ClosePopUp();
         ResetAction();

@@ -18,6 +18,8 @@ public class UI_TileView_Tile : UI_Base
         Bind<GameObject>(typeof(Contents));
         parent = GetComponentInParent<UI_TileView_Floor>();
         gameObject.AddUIEvent((data) => MouseMoveEvent(), Define.UIEvent.Move);
+        gameObject.AddUIEvent((data) => MouseExit(), Define.UIEvent.Exit);
+
 
         gameObject.AddUIEvent((data) => parent.InsteadOpenFloorEvent(data), Define.UIEvent.RightClick);
     }
@@ -39,5 +41,10 @@ public class UI_TileView_Tile : UI_Base
         {
             parent.CurrentTile = null;
         }
+    }
+
+    void MouseExit()
+    {
+        parent.CurrentTile = null;
     }
 }

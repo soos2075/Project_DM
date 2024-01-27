@@ -57,40 +57,74 @@ public class Main : MonoBehaviour
     public int Player_Gold { get; set; }
     public int Player_AP { get; set; }
 
+    public int Prisoner { get; set; }
+
 
     public List<DayResult> _dayList;
 
-    public DayResult CurrentDay;
+    public DayResult CurrentDay { get; set; }
 
 
     public class DayResult
     {
-        public int Mana;
-        public int Gold;
-        public int Prisoner;
-        public int Kill;
+        public int Origin_Mana;
+        public int Origin_Gold;
+        public int Origin_Prisoner;
 
-
-        public DayResult()
+        public DayResult(int mana, int gold, int prisoner)
         {
-
+            Origin_Mana = mana;
+            Origin_Gold = gold;
+            Origin_Prisoner = prisoner;
         }
+
+        public int Get_Mana;
+        public int Get_Gold;
+        public int Get_Prisoner;
+        public int Get_Kill;
+
+        public int Use_Mana;
+        public int Use_Gold;
+        public int Use_Prisoner;
+        public int Use_Kill;
+
 
         public void AddMana(int value)
         {
-            Mana += value;
+            Get_Mana += value;
         }
         public void AddGold(int value)
         {
-            Gold += value;
+            Get_Gold += value;
         }
         public void AddPrisoner(int value)
         {
-            Prisoner += value;
+            Get_Prisoner += value;
         }
         public void AddKill(int value)
         {
-            Kill += value;
+            Get_Kill += value;
+        }
+
+
+        //? 사용
+        public void SubtractMana(int value)
+        {
+            Use_Mana += value;
+            Instance.Player_Mana -= value;
+        }
+        public void SubtractGold(int value)
+        {
+            Use_Gold += value;
+            Instance.Player_Gold -= value;
+        }
+        public void SubtractPrisoner(int value)
+        {
+            Use_Prisoner += value;
+        }
+        public void SubtractKill(int value)
+        {
+            Use_Kill += value;
         }
     }
 
@@ -102,25 +136,27 @@ public class Main : MonoBehaviour
         Player_AP = 10;
 
         _dayList = new List<DayResult>();
+
+        CurrentDay = new DayResult(Player_Mana, Player_Gold, Prisoner);
     }
 
 
 
-    void DayStart()
-    {
-        if (CurrentDay != null)
-        {
-            _dayList.Add(CurrentDay);
-        }
-        CurrentDay = new DayResult();
-    }
 
     void DayOver()
     {
-        if (CurrentDay != null)
-        {
-            Managers.UI.ShowPopUp<UI_DayResult>();
-        }
+        _dayList.Add(CurrentDay);
+
+        var ui = Managers.UI.ShowPopUp<UI_DayResult>();
+        ui.TextContents(_dayList[Turn - 1]);
+
+        Player_Mana += CurrentDay.Get_Mana;
+        Player_Gold += CurrentDay.Get_Gold;
+        Player_AP = 3;
+
+        //? 위가 적용 아래가 새로교체
+
+        CurrentDay = new DayResult(Player_Mana, Player_Gold, Prisoner);
     }
 
     #endregion
@@ -143,7 +179,6 @@ public class Main : MonoBehaviour
             if (_Management == false)
             {
                 Turn++;
-                DayStart();
             }
             else
             {

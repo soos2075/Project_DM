@@ -215,8 +215,6 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         Interaction,
 
-        Interaction_Trap, 
-
         Battle,
 
         Non,
@@ -243,9 +241,6 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             State = NPCState.Return;
             return;
         }
-
-
-
 
 
         Managers.Placement.PlacementClear(this);
@@ -315,13 +310,17 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     {
         Main.Instance.CurrentDay.AddKill(1);
         Main.Instance.CurrentDay.AddGold(100);
-        Debug.Log($"{name}(이)가 죽음");
+        Debug.Log($"{name}(이)가 죽음 + 자세한 사유는 이후에 추가");
+        UI_EventBox.AddEventText($"◈{Name_KR} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 쓰러짐");
+        Main.Instance.InactiveNPC(this);
     }
 
     void NPC_Captive()
     {
         Main.Instance.CurrentDay.AddPrisoner(1);
         Debug.Log($"{name}(이)가 포로로 잡힘");
+        UI_EventBox.AddEventText($"◈{Name_KR} (이)가 포로로 잡힘");
+        Main.Instance.InactiveNPC(this);
     }
 
 
@@ -410,16 +409,6 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             case NPCState.Die:
                 NPC_Die();
                 break;
-
-
-            case NPCState.Interaction:
-                break;
-
-            case NPCState.Interaction_Trap:
-                break;
-
-            case NPCState.Battle:
-                break;
         }
     }
 
@@ -453,11 +442,11 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         if (pathFind || pathRefind)
         {
-            //Debug.Log("코루틴 시작");
             Cor_Move = StartCoroutine(DungeonMoveToPath(path, pathRefind));
         }
         else
         {
+            //Debug.Log("길찾기 실패 / 방황" + Time.time);
             Cor_Move = StartCoroutine(Wandering());
         }
     }
@@ -499,12 +488,12 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         switch (encount)
         {
-            case Define.PlaceEvent.Trap:
+            case Define.PlaceEvent.Using:
                 Managers.Placement.PlacementMove(this, next);
                 StopCoroutine(Cor_Move);
                 Cor_Move = null;
                 Cor_Encounter = StartCoroutine(Encounter_Facility(tile));
-                State = NPCState.Interaction_Trap;
+                State = NPCState.Interaction;
                 return true;
 
             case Define.PlaceEvent.Entrance:
@@ -599,11 +588,19 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
     IEnumerator Encounter_Facility(BasementTile tile)
     {
-        var type = tile.unchangeable as Facility;
-
-        if (type)
+        Facility facility;
+        if (tile.isUnchangeable)
         {
-            yield return type.NPC_Interaction(this);
+            facility = tile.unchangeable as Facility;
+        }
+        else
+        {
+            facility = tile.placementable as Facility;
+        }
+        
+        if (facility)
+        {
+            yield return facility.NPC_Interaction(this);
             yield return new WaitForEndOfFrame();
             State = StateRefresh();
         }
@@ -656,12 +653,15 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         if (newTile != null)
         {
+            Debug.Log("길찾기 실패 / 랜덤이동" + Time.time);
             var next = new PlacementInfo(PlacementInfo.Place_Floor, newTile);
             Managers.Placement.PlacementMove(this, next);
         }
         yield return new WaitForEndOfFrame();
         Cor_Move = null;
-        ActionPoint--;
+        Debug.Log("길찾기 실패 / 상태새로고침" + Time.time);
+        //? 이거 ap포인트 막 줄이면 출구에서 갇혀서 이도저도못하는 상황 나옴. 다른 카운트로 방황을 몇초이상하면 새 메서드로 해야할듯
+        //ActionPoint--;
         //Debug.Log(ActionPoint);
         State = StateRefresh();
     }

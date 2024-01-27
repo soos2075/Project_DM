@@ -308,7 +308,7 @@ public class BasementFloor : MonoBehaviour
 
             closed[node.posX, node.posY] = true;
 
-            //? 도착이면 스킵
+            //? 도착이면 바로 끝내기
             if (node.posX == targetPoint.index.x && node.posY == targetPoint.index.y)
             {
                 break;
@@ -326,6 +326,13 @@ public class BasementFloor : MonoBehaviour
                 if (closed[nextX, nextY])
                     continue;
 
+
+                //? 사용중타일 = 갈수없는 타일
+                if (TileMap[nextX, nextY].tileType == Define.TileType.Using)
+                {
+                    continue;
+                }
+
                 //? 추가한 회피 조건
                 bool avoid = false;
                 foreach (var type in avoidType)
@@ -336,6 +343,7 @@ public class BasementFloor : MonoBehaviour
                         break;
                     }
                 }
+
                 if (avoid) 
                 {
                     continue;
@@ -379,7 +387,9 @@ public class BasementFloor : MonoBehaviour
             posX = startPoint.index.x,
             posY = startPoint.index.y
         });
+
         pathTile[startPoint.index.x, startPoint.index.y] = new Vector2Int(startPoint.index.x, startPoint.index.y);
+        pathTile[targetPoint.index.x, targetPoint.index.y] = new Vector2Int(targetPoint.index.x, targetPoint.index.y);
 
         while (priorityQueue.Count > 0)
         {
@@ -408,6 +418,11 @@ public class BasementFloor : MonoBehaviour
                 if (closed[nextX, nextY])
                     continue;
 
+
+                if (TileMap[nextX, nextY].tileType == Define.TileType.Using)
+                {
+                    continue;
+                }
 
 
                 priorityQueue.Push(new PQNode()
@@ -467,10 +482,13 @@ public class BasementTile
 
     public Vector2Int index;
     public Vector3 worldPosition;
+
     public Define.TileType tileType;
+    Define.TileType tileType_unchange;
+
     public IPlacementable placementable;
     public IPlacementable unchangeable;
-    bool isUnchangeable { get { return (unchangeable != null); } }
+    public bool isUnchangeable { get { return (unchangeable != null); } }
 
 
     public BasementTile(Vector2Int _index, Vector3 _worldPosition, Define.TileType _type, BasementFloor _floor)
@@ -490,14 +508,17 @@ public class BasementTile
         if (_placementable.GetType() == typeof(Entrance))
         {
             tileType = Define.TileType.Entrance;
+            tileType_unchange = Define.TileType.Entrance;
         }
         else if (_placementable.GetType() == typeof(Exit))
         {
             tileType = Define.TileType.Exit;
+            tileType_unchange = Define.TileType.Exit;
         }
         else
         {
             tileType = Define.TileType.Facility; //? 입구 출구가 아니고 변하지 않는 퍼실리티 = 지나가면 발동하는 설치형 함정 등등
+            tileType_unchange = Define.TileType.Facility;
         }
     }
 
@@ -506,6 +527,11 @@ public class BasementTile
         if (isUnchangeable) //? 얘는 타입을 바꾸지않음.(다른 객체가 들어올 순 있어도 타입은 불변이라 Clear에서도 바꿔줄 필요 없음)
         {
             placementable = _placementable;
+
+            if (tileType_unchange == Define.TileType.Facility)
+            {
+                tileType = Define.TileType.Using;
+            }
             return;
         }
         else
@@ -532,6 +558,7 @@ public class BasementTile
         if (isUnchangeable)
         {
             placementable = unchangeable;
+            tileType = tileType_unchange;
         }
         else
         {
@@ -544,6 +571,7 @@ public class BasementTile
         placementable = null;
         unchangeable = null;
         tileType = Define.TileType.Empty;
+        tileType_unchange = Define.TileType.Empty;
     }
 
 
@@ -559,6 +587,9 @@ public class BasementTile
 
             case Define.TileType.Exit:
                 return Define.PlaceEvent.Exit;
+
+            case Define.TileType.Using:
+                return Define.PlaceEvent.Avoid;
 
 
             case Define.TileType.Monster:
@@ -606,7 +637,7 @@ public class BasementTile
                     case Define.PlacementType.NPC:
                         if (isUnchangeable)
                         {
-                            return Define.PlaceEvent.Trap;
+                            return Define.PlaceEvent.Using;
                         }
                         else
                         {

@@ -21,7 +21,7 @@ public class Mineral_Low : Facility
         if (InteractionOfTimes > 0)
         {
             InteractionOfTimes--;
-            Cor_Facility = StartCoroutine(FacilityEvent(npc, 2, 1, 2, "±¤¼® Ã¤±¼Áß..."));
+            Cor_Facility = StartCoroutine(FacilityEvent(npc, 2, "±¤¼® Ã¤±¼Áß...", ap: 1, mp: 2, hp: 0));
             return Cor_Facility;
         }
         else
