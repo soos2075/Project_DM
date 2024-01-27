@@ -12,12 +12,12 @@ public class Entrance : Facility
     {
         InteractionOfTimes = 100;
         Type = FacilityType.Exit;
-        Name = "하행통로";
+        Name = "입구";
     }
 
     public override Coroutine NPC_Interaction(NPC npc)
     {
-        Debug.Log($"잘못된 이벤트 - {Name}");
-        return null;
+        Cor_Facility = StartCoroutine(FacilityEvent(npc, 1, 1, 5, "다음층으로 이동중..."));
+        return Cor_Facility;
     }
 }

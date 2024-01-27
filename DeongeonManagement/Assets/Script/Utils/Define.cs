@@ -47,6 +47,7 @@ public class Define
         Facility,
         Entrance,
         Exit,
+        Trap,
     }
 
     public enum PlacementType
@@ -66,6 +67,7 @@ public class Define
         Exit,
         Avoid,
         Overlap,
+        Trap, //? 일단 이동 후 상호작용하는걸 Trap으로 정의 / 근데 출입구도 이방식으로 해도 될 것 같은데?
     }
 
 

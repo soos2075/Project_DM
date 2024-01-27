@@ -55,6 +55,12 @@ public class UI_Placement_Facility : UI_PopUp
     void Init_Preview()
     {
         GetObject((int)Preview.Preview_Image);
+
+        for (int i = 0; i < 3; i++)
+        {
+            GetObject(i + 3).GetComponent<Image>().color = Color.clear;
+            GetObject(i + 3).GetComponentInChildren<TextMeshProUGUI>().text = "";
+        }
     }
     void Init_Buttons()
     {
@@ -64,7 +70,7 @@ public class UI_Placement_Facility : UI_PopUp
     {
         var pos = GetComponentInChildren<ContentSizeFitter>().transform;
 
-        for (int i = 0; i < Managers.Content.Contents.Length; i++)
+        for (int i = 0; i < Managers.Content.Contents.Count; i++)
         {
             var content = Managers.Resource.Instantiate("UI/PopUp/Element/Facility_Content", pos).GetComponent<UI_Facility_Content>();
             content.Content = Managers.Content.Contents[i];
@@ -98,10 +104,24 @@ public class UI_Placement_Facility : UI_PopUp
             GetObject(i + 3).RemoveUIEventAll();
         }
 
+
+        //? 옵션 버튼 초기화
+        for (int i = 0; i < 3; i++)
+        {
+            GetObject(i + 3).GetComponent<Image>().color = Color.clear;
+            GetObject(i + 3).GetComponentInChildren<TextMeshProUGUI>().text = "";
+        }
+
         for (int i = 0; i < content.boundaryOption.Count; i++)
         {
             //? i + 3은 각각 Option_1,2,3의 인덱스임
             GetObject(i + 3).AddUIEvent((data) => PreviewRefresh(content, data.selectedObject.transform.GetSiblingIndex() - 3));
+
+            GetObject(i + 3).GetComponent<Image>().color = Color.white;
+            GetObject(i + 3).GetComponentInChildren<TextMeshProUGUI>().text += content.boundaryOption[i].addMana != 0? 
+                $"마나 +{content.boundaryOption[i].addMana}" : "";
+            GetObject(i + 3).GetComponentInChildren<TextMeshProUGUI>().text += content.boundaryOption[i].addGold != 0?
+                $"골드 +{content.boundaryOption[i].addGold}" : "";
         }
     }
 

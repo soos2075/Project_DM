@@ -40,5 +40,7 @@ public class Adventurer : NPC
         if (PriorityList != null) PriorityList.Clear();
 
         PriorityList = GetFloorObjectsAll(Define.TileType.Monster);
+
+
     }
 }

@@ -604,7 +604,15 @@ public class BasementTile
                 switch (_placementable.PlacementType)
                 {
                     case Define.PlacementType.NPC:
-                        return Define.PlaceEvent.Interaction;
+                        if (isUnchangeable)
+                        {
+                            return Define.PlaceEvent.Trap;
+                        }
+                        else
+                        {
+                            return Define.PlaceEvent.Interaction;
+                        }
+                        
 
                     default:
                         return Define.PlaceEvent.Nothing;

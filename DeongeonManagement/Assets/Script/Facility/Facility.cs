@@ -50,14 +50,17 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
     protected Coroutine Cor_Facility;
 
-    protected IEnumerator FacilityEvent(NPC npc, float time, int ap, int mp, string text)
+    protected IEnumerator FacilityEvent(NPC npc, float durationTime, int ap, int mp, string text)
     {
         UI_EventBox.AddEventText($"●{npc.Name_KR} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 {text}");
 
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSeconds(durationTime);
 
         npc.ActionPoint -= ap;
         npc.Mana -= mp;
+        Main.Instance.CurrentDay.AddMana(mp); 
+
+
         Cor_Facility = null;
         ClearCheck();
     }

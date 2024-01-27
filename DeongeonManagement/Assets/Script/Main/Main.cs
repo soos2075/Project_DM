@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Main : MonoBehaviour
 {
@@ -24,9 +25,15 @@ public class Main : MonoBehaviour
     }
     #endregion
 
+    private void Awake()
+    {
+       
+    }
 
     void Start()
     {
+        ManagementInit();
+
         MonsterInit();
         BasementFloorInit();
         NPCInit();
@@ -41,28 +48,120 @@ public class Main : MonoBehaviour
 
 
 
+
+
+
+
+    #region Management
+    public int Player_Mana { get; set; }
+    public int Player_Gold { get; set; }
+    public int Player_AP { get; set; }
+
+
+    public List<DayResult> _dayList;
+
+    public DayResult CurrentDay;
+
+
+    public class DayResult
+    {
+        public int Mana;
+        public int Gold;
+        public int Prisoner;
+        public int Kill;
+
+
+        public DayResult()
+        {
+
+        }
+
+        public void AddMana(int value)
+        {
+            Mana += value;
+        }
+        public void AddGold(int value)
+        {
+            Gold += value;
+        }
+        public void AddPrisoner(int value)
+        {
+            Prisoner += value;
+        }
+        public void AddKill(int value)
+        {
+            Kill += value;
+        }
+    }
+
+
+    void ManagementInit()
+    {
+        Player_Mana = 100;
+        Player_Gold = 50;
+        Player_AP = 10;
+
+        _dayList = new List<DayResult>();
+    }
+
+
+
+    void DayStart()
+    {
+        if (CurrentDay != null)
+        {
+            _dayList.Add(CurrentDay);
+        }
+        CurrentDay = new DayResult();
+    }
+
+    void DayOver()
+    {
+        if (CurrentDay != null)
+        {
+            Managers.UI.ShowPopUp<UI_DayResult>();
+        }
+    }
+
+    #endregion
+
+
+
+
+
     #region Day
+    public int Turn { get; set; } = 0;
 
-    public bool Management = true;
 
-
-    Animator ani_MainUI;
-    void AnimationInit()
+    private bool _Management = true;
+    public bool Management
     {
-        ani_MainUI = FindObjectOfType<UI_Management>().GetComponent<Animator>();
+        get { return _Management; }
+        set
+        {
+            _Management = value;
+            if (_Management == false)
+            {
+                Turn++;
+                DayStart();
+            }
+            else
+            {
+                DayOver();
+            }
+        }
     }
 
 
-    public void ManagementStart()
+    public void DayChange()
     {
-        Management = true;
-        ani_MainUI.SetBool("Hide", false);
+        Managers.UI.CloseAll();
+
+        Management = !Management;
+
+        DayChangeAnimation();
     }
-    public void ManagementOver()
-    {
-        Management = false;
-        ani_MainUI.SetBool("Hide", true);
-    }
+
 
 
 
@@ -72,6 +171,32 @@ public class Main : MonoBehaviour
 
 
 
+
+
+
+    #region Animation
+    Animator ani_MainUI;
+    Animator ani_Sky;
+    VerticalLayoutGroup layout;
+
+    void AnimationInit()
+    {
+        ani_MainUI = FindObjectOfType<UI_Management>().GetComponent<Animator>();
+        ani_Sky = FindObjectOfType<SpriteAnimation>().GetComponent<Animator>();
+        layout = FindObjectOfType<UI_Management>().GetComponentInChildren<VerticalLayoutGroup>();
+    }
+
+
+    public void DayChangeAnimation() 
+    {
+        layout.enabled = false;
+
+        ani_MainUI.SetBool("Management", Management);
+        ani_Sky.SetBool("Management", Management);
+    }
+
+
+    #endregion
 
 
 

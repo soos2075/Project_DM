@@ -214,6 +214,9 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         Die,
 
         Interaction,
+
+        Interaction_Trap, 
+
         Battle,
 
         Non,
@@ -240,6 +243,10 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             State = NPCState.Return;
             return;
         }
+
+
+
+
 
         Managers.Placement.PlacementClear(this);
 
@@ -306,11 +313,14 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
     void NPC_Die()
     {
+        Main.Instance.CurrentDay.AddKill(1);
+        Main.Instance.CurrentDay.AddGold(100);
         Debug.Log($"{name}(이)가 죽음");
     }
 
     void NPC_Captive()
     {
+        Main.Instance.CurrentDay.AddPrisoner(1);
         Debug.Log($"{name}(이)가 포로로 잡힘");
     }
 
@@ -405,6 +415,9 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             case NPCState.Interaction:
                 break;
 
+            case NPCState.Interaction_Trap:
+                break;
+
             case NPCState.Battle:
                 break;
         }
@@ -482,12 +495,25 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
     bool EncountOver(Define.PlaceEvent encount, BasementTile tile)
     {
+        var next = new PlacementInfo(PlacementInfo.Place_Floor, tile);
+
         switch (encount)
         {
+            case Define.PlaceEvent.Trap:
+                Managers.Placement.PlacementMove(this, next);
+                StopCoroutine(Cor_Move);
+                Cor_Move = null;
+                Cor_Encounter = StartCoroutine(Encounter_Facility(tile));
+                State = NPCState.Interaction_Trap;
+                return true;
+
             case Define.PlaceEvent.Entrance:
                 if (State == NPCState.Next)
                 {
-                    FloorNext();
+                    Managers.Placement.PlacementMove(this, next);
+                    StopCoroutine(Cor_Move);
+                    Cor_Move = null;
+                    Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => FloorNext()));
                     return true;
                 }
                 if (State == NPCState.Priority)
@@ -499,12 +525,22 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             case Define.PlaceEvent.Exit:
                 if (State == NPCState.Return)
                 {
-                    FloorPrevious();
+                    Managers.Placement.PlacementMove(this, next);
+                    StopCoroutine(Cor_Move);
+                    Cor_Move = null;
+                    Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => FloorPrevious()));
+
+                    //FloorPrevious();
                     return true;
                 }
                 else if (State == NPCState.Runaway)
                 {
-                    FloorEscape();
+                    Managers.Placement.PlacementMove(this, next);
+                    StopCoroutine(Cor_Move);
+                    Cor_Move = null;
+                    Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => FloorEscape()));
+
+                    //FloorEscape();
                     return true;
                 }
                 if (State == NPCState.Priority)
@@ -512,6 +548,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
                     return false;
                 }
                 return false;
+
 
             case Define.PlaceEvent.Avoid:
                 State = StateRefresh();
@@ -548,10 +585,21 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         return false;
     }
 
+    IEnumerator Encounter_NoStateRefresh(BasementTile tile, Action action)
+    {
+        var type = tile.unchangeable as Facility;
+
+        if (type)
+        {
+            yield return type.NPC_Interaction(this);
+            yield return new WaitForEndOfFrame();
+            action.Invoke();
+        }
+    }
 
     IEnumerator Encounter_Facility(BasementTile tile)
     {
-        var type = tile.placementable as Facility;
+        var type = tile.unchangeable as Facility;
 
         if (type)
         {

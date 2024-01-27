@@ -91,7 +91,10 @@ public class UI_TileView_Floor : UI_Base
 
     public void InsteadOpenFloorEvent(PointerEventData data)
     {
-        StartCoroutine(FrameWait(data));
+        if (Main.Instance.Management)
+        {
+            StartCoroutine(FrameWait(data));
+        }
     }
 
     IEnumerator FrameWait(PointerEventData data)
@@ -133,7 +136,7 @@ public class UI_TileView_Floor : UI_Base
 
                 content.GetComponent<RectTransform>().position = Main.Instance.Floor[FloorID].TileMap[i, k].worldPosition;
 
-                content.GetComponent<Image>().color = Color.clear;
+                //content.GetComponent<Image>().color = Color.clear;
 
                 content.GetComponent<UI_TileView_Tile>().Tile = Main.Instance.Floor[FloorID].TileMap[i, k];
 

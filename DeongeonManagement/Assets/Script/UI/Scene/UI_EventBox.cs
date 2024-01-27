@@ -130,4 +130,20 @@ public class UI_EventBox : UI_Scene
         }
     }
 
+    public void BoxActive(bool _active)
+    {
+        if (_active)
+        {
+            isActive = true;
+            GetObject((int)Contents.Panel_Active).SetActive(true);
+            GetObject((int)Contents.Panel_Inactive).SetActive(false);
+        }
+    }
+
+
+    public void TextClear()
+    {
+        textOrigin = "";
+    }
+
 }

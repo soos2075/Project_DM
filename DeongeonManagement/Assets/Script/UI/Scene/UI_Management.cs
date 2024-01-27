@@ -1,66 +1,114 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UI_Management : UI_Base
 {
-    public enum ButtonEvent
+    enum ButtonEvent
     {
         Summon,
         Training,
         Special,
         Guild,
         Placement,
-        TurnOver,
 
+        Test1,
         Test2,
         Test3,
+
+
+        DayChange,
     }
 
-    public enum Panels
+    enum Panels
     {
         ClosePanel,
     }
 
-
-    public override void Init()
+    enum Texts
     {
-        Bind<Button>(typeof(ButtonEvent));
-        Bind<Image>(typeof(Panels));
-
-        GetImage((int)Panels.ClosePanel).gameObject.AddUIEvent((data) => LeftClickEvent(), Define.UIEvent.LeftClick);
-        GetImage((int)Panels.ClosePanel).gameObject.AddUIEvent((data) => RightClickEvent(), Define.UIEvent.RightClick);
-        
-        GetButton((int)ButtonEvent.Summon).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Summon>());
-        GetButton((int)ButtonEvent.Training).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Training>());
-        GetButton((int)ButtonEvent.Placement).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_DungeonPlacement>());
-
-        GetButton((int)ButtonEvent.TurnOver).gameObject.AddUIEvent((data) => TurnOverEvent());
-        GetButton((int)ButtonEvent.Test2).gameObject.AddUIEvent((data) => Main.Instance.AddAndActive("Herbalist"));
-        GetButton((int)ButtonEvent.Test3).gameObject.AddUIEvent((data) => Main.Instance.AddAndActive("Miner"));
+        Mana,
+        Gold,
+        AP,
+        Day,
     }
 
     void Start()
     {
         Init();
 
-        Managers.UI.ShowSceneUI<UI_ScenePlacement>("UI_ScenePlacement");
-        Managers.UI.ShowSceneUI<UI_EventBox>("UI_EventBox");
+        placement = Managers.UI.ShowSceneUI<UI_ScenePlacement>("UI_ScenePlacement");
+        eventBox = Managers.UI.ShowSceneUI<UI_EventBox>("UI_EventBox");
     }
-
     void Update()
     {
-        
+        GetTMP(((int)Texts.Mana)).text = $"마나 : {Main.Instance.Player_Mana}";
+        GetTMP(((int)Texts.Gold)).text = $"골드 : {Main.Instance.Player_Gold}";
+        GetTMP(((int)Texts.AP)).text = $"행동력 : {Main.Instance.Player_AP}";
     }
 
-    void TurnOverEvent()
+    public override void Init()
     {
-        //Main.Instance.ActiveNPC();
-        //Main.Instance.ManagementOver();
+        Bind<Button>(typeof(ButtonEvent));
+        Bind<Image>(typeof(Panels));
+        Bind<TextMeshProUGUI>(typeof(Texts));
 
-        Main.Instance.AddAndActive("Adventurer");
+
+        Init_Texts();
+        Init_Button();
+        Init_Image();
     }
+
+
+    void Init_Texts()
+    {
+        GetTMP(((int)Texts.Day)).text = $"{Main.Instance.Turn}일차";
+        GetTMP(((int)Texts.AP)).text = $"행동력 : {Main.Instance.Player_AP}";
+        GetTMP(((int)Texts.Mana)).text = $"마나 : {Main.Instance.Player_Mana}";
+        GetTMP(((int)Texts.Gold)).text = $"골드 : {Main.Instance.Player_Gold}";
+
+    }
+
+    void Init_Button()
+    {
+        GetButton((int)ButtonEvent.Summon).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Summon>());
+        GetButton((int)ButtonEvent.Training).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Training>());
+        GetButton((int)ButtonEvent.Placement).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_DungeonPlacement>());
+
+        GetButton((int)ButtonEvent.Test1).gameObject.AddUIEvent((data) => Main.Instance.AddAndActive("Adventurer"));
+        GetButton((int)ButtonEvent.Test2).gameObject.AddUIEvent((data) => Main.Instance.AddAndActive("Herbalist"));
+        GetButton((int)ButtonEvent.Test3).gameObject.AddUIEvent((data) => Main.Instance.AddAndActive("Miner"));
+
+        GetButton((int)ButtonEvent.DayChange).gameObject.AddUIEvent((data) => DayChange());
+    }
+    void Init_Image()
+    {
+        GetImage((int)Panels.ClosePanel).gameObject.AddUIEvent((data) => LeftClickEvent(), Define.UIEvent.LeftClick);
+        GetImage((int)Panels.ClosePanel).gameObject.AddUIEvent((data) => RightClickEvent(), Define.UIEvent.RightClick);
+    }
+
+
+
+    UI_ScenePlacement placement;
+    UI_EventBox eventBox;
+
+
+
+    void DayChange()
+    {
+        Main.Instance.DayChange();
+        Init_Texts();
+
+        if (!Main.Instance.Management)
+        {
+            eventBox.BoxActive(true);
+            eventBox.TextClear();
+        }
+    }
+
+
 
 
     void LeftClickEvent()

@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class BattleField : MonoBehaviour
@@ -8,10 +10,11 @@ public class BattleField : MonoBehaviour
     void Start()
     {
         //BattlePlay();
+        sprite_BG = GetComponentInChildren<SpriteRenderer>();
     }
 
 
-
+    SpriteRenderer sprite_BG;
 
     public Transform pos_Left;
     public Transform pos_Right;
@@ -46,6 +49,7 @@ public class BattleField : MonoBehaviour
             {
                 ani_monster.CrossFade(Define.ANIM_attack, 0.1f);
                 //ani_monster.Play("attack");
+                AddAction(roundList[i].damage, pos_Left);
             }
 
             if (roundList[i].attacker == Define.PlacementType.NPC)
@@ -61,6 +65,33 @@ public class BattleField : MonoBehaviour
         Debug.Log("재생종료");
 
     }
+
+    #region ForAnimationVoid
+
+    public void Call_Mash()
+    {
+        Call_Damage?.Invoke();
+    }
+
+    Action Call_Damage;
+    public void AddAction(int _dam, Transform parent)
+    {
+        Call_Damage = () =>
+        {
+            var pos = parent.GetChild(0);
+            pos.localPosition = new Vector3(UnityEngine.Random.Range(-0.25f, 0.25f), UnityEngine.Random.Range(0.25f, 0.5f), 0);
+
+            var mesh = Managers.Resource.Instantiate("Battle/DamageMesh", pos);
+            mesh.transform.position = pos.transform.position;
+
+            mesh.GetComponent<TextMeshPro>().sortingOrder = (sprite_BG.sortingOrder + 1);
+            mesh.GetComponent<TextMeshPro>().text = _dam.ToString();
+        };
+    }
+
+
+    #endregion
+
 
 
 
@@ -207,7 +238,7 @@ public class BattleField : MonoBehaviour
     bool TryDodge(int attacker, int defender) //? 회피확률. 최소 10%에 1차이날수록 10%씩 증가, 최대 90%
     {
         int chance = Mathf.Clamp((defender - attacker), 1, 9);
-        int dice = Random.Range(0, 10);
+        int dice = UnityEngine.Random.Range(0, 10);
 
         return chance > dice ? true : false;
     }
