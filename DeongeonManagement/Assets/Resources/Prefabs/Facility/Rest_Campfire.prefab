@@ -93,7 +93,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1940999524706297951}
-  - component: {fileID: 5426286313039444002}
+  - component: {fileID: 7617072326021172109}
   m_Layer: 0
   m_Name: Rest_Campfire
   m_TagString: Untagged
@@ -117,7 +117,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5426286313039444002
+--- !u!114 &7617072326021172109
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -126,6 +126,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 8368404820636463982}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94b899fbdd5a46e409c761640aac2c5f, type: 3}
+  m_Script: {fileID: 11500000, guid: 33905d82efccded4e852644452f4e428, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

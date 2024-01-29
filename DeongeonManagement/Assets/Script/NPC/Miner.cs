@@ -9,7 +9,7 @@ public class Miner : NPC
 
     void Init_AvoidType()
     {
-        AvoidTileType = new Define.TileType[] { Define.TileType.NPC };
+        AvoidTileType = new Define.TileType[] { Define.TileType.NPC, Define.TileType.Monster };
     }
 
 
@@ -36,8 +36,11 @@ public class Miner : NPC
     {
         if (PriorityList != null) PriorityList.Clear();
 
-        PriorityList = GetFloorObjectsAll(Define.TileType.Facility);
-        PriorityList = GetPriorityPick(typeof(Mineral_High), false);
-        PriorityList = GetPriorityPick(typeof(Mineral_Low), true);
+
+        var list1 = GetPriorityPick(typeof(Mineral_High));
+        var list2 = GetPriorityPick(typeof(Mineral_Low));
+
+        AddList(list1);
+        AddList(list2);
     }
 }

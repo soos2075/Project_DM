@@ -129,6 +129,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
     IEnumerator BattleWait(NPC npc)
     {
+        npc.ActionPoint -= 2;
+
         UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 전투발생 : " +
             $"{npc.Name_KR} vs " +
             $"{Name_KR}");

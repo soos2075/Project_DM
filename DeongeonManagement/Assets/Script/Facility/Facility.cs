@@ -35,9 +35,15 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         Herb,
         Mineral,
         RestZone,
+
         Trap,
+        Treasure,
+
         Entrance,
         Exit,
+        Portal,
+
+        Special,
     }
     public abstract FacilityType Type { get; set; }
     public abstract int InteractionOfTimes { get; set; }
@@ -46,6 +52,12 @@ public abstract class Facility : MonoBehaviour, IPlacementable
     public abstract void FacilityInit();
 
     public abstract Coroutine NPC_Interaction(NPC npc);
+
+    public virtual Coroutine NPC_Interaction_Portal(NPC npc, out int floor)
+    {
+        floor = 0;
+        return null;
+    }
 
 
     protected Coroutine Cor_Facility;
@@ -59,7 +71,14 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         npc.ActionPoint -= ap;
         npc.Mana -= mp;
         npc.HP -= hp;
-        Main.Instance.CurrentDay.AddMana(mp); 
+
+        //? 최대치 이상으로 회복시키고 싶지 않으면 위에 -= 하는 부분에서 Clamp 해주면 됨
+
+        if (Type != FacilityType.RestZone) //? 휴식으로 차는 마나는 플레이어의 마나에서 마이너스되면 안되니까
+        {
+            Main.Instance.CurrentDay.AddMana(mp);
+        }
+        
 
         Cor_Facility = null;
         ClearCheck();

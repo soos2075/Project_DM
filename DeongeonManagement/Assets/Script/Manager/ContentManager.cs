@@ -6,15 +6,28 @@ using UnityEngine.EventSystems;
 
 public class ContentManager
 {
+    public Dictionary<string, ContentData> EventContentsDic { get; set; }
+
 
     public List<ContentData> Contents { get; set; } //? 딕셔너리로 관리해도 좋을거같긴한데 일단은 구현부터
 
     public void Init()
     {
+        EventContentsDic = new Dictionary<string, ContentData>();
         Contents = new List<ContentData>();
         AddContents();
-
+        //AddEventContents();
     }
+
+    //void AddEventContents()
+    //{
+    //    ContentData content = new ContentData("EggAppear");
+    //    content.AddOption("비밀방 / 통상설치 불가능", Define.Boundary_1x1,
+    //        (data) => CreateOnlyOne("EggEntrance"));
+
+
+    //    EventContentsDic.Add(content.contentName, content);
+    //}
 
     void AddContents()
     {

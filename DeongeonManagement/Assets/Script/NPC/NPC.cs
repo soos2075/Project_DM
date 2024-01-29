@@ -9,6 +9,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     void Start()
     {
         Initialize_Status();
+
+        Managers.Resource.Instantiate("UI/UI_StateBar", transform);
     }
     //void Update()
     //{
@@ -36,44 +38,55 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     protected abstract void SetPriorityList();
 
 
-    protected List<BasementTile> GetFloorObjectsAll(Define.TileType searchType = Define.TileType.Empty)
+    protected List<BasementTile> GetFloorObjectsAll(Define.TileType searchType = Define.TileType.Empty) //? 타입 전체 가져오는 리스트
     {
         var newList = PlacementInfo.Place_Floor.GetFloorObjectList(searchType);
-
-        if (PriorityList != null)
-        {
-            newList.AddRange(PriorityList);
-        }
 
         return RefinementList(newList);
     }
 
-    protected List<BasementTile> GetPriorityPick(Type type, bool includeOrigin = false)
+    protected enum AddPos
     {
-        if (PriorityList == null)
-        {
-            PriorityList = GetFloorObjectsAll();
-        }
-
-        List<BasementTile> oldList = PriorityList;
+        Back,
+        Front,
+    }
+    protected List<BasementTile> GetPriorityPick(Type type) //? 특정 class만 가져오는 리스트
+    {
+        List<BasementTile> allList = GetFloorObjectsAll();
         List<BasementTile> newList = new List<BasementTile>();
 
-        for (int i = 0; i < oldList.Count; i++)
+        for (int i = 0; i < allList.Count; i++)
         {
-            if (oldList[i].placementable.GetType() == type)
+            if (allList[i].placementable.GetType() == type)
             {
-                newList.Add(oldList[i]);
+                newList.Add(allList[i]);
             }
         }
 
         newList = Util.ListShuffle(newList);
+        return RefinementList(newList);
+    }
 
-        if (includeOrigin)
+    protected void AddList(List<BasementTile> addList, AddPos pos = AddPos.Back)
+    {
+        if (PriorityList == null)
         {
-            newList.AddRange(PriorityList);
+            PriorityList = new List<BasementTile>();
         }
 
-        return RefinementList(newList);
+        switch (pos)
+        {
+            case AddPos.Front:
+                var newList = addList;
+                newList.AddRange(PriorityList);
+                PriorityList = RefinementList(newList);
+                break;
+
+            case AddPos.Back:
+                PriorityList.AddRange(addList);
+                RefinementList(PriorityList);
+                break;
+        }
     }
 
 
@@ -235,13 +248,17 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
     void FloorNext() //? 지하층으로 내려가는 입구에 도착했을 때 호출
     {
+        if (FloorLevel == 3)
+        {
+            FloorLevel++;
+        }
+
         if (FloorLevel == Main.Instance.Floor.Length)
         {
             Debug.Log($"{name}(이)가 {FloorLevel}층에서 더이상 올라갈 수 없음");
             State = NPCState.Return;
             return;
         }
-
 
         Managers.Placement.PlacementClear(this);
 
@@ -268,12 +285,19 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     }
     void FloorPrevious() //? 지상층으로 올라가는 입구에 도착했을 때 호출
     {
+        if (FloorLevel == 5)
+        {
+            FloorLevel--;
+        }
+
         FloorLevel--;
+
         if (FloorLevel == 0)
         {
             FloorEscape();
             return;
         }
+
         //Debug.Log($"{name}(이)가 {FloorLevel}층에 도착");
 
         Managers.Placement.PlacementClear(this);
@@ -290,6 +314,29 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         //Debug.Log($"{name}(이)가 지상으로 탈출");
         Arrival();
     }
+
+    void FloorPortal(int hiddenFloor) //? 특정층으로 순간이동
+    {
+        Managers.Placement.PlacementClear(this);
+
+        //? 입구에서 소환
+        var info = new PlacementInfo(Main.Instance.Floor[hiddenFloor], Main.Instance.Floor[hiddenFloor].GetRandomTile(this));
+        Managers.Placement.PlacementConfirm(this, info);
+
+
+        //SetPriorityList(); //? 우선순위에 맞춰 맵탐색
+
+        //if (PriorityList.Count > 0)
+        //{
+        //    State = NPCState.Priority;
+        //}
+        //else
+        //{
+        //    State = NPCState.Next;
+        //}
+        Debug.Log("일단 비밀방 이동완료");
+    }
+
 
 
 
@@ -496,6 +543,15 @@ public abstract class NPC : MonoBehaviour, IPlacementable
                 State = NPCState.Interaction;
                 return true;
 
+
+            case Define.PlaceEvent.Using_Portal:
+                Managers.Placement.PlacementMove(this, next);
+                StopCoroutine(Cor_Move);
+                Cor_Move = null;
+                Cor_Encounter = StartCoroutine(Encounter_Portal(tile, (floor) => FloorPortal(floor)));
+                return true;
+
+
             case Define.PlaceEvent.Entrance:
                 if (State == NPCState.Next)
                 {
@@ -572,6 +628,19 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         }
 
         return false;
+    }
+
+    IEnumerator Encounter_Portal(BasementTile tile, Action<int> action)
+    {
+        var type = tile.unchangeable as Facility;
+        int floor;
+
+        if (type)
+        {
+            yield return type.NPC_Interaction_Portal(this, out floor);
+            yield return new WaitForEndOfFrame();
+            action.Invoke(floor);
+        }
     }
 
     IEnumerator Encounter_NoStateRefresh(BasementTile tile, Action action)

@@ -17,7 +17,7 @@ public class Exit : Facility
 
     public override Coroutine NPC_Interaction(NPC npc)
     {
-        Cor_Facility = StartCoroutine(FacilityEvent(npc, 1, "이전층으로 이동중...", ap: 1, mp: 3, hp: 0));
+        Cor_Facility = StartCoroutine(FacilityEvent(npc, 1, "이전층으로 이동중...", ap: 1, mp: 5, hp: 0));
         return Cor_Facility;
     }
 

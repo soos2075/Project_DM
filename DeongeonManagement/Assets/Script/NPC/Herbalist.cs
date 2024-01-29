@@ -9,7 +9,7 @@ public class Herbalist : NPC
 
     void Init_AvoidType()
     {
-        AvoidTileType = new Define.TileType[] { Define.TileType.NPC };
+        AvoidTileType = new Define.TileType[] { Define.TileType.NPC, Define.TileType.Monster };
     }
 
     protected override void Initialize_Status()
@@ -35,6 +35,11 @@ public class Herbalist : NPC
     protected override void SetPriorityList()
     {
         if (PriorityList != null) PriorityList.Clear();
-        PriorityList = GetPriorityPick(typeof(Herb_Low));
+
+        var list1 = GetPriorityPick(typeof(Herb_Low));
+        var list2 = GetPriorityPick(typeof(Herb_High));
+
+        AddList(list1);
+        AddList(list2, AddPos.Front);
     }
 }

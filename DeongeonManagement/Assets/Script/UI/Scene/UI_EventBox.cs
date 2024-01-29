@@ -10,8 +10,7 @@ public class UI_EventBox : UI_Scene
     }
     void Update()
     {
-        if (isActive == false) return;
-
+        if (Current) return;
 
         ShowEventBox(textOrigin);
 
@@ -67,15 +66,15 @@ public class UI_EventBox : UI_Scene
         GetObject((int)Contents.Next).gameObject.AddUIEvent((data) => NextButton());
         GetObject((int)Contents.Previous).gameObject.AddUIEvent((data) => PreviousButton());
 
-        GetObject((int)Contents.Maximize).gameObject.AddUIEvent((data) => BoxActive());
-        GetObject((int)Contents.Minimize).gameObject.AddUIEvent((data) => BoxActive());
+        GetObject((int)Contents.Maximize).gameObject.AddUIEvent((data) => BoxActive(Current));
+        GetObject((int)Contents.Minimize).gameObject.AddUIEvent((data) => BoxActive(Current));
 
         GetObject((int)Contents.Minimize).GetComponent<Image>().sprite = Managers.Sprite.SmallButtons(SpriteManager.UI_Small_Buttons.Plus_Normal);
 
 
         mainText.text = "";
-        BoxActive();
-        BoxActive();
+        BoxActive(true);
+        BoxActive(false);
     }
 
 
@@ -113,30 +112,36 @@ public class UI_EventBox : UI_Scene
 
 
 
-    bool isActive;
-    void BoxActive()
-    {
-        if (isActive == false)
-        {
-            isActive = true;
-            GetObject((int)Contents.Panel_Active).SetActive(true);
-            GetObject((int)Contents.Panel_Inactive).SetActive(false);
-        }
-        else
-        {
-            isActive = false;
-            GetObject((int)Contents.Panel_Active).SetActive(false);
-            GetObject((int)Contents.Panel_Inactive).SetActive(true);
-        }
-    }
+    bool Current { get; set; }
+    //void BoxActive()
+    //{
+    //    if (isActive == false)
+    //    {
+    //        isActive = true;
+    //        GetObject((int)Contents.Panel_Active).SetActive(true);
+    //        GetObject((int)Contents.Panel_Inactive).SetActive(false);
+    //    }
+    //    else
+    //    {
+    //        isActive = false;
+    //        GetObject((int)Contents.Panel_Active).SetActive(false);
+    //        GetObject((int)Contents.Panel_Inactive).SetActive(true);
+    //    }
+    //}
 
     public void BoxActive(bool _active)
     {
         if (_active)
         {
-            isActive = true;
+            Current = false;
             GetObject((int)Contents.Panel_Active).SetActive(true);
             GetObject((int)Contents.Panel_Inactive).SetActive(false);
+        }
+        else
+        {
+            Current = true;
+            GetObject((int)Contents.Panel_Active).SetActive(false);
+            GetObject((int)Contents.Panel_Inactive).SetActive(true);
         }
     }
 

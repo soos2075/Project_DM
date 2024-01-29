@@ -72,6 +72,8 @@ public class Define
         Avoid, // 상태 리셋
         Overlap, // 이동 / 겹침
         Using, // 이동 후 상호작용
+
+        Using_Portal, // 이동 후 상호작용 후 순간이동
     }
 
     public enum TextColor

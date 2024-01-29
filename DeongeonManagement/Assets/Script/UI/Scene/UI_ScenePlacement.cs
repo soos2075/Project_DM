@@ -6,7 +6,8 @@ public class UI_ScenePlacement : UI_Scene, IWorldSpaceUI
 {
     public void SetCanvasWorldSpace()
     {
-        Managers.UI.SetCanvas(gameObject, RenderMode.WorldSpace);
+        Managers.UI.SetCanvas(gameObject, RenderMode.WorldSpace, false);
+        GetComponent<Canvas>().sortingOrder = 4;
     }
 
     public override void Init()

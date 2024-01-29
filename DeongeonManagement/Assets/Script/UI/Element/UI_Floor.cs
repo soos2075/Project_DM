@@ -29,7 +29,8 @@ public class UI_Floor : UI_Base
     public override void Init()
     {
         Bind<GameObject>(typeof(Contents));
-        GetObject((int)Contents.Floor).AddUIEvent((data) => OpenPlacementType(data));
+        GetObject((int)Contents.Floor).AddUIEvent((data) => OpenPlacementType(data), Define.UIEvent.LeftClick);
+        GetObject((int)Contents.Floor).AddUIEvent((data) => OpenPlacementType(data), Define.UIEvent.RightClick);
 
         Main.Instance.Floor[FloorID].UI_Floor = this;
     }

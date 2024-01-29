@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4308366561259305580}
-  - component: {fileID: 8706052954546748881}
+  - component: {fileID: 1409640471442476964}
   m_Layer: 0
   m_Name: Rest_Meat
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8706052954546748881
+--- !u!114 &1409640471442476964
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,7 +42,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4141599434501723567}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94b899fbdd5a46e409c761640aac2c5f, type: 3}
+  m_Script: {fileID: 11500000, guid: c57c7b327e3bebf44a7f68625ab33579, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &9221487120410854244

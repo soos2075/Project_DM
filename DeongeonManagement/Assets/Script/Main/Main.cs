@@ -38,6 +38,8 @@ public class Main : MonoBehaviour
         BasementFloorInit();
         NPCInit();
         AnimationInit();
+
+        StartCoroutine(NextStart());
     }
 
     void Update()
@@ -46,8 +48,151 @@ public class Main : MonoBehaviour
     }
 
 
+    void StartNextFrame()
+    {
+        CurrentFloor = Floor[3];
+        var obj = Managers.Placement.CreateOnlyOne("Facility/Special_MagicEgg", null, Define.PlacementType.Facility);
+        PlacementInfo info = new PlacementInfo(CurrentFloor, CurrentFloor.GetRandomTile(obj));
+
+        Managers.Placement.PlacementConfirm(obj, info, true);
+    }
+
+    IEnumerator NextStart()
+    {
+        yield return new WaitForEndOfFrame();
+        StartNextFrame();
+    }
 
 
+    #region Day
+    public int Turn { get; set; } = 0;
+
+
+    private bool _Management = true;
+    public bool Management
+    {
+        get { return _Management; }
+        set
+        {
+            _Management = value;
+            if (_Management == false)
+            {
+                Turn++;
+                TurnStartEvent();
+            }
+            else
+            {
+                DayOver();
+                TurnOverEvent();
+            }
+        }
+    }
+
+
+    public void DayChange()
+    {
+
+        Managers.UI.CloseAll();
+
+        Management = !Management;
+
+        DayChangeAnimation();
+    }
+
+
+
+
+
+    public void TurnStartEvent()
+    {
+        UI_EventBox.AddEventText($"※{Turn}일차 시작※");
+
+
+        switch (Turn)
+        {
+            case 1:
+                Debug.Log("1일차 시작 이벤트 발생");
+                Managers.UI.ShowPopUp<UI_Dialogue>();
+                break;
+
+            case 3:
+                Debug.Log("3일차 시작 이벤트 발생");
+                break;
+
+
+
+            default:
+                break;
+        }
+    }
+    public void TurnOverEvent()
+    {
+        UI_EventBox.AddEventText($"※{Turn}일차 종료※");
+
+
+        switch (Turn)
+        {
+            case 1:
+                Debug.Log("1일차 종료 이벤트 발생");
+                StartCoroutine(TurnEvent_Egg());
+                break;
+
+            case 3:
+                Debug.Log("3일차 종료 이벤트 발생");
+                break;
+
+
+
+            default:
+                break;
+        }
+    }
+
+
+    IEnumerator TurnEvent_Egg()
+    {
+        yield return new WaitForSeconds(2);
+
+        Managers.UI.CloseAll();
+        FindObjectOfType<UI_EventBox>().BoxActive(false);
+
+        Camera.main.transform.position = new Vector3(-4f, -10.5f, -10);
+        Camera.main.orthographicSize = 3;
+
+        yield return new WaitForSeconds(1);
+        {
+            CurrentFloor = Floor[3];
+            var obj = Managers.Placement.CreateOnlyOne("Facility/EggEntrance", null, Define.PlacementType.Facility);
+            PlacementInfo info = new PlacementInfo(CurrentFloor, CurrentFloor.GetRandomTile(obj));
+
+            Managers.Placement.PlacementConfirm(obj, info, true);
+        }
+        
+
+        yield return new WaitForSeconds(2);
+
+        Camera.main.transform.position = new Vector3(3, -8.5f, -10);
+        Camera.main.orthographicSize = 3;
+
+        yield return new WaitForSeconds(1);
+        {
+            CurrentFloor = Floor[2];
+
+            var obj = Managers.Placement.CreateOnlyOne("Facility/EggEntrance", null, Define.PlacementType.Facility);
+            PlacementInfo info = new PlacementInfo(CurrentFloor, CurrentFloor.GetRandomTile(obj));
+
+            Managers.Placement.PlacementConfirm(obj, info, true);
+        }
+
+
+        //ContentData data;
+        //Managers.Content.EventContentsDic.TryGetValue("EggAppear", out data);
+
+
+    }
+
+
+    #endregion
 
 
 
@@ -165,43 +310,7 @@ public class Main : MonoBehaviour
 
 
 
-    #region Day
-    public int Turn { get; set; } = 0;
-
-
-    private bool _Management = true;
-    public bool Management
-    {
-        get { return _Management; }
-        set
-        {
-            _Management = value;
-            if (_Management == false)
-            {
-                Turn++;
-            }
-            else
-            {
-                DayOver();
-            }
-        }
-    }
-
-
-    public void DayChange()
-    {
-        Managers.UI.CloseAll();
-
-        Management = !Management;
-
-        DayChangeAnimation();
-    }
-
-
-
-
-
-    #endregion
+   
 
 
 
@@ -362,9 +471,17 @@ public class Main : MonoBehaviour
         {
             Floor[i].FloorIndex = i;
         }
+
+        SetHiddenFloor();
     }
 
-
+    void SetHiddenFloor()
+    {
+        Floor[3].Hidden = true;
+        //Floor[3].Remove_Entrance();
+        //Managers.Placement.PlacementClear_Completely(Floor[3].Exit);
+        //Managers.Placement.PlacementClear_Completely(Floor[3].Entrance);
+    }
 
     #endregion
 }

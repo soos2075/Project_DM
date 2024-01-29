@@ -22,11 +22,6 @@ public class UI_Management : UI_Base
         DayChange,
     }
 
-    enum Panels
-    {
-        ClosePanel,
-    }
-
     enum Texts
     {
         Mana,
@@ -35,30 +30,42 @@ public class UI_Management : UI_Base
         Day,
     }
 
+    Canvas canvas;
+
     void Start()
     {
         Init();
 
         placement = Managers.UI.ShowSceneUI<UI_ScenePlacement>("UI_ScenePlacement");
         eventBox = Managers.UI.ShowSceneUI<UI_EventBox>("UI_EventBox");
+
+        canvas = GetComponent<Canvas>();
     }
     void Update()
     {
         GetTMP(((int)Texts.Mana)).text = $"마나 : {Main.Instance.Player_Mana}";
         GetTMP(((int)Texts.Gold)).text = $"골드 : {Main.Instance.Player_Gold}";
         GetTMP(((int)Texts.AP)).text = $"행동력 : {Main.Instance.Player_AP}";
+
+
+        if (Managers.UI._popupStack.Count > 0)
+        {
+            canvas.sortingOrder = -1;
+        }
+        else
+        {
+            canvas.sortingOrder = 5;
+        }
     }
 
     public override void Init()
     {
         Bind<Button>(typeof(ButtonEvent));
-        Bind<Image>(typeof(Panels));
         Bind<TextMeshProUGUI>(typeof(Texts));
 
 
         Init_Texts();
         Init_Button();
-        Init_Image();
     }
 
 
@@ -83,13 +90,6 @@ public class UI_Management : UI_Base
 
         GetButton((int)ButtonEvent.DayChange).gameObject.AddUIEvent((data) => DayChange());
     }
-    void Init_Image()
-    {
-        GetImage((int)Panels.ClosePanel).gameObject.AddUIEvent((data) => LeftClickEvent(), Define.UIEvent.LeftClick);
-        GetImage((int)Panels.ClosePanel).gameObject.AddUIEvent((data) => RightClickEvent(), Define.UIEvent.RightClick);
-    }
-
-
 
     UI_ScenePlacement placement;
     UI_EventBox eventBox;
@@ -98,37 +98,17 @@ public class UI_Management : UI_Base
 
     void DayChange()
     {
-        Main.Instance.DayChange();
         Init_Texts();
 
-        if (!Main.Instance.Management)
+        if (Main.Instance.Management)
         {
             eventBox.BoxActive(true);
             eventBox.TextClear();
         }
+
+        Main.Instance.DayChange();
     }
 
 
-
-
-    void LeftClickEvent()
-    {
-        if (Main.Instance.CurrentAction != null) return;
-
-        Managers.UI.CloseAll();
-    }
-
-
-    void RightClickEvent()
-    {
-        if (Managers.UI._paused != null)
-        {
-            Managers.UI.PauseOpen();
-        }
-        else
-        {
-            Managers.UI.CloseAll();
-        }
-    }
 
 }

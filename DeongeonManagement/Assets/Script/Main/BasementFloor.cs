@@ -23,6 +23,8 @@ public class BasementFloor : MonoBehaviour
     public string Floor { get; set; }
     public int FloorIndex { get; set; }
 
+    public bool Hidden = false;
+
     public string Name_KR;
 
     public int MaxMonsterSize { get; set; } = 3;
@@ -120,6 +122,11 @@ public class BasementFloor : MonoBehaviour
 
     void Init_Entrance()
     {
+        if (Hidden)
+        {
+            return;
+        }
+
         var entrance = Managers.Placement.CreatePlacementObject("Facility/Entrance", null, Define.PlacementType.Facility);
         var info = Managers.Placement.GetRandomPlacement(entrance, this);
         Managers.Placement.PlacementConfirm(entrance, info, true);
@@ -129,6 +136,12 @@ public class BasementFloor : MonoBehaviour
         var exit_info = Managers.Placement.GetRandomPlacement(exit, this);
         Managers.Placement.PlacementConfirm(exit, exit_info, true);
     }
+
+    //public void Remove_Entrance()
+    //{
+    //    Managers.Placement.PlacementClear_Completely(Entrance);
+    //    Managers.Placement.PlacementClear_Completely(Exit);
+    //}
 
 
 
@@ -637,6 +650,11 @@ public class BasementTile
                     case Define.PlacementType.NPC:
                         if (isUnchangeable)
                         {
+                            var facil = unchangeable as Facility;
+                            if (facil.Type == Facility.FacilityType.Portal)
+                            {
+                                return Define.PlaceEvent.Using_Portal;
+                            }
                             return Define.PlaceEvent.Using;
                         }
                         else
