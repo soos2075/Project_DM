@@ -55,6 +55,8 @@ public class CameraControl : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (Time.timeScale == 0) return;
+
         limit_left = -15 / mainCam.orthographicSize;
         limit_right = 15 / mainCam.orthographicSize;
 

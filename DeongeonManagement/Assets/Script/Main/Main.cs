@@ -40,6 +40,7 @@ public class Main : MonoBehaviour
         AnimationInit();
 
         StartCoroutine(NextStart());
+
     }
 
     void Update()
@@ -55,6 +56,8 @@ public class Main : MonoBehaviour
         PlacementInfo info = new PlacementInfo(CurrentFloor, CurrentFloor.GetRandomTile(obj));
 
         Managers.Placement.PlacementConfirm(obj, info, true);
+
+        Managers.UI.ShowPopUp<UI_Dialogue>();
     }
 
     IEnumerator NextStart()
@@ -62,6 +65,31 @@ public class Main : MonoBehaviour
         yield return new WaitForEndOfFrame();
         StartNextFrame();
     }
+
+
+    #region TechnicalEvent
+    public List<Action<int>> DayActions { get; set; } = new List<Action<int>>();
+    public List<Action<int>> NightActions { get; set; } = new List<Action<int>>();
+
+    public UI_Technical CurrentTechnical { get; set; }
+
+    void DayEvent ()
+    {
+        for (int i = 0; i < DayActions.Count; i++)
+        {
+            DayActions[i].Invoke(Turn);
+        }
+    }
+    void NightEvent()
+    {
+        for (int i = 0; i < NightActions.Count; i++)
+        {
+            NightActions[i].Invoke(Turn);
+        }
+    }
+
+
+    #endregion
 
 
     #region Day
@@ -79,11 +107,13 @@ public class Main : MonoBehaviour
             {
                 Turn++;
                 TurnStartEvent();
+                DayEvent();
             }
             else
             {
                 DayOver();
                 TurnOverEvent();
+                NightEvent();
             }
         }
     }
@@ -110,13 +140,16 @@ public class Main : MonoBehaviour
 
         switch (Turn)
         {
+            case 0:
+                break;
+
             case 1:
-                Debug.Log("1일차 시작 이벤트 발생");
-                Managers.UI.ShowPopUp<UI_Dialogue>();
+                //Debug.Log("1일차 시작 이벤트 발생");
+                
                 break;
 
             case 3:
-                Debug.Log("3일차 시작 이벤트 발생");
+                //Debug.Log("3일차 시작 이벤트 발생");
                 break;
 
 
@@ -132,15 +165,21 @@ public class Main : MonoBehaviour
 
         switch (Turn)
         {
+
             case 1:
-                Debug.Log("1일차 종료 이벤트 발생");
-                StartCoroutine(TurnEvent_Egg());
+                //Debug.Log("1일차 종료 이벤트 발생");
+                
+                break;
+
+            case 2:
+                Debug.Log("2일차 종료 이벤트 발생");
+                Managers.Technical.Level_2();
                 break;
 
             case 3:
                 Debug.Log("3일차 종료 이벤트 발생");
+                StartCoroutine(TurnEvent_EggAppear());
                 break;
-
 
 
             default:
@@ -149,17 +188,18 @@ public class Main : MonoBehaviour
     }
 
 
-    IEnumerator TurnEvent_Egg()
+    IEnumerator TurnEvent_EggAppear()
     {
-        yield return new WaitForSeconds(2);
+        Time.timeScale = 0;
+        yield return new WaitForSecondsRealtime(2);
 
         Managers.UI.CloseAll();
         FindObjectOfType<UI_EventBox>().BoxActive(false);
 
-        Camera.main.transform.position = new Vector3(-4f, -10.5f, -10);
+        Camera.main.transform.position = new Vector3(Floor[3].transform.position.x, Floor[3].transform.position.y, -10);
         Camera.main.orthographicSize = 3;
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSecondsRealtime(1);
         {
             CurrentFloor = Floor[3];
             var obj = Managers.Placement.CreateOnlyOne("Facility/EggEntrance", null, Define.PlacementType.Facility);
@@ -169,12 +209,12 @@ public class Main : MonoBehaviour
         }
         
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSecondsRealtime(1);
 
-        Camera.main.transform.position = new Vector3(3, -8.5f, -10);
+        Camera.main.transform.position = new Vector3(Floor[2].transform.position.x, Floor[2].transform.position.y, -10);
         Camera.main.orthographicSize = 3;
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSecondsRealtime(1);
         {
             CurrentFloor = Floor[2];
 
@@ -183,12 +223,12 @@ public class Main : MonoBehaviour
 
             Managers.Placement.PlacementConfirm(obj, info, true);
         }
+        yield return new WaitForSecondsRealtime(1);
 
+        var dia = Managers.UI.ShowPopUp<UI_Dialogue>();
+        var data = DialogueManager.Instance.GetDialogue("EggAppear");
 
-        //ContentData data;
-        //Managers.Content.EventContentsDic.TryGetValue("EggAppear", out data);
-
-
+        dia.data = data;
     }
 
 
@@ -453,7 +493,6 @@ public class Main : MonoBehaviour
     public BasementFloor[] Floor { get; set; }
 
     public BasementFloor CurrentFloor { get; set; }
-
     public BasementTile CurrentTile { get; set; }
     public Action CurrentAction { get; set; }
 
@@ -484,4 +523,5 @@ public class Main : MonoBehaviour
     }
 
     #endregion
+
 }

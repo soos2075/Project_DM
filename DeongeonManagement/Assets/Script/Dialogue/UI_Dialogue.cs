@@ -20,11 +20,27 @@ public class UI_Dialogue : UI_PopUp
 
     public override void Init()
     {
-        base.Init();
+        //base.Init();
+        Managers.UI.SetCanvas(gameObject);
+        CloseDialogueEvent();
 
         Init_LogBox();
         Init_Conversation();
     }
+
+    void CloseDialogueEvent()
+    {
+        var obj = Util.FindChild(gameObject, "Panel");
+        if (obj)
+        {
+            obj.AddUIEvent((data) =>
+            {
+                Managers.UI.ClosePopUp();
+                Time.timeScale = 1;
+            }, Define.UIEvent.RightClick);
+        }
+    }
+
 
 
     #region Log
@@ -122,10 +138,11 @@ public class UI_Dialogue : UI_PopUp
 
     IEnumerator ContentsRoof(SO_DialogueData textData)
     {
-        while (textCount < textData.mainTextList.Count)
+        while (textCount < textData.TextDataList.Count)
         {
             Debug.Log("새 대화 출력");
-            yield return StartCoroutine(TypingEffect(data.mainTextList[textCount]));
+            GetTMP((int)Texts.name).text = data.TextDataList[textCount].name;
+            yield return StartCoroutine(TypingEffect(data.TextDataList[textCount].mainText, data.TextDataList[textCount].name));
             textCount++;
         }
         Time.timeScale = 1;
@@ -137,7 +154,7 @@ public class UI_Dialogue : UI_PopUp
 
     bool isSkip = false;
     bool isTyping = false;
-    IEnumerator TypingEffect(string contents)
+    IEnumerator TypingEffect(string contents, string name)
     {
         int charIndexer = 0;
 
@@ -154,7 +171,8 @@ public class UI_Dialogue : UI_PopUp
         isSkip = false;
 
         SpeakSomething(contents);
-        logText += $"{contents}\n\n";
+        logText += $"{name.ToString().SetTextColorTag(Define.TextColor.yellow)}\n";
+        logText += $"{contents}\n\n\n";
 
         Debug.Log("마우스 클릭 대기중");
         yield return new WaitUntil(() => isTyping == true);
@@ -166,7 +184,8 @@ public class UI_Dialogue : UI_PopUp
     {
         GetTMP((int)Texts.main).text = contents;
         //GetText((int)ConversationTexts.contentsText).text = contents;
-        LineUp();
+
+        StartCoroutine(LineUp());
     }
 
 
@@ -182,8 +201,9 @@ public class UI_Dialogue : UI_PopUp
         }
     }
 
-    void LineUp()
+    IEnumerator LineUp()
     {
+        yield return new WaitForEndOfFrame();
         if (GetTMP((int)Texts.main).textInfo.lineCount > 6)
         {
             GetTMP((int)Texts.main).alignment = TextAlignmentOptions.BottomLeft;

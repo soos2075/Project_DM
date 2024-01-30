@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UI_Management : UI_Base
 {
-    enum ButtonEvent
+    public enum ButtonEvent
     {
         Summon,
         Training,
@@ -40,6 +40,8 @@ public class UI_Management : UI_Base
         eventBox = Managers.UI.ShowSceneUI<UI_EventBox>("UI_EventBox");
 
         canvas = GetComponent<Canvas>();
+
+        DayZero();
     }
     void Update()
     {
@@ -66,6 +68,7 @@ public class UI_Management : UI_Base
 
         Init_Texts();
         Init_Button();
+
     }
 
 
@@ -80,7 +83,7 @@ public class UI_Management : UI_Base
 
     void Init_Button()
     {
-        GetButton((int)ButtonEvent.Summon).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Summon>());
+        GetButton((int)ButtonEvent.Summon).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Summon_Monster>());
         GetButton((int)ButtonEvent.Training).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Training>());
         GetButton((int)ButtonEvent.Placement).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_DungeonPlacement>());
 
@@ -98,8 +101,6 @@ public class UI_Management : UI_Base
 
     void DayChange()
     {
-        Init_Texts();
-
         if (Main.Instance.Management)
         {
             eventBox.BoxActive(true);
@@ -107,8 +108,24 @@ public class UI_Management : UI_Base
         }
 
         Main.Instance.DayChange();
+        Init_Texts();
     }
 
+
+    void DayZero()
+    {
+        GetButton((int)ButtonEvent.Special).gameObject.SetActive(false);
+        GetButton((int)ButtonEvent.Guild).gameObject.SetActive(false);
+        //GetButton((int)ButtonEvent.DayChange).gameObject.SetActive(false);
+        //GetButton((int)ButtonEvent.Test1).gameObject.SetActive(false);
+        //GetButton((int)ButtonEvent.Test2).gameObject.SetActive(false);
+        //GetButton((int)ButtonEvent.Test3).gameObject.SetActive(false);
+    }
+
+    public void Show_Button(ButtonEvent button) //? 메인에서 하나씩 풀면 됨
+    {
+        GetButton((int)button).gameObject.SetActive(true);
+    }
 
 
 }

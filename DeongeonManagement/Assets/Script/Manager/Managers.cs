@@ -16,6 +16,8 @@ public class Managers : MonoBehaviour
     PlacementManager _placement = new PlacementManager();
     SpriteManager _sprite = new SpriteManager();
     ContentManager _content = new ContentManager();
+    TechnicalManager _technical = new TechnicalManager();
+    MonsterManager _monster = new MonsterManager();
 
 
     public static ResourceManager Resource { get { return Instance._resource; } }
@@ -25,8 +27,8 @@ public class Managers : MonoBehaviour
     public static PlacementManager Placement { get { return Instance._placement; } }
     public static SpriteManager Sprite { get { return Instance._sprite; } }
     public static ContentManager Content { get { return Instance._content; } }
-
-
+    public static TechnicalManager Technical { get { return Instance._technical; } }
+    public static MonsterManager Monster { get { return Instance._monster; } }
 
 
 
@@ -51,6 +53,8 @@ public class Managers : MonoBehaviour
         _placement.Init();
         _sprite.Init();
         _content.Init();
+        _technical.Init();
+        _monster.Init();
     }
 
     void Start()
