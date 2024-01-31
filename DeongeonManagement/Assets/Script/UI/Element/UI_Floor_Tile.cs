@@ -22,6 +22,8 @@ public class UI_Floor_Tile : UI_Base
         parent = GetComponentInParent<UI_Floor>();
 
         gameObject.AddUIEvent((data) => TileCheckEvent(Main.Instance.CurrentBoundary), Define.UIEvent.Move);
+        gameObject.AddUIEvent((data) => GetComponent<Image>().color = Define.Color_White, Define.UIEvent.Exit);
+
         gameObject.AddUIEvent((data) => ActionCheckEvent(), Define.UIEvent.LeftClick);
 
         gameObject.AddUIEvent((data) => Managers.UI.PauseOpen(), Define.UIEvent.RightClick);
@@ -73,11 +75,11 @@ public class UI_Floor_Tile : UI_Base
             switch (parent.Mode)
             {
                 case UI_Floor.BuildMode.Build:
-                    allClean &= TileCheck(Main.Instance.CurrentFloor.TileMap[deltaX, deltaY], Define.TileType.Empty);
+                    allClean &= TileCheck(Main.Instance.Floor[parent.FloorID].TileMap[deltaX, deltaY], Define.TileType.Empty);
                     break;
                 case UI_Floor.BuildMode.Clear:
                     //allClean &= TileCheck_Clear(Main.Instance.CurrentFloor.TileMap[deltaX, deltaY]);
-                    allEmpty |= TileCheck(Main.Instance.CurrentFloor.TileMap[deltaX, deltaY], 
+                    allEmpty |= TileCheck(Main.Instance.Floor[parent.FloorID].TileMap[deltaX, deltaY], 
                         Define.TileType.Facility, Define.TileType.Entrance, Define.TileType.Exit);
                     break;
             }
@@ -110,7 +112,7 @@ public class UI_Floor_Tile : UI_Base
 
                         var content = parent.TileList[_deltaX, _deltaY];
 
-                        if (TileCheck(Main.Instance.CurrentFloor.TileMap[_deltaX, _deltaY],
+                        if (TileCheck(Main.Instance.Floor[parent.FloorID].TileMap[_deltaX, _deltaY],
                             Define.TileType.Facility, Define.TileType.Entrance, Define.TileType.Exit))
                         {
                             content.GetComponent<Image>().color = Define.Color_Green;

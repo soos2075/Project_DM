@@ -9,7 +9,7 @@ public class UI_Management : UI_Base
     public enum ButtonEvent
     {
         Summon,
-        Training,
+        Management,
         Special,
         Guild,
         Placement,
@@ -84,7 +84,10 @@ public class UI_Management : UI_Base
     void Init_Button()
     {
         GetButton((int)ButtonEvent.Summon).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Summon_Monster>());
-        GetButton((int)ButtonEvent.Training).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Training>());
+
+        GetButton((int)ButtonEvent.Management).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Monster_Management>());
+        //GetButton((int)ButtonEvent.Management).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Placement_Monster>());
+
         GetButton((int)ButtonEvent.Placement).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_DungeonPlacement>());
 
         GetButton((int)ButtonEvent.Test1).gameObject.AddUIEvent((data) => Main.Instance.AddAndActive("Adventurer"));

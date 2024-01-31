@@ -36,10 +36,24 @@ public class MonsterManager
             if (Monsters[i] == null)
             {
                 Monsters[i] = mon;
+                mon.MonsterID = i;
                 break;
             }
         }
     }
+
+    public void ReleaseMonster(int monsterID)
+    {
+        if (Monsters[monsterID] != null)
+        {
+            var mon = Monsters[monsterID];
+            Managers.Placement.PlacementClear(mon);
+            Managers.Resource.Destroy(mon.gameObject);
+            Monsters[monsterID] = null;
+        }
+    }
+
+
     #endregion
 
     #region 소환 데이터
@@ -62,7 +76,8 @@ public class MonsterManager
     {
         {
             MonsterData monster = new MonsterData();
-            monster.Name = "슬라임";
+            monster.Name_KR = "슬라임";
+            monster.Name = "Slime";
             monster.prefabPath = "Monster/Slime";
             monster.detail = "의외로 귀여운 슬라임입니다. 약하긴 하지만 그렇다고 슬라임을 버리실건가요? 분명 열심히 키우면 보답받을거에요!";
             monster.sprite = Managers.Sprite.GetSprite("Monster/Slime");
@@ -88,7 +103,8 @@ public class MonsterManager
 
         {
             MonsterData monster = new MonsterData();
-            monster.Name = "스켈레톤";
+            monster.Name_KR = "스켈레톤";
+            monster.Name = "Skeleton";
             monster.prefabPath = "Monster/Skeleton";
             monster.detail = "조금은 무서운 스켈레톤입니다. 튼튼하고 강해서 모험가들을 상대로 제격이에요. 하지만 조금 한계가 있을지도?";
             monster.sprite = Managers.Sprite.GetSprite("Monster/Skeleton");
@@ -122,8 +138,9 @@ public class MonsterManager
 public class MonsterData
 {
     public int ManaCost { get; set; }
-    public string Name { get; set; }
+    public string Name_KR { get; set; }
 
+    public string Name { get; set; }
 
 
 

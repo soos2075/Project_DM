@@ -7,7 +7,7 @@ public class BasementFloor : MonoBehaviour
     void Start()
     {
         Floor = gameObject.name;
-        boxCollider = GetComponent<BoxCollider2D>();
+        BoxCollider = GetComponent<BoxCollider2D>();
 
         npcList = new List<NPC>();
         monsterList = new List<Monster>();
@@ -26,10 +26,9 @@ public class BasementFloor : MonoBehaviour
     public bool Hidden = false;
 
     public string Name_KR;
+    public int MaxMonsterSize = 3;
 
-    public int MaxMonsterSize { get; set; } = 3;
-
-    public BoxCollider2D boxCollider;
+    public BoxCollider2D BoxCollider { get; private set; }
 
     public List<NPC> npcList;
     public List<Monster> monsterList;
@@ -102,7 +101,7 @@ public class BasementFloor : MonoBehaviour
 
     void Init_TileMap()
     {
-        Vector2Int size = new Vector2Int((int)(boxCollider.bounds.size.x * 2), (int)(boxCollider.bounds.size.y * 2));
+        Vector2Int size = new Vector2Int((int)(BoxCollider.bounds.size.x * 2), (int)(BoxCollider.bounds.size.y * 2));
         TileMap = new BasementTile[size.x, size.y];
 
         float standard = 0.5f;

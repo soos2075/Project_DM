@@ -29,15 +29,19 @@ public class UI_Placement_TypeSelect : UI_PopUp, IWorldSpaceUI
         GetObject((int)Objects.Facility).AddUIEvent(data =>
         {
             ClosePopUp();
-            var facility = Managers.UI.ShowPopUp<UI_Placement_Facility>();
+            var facility = Managers.UI.ShowPopUp<UI_Placement_Facility>("Facility/UI_Placement_Facility");
             facility.parents = this.parents;
             parents.PanelDisable();
         });
         GetObject((int)Objects.Monster).AddUIEvent(data =>
         {
             ClosePopUp();
-            var monster = Managers.UI.ShowPopUp<UI_Placement_Monster>();
-            monster.parents = this.parents;
+            //var monster = Managers.UI.ShowPopUp<UI_Placement_Monster>();
+            //monster.parents = this.parents;
+            //parents.PanelDisable();
+            Debug.Log("테스트위치");
+            var monster = Managers.UI.ShowPopUp<UI_Monster_Management>();
+            monster.Type = UI_Monster_Management.UI_Type.Placement;
             parents.PanelDisable();
         });
 

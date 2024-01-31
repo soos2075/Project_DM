@@ -72,7 +72,7 @@ public class UI_Placement_Facility : UI_PopUp
 
         for (int i = 0; i < Managers.Content.Contents.Count; i++)
         {
-            var content = Managers.Resource.Instantiate("UI/PopUp/Element/Facility_Content", pos).GetComponent<UI_Facility_Content>();
+            var content = Managers.Resource.Instantiate("UI/PopUp/Facility/Facility_Content", pos).GetComponent<UI_Facility_Content>();
             content.Content = Managers.Content.Contents[i];
             content.Parent = this;
 

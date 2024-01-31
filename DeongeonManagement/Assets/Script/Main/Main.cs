@@ -33,8 +33,6 @@ public class Main : MonoBehaviour
     void Start()
     {
         ManagementInit();
-
-        MonsterInit();
         BasementFloorInit();
         NPCInit();
         AnimationInit();
@@ -64,6 +62,12 @@ public class Main : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         StartNextFrame();
+        yield return new WaitForEndOfFrame();
+        yield return new WaitUntil(() => Time.timeScale == 1);
+        var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
+        message.Message = "던전에 다양한 시설과 몬스터들을 배치하여 모험가들에게 마나를 얻으세요!\n\n" +
+            "마나는 기본적으로 모험가들이 던전에서 행하는 모든 행동에서 얻을 수 있어요.";
+
     }
 
 
@@ -316,8 +320,8 @@ public class Main : MonoBehaviour
 
     void ManagementInit()
     {
-        Player_Mana = 100;
-        Player_Gold = 50;
+        Player_Mana = 7777;
+        Player_Gold = 3333;
         Player_AP = 10;
 
         _dayList = new List<DayResult>();
@@ -386,49 +390,7 @@ public class Main : MonoBehaviour
 
 
 
-
-
-
-
-    #region Monster
-
-    public Monster[] Monsters { get; set; }
-
     public int TrainingCount { get; set; } = 2;
-
-
-    void MonsterInit()
-    {
-        Monsters = new Monster[5];
-    }
-
-    public bool MaximumCheck()
-    {
-        foreach (var monster in Monsters)
-        {
-            if (monster == null)
-            {
-                return true;
-            }
-        }
-
-        Debug.Log("Monster Maximum");
-        return false;
-    }
-    public void AddMonster(Monster mon)
-    {
-        for (int i = 0; i < Monsters.Length; i++)
-        {
-            if (Monsters[i] == null)
-            {
-                Monsters[i] = mon;
-                break;
-            }
-        }
-    }
-    #endregion Monster
-
-
 
 
 

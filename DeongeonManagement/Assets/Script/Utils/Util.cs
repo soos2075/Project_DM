@@ -103,6 +103,17 @@ public class Util
                 return $"<color=44ff44ff>{text}</color>";
 
 
+            case Define.TextColor.SkyBlue:
+                return $"<color=#55bbffff>{text}</color>";
+
+            case Define.TextColor.LightGreen:
+                return $"<color=#55ff55ff>{text}</color>";
+
+            case Define.TextColor.LightYellow:
+                return $"<color=#ffff55ff>>{text}</color>";
+
+
+
             default:
                 return $"<color=white>{text}</color>";
         }

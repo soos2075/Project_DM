@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -73,6 +74,7 @@ public class UIManager
     public Stack<UI_PopUp> _popupStack = new Stack<UI_PopUp>();
 
     public UI_PopUp _paused;
+
 
 
     public T ShowPopUp<T>(string name = null) where T : UI_PopUp
@@ -228,9 +230,11 @@ public class UIManager
         {
             _paused.transform.GetChild(i).gameObject.SetActive(true);
         }
+
         _popupStack.Push(_paused);
         _paused = null;
     }
+
 
 
     #endregion

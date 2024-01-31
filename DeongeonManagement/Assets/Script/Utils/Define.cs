@@ -87,6 +87,10 @@ public class Define
 
         npc,
         monster,
+
+        SkyBlue,
+        LightGreen,
+        LightYellow,
     }
 
 
@@ -108,6 +112,7 @@ public class Define
     public static readonly Color Color_Gray = new Color32(155, 155, 155, 255);
 
     public static readonly Color Color_Yellow = new Color32(255, 255, 100, 175);
+    public static readonly Color Color_Dark = new Color32(50, 50, 50, 175);
     #endregion Image_Color
 
 

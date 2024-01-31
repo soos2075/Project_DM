@@ -5,11 +5,13 @@ using UnityEngine;
 public class Slime : Monster
 {
 
+    public override MonsterData Data { get; set; }
     public override MonsterType Type { get; set; }
 
 
     protected override void MonsterInit()
     {
+        Data = Managers.Monster.GetMonsterData("Slime");
         Type = MonsterType.Normal_Move;
     }
 

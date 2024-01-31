@@ -27,13 +27,15 @@ public class MonsterEditor : Editor
         //value.HP = (int)EditorGUILayout.IntField("HP", value.HP);
         //value.LV = (int)EditorGUILayout.IntField("LV", value.LV);
 
-        EditorGUILayout.ObjectField("이미지", value.Sprite, typeof(Sprite), true);
+        EditorGUILayout.ObjectField("이미지", value.Data.sprite, typeof(Sprite), true);
 
         EditorGUILayout.LabelField("이름", value.Name);
         EditorGUILayout.LabelField("HP", value.HP.ToString());
         EditorGUILayout.LabelField("LV", value.LV.ToString());
         EditorGUILayout.LabelField("ATK", value.ATK.ToString());
         EditorGUILayout.LabelField("DEF", value.DEF.ToString());
+        EditorGUILayout.LabelField("AGI", value.AGI.ToString());
+        EditorGUILayout.LabelField("LUK", value.LUK.ToString());
 
 
         //EditorGUILayout.EndHorizontal();

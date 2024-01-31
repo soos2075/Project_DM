@@ -41,7 +41,7 @@ public class UI_Monster_Content : UI_Base
     {
         GetTMP((int)Texts.LV).text = $"{Content.LV}";
         GetTMP((int)Texts.MANA).text = $"{Content.ManaCost}";
-        GetTMP((int)Texts.NAME).text = $"{Content.Name}";
+        GetTMP((int)Texts.NAME).text = $"{Content.Name_KR}";
         GetTMP((int)Texts.HP).text = $"{Content.HP}";
         GetTMP((int)Texts.ATK).text = $"{Content.ATK}";
         GetTMP((int)Texts.DEF).text = $"{Content.DEF}";

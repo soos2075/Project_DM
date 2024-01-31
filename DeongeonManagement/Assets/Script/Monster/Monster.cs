@@ -9,18 +9,13 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     }
     protected void Start()
     {
+        MonsterInit();
         Initialize_Status();
-
-        SetSprite($"Sprite/Monster/{this.name}");
 
         hp_chance = hp_origin;
         atk_chance = atk_origin;
         def_chance = def_origin;
     }
-    //protected void Update()
-    //{
-        
-    //}
 
 
     #region IPlacementable
@@ -47,20 +42,15 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         Injury,
     }
     public MonsterState State { get; set; }
-    public Sprite Sprite { get; set; }
 
-    public bool isTraining;
 
-    protected void SetSprite(string _path)
-    {
-        Sprite = Managers.Resource.Load<Sprite>(_path);
-    }
     #endregion
 
 
 
 
-
+    public abstract MonsterData Data { get; set; }
+    public int MonsterID { get; set; }
 
 
 
@@ -214,12 +204,23 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
 
 
-
+    public void Recover()
+    {
+        //? »∏∫π
+        Debug.Log("hp ≤À√§øˆ¡‡æﬂ«‘");
+        State = MonsterState.Standby;
+    }
 
     public void Training()
     {
+        if (Main.Instance.TrainingCount <= 0)
+        {
+            Debug.Log("»∆∑√»Ωºˆ æ¯¿Ω");
+            return;
+        }
+        Main.Instance.TrainingCount--;
+        Debug.Log($"{Name_KR} »∆∑√¡¯«‡");
         LevelUp();
-        isTraining = true;
     }
 
     public void LevelUp()

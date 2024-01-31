@@ -102,7 +102,7 @@ public class UI_Summon_Monster : UI_PopUp
     void PreviewRefresh(MonsterData content)
     {
         GetObject((int)Preview.Preview_Image).GetComponent<Image>().sprite = content.sprite;
-        GetObject((int)Preview.Preview_Text_Title).GetComponent<TextMeshProUGUI>().text = content.Name;
+        GetObject((int)Preview.Preview_Text_Title).GetComponent<TextMeshProUGUI>().text = content.Name_KR;
         GetObject((int)Preview.Preview_Text_Contents).GetComponent<TextMeshProUGUI>().text = content.detail;
 
 
@@ -114,7 +114,7 @@ public class UI_Summon_Monster : UI_PopUp
 
     void MonsterSummon(MonsterData data)
     {
-        if (Main.Instance.MaximumCheck() && Main.Instance.Player_Mana >= data.ManaCost)
+        if (Managers.Monster.MaximumCheck() && Main.Instance.Player_Mana >= data.ManaCost)
         {
             SummonConfirm(data);
         }
@@ -130,7 +130,7 @@ public class UI_Summon_Monster : UI_PopUp
         var mon = Managers.Placement.CreatePlacementObject(data.prefabPath, null, Define.PlacementType.Monster);
         Managers.Monster.AddMonster(mon as Monster);
 
-        Debug.Log($"{data.ManaCost}마나를 사용하여 {data.Name}을 소환");
+        Debug.Log($"{data.ManaCost}마나를 사용하여 {data.Name_KR}을 소환");
         Main.Instance.CurrentDay.SubtractMana(data.ManaCost);
 
         Init_Texts();

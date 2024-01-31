@@ -39,7 +39,7 @@ public class UI_ScenePlacement : UI_Scene, IWorldSpaceUI
             UI_TileView_Floor content = Managers.Resource.Instantiate("UI/PopUp/Element/TileView_Floor", transform).
                 GetComponent<UI_TileView_Floor>();
 
-            content.SetFloorSize(Main.Instance.Floor[i].transform.position, Main.Instance.Floor[i].boxCollider.bounds.size);
+            content.SetFloorSize(Main.Instance.Floor[i].transform.position, Main.Instance.Floor[i].BoxCollider.bounds.size);
             content.FloorID = i;
         }
     }

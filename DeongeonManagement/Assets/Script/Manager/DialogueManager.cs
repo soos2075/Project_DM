@@ -25,6 +25,7 @@ public class DialogueManager : MonoBehaviour
     }
     #endregion
 
+    //? 많아지면 받는거만 리스트로 받고 딕셔너리에 등록해놔도 될듯
     public List<SO_DialogueData> so_Datas;
 
 
