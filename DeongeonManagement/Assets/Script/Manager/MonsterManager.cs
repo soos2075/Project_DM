@@ -96,7 +96,7 @@ public class MonsterManager
             monster.ATK_chance = 0.3f;
             monster.DEF_chance = 0.25f;
             monster.AGI_chance = 0.15f;
-            monster.LUK_chance = 0.15f;
+            monster.LUK_chance = 0.1f;
 
             MonsterDatas.Add(monster);
         }
@@ -120,10 +120,10 @@ public class MonsterManager
             monster.LUK = 4;
 
             monster.HP_chance = 1.5f;
-            monster.ATK_chance = 0.35f;
+            monster.ATK_chance = 0.4f;
             monster.DEF_chance = 0.15f;
             monster.AGI_chance = 0.1f;
-            monster.LUK_chance = 0.1f;
+            monster.LUK_chance = 0.08f;
 
             MonsterDatas.Add(monster);
         }

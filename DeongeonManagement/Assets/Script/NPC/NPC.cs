@@ -9,8 +9,6 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     void Start()
     {
         Initialize_Status();
-
-        Managers.Resource.Instantiate("UI/UI_StateBar", transform);
     }
     //void Update()
     //{
@@ -66,6 +64,23 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         newList = Util.ListShuffle(newList);
         return RefinementList(newList);
     }
+    protected List<BasementTile> GetFacilityPick(Facility.FacilityType facilityType) //? 특정타입의 퍼실리티만 가져오는 리스트
+    {
+        List<BasementTile> allList = GetFloorObjectsAll(Define.TileType.Facility);
+        List<BasementTile> newList = new List<BasementTile>();
+
+        for (int i = 0; i < allList.Count; i++)
+        {
+            var facil = allList[i].placementable as Facility;
+            if (facil != null && facil.Type == facilityType)
+            {
+                newList.Add(allList[i]);
+            }
+        }
+
+        newList = Util.ListShuffle(newList);
+        return RefinementList(newList);
+    }
 
     protected void AddList(List<BasementTile> addList, AddPos pos = AddPos.Back)
     {
@@ -95,8 +110,9 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         var newList = _list.Distinct().ToList();
 
         newList.Remove(PlacementInfo.Place_Tile);
-        newList.Remove(PlacementInfo.Place_Floor.Entrance.PlacementInfo.Place_Tile);
-        newList.Remove(PlacementInfo.Place_Floor.Exit.PlacementInfo.Place_Tile);
+        //newList.Remove(PlacementInfo.Place_Floor.Entrance.PlacementInfo.Place_Tile);
+        //newList.Remove(PlacementInfo.Place_Floor.Exit.PlacementInfo.Place_Tile);
+        //? 지금 구현을 출입구없으면 가져오는식으로 만들어놔서 이거 쓰면 안될듯? 그냥 모험가들이 리스트 찾을때 출입구 안찾게하는게 맞을듯.
 
         return newList;
     }
@@ -124,6 +140,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         transform.position = startPoint;
         Managers.Placement.Visible(this);
 
+        Managers.Resource.Instantiate("UI/UI_StateBar", transform);
+
         StartCoroutine(MoveToPoint(endPoint));
     }
 
@@ -149,9 +167,9 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     public void Arrival()
     {
         inDungeon = false;
-        transform.position = Main.Instance.dungeonEntrance.position;
+        transform.position = Managers.NPC.dungeonEntrance.position;
         Managers.Placement.Visible(this);
-        StartCoroutine(MoveToHome(Main.Instance.guild.position));
+        StartCoroutine(MoveToHome(Managers.NPC.guild.position));
     }
 
     IEnumerator MoveToHome(Vector3 point)
@@ -165,7 +183,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             dis = Vector3.Distance(transform.position, point);
             yield return null;
         }
-        Main.Instance.InactiveNPC(this);
+        Managers.NPC.InactiveNPC(this);
     }
     #endregion Ground
 
@@ -279,7 +297,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         }
         else
         {
-            State = NPCState.Next;
+            State = StateRefresh();
         }
         
     }
@@ -313,6 +331,18 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         UI_EventBox.AddEventText($"◆{Name_KR} (이)가 지상으로 탈출");
         //Debug.Log($"{name}(이)가 지상으로 탈출");
         Arrival();
+
+        switch (State)
+        {
+            case NPCState.Runaway:
+                Main.Instance.FameOfDungeon += 5;
+                Main.Instance.DangerOfDungeon += 1;
+                break;
+            case NPCState.Return:
+                Main.Instance.FameOfDungeon += -2;
+                Main.Instance.DangerOfDungeon += -2;
+                break;
+        }
     }
 
     void FloorPortal(int hiddenFloor) //? 특정층으로 순간이동
@@ -320,20 +350,22 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         Managers.Placement.PlacementClear(this);
 
         //? 입구에서 소환
-        var info = new PlacementInfo(Main.Instance.Floor[hiddenFloor], Main.Instance.Floor[hiddenFloor].GetRandomTile(this));
-        Managers.Placement.PlacementConfirm(this, info);
+        var info_Exit = new PlacementInfo(Main.Instance.Floor[hiddenFloor], Main.Instance.Floor[hiddenFloor].Exit.PlacementInfo.Place_Tile);
+        //var info = new PlacementInfo(Main.Instance.Floor[hiddenFloor], Main.Instance.Floor[hiddenFloor].GetRandomTile(this));
+
+        Managers.Placement.PlacementConfirm(this, info_Exit);
 
 
-        //SetPriorityList(); //? 우선순위에 맞춰 맵탐색
+        SetPriorityList(); //? 우선순위에 맞춰 맵탐색
 
-        //if (PriorityList.Count > 0)
-        //{
-        //    State = NPCState.Priority;
-        //}
-        //else
-        //{
-        //    State = NPCState.Next;
-        //}
+        if (PriorityList.Count > 0)
+        {
+            State = NPCState.Priority;
+        }
+        else
+        {
+            State = NPCState.Return;
+        }
         Debug.Log("일단 비밀방 이동완료");
     }
 
@@ -359,7 +391,10 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         Main.Instance.CurrentDay.AddGold(100);
         Debug.Log($"{name}(이)가 죽음 + 자세한 사유는 이후에 추가");
         UI_EventBox.AddEventText($"◈{Name_KR} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 쓰러짐");
-        Main.Instance.InactiveNPC(this);
+        Managers.NPC.InactiveNPC(this);
+
+        Main.Instance.FameOfDungeon += 1;
+        Main.Instance.DangerOfDungeon += 5;
     }
 
     void NPC_Captive()
@@ -367,7 +402,9 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         Main.Instance.CurrentDay.AddPrisoner(1);
         Debug.Log($"{name}(이)가 포로로 잡힘");
         UI_EventBox.AddEventText($"◈{Name_KR} (이)가 포로로 잡힘");
-        Main.Instance.InactiveNPC(this);
+        Managers.NPC.InactiveNPC(this);
+
+
     }
 
 
@@ -535,6 +572,13 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         switch (encount)
         {
+            case Define.PlaceEvent.Event:
+                Managers.Placement.PlacementMove(this, next);
+                StopCoroutine(Cor_Move);
+                Cor_Move = null;
+                Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => State = NPCState.Return));
+                return true;
+
             case Define.PlaceEvent.Using:
                 Managers.Placement.PlacementMove(this, next);
                 StopCoroutine(Cor_Move);

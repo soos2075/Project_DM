@@ -21,7 +21,7 @@ public class Mineral_High : Facility
         if (InteractionOfTimes > 0)
         {
             InteractionOfTimes--;
-            Cor_Facility = StartCoroutine(FacilityEvent(npc, 5, "다이아 캐는중...", ap: 1, mp: 20, hp: 0));
+            Cor_Facility = StartCoroutine(FacilityEvent(npc, 5, "다이아 캐는중...", ap: 1, mp: 25, hp: 0));
             return Cor_Facility;
         }
         else

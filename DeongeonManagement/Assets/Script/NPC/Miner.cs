@@ -25,10 +25,10 @@ public class Miner : NPC
             agi: 2,
             luk: 7,
             hp: 15,
-            ap: 5,
+            ap: 4,
             mp: 50,
             speed: 1.2f,
-            delay: 1.2f);
+            delay: 0.5f);
 
         Init_AvoidType();
     }

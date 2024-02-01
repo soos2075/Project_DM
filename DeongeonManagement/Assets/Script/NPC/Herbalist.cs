@@ -27,7 +27,7 @@ public class Herbalist : NPC
             ap: 3,
             mp: 50,
             speed: 1.5f,
-            delay: 1.0f);
+            delay: 0.5f);
 
 
         Init_AvoidType();

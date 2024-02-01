@@ -5,16 +5,12 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 {
     protected void Awake()
     {
-        
+
     }
     protected void Start()
     {
         MonsterInit();
         Initialize_Status();
-
-        hp_chance = hp_origin;
-        atk_chance = atk_origin;
-        def_chance = def_origin;
     }
 
 
@@ -34,7 +30,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
 
 
-    #region For GUI Traing Etc
+    #region For Management
     public enum MonsterState
     {
         Standby,
@@ -55,23 +51,21 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
 
     #region Monster Status
-    public string Name { get; set; }
-    public int LV { get; set; }
+    public string Name { get; protected set; }
+    public int LV { get; protected set; }
     public int HP { get; set; }
+    public int HP_Max { get; protected set; }
 
-    public int ATK { get; set; }
-    public int DEF { get; set; }
-    public int AGI { get; set; }
-    public int LUK { get; set; }
+    public int ATK { get; protected set; }
+    public int DEF { get; protected set; }
+    public int AGI { get; protected set; }
+    public int LUK { get; protected set; }
 
-    private readonly float hp_origin = 1.2f;
     private float hp_chance;
-
-    private readonly float atk_origin = 0.5f;
     private float atk_chance;
-
-    private readonly float def_origin = 0.25f;
     private float def_chance;
+    private float agi_chance;
+    private float luk_chance;
 
     public enum MonsterType
     {
@@ -84,17 +78,28 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
 
     protected abstract void MonsterInit();
-    protected abstract void Initialize_Status();
-
-    protected void SetStatus(string name, int lv, int hp, int atk, int def, int agi, int luk)
+    protected void Initialize_Status()
     {
-        Name = name; LV = lv;
+        if (Data == null) { Debug.Log($"데이터 없음 : {name}"); return; }
 
-        HP = hp;
+        Name = Data.Name_KR;
+        LV = Data.LV;
 
-        ATK = atk; DEF = def;
-        AGI = agi; LUK = luk;
+        HP = Data.HP;
+        HP_Max = Data.HP;
+
+        ATK = Data.ATK;
+        DEF = Data.DEF;
+        AGI = Data.AGI;
+        LUK = Data.LUK;
+
+        hp_chance = Data.HP_chance;
+        atk_chance = Data.ATK_chance;
+        def_chance = Data.DEF_chance;
+        agi_chance = Data.AGI_chance;
+        luk_chance = Data.LUK_chance;
     }
+
 
     #endregion
 
@@ -208,28 +213,50 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     {
         //? 회복
         Debug.Log("hp 꽉채워줘야함");
+        HP = HP_Max;
         State = MonsterState.Standby;
     }
 
     public void Training()
     {
-        if (Main.Instance.TrainingCount <= 0)
+        if (Main.Instance.Player_AP <= 0)
         {
             Debug.Log("훈련횟수 없음");
             return;
         }
-        Main.Instance.TrainingCount--;
+        if (Data.MAXLV <= LV)
+        {
+            Debug.Log("최대레벨임");
+            return;
+        }
+
+        Main.Instance.Player_AP--;
         Debug.Log($"{Name_KR} 훈련진행");
         LevelUp();
     }
 
     public void LevelUp()
     {
+        var ui = Managers.UI.ShowPopUpAlone<UI_StatusUp>();
+        ui.TargetMonster(this);
+
         LV++;
 
-        HP += TryStatUp(hp_origin, ref hp_chance);
-        ATK += TryStatUp(atk_origin, ref atk_chance);
-        DEF += TryStatUp(def_origin, ref def_chance);
+        HP_Max += TryStatUp(Data.HP_chance, ref hp_chance);
+        HP = HP_Max;
+
+        ATK += TryStatUp(Data.ATK_chance, ref atk_chance);
+        DEF += TryStatUp(Data.DEF_chance, ref def_chance);
+        AGI += TryStatUp(Data.AGI_chance, ref agi_chance);
+        LUK += TryStatUp(Data.LUK_chance, ref luk_chance);
+    }
+    public void StatUp()
+    {
+        HP_Max += TryStatUp(Data.HP_chance, ref hp_chance);
+        ATK += TryStatUp(Data.ATK_chance, ref atk_chance);
+        DEF += TryStatUp(Data.DEF_chance, ref def_chance);
+        AGI += TryStatUp(Data.AGI_chance, ref agi_chance);
+        LUK += TryStatUp(Data.LUK_chance, ref luk_chance);
     }
 
     int TryStatUp(float origin, ref float probability)
@@ -259,7 +286,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
 
 
-    public Coroutine moveCoroutine;
+    public Coroutine MoveCoroutine { get; set; }
 
 
 

@@ -15,23 +15,10 @@ public class Slime : Monster
         Type = MonsterType.Normal_Move;
     }
 
-    protected override void Initialize_Status()
-    {
-        SetStatus(
-            name: "ΩΩ∂Û¿”", 
-            lv: 1,
-            hp: 15,
-            atk: 2,
-            def: 4,
-            agi: 2,
-            luk: 3
-            );
-    }
-
 
     void MoveSelf()
     {
-        moveCoroutine = StartCoroutine(MoveCor());
+        MoveCoroutine = StartCoroutine(MoveCor());
     }
 
 

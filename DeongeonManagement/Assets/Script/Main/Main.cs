@@ -34,17 +34,12 @@ public class Main : MonoBehaviour
     {
         ManagementInit();
         BasementFloorInit();
-        NPCInit();
         AnimationInit();
 
         StartCoroutine(NextStart());
 
     }
 
-    void Update()
-    {
-
-    }
 
 
     void StartNextFrame()
@@ -71,177 +66,24 @@ public class Main : MonoBehaviour
     }
 
 
-    #region TechnicalEvent
-    public List<Action<int>> DayActions { get; set; } = new List<Action<int>>();
-    public List<Action<int>> NightActions { get; set; } = new List<Action<int>>();
-
-    public UI_Technical CurrentTechnical { get; set; }
-
-    void DayEvent ()
-    {
-        for (int i = 0; i < DayActions.Count; i++)
-        {
-            DayActions[i].Invoke(Turn);
-        }
-    }
-    void NightEvent()
-    {
-        for (int i = 0; i < NightActions.Count; i++)
-        {
-            NightActions[i].Invoke(Turn);
-        }
-    }
-
-
-    #endregion
-
-
-    #region Day
-    public int Turn { get; set; } = 0;
-
-
-    private bool _Management = true;
-    public bool Management
-    {
-        get { return _Management; }
-        set
-        {
-            _Management = value;
-            if (_Management == false)
-            {
-                Turn++;
-                TurnStartEvent();
-                DayEvent();
-            }
-            else
-            {
-                DayOver();
-                TurnOverEvent();
-                NightEvent();
-            }
-        }
-    }
-
-
-    public void DayChange()
-    {
-
-        Managers.UI.CloseAll();
-
-        Management = !Management;
-
-        DayChangeAnimation();
-    }
-
-
-
-
-
-    public void TurnStartEvent()
-    {
-        UI_EventBox.AddEventText($"※{Turn}일차 시작※");
-
-
-        switch (Turn)
-        {
-            case 0:
-                break;
-
-            case 1:
-                //Debug.Log("1일차 시작 이벤트 발생");
-                
-                break;
-
-            case 3:
-                //Debug.Log("3일차 시작 이벤트 발생");
-                break;
-
-
-
-            default:
-                break;
-        }
-    }
-    public void TurnOverEvent()
-    {
-        UI_EventBox.AddEventText($"※{Turn}일차 종료※");
-
-
-        switch (Turn)
-        {
-
-            case 1:
-                //Debug.Log("1일차 종료 이벤트 발생");
-                
-                break;
-
-            case 2:
-                Debug.Log("2일차 종료 이벤트 발생");
-                Managers.Technical.Level_2();
-                break;
-
-            case 3:
-                Debug.Log("3일차 종료 이벤트 발생");
-                StartCoroutine(TurnEvent_EggAppear());
-                break;
-
-
-            default:
-                break;
-        }
-    }
-
-
-    IEnumerator TurnEvent_EggAppear()
-    {
-        Time.timeScale = 0;
-        yield return new WaitForSecondsRealtime(2);
-
-        Managers.UI.CloseAll();
-        FindObjectOfType<UI_EventBox>().BoxActive(false);
-
-        Camera.main.transform.position = new Vector3(Floor[3].transform.position.x, Floor[3].transform.position.y, -10);
-        Camera.main.orthographicSize = 3;
-
-        yield return new WaitForSecondsRealtime(1);
-        {
-            CurrentFloor = Floor[3];
-            var obj = Managers.Placement.CreateOnlyOne("Facility/EggEntrance", null, Define.PlacementType.Facility);
-            PlacementInfo info = new PlacementInfo(CurrentFloor, CurrentFloor.GetRandomTile(obj));
-
-            Managers.Placement.PlacementConfirm(obj, info, true);
-        }
-        
-
-        yield return new WaitForSecondsRealtime(1);
-
-        Camera.main.transform.position = new Vector3(Floor[2].transform.position.x, Floor[2].transform.position.y, -10);
-        Camera.main.orthographicSize = 3;
-
-        yield return new WaitForSecondsRealtime(1);
-        {
-            CurrentFloor = Floor[2];
-
-            var obj = Managers.Placement.CreateOnlyOne("Facility/EggEntrance", null, Define.PlacementType.Facility);
-            PlacementInfo info = new PlacementInfo(CurrentFloor, CurrentFloor.GetRandomTile(obj));
-
-            Managers.Placement.PlacementConfirm(obj, info, true);
-        }
-        yield return new WaitForSecondsRealtime(1);
-
-        var dia = Managers.UI.ShowPopUp<UI_Dialogue>();
-        var data = DialogueManager.Instance.GetDialogue("EggAppear");
-
-        dia.data = data;
-    }
-
-
-    #endregion
-
-
-
-
     #region Management
+
+    public int Final_Score { get; private set; }
+
+    void AddScore(DayResult day)
+    {
+        int score = day.Get_Mana;
+        score += day.Get_Gold;
+        score += day.Get_Prisoner * 50;
+        score += day.Get_Kill * 100;
+
+        Final_Score += score;
+    }
+
+    public int FameOfDungeon { get; set; }
+    public int DangerOfDungeon { get; set; }
+
+
     public int Player_Mana { get; set; }
     public int Player_Gold { get; set; }
     public int Player_AP { get; set; }
@@ -322,7 +164,7 @@ public class Main : MonoBehaviour
     {
         Player_Mana = 7777;
         Player_Gold = 3333;
-        Player_AP = 10;
+        Player_AP = 100;
 
         _dayList = new List<DayResult>();
 
@@ -335,6 +177,7 @@ public class Main : MonoBehaviour
     void DayOver()
     {
         _dayList.Add(CurrentDay);
+        AddScore(CurrentDay);
 
         var ui = Managers.UI.ShowPopUp<UI_DayResult>();
         ui.TextContents(_dayList[Turn - 1]);
@@ -349,6 +192,184 @@ public class Main : MonoBehaviour
     }
 
     #endregion
+
+
+
+
+    #region TechnicalEvent
+    public List<Action<int>> DayActions { get; set; } = new List<Action<int>>();
+    public List<Action<int>> NightActions { get; set; } = new List<Action<int>>();
+
+    public UI_Technical CurrentTechnical { get; set; }
+
+    void DayEvent ()
+    {
+        for (int i = 0; i < DayActions.Count; i++)
+        {
+            DayActions[i].Invoke(Turn);
+        }
+    }
+    void NightEvent()
+    {
+        for (int i = 0; i < NightActions.Count; i++)
+        {
+            NightActions[i].Invoke(Turn);
+        }
+    }
+
+
+    #endregion
+
+
+    #region Day
+    public int Turn { get; set; } = 0;
+
+
+    private bool _Management = true;
+    public bool Management
+    {
+        get { return _Management; }
+        set
+        {
+            _Management = value;
+            if (_Management == false)
+            {
+                Turn++;
+                TurnStartEvent();
+                DayEvent();
+                Managers.NPC.TurnStart();
+            }
+            else
+            {
+                DangerOfDungeon += 10;
+                FindObjectOfType<UI_Management>().DayOver();
+                DayOver();
+                TurnOverEvent();
+                NightEvent();
+            }
+        }
+    }
+
+
+    public void DayChange()
+    {
+
+        Managers.UI.CloseAll();
+
+        Management = !Management;
+
+        DayChangeAnimation();
+    }
+
+
+
+
+
+    public void TurnStartEvent()
+    {
+        UI_EventBox.AddEventText($"※{Turn}일차 시작※");
+
+
+        switch (Turn)
+        {
+            case 0:
+                break;
+
+            case 1:
+                //Debug.Log("1일차 시작 이벤트 발생");
+                
+                break;
+
+            case 3:
+                //Debug.Log("3일차 시작 이벤트 발생");
+                break;
+
+
+
+            default:
+                break;
+        }
+    }
+    public void TurnOverEvent()
+    {
+        UI_EventBox.AddEventText($"※{Turn}일차 종료※");
+
+
+        switch (Turn)
+        {
+
+            case 1:
+                //Debug.Log("1일차 종료 이벤트 발생");
+                
+                break;
+
+            case 2:
+                Debug.Log("2일차 종료 이벤트 발생");
+                Managers.Technical.Level_2();
+                break;
+
+            case 5:
+                Debug.Log("3일차 종료 이벤트 발생");
+                StartCoroutine(TurnEvent_EggAppear());
+                break;
+
+
+            default:
+                break;
+        }
+    }
+
+
+    IEnumerator TurnEvent_EggAppear()
+    {
+        Time.timeScale = 0;
+        yield return new WaitForSecondsRealtime(2);
+
+        Managers.UI.CloseAll();
+        FindObjectOfType<UI_EventBox>().BoxActive(false);
+
+        Camera.main.transform.position = new Vector3(Floor[3].transform.position.x, Floor[3].transform.position.y, -10);
+        Camera.main.orthographicSize = 3;
+
+        yield return new WaitForSecondsRealtime(1);
+        {
+            CurrentFloor = Floor[3];
+            var obj = Managers.Placement.CreateOnlyOne("Facility/Exit", null, Define.PlacementType.Facility);
+            PlacementInfo info = new PlacementInfo(CurrentFloor, CurrentFloor.GetRandomTile(obj));
+
+            Managers.Placement.PlacementConfirm(obj, info, true);
+        }
+        
+
+        yield return new WaitForSecondsRealtime(1);
+
+        Camera.main.transform.position = new Vector3(Floor[2].transform.position.x, Floor[2].transform.position.y, -10);
+        Camera.main.orthographicSize = 3;
+
+        yield return new WaitForSecondsRealtime(1);
+        {
+            CurrentFloor = Floor[2];
+
+            var obj = Managers.Placement.CreateOnlyOne("Facility/EggEntrance", null, Define.PlacementType.Facility);
+            PlacementInfo info = new PlacementInfo(CurrentFloor, CurrentFloor.GetRandomTile(obj));
+
+            Managers.Placement.PlacementConfirm(obj, info, true);
+        }
+        yield return new WaitForSecondsRealtime(1);
+
+        var dia = Managers.UI.ShowPopUp<UI_Dialogue>();
+        var data = DialogueManager.Instance.GetDialogue("EggAppear");
+
+        dia.data = data;
+    }
+
+
+    #endregion
+
+
+
+
+   
 
 
 
@@ -388,63 +409,6 @@ public class Main : MonoBehaviour
 
 
 
-
-
-    public int TrainingCount { get; set; } = 2;
-
-
-
-
-
-
-
-    #region NPC
-    public Queue<NPC> NPCs;
-
-    public Transform guild;
-    public Transform dungeonEntrance;
-
-    void NPCInit()
-    {
-        NPCs = new Queue<NPC>();
-
-        guild = Util.FindChild<Transform>(gameObject, "Guild");
-        dungeonEntrance = Util.FindChild<Transform>(gameObject, "Dungeon");
-    }
-
-
-    public void AddAndActive(string npcName)
-    {
-        AddNPC(npcName);
-        ActiveNPC();
-    }
-
-    public void AddNPC(string npcName)
-    {
-        var npc = Managers.Placement.CreatePlacementObject($"NPC/{npcName}", null, Define.PlacementType.NPC);
-
-        NPCs.Enqueue(npc as NPC);
-    }
-
-
-    public void ActiveNPC()
-    {
-        if (NPCs.Count > 0)
-        {
-            var n = NPCs.Dequeue();
-            n.Departure(guild.position, dungeonEntrance.position);
-            //UI_EventBox.AddEventText($"{n.Name} {n.Name_Index} (이)가 길드에서 출발");
-        }
-    }
-
-    public void InactiveNPC(NPC npc)
-    {
-        Managers.Placement.PlacementClear(npc);
-        //Managers.Resource.Destroy(npc.gameObject);
-    }
-
-
-    #endregion
 
 
 

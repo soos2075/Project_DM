@@ -27,7 +27,7 @@ public class Adventurer : NPC
             ap: 10,
             mp: 100,
             speed: 2f,
-            delay: 0.8f);
+            delay: 0.3f);
 
         Init_AvoidType();
     }
@@ -44,41 +44,42 @@ public class Adventurer : NPC
     {
         if (PriorityList != null) PriorityList.Clear();
 
-        var list0 = GetFloorObjectsAll(Define.TileType.Facility);
+        //var list0 = GetFloorObjectsAll(Define.TileType.Facility);
         var list1 = GetFloorObjectsAll(Define.TileType.Monster);
-        //var list2 = GetPriorityPick(typeof(Entrance_Egg));
-        //var list3 = GetPriorityPick(typeof(Treasure_Base));
-        //var list4 = GetPriorityPick(typeof(Campfire));
-        //var list5 = GetPriorityPick(typeof(SpecialEgg));
+        var list2 = GetFacilityPick(Facility.FacilityType.RestZone);
+        var list3 = GetFacilityPick(Facility.FacilityType.Treasure);
+        var list4 = GetFacilityPick(Facility.FacilityType.Artifact);
+        var list5 = GetFacilityPick(Facility.FacilityType.Event);
 
         AddList(list1);
-        AddList(list0);
-        //AddList(list2);
-        //AddList(list3, AddPos.Front);
-        //AddList(list4);
-        //AddList(list5, AddPos.Back);
+        AddList(list2);
+        AddList(list3);
+        AddList(list4);
+        AddList(list5);
+
+        PickToProbability(GetPriorityPick(typeof(Entrance_Egg)), PlacementInfo.Place_Floor.FloorIndex * 0.1f);
+    }
 
 
-        var remove1 = GetPriorityPick(typeof(Mineral_Low));
-        var remove2 = GetPriorityPick(typeof(Mineral_High));
-        var remove3 = GetPriorityPick(typeof(Herb_Low));
-        var remove4 = GetPriorityPick(typeof(Herb_High));
 
-        foreach (var item in remove1)
+
+    void PickToProbability(List<BasementTile> pick, float probability, AddPos pos = AddPos.Back)
+    {
+        float randomValue = Random.value;
+        if (randomValue < probability)
         {
-            PriorityRemove(item);
+            AddList(pick);
         }
-        foreach (var item in remove2)
+    }
+    void RemoveToProbability(List<BasementTile> pick, float probability)
+    {
+        float randomValue = Random.value;
+        if (randomValue < probability)
         {
-            PriorityRemove(item);
-        }
-        foreach (var item in remove3)
-        {
-            PriorityRemove(item);
-        }
-        foreach (var item in remove4)
-        {
-            PriorityRemove(item);
+            foreach (var item in pick)
+            {
+                PriorityRemove(item);
+            }
         }
     }
 }

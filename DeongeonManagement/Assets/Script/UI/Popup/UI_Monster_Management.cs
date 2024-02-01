@@ -82,7 +82,7 @@ public class UI_Monster_Management : UI_PopUp
     void Init_Management()
     {
         //? 몬스터를 누르면 그 때 각종 버튼이 나타나고 누를 수 있게됨. 그전까진 의미없음
-        GetTMP((int)Texts.FloorData).text = $"훈련 가능 횟수 : {Main.Instance.TrainingCount}";
+        GetTMP((int)Texts.FloorData).text = $"남은 행동력 : {Main.Instance.Player_AP}";
     }
     void Init_Placement()
     {
@@ -138,12 +138,11 @@ public class UI_Monster_Management : UI_PopUp
         GetTMP(((int)Texts.Name)).text = selected.monster.Name_KR;
 
 
-        GetTMP(((int)Texts.Status)).text = $"<color=#ff4444ff>HP {selected.monster.HP} / {selected.monster.Data.HP} \n</color>";
-        GetTMP(((int)Texts.Status)).text += $"<color=yellow>ATK : {selected.monster.ATK} " +
-            $"<color=green>DEF : {selected.monster.DEF} <color=blue>AGI : {selected.monster.AGI} <color=purple>LUK : {selected.monster.LUK}";
+        GetTMP(((int)Texts.Status)).text = $"HP : {selected.monster.HP} / {selected.monster.HP_Max} \n";
+        GetTMP(((int)Texts.Status)).text += $"ATK : {selected.monster.ATK} \tDEF : {selected.monster.DEF} \n" +
+            $"AGI : {selected.monster.AGI} \tLUK : {selected.monster.LUK}";
 
-
-        GetTMP(((int)Texts.State)).text = "무언가 들어갈 수 있는곳";
+        GetTMP(((int)Texts.State)).text = "진화조건 : ???";
 
         GetObject(((int)Etc.Profile)).GetComponent<Image>().sprite = selected.monster.Data.sprite;
     }
@@ -195,7 +194,7 @@ public class UI_Monster_Management : UI_PopUp
     {
         yield return new WaitForEndOfFrame();
         Debug.Log("창 새로고침");
-        GetTMP((int)Texts.FloorData).text = $"훈련 가능 횟수 : {Main.Instance.TrainingCount}";
+        GetTMP((int)Texts.FloorData).text = $"남은 행동력 : {Main.Instance.Player_AP}";
         ShowDetail(Current);
         for (int i = 0; i < childList.Count; i++)
         {

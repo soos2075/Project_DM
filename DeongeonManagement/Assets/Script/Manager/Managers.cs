@@ -18,6 +18,8 @@ public class Managers : MonoBehaviour
     ContentManager _content = new ContentManager();
     TechnicalManager _technical = new TechnicalManager();
     MonsterManager _monster = new MonsterManager();
+    NPCManager _npc = new NPCManager();
+
 
 
     public static ResourceManager Resource { get { return Instance._resource; } }
@@ -29,6 +31,7 @@ public class Managers : MonoBehaviour
     public static ContentManager Content { get { return Instance._content; } }
     public static TechnicalManager Technical { get { return Instance._technical; } }
     public static MonsterManager Monster { get { return Instance._monster; } }
+    public static NPCManager NPC { get { return Instance._npc; } }
 
 
 
@@ -55,6 +58,7 @@ public class Managers : MonoBehaviour
         _content.Init();
         _technical.Init();
         _monster.Init();
+        _npc.Init();
     }
 
     void Start()

@@ -13,17 +13,4 @@ public class Goblin : Monster
         Data = Managers.Monster.GetMonsterData("Skeleton");
     }
 
-    protected override void Initialize_Status()
-    {
-        SetStatus(
-            name: "½ºÄÌ·¹Åæ",
-            lv: 1,
-            hp: 25,
-            atk: 5,
-            def: 3,
-            agi: 3,
-            luk: 3);
-    }
-
-
 }

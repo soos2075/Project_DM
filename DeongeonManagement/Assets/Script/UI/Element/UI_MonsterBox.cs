@@ -22,6 +22,7 @@ public class UI_MonsterBox : UI_Base
         Sprite,
         Name,
         State,
+        Lv,
     }
 
 
@@ -62,7 +63,8 @@ public class UI_MonsterBox : UI_Base
                 GetObject(((int)Contents.State)).GetComponent<TextMeshProUGUI>().text = "∫ŒªÛ¡ﬂ".SetTextColorTag(Define.TextColor.red);
                 break;
         }
-        
+
+        GetObject(((int)Contents.Lv)).GetComponent<TextMeshProUGUI>().text = $"Lv.{monster.LV}";
     }
 
     void Clear()
@@ -70,6 +72,7 @@ public class UI_MonsterBox : UI_Base
         GetObject(((int)Contents.Sprite)).GetComponent<Image>().sprite = Managers.Sprite.GetSprite("Nothing");
         GetObject(((int)Contents.Name)).GetComponent<TextMeshProUGUI>().text = "";
         GetObject(((int)Contents.State)).GetComponent<TextMeshProUGUI>().text = "";
+        GetObject(((int)Contents.Lv)).GetComponent<TextMeshProUGUI>().text = "";
     }
 
     public void ChangePanelColor(Color color)

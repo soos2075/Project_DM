@@ -10,7 +10,7 @@ public class SpecialEgg : Facility
 
     public override void FacilityInit()
     {
-        Type = FacilityType.Special;
+        Type = FacilityType.Event;
         InteractionOfTimes = 1000;
         Name = "던전의 알";
     }
@@ -22,6 +22,8 @@ public class SpecialEgg : Facility
         {
             InteractionOfTimes--;
             Cor_Facility = StartCoroutine(FacilityEvent(npc, 3, "알 조사중...", ap: 1, mp: 5, hp: 0));
+
+            Managers.UI.ClearAndShowPopUp<UI_GameOver>();
             return Cor_Facility;
         }
         else

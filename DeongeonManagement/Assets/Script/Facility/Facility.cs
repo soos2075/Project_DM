@@ -34,16 +34,18 @@ public abstract class Facility : MonoBehaviour, IPlacementable
     {
         Herb,
         Mineral,
-        RestZone,
 
-        Trap,
+        RestZone,
         Treasure,
+        Artifact,
 
         Entrance,
         Exit,
         Portal,
 
+        Trap,
         Special,
+        Event,
     }
     public abstract FacilityType Type { get; set; }
     public abstract int InteractionOfTimes { get; set; }
@@ -81,12 +83,13 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         
 
         Cor_Facility = null;
+
         ClearCheck();
     }
 
     protected void ClearCheck()
     {
-        if (InteractionOfTimes <= 0)
+        if (InteractionOfTimes <= 0 && PlacementInfo != null)
         {
             //UI_EventBox.AddEventText($"{Name} (ÀÌ)°¡ »ç¶óÁü");
             //Managers.Placement.PlacementClear(this);

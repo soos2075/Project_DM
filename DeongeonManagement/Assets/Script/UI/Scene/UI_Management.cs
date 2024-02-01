@@ -28,6 +28,8 @@ public class UI_Management : UI_Base
         Gold,
         AP,
         Day,
+        Fame,
+        Danger,
     }
 
     Canvas canvas;
@@ -78,7 +80,8 @@ public class UI_Management : UI_Base
         GetTMP(((int)Texts.AP)).text = $"행동력 : {Main.Instance.Player_AP}";
         GetTMP(((int)Texts.Mana)).text = $"마나 : {Main.Instance.Player_Mana}";
         GetTMP(((int)Texts.Gold)).text = $"골드 : {Main.Instance.Player_Gold}";
-
+        GetTMP(((int)Texts.Fame)).text = $"유명도 : {Main.Instance.FameOfDungeon}";
+        GetTMP(((int)Texts.Danger)).text = $"위험도 : {Main.Instance.DangerOfDungeon}";
     }
 
     void Init_Button()
@@ -90,11 +93,11 @@ public class UI_Management : UI_Base
 
         GetButton((int)ButtonEvent.Placement).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_DungeonPlacement>());
 
-        GetButton((int)ButtonEvent.Test1).gameObject.AddUIEvent((data) => Main.Instance.AddAndActive("Adventurer"));
-        GetButton((int)ButtonEvent.Test2).gameObject.AddUIEvent((data) => Main.Instance.AddAndActive("Herbalist"));
-        GetButton((int)ButtonEvent.Test3).gameObject.AddUIEvent((data) => Main.Instance.AddAndActive("Miner"));
+        GetButton((int)ButtonEvent.Test1).gameObject.AddUIEvent((data) => Managers.NPC.TestCreate("Adventurer"));
+        GetButton((int)ButtonEvent.Test2).gameObject.AddUIEvent((data) => Managers.NPC.TestCreate("Herbalist"));
+        GetButton((int)ButtonEvent.Test3).gameObject.AddUIEvent((data) => Managers.NPC.TestCreate("Miner"));
 
-        GetButton((int)ButtonEvent.DayChange).gameObject.AddUIEvent((data) => DayChange());
+        GetButton((int)ButtonEvent.DayChange).gameObject.AddUIEvent((data) => DayStart());
     }
 
     UI_ScenePlacement placement;
@@ -102,15 +105,19 @@ public class UI_Management : UI_Base
 
 
 
-    void DayChange()
+    void DayStart()
     {
         if (Main.Instance.Management)
         {
             eventBox.BoxActive(true);
             eventBox.TextClear();
+            Main.Instance.DayChange();
+            Init_Texts();
         }
+    }
 
-        Main.Instance.DayChange();
+    public void DayOver()
+    {
         Init_Texts();
     }
 
@@ -120,9 +127,9 @@ public class UI_Management : UI_Base
         GetButton((int)ButtonEvent.Special).gameObject.SetActive(false);
         GetButton((int)ButtonEvent.Guild).gameObject.SetActive(false);
         //GetButton((int)ButtonEvent.DayChange).gameObject.SetActive(false);
-        //GetButton((int)ButtonEvent.Test1).gameObject.SetActive(false);
-        //GetButton((int)ButtonEvent.Test2).gameObject.SetActive(false);
-        //GetButton((int)ButtonEvent.Test3).gameObject.SetActive(false);
+        GetButton((int)ButtonEvent.Test1).gameObject.SetActive(false);
+        GetButton((int)ButtonEvent.Test2).gameObject.SetActive(false);
+        GetButton((int)ButtonEvent.Test3).gameObject.SetActive(false);
     }
 
     public void Show_Button(ButtonEvent button) //? 메인에서 하나씩 풀면 됨

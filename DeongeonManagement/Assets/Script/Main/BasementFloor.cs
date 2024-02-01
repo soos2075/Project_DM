@@ -654,6 +654,10 @@ public class BasementTile
                             {
                                 return Define.PlaceEvent.Using_Portal;
                             }
+                            if (facil.Type == Facility.FacilityType.Event)
+                            {
+                                return Define.PlaceEvent.Event;
+                            }
                             return Define.PlaceEvent.Using;
                         }
                         else

@@ -33,10 +33,42 @@ public class UI_StatusUp : UI_PopUp
         Bind<Image>(typeof(Images));
         Bind<TextMeshProUGUI>(typeof(Texts));
 
-        StartCoroutine(TestFunc());
+        //StartCoroutine(TestFunc());
 
-        //ShowDefault();
-        //ShowText();
+        GetImage(((int)Images.Panel)).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.LeftClick);
+        
+
+        //? monster는 이 컴포넌트를 생성하고 바로 TargetMonster를 호출해서 넣어줘야함
+
+        if (monster == null)
+        {
+            ClosePopUp();
+            return;
+        }
+
+        StartCoroutine(WaitFrame());
+    }
+
+
+    IEnumerator WaitFrame()
+    {
+        yield return new WaitForEndOfFrame();
+        AfterStatus();
+        ShowDefault();
+        ShowUpStatus();
+    }
+
+    void ShowDefault()
+    {
+        GetImage(((int)Images.Profile)).sprite = monster.Data.sprite;
+        GetTMP(((int)Texts.Name)).text = monster.Data.Name_KR;
+    }
+    void ShowUpStatus()
+    {
+        GetTMP(((int)Texts.Lv)).text = $"LV.{show_lv}";
+        GetTMP(((int)Texts.Status)).text = $"HP : {show_hp}\n" +
+            $"ATK : {show_atk} \tDEF : {show_def} \n" +
+            $"AGI : {show_agi} \tLUK : {show_luk}";
     }
 
 
@@ -45,10 +77,17 @@ public class UI_StatusUp : UI_PopUp
     {
         var mon = Managers.Placement.CreatePlacementObject("Monster/Slime", null, Define.PlacementType.Monster);
         Managers.Monster.AddMonster(mon as Monster);
-        TargetMonster(mon as Monster);
 
         yield return new WaitForEndOfFrame();
+        TargetMonster(mon as Monster);
         ShowDefault();
+        
+
+        yield return new WaitForEndOfFrame();
+        monster.LevelUp();
+        AfterStatus();
+        StatusComparison();
+        ShowUpStatus();
     }
 
 
@@ -80,40 +119,72 @@ public class UI_StatusUp : UI_PopUp
         monster = _monster;
 
         before_lv = monster.LV;
-        before_hp = monster.HP;
+        before_hp = monster.HP_Max;
         before_atk = monster.ATK;
         before_def = monster.DEF;
         before_agi = monster.AGI;
         before_luk = monster.LUK;
+
+        show_lv = monster.LV.ToString();
+        show_hp = monster.HP_Max.ToString();
+        show_atk = monster.ATK.ToString();
+        show_def = monster.DEF.ToString();
+        show_agi = monster.AGI.ToString();
+        show_luk = monster.LUK.ToString();
     }
 
     void AfterStatus()
     {
-        after_lv =monster.LV;
-        after_hp =monster.HP;
+        after_lv = monster.LV;
+        after_hp = monster.HP_Max;
         after_atk = monster.ATK;
         after_def = monster.DEF;
         after_agi = monster.AGI;
         after_luk = monster.LUK;
+
+        StatusComparison();
     }
 
-
-    void ShowDefault()
+    void StatusComparison()
     {
-        GetImage(((int)Images.Profile)).sprite = monster.Data.sprite;
-        GetTMP(((int)Texts.Name)).text = monster.Data.Name;
+        if (before_lv != after_lv)
+        {
+            show_lv = $"{after_lv}".SetTextColorTag(Define.TextColor.LightGreen);
+            show_lv += $" ▲{after_lv - before_lv}".SetTextColorTag(Define.TextColor.SkyBlue);
+        }
 
-        GetTMP(((int)Texts.Lv)).text = $"LV.{monster.LV}";
-        GetTMP(((int)Texts.Status)).text = $"HP : {monster.HP}/{monster.HP}\n" +
-            $"ATK : {monster.ATK} \tDEF : {monster.DEF} \n" +
-            $"AGI : {monster.AGI} \tLUK : {monster.LUK}";
+        if (before_hp != after_hp)
+        {
+            show_hp = $"{after_hp}".SetTextColorTag(Define.TextColor.LightGreen);
+            show_hp += $" ▲{after_hp - before_hp}".SetTextColorTag(Define.TextColor.SkyBlue);
+        }
+
+        if (before_atk != after_atk)
+        {
+            show_atk = $"{after_atk}".SetTextColorTag(Define.TextColor.LightGreen);
+            show_atk += $" ▲{after_atk - before_atk}".SetTextColorTag(Define.TextColor.SkyBlue);
+        }
+
+        if (before_def != after_def)
+        {
+            show_def = $"{after_def}".SetTextColorTag(Define.TextColor.LightGreen);
+            show_def += $" ▲{after_def - before_def}".SetTextColorTag(Define.TextColor.SkyBlue);
+        }
+
+        if (before_agi != after_agi)
+        {
+            show_agi = $"{after_agi}".SetTextColorTag(Define.TextColor.LightGreen);
+            show_agi += $" ▲{after_agi - before_agi}".SetTextColorTag(Define.TextColor.SkyBlue);
+        }
+
+        if (before_luk != after_luk)
+        {
+            show_luk = $"{after_luk}".SetTextColorTag(Define.TextColor.LightGreen);
+            show_luk += $" ▲{after_luk - before_luk}".SetTextColorTag(Define.TextColor.SkyBlue);
+        }
     }
 
 
 
-    void ShowUpStatus()
-    {
-
-    }
 
 }

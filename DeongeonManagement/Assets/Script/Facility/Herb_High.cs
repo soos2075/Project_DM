@@ -20,7 +20,7 @@ public class Herb_High : Facility
         if (InteractionOfTimes > 0)
         {
             InteractionOfTimes--;
-            Cor_Facility = StartCoroutine(FacilityEvent(npc, 3, "약초 채집중...", ap: 1, mp: 5, hp: 0));
+            Cor_Facility = StartCoroutine(FacilityEvent(npc, 3, "약초 채집중...", ap: 1, mp: 20, hp: 0));
             return Cor_Facility;
         }
         else
