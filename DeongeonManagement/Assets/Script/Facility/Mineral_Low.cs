@@ -13,6 +13,7 @@ public class Mineral_Low : Facility
         Type = FacilityType.Mineral;
         InteractionOfTimes = 3;
         Name = "»Á«— πŸ¿ß";
+        Name_prefab = this.GetType().Name;
     }
 
 

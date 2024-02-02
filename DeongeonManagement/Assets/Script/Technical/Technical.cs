@@ -17,6 +17,9 @@ public abstract class Technical : MonoBehaviour
     }
 
 
+    public TechnicalData Data { get; set; }
+
+
     protected enum DayType
     {
         Day,
@@ -41,12 +44,8 @@ public abstract class Technical : MonoBehaviour
 
     //? 추가적으로 가져야할 데이터 : 설치된 위치 (UI_Technical) / 마우스 올렸을 때 나타나는 UI에 입력할 정보
 
-    public abstract string Name_KR { get; set; }
-
-    public abstract string Detail { get; set; }
-
     protected abstract void MainEvent(int day);
 
-    public UI_Technical parent;
+    public TechnicalFloor parent;
 
 }

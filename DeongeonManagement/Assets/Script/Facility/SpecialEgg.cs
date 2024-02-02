@@ -13,6 +13,7 @@ public class SpecialEgg : Facility
         Type = FacilityType.Event;
         InteractionOfTimes = 1000;
         Name = "던전의 알";
+        Name_prefab = this.GetType().Name;
     }
 
 

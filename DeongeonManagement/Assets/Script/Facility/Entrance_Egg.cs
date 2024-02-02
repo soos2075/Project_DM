@@ -13,6 +13,7 @@ public class Entrance_Egg : Facility
         InteractionOfTimes = 10000;
         Type = FacilityType.Portal;
         Name = "ºñ¹Ð¹®";
+        Name_prefab = this.GetType().Name;
     }
 
     public override Coroutine NPC_Interaction(NPC npc)

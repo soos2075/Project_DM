@@ -6,6 +6,10 @@ public class BasementFloor : MonoBehaviour
 {
     void Start()
     {
+
+    }
+    public void Init_Floor()
+    {
         Floor = gameObject.name;
         BoxCollider = GetComponent<BoxCollider2D>();
 
@@ -17,6 +21,7 @@ public class BasementFloor : MonoBehaviour
         Init_TileMap();
         Init_Entrance();
     }
+
 
     public UI_Floor UI_Floor { get; set; }
 
@@ -45,9 +50,8 @@ public class BasementFloor : MonoBehaviour
             var obj = PickObjectOfType(typeof(Entrance));
             if (obj == null)
             {
-                obj = Managers.Placement.CreatePlacementObject("Facility/Entrance", null, Define.PlacementType.Facility);
-                var info = Managers.Placement.GetRandomPlacement(obj, this);
-                Managers.Placement.PlacementConfirm(obj, info, true);
+                var info = new PlacementInfo(this, GetRandomTile());
+                obj = Managers.Facility.CreateFacility_OnlyOne("Entrance", info, true);
             }
             return obj;
         }
@@ -60,9 +64,8 @@ public class BasementFloor : MonoBehaviour
             var obj = PickObjectOfType(typeof(Exit));
             if (obj == null)
             {
-                obj = Managers.Placement.CreatePlacementObject("Facility/Exit", null, Define.PlacementType.Facility);
-                var info = Managers.Placement.GetRandomPlacement(obj, this);
-                Managers.Placement.PlacementConfirm(obj, info, true);
+                var info = new PlacementInfo(this, GetRandomTile());
+                obj = Managers.Facility.CreateFacility_OnlyOne("Exit", info, true);
             }
             return obj;
         }
@@ -126,21 +129,15 @@ public class BasementFloor : MonoBehaviour
             return;
         }
 
-        var entrance = Managers.Placement.CreatePlacementObject("Facility/Entrance", null, Define.PlacementType.Facility);
-        var info = Managers.Placement.GetRandomPlacement(entrance, this);
-        Managers.Placement.PlacementConfirm(entrance, info, true);
-
-
-        var exit = Managers.Placement.CreatePlacementObject("Facility/Exit", null, Define.PlacementType.Facility);
-        var exit_info = Managers.Placement.GetRandomPlacement(exit, this);
-        Managers.Placement.PlacementConfirm(exit, exit_info, true);
+        {
+            var info = new PlacementInfo(this, GetRandomTile());
+            Managers.Facility.CreateFacility_OnlyOne("Exit", info, true);
+        }
+        {
+            var info = new PlacementInfo(this, GetRandomTile());
+            Managers.Facility.CreateFacility_OnlyOne("Entrance", info, true);
+        }
     }
-
-    //public void Remove_Entrance()
-    //{
-    //    Managers.Placement.PlacementClear_Completely(Entrance);
-    //    Managers.Placement.PlacementClear_Completely(Exit);
-    //}
 
 
 
@@ -226,7 +223,30 @@ public class BasementFloor : MonoBehaviour
 
 
 
+    public BasementTile GetRandomTile()
+    {
+        int whileCount = 0; //? 무한루프 방지용
+        Vector2Int randomTile;
 
+        BasementTile emptyTile = null;
+        while (emptyTile == null && whileCount < 50)
+        {
+            whileCount++;
+            randomTile = new Vector2Int(UnityEngine.Random.Range(0, TileMap.GetLength(0)), UnityEngine.Random.Range(0, TileMap.GetLength(1)));
+            if (TileMap[randomTile.x, randomTile.y].placementable == null)
+            {
+                emptyTile = TileMap[randomTile.x, randomTile.y];
+            }
+        }
+
+        if (emptyTile == null)
+        {
+            randomTile = new Vector2Int(UnityEngine.Random.Range(0, TileMap.GetLength(0)), UnityEngine.Random.Range(0, TileMap.GetLength(1)));
+            emptyTile = TileMap[randomTile.x, randomTile.y];
+        }
+
+        return emptyTile;
+    }
 
     public BasementTile GetRandomTile(IPlacementable placementable)
     {

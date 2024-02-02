@@ -20,16 +20,14 @@ public class UI_Technical : UI_Scene, IWorldSpaceUI
     }
 
 
-    public string Name_KR { get; set; } = "특별구역 A";
-
-    public Technical Current { get; set; }
+    public TechnicalFloor Parent { get; set; }
 
 
     UI_TileView view;
 
     void MoveEvent(PointerEventData data)
     {
-        if (Current == null) return;
+        if (Parent.Current == null) return;
 
         if (view == null)
         {
@@ -38,7 +36,7 @@ public class UI_Technical : UI_Scene, IWorldSpaceUI
 
         var pos = Camera.main.ScreenToWorldPoint(data.position);
         view.transform.localPosition = new Vector3(pos.x, pos.y, 0);
-        view.ViewContents($"[{Current.Name_KR}]", $"{Current.Detail}");
+        view.ViewContents($"[{Parent.Current.Data.name_Placement}]", $"{Parent.Current.Data.name_Detail}");
     }
     void CloseView()
     {
@@ -50,13 +48,12 @@ public class UI_Technical : UI_Scene, IWorldSpaceUI
 
     void LeftClickEvent(PointerEventData data)
     {
-        if (Current != null || !Main.Instance.Management)
+        if (Parent.Current != null || !Main.Instance.Management)
         {
             return;
         }
 
-
-        Main.Instance.CurrentTechnical = this;
+        Main.Instance.CurrentTechnical = Parent;
 
         var popup = Managers.UI.ShowPopUpAlone<UI_Technical_Select>("Technical/UI_Technical_Select");
         var pos = Camera.main.ScreenToWorldPoint(data.position);

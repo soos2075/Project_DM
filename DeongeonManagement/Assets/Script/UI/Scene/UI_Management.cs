@@ -20,6 +20,7 @@ public class UI_Management : UI_Base
 
 
         DayChange,
+        Save,
     }
 
     enum Texts
@@ -98,6 +99,8 @@ public class UI_Management : UI_Base
         GetButton((int)ButtonEvent.Test3).gameObject.AddUIEvent((data) => Managers.NPC.TestCreate("Miner"));
 
         GetButton((int)ButtonEvent.DayChange).gameObject.AddUIEvent((data) => DayStart());
+
+        GetButton((int)ButtonEvent.Save).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_SaveLoad>());
     }
 
     UI_ScenePlacement placement;

@@ -32,23 +32,32 @@ public class Main : MonoBehaviour
 
     void Start()
     {
-        ManagementInit();
+
+    }
+
+    public void Default_Init()
+    {
         BasementFloorInit();
+        _dayList = new List<DayResult>();
         AnimationInit();
+    }
 
+    public void NewGame_Init()
+    {
+        Default_Init();
+        ManagementInit();
         StartCoroutine(NextStart());
-
     }
 
 
 
-    void StartNextFrame()
-    {
-        CurrentFloor = Floor[3];
-        var obj = Managers.Placement.CreateOnlyOne("Facility/Special_MagicEgg", null, Define.PlacementType.Facility);
-        PlacementInfo info = new PlacementInfo(CurrentFloor, CurrentFloor.GetRandomTile(obj));
 
-        Managers.Placement.PlacementConfirm(obj, info, true);
+    void Instantiate_Egg()
+    {
+        var tile = Floor[3].GetRandomTile();
+        PlacementInfo info = new PlacementInfo(Floor[3], tile);
+
+        Managers.Facility.CreateFacility_OnlyOne("Special_MagicEgg", info, true);
 
         Managers.UI.ShowPopUp<UI_Dialogue>();
     }
@@ -56,7 +65,7 @@ public class Main : MonoBehaviour
     IEnumerator NextStart()
     {
         yield return new WaitForEndOfFrame();
-        StartNextFrame();
+        Instantiate_Egg();
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => Time.timeScale == 1);
         var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
@@ -102,12 +111,13 @@ public class Main : MonoBehaviour
         public int Origin_Gold;
         public int Origin_Prisoner;
 
-        public DayResult(int mana, int gold, int prisoner)
+        public void SetOrigin(int mana, int gold, int prisoner)
         {
             Origin_Mana = mana;
             Origin_Gold = gold;
             Origin_Prisoner = prisoner;
         }
+
 
         public int Get_Mana;
         public int Get_Gold;
@@ -166,9 +176,10 @@ public class Main : MonoBehaviour
         Player_Gold = 3333;
         Player_AP = 100;
 
-        _dayList = new List<DayResult>();
 
-        CurrentDay = new DayResult(Player_Mana, Player_Gold, Prisoner);
+
+        CurrentDay = new DayResult();
+        CurrentDay.SetOrigin(Player_Mana, Player_Gold, Prisoner);
     }
 
 
@@ -188,7 +199,8 @@ public class Main : MonoBehaviour
 
         //? 위가 적용 아래가 새로교체
 
-        CurrentDay = new DayResult(Player_Mana, Player_Gold, Prisoner);
+        CurrentDay = new DayResult();
+        CurrentDay.SetOrigin(Player_Mana, Player_Gold, Prisoner);
     }
 
     #endregion
@@ -200,7 +212,7 @@ public class Main : MonoBehaviour
     public List<Action<int>> DayActions { get; set; } = new List<Action<int>>();
     public List<Action<int>> NightActions { get; set; } = new List<Action<int>>();
 
-    public UI_Technical CurrentTechnical { get; set; }
+    public TechnicalFloor CurrentTechnical { get; set; }
 
     void DayEvent ()
     {
@@ -333,11 +345,10 @@ public class Main : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(1);
         {
-            CurrentFloor = Floor[3];
-            var obj = Managers.Placement.CreateOnlyOne("Facility/Exit", null, Define.PlacementType.Facility);
-            PlacementInfo info = new PlacementInfo(CurrentFloor, CurrentFloor.GetRandomTile(obj));
+            var tile = Floor[3].GetRandomTile();
+            PlacementInfo info = new PlacementInfo(Floor[3], tile);
 
-            Managers.Placement.PlacementConfirm(obj, info, true);
+            var obj = Managers.Facility.CreateFacility_OnlyOne("Exit", info, true);
         }
         
 
@@ -348,12 +359,10 @@ public class Main : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(1);
         {
-            CurrentFloor = Floor[2];
+            var tile = Floor[2].GetRandomTile();
+            PlacementInfo info = new PlacementInfo(Floor[3], tile);
 
-            var obj = Managers.Placement.CreateOnlyOne("Facility/EggEntrance", null, Define.PlacementType.Facility);
-            PlacementInfo info = new PlacementInfo(CurrentFloor, CurrentFloor.GetRandomTile(obj));
-
-            Managers.Placement.PlacementConfirm(obj, info, true);
+            var obj = Managers.Facility.CreateFacility_OnlyOne("EggEntrance", info, true);
         }
         yield return new WaitForSecondsRealtime(1);
 
@@ -435,6 +444,7 @@ public class Main : MonoBehaviour
         for (int i = 0; i < Floor.Length; i++)
         {
             Floor[i].FloorIndex = i;
+            Floor[i].Init_Floor();
         }
 
         SetHiddenFloor();

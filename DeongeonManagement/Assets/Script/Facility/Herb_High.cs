@@ -13,6 +13,7 @@ public class Herb_High : Facility
         Type = FacilityType.Herb;
         InteractionOfTimes = 1;
         Name = "고급 약초";
+        Name_prefab = this.GetType().Name;
     }
 
     public override Coroutine NPC_Interaction(NPC npc)

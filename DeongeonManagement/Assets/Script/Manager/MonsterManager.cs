@@ -133,6 +133,52 @@ public class MonsterManager
 
 
     #endregion
+
+    #region 세이브 데이터
+    public Save_MonsterData[] GetSaveData_Monster()
+    {
+        Save_MonsterData[] savedata = new Save_MonsterData[Monsters.Length];
+
+
+        for (int i = 0; i < savedata.Length; i++)
+        {
+            if (Monsters[i] != null)
+            {
+                var newData = new Save_MonsterData();
+                newData.SetData(Monsters[i]);
+                savedata[i] = newData;
+            }
+        }
+
+        return savedata;
+    }
+
+    public void Load_MonsterData(Save_MonsterData[] data)
+    {
+        for (int i = 0; i < Monsters.Length; i++)
+        {
+            if (data[i] != null)
+            {
+                var mon = Managers.Placement.CreatePlacementObject($"Monster/{data[i].Name}", null, Define.PlacementType.Monster) as Monster;
+                mon.MonsterInit();
+                mon.Initialize_Status();
+                mon.Initialize_SaveData(data[i]);
+
+                if (data[i].FloorIndex != -1)
+                {
+                    var info = new PlacementInfo(Main.Instance.Floor[data[i].FloorIndex],
+                        Main.Instance.Floor[data[i].FloorIndex].TileMap[data[i].PosIndex.x, data[i].PosIndex.y]);
+
+                    Managers.Placement.PlacementConfirm(mon, info);
+                    Main.Instance.Floor[data[i].FloorIndex].MaxMonsterSize--;
+                }
+
+                Monsters[i] = mon;
+            }
+        }
+    }
+
+    #endregion
 }
 
 public class MonsterData
@@ -167,6 +213,59 @@ public class MonsterData
     public string detail;
     public Sprite sprite;
 
+}
+
+[System.Serializable]
+public class Save_MonsterData
+{
+    public string Name { get; set; }
+    public int LV { get; set; }
+    public int HP { get; set; }
+    public int ATK { get; set; }
+    public int DEF { get; set; }
+    public int AGI { get; set; }
+    public int LUK { get; set; }
+
+    public float HP_chance { get; set; }
+    public float ATK_chance { get; set; }
+    public float DEF_chance { get; set; }
+    public float AGI_chance { get; set; }
+    public float LUK_chance { get; set; }
+
+    public Monster.MonsterState State { get; set; }
+
+
+    public int FloorIndex { get; set; }
+    public Vector2Int PosIndex { get; set; }
+
+    public void SetData(Monster monster)
+    {
+        Name = monster.Data.Name;
+        LV = monster.LV;
+        HP = monster.HP_Max;
+        ATK = monster.ATK;
+        DEF = monster.DEF;
+        AGI = monster.AGI;
+        LUK = monster.LUK;
+
+        HP_chance = monster.hp_chance;
+        ATK_chance = monster.atk_chance;
+        DEF_chance = monster.def_chance;
+        AGI_chance = monster.agi_chance;
+        LUK_chance = monster.luk_chance;
+
+
+        State = monster.State;
+        if (monster.PlacementInfo != null)
+        {
+            FloorIndex = monster.PlacementInfo.Place_Floor.FloorIndex;
+            PosIndex = monster.PlacementInfo.Place_Tile.index;
+        }
+        else
+        {
+            FloorIndex = -1;
+        }
+    }
 }
 
 

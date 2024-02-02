@@ -13,6 +13,7 @@ public class Campfire : Facility
         Type = FacilityType.RestZone;
         InteractionOfTimes = 4;
         Name = "¸ð´ÚºÒ";
+        Name_prefab = this.GetType().Name;
     }
 
 

@@ -9,8 +9,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     }
     protected void Start()
     {
-        MonsterInit();
-        Initialize_Status();
+        //MonsterInit();
+        //Initialize_Status();
     }
 
 
@@ -27,6 +27,32 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     #endregion
 
 
+
+    #region SaveLoad
+
+    public void Initialize_SaveData(Save_MonsterData Data)
+    {
+        if (Data == null) { Debug.Log($"세이브데이터 없음 : {name}"); return; }
+
+        LV = Data.LV;
+        HP = Data.HP;
+        HP_Max = Data.HP;
+
+        ATK = Data.ATK;
+        DEF = Data.DEF;
+        AGI = Data.AGI;
+        LUK = Data.LUK;
+
+        hp_chance = Data.HP_chance;
+        atk_chance = Data.ATK_chance;
+        def_chance = Data.DEF_chance;
+        agi_chance = Data.AGI_chance;
+        luk_chance = Data.LUK_chance;
+
+        State = Data.State;
+    }
+
+    #endregion
 
 
 
@@ -61,11 +87,11 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     public int AGI { get; protected set; }
     public int LUK { get; protected set; }
 
-    private float hp_chance;
-    private float atk_chance;
-    private float def_chance;
-    private float agi_chance;
-    private float luk_chance;
+    public float hp_chance;
+    public float atk_chance;
+    public float def_chance;
+    public float agi_chance;
+    public float luk_chance;
 
     public enum MonsterType
     {
@@ -77,8 +103,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     public abstract MonsterType Type { get; set; }
 
 
-    protected abstract void MonsterInit();
-    protected void Initialize_Status()
+    public abstract void MonsterInit();
+    public void Initialize_Status()
     {
         if (Data == null) { Debug.Log($"데이터 없음 : {name}"); return; }
 
@@ -283,11 +309,6 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
         return value;
     }
-
-
-
-    public Coroutine MoveCoroutine { get; set; }
-
 
 
 

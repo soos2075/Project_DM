@@ -127,8 +127,11 @@ public class UI_Summon_Monster : UI_PopUp
 
     void SummonConfirm(MonsterData data)
     {
-        var mon = Managers.Placement.CreatePlacementObject(data.prefabPath, null, Define.PlacementType.Monster);
-        Managers.Monster.AddMonster(mon as Monster);
+        var mon = Managers.Placement.CreatePlacementObject(data.prefabPath, null, Define.PlacementType.Monster) as Monster;
+        mon.MonsterInit();
+        mon.Initialize_Status();
+
+        Managers.Monster.AddMonster(mon);
 
         Debug.Log($"{data.ManaCost}마나를 사용하여 {data.Name_KR}을 소환");
         Main.Instance.CurrentDay.SubtractMana(data.ManaCost);

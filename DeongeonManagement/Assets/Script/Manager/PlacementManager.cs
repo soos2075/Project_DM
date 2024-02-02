@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class PlacementManager
 {
-    public Transform Placement_Root { get; set; }
+    public Transform Placement_Root { get { return Init(); } }
 
 
-    public void Init()
+    public Transform Init()
     {
         GameObject obj = GameObject.Find("@Placement_Root");
         if (obj == null)
         {
             obj = new GameObject { name = "@Placement_Root" };
         }
-        Placement_Root = obj.transform;
+        return obj.transform;
     }
 
 
@@ -22,7 +22,7 @@ public class PlacementManager
     {
         var newObj = CreatePlacementObject(path, info, type);
         //? 모든 오브젝트 검색
-        var objList = Main.Instance.CurrentFloor.GetFloorObjectList();
+        var objList = info.Place_Floor.GetFloorObjectList();
         foreach (var item in objList)
         {
             if (newObj.GetType() == item.placementable.GetType())
@@ -118,7 +118,7 @@ public class PlacementManager
 }
 
 
-
+[System.Serializable]
 public class PlacementInfo
 {
     public BasementFloor Place_Floor { get; set; }

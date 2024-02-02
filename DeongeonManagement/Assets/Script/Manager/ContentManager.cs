@@ -287,9 +287,12 @@ public class ContentManager
             int _deltaY = tile.index.y + item.y;
 
             var content = Main.Instance.CurrentFloor.TileMap[_deltaX, _deltaY];
+            var info = new PlacementInfo(Main.Instance.CurrentFloor, content);
 
-            var newObj = Managers.Placement.CreatePlacementObject($"Facility/{prefab}", null, Define.PlacementType.Facility);
-            Managers.Placement.PlacementConfirm(newObj, new PlacementInfo(Main.Instance.CurrentFloor, content), isUnChangeable);
+            Managers.Facility.CreateFacility(prefab, info, isUnChangeable);
+
+            //var newObj = Managers.Placement.CreatePlacementObject($"Facility/{prefab}", null, Define.PlacementType.Facility);
+            //Managers.Placement.PlacementConfirm(newObj, new PlacementInfo(Main.Instance.CurrentFloor, content), isUnChangeable);
         }
 
         return true;
@@ -307,9 +310,9 @@ public class ContentManager
             int _deltaY = tile.index.y + item.y;
 
             var content = Main.Instance.CurrentFloor.TileMap[_deltaX, _deltaY];
+            var info = new PlacementInfo(Main.Instance.CurrentFloor, content);
 
-            var newObj = Managers.Placement.CreateOnlyOne($"Facility/{prefab}", null, Define.PlacementType.Facility);
-            Managers.Placement.PlacementConfirm(newObj, new PlacementInfo(Main.Instance.CurrentFloor, content), true);
+            var newObj = Managers.Facility.CreateFacility_OnlyOne($"{prefab}", info, true);
         }
 
         return true;

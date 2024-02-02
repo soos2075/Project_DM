@@ -9,7 +9,7 @@ public class Slime : Monster
     public override MonsterType Type { get; set; }
 
 
-    protected override void MonsterInit()
+    public override void MonsterInit()
     {
         Data = Managers.Monster.GetMonsterData("Slime");
         Type = MonsterType.Normal_Move;
@@ -18,7 +18,7 @@ public class Slime : Monster
 
     void MoveSelf()
     {
-        MoveCoroutine = StartCoroutine(MoveCor());
+        StartCoroutine(MoveCor());
     }
 
 

@@ -13,6 +13,7 @@ public class Exit : Facility
         InteractionOfTimes = 10000;
         Type = FacilityType.Exit;
         Name = "√‚±∏";
+        Name_prefab = this.GetType().Name;
     }
 
     public override Coroutine NPC_Interaction(NPC npc)

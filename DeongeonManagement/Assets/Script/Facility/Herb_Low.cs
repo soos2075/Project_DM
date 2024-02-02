@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Herb_Low : Facility
 {
-
     public override FacilityType Type { get; set; }
     public override int InteractionOfTimes { get; set; }
     public override string Name { get; set; }
@@ -14,6 +13,7 @@ public class Herb_Low : Facility
         Type = FacilityType.Herb;
         InteractionOfTimes = 1;
         Name = "하급 약초";
+        Name_prefab = this.GetType().Name;
     }
 
 

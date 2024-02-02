@@ -36,7 +36,7 @@ public class UI_Technical_Select : UI_PopUp, IWorldSpaceUI
             //parents.PanelDisable();
         });
 
-        GetObject((int)Objects.Place).GetComponent<TextMeshProUGUI>().text = parents.Name_KR;
+        GetObject((int)Objects.Place).GetComponent<TextMeshProUGUI>().text = parents.Parent.FloorName;
     }
 
 

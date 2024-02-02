@@ -29,6 +29,17 @@ public abstract class Facility : MonoBehaviour, IPlacementable
     #endregion
 
 
+    #region SaveLoad
+    public void Load_Data(int times)
+    {
+        InteractionOfTimes = times;
+    }
+    #endregion
+
+
+
+
+
 
     public enum FacilityType
     {
@@ -50,6 +61,7 @@ public abstract class Facility : MonoBehaviour, IPlacementable
     public abstract FacilityType Type { get; set; }
     public abstract int InteractionOfTimes { get; set; }
     public abstract string Name { get; set; }
+    public string Name_prefab { get; set; }
 
     public abstract void FacilityInit();
 

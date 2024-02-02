@@ -13,6 +13,7 @@ public class Meat : Facility
         Type = FacilityType.RestZone;
         InteractionOfTimes = 2;
         Name = "°í±â";
+        Name_prefab = this.GetType().Name;
     }
 
 

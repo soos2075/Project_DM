@@ -68,13 +68,13 @@ public class UI_Placement_Technical : UI_PopUp
     {
         var pos = GetComponentInChildren<ContentSizeFitter>().transform;
 
-        for (int i = 0; i < Managers.Technical.Technicals.Count; i++)
+        for (int i = 0; i < Managers.Technical.TechnicalDataList.Count; i++)
         {
             var content = Managers.Resource.Instantiate("UI/PopUp/Technical/Technical_Content", pos).GetComponent<UI_Technical_Content>();
-            content.Content = Managers.Technical.Technicals[i];
+            content.Content = Managers.Technical.TechnicalDataList[i];
             content.Parent = this;
 
-            content.gameObject.name = Managers.Technical.Technicals[i].contentName;
+            content.gameObject.name = Managers.Technical.TechnicalDataList[i].contentName;
             childList.Add(content);
         }
     }
