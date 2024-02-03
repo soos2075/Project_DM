@@ -11,7 +11,7 @@ public class Slime : Monster
 
     public override void MonsterInit()
     {
-        Data = Managers.Monster.GetMonsterData("Slime");
+        Data = GameManager.Monster.GetMonsterData("Slime");
         Type = MonsterType.Normal_Move;
     }
 
@@ -62,7 +62,7 @@ public class Slime : Monster
 
         if (newTile != null)
         {
-            Managers.Placement.PlacementMove(this, new PlacementInfo(PlacementInfo.Place_Floor, newTile));
+            GameManager.Placement.PlacementMove(this, new PlacementInfo(PlacementInfo.Place_Floor, newTile));
         }
     }
 

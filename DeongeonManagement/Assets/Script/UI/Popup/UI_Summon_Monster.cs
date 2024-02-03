@@ -73,10 +73,10 @@ public class UI_Summon_Monster : UI_PopUp
     {
         var pos = GetComponentInChildren<ContentSizeFitter>().transform;
 
-        for (int i = 0; i < Managers.Monster.MonsterDatas.Count; i++)
+        for (int i = 0; i < GameManager.Monster.MonsterDatas.Count; i++)
         {
             var content = Managers.Resource.Instantiate("UI/PopUp/Element/Monster_Content", pos).GetComponent<UI_Monster_Content>();
-            content.Content = Managers.Monster.MonsterDatas[i];
+            content.Content = GameManager.Monster.MonsterDatas[i];
             content.Parent = this;
 
             //content.gameObject.name = Managers.Monster.MonsterDatas[i].Name;
@@ -114,7 +114,7 @@ public class UI_Summon_Monster : UI_PopUp
 
     void MonsterSummon(MonsterData data)
     {
-        if (Managers.Monster.MaximumCheck() && Main.Instance.Player_Mana >= data.ManaCost)
+        if (GameManager.Monster.MaximumCheck() && Main.Instance.Player_Mana >= data.ManaCost)
         {
             SummonConfirm(data);
         }
@@ -127,11 +127,11 @@ public class UI_Summon_Monster : UI_PopUp
 
     void SummonConfirm(MonsterData data)
     {
-        var mon = Managers.Placement.CreatePlacementObject(data.prefabPath, null, Define.PlacementType.Monster) as Monster;
+        var mon = GameManager.Placement.CreatePlacementObject(data.prefabPath, null, Define.PlacementType.Monster) as Monster;
         mon.MonsterInit();
         mon.Initialize_Status();
 
-        Managers.Monster.AddMonster(mon);
+        GameManager.Monster.AddMonster(mon);
 
         Debug.Log($"{data.ManaCost}마나를 사용하여 {data.Name_KR}을 소환");
         Main.Instance.CurrentDay.SubtractMana(data.ManaCost);

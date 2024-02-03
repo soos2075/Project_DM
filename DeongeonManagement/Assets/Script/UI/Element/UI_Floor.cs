@@ -30,7 +30,8 @@ public class UI_Floor : UI_Base
     {
         Bind<GameObject>(typeof(Contents));
         GetObject((int)Contents.Floor).AddUIEvent((data) => OpenPlacementType(data), Define.UIEvent.LeftClick);
-        GetObject((int)Contents.Floor).AddUIEvent((data) => OpenPlacementType(data), Define.UIEvent.RightClick);
+        //GetObject((int)Contents.Floor).AddUIEvent((data) => OpenPlacementType(data), Define.UIEvent.RightClick);
+        GetObject((int)Contents.Floor).AddUIEvent((data) => Managers.UI.CloseAll(), Define.UIEvent.RightClick);
 
         Main.Instance.Floor[FloorID].UI_Floor = this;
     }

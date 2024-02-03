@@ -6,6 +6,13 @@ using UnityEngine.UI;
 
 public class UI_TileView_Floor : UI_Base
 {
+    private void Start()
+    {
+        Init();
+
+        ShowTile();
+    }
+
     enum Contents
     {
         TileView_Floor,
@@ -18,18 +25,14 @@ public class UI_TileView_Floor : UI_Base
     public override void Init()
     {
         Bind<GameObject>(typeof(Contents));
-        GetObject((int)Contents.TileView_Floor).AddUIEvent((data) => InsteadOpenFloorEvent(data), Define.UIEvent.RightClick);
+
+        GetObject((int)Contents.TileView_Floor).AddUIEvent((data) => InsteadOpenFloorEvent(data), Define.UIEvent.LeftClick);
         //GetObject((int)Contents.TileView_Floor).GetComponent<Image>().color = Color.clear;
 
         GetObject((int)Contents.TileView_Floor).AddUIEvent((data) => MouseMoveEvent(data), Define.UIEvent.Move);
     }
 
-    private void Start()
-    {
-        Init();
 
-        ShowTile();
-    }
 
     UI_TileView view;
 

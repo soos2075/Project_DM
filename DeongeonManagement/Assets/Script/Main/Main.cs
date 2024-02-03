@@ -32,35 +32,56 @@ public class Main : MonoBehaviour
 
     void Start()
     {
-
+        NewGame_Init();
+        Default_Init();
     }
+
+    bool _DefaultSetting = false;
 
     public void Default_Init()
     {
+        if (_DefaultSetting)
+        {
+            return;
+        }
+
+
         BasementFloorInit();
         _dayList = new List<DayResult>();
         AnimationInit();
+        FindObjectOfType<UI_Management>().Start_Main();
+
+        _DefaultSetting = true;
     }
 
     public void NewGame_Init()
     {
-        Default_Init();
+        if (_DefaultSetting)
+        {
+            return;
+        }
+
+        ActiveFloor_Basement = 4;
+        ActiveFloor_Technical = 1;
+        Dungeon_Lv = 2;
+
+        BasementFloorInit();
+        _dayList = new List<DayResult>();
+        AnimationInit();
+        FindObjectOfType<UI_Management>().Start_Main();
+
         ManagementInit();
+
+        Expansion_BasementFloor();
+        GameManager.Technical.Expantion_Technical();
+
         StartCoroutine(NextStart());
+
+        _DefaultSetting = true;
     }
 
 
 
-
-    void Instantiate_Egg()
-    {
-        var tile = Floor[3].GetRandomTile();
-        PlacementInfo info = new PlacementInfo(Floor[3], tile);
-
-        Managers.Facility.CreateFacility_OnlyOne("Special_MagicEgg", info, true);
-
-        Managers.UI.ShowPopUp<UI_Dialogue>();
-    }
 
     IEnumerator NextStart()
     {
@@ -73,9 +94,64 @@ public class Main : MonoBehaviour
             "마나는 기본적으로 모험가들이 던전에서 행하는 모든 행동에서 얻을 수 있어요.";
 
     }
+    void Instantiate_Egg()
+    {
+        var tile = Floor[3].GetRandomTile();
+        PlacementInfo info = new PlacementInfo(Floor[3], tile);
+
+        GameManager.Facility.CreateFacility_OnlyOne("Special_MagicEgg", info, true);
+
+        Managers.UI.ShowPopUp<UI_Dialogue>();
+    }
+
+
+
+
+
+    #region Load Data
+    public void SetLoadData(DataManager.SaveData data)
+    {
+        Turn = data.turn;
+        Final_Score = data.Final_Score;
+        FameOfDungeon = data.FameOfDungeon;
+        DangerOfDungeon = data.DangerOfDungeon;
+        Player_Mana = data.Player_Mana;
+        Player_Gold = data.Player_Gold;
+        Player_AP = data.Player_AP;
+        Prisoner = data.Prisoner;
+        CurrentDay = data.CurrentDay;
+
+        ActiveFloor_Basement = (data.ActiveFloor_Basement);
+        ActiveFloor_Technical = (data.ActiveFloor_Technical);
+        Expansion_BasementFloor();
+        GameManager.Technical.Expantion_Technical();
+
+        FindObjectOfType<UI_Management>().Texts_Refresh();
+    }
+    #endregion
 
 
     #region Management
+    public int ActiveFloor_Basement { get; private set; }
+    public int ActiveFloor_Technical { get; private set; }
+
+    public void Basement_Expansion()
+    {
+        if (ActiveFloor_Basement < Floor.Length)
+        {
+            ActiveFloor_Basement++;
+            Expansion_BasementFloor();
+        }
+    }
+    public void Technical_Expansion()
+    {
+        if (ActiveFloor_Technical < GameManager.Technical.Floor_Technical.Length)
+        {
+            ActiveFloor_Technical++;
+            GameManager.Technical.Expantion_Technical();
+        }
+    }
+
 
     public int Final_Score { get; private set; }
 
@@ -89,14 +165,17 @@ public class Main : MonoBehaviour
         Final_Score += score;
     }
 
-    public int FameOfDungeon { get; set; }
-    public int DangerOfDungeon { get; set; }
+    int _fame;
+    public int FameOfDungeon { get { return _fame; } set { _fame = Mathf.Clamp(value, 0, value); } }
+    int _danger;
+    public int DangerOfDungeon { get { return _danger; } set { _danger = Mathf.Clamp(value, 0, value); } }
 
 
-    public int Player_Mana { get; set; }
-    public int Player_Gold { get; set; }
+    public int Dungeon_Lv { get; set; }
+    public int Player_Mana { get; private set; }
+    public int Player_Gold { get; private set; }
+
     public int Player_AP { get; set; }
-
     public int Prisoner { get; set; }
 
 
@@ -172,9 +251,9 @@ public class Main : MonoBehaviour
 
     void ManagementInit()
     {
-        Player_Mana = 7777;
-        Player_Gold = 3333;
-        Player_AP = 100;
+        Player_Mana = 300;
+        Player_Gold = 200;
+        Player_AP = 3;
 
 
 
@@ -185,7 +264,7 @@ public class Main : MonoBehaviour
 
 
 
-    void DayOver()
+    void DayOver_Dayresult()
     {
         _dayList.Add(CurrentDay);
         AddScore(CurrentDay);
@@ -204,6 +283,10 @@ public class Main : MonoBehaviour
     }
 
     #endregion
+
+
+
+
 
 
 
@@ -249,13 +332,13 @@ public class Main : MonoBehaviour
                 Turn++;
                 TurnStartEvent();
                 DayEvent();
-                Managers.NPC.TurnStart();
+                GameManager.NPC.TurnStart();
             }
             else
             {
                 DangerOfDungeon += 10;
-                FindObjectOfType<UI_Management>().DayOver();
-                DayOver();
+                FindObjectOfType<UI_Management>().Texts_Refresh();
+                DayOver_Dayresult();
                 TurnOverEvent();
                 NightEvent();
             }
@@ -317,7 +400,7 @@ public class Main : MonoBehaviour
 
             case 2:
                 Debug.Log("2일차 종료 이벤트 발생");
-                Managers.Technical.Level_2();
+                GameManager.Technical.Level_2();
                 break;
 
             case 5:
@@ -348,7 +431,7 @@ public class Main : MonoBehaviour
             var tile = Floor[3].GetRandomTile();
             PlacementInfo info = new PlacementInfo(Floor[3], tile);
 
-            var obj = Managers.Facility.CreateFacility_OnlyOne("Exit", info, true);
+            var obj = GameManager.Facility.CreateFacility_OnlyOne("Exit", info, true);
         }
         
 
@@ -362,7 +445,7 @@ public class Main : MonoBehaviour
             var tile = Floor[2].GetRandomTile();
             PlacementInfo info = new PlacementInfo(Floor[3], tile);
 
-            var obj = Managers.Facility.CreateFacility_OnlyOne("EggEntrance", info, true);
+            var obj = GameManager.Facility.CreateFacility_OnlyOne("EggEntrance", info, true);
         }
         yield return new WaitForSecondsRealtime(1);
 
@@ -445,17 +528,43 @@ public class Main : MonoBehaviour
         {
             Floor[i].FloorIndex = i;
             Floor[i].Init_Floor();
-        }
 
-        SetHiddenFloor();
+            //Floor[i].gameObject.SetActive(false);
+        }
     }
 
-    void SetHiddenFloor()
+
+
+    void Expansion_BasementFloor()
     {
-        Floor[3].Hidden = true;
-        //Floor[3].Remove_Entrance();
-        //Managers.Placement.PlacementClear_Completely(Floor[3].Exit);
-        //Managers.Placement.PlacementClear_Completely(Floor[3].Entrance);
+        for (int i = 0; i < Floor.Length; i++)
+        {
+            Floor[i].gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < ActiveFloor_Basement; i++)
+        {
+            Floor[i].gameObject.SetActive(true);
+            Floor[i].Init_Entrance();
+        }
+
+
+        if (ActiveFloor_Basement >= 4)
+        {
+            Floor[3].Hidden = true;
+        }
+        DungeonExpansionUI();
+    }
+
+    void DungeonExpansionUI()
+    {
+        if (Floor.Length > ActiveFloor_Basement)
+        {
+            var ui = Managers.Resource.Instantiate("UI/PopUp/Element/UI_Expansion_Floor");
+            ui.transform.position = Floor[ActiveFloor_Basement].transform.position;
+
+            ui.GetComponent<UI_Expansion_Floor>().SetContents(ActiveFloor_Basement, 200, 200, 2);
+        }
     }
 
     #endregion

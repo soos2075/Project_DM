@@ -167,7 +167,8 @@ public class ContentManager
 
             if (content.tileType == Define.TileType.Facility || content.tileType == Define.TileType.Entrance || content.tileType == Define.TileType.Exit)
             {
-                Managers.Placement.PlacementClear_Completely(content.placementable);
+                //Managers.Placement.PlacementClear_Completely(content.placementable);
+                GameManager.Facility.RemoveFacility(content.placementable as Facility);
             }
         }
 
@@ -289,7 +290,7 @@ public class ContentManager
             var content = Main.Instance.CurrentFloor.TileMap[_deltaX, _deltaY];
             var info = new PlacementInfo(Main.Instance.CurrentFloor, content);
 
-            Managers.Facility.CreateFacility(prefab, info, isUnChangeable);
+            GameManager.Facility.CreateFacility(prefab, info, isUnChangeable);
 
             //var newObj = Managers.Placement.CreatePlacementObject($"Facility/{prefab}", null, Define.PlacementType.Facility);
             //Managers.Placement.PlacementConfirm(newObj, new PlacementInfo(Main.Instance.CurrentFloor, content), isUnChangeable);
@@ -312,7 +313,7 @@ public class ContentManager
             var content = Main.Instance.CurrentFloor.TileMap[_deltaX, _deltaY];
             var info = new PlacementInfo(Main.Instance.CurrentFloor, content);
 
-            var newObj = Managers.Facility.CreateFacility_OnlyOne($"{prefab}", info, true);
+            var newObj = GameManager.Facility.CreateFacility_OnlyOne($"{prefab}", info, true);
         }
 
         return true;

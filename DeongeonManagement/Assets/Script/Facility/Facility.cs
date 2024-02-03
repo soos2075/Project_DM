@@ -76,21 +76,24 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
     protected Coroutine Cor_Facility;
 
-    protected IEnumerator FacilityEvent(NPC npc, float durationTime, string text, int ap = 1, int mp = 1, int hp = 0)
+    protected IEnumerator FacilityEvent(NPC npc, float durationTime, string text, int ap = 0, int mp = 0, int hp = 0)
     {
         UI_EventBox.AddEventText($"●{npc.Name_KR} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 {text}");
 
         yield return new WaitForSeconds(durationTime);
 
+        int applyMana = Mathf.Clamp(mp, 0, npc.Mana); //? 높은 마나회수여도 npc가 가진 마나 이상으로 얻진 못함. - 앵벌이 방지용
+
         npc.ActionPoint -= ap;
-        npc.Mana -= mp;
+        npc.Mana -= applyMana;
         npc.HP -= hp;
+
 
         //? 최대치 이상으로 회복시키고 싶지 않으면 위에 -= 하는 부분에서 Clamp 해주면 됨
 
         if (Type != FacilityType.RestZone) //? 휴식으로 차는 마나는 플레이어의 마나에서 마이너스되면 안되니까
         {
-            Main.Instance.CurrentDay.AddMana(mp);
+            Main.Instance.CurrentDay.AddMana(applyMana);
         }
         
 
@@ -105,7 +108,9 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         {
             //UI_EventBox.AddEventText($"{Name} (이)가 사라짐");
             //Managers.Placement.PlacementClear(this);
-            Managers.Placement.PlacementClear_Completely(this);
+            //Managers.Placement.PlacementClear_Completely(this);
+
+            GameManager.Facility.RemoveFacility(this);
         }
     }
 

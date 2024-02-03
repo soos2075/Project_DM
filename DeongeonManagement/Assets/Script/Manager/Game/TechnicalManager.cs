@@ -13,6 +13,9 @@ public class TechnicalManager
         AddContents();
     }
 
+
+
+    public TechnicalFloor[] Floor_Technical { get; set; }
     void FloorInit()
     {
         Floor_Technical = Main.FindObjectsOfType<TechnicalFloor>();
@@ -28,11 +31,29 @@ public class TechnicalManager
             GameObject go = Managers.Resource.Instantiate($"UI/PopUp/Technical/UI_Technical", Floor_Technical[i].transform);
             var ui = go.GetComponent<UI_Technical>();
             ui.Parent = Floor_Technical[i];
+            ui.Init();
+
+            Floor_Technical[i].gameObject.SetActive(false);
+        }
+    }
+
+    public void Expantion_Technical()
+    {
+        for (int i = 0; i < Main.Instance.ActiveFloor_Technical; i++)
+        {
+            if (Floor_Technical[i].gameObject.activeSelf == false)
+            {
+                Floor_Technical[i].gameObject.SetActive(true);
+            }
         }
     }
 
 
-    public TechnicalFloor[] Floor_Technical { get; set; }
+
+
+
+
+
 
     public List<Technical> currentTechnicalList;
 
@@ -72,6 +93,12 @@ public class TechnicalManager
     public void RemoveTechnical(Technical technical)
     {
         currentTechnicalList.Remove(technical);
+
+        technical.parent.Current = null;
+
+
+
+        Managers.Resource.Destroy(technical.gameObject);
     }
 
 

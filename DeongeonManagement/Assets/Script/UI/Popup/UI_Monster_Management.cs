@@ -101,12 +101,12 @@ public class UI_Monster_Management : UI_PopUp
     {
         childList = new List<UI_MonsterBox>();
 
-        for (int i = 0; i < Managers.Monster.Monsters.Length; i++)
+        for (int i = 0; i < GameManager.Monster.Monsters.Length; i++)
         {
             var obj = Managers.Resource.Instantiate("UI/PopUp/Element/MonsterBox", GetImage(((int)Panels.GridPanel)).transform);
 
             var box = obj.GetComponent<UI_MonsterBox>();
-            box.monster = Managers.Monster.Monsters[i];
+            box.monster = GameManager.Monster.Monsters[i];
             box.parent = this;
             childList.Add(box);
         }
@@ -222,7 +222,7 @@ public class UI_Monster_Management : UI_PopUp
                     AddUIEvent((data) => Current.monster.Training());
 
                 GetButton(((int)Buttons.Release)).gameObject.
-                    AddUIEvent((data) => Managers.Monster.ReleaseMonster(Current.monster.MonsterID));
+                    AddUIEvent((data) => GameManager.Monster.ReleaseMonster(Current.monster.MonsterID));
                 break;
 
 
@@ -250,7 +250,7 @@ public class UI_Monster_Management : UI_PopUp
                     AddUIEvent((data) => Current.monster.Recover());
 
                 GetButton(((int)Buttons.Release)).gameObject.
-                    AddUIEvent((data) => Managers.Monster.ReleaseMonster(Current.monster.MonsterID));
+                    AddUIEvent((data) => GameManager.Monster.ReleaseMonster(Current.monster.MonsterID));
                 break;
         }
     }
@@ -323,9 +323,9 @@ public class UI_Monster_Management : UI_PopUp
 
             var content = tile.floor.TileMap[_deltaX, _deltaY];
 
-            var obj = Managers.Monster.Monsters[monsterID];
+            var obj = GameManager.Monster.Monsters[monsterID];
 
-            Managers.Placement.PlacementConfirm(obj, new PlacementInfo(tile.floor, content));
+            GameManager.Placement.PlacementConfirm(obj, new PlacementInfo(tile.floor, content));
 
             obj.PlacementInfo.Place_Floor.MaxMonsterSize--;
             obj.State = Monster.MonsterState.Placement;

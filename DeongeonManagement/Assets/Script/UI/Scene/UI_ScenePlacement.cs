@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class UI_ScenePlacement : UI_Scene, IWorldSpaceUI
 {
+
+    void Start()
+    {
+        //?  생성하는곳에서 호출하는걸로 변경
+        //Init();
+    }
+
+
     public void SetCanvasWorldSpace()
     {
         Managers.UI.SetCanvas(gameObject, RenderMode.WorldSpace, false);
@@ -24,10 +32,6 @@ public class UI_ScenePlacement : UI_Scene, IWorldSpaceUI
     //}
 
 
-    void Start()
-    {
-        Init();
-    }
 
 
 

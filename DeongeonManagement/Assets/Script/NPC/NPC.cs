@@ -138,7 +138,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     public void Departure(Vector3 startPoint, Vector3 endPoint)
     {
         transform.position = startPoint;
-        Managers.Placement.Visible(this);
+        GameManager.Placement.Visible(this);
 
         Managers.Resource.Instantiate("UI/UI_StateBar", transform);
 
@@ -167,9 +167,9 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     public void Arrival()
     {
         inDungeon = false;
-        transform.position = Managers.NPC.dungeonEntrance.position;
-        Managers.Placement.Visible(this);
-        StartCoroutine(MoveToHome(Managers.NPC.guild.position));
+        transform.position = GameManager.NPC.dungeonEntrance.position;
+        GameManager.Placement.Visible(this);
+        StartCoroutine(MoveToHome(GameManager.NPC.guild.position));
     }
 
     IEnumerator MoveToHome(Vector3 point)
@@ -183,7 +183,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             dis = Vector3.Distance(transform.position, point);
             yield return null;
         }
-        Managers.NPC.InactiveNPC(this);
+        GameManager.NPC.InactiveNPC(this);
     }
     #endregion Ground
 
@@ -271,20 +271,20 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             FloorLevel++;
         }
 
-        if (FloorLevel == Main.Instance.Floor.Length)
+        if (FloorLevel == Main.Instance.ActiveFloor_Basement)
         {
             Debug.Log($"{name}(이)가 {FloorLevel}층에서 더이상 올라갈 수 없음");
             State = NPCState.Return;
             return;
         }
 
-        Managers.Placement.PlacementClear(this);
+        GameManager.Placement.PlacementClear(this);
 
         //? 랜덤위치로 소환
         //var info = Managers.Placement.GetRandomPlacement(this, Main.Instance.Floor[FloorLevel]); 
         //? 입구에서 소환
         var info_Entrance = new PlacementInfo(Main.Instance.Floor[FloorLevel], Main.Instance.Floor[FloorLevel].Exit.PlacementInfo.Place_Tile);
-        Managers.Placement.PlacementConfirm(this, info_Entrance);
+        GameManager.Placement.PlacementConfirm(this, info_Entrance);
 
         FloorLevel++;
         //Debug.Log($"{name}(이)가 {FloorLevel}층에 도착");
@@ -318,10 +318,10 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         //Debug.Log($"{name}(이)가 {FloorLevel}층에 도착");
 
-        Managers.Placement.PlacementClear(this);
+        GameManager.Placement.PlacementClear(this);
 
         var info_Exit = new PlacementInfo(Main.Instance.Floor[FloorLevel - 1], Main.Instance.Floor[FloorLevel - 1].Entrance.PlacementInfo.Place_Tile);
-        Managers.Placement.PlacementConfirm(this, info_Exit);
+        GameManager.Placement.PlacementConfirm(this, info_Exit);
 
         SearchPreviousFloor(); //? 지상으로 올라가는 경우는 나가는 경우니까 우선순위상관없이 출구만 1순위로 찾음. 추가로 State의 변경도 하면 안됨.
     }
@@ -347,13 +347,13 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
     void FloorPortal(int hiddenFloor) //? 특정층으로 순간이동
     {
-        Managers.Placement.PlacementClear(this);
+        GameManager.Placement.PlacementClear(this);
 
         //? 입구에서 소환
         var info_Exit = new PlacementInfo(Main.Instance.Floor[hiddenFloor], Main.Instance.Floor[hiddenFloor].Exit.PlacementInfo.Place_Tile);
         //var info = new PlacementInfo(Main.Instance.Floor[hiddenFloor], Main.Instance.Floor[hiddenFloor].GetRandomTile(this));
 
-        Managers.Placement.PlacementConfirm(this, info_Exit);
+        GameManager.Placement.PlacementConfirm(this, info_Exit);
 
 
         SetPriorityList(); //? 우선순위에 맞춰 맵탐색
@@ -391,7 +391,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         Main.Instance.CurrentDay.AddGold(100);
         Debug.Log($"{name}(이)가 죽음 + 자세한 사유는 이후에 추가");
         UI_EventBox.AddEventText($"◈{Name_KR} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 쓰러짐");
-        Managers.NPC.InactiveNPC(this);
+        GameManager.NPC.InactiveNPC(this);
 
         Main.Instance.FameOfDungeon += 1;
         Main.Instance.DangerOfDungeon += 5;
@@ -402,7 +402,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         Main.Instance.CurrentDay.AddPrisoner(1);
         Debug.Log($"{name}(이)가 포로로 잡힘");
         UI_EventBox.AddEventText($"◈{Name_KR} (이)가 포로로 잡힘");
-        Managers.NPC.InactiveNPC(this);
+        GameManager.NPC.InactiveNPC(this);
 
 
     }
@@ -558,7 +558,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             else
             {
                 var next = new PlacementInfo(PlacementInfo.Place_Floor, path[i]);
-                Managers.Placement.PlacementMove(this, next);
+                GameManager.Placement.PlacementMove(this, next);
             }
         }
         yield return new WaitForEndOfFrame();
@@ -573,14 +573,14 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         switch (encount)
         {
             case Define.PlaceEvent.Event:
-                Managers.Placement.PlacementMove(this, next);
+                GameManager.Placement.PlacementMove(this, next);
                 StopCoroutine(Cor_Move);
                 Cor_Move = null;
                 Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => State = NPCState.Return));
                 return true;
 
             case Define.PlaceEvent.Using:
-                Managers.Placement.PlacementMove(this, next);
+                GameManager.Placement.PlacementMove(this, next);
                 StopCoroutine(Cor_Move);
                 Cor_Move = null;
                 Cor_Encounter = StartCoroutine(Encounter_Facility(tile));
@@ -589,7 +589,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
 
             case Define.PlaceEvent.Using_Portal:
-                Managers.Placement.PlacementMove(this, next);
+                GameManager.Placement.PlacementMove(this, next);
                 StopCoroutine(Cor_Move);
                 Cor_Move = null;
                 Cor_Encounter = StartCoroutine(Encounter_Portal(tile, (floor) => FloorPortal(floor)));
@@ -599,7 +599,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             case Define.PlaceEvent.Entrance:
                 if (State == NPCState.Next)
                 {
-                    Managers.Placement.PlacementMove(this, next);
+                    GameManager.Placement.PlacementMove(this, next);
                     StopCoroutine(Cor_Move);
                     Cor_Move = null;
                     Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => FloorNext()));
@@ -614,7 +614,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             case Define.PlaceEvent.Exit:
                 if (State == NPCState.Return)
                 {
-                    Managers.Placement.PlacementMove(this, next);
+                    GameManager.Placement.PlacementMove(this, next);
                     StopCoroutine(Cor_Move);
                     Cor_Move = null;
                     Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => FloorPrevious()));
@@ -624,7 +624,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
                 }
                 else if (State == NPCState.Runaway)
                 {
-                    Managers.Placement.PlacementMove(this, next);
+                    GameManager.Placement.PlacementMove(this, next);
                     StopCoroutine(Cor_Move);
                     Cor_Move = null;
                     Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => FloorEscape()));
@@ -768,7 +768,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         {
             Debug.Log("길찾기 실패 / 랜덤이동" + Time.time);
             var next = new PlacementInfo(PlacementInfo.Place_Floor, newTile);
-            Managers.Placement.PlacementMove(this, next);
+            GameManager.Placement.PlacementMove(this, next);
         }
         yield return new WaitForEndOfFrame();
         Cor_Move = null;

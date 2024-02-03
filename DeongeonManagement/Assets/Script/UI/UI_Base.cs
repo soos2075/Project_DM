@@ -99,4 +99,7 @@ public abstract class UI_Base : MonoBehaviour
 
 		evt?.ClearAllAction();
 	}
+
+
+
 }

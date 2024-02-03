@@ -7,16 +7,23 @@ public class UI_Technical : UI_Scene, IWorldSpaceUI
 {
     void Start()
     {
-        SetCanvasWorldSpace();
+        //Init();
     }
+
+
     public void SetCanvasWorldSpace()
     {
         Managers.UI.SetCanvas(gameObject, RenderMode.WorldSpace, false);
+    }
+    public override void Init()
+    {
+        SetCanvasWorldSpace();
 
         AddUIEvent(gameObject, (data) => MoveEvent(data), Define.UIEvent.Move);
         AddUIEvent(gameObject, (data) => CloseView(), Define.UIEvent.Exit);
 
         AddUIEvent(gameObject, (data) => LeftClickEvent(data), Define.UIEvent.LeftClick);
+        AddUIEvent(gameObject, (data) => Managers.UI.CloseAll(), Define.UIEvent.RightClick);
     }
 
 
@@ -48,17 +55,47 @@ public class UI_Technical : UI_Scene, IWorldSpaceUI
 
     void LeftClickEvent(PointerEventData data)
     {
-        if (Parent.Current != null || !Main.Instance.Management)
+        if (!Main.Instance.Management)
         {
             return;
         }
 
-        Main.Instance.CurrentTechnical = Parent;
 
-        var popup = Managers.UI.ShowPopUpAlone<UI_Technical_Select>("Technical/UI_Technical_Select");
-        var pos = Camera.main.ScreenToWorldPoint(data.position);
-        popup.transform.localPosition = new Vector3(pos.x, pos.y, 0);
-        popup.parents = this;
+        if (Parent.Current != null)
+        {
+            Demolition_Technical();
+        }
+        else
+        {
+            Main.Instance.CurrentTechnical = Parent;
+
+            var popup = Managers.UI.ClearAndShowPopUp<UI_Technical_Select>("Technical/UI_Technical_Select");
+            var pos = Camera.main.ScreenToWorldPoint(data.position);
+            popup.transform.localPosition = new Vector3(pos.x, pos.y, 0);
+            popup.parents = this;
+        }
     }
 
+
+
+    void Demolition_Technical()
+    {
+        var ui = Managers.UI.ShowPopUp<UI_Confirm>();
+        ui.SetText($"{Parent.Current.Data.name_Placement}(을)를 철거할까요?");
+        StartCoroutine(WaitForAnswer(ui));
+    }
+
+    IEnumerator WaitForAnswer(UI_Confirm confirm)
+    {
+        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
+
+        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
+        {
+            GameManager.Technical.RemoveTechnical(Parent.Current);
+        }
+        //else if (confirm.GetAnswer() == UI_Confirm.State.No)
+        //{
+
+        //}
+    }
 }

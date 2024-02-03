@@ -8,8 +8,6 @@ using Newtonsoft.Json;
 public class DataManager
 {
 
-
-
     public void Init()
     {
 
@@ -37,11 +35,11 @@ public class DataManager
     #region SaveClass
     public class SaveData
     {
-        // 세이브 슬롯 인덱스
+        // 세이브 슬롯 정보
         public int saveIndex;
+        public string dateTime;
 
         // 세이브 슬롯에 표시할 게임정보
-        public string dateTime;
         public int turn;
         public int Final_Score;
 
@@ -72,14 +70,8 @@ public class DataManager
 
     }
 
-
     //private SaveData tempData;
-
-
     #endregion
-
-
-
 
 
 
@@ -88,16 +80,37 @@ public class DataManager
 
     #region SaveLoad
 
-    private int _fileIndex = 0;
-    public void SaveToJson(string fileName)
+    //private int _fileIndex = 0;
+    public void SaveToJson(string fileName, int index)
     {
         //? 저장할 정보를 몽땅 기록
         SaveData saveData = new SaveData();
 
+        saveData.saveIndex = index;
         saveData.dateTime = System.DateTime.Now.ToString("F");
-        saveData.monsterList = Managers.Monster.GetSaveData_Monster();
-        saveData.tachnicalList = Managers.Technical.GetSaveData_Technical();
-        saveData.facilityList = Managers.Facility.GetSaveData_Facility();
+
+        saveData.turn = Main.Instance.Turn;
+        saveData.Final_Score = Main.Instance.Final_Score;
+
+        saveData.FameOfDungeon = Main.Instance.FameOfDungeon;
+        saveData.DangerOfDungeon = Main.Instance.DangerOfDungeon;
+        saveData.Player_Mana = Main.Instance.Player_Mana;
+        saveData.Player_Gold = Main.Instance.Player_Gold;
+        saveData.Player_AP = Main.Instance.Player_AP;
+        saveData.Prisoner = Main.Instance.Prisoner;
+        saveData.CurrentDay = Main.Instance.CurrentDay;
+
+        saveData.ActiveFloor_Basement = Main.Instance.ActiveFloor_Basement;
+        saveData.ActiveFloor_Technical = Main.Instance.ActiveFloor_Technical;
+
+
+        saveData.monsterList = GameManager.Monster.GetSaveData_Monster();
+        saveData.tachnicalList = GameManager.Technical.GetSaveData_Technical();
+        saveData.facilityList = GameManager.Facility.GetSaveData_Facility();
+
+
+
+
 
 
         //? 파일로 저장
@@ -112,10 +125,14 @@ public class DataManager
         var _fileData = FileOperation(FileMode.Open, $"{Application.dataPath}/{fileName}.json");
         SaveData loadData = JsonConvert.DeserializeObject<SaveData>(_fileData);
 
+
+
         //? 불러온 데이터 적용
-        Managers.Monster.Load_MonsterData(loadData.monsterList);
-        Managers.Technical.Load_TechnicalData(loadData.tachnicalList);
-        Managers.Facility.Load_FacilityData(loadData.facilityList);
+        Main.Instance.SetLoadData(loadData);
+
+        GameManager.Monster.Load_MonsterData(loadData.monsterList);
+        GameManager.Technical.Load_TechnicalData(loadData.tachnicalList);
+        GameManager.Facility.Load_FacilityData(loadData.facilityList);
     }
 
     public string GetDateToFile(string fileName)

@@ -70,13 +70,13 @@ public class UI_Placement_Facility : UI_PopUp
     {
         var pos = GetComponentInChildren<ContentSizeFitter>().transform;
 
-        for (int i = 0; i < Managers.Content.Contents.Count; i++)
+        for (int i = 0; i < GameManager.Content.Contents.Count; i++)
         {
             var content = Managers.Resource.Instantiate("UI/PopUp/Facility/Facility_Content", pos).GetComponent<UI_Facility_Content>();
-            content.Content = Managers.Content.Contents[i];
+            content.Content = GameManager.Content.Contents[i];
             content.Parent = this;
 
-            content.gameObject.name = Managers.Content.Contents[i].contentName;
+            content.gameObject.name = GameManager.Content.Contents[i].contentName;
             childList.Add(content);
         }
     }

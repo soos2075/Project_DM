@@ -75,8 +75,8 @@ public class UI_StatusUp : UI_PopUp
     [System.Obsolete]
     IEnumerator TestFunc()
     {
-        var mon = Managers.Placement.CreatePlacementObject("Monster/Slime", null, Define.PlacementType.Monster);
-        Managers.Monster.AddMonster(mon as Monster);
+        var mon = GameManager.Placement.CreatePlacementObject("Monster/Slime", null, Define.PlacementType.Monster);
+        GameManager.Monster.AddMonster(mon as Monster);
 
         yield return new WaitForEndOfFrame();
         TargetMonster(mon as Monster);

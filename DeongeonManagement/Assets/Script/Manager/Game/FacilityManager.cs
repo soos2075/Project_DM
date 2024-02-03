@@ -16,16 +16,16 @@ public class FacilityManager
 
     public IPlacementable CreateFacility(string prefabName, PlacementInfo info, bool isUnChangeable = false)
     {
-        var newObj = Managers.Placement.CreatePlacementObject($"Facility/{prefabName}", info, Define.PlacementType.Facility);
-        Managers.Placement.PlacementConfirm(newObj, info, isUnChangeable);
+        var newObj = GameManager.Placement.CreatePlacementObject($"Facility/{prefabName}", info, Define.PlacementType.Facility);
+        GameManager.Placement.PlacementConfirm(newObj, info, isUnChangeable);
 
         facilityList.Add(newObj as Facility);
         return newObj;
     }
     public IPlacementable CreateFacility_OnlyOne(string prefabName, PlacementInfo info, bool isUnChangeable = false)
     {
-        var newObj = Managers.Placement.CreateOnlyOne($"Facility/{prefabName}", info, Define.PlacementType.Facility);
-        Managers.Placement.PlacementConfirm(newObj, info, isUnChangeable);
+        var newObj = GameManager.Placement.CreateOnlyOne($"Facility/{prefabName}", info, Define.PlacementType.Facility);
+        GameManager.Placement.PlacementConfirm(newObj, info, isUnChangeable);
 
         facilityList.Add(newObj as Facility);
         return newObj;
@@ -33,7 +33,7 @@ public class FacilityManager
 
     public void RemoveFacility(Facility facility)
     {
-        Managers.Placement.PlacementClear_Completely(facility);
+        GameManager.Placement.PlacementClear_Completely(facility);
 
         facilityList.Remove(facility);
     }
@@ -43,9 +43,9 @@ public class FacilityManager
     {
         foreach (var item in facilityList)
         {
-            Managers.Placement.PlacementClear_Completely(item);
+            GameManager.Placement.PlacementClear_Completely(item);
         }
-        facilityList = new List<Facility>();
+        facilityList.Clear();
     }
 
 

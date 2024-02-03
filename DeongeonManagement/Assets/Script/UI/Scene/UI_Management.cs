@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UI_Management : UI_Base
 {
@@ -20,6 +21,7 @@ public class UI_Management : UI_Base
 
 
         DayChange,
+        DayChange_Temp,
         Save,
     }
 
@@ -37,15 +39,14 @@ public class UI_Management : UI_Base
 
     void Start()
     {
-        Init();
 
-        placement = Managers.UI.ShowSceneUI<UI_ScenePlacement>("UI_ScenePlacement");
-        eventBox = Managers.UI.ShowSceneUI<UI_EventBox>("UI_EventBox");
-
-        canvas = GetComponent<Canvas>();
-
-        DayZero();
     }
+    public void Start_Main()
+    {
+        Init();
+    }
+
+
     void Update()
     {
         GetTMP(((int)Texts.Mana)).text = $"마나 : {Main.Instance.Player_Mana}";
@@ -65,17 +66,24 @@ public class UI_Management : UI_Base
 
     public override void Init()
     {
+        Managers.UI.SetCanvas(gameObject, RenderMode.ScreenSpaceCamera, false);
+
+        placement = Managers.UI.ShowSceneUI<UI_ScenePlacement>("UI_ScenePlacement");
+        placement.Init();
+        eventBox = Managers.UI.ShowSceneUI<UI_EventBox>("UI_EventBox");
+        canvas = GetComponent<Canvas>();
+
         Bind<Button>(typeof(ButtonEvent));
         Bind<TextMeshProUGUI>(typeof(Texts));
 
-
-        Init_Texts();
+        Texts_Refresh();
         Init_Button();
 
+        DayZero();
     }
 
 
-    void Init_Texts()
+    public void Texts_Refresh()
     {
         GetTMP(((int)Texts.Day)).text = $"{Main.Instance.Turn}일차";
         GetTMP(((int)Texts.AP)).text = $"행동력 : {Main.Instance.Player_AP}";
@@ -88,17 +96,19 @@ public class UI_Management : UI_Base
     void Init_Button()
     {
         GetButton((int)ButtonEvent.Summon).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Summon_Monster>());
-
         GetButton((int)ButtonEvent.Management).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Monster_Management>());
-        //GetButton((int)ButtonEvent.Management).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Placement_Monster>());
-
+        GetButton((int)ButtonEvent.Guild).gameObject.AddUIEvent((data) => Visit_Guild());
         GetButton((int)ButtonEvent.Placement).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_DungeonPlacement>());
 
-        GetButton((int)ButtonEvent.Test1).gameObject.AddUIEvent((data) => Managers.NPC.TestCreate("Adventurer"));
-        GetButton((int)ButtonEvent.Test2).gameObject.AddUIEvent((data) => Managers.NPC.TestCreate("Herbalist"));
-        GetButton((int)ButtonEvent.Test3).gameObject.AddUIEvent((data) => Managers.NPC.TestCreate("Miner"));
+
+
+
+        GetButton((int)ButtonEvent.Test1).gameObject.AddUIEvent((data) => GameManager.NPC.TestCreate("Adventurer"));
+        GetButton((int)ButtonEvent.Test2).gameObject.AddUIEvent((data) => GameManager.NPC.TestCreate("Herbalist"));
+        GetButton((int)ButtonEvent.Test3).gameObject.AddUIEvent((data) => GameManager.NPC.TestCreate("Miner"));
 
         GetButton((int)ButtonEvent.DayChange).gameObject.AddUIEvent((data) => DayStart());
+        GetButton((int)ButtonEvent.DayChange_Temp).gameObject.AddUIEvent((data) => DayChange_Temp());
 
         GetButton((int)ButtonEvent.Save).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_SaveLoad>());
     }
@@ -115,20 +125,23 @@ public class UI_Management : UI_Base
             eventBox.BoxActive(true);
             eventBox.TextClear();
             Main.Instance.DayChange();
-            Init_Texts();
+            Texts_Refresh();
         }
     }
-
-    public void DayOver()
+    [System.Obsolete]
+    void DayChange_Temp()
     {
-        Init_Texts();
+        eventBox.BoxActive(true);
+        eventBox.TextClear();
+        Main.Instance.DayChange();
+        Texts_Refresh();
     }
 
 
     void DayZero()
     {
         GetButton((int)ButtonEvent.Special).gameObject.SetActive(false);
-        GetButton((int)ButtonEvent.Guild).gameObject.SetActive(false);
+        //GetButton((int)ButtonEvent.Guild).gameObject.SetActive(false);
         //GetButton((int)ButtonEvent.DayChange).gameObject.SetActive(false);
         GetButton((int)ButtonEvent.Test1).gameObject.SetActive(false);
         GetButton((int)ButtonEvent.Test2).gameObject.SetActive(false);
@@ -141,4 +154,30 @@ public class UI_Management : UI_Base
     }
 
 
+
+
+    void Visit_Guild()
+    {
+        var ui = Managers.UI.ClearAndShowPopUp<UI_Confirm>();
+        ui.SetText($"길드에 방문할까요?\n(남은 행동력이 모두 소모됩니다)");
+        StartCoroutine(WaitForAnswer(ui));
+    }
+
+
+    IEnumerator WaitForAnswer(UI_Confirm confirm)
+    {
+        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
+
+        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
+        {
+            Managers.Data.SaveToJson("AutoSave", 0);
+            Main.Instance.Player_AP = 0;
+
+            Managers.Scene.LoadSceneAsync("3_Guild");
+        }
+        //else if (confirm.GetAnswer() == UI_Confirm.State.No)
+        //{
+
+        //}
+    }
 }

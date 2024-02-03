@@ -49,11 +49,11 @@ public class HerbFarm : Technical
 
             if (ranValue > 0.7f)
             {
-                Managers.Facility.CreateFacility("Herb_High", info);
+                GameManager.Facility.CreateFacility("Herb_High", info);
             }
             else
             {
-                Managers.Facility.CreateFacility("Herb_Low", info);
+                GameManager.Facility.CreateFacility("Herb_Low", info);
             }
         }
     }

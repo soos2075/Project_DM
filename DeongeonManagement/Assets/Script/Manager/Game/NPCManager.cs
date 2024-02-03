@@ -81,17 +81,17 @@ public class NPCManager
         switch (rank)
         {
             case NPCType.Herbalist:
-                var herb = Managers.Placement.CreatePlacementObject($"NPC/Herbalist", null, Define.PlacementType.NPC);
+                var herb = GameManager.Placement.CreatePlacementObject($"NPC/Herbalist", null, Define.PlacementType.NPC);
                 Current_NPCList.Add(herb as NPC);
                 break;
 
             case NPCType.Miner:
-                var miner = Managers.Placement.CreatePlacementObject($"NPC/Miner", null, Define.PlacementType.NPC);
+                var miner = GameManager.Placement.CreatePlacementObject($"NPC/Miner", null, Define.PlacementType.NPC);
                 Current_NPCList.Add(miner as NPC);
                 break;
 
             case NPCType.Adventurer:
-                var adv = Managers.Placement.CreatePlacementObject($"NPC/Adventurer", null, Define.PlacementType.NPC);
+                var adv = GameManager.Placement.CreatePlacementObject($"NPC/Adventurer", null, Define.PlacementType.NPC);
                 Current_NPCList.Add(adv as NPC);
                 break;
         }
@@ -106,7 +106,7 @@ public class NPCManager
 
     public void InactiveNPC(NPC npc)
     {
-        Managers.Placement.PlacementClear(npc);
+        GameManager.Placement.PlacementClear(npc);
         Current_NPCList.Remove(npc);
 
         Managers.Resource.Destroy(npc.gameObject);
@@ -129,7 +129,7 @@ public class NPCManager
     [System.Obsolete]
     public void TestCreate(string name)
     {
-        var adv = Managers.Placement.CreatePlacementObject($"NPC/{name}", null, Define.PlacementType.NPC);
+        var adv = GameManager.Placement.CreatePlacementObject($"NPC/{name}", null, Define.PlacementType.NPC);
         var npc = adv as NPC;
         npc.Departure(guild.position, dungeonEntrance.position);
     }
@@ -159,7 +159,7 @@ public class NPCManager
     {
         rankList = new List<int>();
 
-        int _danger = Mathf.Clamp(Main.Instance.DangerOfDungeon, 40, Main.Instance.DangerOfDungeon);
+        int _danger = Mathf.Clamp(Main.Instance.DangerOfDungeon, 30 + (Main.Instance.Turn * 5), Main.Instance.DangerOfDungeon);
 
         for (int i = 0; i < rankWeightedList.Length; i++)
         {

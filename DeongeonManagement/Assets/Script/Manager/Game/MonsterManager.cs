@@ -47,7 +47,7 @@ public class MonsterManager
         if (Monsters[monsterID] != null)
         {
             var mon = Monsters[monsterID];
-            Managers.Placement.PlacementClear(mon);
+            GameManager.Placement.PlacementClear(mon);
             Managers.Resource.Destroy(mon.gameObject);
             Monsters[monsterID] = null;
         }
@@ -159,7 +159,7 @@ public class MonsterManager
         {
             if (data[i] != null)
             {
-                var mon = Managers.Placement.CreatePlacementObject($"Monster/{data[i].Name}", null, Define.PlacementType.Monster) as Monster;
+                var mon = GameManager.Placement.CreatePlacementObject($"Monster/{data[i].Name}", null, Define.PlacementType.Monster) as Monster;
                 mon.MonsterInit();
                 mon.Initialize_Status();
                 mon.Initialize_SaveData(data[i]);
@@ -169,7 +169,7 @@ public class MonsterManager
                     var info = new PlacementInfo(Main.Instance.Floor[data[i].FloorIndex],
                         Main.Instance.Floor[data[i].FloorIndex].TileMap[data[i].PosIndex.x, data[i].PosIndex.y]);
 
-                    Managers.Placement.PlacementConfirm(mon, info);
+                    GameManager.Placement.PlacementConfirm(mon, info);
                     Main.Instance.Floor[data[i].FloorIndex].MaxMonsterSize--;
                 }
 

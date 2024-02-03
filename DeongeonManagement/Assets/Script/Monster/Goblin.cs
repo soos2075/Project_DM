@@ -10,7 +10,7 @@ public class Goblin : Monster
     public override void MonsterInit()
     {
         Type = MonsterType.Normal_Fixed;
-        Data = Managers.Monster.GetMonsterData("Skeleton");
+        Data = GameManager.Monster.GetMonsterData("Skeleton");
     }
 
 }

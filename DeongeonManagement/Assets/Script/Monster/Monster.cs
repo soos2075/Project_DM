@@ -187,7 +187,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     {
         PlacementInfo.Place_Floor.MaxMonsterSize++;
         State = HP <= 0 ? MonsterState.Injury : MonsterState.Standby;
-        Managers.Placement.PlacementClear(this);
+        GameManager.Placement.PlacementClear(this);
     }
 
 

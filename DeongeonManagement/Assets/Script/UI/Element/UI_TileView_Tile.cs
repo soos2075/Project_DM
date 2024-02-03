@@ -21,7 +21,7 @@ public class UI_TileView_Tile : UI_Base
         gameObject.AddUIEvent((data) => MouseExit(), Define.UIEvent.Exit);
 
 
-        gameObject.AddUIEvent((data) => parent.InsteadOpenFloorEvent(data), Define.UIEvent.RightClick);
+        gameObject.AddUIEvent((data) => parent.InsteadOpenFloorEvent(data), Define.UIEvent.LeftClick);
     }
 
     void Start()

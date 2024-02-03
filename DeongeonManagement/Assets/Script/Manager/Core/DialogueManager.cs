@@ -14,16 +14,23 @@ public class DialogueManager : MonoBehaviour
         if (_instance == null)
         {
             _instance = FindObjectOfType<DialogueManager>();
-            if (_instance == null)
-            {
-                GameObject go = new GameObject { name = "@DialogueManager" };
-                go.AddComponent<DialogueManager>();
-                _instance = go.GetComponent<DialogueManager>();
-            }
-            DontDestroyOnLoad(_instance);
         }
     }
     #endregion
+
+    private void Awake()
+    {
+        if (FindObjectOfType<DialogueManager>())
+        {
+            Destroy(this);
+        }
+        else
+        {
+            DontDestroyOnLoad(this);
+        }
+    }
+
+
 
     //? 많아지면 받는거만 리스트로 받고 딕셔너리에 등록해놔도 될듯
     public List<SO_DialogueData> so_Datas;
