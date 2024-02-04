@@ -4,29 +4,36 @@ using UnityEngine;
 
 public class GuildManager : MonoBehaviour
 {
-    #region Singleton
+    #region singleton
     private static GuildManager _instance;
-    public static GuildManager Instance { get { Init(); return _instance; } }
+    public static GuildManager Instance { get { Initialize(); return _instance; } }
 
-    static void Init()
+    private static void Initialize()
     {
         if (_instance == null)
         {
             _instance = FindObjectOfType<GuildManager>();
-            if (_instance == null)
+        }
+    }
+
+    private void Awake()
+    {
+        Initialize();
+        if (_instance != null)
+        {
+            if (_instance != this)
             {
-                var go = new GameObject(name: "@GuildManager");
-                _instance = go.AddComponent<GuildManager>();
-                DontDestroyOnLoad(go);
+                Destroy(gameObject);
+            }
+            else
+            {
+                DontDestroyOnLoad(gameObject);
             }
         }
     }
     #endregion
 
-    private void Awake()
-    {
-        Init();
-    }
+
 
 
     void Start()

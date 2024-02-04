@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class DialogueManager : MonoBehaviour
 {
-
     #region singleton
     private static DialogueManager _instance;
     public static DialogueManager Instance { get { Initialize(); return _instance; } }
@@ -16,20 +15,23 @@ public class DialogueManager : MonoBehaviour
             _instance = FindObjectOfType<DialogueManager>();
         }
     }
-    #endregion
 
     private void Awake()
     {
-        if (FindObjectOfType<DialogueManager>())
+        Initialize();
+        if (_instance != null)
         {
-            Destroy(this);
-        }
-        else
-        {
-            DontDestroyOnLoad(this);
+            if (_instance != this)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                DontDestroyOnLoad(gameObject);
+            }
         }
     }
-
+    #endregion
 
 
     //? 많아지면 받는거만 리스트로 받고 딕셔너리에 등록해놔도 될듯
