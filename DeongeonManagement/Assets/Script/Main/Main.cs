@@ -32,6 +32,7 @@ public class Main : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("왜이게먼저?");
         NewGame_Init();
         Default_Init();
     }
@@ -450,9 +451,9 @@ public class Main : MonoBehaviour
         yield return new WaitForSecondsRealtime(1);
 
         var dia = Managers.UI.ShowPopUp<UI_Dialogue>();
-        var data = DialogueManager.Instance.GetDialogue("EggAppear");
+        var data = Managers.Dialogue.GetDialogue("EggAppear");
 
-        dia.data = data;
+        dia.Data = data;
     }
 
 

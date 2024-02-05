@@ -73,17 +73,21 @@ public class FacilityManager
         {
             if (data[i].isOnlyOne)
             {
-                var info = new PlacementInfo(Main.Instance.Floor[data[i].floorIndex], 
-                    Main.Instance.Floor[data[i].floorIndex].TileMap[data[i].posIndex.x, data[i].posIndex.y]);
-
-                CreateFacility_OnlyOne(data[i].prefabName, info, true);
+                BasementFloor floor = Main.Instance.Floor[data[i].floorIndex];
+                BasementTile tile = null;
+                if (floor.TileMap.TryGetValue(data[i].posIndex, out tile))
+                {
+                    CreateFacility_OnlyOne(data[i].prefabName, new PlacementInfo(floor, tile), true);
+                }
             }
             else
             {
-                var info = new PlacementInfo(Main.Instance.Floor[data[i].floorIndex],
-                    Main.Instance.Floor[data[i].floorIndex].TileMap[data[i].posIndex.x, data[i].posIndex.y]);
-
-                CreateFacility(data[i].prefabName, info);
+                BasementFloor floor = Main.Instance.Floor[data[i].floorIndex];
+                BasementTile tile = null;
+                if (floor.TileMap.TryGetValue(data[i].posIndex, out tile))
+                {
+                    CreateFacility(data[i].prefabName, new PlacementInfo(floor, tile), true);
+                }
             }
         }
     }

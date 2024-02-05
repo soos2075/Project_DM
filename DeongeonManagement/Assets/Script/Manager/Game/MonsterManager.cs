@@ -166,11 +166,13 @@ public class MonsterManager
 
                 if (data[i].FloorIndex != -1)
                 {
-                    var info = new PlacementInfo(Main.Instance.Floor[data[i].FloorIndex],
-                        Main.Instance.Floor[data[i].FloorIndex].TileMap[data[i].PosIndex.x, data[i].PosIndex.y]);
-
-                    GameManager.Placement.PlacementConfirm(mon, info);
-                    Main.Instance.Floor[data[i].FloorIndex].MaxMonsterSize--;
+                    BasementFloor floor = Main.Instance.Floor[data[i].FloorIndex];
+                    BasementTile tile = null;
+                    if (floor.TileMap.TryGetValue(data[i].PosIndex, out tile))
+                    {
+                        GameManager.Placement.PlacementConfirm(mon, new PlacementInfo(floor, tile));
+                        Main.Instance.Floor[data[i].FloorIndex].MaxMonsterSize--;
+                    }
                 }
 
                 Monsters[i] = mon;

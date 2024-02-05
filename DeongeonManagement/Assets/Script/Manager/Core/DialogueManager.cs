@@ -2,41 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DialogueManager : MonoBehaviour
+public class DialogueManager
 {
-    #region singleton
-    private static DialogueManager _instance;
-    public static DialogueManager Instance { get { Initialize(); return _instance; } }
+    //? 너무 데이터가 많아지면 딕셔너리로 한번 더 등록해줘도 됨
+    public SO_DialogueData[] so_DataAll;
 
-    private static void Initialize()
+    public void Init()
     {
-        if (_instance == null)
-        {
-            _instance = FindObjectOfType<DialogueManager>();
-        }
+        so_DataAll = Resources.LoadAll<SO_DialogueData>("Data");
     }
-
-    private void Awake()
-    {
-        Initialize();
-        if (_instance != null)
-        {
-            if (_instance != this)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                DontDestroyOnLoad(gameObject);
-            }
-        }
-    }
-    #endregion
-
-
-    //? 많아지면 받는거만 리스트로 받고 딕셔너리에 등록해놔도 될듯
-    public List<SO_DialogueData> so_Datas;
-
 
 
     public SO_DialogueData GetDialogue(string dialogueName)
@@ -44,16 +18,54 @@ public class DialogueManager : MonoBehaviour
         return SearchData(dialogueName);
     }
 
-    SO_DialogueData SearchData(string searchName)
+
+    SO_DialogueData SearchData(string dialogueName)
     {
-        foreach (var item in so_Datas)
+        foreach (var item in so_DataAll)
         {
-            if (item.dialogueName == searchName)
+            if (item.name == dialogueName || item.dialogueName == dialogueName)
             {
                 return item;
             }
         }
-        Debug.Log($"{searchName} 데이터 없음");
+        Debug.Log($"{dialogueName} 데이터 없음");
         return null;
+    }
+
+
+    public void ShowDialogueUI(SO_DialogueData data)
+    {
+        var ui = Managers.UI.ShowPopUpAlone<UI_Dialogue>();
+        ui.Data = data;
+    }
+    public void ShowDialogueUI(string dialogueName)
+    {
+        SO_DialogueData data = GetDialogue(dialogueName);
+        if (data == null)
+        {
+            return;
+        }
+
+        currentDialogue = Managers.UI.ShowPopUpAlone<UI_Dialogue>();
+        currentDialogue.Data = data;
+    }
+
+    public UI_Dialogue currentDialogue;
+    public enum DialogueState
+    {
+        None,
+        Talking,
+    }
+
+    public DialogueState GetState()
+    {
+        if (currentDialogue != null)
+        {
+            return DialogueState.Talking;
+        }
+        else
+        {
+            return DialogueState.None;
+        }
     }
 }

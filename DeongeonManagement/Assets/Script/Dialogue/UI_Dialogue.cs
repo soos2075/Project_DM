@@ -11,11 +11,14 @@ public class UI_Dialogue : UI_PopUp
         Init();
         Time.timeScale = 0;
     }
-
-    void Update()
+    private void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            SkipText();
+        }
     }
+
 
 
     public override void Init()
@@ -36,6 +39,7 @@ public class UI_Dialogue : UI_PopUp
             obj.AddUIEvent((data) =>
             {
                 Managers.UI.ClosePopUp();
+                Managers.Dialogue.currentDialogue = null;
                 Time.timeScale = 1;
             }, Define.UIEvent.RightClick);
         }
@@ -105,7 +109,7 @@ public class UI_Dialogue : UI_PopUp
         name,
     }
 
-    public SO_DialogueData data;
+    public SO_DialogueData Data { get; set; }
 
     int textCount;
     public float delay;
@@ -128,12 +132,12 @@ public class UI_Dialogue : UI_PopUp
 
     void Conversation_Test()
     {
-        if (data == null)
+        if (Data == null)
         {
             return;
         }
 
-        StartCoroutine(ContentsRoof(data));
+        StartCoroutine(ContentsRoof(Data));
     }
 
     IEnumerator ContentsRoof(SO_DialogueData textData)
@@ -141,13 +145,14 @@ public class UI_Dialogue : UI_PopUp
         while (textCount < textData.TextDataList.Count)
         {
             Debug.Log("새 대화 출력");
-            GetTMP((int)Texts.name).text = data.TextDataList[textCount].name;
-            yield return StartCoroutine(TypingEffect(data.TextDataList[textCount].mainText, data.TextDataList[textCount].name));
+            GetTMP((int)Texts.name).text = Data.TextDataList[textCount].optionString;
+            yield return StartCoroutine(TypingEffect(Data.TextDataList[textCount].mainText, Data.TextDataList[textCount].optionString));
             textCount++;
         }
         Time.timeScale = 1;
 
         Managers.UI.ClosePopUp(this);
+        Managers.Dialogue.currentDialogue = null;
         Debug.Log("대화창 닫음");
     }
 

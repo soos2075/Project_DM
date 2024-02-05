@@ -53,7 +53,7 @@ public class PlacementManager
         {
             obj.PlacementInfo.Place_Tile.SetPlacement(obj);
         }
-        
+
         obj.GetObject().transform.position = obj.PlacementInfo.Place_Tile.worldPosition;
         Visible(obj);
 
@@ -96,11 +96,11 @@ public class PlacementManager
 
 
 
-    public PlacementInfo GetRandomPlacement(IPlacementable placementable, BasementFloor floor)
-    {
-        var ranTile = floor.GetRandomTile(placementable);
-        return new PlacementInfo(floor, ranTile);
-    }
+    //public PlacementInfo GetRandomPlacement(IPlacementable placementable, BasementFloor floor)
+    //{
+    //    var ranTile = floor.GetRandomTile(placementable);
+    //    return new PlacementInfo(floor, ranTile);
+    //}
 
 
     public void Visible(IPlacementable obj)

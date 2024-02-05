@@ -318,17 +318,16 @@ public class UI_Monster_Management : UI_PopUp
 
         foreach (var item in boundary)
         {
-            int _deltaX = tile.index.x + item.x;
-            int _deltaY = tile.index.y + item.y;
+            Vector2Int delta = tile.index + item;
+            BasementTile temp = null;
+            if (tile.floor.TileMap.TryGetValue(delta, out temp))
+            {
+                var obj = GameManager.Monster.Monsters[monsterID];
+                GameManager.Placement.PlacementConfirm(obj, new PlacementInfo(tile.floor, temp));
 
-            var content = tile.floor.TileMap[_deltaX, _deltaY];
-
-            var obj = GameManager.Monster.Monsters[monsterID];
-
-            GameManager.Placement.PlacementConfirm(obj, new PlacementInfo(tile.floor, content));
-
-            obj.PlacementInfo.Place_Floor.MaxMonsterSize--;
-            obj.State = Monster.MonsterState.Placement;
+                obj.PlacementInfo.Place_Floor.MaxMonsterSize--;
+                obj.State = Monster.MonsterState.Placement;
+            }
         }
         return true;
     }

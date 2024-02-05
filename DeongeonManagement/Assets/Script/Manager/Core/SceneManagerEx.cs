@@ -25,7 +25,25 @@ public class SceneManagerEx
     public void LoadSceneAsync(string sceneName)
     {
         CurrentOperation = SceneManager.LoadSceneAsync(sceneName);
+
+        //Managers.Instance.StartCoroutine(LoadSceneAsyncCoroutine(sceneName));
     }
+
+    //private IEnumerator LoadSceneAsyncCoroutine(string sceneName)
+    //{
+    //    AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName);
+    //    yield return asyncOperation;
+
+    //    // 씬 로드가 완료된 후에 SceneManager.sceneLoaded 이벤트를 수동으로 호출
+    //    OnSceneLoaded(SceneManager.GetSceneByName(sceneName), LoadSceneMode.Single);
+    //}
+    //private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    //{
+    //    Debug.Log("먼저호출 보장되냐?");
+
+    //    // 이곳에 SceneManager.sceneLoaded 이벤트에서 실행하고자 하는 내용을 작성
+    //    Debug.Log("Scene loaded: " + scene.name);
+    //}
 
 
     public void AddLoadAction_Usual(Action action)

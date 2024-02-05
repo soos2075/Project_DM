@@ -16,6 +16,7 @@ public class Managers : MonoBehaviour
     SceneManagerEx _scene = new SceneManagerEx();
 
     SpriteManager _sprite = new SpriteManager();
+    DialogueManager _dialogue = new DialogueManager();
 
 
 
@@ -26,6 +27,8 @@ public class Managers : MonoBehaviour
     public static SceneManagerEx Scene { get { return Instance._scene; } }
 
     public static SpriteManager Sprite { get { return Instance._sprite; } }
+    public static DialogueManager Dialogue { get { return Instance._dialogue; } }
+
 
 
 
@@ -50,6 +53,7 @@ public class Managers : MonoBehaviour
         Init();
         _sprite.Init();
         _scene.Init();
+        _dialogue.Init();
     }
 
     void Start()

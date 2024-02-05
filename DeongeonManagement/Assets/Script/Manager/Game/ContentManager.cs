@@ -162,13 +162,15 @@ public class ContentManager
         {
             int _deltaX = tile.index.x + item.x;
             int _deltaY = tile.index.y + item.y;
+            Vector2Int delta = new Vector2Int(_deltaX, _deltaY);
 
-            var content = Main.Instance.CurrentFloor.TileMap[_deltaX, _deltaY];
-
-            if (content.tileType == Define.TileType.Facility || content.tileType == Define.TileType.Entrance || content.tileType == Define.TileType.Exit)
+            BasementTile temp = null;
+            if (Main.Instance.CurrentFloor.TileMap.TryGetValue(delta, out temp))
             {
-                //Managers.Placement.PlacementClear_Completely(content.placementable);
-                GameManager.Facility.RemoveFacility(content.placementable as Facility);
+                if (temp.tileType == Define.TileType.Facility || temp.tileType == Define.TileType.Entrance || temp.tileType == Define.TileType.Exit)
+                {
+                    GameManager.Facility.RemoveFacility(temp.placementable as Facility);
+                }
             }
         }
 
@@ -284,16 +286,13 @@ public class ContentManager
         var tile = Main.Instance.CurrentTile;
         foreach (var item in boundary)
         {
-            int _deltaX = tile.index.x + item.x;
-            int _deltaY = tile.index.y + item.y;
-
-            var content = Main.Instance.CurrentFloor.TileMap[_deltaX, _deltaY];
-            var info = new PlacementInfo(Main.Instance.CurrentFloor, content);
-
-            GameManager.Facility.CreateFacility(prefab, info, isUnChangeable);
-
-            //var newObj = Managers.Placement.CreatePlacementObject($"Facility/{prefab}", null, Define.PlacementType.Facility);
-            //Managers.Placement.PlacementConfirm(newObj, new PlacementInfo(Main.Instance.CurrentFloor, content), isUnChangeable);
+            Vector2Int delta = tile.index + item;
+            BasementTile temp = null;
+            if (Main.Instance.CurrentFloor.TileMap.TryGetValue(delta, out temp))
+            {
+                var info = new PlacementInfo(Main.Instance.CurrentFloor, temp);
+                GameManager.Facility.CreateFacility(prefab, info, isUnChangeable);
+            }
         }
 
         return true;
@@ -307,13 +306,13 @@ public class ContentManager
         var tile = Main.Instance.CurrentTile;
         foreach (var item in boundary)
         {
-            int _deltaX = tile.index.x + item.x;
-            int _deltaY = tile.index.y + item.y;
-
-            var content = Main.Instance.CurrentFloor.TileMap[_deltaX, _deltaY];
-            var info = new PlacementInfo(Main.Instance.CurrentFloor, content);
-
-            var newObj = GameManager.Facility.CreateFacility_OnlyOne($"{prefab}", info, true);
+            Vector2Int delta = tile.index + item;
+            BasementTile temp = null;
+            if (Main.Instance.CurrentFloor.TileMap.TryGetValue(delta, out temp))
+            {
+                var info = new PlacementInfo(Main.Instance.CurrentFloor, temp);
+                GameManager.Facility.CreateFacility_OnlyOne(prefab, info, true);
+            }
         }
 
         return true;

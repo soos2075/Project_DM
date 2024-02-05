@@ -171,8 +171,6 @@ public class UI_Management : UI_Base
         if (confirm.GetAnswer() == UI_Confirm.State.Yes)
         {
             Managers.Data.SaveToJson("AutoSave", 0);
-            Main.Instance.Player_AP = 0;
-
             Managers.Scene.LoadSceneAsync("3_Guild");
         }
         //else if (confirm.GetAnswer() == UI_Confirm.State.No)
