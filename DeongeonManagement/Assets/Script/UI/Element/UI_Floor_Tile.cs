@@ -58,10 +58,8 @@ public class UI_Floor_Tile : UI_Base
 
         foreach (var item in boundary)
         {
-            int deltaX = Tile.index.x + item.x;
-            int deltaY = Tile.index.y + item.y;
+            Vector2Int delta = Tile.index + item;
 
-            Vector2Int delta = new Vector2Int(deltaX, deltaY);
             BasementTile tile = null;
             if (Main.Instance.Floor[parent.FloorID].TileMap.TryGetValue(delta, out tile) == false)
             {

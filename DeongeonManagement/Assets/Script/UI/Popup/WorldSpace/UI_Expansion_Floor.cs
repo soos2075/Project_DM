@@ -75,6 +75,7 @@ public class UI_Expansion_Floor : UI_Base, IWorldSpaceUI
             Main.Instance.CurrentDay.SubtractMana(NeedMana);
 
             Main.Instance.Basement_Expansion();
+            FindObjectOfType<UI_Management>().DungeonExpansion();
             Managers.Resource.Destroy(gameObject);
         }
         //else if (confirm.GetAnswer() == UI_Confirm.State.No)

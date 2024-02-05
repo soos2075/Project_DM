@@ -66,6 +66,10 @@ public class UIManager
         }
     }
 
+    public void SceneUI_Clear()
+    {
+        _sceneList = new List<UI_Scene>();
+    }
 
 
 
@@ -177,7 +181,7 @@ public class UIManager
         }
         PauseClose();
 
-        //SceneUIRefresh();
+        SceneUIRefresh();
     }
 
 

@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.EventSystems;
 
 public class UI_SaveLoad : UI_PopUp
 {
@@ -18,6 +19,9 @@ public class UI_SaveLoad : UI_PopUp
         SaveSlot_1,
         SaveSlot_2,
         SaveSlot_3,
+        SaveSlot_4,
+        SaveSlot_5,
+        SaveSlot_6,
     }
 
     public enum Buttons
@@ -28,7 +32,6 @@ public class UI_SaveLoad : UI_PopUp
     }
 
     public Buttons State;
-    Slot SlotIndex;
 
 
     public override void Init()
@@ -48,11 +51,14 @@ public class UI_SaveLoad : UI_PopUp
         GetButton(((int)Buttons.Save)).gameObject.AddUIEvent((data) => State = Buttons.Save);
         GetButton(((int)Buttons.Load)).gameObject.AddUIEvent((data) => State = Buttons.Load);
 
-        GetImage((int)Slot.SaveSlot_1).gameObject.AddUIEvent((data) => SlotClickEvent(1));
-        GetImage((int)Slot.SaveSlot_2).gameObject.AddUIEvent((data) => SlotClickEvent(2));
-        GetImage((int)Slot.SaveSlot_3).gameObject.AddUIEvent((data) => SlotClickEvent(3));
 
-        SlotData();
+
+        for (int i = 0; i < Enum.GetNames(typeof(Slot)).Length; i++)
+        {
+            GetImage(i).gameObject.AddUIEvent((data) => SlotClickEvent(data.pointerCurrentRaycast.gameObject.transform.GetSiblingIndex()));
+        }
+
+        ShowDataInfo();
     }
 
     public void SetMode(Buttons saveMode)
@@ -62,17 +68,21 @@ public class UI_SaveLoad : UI_PopUp
 
 
 
-
     void SlotClickEvent(int index)
     {
+        index += 1;
         switch (State)
         {
             case Buttons.Save:
                 Managers.Data.SaveToJson($"DM_Save_{index}", index);
-                SlotData();
+                ShowDataInfo();
                 break;
 
             case Buttons.Load:
+                if (Managers.Data.GetData($"DM_Save_{index}") == null)
+                {
+                    return;
+                }
                 //ClosePopUp();
                 Managers.Scene.AddLoadAction_OneTime(() => LoadAction(index));
                 Managers.Scene.LoadSceneAsync("2_Management");
@@ -81,30 +91,31 @@ public class UI_SaveLoad : UI_PopUp
     }
 
 
-    void SlotData()
+    void ShowDataInfo()
     {
-        if (Managers.Data.SaveFileSearch($"DM_Save_{1}"))
+        for (int i = 1; i <= 6; i++)
         {
-            GetImage((int)Slot.SaveSlot_1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Managers.Data.GetDateToFile($"DM_Save_{1}");
+            var data = Managers.Data.GetData($"DM_Save_{i}");
+
+            if (data != null)
+            {
+                GetImage(i - 1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{data.turn}일차";
+                GetImage(i - 1).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{data.dateTime}";
+                GetImage(i - 1).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"유명도 : {data.FameOfDungeon} / 위험도 : {data.DangerOfDungeon}";
+            }
+            else
+            {
+                GetImage(i - 1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"데이터 없음";
+                GetImage(i - 1).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"";
+                GetImage(i - 1).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"";
+            }
         }
-
-
-        if (Managers.Data.SaveFileSearch($"DM_Save_{2}"))
-        {
-            GetImage((int)Slot.SaveSlot_2).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Managers.Data.GetDateToFile($"DM_Save_{2}");
-        }
-
-        if (Managers.Data.SaveFileSearch($"DM_Save_{3}"))
-        {
-            GetImage((int)Slot.SaveSlot_3).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Managers.Data.GetDateToFile($"DM_Save_{3}");
-        }
-
     }
 
 
     void LoadAction(int index)
     {
         Main.Instance.Default_Init();
-        Managers.Data.LoadToStorage($"DM_Save_{index}");
+        Managers.Data.LoadGame($"DM_Save_{index}");
     }
 }

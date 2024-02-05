@@ -30,6 +30,11 @@ public class UI_Placement_Facility : UI_PopUp
         Confirm,
     }
 
+    enum Info
+    {
+        CurrentMana,
+    }
+
 
     public UI_Floor parents { get; set; }
     public ContentData Current { get; set; }
@@ -46,10 +51,18 @@ public class UI_Placement_Facility : UI_PopUp
 
         Bind<GameObject>(typeof(Preview));
         Bind<Button>(typeof(Buttons));
-        
+        Bind<TextMeshProUGUI>(typeof(Info));
+
         Init_Preview();
         Init_Buttons();
         Init_Contents();
+        Init_Texts();
+    }
+
+    void Init_Texts()
+    {
+        GetTMP((int)Info.CurrentMana).text = $"현재 마나 : {Main.Instance.Player_Mana}";
+        GetTMP((int)Info.CurrentMana).text += $"\n현재 골드 : {Main.Instance.Player_Gold}";
     }
 
     void Init_Preview()

@@ -4,31 +4,19 @@ using UnityEngine;
 using System.IO;
 using System.Text;
 using Newtonsoft.Json;
+using System;
 
 public class DataManager
 {
 
     public void Init()
     {
-
+        SaveFileList = new Dictionary<string, SaveData>();
+        Scan_File();
     }
 
 
 
-
-    void SaveLoadInit()
-    {
-
-    }
-
-    void MonsterDataInit()
-    {
-
-    }
-    void NPCDataInit()
-    {
-
-    }
 
 
 
@@ -80,7 +68,70 @@ public class DataManager
 
     #region SaveLoad
 
-    //private int _fileIndex = 0;
+    Dictionary<string, SaveData> SaveFileList;
+
+
+    void Scan_File()
+    {
+        for (int i = 1; i <= 6; i++)
+        {
+            if (Managers.Data.SaveFileSearch($"DM_Save_{i}"))
+            {
+                var data = LoadToStorage($"DM_Save_{i}");
+
+                SaveFileList.Add($"DM_Save_{i}", data);
+            }
+        }
+
+        if (Managers.Data.SaveFileSearch($"AutoSave"))
+        {
+            var data = LoadToStorage($"AutoSave");
+            SaveFileList.Add($"AutoSave", data);
+        }
+    }
+
+    void Add_File(SaveData newData, string fileKey)
+    {
+        SaveData old = null;
+        if (SaveFileList.TryGetValue(fileKey, out old))
+        {
+            SaveFileList.Remove(fileKey);
+        }
+
+        SaveFileList.Add(fileKey, newData);
+        SaveToStorage(newData, fileKey);
+    }
+
+
+
+
+    public void LoadGame(string fileKey)
+    {
+        SaveData data = null;
+        if (SaveFileList.TryGetValue(fileKey, out data))
+        {
+            LoadFileApply(data);
+            Debug.Log($"Load Success : {fileKey}");
+        }
+        else
+        {
+            Debug.Log($"Load Fail : {fileKey}");
+        }
+    }
+    
+    public SaveData GetData(string fileKey)
+    {
+        SaveData data = null;
+        if (SaveFileList.TryGetValue(fileKey, out data))
+        {
+            return data;
+        }
+        return null;
+    }
+
+
+
+
     public void SaveToJson(string fileName, int index)
     {
         //? 저장할 정보를 몽땅 기록
@@ -109,41 +160,36 @@ public class DataManager
         saveData.facilityList = GameManager.Facility.GetSaveData_Facility();
 
 
-
-
-
-
-        //? 파일로 저장
-        string jsonData = JsonConvert.SerializeObject(saveData);
-        var result = FileOperation(FileMode.Create, $"{Application.dataPath}/{fileName}.json", jsonData);
-        Debug.Log(result);
+        Add_File(saveData, $"{fileName}");
     }
 
-    public void LoadToStorage(string fileName)
+
+    void SaveToStorage(SaveData data, string fileName)
+    {
+        //? 파일로 저장
+        string jsonData = JsonConvert.SerializeObject(data);
+        var result = FileOperation(FileMode.Create, $"{Application.dataPath}/{fileName}.json", jsonData);
+        Debug.Log($"Save Sucess : {fileName}");
+    }
+
+
+    SaveData LoadToStorage(string fileName)
     {
         //? 저장된 파일 읽어옴
         var _fileData = FileOperation(FileMode.Open, $"{Application.dataPath}/{fileName}.json");
         SaveData loadData = JsonConvert.DeserializeObject<SaveData>(_fileData);
 
+        return loadData;
+    }
 
-
-        //? 불러온 데이터 적용
+    void LoadFileApply(SaveData loadData)
+    {
         Main.Instance.SetLoadData(loadData);
 
         GameManager.Monster.Load_MonsterData(loadData.monsterList);
         GameManager.Technical.Load_TechnicalData(loadData.tachnicalList);
         GameManager.Facility.Load_FacilityData(loadData.facilityList);
     }
-
-    public string GetDateToFile(string fileName)
-    {
-        var _fileData = FileOperation(FileMode.Open, $"{Application.dataPath}/{fileName}.json");
-        SaveData loadData = JsonConvert.DeserializeObject<SaveData>(_fileData);
-
-        return loadData.dateTime;
-    }
-
-
 
 
     //? dataPath = Asset폴더 /// persistentDataPath = C:\Users\USER\AppData\LocalLow\SeonghyunKim\DefenseGame_alpha
@@ -177,7 +223,7 @@ public class DataManager
 
 
 
-    public bool SaveFileSearch(string searchFileName)
+    bool SaveFileSearch(string searchFileName)
     {
         string searchName;
         FileInfo fileInfo;
@@ -188,7 +234,7 @@ public class DataManager
     }
 
 
-    public void DeleteSaveFile(string targetFile)
+    void DeleteSaveFile(string targetFile)
     {
         if (SaveFileSearch(targetFile))
         {
@@ -198,8 +244,6 @@ public class DataManager
         else
             Debug.Log(targetFile + " 이 존재하지 않습니다.");
     }
-
-
 
 
 

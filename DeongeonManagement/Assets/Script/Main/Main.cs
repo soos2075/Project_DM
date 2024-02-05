@@ -73,7 +73,7 @@ public class Main : MonoBehaviour
 
         ManagementInit();
 
-        Expansion_BasementFloor();
+        ExpansionConfirm();
         GameManager.Technical.Expantion_Technical();
 
         StartCoroutine(NextStart());
@@ -124,8 +124,9 @@ public class Main : MonoBehaviour
 
         ActiveFloor_Basement = (data.ActiveFloor_Basement);
         ActiveFloor_Technical = (data.ActiveFloor_Technical);
-        Expansion_BasementFloor();
+        ExpansionConfirm();
         GameManager.Technical.Expantion_Technical();
+        FindObjectOfType<UI_Management>().DungeonExpansion();
 
         FindObjectOfType<UI_Management>().Texts_Refresh();
     }
@@ -141,7 +142,7 @@ public class Main : MonoBehaviour
         if (ActiveFloor_Basement < Floor.Length)
         {
             ActiveFloor_Basement++;
-            Expansion_BasementFloor();
+            ExpansionConfirm();
         }
     }
     public void Technical_Expansion()
@@ -536,7 +537,7 @@ public class Main : MonoBehaviour
 
 
 
-    void Expansion_BasementFloor()
+    void ExpansionConfirm()
     {
         for (int i = 0; i < Floor.Length; i++)
         {
@@ -555,6 +556,7 @@ public class Main : MonoBehaviour
             Floor[3].Hidden = true;
         }
         DungeonExpansionUI();
+        //FindObjectOfType<UI_Management>().DungeonExpansion();
     }
 
     void DungeonExpansionUI()

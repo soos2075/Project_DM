@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("각종 데이터 처리");
             Managers.Scene.AddLoadAction_OneTime(() => Main.Instance.Default_Init());
-            Managers.Scene.AddLoadAction_OneTime(() => Managers.Data.LoadToStorage("AutoSave"));
+            Managers.Scene.AddLoadAction_OneTime(() => Managers.Data.LoadGame("AutoSave"));
             Managers.Scene.AddLoadAction_OneTime(() => Main.Instance.Player_AP = 0);
 
             Managers.Scene.LoadSceneAsync("2_Management");

@@ -7,6 +7,34 @@ using UnityEngine.SceneManagement;
 
 public class UI_Management : UI_Base
 {
+    void Start()
+    {
+
+    }
+    public void Start_Main()
+    {
+        Init();
+    }
+    void Update()
+    {
+        GetTMP(((int)Texts.Mana)).text = $"마나 : {Main.Instance.Player_Mana}";
+        GetTMP(((int)Texts.Gold)).text = $"골드 : {Main.Instance.Player_Gold}";
+        GetTMP(((int)Texts.AP)).text = $"행동력 : {Main.Instance.Player_AP}";
+
+
+        if (Managers.UI._popupStack.Count > 0)
+        {
+            canvas.sortingOrder = -1;
+        }
+        else
+        {
+            canvas.sortingOrder = 5;
+        }
+    }
+
+
+
+
     public enum ButtonEvent
     {
         Summon,
@@ -35,43 +63,18 @@ public class UI_Management : UI_Base
         Danger,
     }
 
+
+
     Canvas canvas;
-
-    void Start()
-    {
-
-    }
-    public void Start_Main()
-    {
-        Init();
-    }
-
-
-    void Update()
-    {
-        GetTMP(((int)Texts.Mana)).text = $"마나 : {Main.Instance.Player_Mana}";
-        GetTMP(((int)Texts.Gold)).text = $"골드 : {Main.Instance.Player_Gold}";
-        GetTMP(((int)Texts.AP)).text = $"행동력 : {Main.Instance.Player_AP}";
-
-
-        if (Managers.UI._popupStack.Count > 0)
-        {
-            canvas.sortingOrder = -1;
-        }
-        else
-        {
-            canvas.sortingOrder = 5;
-        }
-    }
+    UI_EventBox eventBox;
 
     public override void Init()
     {
         Managers.UI.SetCanvas(gameObject, RenderMode.ScreenSpaceCamera, false);
-
-        placement = Managers.UI.ShowSceneUI<UI_ScenePlacement>("UI_ScenePlacement");
-        placement.Init();
-        eventBox = Managers.UI.ShowSceneUI<UI_EventBox>("UI_EventBox");
         canvas = GetComponent<Canvas>();
+        eventBox = Managers.UI.ShowSceneUI<UI_EventBox>("UI_EventBox");
+
+        GenerateSceneFloorUI();
 
         Bind<Button>(typeof(ButtonEvent));
         Bind<TextMeshProUGUI>(typeof(Texts));
@@ -98,8 +101,7 @@ public class UI_Management : UI_Base
         GetButton((int)ButtonEvent.Summon).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Summon_Monster>());
         GetButton((int)ButtonEvent.Management).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Monster_Management>());
         GetButton((int)ButtonEvent.Guild).gameObject.AddUIEvent((data) => Visit_Guild());
-        GetButton((int)ButtonEvent.Placement).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_DungeonPlacement>());
-
+        GetButton((int)ButtonEvent.Placement).gameObject.AddUIEvent((data) => PlacementButtonEvent());
 
 
 
@@ -113,8 +115,15 @@ public class UI_Management : UI_Base
         GetButton((int)ButtonEvent.Save).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_SaveLoad>());
     }
 
-    UI_ScenePlacement placement;
-    UI_EventBox eventBox;
+
+    [System.Obsolete]
+    void DayChange_Temp()
+    {
+        eventBox.BoxActive(true);
+        eventBox.TextClear();
+        Main.Instance.DayChange();
+        Texts_Refresh();
+    }
 
 
 
@@ -128,15 +137,6 @@ public class UI_Management : UI_Base
             Texts_Refresh();
         }
     }
-    [System.Obsolete]
-    void DayChange_Temp()
-    {
-        eventBox.BoxActive(true);
-        eventBox.TextClear();
-        Main.Instance.DayChange();
-        Texts_Refresh();
-    }
-
 
     void DayZero()
     {
@@ -173,9 +173,48 @@ public class UI_Management : UI_Base
             Managers.Data.SaveToJson("AutoSave", 0);
             Managers.Scene.LoadSceneAsync("3_Guild");
         }
-        //else if (confirm.GetAnswer() == UI_Confirm.State.No)
-        //{
-
-        //}
     }
+
+
+
+
+    List<UI_TileView_Floor> sceneFloorList;
+    void GenerateSceneFloorUI()
+    {
+        sceneFloorList = new List<UI_TileView_Floor>();
+
+        for (int i = 0; i < Main.Instance.ActiveFloor_Basement; i++)
+        {
+            var content = Managers.UI.ShowSceneUI<UI_TileView_Floor>("TileView_Floor");
+            content.FloorID = i;
+            sceneFloorList.Add(content);
+        }
+    }
+
+    public void DungeonExpansion()
+    {
+        for (int i = 0; i < sceneFloorList.Count; i++)
+        {
+            Managers.Resource.Destroy(sceneFloorList[i].gameObject);
+        }
+        Managers.UI.SceneUI_Clear();
+        GenerateSceneFloorUI();
+    }
+
+
+    public void PlacementButtonEvent()
+    {
+        for (int i = 0; i < sceneFloorList.Count; i++)
+        {
+            sceneFloorList[i].ChildColorChange(Define.Color_White);
+        }
+    }
+    public void FloorPanelClear()
+    {
+        for (int i = 0; i < sceneFloorList.Count; i++)
+        {
+            sceneFloorList[i].Refresh();
+        }
+    }
+
 }

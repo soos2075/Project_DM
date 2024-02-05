@@ -51,14 +51,15 @@ public class Managers : MonoBehaviour
     void Awake()
     {
         Init();
-        _sprite.Init();
-        _scene.Init();
-        _dialogue.Init();
+
     }
 
     void Start()
     {
-
+        _sprite.Init();
+        _scene.Init();
+        _dialogue.Init();
+        _data.Init();
     }
 
     //void Update()

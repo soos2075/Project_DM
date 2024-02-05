@@ -28,6 +28,10 @@ public class UI_Placement_Technical : UI_PopUp
         Confirm,
     }
 
+    enum Info
+    {
+        CurrentMana,
+    }
 
     public UI_Technical parents { get; set; }
     public TechnicalData Current { get; set; }
@@ -44,10 +48,20 @@ public class UI_Placement_Technical : UI_PopUp
 
         Bind<GameObject>(typeof(Preview));
         Bind<Button>(typeof(Buttons));
+        Bind<TextMeshProUGUI>(typeof(Info));
+
+
+        Init_Texts();
 
         Init_Preview();
         Init_Buttons();
         Init_Contents();
+    }
+
+    void Init_Texts()
+    {
+        GetTMP((int)Info.CurrentMana).text = $"현재 마나 : {Main.Instance.Player_Mana}";
+        GetTMP((int)Info.CurrentMana).text += $"\n현재 골드 : {Main.Instance.Player_Gold}";
     }
 
     void Init_Preview()
