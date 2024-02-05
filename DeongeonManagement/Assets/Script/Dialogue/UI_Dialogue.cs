@@ -91,7 +91,7 @@ public class UI_Dialogue : UI_PopUp
         //Debug.Log(box.sizeDelta + "$$$$$$$$$");
         if (linecount > 15)
         {
-            box.sizeDelta = new Vector2(box.sizeDelta.x, linecount * 50);
+            box.sizeDelta = new Vector2(box.sizeDelta.x, linecount * 35);
         }
     }
     void Close_LogBox()
@@ -176,7 +176,7 @@ public class UI_Dialogue : UI_PopUp
         isSkip = false;
 
         SpeakSomething(contents);
-        logText += $"{name.ToString().SetTextColorTag(Define.TextColor.yellow)}\n";
+        //logText += $"{name.ToString().SetTextColorTag(Define.TextColor.yellow)}\n";
         logText += $"{contents}\n\n\n";
 
         Debug.Log("마우스 클릭 대기중");

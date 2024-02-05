@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 09766345226d5eb44898f01f10ebdec1
+guid: 4b373b624e909854a8a9cf99da270ff7
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -63,7 +63,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
-  cookieLightType: 1
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -105,127 +105,169 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ui-panels_0
+      name: UI_ConfigTile_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 32
-        width: 32
-        height: 32
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 7, y: 5, z: 7, w: 7}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a17a3eaa766bcf34da4e1113ceb463f8
-      internalID: -125827328
+      spriteID: db2b891b833d98943889f1a01e3f428c
+      internalID: -1411040457
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ui-panels_1
+      name: UI_ConfigTile_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4dd1897068142974096d30b4e589831b
+      internalID: 1198895388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_ConfigTile_2
       rect:
         serializedVersion: 2
         x: 32
-        y: 32
-        width: 32
-        height: 32
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 6, y: 6, z: 6, w: 6}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 183404c4ed0a6b94a8a9158fc703006e
-      internalID: -484653723
+      spriteID: 3429cddb3e7d8e945abb00886827acfd
+      internalID: -252382885
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ui-panels_2
+      name: UI_ConfigTile_3
       rect:
         serializedVersion: 2
-        x: 64
-        y: 32
-        width: 32
-        height: 32
+        x: 48
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 9, y: 7, z: 6, w: 8}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0d397622251f4cf45885bfaf21126dba
-      internalID: -673903039
+      spriteID: bce7afc42e8c4cc4b9baceca079029fb
+      internalID: -2050726822
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ui-panels_3
+      name: UI_ConfigTile_4
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 32
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 5, y: 6, z: 4, w: 4}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1bbe124e6b2323844bbdd64b90032382
-      internalID: 1574269110
+      spriteID: 224d54767ca25014eaa6ce2effd09bb1
+      internalID: 1103186036
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ui-panels_4
+      name: UI_ConfigTile_5
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16e8de3ecccd9bd4d833e3d418bd790c
+      internalID: -2099955679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_ConfigTile_6
       rect:
         serializedVersion: 2
         x: 32
         y: 0
-        width: 32
-        height: 32
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 6, y: 7, z: 5, w: 5}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7e7897cffed27e6499c3cc971597ae2d
-      internalID: 1157353832
+      spriteID: 3a8035544e030ce429b7caacf6ddbc03
+      internalID: -1080096194
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ui-panels_5
+      name: UI_ConfigTile_7
       rect:
         serializedVersion: 2
-        x: 64
+        x: 48
         y: 0
-        width: 32
-        height: 32
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 5, y: 7, z: 7, w: 6}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bbd44d660cec8db42b82ba00bb63dad5
-      internalID: -766809034
+      spriteID: d07e7506d1449504db28946abf58a555
+      internalID: 10246718
       vertices: []
       indices: 
       edges: []
@@ -241,12 +283,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ui-panels_0: -125827328
-      ui-panels_1: -484653723
-      ui-panels_2: -673903039
-      ui-panels_3: 1574269110
-      ui-panels_4: 1157353832
-      ui-panels_5: -766809034
+      UI_ConfigTile_0: -1411040457
+      UI_ConfigTile_1: 1198895388
+      UI_ConfigTile_2: -252382885
+      UI_ConfigTile_3: -2050726822
+      UI_ConfigTile_4: 1103186036
+      UI_ConfigTile_5: -2099955679
+      UI_ConfigTile_6: -1080096194
+      UI_ConfigTile_7: 10246718
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

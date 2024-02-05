@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.U2D;
 
 public class CameraControl : MonoBehaviour
 {
@@ -20,14 +21,16 @@ public class CameraControl : MonoBehaviour
 
 
     Camera mainCam;
+    PixelPerfectCamera pixelCam;
 
     public bool Move { get; set; }
 
     void Start()
     {
         mainCam = GetComponent<Camera>();
+        pixelCam = GetComponent<PixelPerfectCamera>();
         Move = true;
-
+        
     }
 
 
@@ -63,6 +66,8 @@ public class CameraControl : MonoBehaviour
 
         ClickAction();
         Zooming();
+
+        Zooming_Pixel();
     }
 
 
@@ -91,6 +96,18 @@ public class CameraControl : MonoBehaviour
         }
 
         MouseLimit();
+    }
+
+    void Zooming_Pixel()
+    {
+        float scroll = Input.GetAxis("Mouse ScrollWheel") * -3;
+
+        if (scroll == 0)
+        {
+            return;
+        }
+
+
     }
 
 

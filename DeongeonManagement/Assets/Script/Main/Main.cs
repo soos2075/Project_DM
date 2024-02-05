@@ -102,7 +102,7 @@ public class Main : MonoBehaviour
 
         GameManager.Facility.CreateFacility_OnlyOne("Special_MagicEgg", info, true);
 
-        Managers.UI.ShowPopUp<UI_Dialogue>();
+        Managers.Dialogue.ShowDialogueUI("Prologue");
     }
 
 
