@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
 
     void StartTalk()
     {
-        if (isTalking)
+        if (Managers.Dialogue.GetState() == DialogueManager.DialogueState.Talking)
         {
             return;
         }
@@ -70,8 +70,8 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
         {
             Managers.Dialogue.ShowDialogueUI(current_NPC.StartDialogue());
-            isTalking = true;
-            StartCoroutine(WaitOverTalking());
+            //isTalking = true;
+            //StartCoroutine(WaitOverTalking());
         }
     }
 
@@ -124,6 +124,17 @@ public class PlayerController : MonoBehaviour
             Managers.Scene.AddLoadAction_OneTime(() => Main.Instance.Default_Init());
             Managers.Scene.AddLoadAction_OneTime(() => Managers.Data.LoadGame("AutoSave"));
             Managers.Scene.AddLoadAction_OneTime(() => Main.Instance.Player_AP = 0);
+
+            //for (int i = 0; i < GuildManager.Instance.DungeonBackAction.Count; i++)
+            //{
+            //    Managers.Scene.AddLoadAction_Once(GuildManager.Instance.DungeonBackAction[i]);
+            //}
+            for (int i = 0; i < GuildManager.Instance.DungeonBackAction.Count; i++)
+            {
+                Managers.Scene.AddLoadAction_OneTime(GuildManager.Instance.DungeonBackAction[i]);
+            }
+            GuildManager.Instance.DungeonBackAction.Clear();
+            Managers.Scene.AddLoadAction_OneTime(() => FindObjectOfType<UI_Management>().Texts_Refresh());
 
             Managers.Scene.LoadSceneAsync("2_Management");
         }

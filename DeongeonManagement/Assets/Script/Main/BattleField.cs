@@ -48,20 +48,26 @@ public class BattleField : MonoBehaviour
             if (roundList[i].attacker == Define.PlacementType.Monster)
             {
                 ani_monster.CrossFade(Define.ANIM_attack, 0.1f);
-                //ani_monster.Play("attack");
+                yield return new WaitForSecondsRealtime(0.1f); //? crossFade 시간 동안은 hash값이 바뀌지 않으므로 그만큼은 기다려줘야함
+                //Debug.Log(ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash + $"##");
+
                 AddAction(roundList[i].damage, pos_Left);
+                yield return new WaitUntil(() => ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_idle);
+                yield return new WaitForSecondsRealtime(0.2f);
             }
 
             if (roundList[i].attacker == Define.PlacementType.NPC)
             {
-                Debug.Log("npc 공격 애니메이션!");
+                ani_npc.CrossFade(Define.ANIM_attack, 0.1f);
+                yield return new WaitForSecondsRealtime(0.1f);
+
+                AddAction(roundList[i].damage, pos_Right);
+                yield return new WaitUntil(() => ani_npc.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_idle);
+                yield return new WaitForSecondsRealtime(0.2f);
             }
-
-            yield return new WaitForSecondsRealtime(1);
         }
-        yield return new WaitUntil(() => ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_idle);
 
-        yield return new WaitForSecondsRealtime(1);
+        yield return new WaitForSecondsRealtime(0.5f);
         Debug.Log("재생종료");
 
     }
@@ -117,8 +123,8 @@ public class BattleField : MonoBehaviour
     public BattleResult Battle(NPC npc, Monster monster)
     {
         obj_Left = Managers.Resource.Instantiate($"Battle/{npc.name}_Avatar", pos_Left);
-        obj_Left.GetComponentInChildren<SpriteRenderer>().sortingOrder = 11;
-        ani_npc = obj_Left.GetComponentInChildren<Animator>();
+        obj_Left.GetComponent<SpriteRenderer>().sortingOrder = 11;
+        ani_npc = obj_Left.GetComponent<Animator>();
         this.npc = npc;
 
 

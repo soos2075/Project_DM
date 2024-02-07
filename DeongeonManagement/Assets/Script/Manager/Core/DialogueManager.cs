@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class DialogueManager
 {
@@ -35,8 +37,8 @@ public class DialogueManager
 
     public void ShowDialogueUI(SO_DialogueData data)
     {
-        var ui = Managers.UI.ShowPopUpAlone<UI_Dialogue>();
-        ui.Data = data;
+        currentDialogue = Managers.UI.ShowPopUpAlone<UI_Dialogue>();
+        currentDialogue.Data = data;
     }
     public void ShowDialogueUI(string dialogueName)
     {
@@ -68,4 +70,57 @@ public class DialogueManager
             return DialogueState.None;
         }
     }
+
+
+    public void OneTimeOption(List<int> optionList, int id)
+    {
+        for (int i = 0; i < optionList.Count; i++)
+        {
+            SO_DialogueData data = GetDialogue($"Guild_{optionList[i] + id}");
+            if (data == null)
+            {
+                Debug.Log($"선택지 없음 : Guild_{optionList[i] + id}");
+                continue;
+            }
+
+            var btn = Managers.Resource.Instantiate("UI/PopUp/Element/OptionButton");
+            btn.GetComponent<UI_OptionButton>().SetAction((PointerEventData pointer) => ButtonAction(data, id, pointer), data.dialogueName);
+            currentDialogue.AddOption(btn);
+        }
+    }
+    void ButtonAction(SO_DialogueData data, int id, PointerEventData pointer)
+    {
+        ShowDialogueUI(data);
+        var npc = GuildManager.Instance.GetInteraction(id);
+        npc.OptionList.RemoveAt(pointer.pointerCurrentRaycast.gameObject.transform.GetSiblingIndex());
+    }
+
+
+    public void ShowOption(string diaID)
+    {
+        SO_DialogueData data = GetDialogue(diaID);
+        if (data == null)
+        {
+            Debug.Log($"선택지 없음 : {diaID}");
+            return;
+        }
+
+        var btn = Managers.Resource.Instantiate("UI/PopUp/Element/OptionButton");
+        btn.GetComponent<UI_OptionButton>().SetAction((data) => WahtTheAction(data), data.dialogueName);
+        currentDialogue.AddOption(btn);
+    }
+    void WahtTheAction(PointerEventData pointer)
+    {
+
+    }
+
+    //public void ShowOption(int diaID)
+    //{
+
+    //}
+
+
 }
+
+
+

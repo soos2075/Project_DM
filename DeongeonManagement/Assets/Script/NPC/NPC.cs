@@ -9,11 +9,51 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     void Start()
     {
         Initialize_Status();
+        anim = GetComponent<Animator>();
     }
     //void Update()
     //{
 
     //}
+
+
+
+    #region Animation
+    Animator anim;
+    protected enum moveState
+    {
+        none = 0,
+        front = 1,
+        left = 2,
+        right = 3,
+        back = 4,
+    }
+    private moveState _animState;
+    protected moveState Anim_State { get { return _animState; } 
+        set 
+        { 
+            _animState = value;
+            SetAnim(_animState);
+        } }
+
+
+
+    void SetAnim(moveState state)
+    {
+        if (anim == null)
+        {
+            return;
+        }
+        anim.SetInteger("move", (int)state);
+    }
+
+    #endregion
+
+
+
+
+
+
 
     #region IPlacementable
     public Define.PlacementType PlacementType { get; set; }
@@ -143,6 +183,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         Managers.Resource.Instantiate("UI/UI_StateBar", transform);
 
         StartCoroutine(MoveToPoint(endPoint));
+        Anim_State = moveState.right;
     }
 
     IEnumerator MoveToPoint(Vector3 point)
@@ -170,6 +211,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         transform.position = GameManager.NPC.dungeonEntrance.position;
         GameManager.Placement.Visible(this);
         StartCoroutine(MoveToHome(GameManager.NPC.guild.position));
+        Anim_State = moveState.left;
     }
 
     IEnumerator MoveToHome(Vector3 point)

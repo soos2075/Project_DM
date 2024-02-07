@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -23,7 +24,10 @@ public class UI_Dialogue : UI_PopUp
 
     public override void Init()
     {
-        //base.Init();
+        Bind<GameObject>(typeof(Objects));
+        Bind<TextMeshProUGUI>(typeof(Texts));
+        Bind<Image>(typeof(Sprite));
+
         Managers.UI.SetCanvas(gameObject);
         CloseDialogueEvent();
 
@@ -45,11 +49,6 @@ public class UI_Dialogue : UI_PopUp
         }
     }
 
-
-
-    #region Log
-    //? 로그오프셋 LogText의 y크기 = 라인 * 50;
-
     enum Objects
     {
         LogButton,
@@ -57,18 +56,25 @@ public class UI_Dialogue : UI_PopUp
 
         LogTitle,
         LogText,
+
+        TitleBox,
+        OptionBox,
+
+        TextBox,
+        Panel,
     }
 
+    #region Log
     string logText;
 
     void Init_LogBox()
     {
-        Bind<GameObject>(typeof(Objects));
+
 
         GetObject(((int)Objects.LogButton)).gameObject.AddUIEvent((data) => Show_LogBox(), Define.UIEvent.LeftClick);
 
-        GetObject(((int)Objects.LogBox)).AddUIEvent((data) => Close_LogBox(), Define.UIEvent.RightClick);
-        Close_LogBox();
+        GetObject(((int)Objects.LogBox)).AddUIEvent((data) => Close_Box(), Define.UIEvent.RightClick);
+        Close_Box();
 
     }
     void Show_LogBox()
@@ -94,22 +100,49 @@ public class UI_Dialogue : UI_PopUp
             box.sizeDelta = new Vector2(box.sizeDelta.x, linecount * 35);
         }
     }
-    void Close_LogBox()
+    void Close_Box()
     {
         GetObject(((int)Objects.LogBox)).SetActive(false);
+        GetObject(((int)Objects.TitleBox)).gameObject.SetActive(false);
+        GetObject(((int)Objects.OptionBox)).gameObject.SetActive(false);
     }
 
     #endregion
 
 
+    #region OptionBox
+    public void AddOption(GameObject button)
+    {
+        if (GetObject(((int)Objects.OptionBox)).gameObject.activeSelf == false)
+        {
+            GetObject(((int)Objects.OptionBox)).gameObject.SetActive(true);
+        }
+
+        button.transform.SetParent(GetObject(((int)Objects.OptionBox)).transform);
+    }
+
+    public void CloseOptionBox()
+    {
+        GetObject(((int)Objects.OptionBox)).gameObject.SetActive(false);
+    }
+
+
+    #endregion
+
+
+
     #region Conversation
     enum Texts
     {
-        main,
-        name,
+        MainText,
+        TitleName,
+    }
+    enum Sprite
+    {
+        SpeakerSprite,
     }
 
-    public SO_DialogueData Data { get; set; }
+    public SO_DialogueData Data;
 
     int textCount;
     public float delay;
@@ -120,14 +153,15 @@ public class UI_Dialogue : UI_PopUp
 
     void Init_Conversation()
     {
-        Bind<TextMeshProUGUI>(typeof(Texts));
+
 
         seconds = new WaitForSecondsRealtime(delay);
-
-        GetTMP(((int)Texts.main)).gameObject.AddUIEvent((data) => SkipText(), Define.UIEvent.LeftClick);
+        GetObject(((int)Objects.TextBox)).AddUIEvent((data) => SkipText(), Define.UIEvent.LeftClick);
+        //GetObject(((int)Objects.Panel)).AddUIEvent((data) => SkipText(), Define.UIEvent.LeftClick);
 
         Conversation_Test();
     }
+
 
 
     void Conversation_Test()
@@ -137,16 +171,74 @@ public class UI_Dialogue : UI_PopUp
             return;
         }
 
-        StartCoroutine(ContentsRoof(Data));
+        StartCoroutine(ContentsRoofWithType(Data));
     }
 
-    IEnumerator ContentsRoof(SO_DialogueData textData)
+
+    IEnumerator ContentsRoofWithType(SO_DialogueData textData)
     {
+        yield return new WaitForEndOfFrame();
+
         while (textCount < textData.TextDataList.Count)
         {
-            Debug.Log("새 대화 출력");
-            GetTMP((int)Texts.name).text = Data.TextDataList[textCount].optionString;
-            yield return StartCoroutine(TypingEffect(Data.TextDataList[textCount].mainText, Data.TextDataList[textCount].optionString));
+            //Debug.Log("새 대화 출력");
+            //Debug.Log("새 대화 출력");
+
+            string option = textData.TextDataList[textCount].optionString;
+            if (option == null)
+            {
+                option = string.Empty;
+            }
+
+            if (option.Contains("@Name"))
+            {
+                string speakerName = option.Substring(option.IndexOf("@Name::") + 7, option.IndexOf("::Name") - (option.IndexOf("@Name::") + 7));
+                if (string.IsNullOrEmpty(speakerName))
+                {
+                    GetTMP((int)Texts.TitleName).text = "";
+                    GetObject(((int)Objects.TitleBox)).SetActive(false);
+                }
+                else
+                {
+                    GetObject(((int)Objects.TitleBox)).SetActive(true);
+                    GetTMP((int)Texts.TitleName).text = speakerName;
+
+                    logText += $"{speakerName.ToString().SetTextColorTag(Define.TextColor.yellow)}\n";
+                }
+            }
+
+            if (option.Contains("@Sprite"))
+            {
+                string spritePath = option.Substring(option.IndexOf("@Sprite::") + 9, option.IndexOf("::Sprite") - (option.IndexOf("@Sprite::") + 9));
+                if (string.IsNullOrEmpty(spritePath))
+                {
+                    GetImage(0).sprite = null;
+                    GetImage(0).enabled = false;
+                }
+                else
+                {
+                    GetImage(0).sprite = Managers.Sprite.GetSprite(spritePath);
+                    GetImage(0).enabled = true;
+                }
+            }
+
+            if (option.Contains("@Action"))
+            {
+                string spritePath = option.Substring(option.IndexOf("@Action::") + 9, option.IndexOf("::Action") - (option.IndexOf("@Action::") + 9));
+                EventManager.Instance.GetAction(int.Parse(spritePath))?.Invoke();
+            }
+
+
+            Action optionAction = null;
+            if (option.Contains("@Option")) //? 옵션 타입은 두가지. 하나는 아이디를 받는거 / 하나는 Dia번호를 받는거. 두개 이름만 다르게하면됨
+            {
+                string npcID = option.Substring(option.IndexOf("@Option::") + 9, option.IndexOf("::Option") - (option.IndexOf("@Option::") + 9));
+                var npc = GuildManager.Instance.GetInteraction(int.Parse(npcID));
+                //var optionList = Managers.Dialogue.ShowOption(npcID);
+                optionAction = () => npc.OneTimeOptionButton();
+            }
+
+            yield return StartCoroutine(TypingEffect(Data.TextDataList[textCount].mainText, optionAction));
             textCount++;
         }
         Time.timeScale = 1;
@@ -157,9 +249,12 @@ public class UI_Dialogue : UI_PopUp
     }
 
 
+
+
+
     bool isSkip = false;
     bool isTyping = false;
-    IEnumerator TypingEffect(string contents, string name)
+    IEnumerator TypingEffect(string contents, Action action = null)
     {
         int charIndexer = 0;
 
@@ -176,8 +271,13 @@ public class UI_Dialogue : UI_PopUp
         isSkip = false;
 
         SpeakSomething(contents);
-        //logText += $"{name.ToString().SetTextColorTag(Define.TextColor.yellow)}\n";
         logText += $"{contents}\n\n\n";
+
+        if (action != null)
+        {
+            StopAllCoroutines();
+            action.Invoke();
+        }
 
         Debug.Log("마우스 클릭 대기중");
         yield return new WaitUntil(() => isTyping == true);
@@ -187,9 +287,7 @@ public class UI_Dialogue : UI_PopUp
 
     void SpeakSomething(string contents)
     {
-        GetTMP((int)Texts.main).text = contents;
-        //GetText((int)ConversationTexts.contentsText).text = contents;
-
+        GetTMP((int)Texts.MainText).text = contents;
         StartCoroutine(LineUp());
     }
 
@@ -209,13 +307,13 @@ public class UI_Dialogue : UI_PopUp
     IEnumerator LineUp()
     {
         yield return new WaitForEndOfFrame();
-        if (GetTMP((int)Texts.main).textInfo.lineCount > 6)
+        if (GetTMP((int)Texts.MainText).textInfo.lineCount > 6)
         {
-            GetTMP((int)Texts.main).alignment = TextAlignmentOptions.BottomLeft;
+            GetTMP((int)Texts.MainText).alignment = TextAlignmentOptions.BottomLeft;
         }
         else
         {
-            GetTMP((int)Texts.main).alignment = TextAlignmentOptions.TopLeft;
+            GetTMP((int)Texts.MainText).alignment = TextAlignmentOptions.TopLeft;
         }
         
     }

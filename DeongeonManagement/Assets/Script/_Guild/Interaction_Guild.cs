@@ -12,7 +12,9 @@ public class Interaction_Guild : MonoBehaviour
 
 
     // 퀘스트가 있다면 더해줄 번호
-    public List<int> Current_QuestList = new List<int>();
+    public List<int> InstanceQuestList = new List<int>();
+
+    public List<int> OptionList = new List<int>();
 
     void Start()
     {
@@ -44,12 +46,33 @@ public class Interaction_Guild : MonoBehaviour
     {
         int questIndex = 0;
 
-        if (Current_QuestList.Count > 0)
+        if (InstanceQuestList.Count > 0)
         {
-            questIndex = Current_QuestList[0];
-            Current_QuestList.RemoveAt(0);
+            questIndex = InstanceQuestList[0];
+            InstanceQuestList.RemoveAt(0);
+            return $"Guild_{Original_Index + questIndex}";
         }
 
-        return $"Guild_{Original_Index + questIndex}";
+        if (OptionList.Count > 0)
+        {
+            return $"Guild_{Original_Index + 1}";
+        }
+
+
+        return $"Guild_{Original_Index}";
+    }
+
+
+    //public void ShowCurrentOption()
+    //{
+    //    for (int i = 0; i < OptionList.Count; i++)
+    //    {
+    //        Managers.Dialogue.ShowOption($"Guild_{Original_Index + OptionList[i]}");
+    //    }
+    //}
+
+    public void OneTimeOptionButton()
+    {
+        Managers.Dialogue.OneTimeOption(OptionList, Original_Index);
     }
 }

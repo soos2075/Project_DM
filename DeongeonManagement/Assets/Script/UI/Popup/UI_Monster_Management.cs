@@ -261,6 +261,15 @@ public class UI_Monster_Management : UI_PopUp
 
     void PlacementOne(Vector2Int[] vector2Ints, Action action)
     {
+        if (Current.monster.State == Monster.MonsterState.Placement)
+        {
+            Current.monster.MonsterOutFloor();
+        }
+        if (Main.Instance.CurrentFloor.MaxMonsterSize <= 0)
+        {
+            return;
+        }
+
         Managers.UI.PausePopUp(this);
         Main.Instance.CurrentBoundary = vector2Ints;
         Main.Instance.CurrentAction = action;

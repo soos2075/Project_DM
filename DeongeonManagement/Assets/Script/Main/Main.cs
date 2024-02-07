@@ -66,6 +66,8 @@ public class Main : MonoBehaviour
         ActiveFloor_Technical = 1;
         Dungeon_Lv = 2;
 
+        DangerOfDungeon = 100;
+
         BasementFloorInit();
         _dayList = new List<DayResult>();
         AnimationInit();

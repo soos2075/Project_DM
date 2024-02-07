@@ -58,6 +58,8 @@ public class Adventurer : NPC
         AddList(list5);
 
         PickToProbability(GetPriorityPick(typeof(Entrance_Egg)), PlacementInfo.Place_Floor.FloorIndex * 0.1f);
+
+
     }
 
 

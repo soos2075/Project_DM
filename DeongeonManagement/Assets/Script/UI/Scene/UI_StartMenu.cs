@@ -5,6 +5,8 @@ public class UI_StartMenu : UI_Scene
 {
     void Start()
     {
+        
+
         Init();
     }
 
@@ -51,9 +53,11 @@ public class UI_StartMenu : UI_Scene
 
     void LoadGame()
     {
-        var original = Resources.Load<GameObject>("Prefabs/UI/PopUp/UI_SaveLoad");
+        var ui = Managers.UI.ShowPopUpAlone<UI_SaveLoad>();
 
-        var ui = Instantiate(original).GetComponent<UI_SaveLoad>();
+        //var original = Resources.Load<GameObject>("Prefabs/UI/PopUp/UI_SaveLoad");
+
+        //var ui = Instantiate(original).GetComponent<UI_SaveLoad>();
 
 
 

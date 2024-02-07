@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d286589cbf80574394e6700d353dfb4, type: 3}
   m_Name: Guild_2001
   m_EditorClassIdentifier: 
-  dialogueName: Guild_2000
+  dialogueName: "\uC6A9\uBB34\uC788\uC74C"
   TextDataList:
-  - optionString: 
+  - optionString: "@Name::\uAE38\uB4DC \uC9C1\uC6D0::Name\n@Sprite::NPC/Character_03::Sprite"
     mainText: "\uC548\uB155\uD558\uC138\uC694. \uAE38\uB4DC\uC5D0\uB294 \uC5B4\uB5A4
       \uC6A9\uBB34\uB85C \uC624\uC168\uB098\uC694?"
+  - optionString: '@Option::2000::Option'
+    mainText: "(\uBB34\uC2A8 \uC6A9\uBB34\uB97C \uBCFC\uAE4C?)"

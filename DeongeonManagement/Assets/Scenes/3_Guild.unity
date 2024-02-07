@@ -233,7 +233,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 4.5}
+  m_Size: {x: 0.3, y: 5}
   m_EdgeRadius: 0
 --- !u!212 &158067426
 SpriteRenderer:
@@ -299,8 +299,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a384d4346690844491d30674b13f1ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Original_Index: 2000
-  Current_QuestList: 
+  Original_Index: 4000
+  InstanceQuestList: 
+  OptionList: 
 --- !u!114 &158067428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,7 +377,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 4.5}
+  m_Size: {x: 0.3, y: 5}
   m_EdgeRadius: 0
 --- !u!212 &285262124
 SpriteRenderer:
@@ -443,7 +444,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Original_Index: 2000
-  Current_QuestList: 
+  InstanceQuestList: 
+  OptionList: 64000000c8000000
 --- !u!114 &285262126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1573,7 +1575,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Original_Index: 1000
-  Current_QuestList: 0100000003000000
+  InstanceQuestList: 0a000000
+  OptionList: 650000006600000064000000
 --- !u!114 &563103889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15871,8 +15874,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4968a43a14340f74795abb8181c2b6e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myInt: 3
-  myName: "\uC751\uC560"
 --- !u!4 &1251571797
 Transform:
   m_ObjectHideFlags: 0
@@ -16726,7 +16727,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Original_Index: 3000
-  Current_QuestList: 01000000
+  InstanceQuestList: 0a000000
+  OptionList: 
 --- !u!114 &1945474077
 MonoBehaviour:
   m_ObjectHideFlags: 0
