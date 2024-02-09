@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Guild_3000
   m_EditorClassIdentifier: 
   dialogueName: Guild_3000
+  Type: 1
   TextDataList:
   - optionString: 
-    mainText: "\u2026\u2026(\uC774\uCABD\uC744 \uC804\uD600 \uC2E0\uACBD\uC4F0\uC9C0
-      \uC54A\uB294\uB2E4.)"
+    mainText: "\u2026\u2026"

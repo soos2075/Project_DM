@@ -21,10 +21,37 @@ public class Interaction_Guild : MonoBehaviour
         
     }
 
+    private void Update()
+    {
+        if (InstanceQuestList.Count > 0 && eventKey == null)
+        {
+            eventKey = Managers.Resource.Instantiate("Guild/Event", transform);
+        }
+        else if(InstanceQuestList.Count == 0 && eventKey != null)
+        {
+            Managers.Resource.Destroy(eventKey);
+            eventKey = null;
+        }
+    }
+
     SpriteOutline outline;
+    GameObject key;
+    GameObject eventKey;
     public void Contact()
     {
-        Debug.Log("특정 키 누르라고 UI 띄움 ");
+        if (eventKey == null)
+        {
+            if (key == null)
+            {
+                key = Managers.Resource.Instantiate("Guild/Key_E", transform);
+            }
+            else
+            {
+                key.SetActive(true);
+            }
+        }
+
+        
 
 
         if (TryGetComponent<SpriteOutline>(out outline))
@@ -35,6 +62,10 @@ public class Interaction_Guild : MonoBehaviour
     }
     public void ContactOff()
     {
+        if (key != null)
+        {
+            key.SetActive(false);
+        }
 
         if (TryGetComponent<SpriteOutline>(out outline))
         {
@@ -42,24 +73,35 @@ public class Interaction_Guild : MonoBehaviour
         }
     }
 
-    public string StartDialogue()
+    public void StartDialogue()
     {
+        if (key != null)
+        {
+            key.SetActive(false);
+        }
+
         int questIndex = 0;
 
         if (InstanceQuestList.Count > 0)
         {
             questIndex = InstanceQuestList[0];
             InstanceQuestList.RemoveAt(0);
-            return $"Guild_{Original_Index + questIndex}";
+            //return $"Guild_{Original_Index + questIndex}";
+
+            Managers.Dialogue.ShowDialogueUI($"Guild_{Original_Index + questIndex}", transform);
+            return;
         }
 
         if (OptionList.Count > 0)
         {
-            return $"Guild_{Original_Index + 1}";
+            //return $"Guild_{Original_Index + 1}";
+            Managers.Dialogue.ShowDialogueUI($"Guild_{Original_Index + 1}", transform);
+            return;
         }
 
 
-        return $"Guild_{Original_Index}";
+        //return $"Guild_{Original_Index}";
+        Managers.Dialogue.ShowDialogueUI($"Guild_{Original_Index}", transform);
     }
 
 

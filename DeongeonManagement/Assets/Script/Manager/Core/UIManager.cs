@@ -181,7 +181,10 @@ public class UIManager
         }
         PauseClose();
 
-        SceneUIRefresh();
+        if (Managers.Scene.GetSceneName() == "2_Management")
+        {
+            SceneUIRefresh();
+        }
     }
 
 

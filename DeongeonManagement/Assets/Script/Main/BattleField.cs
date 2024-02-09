@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using DamageNumbersPro;
 
 public class BattleField : MonoBehaviour
 {
@@ -51,17 +52,36 @@ public class BattleField : MonoBehaviour
                 yield return new WaitForSecondsRealtime(0.1f); //? crossFade 시간 동안은 hash값이 바뀌지 않으므로 그만큼은 기다려줘야함
                 //Debug.Log(ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash + $"##");
 
-                AddAction(roundList[i].damage, pos_Left);
+                if (roundList[i].roundResult == BattleResult.NPC_Die)
+                {
+                    AddAction(roundList[i].damage, pos_Left, ani_npc);
+                }
+                else
+                {
+                    AddAction(roundList[i].damage, pos_Left);
+                }
+                AddFlashWhite(obj_Left.GetComponent<SpriteRenderer>());
+
                 yield return new WaitUntil(() => ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_idle);
                 yield return new WaitForSecondsRealtime(0.2f);
             }
 
             if (roundList[i].attacker == Define.PlacementType.NPC)
             {
+                yield return new WaitForSecondsRealtime(0.5f);
                 ani_npc.CrossFade(Define.ANIM_attack, 0.1f);
                 yield return new WaitForSecondsRealtime(0.1f);
 
-                AddAction(roundList[i].damage, pos_Right);
+                if (roundList[i].roundResult == BattleResult.Monster_Die)
+                {
+                    AddAction(roundList[i].damage, pos_Right, ani_monster);
+                }
+                else
+                {
+                    AddAction(roundList[i].damage, pos_Right);
+                }
+                AddFlashWhite(obj_Right.GetComponentInChildren<SpriteRenderer>());
+
                 yield return new WaitUntil(() => ani_npc.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_idle);
                 yield return new WaitForSecondsRealtime(0.2f);
             }
@@ -69,7 +89,6 @@ public class BattleField : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(0.5f);
         Debug.Log("재생종료");
-
     }
 
     #region ForAnimationVoid
@@ -80,7 +99,54 @@ public class BattleField : MonoBehaviour
     }
 
     Action Call_Damage;
+    public DamageNumber damageMesh;
     public void AddAction(int _dam, Transform parent)
+    {
+        Call_Damage = () =>
+        {
+            var pos = parent.GetChild(0);
+            if (_dam == 0)
+            {
+                DamageNumber damageNumber = damageMesh.Spawn(pos.transform.position, "miss");
+            }
+            else
+            {
+                DamageNumber damageNumber = damageMesh.Spawn(pos.transform.position, _dam);
+            }
+        };
+    }
+    public void AddAction(int _dam, Transform parent, Animator deadAnim)
+    {
+        AddAction(_dam, parent);
+        Call_Damage += () => deadAnim.Play(Define.ANIM_dead);
+    }
+    public void AddFlashWhite(SpriteRenderer renderer)
+    {
+        Call_Damage += () => StartCoroutine(FlashWhite(renderer));
+    }
+
+    IEnumerator FlashWhite(SpriteRenderer renderer)
+    {
+        float flashValue = 0;
+        while (flashValue <= 0.25f)
+        {
+            yield return null;
+            flashValue += Time.unscaledDeltaTime;
+            renderer.material.SetFloat("_FlashIntensity", flashValue * 7f);
+        }
+
+        //Debug.Log("반짝");
+        while (flashValue > 0)
+        {
+            yield return null;
+            flashValue -= Time.unscaledDeltaTime;
+            renderer.material.SetFloat("_FlashIntensity", flashValue * 7f);
+        }
+        renderer.material.SetFloat("_FlashIntensity", 0);
+    }
+
+    [Obsolete]
+    public void _AddAction(int _dam, Transform parent) //? 데미지프로안쓰는버전
     {
         Call_Damage = () =>
         {
@@ -106,10 +172,14 @@ public class BattleField : MonoBehaviour
         public Define.PlacementType attacker;
         public int damage;
 
-        public Round(Define.PlacementType _attacker, int _damage)
+        public BattleResult roundResult;
+
+
+        public Round(Define.PlacementType _attacker, int _damage, BattleResult _result)
         {
             attacker = _attacker;
             damage = _damage;
+            roundResult = _result;
         }
     }
 
@@ -203,17 +273,21 @@ public class BattleField : MonoBehaviour
         }
         else
         {
-            damage = Mathf.Clamp((monster.ATK - npc.DEF), 1, monster.ATK);
+            int atkRange = (int)UnityEngine.Random.Range(monster.ATK * 0.7f, monster.ATK * 1.3f);
+
+            damage = Mathf.Clamp((atkRange - npc.DEF), 1, atkRange);
         }
         
-        roundList.Add(new Round(Define.PlacementType.Monster, damage));
 
         npc.HP -= damage;
         if (npc.HP <= 0)
         {
             result = BattleResult.NPC_Die;
+            roundList.Add(new Round(Define.PlacementType.Monster, damage, result));
             return true;
         }
+
+        roundList.Add(new Round(Define.PlacementType.Monster, damage, BattleResult.Nothing));
         return false;
     }
     bool NPCAttack()
@@ -226,17 +300,19 @@ public class BattleField : MonoBehaviour
         }
         else
         {
-            damage = Mathf.Clamp((npc.ATK - monster.DEF), 1, npc.ATK);
+            int atkRange = (int)UnityEngine.Random.Range(npc.ATK * 0.7f, npc.ATK * 1.3f);
+            damage = Mathf.Clamp((atkRange - monster.DEF), 1, atkRange);
         }
-
-        roundList.Add(new Round(Define.PlacementType.NPC, damage));
 
         monster.HP -= damage;
         if (monster.HP <= 0)
         {
             result = BattleResult.Monster_Die;
+            roundList.Add(new Round(Define.PlacementType.NPC, damage, result));
             return true;
         }
+
+        roundList.Add(new Round(Define.PlacementType.NPC, damage, BattleResult.Nothing));
         return false;
     }
 

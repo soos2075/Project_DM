@@ -27,7 +27,7 @@ public class Adventurer : NPC
             ap: 10,
             mp: 100,
             speed: 2f,
-            delay: 0.3f);
+            delay: 0.5f);
 
         Init_AvoidType();
     }

@@ -10,11 +10,8 @@ public class CameraControl : MonoBehaviour
     readonly float limit_up = 0;
     readonly float limit_down = -16;
 
-    float limit_left;  //? -15를 카메라 사이즈로 나눈값
-    float limit_right; //? 15를 카메라 사이즈로 나눈값
-
-    readonly float limit_size_min = 3;
-    readonly float limit_size_max = 7;
+    float limit_left;
+    float limit_right;
 
     public float cameraSpeed;
     public float Clickmove;
@@ -34,81 +31,75 @@ public class CameraControl : MonoBehaviour
     }
 
 
-    void Update()
-    {
-        //if (EventSystem.current.IsPointerOverGameObject())
-        //{
-        //    return;
-        //}
-
-        //CheckCameraMove();
-
-        //if (!Move) return;
-
-        //if (mainCam.ScreenToViewportPoint(Input.mousePosition).y < 0.1f && mainCam.ScreenToViewportPoint(Input.mousePosition).y > 0.0f)
-        //{
-        //    SlowMove(-1);
-        //}
-
-        //if (mainCam.ScreenToViewportPoint(Input.mousePosition).y > 0.9f && mainCam.ScreenToViewportPoint(Input.mousePosition).y < 1.0f)
-        //{
-        //    SlowMove(1);
-        //}
-    }
-
     private void LateUpdate()
     {
         if (Time.timeScale == 0) return;
 
-        limit_left = -15 / mainCam.orthographicSize;
-        limit_right = 15 / mainCam.orthographicSize;
+        limit_left = -81 / (mainCam.orthographicSize * mainCam.orthographicSize);
+        limit_right = 81 / (mainCam.orthographicSize * mainCam.orthographicSize);
 
 
         ClickAction();
-        Zooming();
-
-        Zooming_Pixel();
+        PixelPerfection_Zoom();
     }
 
 
-
-    void Zooming()
+    float scrollValue;
+    void PixelPerfection_Zoom()
     {
-        float scroll = Input.GetAxis("Mouse ScrollWheel") * -3;
+        float scroll = Input.GetAxisRaw("Mouse ScrollWheel");
 
         if (scroll == 0)
         {
             return;
         }
-
-
-        mainCam.orthographicSize += scroll;
-
-
-
-        if (mainCam.orthographicSize > limit_size_max)
+        else
         {
-            mainCam.orthographicSize = limit_size_max;
-        }
-        if (mainCam.orthographicSize < limit_size_min)
-        {
-            mainCam.orthographicSize = limit_size_min;
+            scrollValue += scroll * 10;
         }
 
-        MouseLimit();
+        if (Mathf.Abs(scrollValue) > 1)
+        {
+            pixelCam.assetsPPU += (int)scrollValue;
+            scrollValue = 0;
+
+            if (pixelCam.assetsPPU < 10)
+            {
+                pixelCam.assetsPPU = 10;
+            }
+            if (pixelCam.assetsPPU > 25)
+            {
+                pixelCam.assetsPPU = 25;
+            }
+            MouseLimit();
+        }
     }
 
-    void Zooming_Pixel()
-    {
-        float scroll = Input.GetAxis("Mouse ScrollWheel") * -3;
-
-        if (scroll == 0)
-        {
-            return;
-        }
 
 
-    }
+
+
+    //void Zooming()
+    //{
+    //    float scroll = Input.GetAxis("Mouse ScrollWheel") * -3;
+
+    //    if (scroll == 0)
+    //    {
+    //        return;
+    //    }
+    //    mainCam.orthographicSize += scroll;
+
+    //    if (mainCam.orthographicSize > limit_size_max)
+    //    {
+    //        mainCam.orthographicSize = limit_size_max;
+    //    }
+    //    if (mainCam.orthographicSize < limit_size_min)
+    //    {
+    //        mainCam.orthographicSize = limit_size_min;
+    //    }
+
+    //    MouseLimit();
+    //}
 
 
 

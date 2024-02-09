@@ -13,13 +13,19 @@ MonoBehaviour:
   m_Name: Guild_2100
   m_EditorClassIdentifier: 
   dialogueName: "\uB358\uC804 \uD64D\uBCF4"
+  Type: 1
   TextDataList:
-  - optionString: 
+  - optionString: '@Target::Player::Target
+
+      @Pos::Down::Pos'
     mainText: "\uCD5C\uADFC\uC5D0 \uCD08\uBCF4\uC790 \uB358\uC804\uC5D0 \uC88B\uC740
-      \uC57D\uCD08\uAC00 \uB098\uC628\uB2E4\uB294 \uC18C\uBB38\uC774\u2026\u2026\n\n"
+      \uC57D\uCD08\uAC00 \uB098\uC628\uB2E4\uB294 \uC18C\uBB38\uC774\u2026\u2026"
   - optionString: 
     mainText: "\uAF64\uB098 \uAC15\uD55C \uBAAC\uC2A4\uD130\uAC00 \uC788\uC5B4\uC11C
       \uC560\uBA39\uACE0 \uC788\uB294\u2026\u2026"
-  - optionString: '@Action::2100::Action'
-    mainText: "(\uCD5C\uB300\uD55C \uBAA8\uD5D8\uAC00 \uC785\uC7A5\uC5D0\uC11C \uB358\uC804\uC758
-      \uC88B\uC740\uC810\uC744 \uC5B4\uD544\uD588\uB2E4.)"
+  - optionString: '@Action::2100::Action
+
+      @Target::GuildStaff::Target
+
+      @Pos::Up::Pos'
+    mainText: "\uC815\uBCF4 \uAC10\uC0AC\uD569\uB2C8\uB2E4. \uC804\uB2EC \uD574 \uB193\uACA0\uC2B5\uB2C8\uB2E4."

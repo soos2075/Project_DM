@@ -20,7 +20,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
     #region Animation
     Animator anim;
-    protected enum moveState
+    public enum moveState
     {
         none = 0,
         front = 1,
@@ -29,7 +29,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         back = 4,
     }
     private moveState _animState;
-    protected moveState Anim_State { get { return _animState; } 
+    public moveState Anim_State { get { return _animState; } 
         set 
         { 
             _animState = value;
@@ -44,7 +44,25 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         {
             return;
         }
-        anim.SetInteger("move", (int)state);
+        //anim.SetInteger("move", (int)state);
+        switch (state)
+        {
+            case moveState.front:
+                anim.SetTrigger("f");
+                break;
+
+            case moveState.left:
+                anim.SetTrigger("l");
+                break;
+
+            case moveState.right:
+                anim.SetTrigger("r");
+                break;
+
+            case moveState.back:
+                anim.SetTrigger("b");
+                break;
+        }
     }
 
     #endregion
@@ -600,7 +618,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             else
             {
                 var next = new PlacementInfo(PlacementInfo.Place_Floor, path[i]);
-                GameManager.Placement.PlacementMove(this, next);
+                GameManager.Placement.PlacementMove_NPC(this, next, ActionDelay);
             }
         }
         yield return new WaitForEndOfFrame();
@@ -615,14 +633,14 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         switch (encount)
         {
             case Define.PlaceEvent.Event:
-                GameManager.Placement.PlacementMove(this, next);
+                GameManager.Placement.PlacementMove_NPC(this, next, ActionDelay);
                 StopCoroutine(Cor_Move);
                 Cor_Move = null;
                 Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => State = NPCState.Return));
                 return true;
 
             case Define.PlaceEvent.Using:
-                GameManager.Placement.PlacementMove(this, next);
+                GameManager.Placement.PlacementMove_NPC(this, next, ActionDelay);
                 StopCoroutine(Cor_Move);
                 Cor_Move = null;
                 Cor_Encounter = StartCoroutine(Encounter_Facility(tile));
@@ -631,7 +649,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
 
             case Define.PlaceEvent.Using_Portal:
-                GameManager.Placement.PlacementMove(this, next);
+                GameManager.Placement.PlacementMove_NPC(this, next, ActionDelay);
                 StopCoroutine(Cor_Move);
                 Cor_Move = null;
                 Cor_Encounter = StartCoroutine(Encounter_Portal(tile, (floor) => FloorPortal(floor)));
@@ -641,7 +659,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             case Define.PlaceEvent.Entrance:
                 if (State == NPCState.Next)
                 {
-                    GameManager.Placement.PlacementMove(this, next);
+                    GameManager.Placement.PlacementMove_NPC(this, next, ActionDelay);
                     StopCoroutine(Cor_Move);
                     Cor_Move = null;
                     Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => FloorNext()));
@@ -656,7 +674,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             case Define.PlaceEvent.Exit:
                 if (State == NPCState.Return)
                 {
-                    GameManager.Placement.PlacementMove(this, next);
+                    GameManager.Placement.PlacementMove_NPC(this, next, ActionDelay);
                     StopCoroutine(Cor_Move);
                     Cor_Move = null;
                     Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => FloorPrevious()));
@@ -666,7 +684,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
                 }
                 else if (State == NPCState.Runaway)
                 {
-                    GameManager.Placement.PlacementMove(this, next);
+                    GameManager.Placement.PlacementMove_NPC(this, next, ActionDelay);
                     StopCoroutine(Cor_Move);
                     Cor_Move = null;
                     Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => FloorEscape()));
@@ -810,7 +828,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         {
             Debug.Log("길찾기 실패 / 랜덤이동" + Time.time);
             var next = new PlacementInfo(PlacementInfo.Place_Floor, newTile);
-            GameManager.Placement.PlacementMove(this, next);
+            GameManager.Placement.PlacementMove_NPC(this, next, ActionDelay);
         }
         yield return new WaitForEndOfFrame();
         Cor_Move = null;

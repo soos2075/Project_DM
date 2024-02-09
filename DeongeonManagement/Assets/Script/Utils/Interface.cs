@@ -26,3 +26,10 @@ public interface IPlacementable
     GameObject GetObject();
 
 }
+
+public interface IDialogue
+{
+    public SO_DialogueData Data { get; set; }
+
+    public void AddOption(GameObject button);
+}

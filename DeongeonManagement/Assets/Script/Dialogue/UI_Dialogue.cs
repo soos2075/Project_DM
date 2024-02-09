@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Dialogue : UI_PopUp
+public class UI_Dialogue : UI_PopUp, IDialogue
 {
     void Start()
     {
@@ -142,7 +142,8 @@ public class UI_Dialogue : UI_PopUp
         SpeakerSprite,
     }
 
-    public SO_DialogueData Data;
+    [field:SerializeField]
+    public SO_DialogueData Data { get; set; }
 
     int textCount;
     public float delay;

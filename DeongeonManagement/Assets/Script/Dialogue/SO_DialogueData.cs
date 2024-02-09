@@ -5,8 +5,16 @@ using UnityEngine;
 [CreateAssetMenu]
 public class SO_DialogueData : ScriptableObject
 {
+    public enum DialogueType
+    {
+        Box,
+        Bubble,
+    }    
+
 
     public string dialogueName;
+    public DialogueType Type = DialogueType.Box;
+
 
     [SerializeField]
     public List<TextData> TextDataList = new List<TextData>();

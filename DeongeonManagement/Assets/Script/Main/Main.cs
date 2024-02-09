@@ -99,12 +99,14 @@ public class Main : MonoBehaviour
     }
     void Instantiate_Egg()
     {
-        var tile = Floor[3].GetRandomTile();
+        //var tile = Floor[3].GetRandomTile();
+        BasementTile tile = null;
+        Floor[3].TileMap.TryGetValue(new Vector2Int(1, 2), out tile);
         PlacementInfo info = new PlacementInfo(Floor[3], tile);
 
         GameManager.Facility.CreateFacility_OnlyOne("Special_MagicEgg", info, true);
 
-        Managers.Dialogue.ShowDialogueUI("Prologue");
+        Managers.Dialogue.ShowDialogueUI("Prologue", GameObject.Find("Player").transform);
     }
 
 

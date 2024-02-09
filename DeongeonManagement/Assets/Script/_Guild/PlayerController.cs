@@ -69,7 +69,8 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
         {
-            Managers.Dialogue.ShowDialogueUI(current_NPC.StartDialogue());
+            //Managers.Dialogue.ShowDialogueUI(current_NPC.StartDialogue());
+            current_NPC.StartDialogue();
             //isTalking = true;
             //StartCoroutine(WaitOverTalking());
         }

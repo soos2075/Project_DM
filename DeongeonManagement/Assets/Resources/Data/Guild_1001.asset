@@ -13,7 +13,12 @@ MonoBehaviour:
   m_Name: Guild_1001
   m_EditorClassIdentifier: 
   dialogueName: "\uD018\uC2A4\uD2B8 \uC120\uD0DD"
+  Type: 1
   TextDataList:
-  - optionString: '@Option::1000::Option'
+  - optionString: '@Target::Player::Target
+
+      @Pos::Down::Pos
+
+      @Option::1000::Option'
     mainText: "\uBB34\uC5B8\uAC00 \uC6B0\uB9AC \uB358\uC804\uC5D0 \uB300\uD55C \uD018\uC2A4\uD2B8\uAC00
-      \uC788\uB294 \uAC83 \uAC19\uB2E4."
+      \uC788\uB294 \uAC83 \uAC19\uC544."

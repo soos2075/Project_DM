@@ -64,7 +64,8 @@ public class TechnicalManager
     void CreateAction(string path)
     {
         var obj = Managers.Resource.Instantiate($"Technical/{path}");
-        obj.transform.position = Main.Instance.CurrentTechnical.transform.position;
+        obj.transform.position = Main.Instance.CurrentTechnical.transform.position + new Vector3(0.25f, -0.75f, 0);
+        obj.transform.SetParent(Main.Instance.CurrentTechnical.transform);
 
         var tech = obj.GetComponent<Technical>();
         tech.Data = GetData(path);
@@ -79,7 +80,8 @@ public class TechnicalManager
     void CreateAction(string path, int floor)
     {
         var obj = Managers.Resource.Instantiate($"Technical/{path}");
-        obj.transform.position = Floor_Technical[floor].transform.position;
+        obj.transform.position = Floor_Technical[floor].transform.position + new Vector3(0.25f, -0.75f, 0);
+        obj.transform.SetParent(Floor_Technical[floor].transform);
 
         var tech = obj.GetComponent<Technical>();
         tech.Data = GetData(path);

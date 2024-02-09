@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Guild_3010
   m_EditorClassIdentifier: 
   dialogueName: Guild_3001
+  Type: 1
   TextDataList:
   - optionString: 
-    mainText: "\uBB50\uC57C. \uBCFC \uC77C \uC5C6\uC73C\uBA74 \uAEBC\uC838."
+    mainText: "\uBB50\uC57C. \uBCFC \uC77C \uC5C6\uC73C\uBA74 <size=40>\uAEBC\uC838."

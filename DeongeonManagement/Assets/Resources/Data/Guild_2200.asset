@@ -13,10 +13,17 @@ MonoBehaviour:
   m_Name: Guild_2200
   m_EditorClassIdentifier: 
   dialogueName: "\uADFC\uD669 \uBB3B\uAE30"
+  Type: 1
   TextDataList:
+  - optionString: '@Target::Player::Target
+
+      @Pos::Down::Pos'
+    mainText: "\uD639\uC2DC \uCD5C\uADFC\uC5D0 \uB4E4\uB824\uC624\uB294 \uC4F8\uB9CC\uD55C
+      \uC815\uBCF4\uB294 \uC5C6\uB098\uC694?"
+  - optionString: '@Target::GuildStaff::Target
+
+      @Pos::Up::Pos'
+    mainText: "\uC74C\u2026\uC9C0\uAE08\uC740 \uB531\uD788 \uC5C6\uB124\uC694."
   - optionString: 
-    mainText: "\uCD5C\uADFC\uC5D0 \uB4E4\uB9AC\uB294 \uC18C\uBB38\uC774 \uC788\uB098\uC694?"
-  - optionString: 
-    mainText: "\uC5B4\uCA4C\uAD6C \uC800\uCA4C\uAD6C"
-  - optionString: 
-    mainText: "\uC544\uD558, \uAC10\uC0AC\uD569\uB2C8\uB2E4."
+    mainText: "\uC88C\uCE21\uC5D0 \uAC8C\uC2DC\uD310\uB3C4 \uD55C\uBC88 \uD655\uC778\uD574
+      \uBCF4\uC138\uC694."

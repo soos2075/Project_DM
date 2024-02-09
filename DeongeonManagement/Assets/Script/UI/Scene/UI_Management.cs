@@ -37,11 +37,11 @@ public class UI_Management : UI_Base
 
     public enum ButtonEvent
     {
-        Summon,
-        Management,
-        Special,
-        Guild,
-        Placement,
+        _2_Summon,
+        _3_Management,
+        _5_Special,
+        _4_Guild,
+        _1_Placement,
 
         Test1,
         Test2,
@@ -98,10 +98,11 @@ public class UI_Management : UI_Base
 
     void Init_Button()
     {
-        GetButton((int)ButtonEvent.Summon).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Summon_Monster>());
-        GetButton((int)ButtonEvent.Management).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Monster_Management>());
-        GetButton((int)ButtonEvent.Guild).gameObject.AddUIEvent((data) => Visit_Guild());
-        GetButton((int)ButtonEvent.Placement).gameObject.AddUIEvent((data) => PlacementButtonEvent());
+        GetButton((int)ButtonEvent._1_Placement).gameObject.AddUIEvent((data) => PlacementButtonEvent());
+        GetButton((int)ButtonEvent._2_Summon).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Summon_Monster>());
+        GetButton((int)ButtonEvent._3_Management).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Monster_Management>());
+        GetButton((int)ButtonEvent._4_Guild).gameObject.AddUIEvent((data) => Visit_Guild());
+
 
 
 
@@ -140,7 +141,7 @@ public class UI_Management : UI_Base
 
     void DayZero()
     {
-        GetButton((int)ButtonEvent.Special).gameObject.SetActive(false);
+        GetButton((int)ButtonEvent._5_Special).gameObject.SetActive(false);
         //GetButton((int)ButtonEvent.Guild).gameObject.SetActive(false);
         //GetButton((int)ButtonEvent.DayChange).gameObject.SetActive(false);
         GetButton((int)ButtonEvent.Test1).gameObject.SetActive(false);

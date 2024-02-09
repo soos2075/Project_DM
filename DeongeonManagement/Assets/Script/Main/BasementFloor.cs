@@ -12,7 +12,6 @@ public class BasementFloor : MonoBehaviour
     public void Init_Floor()
     {
         Floor = gameObject.name;
-        BoxCollider = GetComponent<BoxCollider2D>();
 
         npcList = new List<NPC>();
         monsterList = new List<Monster>();
@@ -33,8 +32,6 @@ public class BasementFloor : MonoBehaviour
 
     public string Name_KR;
     public int MaxMonsterSize = 3;
-
-    public BoxCollider2D BoxCollider { get; private set; }
 
     public List<NPC> npcList;
     public List<Monster> monsterList;

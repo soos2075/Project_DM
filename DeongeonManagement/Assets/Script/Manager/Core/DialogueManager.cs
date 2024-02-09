@@ -35,24 +35,38 @@ public class DialogueManager
     }
 
 
-    public void ShowDialogueUI(SO_DialogueData data)
+    public IDialogue ShowDialogueUI(SO_DialogueData data, Transform pos = null)
     {
-        currentDialogue = Managers.UI.ShowPopUpAlone<UI_Dialogue>();
-        currentDialogue.Data = data;
+        switch (data.Type)
+        {
+            case SO_DialogueData.DialogueType.Box:
+                currentDialogue = Managers.UI.ShowPopUpAlone<UI_Dialogue>();
+                currentDialogue.Data = data;
+                break;
+
+            case SO_DialogueData.DialogueType.Bubble:
+                currentDialogue = Managers.UI.ShowPopUpAlone<UI_DialogueBubble>();
+                currentDialogue.Data = data;
+                var bubble = currentDialogue as UI_DialogueBubble;
+                bubble.bubble_Position = pos;
+                break;
+        }
+        return currentDialogue;
     }
-    public void ShowDialogueUI(string dialogueName)
+    public void ShowDialogueUI(string dialogueName, Transform pos = null)
     {
         SO_DialogueData data = GetDialogue(dialogueName);
         if (data == null)
         {
             return;
         }
-
-        currentDialogue = Managers.UI.ShowPopUpAlone<UI_Dialogue>();
-        currentDialogue.Data = data;
+        ShowDialogueUI(data, pos);
     }
 
-    public UI_Dialogue currentDialogue;
+
+
+
+    public IDialogue currentDialogue;
     public enum DialogueState
     {
         None,
@@ -90,6 +104,7 @@ public class DialogueManager
     }
     void ButtonAction(SO_DialogueData data, int id, PointerEventData pointer)
     {
+        Managers.UI.CloseAll();
         ShowDialogueUI(data);
         var npc = GuildManager.Instance.GetInteraction(id);
         npc.OptionList.RemoveAt(pointer.pointerCurrentRaycast.gameObject.transform.GetSiblingIndex());
