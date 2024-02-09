@@ -28,7 +28,7 @@ public class UI_Monster_Management : UI_PopUp
         Name,
         Status,
         State,
-        FloorData,
+        DetailInfo,
     }
     enum Etc
     {
@@ -82,13 +82,13 @@ public class UI_Monster_Management : UI_PopUp
     void Init_Management()
     {
         //? 몬스터를 누르면 그 때 각종 버튼이 나타나고 누를 수 있게됨. 그전까진 의미없음
-        GetTMP((int)Texts.FloorData).text = $"남은 행동력 : {Main.Instance.Player_AP}";
+        GetTMP((int)Texts.DetailInfo).text = $"남은 행동력 : {Main.Instance.Player_AP}";
     }
     void Init_Placement()
     {
         //? Main.Instance.CurrentFloor이 결정되있는 상태 = 즉 바로 배치로 들어감
         //GetObject((int)Objects.ResumeCount).GetComponent<TextMeshProUGUI>().text = $"배치 가능 횟수 : {Main.Instance.CurrentFloor.MaxMonsterSize}";
-        GetTMP((int)Texts.FloorData).text = $"{Main.Instance.CurrentFloor.Name_KR}\n배치된 몬스터 : {Main.Instance.CurrentFloor.monsterList.Count}\n" +
+        GetTMP((int)Texts.DetailInfo).text = $"{Main.Instance.CurrentFloor.Name_KR}\n배치된 몬스터 : {Main.Instance.CurrentFloor.monsterList.Count}\n" +
             $"추가 배치가능 몬스터 : {Main.Instance.CurrentFloor.MaxMonsterSize}";
         ButtonClear();
     }
@@ -125,7 +125,7 @@ public class UI_Monster_Management : UI_PopUp
             return;
         }
 
-        if (Type == UI_Type.Placement)
+        if (Type == UI_Type.Placement && selected.monster.State != Monster.MonsterState.Injury)
         {
             PlacementOne(Define.Boundary_1x1, () => CreateAll(Current.monster.MonsterID));
             return;
@@ -159,7 +159,9 @@ public class UI_Monster_Management : UI_PopUp
     void SelectedPanel(UI_MonsterBox selected)
     {
         selected.ChangePanelColor(Define.Color_Yellow);
+
         Current = selected;
+        //Debug.Log(Current.monster.MonsterID);
         for (int i = 0; i < childList.Count; i++)
         {
             childList[i].ChangePanelColor(Define.Color_Dark);
@@ -194,7 +196,7 @@ public class UI_Monster_Management : UI_PopUp
     {
         yield return new WaitForEndOfFrame();
         Debug.Log("창 새로고침");
-        GetTMP((int)Texts.FloorData).text = $"남은 행동력 : {Main.Instance.Player_AP}";
+        GetTMP((int)Texts.DetailInfo).text = $"남은 행동력 : {Main.Instance.Player_AP}";
         ShowDetail(Current);
         for (int i = 0; i < childList.Count; i++)
         {
@@ -223,6 +225,8 @@ public class UI_Monster_Management : UI_PopUp
 
                 GetButton(((int)Buttons.Release)).gameObject.
                     AddUIEvent((data) => GameManager.Monster.ReleaseMonster(Current.monster.MonsterID));
+
+                GetTMP((int)Texts.DetailInfo).text = $"대기중\n남은 행동력 : {Main.Instance.Player_AP}";
                 break;
 
 
@@ -237,6 +241,8 @@ public class UI_Monster_Management : UI_PopUp
 
                 GetButton(((int)Buttons.Training)).gameObject.
                     AddUIEvent((data) => Current.monster.Training());
+
+                GetTMP((int)Texts.DetailInfo).text = $"배치중 : {Current.monster.PlacementInfo.Place_Floor.Name_KR}\n남은 행동력 : {Main.Instance.Player_AP}";
                 break;
 
 
@@ -246,11 +252,15 @@ public class UI_Monster_Management : UI_PopUp
                 GetButton(((int)Buttons.Placement)).gameObject.SetActive(false);
                 GetButton(((int)Buttons.Return)).gameObject.SetActive(false);
 
-                GetButton(((int)Buttons.Recover)).gameObject.
-                    AddUIEvent((data) => Current.monster.Recover());
-
                 GetButton(((int)Buttons.Release)).gameObject.
                     AddUIEvent((data) => GameManager.Monster.ReleaseMonster(Current.monster.MonsterID));
+
+                int RecoverCost = (int)(Current.monster.LV * Current.monster.Data.ManaCost * 0.7f);
+                GetButton(((int)Buttons.Recover)).gameObject.
+                    AddUIEvent((data) => Current.monster.Recover(RecoverCost));
+
+
+                GetTMP((int)Texts.DetailInfo).text = $"부상 회복 필요 마나 : {RecoverCost}";
                 break;
         }
     }
@@ -298,7 +308,7 @@ public class UI_Monster_Management : UI_PopUp
 
         Main.Instance.CurrentBoundary = vector2Ints;
         Main.Instance.CurrentAction = action;
-        for (int i = 0; i < Main.Instance.Floor.Length; i++)
+        for (int i = 0; i < Main.Instance.ActiveFloor_Basement; i++)
         {
             if (Main.Instance.Floor[i].MaxMonsterSize > 0)
             {

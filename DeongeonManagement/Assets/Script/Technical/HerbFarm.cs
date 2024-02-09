@@ -7,9 +7,10 @@ using UnityEngine.UI;
 
 public class HerbFarm : Technical
 {
+
     public override void Init()
     {
-        Date = Main.Instance.Turn;
+        //Date = Main.Instance.Turn;
         Cycle = 2;
 
         AddTurnEvent((turn) => MainEvent(turn), DayType.Day);
@@ -18,14 +19,14 @@ public class HerbFarm : Technical
     }
 
 
-    int Date { get; set; }
-    int Cycle { get; set; }
+    public override int InstanceDate { get; set; }
+    public override int Cycle { get; set; }
 
 
 
     protected override void MainEvent(int turn)
     {
-        int day = turn - Date;
+        int day = turn - InstanceDate;
 
         if (day % Cycle == 0)
         {

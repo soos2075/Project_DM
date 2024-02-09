@@ -1,4 +1,11 @@
+# 추가
+
 /기타자료
+DeongeonManagement/Assets/_Asset/
+DeongeonManagement/Assets/*.json
+DeongeonManagement/Assets/AutoSave.json
+
+
 
 # This .gitignore file should be placed at the root of your Unity project directory
 #
@@ -12,7 +19,6 @@ DeongeonManagement/[Bb]uilds/
 DeongeonManagement/[Ll]ogs/
 DeongeonManagement/[Uu]ser[Ss]ettings/
 
-DeongeonManagement/Assets/_Asset/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data

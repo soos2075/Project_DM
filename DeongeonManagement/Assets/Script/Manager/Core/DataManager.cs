@@ -41,6 +41,7 @@ public class DataManager
 
         public int Prisoner;
         public Main.DayResult CurrentDay;
+        public List<Main.DayResult> DayResultList;
 
         // Floor 정보
         public int ActiveFloor_Basement; //? 확장된 계층정보
@@ -134,6 +135,12 @@ public class DataManager
 
     public void SaveToJson(string fileName, int index)
     {
+        if (Main.Instance.Management == false)
+        {
+            Debug.Log("낮동안은 저장불가");
+            return;
+        }
+
         //? 저장할 정보를 몽땅 기록
         SaveData saveData = new SaveData();
 
@@ -150,6 +157,8 @@ public class DataManager
         saveData.Player_AP = Main.Instance.Player_AP;
         saveData.Prisoner = Main.Instance.Prisoner;
         saveData.CurrentDay = Main.Instance.CurrentDay;
+
+        saveData.DayResultList = Main.Instance._dayList;
 
         saveData.ActiveFloor_Basement = Main.Instance.ActiveFloor_Basement;
         saveData.ActiveFloor_Technical = Main.Instance.ActiveFloor_Technical;

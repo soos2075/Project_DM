@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_DayResult : UI_PopUp
 {
@@ -23,11 +24,18 @@ public class UI_DayResult : UI_PopUp
         Use_Gold,
     }
 
-
+    enum Panel
+    {
+        Panel,
+    }
 
     public override void Init()
     {
         base.Init();
+        Bind<Image>(typeof(Panel));
+
+        GetImage(((int)Panel.Panel)).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.LeftClick);
+
 
         Bind<TextMeshProUGUI>(typeof(Texts));
 

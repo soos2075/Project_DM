@@ -11,6 +11,7 @@ public class SceneManagerEx
     {
         OneTimeAction = new List<UnityAction<Scene, LoadSceneMode>>();
         AddLoadAction_Usual(() => LoadActionOver());
+        AddLoadAction_Usual(() => Managers.UI.SceneChange());
 
         //loadAction = new List<Action>();
         //SceneManager.sceneLoaded += CustomSceneLoadAction;

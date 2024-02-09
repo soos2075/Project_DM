@@ -82,7 +82,7 @@ public class MonsterManager
             monster.detail = "의외로 귀여운 슬라임입니다. 약하긴 하지만 그렇다고 슬라임을 버리실건가요? 분명 열심히 키우면 보답받을거에요!";
             monster.sprite = Managers.Sprite.GetSprite("Monster/Slime");
 
-            monster.ManaCost = 30;
+            monster.ManaCost = 120;
 
             monster.LV = 1;
             monster.MAXLV = 25;
@@ -109,7 +109,7 @@ public class MonsterManager
             monster.detail = "조금은 무서운 스켈레톤입니다. 튼튼하고 강해서 모험가들을 상대로 제격이에요. 하지만 조금 한계가 있을지도?";
             monster.sprite = Managers.Sprite.GetSprite("Monster/Skeleton");
 
-            monster.ManaCost = 100;
+            monster.ManaCost = 250;
 
             monster.LV = 3;
             monster.MAXLV = 20;
@@ -176,6 +176,7 @@ public class MonsterManager
                 }
 
                 Monsters[i] = mon;
+                Monsters[i].MonsterID = i;
             }
         }
     }
@@ -223,6 +224,7 @@ public class Save_MonsterData
     public string Name { get; set; }
     public int LV { get; set; }
     public int HP { get; set; }
+    public int HP_MAX { get; set; }
     public int ATK { get; set; }
     public int DEF { get; set; }
     public int AGI { get; set; }
@@ -244,7 +246,8 @@ public class Save_MonsterData
     {
         Name = monster.Data.Name;
         LV = monster.LV;
-        HP = monster.HP_Max;
+        HP = monster.HP;
+        HP_MAX = monster.HP_Max;
         ATK = monster.ATK;
         DEF = monster.DEF;
         AGI = monster.AGI;

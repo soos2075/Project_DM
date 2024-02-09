@@ -34,31 +34,48 @@ public class NPCManager
         }
 
 
-        if (Current_NPCList.Count <= 5)
-        {
-            for (int i = 0; i < 5; i++)
-            {
-                float ranValue = Random.Range(1f, 5f);
-                Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
-            }
-        }
-        else if (Current_NPCList.Count <= 15)
+
+
+
+        if (Current_NPCList.Count < 7)
         {
             for (int i = 0; i < Current_NPCList.Count; i++)
             {
-                float ranValue = Random.Range(6f, 10f);
+                float ranValue = Random.Range(2f, 8f);
                 Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
             }
         }
         else
         {
-            for (int i = 0; i < Current_NPCList.Count; i++)
+            for (int i = 0; i < 7; i++)
             {
-                float ranValue = Random.Range(11f, 15f);
+                float ranValue = Random.Range(2f, 8f);
                 Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
             }
-        }
 
+            if (Current_NPCList.Count < 15)
+            {
+                for (int i = 7; i < Current_NPCList.Count; i++)
+                {
+                    float ranValue = Random.Range(8f, 14f);
+                    Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
+                }
+            }
+            else
+            {
+                for (int i = 7; i < 15; i++)
+                {
+                    float ranValue = Random.Range(8f, 14f);
+                    Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
+                }
+
+                for (int i = 15; i < Current_NPCList.Count; i++)
+                {
+                    float ranValue = Random.Range(14f, 20f);
+                    Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
+                }
+            }
+        }
     }
 
     IEnumerator ActiveNPC(int index, float delay)

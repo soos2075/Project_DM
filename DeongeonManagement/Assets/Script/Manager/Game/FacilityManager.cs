@@ -86,7 +86,7 @@ public class FacilityManager
                 BasementTile tile = null;
                 if (floor.TileMap.TryGetValue(data[i].posIndex, out tile))
                 {
-                    CreateFacility(data[i].prefabName, new PlacementInfo(floor, tile), true);
+                    CreateFacility(data[i].prefabName, new PlacementInfo(floor, tile), data[i].isUnchange);
                 }
             }
         }

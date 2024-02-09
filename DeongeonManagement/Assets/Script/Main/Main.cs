@@ -32,7 +32,7 @@ public class Main : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("왜이게먼저?");
+        Debug.Log("디버그용 Start");
         NewGame_Init();
         Default_Init();
     }
@@ -66,7 +66,7 @@ public class Main : MonoBehaviour
         ActiveFloor_Technical = 1;
         Dungeon_Lv = 2;
 
-        DangerOfDungeon = 100;
+        //DangerOfDungeon = 100;
 
         BasementFloorInit();
         _dayList = new List<DayResult>();
@@ -125,6 +125,8 @@ public class Main : MonoBehaviour
         Player_AP = data.Player_AP;
         Prisoner = data.Prisoner;
         CurrentDay = data.CurrentDay;
+
+        _dayList = data.DayResultList;
 
         ActiveFloor_Basement = (data.ActiveFloor_Basement);
         ActiveFloor_Technical = (data.ActiveFloor_Technical);
@@ -345,8 +347,9 @@ public class Main : MonoBehaviour
                 DangerOfDungeon += 10;
                 FindObjectOfType<UI_Management>().Texts_Refresh();
                 DayOver_Dayresult();
-                TurnOverEvent();
+
                 NightEvent();
+                StartCoroutine(TurnOverEvent());
             }
         }
     }
@@ -391,7 +394,7 @@ public class Main : MonoBehaviour
                 break;
         }
     }
-    public void TurnOverEvent()
+    public IEnumerator TurnOverEvent()
     {
         UI_EventBox.AddEventText($"※{Turn}일차 종료※");
 
@@ -410,14 +413,17 @@ public class Main : MonoBehaviour
                 break;
 
             case 5:
-                Debug.Log("3일차 종료 이벤트 발생");
-                StartCoroutine(TurnEvent_EggAppear());
+                Debug.Log("5일차 종료 이벤트 - 비밀방");
+                yield return StartCoroutine(TurnEvent_EggAppear());
                 break;
 
 
             default:
                 break;
         }
+
+        Debug.Log($"자동저장 : {Turn}일차");
+        Managers.Data.SaveToJson($"DM_Save_{1}", 1);
     }
 
 
@@ -430,11 +436,12 @@ public class Main : MonoBehaviour
         FindObjectOfType<UI_EventBox>().BoxActive(false);
 
         Camera.main.transform.position = new Vector3(Floor[3].transform.position.x, Floor[3].transform.position.y, -10);
-        Camera.main.orthographicSize = 3;
+        //Camera.main.orthographicSize = 3;
 
         yield return new WaitForSecondsRealtime(1);
         {
             var tile = Floor[3].GetRandomTile();
+            Floor[3].TileMap.TryGetValue(new Vector2Int(9, 2), out tile);
             PlacementInfo info = new PlacementInfo(Floor[3], tile);
 
             var obj = GameManager.Facility.CreateFacility_OnlyOne("Exit", info, true);
@@ -444,12 +451,13 @@ public class Main : MonoBehaviour
         yield return new WaitForSecondsRealtime(1);
 
         Camera.main.transform.position = new Vector3(Floor[2].transform.position.x, Floor[2].transform.position.y, -10);
-        Camera.main.orthographicSize = 3;
+        //Camera.main.orthographicSize = 3;
 
         yield return new WaitForSecondsRealtime(1);
         {
             var tile = Floor[2].GetRandomTile();
-            PlacementInfo info = new PlacementInfo(Floor[3], tile);
+            Floor[2].TileMap.TryGetValue(new Vector2Int(0, 0), out tile);
+            PlacementInfo info = new PlacementInfo(Floor[2], tile);
 
             var obj = GameManager.Facility.CreateFacility_OnlyOne("EggEntrance", info, true);
         }

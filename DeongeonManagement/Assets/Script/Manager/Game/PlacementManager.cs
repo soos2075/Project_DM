@@ -27,7 +27,9 @@ public class PlacementManager
         {
             if (newObj.GetType() == item.placementable.GetType())
             {
-                PlacementClear_Completely(item.placementable);
+                //? 퍼실리티가 아닌 유일하게 존재해야하는게 있다면 오류
+                GameManager.Facility.RemoveFacility(item.placementable as Facility); 
+                //PlacementClear_Completely(item.placementable);
             }
         }
         return newObj;
@@ -58,7 +60,7 @@ public class PlacementManager
         Visible(obj);
 
         obj.PlacementInfo.Place_Floor.AddObject(obj);
-        //Debug.Log($"{obj.GetObject().name} 가 {newPlace.Place_Floor.Name_KR} - {newPlace.Place_Tile.index} 에 배치");
+        Debug.Log($"{obj.GetObject().name} 가 {newPlace.Place_Floor.Name_KR} - {newPlace.Place_Tile.index} 에 배치");
     }
 
     public void PlacementClear(IPlacementable obj)
@@ -105,7 +107,7 @@ public class PlacementManager
     IEnumerator MoveUpdate(NPC npc, BasementTile startPos, BasementTile endPos, float duration)
     {
         Vector3 dir = endPos.worldPosition - startPos.worldPosition;
-        Debug.Log(dir);
+        //Debug.Log(dir);
         if (dir.x > 0)
         {
             //? 무브 오른쪽

@@ -113,7 +113,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         for (int i = 0; i < allList.Count; i++)
         {
-            if (allList[i].placementable.GetType() == type)
+            if (allList[i].placementable != null && allList[i].placementable.GetType() == type)
             {
                 newList.Add(allList[i]);
             }
@@ -395,11 +395,11 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         switch (State)
         {
             case NPCState.Runaway:
-                Main.Instance.FameOfDungeon += 5;
+                Main.Instance.FameOfDungeon += 3;
                 Main.Instance.DangerOfDungeon += 1;
                 break;
             case NPCState.Return:
-                Main.Instance.FameOfDungeon += -2;
+                Main.Instance.FameOfDungeon += -1;
                 Main.Instance.DangerOfDungeon += -2;
                 break;
         }

@@ -41,6 +41,7 @@ public class CameraControl : MonoBehaviour
 
         ClickAction();
         PixelPerfection_Zoom();
+        KeyboardMove();
     }
 
 
@@ -76,30 +77,6 @@ public class CameraControl : MonoBehaviour
     }
 
 
-
-
-
-    //void Zooming()
-    //{
-    //    float scroll = Input.GetAxis("Mouse ScrollWheel") * -3;
-
-    //    if (scroll == 0)
-    //    {
-    //        return;
-    //    }
-    //    mainCam.orthographicSize += scroll;
-
-    //    if (mainCam.orthographicSize > limit_size_max)
-    //    {
-    //        mainCam.orthographicSize = limit_size_max;
-    //    }
-    //    if (mainCam.orthographicSize < limit_size_min)
-    //    {
-    //        mainCam.orthographicSize = limit_size_min;
-    //    }
-
-    //    MouseLimit();
-    //}
 
 
 
@@ -157,6 +134,28 @@ public class CameraControl : MonoBehaviour
             transform.position = new Vector3(limit_right, transform.position.y, transform.position.z);
         }
     }
+
+
+    void KeyboardMove()
+    {
+        float moveX = Input.GetAxisRaw("Horizontal");
+        float moveY = Input.GetAxisRaw("Vertical");
+
+        if (moveX != 0)
+        {
+            transform.position += Vector3.right * moveX * Time.deltaTime * 5;
+            MouseLimit();
+        }
+
+        if (moveY != 0)
+        {
+            transform.position += Vector3.up * moveY * Time.deltaTime * 5;
+            MouseLimit();
+        }
+    }
+
+
+
 
     [System.Obsolete]
     void SlowMove(float dir)

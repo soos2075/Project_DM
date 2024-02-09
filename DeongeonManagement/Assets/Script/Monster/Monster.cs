@@ -36,7 +36,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
         LV = Data.LV;
         HP = Data.HP;
-        HP_Max = Data.HP;
+        HP_Max = Data.HP_MAX;
 
         ATK = Data.ATK;
         DEF = Data.DEF;
@@ -206,6 +206,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
             if (this.HP <= 0)
             {
+                this.HP = 0;
                 UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 {Name_KR} (이)가 전투에서 패배했습니다..");
                 Debug.Log("몬스터 패배");
                 MonsterOutFloor();
@@ -235,12 +236,20 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
 
 
-    public void Recover()
+    public void Recover(int mana)
     {
         //? 회복
-        Debug.Log("hp 꽉채워줘야함");
-        HP = HP_Max;
-        State = MonsterState.Standby;
+        if (Main.Instance.Player_Mana >= mana)
+        {
+            Main.Instance.CurrentDay.SubtractMana(mana);
+            HP = HP_Max;
+            State = MonsterState.Standby;
+            Debug.Log("회복성공");
+        }
+        else
+        {
+            Debug.Log("마나부족");
+        }
     }
 
     public void Training()

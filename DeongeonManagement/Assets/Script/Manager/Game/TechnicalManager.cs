@@ -77,7 +77,7 @@ public class TechnicalManager
 
         currentTechnicalList.Add(tech);
     }
-    void CreateAction(string path, int floor)
+    Technical CreateAction(string path, int floor)
     {
         var obj = Managers.Resource.Instantiate($"Technical/{path}");
         obj.transform.position = Floor_Technical[floor].transform.position + new Vector3(0.25f, -0.75f, 0);
@@ -85,11 +85,14 @@ public class TechnicalManager
 
         var tech = obj.GetComponent<Technical>();
         tech.Data = GetData(path);
+        tech.InstanceDate = Main.Instance.Turn;
 
         Floor_Technical[floor].Current = tech;
         tech.parent = Floor_Technical[floor];
 
         currentTechnicalList.Add(tech);
+
+        return tech;
     }
 
     public void RemoveTechnical(Technical technical)
@@ -176,7 +179,8 @@ public class TechnicalManager
     {
         for (int i = 0; i < data.Length; i++)
         {
-            CreateAction(data[i].Name_Technical, data[i].LocationIndex);
+            var tech = CreateAction(data[i].Name_Technical, data[i].LocationIndex);
+            tech.InstanceDate = data[i].InstanceDate;
         }
     }
 
@@ -222,9 +226,12 @@ public class Save_TechnicalData
 
     public int LocationIndex;
 
+    public int InstanceDate;
+
     public void SetData(Technical data)
     {
         Name_Technical = data.Data.contentName;
         LocationIndex = data.parent.FloorIndex;
+        InstanceDate = data.InstanceDate;
     }
 }

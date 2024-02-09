@@ -19,13 +19,13 @@ public class Adventurer : NPC
 
         SetStatus("¸ðÇè°¡",
             lv: 1,
-            atk: 8,
-            def: 6,
-            agi: 5,
+            atk: 7,
+            def: 2,
+            agi: 6,
             luk: 5,
             hp: 20,
             ap: 10,
-            mp: 100,
+            mp: 50,
             speed: 2f,
             delay: 0.5f);
 

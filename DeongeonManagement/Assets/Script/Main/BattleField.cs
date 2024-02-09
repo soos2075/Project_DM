@@ -12,6 +12,8 @@ public class BattleField : MonoBehaviour
     {
         //BattlePlay();
         sprite_BG = GetComponentInChildren<SpriteRenderer>();
+
+        Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
     }
 
 

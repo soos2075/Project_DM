@@ -51,7 +51,7 @@ public class ContentManager
         {
             ContentData content = new ContentData("Entrance");
             content.SetName("입구", "플레이어가 들어올 입구를 지정합니다. 만약 입구가 없으면 랜덤위치에 자동으로 지정돼요. 입구는 층 당 한개만 존재할 수 있어요.");
-            content.SetCondition(10, 0, 1);
+            content.SetCondition(100, 0, 1);
             content.sprite = Managers.Sprite.GetSprite("Entrance");
             content.AddOption("\n적용 범위는 1 x 1 입니다.", Define.Boundary_1x1,
                 data => SetBoundary(Define.Boundary_1x1, () => CreateOnlyOne("Entrance", useMana: 10)));
@@ -62,7 +62,7 @@ public class ContentManager
         {
             ContentData content = new ContentData("Exit");
             content.SetName("출구", "플레이어가 돌아갈 출구를 지정합니다. 만약 출구가 없으면 랜덤위치에 자동으로 지정돼요. 출구는 층 당 한개만 존재할 수 있어요.");
-            content.SetCondition(10, 0, 1);
+            content.SetCondition(100, 0, 1);
             content.sprite = Managers.Sprite.GetSprite("Exit");
             content.AddOption("\n적용 범위는 1 x 1 입니다.", Define.Boundary_1x1,
                 data => SetBoundary(Define.Boundary_1x1, () => CreateOnlyOne("Exit", useMana: 10)));

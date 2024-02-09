@@ -43,6 +43,21 @@ public class UIManager
     }
 
 
+
+    public void SceneChange()
+    {
+        _sceneList.Clear();
+
+        _popupStack.Clear();
+
+        _paused = null;
+    }
+
+
+
+
+
+
     public T ShowSceneUI<T>(string name)
     {
         if (string.IsNullOrEmpty(name))

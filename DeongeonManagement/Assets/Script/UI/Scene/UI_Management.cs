@@ -134,6 +134,7 @@ public class UI_Management : UI_Base
         {
             eventBox.BoxActive(true);
             eventBox.TextClear();
+
             Main.Instance.DayChange();
             Texts_Refresh();
         }

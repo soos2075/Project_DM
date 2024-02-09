@@ -14,6 +14,19 @@ public class UI_EventBox : UI_Scene
 
         ShowEventBox(textOrigin);
 
+    }
+    private void LateUpdate() //? GUI가 그려지고 난 다음에 textInfo가 업데이트 되기때문에 Late에서 해줘야함
+    {
+        if (Current) return;
+
+        int prevPage = maxPage;
+        maxPage = (mainText.textInfo.lineCount / pageLine) + 1;
+
+        if (prevPage != maxPage)
+        {
+            mainText.pageToDisplay = maxPage;
+        }
+
         if (maxPage > 1)
         {
             pageText.text = $"{mainText.pageToDisplay} / {maxPage}";
@@ -89,8 +102,8 @@ public class UI_EventBox : UI_Scene
         }
 
         mainText.text = contents;
-        maxPage = (mainText.textInfo.lineCount / pageLine) + 1;
-        mainText.pageToDisplay = maxPage;
+        //? 자동페이지 넘기기기능 = on off로 제공해도될듯?
+        //mainText.pageToDisplay = maxPage;
     }
 
 
@@ -113,21 +126,7 @@ public class UI_EventBox : UI_Scene
 
 
     bool Current { get; set; }
-    //void BoxActive()
-    //{
-    //    if (isActive == false)
-    //    {
-    //        isActive = true;
-    //        GetObject((int)Contents.Panel_Active).SetActive(true);
-    //        GetObject((int)Contents.Panel_Inactive).SetActive(false);
-    //    }
-    //    else
-    //    {
-    //        isActive = false;
-    //        GetObject((int)Contents.Panel_Active).SetActive(false);
-    //        GetObject((int)Contents.Panel_Inactive).SetActive(true);
-    //    }
-    //}
+
 
     public void BoxActive(bool _active)
     {
