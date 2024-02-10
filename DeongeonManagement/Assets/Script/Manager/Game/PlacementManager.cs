@@ -60,7 +60,7 @@ public class PlacementManager
         Visible(obj);
 
         obj.PlacementInfo.Place_Floor.AddObject(obj);
-        Debug.Log($"{obj.GetObject().name} 가 {newPlace.Place_Floor.Name_KR} - {newPlace.Place_Tile.index} 에 배치");
+        //Debug.Log($"{obj.GetObject().name} 가 {newPlace.Place_Floor.Name_KR} - {newPlace.Place_Tile.index} 에 배치");
     }
 
     public void PlacementClear(IPlacementable obj)

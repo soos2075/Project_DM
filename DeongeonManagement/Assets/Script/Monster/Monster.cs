@@ -185,6 +185,13 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
     public void MonsterOutFloor()
     {
+        var player = this as Player;
+        if (player != null)
+        {
+            Debug.Log("게임오버");
+            return;
+        }
+
         PlacementInfo.Place_Floor.MaxMonsterSize++;
         State = HP <= 0 ? MonsterState.Injury : MonsterState.Standby;
         GameManager.Placement.PlacementClear(this);
@@ -194,41 +201,41 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
 
 
-    protected IEnumerator SetBattleConfigure(NPC npc)
-    {
-        UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 전투발생 : " +
-            $"{npc.Name_KR} vs " +
-            $"{Name_KR}");
-        while (true)
-        {
-            yield return new WaitForSeconds(1f);
-            GiveAndTakeOnce(this, npc);
+    //protected IEnumerator SetBattleConfigure(NPC npc)
+    //{
+    //    UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 전투발생 : " +
+    //        $"{npc.Name_KR} vs " +
+    //        $"{Name_KR}");
+    //    while (true)
+    //    {
+    //        yield return new WaitForSeconds(1f);
+    //        GiveAndTakeOnce(this, npc);
 
-            if (this.HP <= 0)
-            {
-                this.HP = 0;
-                UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 {Name_KR} (이)가 전투에서 패배했습니다..");
-                Debug.Log("몬스터 패배");
-                MonsterOutFloor();
-                break;
-            }
+    //        if (this.HP <= 0)
+    //        {
+    //            this.HP = 0;
+    //            UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 {Name_KR} (이)가 전투에서 패배했습니다..");
+    //            Debug.Log("몬스터 패배");
+    //            MonsterOutFloor();
+    //            break;
+    //        }
 
-            if (npc.HP <= 0)
-            {
-                UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 {Name_KR} (이)가 {npc.Name_KR} {npc.Name_Index} 에게 승리하였습니다!");
-                Debug.Log("NPC 패배");
-                break;
-            }
-        }
-    }
+    //        if (npc.HP <= 0)
+    //        {
+    //            UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 {Name_KR} (이)가 {npc.Name_KR} {npc.Name_Index} 에게 승리하였습니다!");
+    //            Debug.Log("NPC 패배");
+    //            break;
+    //        }
+    //    }
+    //}
 
-    private void GiveAndTakeOnce(Monster monster, NPC npc)
-    {
-        monster.HP -= Mathf.Clamp((npc.ATK - monster.DEF), 1, monster.HP);
+    //private void GiveAndTakeOnce(Monster monster, NPC npc)
+    //{
+    //    monster.HP -= Mathf.Clamp((npc.ATK - monster.DEF), 1, monster.HP);
 
-        npc.HP -= Mathf.Clamp((monster.ATK - npc.DEF), 1, npc.HP);
-        //Debug.Log($"배틀 상세 : {monster.name}의 남은 체력 : {monster.HP} / {npc.name}의 남은 체력 : {npc.HP}");
-    }
+    //    npc.HP -= Mathf.Clamp((monster.ATK - npc.DEF), 1, npc.HP);
+    //    //Debug.Log($"배틀 상세 : {monster.name}의 남은 체력 : {monster.HP} / {npc.name}의 남은 체력 : {npc.HP}");
+    //}
 
 
 

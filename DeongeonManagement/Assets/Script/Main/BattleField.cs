@@ -7,17 +7,19 @@ using DamageNumbersPro;
 
 public class BattleField : MonoBehaviour
 {
-
+    public int sort = 10;
     void Start()
     {
         //BattlePlay();
-        sprite_BG = GetComponentInChildren<SpriteRenderer>();
+        sprite_BG.sortingOrder = sort;
+        sprite_border.sortingOrder = sort;
 
         Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
     }
 
 
-    SpriteRenderer sprite_BG;
+    public SpriteRenderer sprite_BG;
+    public SpriteRenderer sprite_border;
 
     public Transform pos_Left;
     public Transform pos_Right;
@@ -195,13 +197,13 @@ public class BattleField : MonoBehaviour
     public BattleResult Battle(NPC npc, Monster monster)
     {
         obj_Left = Managers.Resource.Instantiate($"Battle/{npc.name}_Avatar", pos_Left);
-        obj_Left.GetComponent<SpriteRenderer>().sortingOrder = 11;
+        obj_Left.GetComponent<SpriteRenderer>().sortingOrder = sort;
         ani_npc = obj_Left.GetComponent<Animator>();
         this.npc = npc;
 
 
         obj_Right = Managers.Resource.Instantiate($"Battle/{monster.name}_Avatar", pos_Right);
-        obj_Right.GetComponentInChildren<SpriteRenderer>().sortingOrder = 11;
+        obj_Right.GetComponentInChildren<SpriteRenderer>().sortingOrder = sort;
         ani_monster = obj_Right.GetComponentInChildren<Animator>();
         this.monster = monster;
 
@@ -309,6 +311,7 @@ public class BattleField : MonoBehaviour
         monster.HP -= damage;
         if (monster.HP <= 0)
         {
+            monster.HP = 0;
             result = BattleResult.Monster_Die;
             roundList.Add(new Round(Define.PlacementType.NPC, damage, result));
             return true;

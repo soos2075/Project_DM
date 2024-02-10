@@ -12,27 +12,6 @@ public class Adventurer : NPC
         AvoidTileType = new Define.TileType[] { Define.TileType.NPC };
     }
 
-    protected override void Initialize_Status()
-    {
-        int index = Random.Range(0, 100);
-        Name_Index = index;
-
-        SetStatus("모험가",
-            lv: 1,
-            atk: 7,
-            def: 2,
-            agi: 6,
-            luk: 5,
-            hp: 20,
-            ap: 10,
-            mp: 50,
-            speed: 2f,
-            delay: 0.5f);
-
-        Init_AvoidType();
-    }
-
-
     //? 리스트 설정방법 
     //? 1. GetFloorObjectsAll 메서드 = TileType에 해당하는 모든 오브젝트 리스트를 반환
     //? 2. GetPriorityPick 메서드 = typeof(target) 에 해당하는 모든 오브젝트 리스트를 반환 / 자동셔플(동일한 타겟들의 순서가 굳이 항상 일정해야할 필요는 없으므로)
@@ -42,6 +21,8 @@ public class Adventurer : NPC
 
     protected override void SetPriorityList()
     {
+        Init_AvoidType();
+
         if (PriorityList != null) PriorityList.Clear();
 
         //var list0 = GetFloorObjectsAll(Define.TileType.Facility);
@@ -57,31 +38,7 @@ public class Adventurer : NPC
         AddList(list4);
         AddList(list5);
 
-        PickToProbability(GetPriorityPick(typeof(Entrance_Egg)), PlacementInfo.Place_Floor.FloorIndex * 0.1f);
-
-
+        PickToProbability(GetPriorityPick(typeof(Entrance_Egg)), (PlacementInfo.Place_Floor.FloorIndex + Rank) * 0.05f);
     }
 
-
-
-
-    void PickToProbability(List<BasementTile> pick, float probability, AddPos pos = AddPos.Back)
-    {
-        float randomValue = Random.value;
-        if (randomValue < probability)
-        {
-            AddList(pick);
-        }
-    }
-    void RemoveToProbability(List<BasementTile> pick, float probability)
-    {
-        float randomValue = Random.value;
-        if (randomValue < probability)
-        {
-            foreach (var item in pick)
-            {
-                PriorityRemove(item);
-            }
-        }
-    }
 }

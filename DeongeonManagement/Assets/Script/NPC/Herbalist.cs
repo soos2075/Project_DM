@@ -12,28 +12,10 @@ public class Herbalist : NPC
         AvoidTileType = new Define.TileType[] { Define.TileType.NPC, Define.TileType.Monster };
     }
 
-    protected override void Initialize_Status()
-    {
-        int index = Random.Range(0, 100);
-        Name_Index = index;
-
-        SetStatus("æ‡√ ≤€",
-            lv: 1,
-            atk: 3,
-            def: 3,
-            agi: 3,
-            luk: 10,
-            hp: 10,
-            ap: 3,
-            mp: 50,
-            speed: 1.5f,
-            delay: 0.5f);
-
-
-        Init_AvoidType();
-    }
     protected override void SetPriorityList()
     {
+        Init_AvoidType();
+
         if (PriorityList != null) PriorityList.Clear();
 
         var list1 = GetPriorityPick(typeof(Herb_Low));
@@ -41,5 +23,10 @@ public class Herbalist : NPC
 
         AddList(list1);
         AddList(list2, AddPos.Front);
+
+        var list5 = GetFacilityPick(Facility.FacilityType.Event);
+        AddList(list5);
+
+        PickToProbability(GetPriorityPick(typeof(Entrance_Egg)), (PlacementInfo.Place_Floor.FloorIndex + Rank) * 0.04f);
     }
 }

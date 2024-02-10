@@ -6,8 +6,13 @@ public class NPCManager
 {
     public void Init()
     {
+        FillIndex();
+        Init_Data();
+
         guild = Util.FindChild<Transform>(Main.Instance.gameObject, "Guild");
         dungeonEntrance = Util.FindChild<Transform>(Main.Instance.gameObject, "Dungeon");
+
+        
     }
 
 
@@ -49,7 +54,7 @@ public class NPCManager
         {
             for (int i = 0; i < 7; i++)
             {
-                float ranValue = Random.Range(2f, 8f);
+                float ranValue = Random.Range(1f, 8f);
                 Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
             }
 
@@ -85,33 +90,58 @@ public class NPCManager
     }
 
 
-    enum NPCType
+    enum NPCType //? Prefab 이름과 동일해야함. 추가로 사전의 이름까지도.
     {
-        Herbalist = 0,
-        Miner = 1,
-        Adventurer = 2,
+        Herbalist_0 = 0,
+        Miner_0 = 1,
+        Adventurer_0 = 2,
+
+        Herbalist_1 = 3,
+        Miner_1 = 4,
+        Adventurer_1 = 5,
+    }
+
+    bool[] NameIndex;
+
+    void FillIndex()
+    {
+        NameIndex = new bool[100];
+        for (int i = 0; i < 100; i++)
+        {
+            NameIndex[i] = true;
+        }
+    }
+    int RandomPicker()
+    {
+        int count = 0;
+        while (count < 100)
+        {
+            count++;
+            int pick = Random.Range(0, 100);
+            if (NameIndex[pick])
+            {
+                NameIndex[pick] = false;
+                return pick;
+            }
+        }
+        return count;
     }
 
 
     void InstantiateNPC(NPCType rank)
     {
-        switch (rank)
+        var obj = GameManager.Placement.CreatePlacementObject($"NPC/{rank.ToString()}", null, Define.PlacementType.NPC);
+        NPC _npc = obj as NPC;
+        NPC_Data data = null;
+        if (NPCDatas.TryGetValue(rank.ToString(), out data))
         {
-            case NPCType.Herbalist:
-                var herb = GameManager.Placement.CreatePlacementObject($"NPC/Herbalist", null, Define.PlacementType.NPC);
-                Current_NPCList.Add(herb as NPC);
-                break;
-
-            case NPCType.Miner:
-                var miner = GameManager.Placement.CreatePlacementObject($"NPC/Miner", null, Define.PlacementType.NPC);
-                Current_NPCList.Add(miner as NPC);
-                break;
-
-            case NPCType.Adventurer:
-                var adv = GameManager.Placement.CreatePlacementObject($"NPC/Adventurer", null, Define.PlacementType.NPC);
-                Current_NPCList.Add(adv as NPC);
-                break;
+            _npc.SetData(data, RandomPicker());
         }
+        else
+        {
+            Debug.Log($"NPC_Data 없음 : {rank.ToString()}");
+        }
+        Current_NPCList.Add(_npc);
     }
 
 
@@ -168,7 +198,7 @@ public class NPCManager
 
 
 
-    int[] rankWeightedList = new int[] { 20, 20, 60, 100, 200, 300 };
+    int[] rankWeightedList = new int[] { 20, 20, 60, 40, 40, 100 };
     List<int> rankList;
 
 
@@ -214,4 +244,170 @@ public class NPCManager
         return 0;
     }
     #endregion
+
+
+    public Dictionary<string, NPC_Data> NPCDatas { get; } = new Dictionary<string, NPC_Data>();
+
+
+    void Init_Data()
+    {
+        {
+            NPC_Data npc = new NPC_Data();
+
+            npc.PrefabName = "Herbalist_0";
+            npc.Name = "약초꾼";
+
+            npc.Rank = 0;
+            npc.ATK = 3;
+            npc.DEF = 3;
+            npc.AGI = 3;
+            npc.LUK = 3;
+            npc.HP = 10;
+            npc.HP_MAX = 10;
+
+            npc.ActionPoint = 3;
+            npc.Mana = 30;
+            npc.Speed_Ground = 1.5f;
+            npc.ActionDelay = 0.9f;
+
+            NPCDatas.Add(npc.PrefabName, npc);
+        }
+        {
+            NPC_Data npc = new NPC_Data();
+
+            npc.PrefabName = "Herbalist_1";
+            npc.Name = "숙련된 약초꾼";
+
+            npc.Rank = 0;
+            npc.ATK = 6;
+            npc.DEF = 6;
+            npc.AGI = 6;
+            npc.LUK = 6;
+            npc.HP = 20;
+            npc.HP_MAX = 20;
+
+            npc.ActionPoint = 4;
+            npc.Mana = 80;
+            npc.Speed_Ground = 1.55f;
+            npc.ActionDelay = 0.9f;
+
+            NPCDatas.Add(npc.PrefabName, npc);
+        }
+
+        {
+            NPC_Data npc = new NPC_Data();
+
+            npc.PrefabName = "Miner_0";
+            npc.Name = "광부";
+
+            npc.Rank = 1;
+            npc.ATK = 5;
+            npc.DEF = 4;
+            npc.AGI = 1;
+            npc.LUK = 1;
+            npc.HP = 15;
+            npc.HP_MAX = 15;
+
+            npc.ActionPoint = 5;
+            npc.Mana = 25;
+            npc.Speed_Ground = 1.4f;
+            npc.ActionDelay = 0.5f;
+
+            NPCDatas.Add(npc.PrefabName, npc);
+        }
+        {
+            NPC_Data npc = new NPC_Data();
+
+            npc.PrefabName = "Miner_1";
+            npc.Name = "숙련된 광부";
+
+            npc.Rank = 1;
+            npc.ATK = 10;
+            npc.DEF = 8;
+            npc.AGI = 2;
+            npc.LUK = 2;
+            npc.HP = 30;
+            npc.HP_MAX = 30;
+
+            npc.ActionPoint = 8;
+            npc.Mana = 30;
+            npc.Speed_Ground = 1.45f;
+            npc.ActionDelay = 0.5f;
+
+            NPCDatas.Add(npc.PrefabName, npc);
+        }
+
+
+        {
+            NPC_Data npc = new NPC_Data();
+
+            npc.PrefabName = "Adventurer_0";
+            npc.Name = "견습 모험가";
+
+            npc.Rank = 2;
+            npc.ATK = 7;
+            npc.DEF = 2;
+            npc.AGI = 6;
+            npc.LUK = 5;
+            npc.HP = 20;
+            npc.HP_MAX = 20;
+
+            npc.ActionPoint = 4;
+            npc.Mana = 40;
+            npc.Speed_Ground = 1.6f;
+            npc.ActionDelay = 0.7f;
+
+            NPCDatas.Add(npc.PrefabName, npc);
+        }
+        {
+            NPC_Data npc = new NPC_Data();
+
+            npc.PrefabName = "Adventurer_1";
+            npc.Name = "이름있는 모험가";
+
+            npc.Rank = 2;
+            npc.ATK = 15;
+            npc.DEF = 5;
+            npc.AGI = 9;
+            npc.LUK = 8;
+            npc.HP = 40;
+            npc.HP_MAX = 40;
+
+            npc.ActionPoint = 6;
+            npc.Mana = 60;
+            npc.Speed_Ground = 1.6f;
+            npc.ActionDelay = 0.7f;
+
+            NPCDatas.Add(npc.PrefabName, npc);
+        }
+    }
+
+}
+
+
+
+public class NPC_Data
+{
+    public int Rank { get; set; }
+
+    public string PrefabName { get; set; }
+    public string Name { get; set; }
+    public int LV { get; set; }
+    public int ATK { get; set; }
+    public int DEF { get; set; }
+    public int AGI { get; set; }
+    public int LUK { get; set; }
+
+
+
+    public int HP { get; set; }
+    public int HP_MAX { get; set; }
+    public int ActionPoint { get; set; }
+    public int Mana { get; set; }
+
+
+
+    public float Speed_Ground { get; set; } //? 클수록 빠름
+    public float ActionDelay { get; set; } //? 작을수록 빠름
+
 }

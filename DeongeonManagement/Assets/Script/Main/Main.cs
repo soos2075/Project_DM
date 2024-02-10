@@ -64,9 +64,10 @@ public class Main : MonoBehaviour
 
         ActiveFloor_Basement = 4;
         ActiveFloor_Technical = 1;
-        Dungeon_Lv = 2;
+        Dungeon_Lv = 1;
 
-        //DangerOfDungeon = 100;
+        //DangerOfDungeon = 220;
+        //FameOfDungeon = 200;
 
         BasementFloorInit();
         _dayList = new List<DayResult>();
@@ -99,16 +100,34 @@ public class Main : MonoBehaviour
     }
     void Instantiate_Egg()
     {
-        //var tile = Floor[3].GetRandomTile();
-        BasementTile tile = null;
-        Floor[3].TileMap.TryGetValue(new Vector2Int(1, 2), out tile);
-        PlacementInfo info = new PlacementInfo(Floor[3], tile);
+        Init_Secret();
 
-        GameManager.Facility.CreateFacility_OnlyOne("Special_MagicEgg", info, true);
 
         Managers.Dialogue.ShowDialogueUI("Prologue", GameObject.Find("Player").transform);
     }
 
+
+    void Init_Secret()
+    {
+        BasementTile tile = null;
+        Floor[3].TileMap.TryGetValue(new Vector2Int(1, 2), out tile);
+        PlacementInfo info = new PlacementInfo(Floor[3], tile);
+        var egg = GameManager.Placement.CreateOnlyOne($"Facility/Special_MagicEgg", info, Define.PlacementType.Facility);
+        GameManager.Placement.PlacementConfirm(egg, info, true);
+        //GameManager.Facility.CreateFacility_OnlyOne("Special_MagicEgg", info, true);
+
+
+
+        BasementTile tile2 = null;
+        Floor[3].TileMap.TryGetValue(new Vector2Int(3, 2), out tile2);
+        PlacementInfo info2 = new PlacementInfo(Floor[3], tile2);
+        var player = GameManager.Placement.CreatePlacementObject("Player", info2, Define.PlacementType.Monster);
+        var component = player as Player;
+        component.MonsterInit();
+        component.Level_Stat(1);
+        component.State = Monster.MonsterState.Placement;
+        GameManager.Placement.PlacementConfirm(player, info2);
+    }
 
 
 
@@ -118,12 +137,16 @@ public class Main : MonoBehaviour
     {
         Turn = data.turn;
         Final_Score = data.Final_Score;
+
+        Dungeon_Lv = data.DungeonLV;
         FameOfDungeon = data.FameOfDungeon;
         DangerOfDungeon = data.DangerOfDungeon;
+
         Player_Mana = data.Player_Mana;
         Player_Gold = data.Player_Gold;
         Player_AP = data.Player_AP;
         Prisoner = data.Prisoner;
+
         CurrentDay = data.CurrentDay;
 
         _dayList = data.DayResultList;
@@ -135,6 +158,11 @@ public class Main : MonoBehaviour
         FindObjectOfType<UI_Management>().DungeonExpansion();
 
         FindObjectOfType<UI_Management>().Texts_Refresh();
+
+
+
+        //? 플레이어랑 알소환
+        Init_Secret();
     }
     #endregion
 
@@ -497,7 +525,7 @@ public class Main : MonoBehaviour
     void AnimationInit()
     {
         ani_MainUI = FindObjectOfType<UI_Management>().GetComponent<Animator>();
-        ani_Sky = FindObjectOfType<SpriteAnimation>().GetComponent<Animator>();
+        ani_Sky = GameObject.Find("SkyBackground").GetComponent<Animator>();
         layout = FindObjectOfType<UI_Management>().GetComponentInChildren<VerticalLayoutGroup>();
     }
 

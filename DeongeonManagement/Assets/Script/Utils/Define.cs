@@ -51,6 +51,8 @@ public class Define
 
         //Trap,
         Using,
+
+        Special, //? 절대 삭제되지 않아야하는거
     }
 
     public enum PlacementType

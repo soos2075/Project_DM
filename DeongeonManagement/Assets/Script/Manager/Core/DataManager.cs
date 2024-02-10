@@ -32,6 +32,7 @@ public class DataManager
         public int Final_Score;
 
         // 게임 진행상황
+        public int DungeonLV;
         public int FameOfDungeon;
         public int DangerOfDungeon;
 
@@ -149,6 +150,8 @@ public class DataManager
 
         saveData.turn = Main.Instance.Turn;
         saveData.Final_Score = Main.Instance.Final_Score;
+
+        saveData.DungeonLV = Main.Instance.Dungeon_Lv;
 
         saveData.FameOfDungeon = Main.Instance.FameOfDungeon;
         saveData.DangerOfDungeon = Main.Instance.DangerOfDungeon;

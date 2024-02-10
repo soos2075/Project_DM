@@ -12,28 +12,10 @@ public class Miner : NPC
         AvoidTileType = new Define.TileType[] { Define.TileType.NPC, Define.TileType.Monster };
     }
 
-
-    protected override void Initialize_Status()
-    {
-        int index = Random.Range(0, 100);
-        Name_Index = index;
-
-        SetStatus("±¤ºÎ",
-            lv: 1,
-            atk: 5,
-            def: 4,
-            agi: 2,
-            luk: 7,
-            hp: 15,
-            ap: 4,
-            mp: 50,
-            speed: 1.2f,
-            delay: 0.5f);
-
-        Init_AvoidType();
-    }
     protected override void SetPriorityList()
     {
+        Init_AvoidType();
+
         if (PriorityList != null) PriorityList.Clear();
 
 
@@ -42,5 +24,14 @@ public class Miner : NPC
 
         AddList(list1);
         AddList(list2);
+
+
+        {
+            var list5 = GetFacilityPick(Facility.FacilityType.Event);
+            AddList(list5);
+        }
+       
+
+        PickToProbability(GetPriorityPick(typeof(Entrance_Egg)), (PlacementInfo.Place_Floor.FloorIndex + Rank) * 0.04f);
     }
 }

@@ -841,6 +841,11 @@ public class BasementTile
             tileType = Define.TileType.Exit;
             tileType_unchange = Define.TileType.Exit;
         }
+        else if (_placementable.GetType() == typeof(SpecialEgg))
+        {
+            tileType = Define.TileType.Special;
+            tileType_unchange = Define.TileType.Special;
+        }
         else
         {
             tileType = Define.TileType.Facility; //? 입구 출구가 아니고 변하지 않는 퍼실리티 = 지나가면 발동하는 설치형 함정 등등
@@ -907,6 +912,9 @@ public class BasementTile
         {
             case Define.TileType.Empty:
                 return Define.PlaceEvent.Placement;
+
+            case Define.TileType.Special:
+                return Define.PlaceEvent.Event;
 
             case Define.TileType.Entrance:
                 return Define.PlaceEvent.Entrance;

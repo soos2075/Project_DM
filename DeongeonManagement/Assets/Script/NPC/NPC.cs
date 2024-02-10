@@ -8,15 +8,12 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 {
     void Start()
     {
-        Initialize_Status();
         anim = GetComponent<Animator>();
     }
     //void Update()
     //{
 
     //}
-
-
 
     #region Animation
     Animator anim;
@@ -36,8 +33,6 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             SetAnim(_animState);
         } }
 
-
-
     void SetAnim(moveState state)
     {
         if (anim == null)
@@ -48,19 +43,19 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         switch (state)
         {
             case moveState.front:
-                anim.SetTrigger("f");
+                anim.Play("walk_f");
                 break;
 
             case moveState.left:
-                anim.SetTrigger("l");
+                anim.Play("walk_l");
                 break;
 
             case moveState.right:
-                anim.SetTrigger("r");
+                anim.Play("walk_r");
                 break;
 
             case moveState.back:
-                anim.SetTrigger("b");
+                anim.Play("walk_b");
                 break;
         }
     }
@@ -182,6 +177,27 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         PriorityList.Remove(item);
     }
 
+    protected void PickToProbability(List<BasementTile> pick, float probability, AddPos pos = AddPos.Back)
+    {
+        float randomValue = UnityEngine.Random.value;
+        if (randomValue < probability)
+        {
+            AddList(pick);
+        }
+    }
+    protected void RemoveToProbability(List<BasementTile> pick, float probability)
+    {
+        float randomValue = UnityEngine.Random.value;
+        if (randomValue < probability)
+        {
+            foreach (var item in pick)
+            {
+                PriorityRemove(item);
+            }
+        }
+    }
+
+
     #endregion
 
 
@@ -251,42 +267,50 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
 
 
+
+
     #region Npc Status Property
-    public int Name_Index { get; set; }
-    public string Name { get; set; }
-    public int LV { get; set; }
+    public NPC_Data Data { get; private set; }
+    public int Name_Index { get; private set; }
+
+    public int Rank { get; private set; }
+    public string Name { get; private set; }
     public int ATK { get; set; }
     public int DEF { get; set; }
     public int AGI { get; set; }
     public int LUK { get; set; }
 
 
-
     public int HP { get; set; }
-    private int _HP_Origin;
+    public int HP_MAX { get; set; }
     public int ActionPoint { get; set; }
     public int Mana { get; set; }
-
 
 
     public float Speed_Ground { get; set; } //? 클수록 빠름
     public float ActionDelay { get; set; } //? 작을수록 빠름
 
 
-    protected abstract void Initialize_Status();
-
-    protected void SetStatus(string name, int lv, int atk, int def, int agi, int luk, int hp, int ap, int mp, float speed, float delay)
+    public void SetData(NPC_Data data, int index)
     {
-        Name = name; LV = lv;  
-        
-        ATK = atk; DEF = def;
-        AGI = agi; LUK = luk;
+        Data = data;
+        Name_Index = index;
 
-        HP = hp; ActionPoint = ap; Mana = mp;
-        
-        Speed_Ground = speed; ActionDelay = delay;
+        Rank = data.Rank;
 
-        _HP_Origin = hp;
+        Name = data.Name;
+        ATK = data.ATK;
+        DEF = data.DEF;
+        AGI = data.AGI;
+        LUK = data.LUK;
+
+        HP = data.HP;
+        HP_MAX = data.HP_MAX;
+        ActionPoint = data.ActionPoint;
+        Mana = data.Mana;
+
+        Speed_Ground = data.Speed_Ground;
+        ActionDelay = data.ActionDelay;
     }
 
     #endregion
@@ -488,7 +512,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             return NPCState.Runaway;
         }
 
-        if (HP < (_HP_Origin / 4))
+        if (HP < (HP_MAX / 4))
         {
             return NPCState.Runaway;
         }
