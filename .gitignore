@@ -3,7 +3,8 @@
 /기타자료
 DeongeonManagement/Assets/_Asset/
 DeongeonManagement/Assets/*.json
-
+DeongeonManagement/Assets/Resources
+DeongeonManagement/Assets/Animation
 
 
 # This .gitignore file should be placed at the root of your Unity project directory
