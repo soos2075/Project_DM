@@ -13,6 +13,7 @@ public class Mineral_Low : Facility
         Type = FacilityType.Mineral;
         InteractionOfTimes = 3;
         Name = "흔한 바위";
+        Detail_KR = "흔한 던전의 바위입니다. 그렇지만 지상의 바위와는 완전히 다른 물질이에요.";
         Name_prefab = this.GetType().Name;
     }
 

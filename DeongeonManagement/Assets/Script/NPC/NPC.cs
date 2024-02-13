@@ -24,6 +24,11 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         left = 2,
         right = 3,
         back = 4,
+
+        front_Action = 5,
+        left_Action = 6,
+        right_Action = 7,
+        back_Action = 8,
     }
     private moveState _animState;
     public moveState Anim_State { get { return _animState; } 
@@ -57,6 +62,23 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             case moveState.back:
                 anim.Play("walk_b");
                 break;
+
+
+            case moveState.front_Action:
+                anim.Play("ing_f");
+                break;
+
+            case moveState.left_Action:
+                anim.Play("ing_l");
+                break;
+
+            case moveState.right_Action:
+                anim.Play("ing_r");
+                break;
+
+            case moveState.back_Action:
+                anim.Play("ing_b");
+                break;
         }
     }
 
@@ -78,6 +100,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     public string Name_KR { get { return $"{name_Tag_Start}{Name}_{Name_Index}{name_Tag_End}"; } }
     string name_Tag_Start = "<color=#ff4444ff>";
     string name_Tag_End = "</color>";
+
+    public string Detail_KR { get { return Data.Detail; } }
     #endregion
 
 
@@ -309,8 +333,11 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         ActionPoint = data.ActionPoint;
         Mana = data.Mana;
 
-        Speed_Ground = data.Speed_Ground;
-        ActionDelay = data.ActionDelay;
+        float speed = data.Speed_Ground * UnityEngine.Random.Range(0.9f, 1.1f);
+        float delay = data.ActionDelay * UnityEngine.Random.Range(0.9f, 1.1f);
+
+        Speed_Ground = speed;
+        ActionDelay = delay;
     }
 
     #endregion
@@ -419,12 +446,12 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         switch (State)
         {
             case NPCState.Runaway:
-                Main.Instance.FameOfDungeon += 3;
-                Main.Instance.DangerOfDungeon += 1;
+                Main.Instance.CurrentDay.Fame += 3;
+                Main.Instance.CurrentDay.Danger += 1;
                 break;
             case NPCState.Return:
-                Main.Instance.FameOfDungeon += -1;
-                Main.Instance.DangerOfDungeon += -2;
+                Main.Instance.CurrentDay.Fame += -1;
+                Main.Instance.CurrentDay.Danger += -2;
                 break;
         }
     }
@@ -477,8 +504,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         UI_EventBox.AddEventText($"◈{Name_KR} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 쓰러짐");
         GameManager.NPC.InactiveNPC(this);
 
-        Main.Instance.FameOfDungeon += 1;
-        Main.Instance.DangerOfDungeon += 5;
+        Main.Instance.CurrentDay.Fame += 1;
+        Main.Instance.CurrentDay.Danger += 5;
     }
 
     void NPC_Captive()
@@ -627,6 +654,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     {
         for (int i = 1; i < path.Count; i++)
         {
+            //Debug.Log(ActionDelay + Name_KR);
             yield return new WaitForSeconds(ActionDelay);
 
             var encount = path[i].TryPlacement(this, overlap);
@@ -741,6 +769,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             case Define.PlaceEvent.Interaction:
                 StopCoroutine(Cor_Move);
                 Cor_Move = null;
+                GameManager.Placement.LookInteraction(this, PlacementInfo.Place_Tile, next.Place_Tile);
                 Cor_Encounter = StartCoroutine(Encounter_Facility(tile));
                 State = NPCState.Interaction;
                 return true;

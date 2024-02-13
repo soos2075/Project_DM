@@ -146,6 +146,32 @@ public class PlacementManager
         npc.transform.position = endPos.worldPosition;
     }
 
+    public void LookInteraction(NPC npc, BasementTile startPos, BasementTile endPos)
+    {
+        Vector3 dir = endPos.worldPosition - startPos.worldPosition;
+        //Debug.Log(dir);
+        if (dir.x > 0)
+        {
+            //? 무브 오른쪽
+            npc.Anim_State = NPC.moveState.right_Action;
+        }
+        else if (dir.x < 0)
+        {
+            //? 왼쪽
+            npc.Anim_State = NPC.moveState.left_Action;
+        }
+        else if (dir.y > 0)
+        {
+            //? 위
+            npc.Anim_State = NPC.moveState.back_Action;
+        }
+        else if (dir.y < 0)
+        {
+            //? 아래
+            npc.Anim_State = NPC.moveState.front_Action;
+        }
+    }
+
 
 
 

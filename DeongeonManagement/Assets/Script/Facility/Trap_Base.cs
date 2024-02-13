@@ -13,6 +13,7 @@ public class Trap_Base : Facility
         Type = FacilityType.Trap;
         InteractionOfTimes = 1;
         Name = "발밑 함정";
+        Detail_KR = "뻔히 보이는 함정입니만, 피해갈 수 없다면 효과가 있을거에요.";
     }
 
 

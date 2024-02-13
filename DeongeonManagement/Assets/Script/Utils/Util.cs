@@ -96,11 +96,11 @@ public class Util
 
 
 
-            case Define.TextColor.npc:
-                return $"<color=ff4444ff>{text}</color>";
+            case Define.TextColor.npc_red:
+                return $"<color=#ff4444ff>{text}</color>";
 
-            case Define.TextColor.monster:
-                return $"<color=44ff44ff>{text}</color>";
+            case Define.TextColor.monster_green:
+                return $"<color=#44ff44ff>{text}</color>";
 
 
             case Define.TextColor.SkyBlue:
@@ -110,8 +110,7 @@ public class Util
                 return $"<color=#55ff55ff>{text}</color>";
 
             case Define.TextColor.LightYellow:
-                return $"<color=#ffff55ff>>{text}</color>";
-
+                return $"<color=#ffff55ff>{text}</color>";
 
 
             default:

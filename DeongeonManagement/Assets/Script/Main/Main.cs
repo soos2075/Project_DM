@@ -64,7 +64,7 @@ public class Main : MonoBehaviour
 
         ActiveFloor_Basement = 4;
         ActiveFloor_Technical = 1;
-        Dungeon_Lv = 1;
+        DungeonRank = 1;
 
         //DangerOfDungeon = 220;
         //FameOfDungeon = 200;
@@ -138,13 +138,15 @@ public class Main : MonoBehaviour
         Turn = data.turn;
         Final_Score = data.Final_Score;
 
-        Dungeon_Lv = data.DungeonLV;
+        DungeonRank = data.DungeonLV;
         FameOfDungeon = data.FameOfDungeon;
         DangerOfDungeon = data.DangerOfDungeon;
 
         Player_Mana = data.Player_Mana;
         Player_Gold = data.Player_Gold;
         Player_AP = data.Player_AP;
+        AP_MAX = data.AP_MAX;
+
         Prisoner = data.Prisoner;
 
         CurrentDay = data.CurrentDay;
@@ -202,15 +204,22 @@ public class Main : MonoBehaviour
     }
 
     int _fame;
-    public int FameOfDungeon { get { return _fame; } set { _fame = Mathf.Clamp(value, 0, value); } }
+    public int FameOfDungeon { get { return _fame; } private set { _fame = Mathf.Clamp(value, 0, value); } }
     int _danger;
-    public int DangerOfDungeon { get { return _danger; } set { _danger = Mathf.Clamp(value, 0, value); } }
+    public int DangerOfDungeon { get { return _danger; } private set { _danger = Mathf.Clamp(value, 0, value); } }
 
 
-    public int Dungeon_Lv { get; set; }
+    public int DungeonRank { get; set; }
     public int Player_Mana { get; private set; }
     public int Player_Gold { get; private set; }
 
+    
+    public int AP_MAX { get; private set; }
+
+    public void AddAP()
+    {
+        AP_MAX++;
+    }
     public int Player_AP { get; set; }
     public int Prisoner { get; set; }
 
@@ -282,6 +291,15 @@ public class Main : MonoBehaviour
         {
             Use_Kill += value;
         }
+
+        public int Monster_Injury;
+        public int Monster_LvUP;
+
+        public int Fame { get; set; }
+        public int Danger { get; set; }
+
+        public int fame_perv;
+        public int danger_perv;
     }
 
 
@@ -289,12 +307,15 @@ public class Main : MonoBehaviour
     {
         Player_Mana = 300;
         Player_Gold = 200;
-        Player_AP = 3;
+        Player_AP = 2;
+        AP_MAX = 2;
 
 
 
         CurrentDay = new DayResult();
         CurrentDay.SetOrigin(Player_Mana, Player_Gold, Prisoner);
+        CurrentDay.fame_perv = FameOfDungeon;
+        CurrentDay.danger_perv = DangerOfDungeon;
     }
 
 
@@ -305,17 +326,24 @@ public class Main : MonoBehaviour
         _dayList.Add(CurrentDay);
         AddScore(CurrentDay);
 
-        var ui = Managers.UI.ShowPopUp<UI_DayResult>();
-        ui.TextContents(_dayList[Turn - 1]);
 
         Player_Mana += CurrentDay.Get_Mana;
         Player_Gold += CurrentDay.Get_Gold;
-        Player_AP = 3;
+        Player_AP = AP_MAX;
+        FameOfDungeon += CurrentDay.Fame;
+        DangerOfDungeon += CurrentDay.Danger;
 
+        DangerOfDungeon += 10;
+
+        var ui = Managers.UI.ShowPopUp<UI_DayResult>();
+        ui.TextContents(_dayList[Turn - 1]);
+        ui.RankUpResult(EventManager.Instance.TryRankUp(FameOfDungeon, DangerOfDungeon));
         //? 위가 적용 아래가 새로교체
 
         CurrentDay = new DayResult();
         CurrentDay.SetOrigin(Player_Mana, Player_Gold, Prisoner);
+        CurrentDay.fame_perv = FameOfDungeon;
+        CurrentDay.danger_perv = DangerOfDungeon;
     }
 
     #endregion
@@ -372,12 +400,10 @@ public class Main : MonoBehaviour
             }
             else
             {
-                DangerOfDungeon += 10;
-                FindObjectOfType<UI_Management>().Texts_Refresh();
                 DayOver_Dayresult();
-
                 NightEvent();
                 StartCoroutine(TurnOverEvent());
+                FindObjectOfType<UI_Management>().Texts_Refresh();
             }
         }
     }
@@ -437,7 +463,7 @@ public class Main : MonoBehaviour
 
             case 2:
                 Debug.Log("2일차 종료 이벤트 발생");
-                GameManager.Technical.Level_2();
+                //GameManager.Technical.Level_2();
                 break;
 
             case 5:
@@ -451,7 +477,7 @@ public class Main : MonoBehaviour
         }
 
         Debug.Log($"자동저장 : {Turn}일차");
-        Managers.Data.SaveToJson($"DM_Save_{1}", 1);
+        Managers.Data.SaveToJson("AutoSave", 0);
     }
 
 

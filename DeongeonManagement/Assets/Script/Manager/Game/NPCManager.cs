@@ -19,26 +19,27 @@ public class NPCManager
     public Transform guild;
     public Transform dungeonEntrance;
 
-    int Max_NPC { get; set; }
+    int Max_NPC_Value { get; set; }
+    int Current_Value;
     public List<NPC> Current_NPCList;
 
 
     public void TurnStart()
     {
         Calculation_MaxNPC();
-        Debug.Log($"최대 적 숫자 = {Max_NPC}");
+        Debug.Log($"Max Value = {Max_NPC_Value}");
 
         Calculation_Rank();
         Debug.Log($"최대 적 랭크 = {rankList.Count}");
 
         Current_NPCList = new List<NPC>();
 
-        for (int i = 0; i < Max_NPC; i++)
+        for (Current_Value = 0; Current_Value < Max_NPC_Value;)
         {
             InstantiateNPC((NPCType)WeightRandomPicker());
         }
 
-
+        Debug.Log($"생성된 적 숫자 = {Current_NPCList.Count}");
 
 
 
@@ -132,15 +133,19 @@ public class NPCManager
     {
         var obj = GameManager.Placement.CreatePlacementObject($"NPC/{rank.ToString()}", null, Define.PlacementType.NPC);
         NPC _npc = obj as NPC;
+        int _value = 0;
         NPC_Data data = null;
         if (NPCDatas.TryGetValue(rank.ToString(), out data))
         {
             _npc.SetData(data, RandomPicker());
+            _value = data.Rank;
         }
         else
         {
             Debug.Log($"NPC_Data 없음 : {rank.ToString()}");
         }
+        Debug.Log($"{_value}랭크 생성");
+        Current_Value += _value;
         Current_NPCList.Add(_npc);
     }
 
@@ -193,7 +198,7 @@ public class NPCManager
     {
         int ofFame = Main.Instance.FameOfDungeon / 10;
 
-        Max_NPC = Mathf.Clamp(Main.Instance.Turn + ofFame, 5, Main.Instance.Turn + ofFame);
+        Max_NPC_Value = Mathf.Clamp(Main.Instance.Turn + ofFame, 5, Main.Instance.Turn + ofFame);
     }
 
 
@@ -256,8 +261,9 @@ public class NPCManager
 
             npc.PrefabName = "Herbalist_0";
             npc.Name = "약초꾼";
+            npc.Detail = "던전에서 나오는 약초나 풀들을 채취해서 마을과 길드에 공급해주는 역할을 합니다.";
 
-            npc.Rank = 0;
+            npc.Rank = 1;
             npc.ATK = 3;
             npc.DEF = 3;
             npc.AGI = 3;
@@ -268,7 +274,7 @@ public class NPCManager
             npc.ActionPoint = 3;
             npc.Mana = 30;
             npc.Speed_Ground = 1.5f;
-            npc.ActionDelay = 0.9f;
+            npc.ActionDelay = 0.7f;
 
             NPCDatas.Add(npc.PrefabName, npc);
         }
@@ -277,8 +283,9 @@ public class NPCManager
 
             npc.PrefabName = "Herbalist_1";
             npc.Name = "숙련된 약초꾼";
+            npc.Detail = "약초꾼을 업으로 오랜기간 일한 숙련자입니다.";
 
-            npc.Rank = 0;
+            npc.Rank = 2;
             npc.ATK = 6;
             npc.DEF = 6;
             npc.AGI = 6;
@@ -289,7 +296,7 @@ public class NPCManager
             npc.ActionPoint = 4;
             npc.Mana = 80;
             npc.Speed_Ground = 1.55f;
-            npc.ActionDelay = 0.9f;
+            npc.ActionDelay = 0.7f;
 
             NPCDatas.Add(npc.PrefabName, npc);
         }
@@ -299,6 +306,7 @@ public class NPCManager
 
             npc.PrefabName = "Miner_0";
             npc.Name = "광부";
+            npc.Detail = "던전에서 생성되는 다양한 광물을 캐내서 마을에 공급해주는 역할을 합니다.";
 
             npc.Rank = 1;
             npc.ATK = 5;
@@ -320,8 +328,9 @@ public class NPCManager
 
             npc.PrefabName = "Miner_1";
             npc.Name = "숙련된 광부";
+            npc.Detail = "광물캐기 숙련자입니다. 더 오래 효율적으로 일 할 수 있습니다.";
 
-            npc.Rank = 1;
+            npc.Rank = 2;
             npc.ATK = 10;
             npc.DEF = 8;
             npc.AGI = 2;
@@ -343,6 +352,7 @@ public class NPCManager
 
             npc.PrefabName = "Adventurer_0";
             npc.Name = "견습 모험가";
+            npc.Detail = "모험가가 된지 얼마 안된 새내기 모험가입니다. 나름 모험가라서 자원보단 몬스터와 보물에 관심이 있습니다.";
 
             npc.Rank = 2;
             npc.ATK = 7;
@@ -355,7 +365,7 @@ public class NPCManager
             npc.ActionPoint = 4;
             npc.Mana = 40;
             npc.Speed_Ground = 1.6f;
-            npc.ActionDelay = 0.7f;
+            npc.ActionDelay = 0.6f;
 
             NPCDatas.Add(npc.PrefabName, npc);
         }
@@ -364,8 +374,9 @@ public class NPCManager
 
             npc.PrefabName = "Adventurer_1";
             npc.Name = "이름있는 모험가";
+            npc.Detail = "꽤 이름있는 모험가입니다. 전투력과 상황판단능력 등 새내기 모험가와는 비교할 수 없어요.";
 
-            npc.Rank = 2;
+            npc.Rank = 4;
             npc.ATK = 15;
             npc.DEF = 5;
             npc.AGI = 9;
@@ -388,10 +399,11 @@ public class NPCManager
 
 public class NPC_Data
 {
-    public int Rank { get; set; }
+    public int Rank { get; set; } //? 소환시에 랭크만큼의 Value를 빼줌. 강한적만 너무 많이 나오는거 방지용.
 
     public string PrefabName { get; set; }
     public string Name { get; set; }
+    public string Detail { get; set; }
     public int LV { get; set; }
     public int ATK { get; set; }
     public int DEF { get; set; }

@@ -66,7 +66,7 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
 
             var pos = Camera.main.ScreenToWorldPoint(data.position);
             view.transform.localPosition = new Vector3(pos.x, pos.y, 0);
-            view.ViewContents($"[{CurrentTile.placementable.Name_KR}]", $"{CurrentTile.placementable } 자세한 설명은 생략한다.");
+            view.ViewContents($"[{CurrentTile.placementable.Name_KR}]", $"{CurrentTile.placementable.Detail_KR } ");
         }
     }
     public void ChildExitEvent()

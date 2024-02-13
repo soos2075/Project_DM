@@ -76,14 +76,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    IEnumerator WaitOverTalking()
-    {
-        yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
-        isTalking = false;
-    }
+    //IEnumerator WaitOverTalking()
+    //{
+    //    yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
+    //    isTalking = false;
+    //}
+    //bool isTalking;
 
-
-    bool isTalking;
     Interaction_Guild current_NPC;
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -56,10 +56,10 @@ public class UI_Expansion_Floor : UI_Base, IWorldSpaceUI
             return;
         }
 
-        if (NeedGold <= Main.Instance.Player_Gold && NeedMana <= Main.Instance.Player_Mana && NeedLv <= Main.Instance.Dungeon_Lv)
+        if (NeedGold <= Main.Instance.Player_Gold && NeedMana <= Main.Instance.Player_Mana && NeedLv <= Main.Instance.DungeonRank && Main.Instance.Player_AP > 0)
         {
             var ui = Managers.UI.ShowPopUp<UI_Confirm>();
-            ui.SetText($"{FloorIndex}계층을 확장할까요?");
+            ui.SetText($"{FloorIndex}던전을 확장할까요?");
             StartCoroutine(WaitForAnswer(ui));
         }
     }
@@ -73,6 +73,7 @@ public class UI_Expansion_Floor : UI_Base, IWorldSpaceUI
         {
             Main.Instance.CurrentDay.SubtractGold(NeedGold);
             Main.Instance.CurrentDay.SubtractMana(NeedMana);
+            Main.Instance.Player_AP--;
 
             Main.Instance.Basement_Expansion();
             FindObjectOfType<UI_Management>().DungeonExpansion();

@@ -22,16 +22,20 @@ public class UI_SaveLoad : UI_PopUp
         SaveSlot_4,
         SaveSlot_5,
         SaveSlot_6,
+        AutoSave,
     }
 
     public enum Buttons
     {
-        None,
+        Close,
         Save,
         Load,
     }
 
     public Buttons State;
+
+    public Sprite button_Down;
+    public Sprite button_Up;
 
 
     public override void Init()
@@ -42,14 +46,16 @@ public class UI_SaveLoad : UI_PopUp
         Bind<Image>(typeof(Slot));
         Bind<Button>(typeof(Buttons));
 
-        if (State != Buttons.None)
+        if (State != Buttons.Close)
         {
             GetButton(((int)Buttons.Save)).gameObject.SetActive(false);
             GetButton(((int)Buttons.Load)).gameObject.SetActive(false);
         }
 
-        GetButton(((int)Buttons.Save)).gameObject.AddUIEvent((data) => State = Buttons.Save);
-        GetButton(((int)Buttons.Load)).gameObject.AddUIEvent((data) => State = Buttons.Load);
+        GetButton(((int)Buttons.Close)).gameObject.AddUIEvent((data) => ClosePopUp());
+
+        GetButton(((int)Buttons.Save)).gameObject.AddUIEvent((data) => SaveButton());
+        GetButton(((int)Buttons.Load)).gameObject.AddUIEvent((data) => LoadButton());
 
 
 
@@ -67,6 +73,25 @@ public class UI_SaveLoad : UI_PopUp
     }
 
 
+    void SaveButton()
+    {
+        State = Buttons.Save;
+        GetButton(((int)Buttons.Save)).GetComponent<Image>().sprite = button_Down;
+        GetButton(((int)Buttons.Save)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 12, 0, 0);
+
+        GetButton(((int)Buttons.Load)).GetComponent<Image>().sprite = button_Up;
+        GetButton(((int)Buttons.Load)).GetComponentInChildren<TextMeshProUGUI>().margin = Vector4.zero;
+    }
+    void LoadButton()
+    {
+        State = Buttons.Load;
+        GetButton(((int)Buttons.Load)).GetComponent<Image>().sprite = button_Down;
+        GetButton(((int)Buttons.Load)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 12, 0, 0);
+
+        GetButton(((int)Buttons.Save)).GetComponent<Image>().sprite = button_Up;
+        GetButton(((int)Buttons.Save)).GetComponentInChildren<TextMeshProUGUI>().margin = Vector4.zero;
+    }
+
 
     void SlotClickEvent(int index)
     {
@@ -74,11 +99,30 @@ public class UI_SaveLoad : UI_PopUp
         switch (State)
         {
             case Buttons.Save:
+                if (index == 7)
+                {
+                    return;
+                }
                 Managers.Data.SaveToJson($"DM_Save_{index}", index);
                 ShowDataInfo();
                 break;
 
             case Buttons.Load:
+                if (index == 7)
+                {
+                    if (Managers.Data.GetData($"AutoSave") == null)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        Managers.Scene.AddLoadAction_OneTime(() => Main.Instance.Default_Init());
+                        Managers.Scene.AddLoadAction_OneTime(() => Managers.Data.LoadGame($"AutoSave"));
+                        Managers.Scene.LoadSceneAsync("2_Management");
+                        return;
+                    }
+                }
+
                 if (Managers.Data.GetData($"DM_Save_{index}") == null)
                 {
                     return;
@@ -99,17 +143,27 @@ public class UI_SaveLoad : UI_PopUp
 
             if (data != null)
             {
-                GetImage(i - 1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{data.turn}일차";
+                GetImage(i - 1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{i}번 슬롯";
                 GetImage(i - 1).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{data.dateTime}";
-                GetImage(i - 1).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"유명도 : {data.FameOfDungeon} / 위험도 : {data.DangerOfDungeon}";
+                GetImage(i - 1).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = 
+                    $"{data.turn}일차\n유명도 : {data.FameOfDungeon} / 위험도 : {data.DangerOfDungeon}";
             }
             else
             {
-                GetImage(i - 1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"데이터 없음";
+                GetImage(i - 1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{i}번 슬롯";
                 GetImage(i - 1).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"";
-                GetImage(i - 1).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"";
+                GetImage(i - 1).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"데이터 없음";
             }
         }
+        ShowAutoInfo();
+    }
+    void ShowAutoInfo()
+    {
+        var autodata = Managers.Data.GetData($"AutoSave");
+        GetImage(((int)Slot.AutoSave)).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"자동저장";
+        GetImage(((int)Slot.AutoSave)).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{autodata.dateTime}";
+        GetImage(((int)Slot.AutoSave)).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = 
+            $"{autodata.turn}일차\n유명도 : {autodata.FameOfDungeon} / 위험도 : {autodata.DangerOfDungeon}";
     }
 
 

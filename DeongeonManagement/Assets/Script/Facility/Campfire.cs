@@ -13,6 +13,7 @@ public class Campfire : Facility
         Type = FacilityType.RestZone;
         InteractionOfTimes = 4;
         Name = "모닥불";
+        Detail_KR = "모험가들이 쉬어가며 체력과 기력을 회복할 수 있습니다.";
         Name_prefab = this.GetType().Name;
     }
 
@@ -22,7 +23,7 @@ public class Campfire : Facility
         if (InteractionOfTimes > 0)
         {
             InteractionOfTimes--;
-            Cor_Facility = StartCoroutine(FacilityEvent(npc, 2, "휴식중...", ap: 1, mp: -10, hp: -5));
+            Cor_Facility = StartCoroutine(FacilityEvent(npc, 5, "휴식중...", ap: 1, mp: -10, hp: -5));
             return Cor_Facility;
         }
         else

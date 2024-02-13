@@ -13,6 +13,7 @@ public class Treasure_Base : Facility
         Type = FacilityType.Treasure;
         InteractionOfTimes = 1;
         Name = "보물";
+        Detail_KR = "모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.";
     }
 
 

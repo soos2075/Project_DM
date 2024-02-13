@@ -13,6 +13,7 @@ public class Entrance : Facility
         InteractionOfTimes = 10000;
         Type = FacilityType.Entrance;
         Name = "입구";
+        Detail_KR = "던전의 더 깊은곳으로 이어지는 출입구입니다.";
         Name_prefab = this.GetType().Name;
     }
 

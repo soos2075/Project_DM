@@ -20,10 +20,13 @@ public interface IPlacementable
 {
     Define.PlacementType PlacementType { get; set; }
     string Name_KR { get; }
+    string Detail_KR { get; }
 
     PlacementInfo PlacementInfo { get; set; }
 
     GameObject GetObject();
+
+
 
 }
 

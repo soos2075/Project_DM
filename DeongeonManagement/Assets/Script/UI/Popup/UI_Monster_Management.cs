@@ -255,7 +255,7 @@ public class UI_Monster_Management : UI_PopUp
                 GetButton(((int)Buttons.Release)).gameObject.
                     AddUIEvent((data) => GameManager.Monster.ReleaseMonster(Current.monster.MonsterID));
 
-                int RecoverCost = (int)(Current.monster.LV * Current.monster.Data.ManaCost * 0.7f);
+                int RecoverCost = (int)(((Current.monster.LV * 0.2f) + 0.5f) * Current.monster.Data.ManaCost);
                 GetButton(((int)Buttons.Recover)).gameObject.
                     AddUIEvent((data) => Current.monster.Recover(RecoverCost));
 

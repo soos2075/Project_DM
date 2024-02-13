@@ -39,6 +39,7 @@ public class DataManager
         public int Player_Mana;
         public int Player_Gold;
         public int Player_AP;
+        public int AP_MAX;
 
         public int Prisoner;
         public Main.DayResult CurrentDay;
@@ -151,13 +152,17 @@ public class DataManager
         saveData.turn = Main.Instance.Turn;
         saveData.Final_Score = Main.Instance.Final_Score;
 
-        saveData.DungeonLV = Main.Instance.Dungeon_Lv;
+        saveData.DungeonLV = Main.Instance.DungeonRank;
 
         saveData.FameOfDungeon = Main.Instance.FameOfDungeon;
         saveData.DangerOfDungeon = Main.Instance.DangerOfDungeon;
+
         saveData.Player_Mana = Main.Instance.Player_Mana;
         saveData.Player_Gold = Main.Instance.Player_Gold;
+
         saveData.Player_AP = Main.Instance.Player_AP;
+        saveData.AP_MAX = Main.Instance.AP_MAX;
+
         saveData.Prisoner = Main.Instance.Prisoner;
         saveData.CurrentDay = Main.Instance.CurrentDay;
 

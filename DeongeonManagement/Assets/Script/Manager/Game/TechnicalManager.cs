@@ -133,8 +133,8 @@ public class TechnicalManager
 
         {
             TechnicalData content = new TechnicalData("HerbFarm");
-            content.SetName("허브농장", "2일마다 주변의 층에 약초를 공급해줍니다. 가끔 좋은 약초가 나올때도 있어요!");
-            content.SetCondition(50, 50, 1);
+            content.SetName("허브농장", "2일마다 활성화 된 모든 층에 약초를 공급해줍니다. 가끔 좋은 약초가 나올때도 있어요!");
+            content.SetCondition(200, 100, 1);
             content.sprite = Managers.Sprite.GetSprite("HerbFarm");
             content.action = (data) => CreateAction("HerbFarm");
 
@@ -146,7 +146,7 @@ public class TechnicalManager
         {
             TechnicalData content = new TechnicalData("HerbFarm");
             content.SetName("레벨2 건물", "레벨 2가 되면 추가되는 시설 예정 / 던전레벨 시스템 만들고나서 수정필요");
-            content.SetCondition(50, 50, 1);
+            content.SetCondition(300, 150, 2);
             content.sprite = Managers.Sprite.GetSprite("HerbFarm");
             content.action = (data) => CreateAction("HerbFarm");
 

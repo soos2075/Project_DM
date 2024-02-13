@@ -41,20 +41,28 @@ public class HerbFarm : Technical
         float ranValue;
 
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < Main.Instance.ActiveFloor_Basement; i++)
         {
-            ranValue = UnityEngine.Random.value;
-
-            var tile = Main.Instance.Floor[i].GetRandomTile();
-            var info = new PlacementInfo(Main.Instance.Floor[i], tile);
-
-            if (ranValue > 0.7f)
+            if (i == 3)
             {
-                GameManager.Facility.CreateFacility("Herb_High", info);
+                continue;
             }
-            else
+
+            for (int k = 0; k < 3; k++)
             {
-                GameManager.Facility.CreateFacility("Herb_Low", info);
+                ranValue = UnityEngine.Random.value;
+
+                var tile = Main.Instance.Floor[i].GetRandomTile();
+                var info = new PlacementInfo(Main.Instance.Floor[i], tile);
+
+                if (ranValue > 0.75f)
+                {
+                    GameManager.Facility.CreateFacility("Herb_High", info);
+                }
+                else
+                {
+                    GameManager.Facility.CreateFacility("Herb_Low", info);
+                }
             }
         }
     }

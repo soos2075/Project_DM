@@ -82,7 +82,7 @@ public class UI_EventBox : UI_Scene
         GetObject((int)Contents.Maximize).gameObject.AddUIEvent((data) => BoxActive(Current));
         GetObject((int)Contents.Minimize).gameObject.AddUIEvent((data) => BoxActive(Current));
 
-        GetObject((int)Contents.Minimize).GetComponent<Image>().sprite = Managers.Sprite.SmallButtons(SpriteManager.UI_Small_Buttons.Plus_Normal);
+        //GetObject((int)Contents.Minimize).GetComponent<Image>().sprite = Managers.Sprite.SmallButtons(SpriteManager.UI_Small_Buttons.Plus_Normal);
 
 
         mainText.text = "";

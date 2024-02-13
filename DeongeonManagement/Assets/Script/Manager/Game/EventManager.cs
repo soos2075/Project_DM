@@ -26,6 +26,13 @@ public class EventManager : MonoBehaviour
     private void Awake()
     {
         Init();
+        if (_instance != null)
+        {
+            if (_instance != this)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
     private void Start()
     {
@@ -46,11 +53,11 @@ public class EventManager : MonoBehaviour
 
     void AddDialogueAction()
     {
-        DialogueAction.Add(2100, () => GuildManager.Instance.AddBackAction(() => Main.Instance.FameOfDungeon += 15));
+        DialogueAction.Add(2100, () => GuildManager.Instance.AddBackAction(() => Main.Instance.CurrentDay.Fame += 15));
     }
     void AddEventAction()
     {
-        EventAction.Add("DungeonLevelUp", () => Main.Instance.Dungeon_Lv++);
+        EventAction.Add("DungeonLevelUp", () => DungeonLvUp());
     }
 
     public Action GetAction(int dialogueID)
@@ -66,6 +73,44 @@ public class EventManager : MonoBehaviour
         EventAction.TryGetValue(eventName, out action);
         return action;
     }
+
+
+
+    public bool TryRankUp(int fame, int danger)
+    {
+        if (Main.Instance.DungeonRank == 1 && fame + danger >= 200)
+        {
+            DungeonLvUp();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    void DungeonLvUp()
+    {
+        Main.Instance.DungeonRank++;
+        DungeonLvApply();
+    }
+    void DungeonLvApply()
+    {
+        switch (Main.Instance.DungeonRank)
+        {
+            case 1:
+                break;
+
+            case 2:
+                GameManager.Technical.Level_2();
+                FindObjectOfType<Player>().Level_Stat(Main.Instance.DungeonRank);
+                Main.Instance.AddAP();
+                break;
+
+            case 3:
+                break;
+        }
+    }
+
 }
 
 public class QuestData

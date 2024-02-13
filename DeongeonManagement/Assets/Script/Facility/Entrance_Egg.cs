@@ -13,6 +13,7 @@ public class Entrance_Egg : Facility
         InteractionOfTimes = 10000;
         Type = FacilityType.Portal;
         Name = "비밀문";
+        Detail_KR = "던전의 숨겨진 공간으로 이동할 수 있는 출입구입니다.";
         Name_prefab = this.GetType().Name;
     }
 

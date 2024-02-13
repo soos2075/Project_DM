@@ -88,8 +88,8 @@ public class Define
         white,
         black,
 
-        npc,
-        monster,
+        npc_red,
+        monster_green,
 
         SkyBlue,
         LightGreen,

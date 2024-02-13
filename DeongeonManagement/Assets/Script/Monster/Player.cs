@@ -7,13 +7,14 @@ public class Player : Monster
     public override MonsterType Type { get; set; }
     public override MonsterData Data { get; set; }
 
+    public override string Detail_KR { get { return detail; } }
+    private string detail;
     public override void MonsterInit()
     {
         Type = MonsterType.Normal_Fixed;
         PlacementType = Define.PlacementType.Monster;
         //Data = GameManager.Monster.GetMonsterData("Skeleton");
-
-
+        detail = "모험이 끝난 모험가입니다. 모험가로서의 지식은 상당한 편이에요.";
     }
 
     public void Level_Stat(int dungeonLV)
@@ -22,13 +23,13 @@ public class Player : Monster
         {
             case 1:
                 LV = 1;
-                HP = 30;
-                HP_Max = 30;
+                HP = 25;
+                HP_Max = 25;
 
-                ATK = 10;
-                DEF = 5;
-                AGI = 5;
-                LUK = 5;
+                ATK = 7;
+                DEF = 4;
+                AGI = 4;
+                LUK = 4;
 
                 break;
 
@@ -37,10 +38,22 @@ public class Player : Monster
                 HP = 50;
                 HP_Max = 50;
 
-                ATK = 20;
-                DEF = 10;
-                AGI = 10;
-                LUK = 10;
+                ATK = 14;
+                DEF = 8;
+                AGI = 8;
+                LUK = 8;
+                break;
+
+
+            case 3:
+                LV = 3;
+                HP = 75;
+                HP_Max = 75;
+
+                ATK = 21;
+                DEF = 12;
+                AGI = 12;
+                LUK = 12;
                 break;
         }
     }

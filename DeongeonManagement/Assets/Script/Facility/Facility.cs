@@ -26,6 +26,8 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         return this.gameObject;
     }
     public string Name_KR { get { return Name; } }
+
+    public string Detail_KR { get; protected set; }
     #endregion
 
 

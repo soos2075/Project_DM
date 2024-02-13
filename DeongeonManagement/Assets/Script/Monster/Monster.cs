@@ -24,6 +24,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     public string Name_KR { get { return $"{name_Tag_Start}{Name}{name_Tag_End}"; } }
     private string name_Tag_Start = "<color=#44ff44ff>";
     private string name_Tag_End = "</color>";
+
+    public virtual string Detail_KR { get { return Data.detail; } }
     #endregion
 
 
@@ -252,6 +254,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
             HP = HP_Max;
             State = MonsterState.Standby;
             Debug.Log("회복성공");
+            Main.Instance.Player_AP--;
         }
         else
         {
