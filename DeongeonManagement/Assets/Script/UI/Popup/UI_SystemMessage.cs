@@ -47,6 +47,6 @@ public class UI_SystemMessage : UI_PopUp
         yield return new WaitForEndOfFrame();
         var size = GetObject(((int)Contents.Message)).GetComponent<RectTransform>().sizeDelta;
 
-        GetObject(((int)Contents.BG)).GetComponent<RectTransform>().sizeDelta = size + new Vector2(40, 0);
+        GetObject(((int)Contents.BG)).GetComponent<RectTransform>().sizeDelta = size + new Vector2(60, 40);
     }
 }

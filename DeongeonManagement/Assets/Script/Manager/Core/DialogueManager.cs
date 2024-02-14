@@ -37,6 +37,8 @@ public class DialogueManager
 
     public IDialogue ShowDialogueUI(SO_DialogueData data, Transform pos = null)
     {
+        Managers.Instance.StartCoroutine(HideCanvas());
+
         switch (data.Type)
         {
             case SO_DialogueData.DialogueType.Box:
@@ -61,6 +63,28 @@ public class DialogueManager
             return;
         }
         ShowDialogueUI(data, pos);
+    }
+
+
+    IEnumerator HideCanvas()
+    {
+        var canvas = GameObject.FindObjectsOfType<Canvas>();
+
+        foreach (var item in canvas)
+        {
+            item.enabled = false;
+        }
+
+        yield return null;
+        yield return new WaitUntil(() => GetState() == DialogueState.None);
+
+        foreach (var item in canvas)
+        {
+            if (item != null)
+            {
+                item.enabled = true;
+            }
+        }
     }
 
 

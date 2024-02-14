@@ -31,6 +31,7 @@ public class UI_Placement_Technical : UI_PopUp
     enum Info
     {
         CurrentMana,
+        NeedMana,
     }
 
     public UI_Technical parents { get; set; }
@@ -51,28 +52,64 @@ public class UI_Placement_Technical : UI_PopUp
         Bind<TextMeshProUGUI>(typeof(Info));
 
 
-        Init_Texts();
-
         Init_Preview();
         Init_Buttons();
         Init_Contents();
+        Init_Texts();
+        Clear_NeedText();
     }
 
     void Init_Texts()
     {
-        GetTMP((int)Info.CurrentMana).text = $"현재 마나 : {Main.Instance.Player_Mana}";
-        GetTMP((int)Info.CurrentMana).text += $"\n현재 골드 : {Main.Instance.Player_Gold}";
+        GetTMP((int)Info.CurrentMana).text = $"마나\t{Main.Instance.Player_Mana}";
+        GetTMP((int)Info.CurrentMana).text += $"\n골드\t{Main.Instance.Player_Gold}";
+        GetTMP((int)Info.CurrentMana).text += $"\n행동력\t{Main.Instance.Player_AP}";
+    }
+
+    void Clear_NeedText()
+    {
+        GetTMP((int)Info.NeedMana).text = "";
+    }
+    void Set_NeedTexts(int mana, int gold, int ap)
+    {
+        if (mana == 0)
+        {
+            GetTMP((int)Info.NeedMana).text = $"\n";
+        }
+        else
+        {
+            GetTMP((int)Info.NeedMana).text = $"-{mana}";
+        }
+
+        if (gold == 0)
+        {
+            GetTMP((int)Info.NeedMana).text += $"\n";
+        }
+        else
+        {
+            GetTMP((int)Info.NeedMana).text += $"\n-{gold}";
+        }
+
+        if (ap == 0)
+        {
+            GetTMP((int)Info.NeedMana).text += $"\n";
+        }
+        else
+        {
+            GetTMP((int)Info.NeedMana).text += $"\n-{ap}";
+        }
     }
 
     void Init_Preview()
     {
         for (int i = 0; i < 3; i++)
         {
+            GetObject(i + 3).transform.parent.GetComponent<Image>().color = Color.clear;
             GetObject(i + 3).GetComponent<Image>().color = Color.clear;
             GetObject(i + 3).GetComponentInChildren<TextMeshProUGUI>().text = "";
         }
 
-        GetObject((int)Preview.Preview_Image).GetComponent<Image>().sprite = Managers.Sprite.GetSprite("Nothing");
+        GetObject((int)Preview.Preview_Image).GetComponent<Image>().sprite = Managers.Sprite.GetClear();
         GetObject((int)Preview.Preview_Text_Title).GetComponent<TextMeshProUGUI>().text = "";
         GetObject((int)Preview.Preview_Text_Contents).GetComponent<TextMeshProUGUI>().text = "";
     }
@@ -100,9 +137,10 @@ public class UI_Placement_Technical : UI_PopUp
         Current = content;
         for (int i = 0; i < childList.Count; i++)
         {
-            childList[i].ChangePanelColor(Define.Color_Gray);
+            childList[i].ChangePanelColor(Define.Color_Gamma_4);
         }
         PreviewRefresh(content);
+        Set_NeedTexts(content.need_Mana, content.need_Gold, content.need_AP);
     }
 
 
@@ -120,5 +158,7 @@ public class UI_Placement_Technical : UI_PopUp
 
         //GetButton((int)Buttons.Confirm).gameObject.AddUIEvent(content.boundaryOption[optionIndex].Action);
     }
+
+
 
 }

@@ -498,14 +498,27 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
     void NPC_Die()
     {
+        var prison = GameManager.Technical.Prison;
+        if (prison != null)
+        {
+            var ran = UnityEngine.Random.Range(0, 10);
+            if (ran > 4)
+            {
+                NPC_Captive();
+                return;
+            }
+        }
+
+
         Main.Instance.CurrentDay.AddKill(1);
-        Main.Instance.CurrentDay.AddGold(100);
+        //Main.Instance.CurrentDay.AddGold(100);
         Debug.Log($"{name}(이)가 죽음 + 자세한 사유는 이후에 추가");
         UI_EventBox.AddEventText($"◈{Name_KR} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 쓰러짐");
         GameManager.NPC.InactiveNPC(this);
 
         Main.Instance.CurrentDay.Fame += 1;
         Main.Instance.CurrentDay.Danger += 5;
+        Main.Instance.CurrentDay.AddGold(Data.Rank * UnityEngine.Random.Range(20, 30));
     }
 
     void NPC_Captive()
@@ -516,6 +529,9 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         GameManager.NPC.InactiveNPC(this);
 
 
+        Main.Instance.CurrentDay.Fame += 2;
+        Main.Instance.CurrentDay.Danger += 7;
+        Main.Instance.CurrentDay.AddGold(Data.Rank * UnityEngine.Random.Range(40, 60));
     }
 
 

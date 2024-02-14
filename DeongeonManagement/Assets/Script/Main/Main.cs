@@ -47,9 +47,9 @@ public class Main : MonoBehaviour
         }
 
 
-        BasementFloorInit();
+        Init_BasementFloor();
         _dayList = new List<DayResult>();
-        AnimationInit();
+        Init_Animation();
         FindObjectOfType<UI_Management>().Start_Main();
 
         _DefaultSetting = true;
@@ -66,15 +66,21 @@ public class Main : MonoBehaviour
         ActiveFloor_Technical = 1;
         DungeonRank = 1;
 
-        //DangerOfDungeon = 220;
-        //FameOfDungeon = 200;
+        DangerOfDungeon = 100;
+        FameOfDungeon = 200;
 
-        BasementFloorInit();
+        Player_Mana = 500;
+        Player_Gold = 500;
+        Player_AP = 2;
+        AP_MAX = 2;
+
+
+        Init_BasementFloor();
         _dayList = new List<DayResult>();
-        AnimationInit();
+        Init_Animation();
         FindObjectOfType<UI_Management>().Start_Main();
 
-        ManagementInit();
+        Init_DayResult();
 
         ExpansionConfirm();
         GameManager.Technical.Expantion_Technical();
@@ -89,6 +95,7 @@ public class Main : MonoBehaviour
 
     IEnumerator NextStart()
     {
+        yield return null;
         yield return new WaitForEndOfFrame();
         Instantiate_Egg();
         yield return new WaitForEndOfFrame();
@@ -97,6 +104,8 @@ public class Main : MonoBehaviour
         message.Message = "던전에 다양한 시설과 몬스터들을 배치하여 모험가들에게 마나를 얻으세요!\n\n" +
             "마나는 기본적으로 모험가들이 던전에서 행하는 모든 행동에서 얻을 수 있어요.";
 
+        //? 테스팅
+        EventManager.Instance.TryRankUp(FameOfDungeon, DangerOfDungeon);
     }
     void Instantiate_Egg()
     {
@@ -179,6 +188,11 @@ public class Main : MonoBehaviour
         {
             ActiveFloor_Basement++;
             ExpansionConfirm();
+
+            if (ActiveFloor_Basement == 5)
+            {
+                Technical_Expansion();
+            }
         }
     }
     public void Technical_Expansion()
@@ -303,15 +317,8 @@ public class Main : MonoBehaviour
     }
 
 
-    void ManagementInit()
+    void Init_DayResult()
     {
-        Player_Mana = 300;
-        Player_Gold = 200;
-        Player_AP = 2;
-        AP_MAX = 2;
-
-
-
         CurrentDay = new DayResult();
         CurrentDay.SetOrigin(Player_Mana, Player_Gold, Prisoner);
         CurrentDay.fame_perv = FameOfDungeon;
@@ -548,7 +555,7 @@ public class Main : MonoBehaviour
     Animator ani_Sky;
     VerticalLayoutGroup layout;
 
-    void AnimationInit()
+    void Init_Animation()
     {
         ani_MainUI = FindObjectOfType<UI_Management>().GetComponent<Animator>();
         ani_Sky = GameObject.Find("SkyBackground").GetComponent<Animator>();
@@ -584,7 +591,7 @@ public class Main : MonoBehaviour
 
     public Vector2Int[] CurrentBoundary { get; set; } = Define.Boundary_Cross_1;
 
-    void BasementFloorInit()
+    void Init_BasementFloor()
     {
         Floor = FindObjectsOfType<BasementFloor>();
         System.Array.Sort(Floor, (a, b) =>

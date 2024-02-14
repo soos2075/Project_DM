@@ -33,6 +33,7 @@ public class UI_Placement_Facility : UI_PopUp
     enum Info
     {
         CurrentMana,
+        NeedMana,
     }
 
 
@@ -57,18 +58,54 @@ public class UI_Placement_Facility : UI_PopUp
         Init_Buttons();
         Init_Contents();
         Init_Texts();
+        Clear_NeedText();
     }
 
     void Init_Texts()
     {
-        GetTMP((int)Info.CurrentMana).text = $"현재 마나 : {Main.Instance.Player_Mana}";
-        GetTMP((int)Info.CurrentMana).text += $"\n현재 골드 : {Main.Instance.Player_Gold}";
+        GetTMP((int)Info.CurrentMana).text = $"마나\t{Main.Instance.Player_Mana}";
+        GetTMP((int)Info.CurrentMana).text += $"\n골드\t{Main.Instance.Player_Gold}";
+        GetTMP((int)Info.CurrentMana).text += $"\n행동력\t{Main.Instance.Player_AP}";
+    }
+    void Clear_NeedText()
+    {
+        GetTMP((int)Info.NeedMana).text = "";
+    }
+    void Set_NeedTexts(int mana, int gold, int ap)
+    {
+        if (mana == 0)
+        {
+            GetTMP((int)Info.NeedMana).text = $"";
+        }
+        else
+        {
+            GetTMP((int)Info.NeedMana).text = $"-{mana}";
+        }
+
+        if (gold == 0)
+        {
+            GetTMP((int)Info.NeedMana).text += $"\n";
+        }
+        else
+        {
+            GetTMP((int)Info.NeedMana).text += $"\n-{gold}";
+        }
+
+        if (ap == 0)
+        {
+            GetTMP((int)Info.NeedMana).text += $"\n";
+        }
+        else
+        {
+            GetTMP((int)Info.NeedMana).text += $"\n-{ap}";
+        }
     }
 
     void Init_Preview()
     {
         for (int i = 0; i < 3; i++)
         {
+            GetObject(i + 3).transform.parent.GetComponent<Image>().color = Color.clear;
             GetObject(i + 3).GetComponent<Image>().color = Color.clear;
             GetObject(i + 3).GetComponentInChildren<TextMeshProUGUI>().text = "";
         }
@@ -104,10 +141,11 @@ public class UI_Placement_Facility : UI_PopUp
         Current = content;
         for (int i = 0; i < childList.Count; i++)
         {
-            childList[i].ChangePanelColor(Define.Color_Gray);
+            childList[i].ChangePanelColor(Define.Color_Gamma_4);
         }
 
         ViewCurrentContents(content);
+        Set_NeedTexts(content.need_Mana, content.need_Gold, content.need_AP);
     }
 
     void ViewCurrentContents(ContentData content)
@@ -123,6 +161,7 @@ public class UI_Placement_Facility : UI_PopUp
         //? 옵션 버튼 초기화
         for (int i = 0; i < 3; i++)
         {
+            GetObject(i + 3).transform.parent.GetComponent<Image>().color = Color.clear;
             GetObject(i + 3).GetComponent<Image>().color = Color.clear;
             GetObject(i + 3).GetComponentInChildren<TextMeshProUGUI>().text = "";
         }
@@ -130,13 +169,16 @@ public class UI_Placement_Facility : UI_PopUp
         for (int i = 0; i < content.boundaryOption.Count; i++)
         {
             //? i + 3은 각각 Option_1,2,3의 인덱스임
-            GetObject(i + 3).AddUIEvent((data) => PreviewRefresh(content, data.selectedObject.transform.GetSiblingIndex() - 3));
+            GetObject(i + 3).AddUIEvent((data) => PreviewRefresh(content, data.selectedObject.transform.parent.GetSiblingIndex() - 3));
 
+            GetObject(i + 3).transform.parent.GetComponent<Image>().color = Color.white;
             GetObject(i + 3).GetComponent<Image>().color = Color.white;
             GetObject(i + 3).GetComponentInChildren<TextMeshProUGUI>().text += content.boundaryOption[i].addMana != 0? 
                 $"마나 +{content.boundaryOption[i].addMana}" : "";
             GetObject(i + 3).GetComponentInChildren<TextMeshProUGUI>().text += content.boundaryOption[i].addGold != 0?
-                $"골드 +{content.boundaryOption[i].addGold}" : "";
+                $"\n골드 +{content.boundaryOption[i].addGold}" : "";
+            GetObject(i + 3).GetComponentInChildren<TextMeshProUGUI>().text += content.boundaryOption[i].addAP != 0 ?
+                $"\n행동력 +{content.boundaryOption[i].addAP}" : "";
         }
     }
 
@@ -149,13 +191,62 @@ public class UI_Placement_Facility : UI_PopUp
         GetObject((int)Preview.Preview_Text_Contents).GetComponent<TextMeshProUGUI>().text += content.boundaryOption[optionIndex].optionText;
 
         GetButton((int)Buttons.Confirm).gameObject.RemoveUIEventAll();
-        GetButton((int)Buttons.Confirm).gameObject.AddUIEvent(content.boundaryOption[optionIndex].Action);
+        //GetButton((int)Buttons.Confirm).gameObject.AddUIEvent(content.boundaryOption[optionIndex].Action);
+
+        int mana = content.need_Mana + content.boundaryOption[optionIndex].addMana;
+        int gold = content.need_Gold + content.boundaryOption[optionIndex].addGold;
+        int ap = content.need_AP + content.boundaryOption[optionIndex].addAP;
+
+
+        Set_NeedTexts(mana, gold, ap);
+
+        GetButton((int)Buttons.Confirm).gameObject.AddUIEvent((data) => ConfirmCheck(mana, gold, content.need_LV, ap, 
+            content.boundaryOption[optionIndex].Action));
     }
 
 
 
+    bool ConfirmCheck(int mana, int gold, int lv, int ap, Action action)
+    {
+        if (Main.Instance.Player_Mana < mana)
+        {
+            var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+            msg.Message = "마나가 부족합니다";
+            return false;
+        }
+        if (Main.Instance.Player_Gold < gold)
+        {
+            var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+            msg.Message = "골드가 부족합니다";
+            return false;
+        }
+        if (Main.Instance.DungeonRank < lv)
+        {
+            var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+            msg.Message = "던전 등급이 부족합니다";
+            return false;
+        }
+        if (Main.Instance.Player_AP < ap)
+        {
+            var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+            msg.Message = "행동력이 부족합니다";
+            return false;
+        }
 
 
+
+        Main.Instance.CurrentAction = () => SubAction(mana, gold, ap);
+        action.Invoke();
+        return true;
+    }
+
+
+    void SubAction(int mana, int gold, int ap)
+    {
+        Main.Instance.CurrentDay.SubtractMana(mana);
+        Main.Instance.CurrentDay.SubtractGold(gold);
+        Main.Instance.Player_AP -= ap;
+    }
 
 
 }

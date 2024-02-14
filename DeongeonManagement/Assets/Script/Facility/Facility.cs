@@ -100,9 +100,15 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         
 
         Cor_Facility = null;
-
+        OverCor(npc);
         ClearCheck();
     }
+
+    protected virtual void OverCor(NPC npc)
+    {
+        
+    }
+
 
     protected void ClearCheck()
     {

@@ -102,6 +102,7 @@ public class Define
     public static readonly int ANIM_attack = Animator.StringToHash("attack");
     public static readonly int ANIM_idle = Animator.StringToHash("idle");
     public static readonly int ANIM_dead = Animator.StringToHash("dead");
+    public static readonly int ANIM_interaction = Animator.StringToHash("interaction");
 
     #endregion
 
@@ -116,6 +117,20 @@ public class Define
 
     public static readonly Color Color_Yellow = new Color32(255, 255, 100, 175);
     public static readonly Color Color_Dark = new Color32(50, 50, 50, 175);
+
+    public static readonly Color Color_Alpha_0 = new Color32(255, 255, 255, 255);
+    public static readonly Color Color_Alpha_1 = new Color32(255, 255, 255, 235);
+    public static readonly Color Color_Alpha_2 = new Color32(255, 255, 255, 215);
+    public static readonly Color Color_Alpha_3 = new Color32(255, 255, 255, 195);
+    public static readonly Color Color_Alpha_4 = new Color32(255, 255, 255, 175);
+    public static readonly Color Color_Alpha_5 = new Color32(255, 255, 255, 155);
+
+    public static readonly Color Color_Gamma_0 = new Color32(255, 255, 255, 255);
+    public static readonly Color Color_Gamma_1 = new Color32(235, 235, 235, 255);
+    public static readonly Color Color_Gamma_2 = new Color32(215, 215, 215, 255);
+    public static readonly Color Color_Gamma_3 = new Color32(190, 190, 190, 255);
+    public static readonly Color Color_Gamma_4 = new Color32(170, 170, 170, 255);
+    public static readonly Color Color_Gamma_5 = new Color32(150, 150, 150, 255);
     #endregion Image_Color
 
 

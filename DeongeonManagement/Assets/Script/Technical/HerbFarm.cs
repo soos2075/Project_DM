@@ -8,20 +8,22 @@ using UnityEngine.UI;
 public class HerbFarm : Technical
 {
 
-    public override void Init()
-    {
-        //Date = Main.Instance.Turn;
-        Cycle = 2;
-
-        AddTurnEvent((turn) => MainEvent(turn), DayType.Day);
-
-        //FindObjectOfType<UI_Technical>().CurrentTechnical = this;
-    }
-
-
     public override int InstanceDate { get; set; }
     public override int Cycle { get; set; }
 
+    Action<int> action;
+    public override void Init()
+    {
+        Cycle = 2;
+        action = (turn) => { MainEvent(turn); };
+
+        AddTurnEvent(action, DayType.Day);
+    }
+
+    public override void RemoveTechnical()
+    {
+        RemoveTurnEvent(action, DayType.Day);
+    }
 
 
     protected override void MainEvent(int turn)
@@ -66,5 +68,6 @@ public class HerbFarm : Technical
             }
         }
     }
+
 
 }

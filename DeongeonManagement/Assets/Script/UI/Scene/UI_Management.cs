@@ -24,12 +24,13 @@ public class UI_Management : UI_Base
 
         if (Managers.UI._popupStack.Count > 0)
         {
-            canvas.sortingOrder = -1;
+            canvas.sortingOrder = 1;
         }
         else
         {
             canvas.sortingOrder = 5;
         }
+
     }
 
 

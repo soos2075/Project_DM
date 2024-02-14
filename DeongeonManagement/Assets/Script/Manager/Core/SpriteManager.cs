@@ -12,7 +12,7 @@ public class SpriteManager
 
     Sprite[] ui_small_buttons;
 
-
+    Sprite clear;
 
 
     public enum UI_Small_Buttons
@@ -28,6 +28,7 @@ public class SpriteManager
     public void Init()
     {
         ui_small_buttons = Resources.LoadAll<Sprite>("Sprite/UI/ui-small-buttons");
+        clear = Resources.Load<Sprite>("Sprite/UI/Clear");
     }
 
 
@@ -48,5 +49,9 @@ public class SpriteManager
         return sprite;
     }
 
+    public Sprite GetClear()
+    {
+        return clear;
+    }
 
 }

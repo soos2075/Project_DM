@@ -22,6 +22,7 @@ public class UI_Facility_Content : UI_Base
         Mana,
         Gold,
         LV,
+        AP,
     }
 
     public override void Init()
@@ -30,17 +31,18 @@ public class UI_Facility_Content : UI_Base
 
         AddUIEvent_ContentsImage();
 
-        TextUpdate(Content.name_Placement, Content.need_Mana, Content.need_Gold, Content.need_LV);
+        TextUpdate(Content.name_Placement, Content.need_Mana, Content.need_Gold, Content.need_LV, Content.need_AP);
     }
 
 
 
-    public void TextUpdate(string name, int mana, int gold, int lv)
+    public void TextUpdate(string name, int mana, int gold, int lv, int ap)
     {
         GetTMP((int)Texts.Name).text = name;
         GetTMP((int)Texts.Mana).text = $"{mana}";
         GetTMP((int)Texts.Gold).text = $"{gold}";
         GetTMP((int)Texts.LV).text = $"{lv}";
+        GetTMP((int)Texts.AP).text = $"{ap}";
     }
 
 
@@ -48,8 +50,8 @@ public class UI_Facility_Content : UI_Base
 
     void AddUIEvent_ContentsImage()
     {
-        gameObject.AddUIEvent((data) => ChangePanelColor(Define.Color_White), Define.UIEvent.Enter);
-        gameObject.AddUIEvent((data) => ChangePanelColor(Define.Color_Gray), Define.UIEvent.Exit);
+        gameObject.AddUIEvent((data) => ChangePanelColor(Define.Color_Gamma_2), Define.UIEvent.Enter);
+        gameObject.AddUIEvent((data) => ChangePanelColor(Define.Color_Gamma_4), Define.UIEvent.Exit);
 
         gameObject.AddUIEvent((data) => LeftClick(), Define.UIEvent.LeftClick);
     }
@@ -62,7 +64,7 @@ public class UI_Facility_Content : UI_Base
 
     void LeftClick()
     {
-        ChangePanelColor(Define.Color_Green);
+        ChangePanelColor(Define.Color_Gamma_0);
         Parent.SelectContent(Content);
     }
 

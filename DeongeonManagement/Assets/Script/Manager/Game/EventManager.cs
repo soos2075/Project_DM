@@ -104,6 +104,7 @@ public class EventManager : MonoBehaviour
                 GameManager.Technical.Level_2();
                 FindObjectOfType<Player>().Level_Stat(Main.Instance.DungeonRank);
                 Main.Instance.AddAP();
+                GameManager.Content.AddLevel2();
                 break;
 
             case 3:
