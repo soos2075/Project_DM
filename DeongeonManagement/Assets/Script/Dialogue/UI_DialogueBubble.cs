@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
 {
@@ -13,7 +13,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
         {
             SkipText();
         }
@@ -27,7 +27,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
     {
         Managers.UI.SetCanvas(gameObject, RenderMode.WorldSpace, true);
 
-        if (Managers.Scene.GetSceneName() == "3_Guild")
+        if (Managers.Scene.GetSceneName() != "2_Management")
         {
             GetComponent<RectTransform>().localScale = Vector3.one * 0.02f;
         }
@@ -39,6 +39,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
         Panel,
         Bubble,
         Text,
+        Bubble_tail,
     }
 
     TextMeshProUGUI mainText;
@@ -57,7 +58,6 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
         mainText = GetObject(((int)Contents.Text)).GetComponent<TextMeshProUGUI>();
         textTransform = GetObject(((int)Contents.Text)).GetComponent<RectTransform>();
 
-
         Init_BubblePosition();
         Init_Conversation();
     }
@@ -68,6 +68,14 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
     void BubbleSizeFitter()
     {
         bubbleImage.sizeDelta = textTransform.sizeDelta;
+        if (bubbleImage.sizeDelta == Vector2.zero)
+        {
+            bubbleImage.GetComponent<Image>().enabled = false;
+        }
+        else if (bubbleImage.GetComponent<Image>().isActiveAndEnabled == false)
+        {
+            bubbleImage.GetComponent<Image>().enabled = true;
+        }
     }
 
 
@@ -154,7 +162,8 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
             {
                 string targetPos = option.Substring(option.IndexOf("@Camera::") + 9, option.IndexOf("::Camera") - (option.IndexOf("@Camera::") + 9));
                 Transform pos = GameObject.Find(targetPos).transform;
-                Camera.main.transform.position = new Vector3(pos.position.x, pos.position.y, -10);
+                //Camera.main.transform.position = new Vector3(pos.position.x, pos.position.y, -10);
+                Camera.main.GetComponent<CameraControl>().ChasingTarget(pos, 2);
             }
 
             if (option.Contains("@Target"))
@@ -163,6 +172,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
                 Transform pos = GameObject.Find(targetPos).transform;
                 transform.position = pos.position;
             }
+
             if (option.Contains("@Pos"))
             {
                 string Pos = option.Substring(option.IndexOf("@Pos::") + 6, option.IndexOf("::Pos") - (option.IndexOf("@Pos::") + 6));
@@ -177,12 +187,27 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
                 }
             }
 
+            if (option.Contains("@Skip"))
+            {
+                string timer = option.Substring(option.IndexOf("@Skip::") + 7, option.IndexOf("::Skip") - (option.IndexOf("@Skip::") + 7));
+                StartCoroutine(AutoSkip(float.Parse(timer)));
+            }
+
 
             if (option.Contains("@Action"))
             {
                 string spritePath = option.Substring(option.IndexOf("@Action::") + 9, option.IndexOf("::Action") - (option.IndexOf("@Action::") + 9));
-                EventManager.Instance.GetAction(int.Parse(spritePath))?.Invoke();
+                int id = 0;
+                if (int.TryParse(spritePath, out id))
+                {
+                    EventManager.Instance.GetAction(id)?.Invoke();
+                }
+                else
+                {
+                    EventManager.Instance.GetAction(spritePath)?.Invoke();
+                }
             }
+
 
 
             Action optionAction = null;
@@ -197,11 +222,11 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
             yield return StartCoroutine(TypingEffect(Data.TextDataList[textCount].mainText, optionAction));
             textCount++;
         }
-        Time.timeScale = 1;
 
+        Time.timeScale = 1;
         Managers.UI.ClosePopUp(this);
         Managers.Dialogue.currentDialogue = null;
-        Debug.Log("대화창 닫음");
+        //Debug.Log("대화창 닫음");
     }
 
 
@@ -246,7 +271,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
             action.Invoke();
         }
 
-        Debug.Log("마우스 클릭 대기중");
+        //Debug.Log("마우스 클릭 대기중");
         yield return new WaitUntil(() => isTyping == true);
 
         yield return new WaitForEndOfFrame();
@@ -255,6 +280,11 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
 
     void SkipText()
     {
+        if (isAutoMode)
+        {
+            return;
+        }
+
         if (isTyping)
         {
             isSkip = true;
@@ -264,6 +294,21 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
             isTyping = true;
         }
     }
+
+    bool isAutoMode;
+    IEnumerator AutoSkip(float time)
+    {
+        isAutoMode = true;
+        yield return new WaitForEndOfFrame();
+
+        yield return new WaitUntil(() => isTyping == false);
+
+        yield return new WaitForSecondsRealtime(time);
+        isAutoMode = false;
+        SkipText();
+    }
+
+
 
 
     #region OptionBox

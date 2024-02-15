@@ -30,7 +30,6 @@ public class UI_Management : UI_Base
         {
             canvas.sortingOrder = 5;
         }
-
     }
 
 
@@ -38,11 +37,12 @@ public class UI_Management : UI_Base
 
     public enum ButtonEvent
     {
+        _1_Facility,
         _2_Summon,
         _3_Management,
-        _5_Special,
         _4_Guild,
-        _1_Placement,
+        _5_Special,
+
 
         Test1,
         Test2,
@@ -82,8 +82,9 @@ public class UI_Management : UI_Base
 
         Texts_Refresh();
         Init_Button();
+       
 
-        DayZero();
+        StartCoroutine(DayInit());
     }
 
 
@@ -99,22 +100,20 @@ public class UI_Management : UI_Base
 
     void Init_Button()
     {
-        GetButton((int)ButtonEvent._1_Placement).gameObject.AddUIEvent((data) => PlacementButtonEvent());
+        GetButton((int)ButtonEvent._1_Facility).gameObject.AddUIEvent((data) => FacilityButton());
         GetButton((int)ButtonEvent._2_Summon).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Summon_Monster>());
         GetButton((int)ButtonEvent._3_Management).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Monster_Management>());
         GetButton((int)ButtonEvent._4_Guild).gameObject.AddUIEvent((data) => Visit_Guild());
 
+        GetButton((int)ButtonEvent.DayChange).gameObject.AddUIEvent((data) => DayStart());
 
+        GetButton((int)ButtonEvent.Save).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_SaveLoad>());
 
 
         GetButton((int)ButtonEvent.Test1).gameObject.AddUIEvent((data) => GameManager.NPC.TestCreate("Adventurer"));
         GetButton((int)ButtonEvent.Test2).gameObject.AddUIEvent((data) => GameManager.NPC.TestCreate("Herbalist"));
         GetButton((int)ButtonEvent.Test3).gameObject.AddUIEvent((data) => GameManager.NPC.TestCreate("Miner"));
-
-        GetButton((int)ButtonEvent.DayChange).gameObject.AddUIEvent((data) => DayStart());
         GetButton((int)ButtonEvent.DayChange_Temp).gameObject.AddUIEvent((data) => DayChange_Temp());
-
-        GetButton((int)ButtonEvent.Save).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_SaveLoad>());
     }
 
 
@@ -143,19 +142,64 @@ public class UI_Management : UI_Base
 
     void DayZero()
     {
+        GetButton((int)ButtonEvent._1_Facility).gameObject.SetActive(false);
+        GetButton((int)ButtonEvent._2_Summon).gameObject.SetActive(false);
+        GetButton((int)ButtonEvent._3_Management).gameObject.SetActive(false);
+        GetButton((int)ButtonEvent._4_Guild).gameObject.SetActive(false);
         GetButton((int)ButtonEvent._5_Special).gameObject.SetActive(false);
         //GetButton((int)ButtonEvent.Guild).gameObject.SetActive(false);
         //GetButton((int)ButtonEvent.DayChange).gameObject.SetActive(false);
         GetButton((int)ButtonEvent.Test1).gameObject.SetActive(false);
         GetButton((int)ButtonEvent.Test2).gameObject.SetActive(false);
         GetButton((int)ButtonEvent.Test3).gameObject.SetActive(false);
+
+        InActive_Floor();
     }
 
-    public void Show_Button(ButtonEvent button) //? 메인에서 하나씩 풀면 됨
+    IEnumerator DayInit()
+    {
+        yield return null;
+        switch (Main.Instance.Turn)
+        {
+            case 0:
+                DayZero();
+                break;
+
+            case 1:
+                GetButton((int)ButtonEvent._2_Summon).gameObject.SetActive(false);
+                GetButton((int)ButtonEvent._3_Management).gameObject.SetActive(false);
+                GetButton((int)ButtonEvent._4_Guild).gameObject.SetActive(false);
+                GetButton((int)ButtonEvent._5_Special).gameObject.SetActive(false);
+                break;
+
+            case 2:
+                GetButton((int)ButtonEvent._4_Guild).gameObject.SetActive(false);
+                GetButton((int)ButtonEvent._5_Special).gameObject.SetActive(false);
+                break;
+
+
+            default:
+                break;
+        }
+    }
+    public void Active_Button(ButtonEvent button) //? 메인에서 하나씩 풀면 됨
     {
         GetButton((int)button).gameObject.SetActive(true);
     }
-
+    public void Active_Floor()
+    {
+        foreach (var item in sceneFloorList)
+        {
+            item.gameObject.SetActive(true);
+        }
+    }
+    public void InActive_Floor()
+    {
+        foreach (var item in sceneFloorList)
+        {
+            item.gameObject.SetActive(false);
+        }
+    }
 
 
 
@@ -192,7 +236,7 @@ public class UI_Management : UI_Base
 
 
     List<UI_TileView_Floor> sceneFloorList;
-    void GenerateSceneFloorUI()
+    public void GenerateSceneFloorUI()
     {
         sceneFloorList = new List<UI_TileView_Floor>();
 
@@ -215,7 +259,7 @@ public class UI_Management : UI_Base
     }
 
 
-    public void PlacementButtonEvent()
+    public void FloorPanelActive()
     {
         for (int i = 0; i < sceneFloorList.Count; i++)
         {
@@ -230,4 +274,13 @@ public class UI_Management : UI_Base
         }
     }
 
+
+
+    public void FacilityButton()
+    {
+        var facility = Managers.UI.ShowPopUpAlone<UI_Placement_Facility>("Facility/UI_Placement_Facility");
+        facility.Mode = UI_Placement_Facility.FacilityMode.All;
+        //facility.parents = this.parents;
+        FloorPanelClear();
+    }
 }

@@ -77,7 +77,10 @@ public class UIManager
     {
         foreach (var item in _sceneList)
         {
-            item.Refresh();
+            if (item.isActiveAndEnabled)
+            {
+                item.Refresh();
+            }
         }
     }
 
@@ -95,7 +98,16 @@ public class UIManager
     public UI_PopUp _paused;
 
 
-
+    public T ShowPopUpNonPush<T>(string name = null) where T : UI_PopUp
+    {
+        if (string.IsNullOrEmpty(name))
+        {
+            name = typeof(T).Name;
+        }
+        GameObject go = Managers.Resource.Instantiate($"UI/PopUp/{name}", UI_Root.transform);
+        T uiComponent = Util.GetOrAddComponent<T>(go);
+        return uiComponent;
+    }
     public T ShowPopUp<T>(string name = null) where T : UI_PopUp
     {
         if (string.IsNullOrEmpty(name))

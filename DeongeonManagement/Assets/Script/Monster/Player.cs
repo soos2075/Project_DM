@@ -26,7 +26,7 @@ public class Player : Monster
                 HP = 25;
                 HP_Max = 25;
 
-                ATK = 7;
+                ATK = 6;
                 DEF = 4;
                 AGI = 4;
                 LUK = 4;
@@ -38,7 +38,7 @@ public class Player : Monster
                 HP = 50;
                 HP_Max = 50;
 
-                ATK = 14;
+                ATK = 12;
                 DEF = 8;
                 AGI = 8;
                 LUK = 8;
@@ -50,7 +50,7 @@ public class Player : Monster
                 HP = 75;
                 HP_Max = 75;
 
-                ATK = 21;
+                ATK = 18;
                 DEF = 12;
                 AGI = 12;
                 LUK = 12;

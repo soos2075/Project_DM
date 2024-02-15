@@ -25,7 +25,7 @@ public class SO_DialogueData : ScriptableObject
     {
         [TextArea(1, 100)]
         public string optionString;
-        [TextArea(5, 100)]
+        [TextArea(3, 100)]
         public string mainText;
     }
 }

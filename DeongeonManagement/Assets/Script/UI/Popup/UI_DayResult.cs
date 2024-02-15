@@ -62,15 +62,15 @@ public class UI_DayResult : UI_PopUp
         GetTMP(((int)Texts.Fame)).text = $"유명도 : {Result.fame_perv} → {Main.Instance.FameOfDungeon}";
         GetTMP(((int)Texts.Danger)).text = $"위험도 : {Result.danger_perv} → {Main.Instance.DangerOfDungeon}";
 
-        if (rankup)
+
+        if (Result.dungeonRank != Main.Instance.DungeonRank)
         {
-            GetTMP(((int)Texts.DungeonLv)).text = $"던전 등급 : {Main.Instance.DungeonRank - 1} → {Main.Instance.DungeonRank}";
+            GetTMP(((int)Texts.DungeonLv)).text = $"던전 랭크 : {Result.dungeonRank} → {Main.Instance.DungeonRank}";
         }
         else
         {
-            GetTMP(((int)Texts.DungeonLv)).text = $"던전 등급 : {Main.Instance.DungeonRank}";
+            GetTMP(((int)Texts.DungeonLv)).text = $"던전 랭크 : {Main.Instance.DungeonRank}";
         }
-        
 
 
         int manaResult = Result.Get_Mana - Result.Use_Mana;
@@ -103,19 +103,11 @@ public class UI_DayResult : UI_PopUp
 
 
     Main.DayResult Result;
-    bool rankup;
 
     public void TextContents(Main.DayResult data)
     {
         Result = data;
     }
-
-    public void RankUpResult(bool _result)
-    {
-        rankup = _result;
-    }
-
-
 
 
 

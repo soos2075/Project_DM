@@ -29,7 +29,7 @@ public class Trap_Base : Facility
         {
             case TrapType.Fallen_1:
                 InteractionOfTimes = 2;
-                Name = "발밑 함정";
+                Name = "낙하 함정";
                 Detail_KR = "뻔히 보이는 함정입니만, 걸린다면 꽤나 효과가 있을거에요.";
                 durationTime = 5;
                 ap_value = 2;
@@ -39,7 +39,7 @@ public class Trap_Base : Facility
 
             case TrapType.Fallen_2:
                 InteractionOfTimes = 5;
-                Name = "강화 발밑 함정";
+                Name = "강화 낙하 함정";
                 Detail_KR = "뻔히 보이는 함정입니만, 걸린다면 꽤나 효과가 있을거에요. 좀 더 효과를 개량했어요.";
                 durationTime = 5;
                 ap_value = 4;
@@ -50,7 +50,7 @@ public class Trap_Base : Facility
             case TrapType.Awl_1:
                 InteractionOfTimes = 5;
                 Name = "송곳 함정";
-                Detail_KR = "무시무시한 송곳이 올라오는 함정이에요. 모르고 위를 지나간다면 큰코다칠거에요.";
+                Detail_KR = "무시무시한 송곳이 올라오는 함정이에요. 모르고 위를 지나간다면 크게 다칠거에요.";
                 durationTime = 5;
                 ap_value = 3;
                 mp_value = 0;

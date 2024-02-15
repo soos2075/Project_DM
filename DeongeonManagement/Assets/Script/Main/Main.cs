@@ -25,16 +25,29 @@ public class Main : MonoBehaviour
     }
     #endregion
 
-    private void Awake()
-    {
+    //private void Awake()
+    //{
        
-    }
+    //}
 
     void Start()
     {
         Debug.Log("디버그용 Start");
         NewGame_Init();
         Default_Init();
+    }
+
+    UI_Management _ui_main;
+    UI_Management UI_Main 
+    {
+        get
+        {
+            if (_ui_main == null)
+            {
+                //_ui_main = FindObjectOfType<UI_Management>();
+                _ui_main = FindAnyObjectByType<UI_Management>();
+            }
+            return _ui_main; } 
     }
 
     bool _DefaultSetting = false;
@@ -50,7 +63,7 @@ public class Main : MonoBehaviour
         Init_BasementFloor();
         _dayList = new List<DayResult>();
         Init_Animation();
-        FindObjectOfType<UI_Management>().Start_Main();
+        UI_Main.Start_Main();
 
         _DefaultSetting = true;
     }
@@ -63,14 +76,14 @@ public class Main : MonoBehaviour
         }
 
         ActiveFloor_Basement = 4;
-        ActiveFloor_Technical = 1;
+        ActiveFloor_Technical = 0;
         DungeonRank = 1;
 
         DangerOfDungeon = 100;
         FameOfDungeon = 200;
 
-        Player_Mana = 500;
-        Player_Gold = 500;
+        Player_Mana = 300;
+        Player_Gold = 300;
         Player_AP = 2;
         AP_MAX = 2;
 
@@ -78,7 +91,7 @@ public class Main : MonoBehaviour
         Init_BasementFloor();
         _dayList = new List<DayResult>();
         Init_Animation();
-        FindObjectOfType<UI_Management>().Start_Main();
+        UI_Main.Start_Main();
 
         Init_DayResult();
 
@@ -104,13 +117,11 @@ public class Main : MonoBehaviour
         message.Message = "던전에 다양한 시설과 몬스터들을 배치하여 모험가들에게 마나를 얻으세요!\n\n" +
             "마나는 기본적으로 모험가들이 던전에서 행하는 모든 행동에서 얻을 수 있어요.";
 
-        //? 테스팅
-        EventManager.Instance.TryRankUp(FameOfDungeon, DangerOfDungeon);
     }
     void Instantiate_Egg()
     {
         Init_Secret();
-
+        Init_Basic();
 
         Managers.Dialogue.ShowDialogueUI("Prologue", GameObject.Find("Player").transform);
     }
@@ -119,7 +130,7 @@ public class Main : MonoBehaviour
     void Init_Secret()
     {
         BasementTile tile = null;
-        Floor[3].TileMap.TryGetValue(new Vector2Int(1, 2), out tile);
+        Floor[3].TileMap.TryGetValue(new Vector2Int(0, 3), out tile);
         PlacementInfo info = new PlacementInfo(Floor[3], tile);
         var egg = GameManager.Placement.CreateOnlyOne($"Facility/Special_MagicEgg", info, Define.PlacementType.Facility);
         GameManager.Placement.PlacementConfirm(egg, info, true);
@@ -128,7 +139,7 @@ public class Main : MonoBehaviour
 
 
         BasementTile tile2 = null;
-        Floor[3].TileMap.TryGetValue(new Vector2Int(3, 2), out tile2);
+        Floor[3].TileMap.TryGetValue(new Vector2Int(3, 3), out tile2);
         PlacementInfo info2 = new PlacementInfo(Floor[3], tile2);
         var player = GameManager.Placement.CreatePlacementObject("Player", info2, Define.PlacementType.Monster);
         var component = player as Player;
@@ -137,7 +148,27 @@ public class Main : MonoBehaviour
         component.State = Monster.MonsterState.Placement;
         GameManager.Placement.PlacementConfirm(player, info2);
     }
-
+    void Init_Basic()
+    {
+        for (int k = 0; k < 5; k++)
+        {
+            BasementTile tile = Floor[0].GetRandomTile();
+            var info = new PlacementInfo(Floor[0], tile);
+            GameManager.Facility.CreateFacility("Herb_Low", info);
+        }
+        for (int k = 0; k < 2; k++)
+        {
+            BasementTile tile = Floor[1].GetRandomTile();
+            var info = new PlacementInfo(Floor[1], tile);
+            GameManager.Facility.CreateFacility("Herb_Low", info);
+        }
+        for (int k = 0; k < 4; k++)
+        {
+            BasementTile tile = Floor[2].GetRandomTile();
+            var info = new PlacementInfo(Floor[2], tile);
+            GameManager.Facility.CreateFacility("Mineral_Rock", info);
+        }
+    }
 
 
 
@@ -166,9 +197,9 @@ public class Main : MonoBehaviour
         ActiveFloor_Technical = (data.ActiveFloor_Technical);
         ExpansionConfirm();
         GameManager.Technical.Expantion_Technical();
-        FindObjectOfType<UI_Management>().DungeonExpansion();
+        UI_Main.DungeonExpansion();
 
-        FindObjectOfType<UI_Management>().Texts_Refresh();
+        UI_Main.Texts_Refresh();
 
 
 
@@ -314,6 +345,8 @@ public class Main : MonoBehaviour
 
         public int fame_perv;
         public int danger_perv;
+
+        public int dungeonRank;
     }
 
 
@@ -323,6 +356,7 @@ public class Main : MonoBehaviour
         CurrentDay.SetOrigin(Player_Mana, Player_Gold, Prisoner);
         CurrentDay.fame_perv = FameOfDungeon;
         CurrentDay.danger_perv = DangerOfDungeon;
+        CurrentDay.dungeonRank = DungeonRank;
     }
 
 
@@ -342,9 +376,11 @@ public class Main : MonoBehaviour
 
         DangerOfDungeon += 10;
 
+        EventManager.Instance.TryRankUp(FameOfDungeon, DangerOfDungeon);
+
         var ui = Managers.UI.ShowPopUp<UI_DayResult>();
         ui.TextContents(_dayList[Turn - 1]);
-        ui.RankUpResult(EventManager.Instance.TryRankUp(FameOfDungeon, DangerOfDungeon));
+        //ui.RankUpResult(EventManager.Instance.TryRankUp(FameOfDungeon, DangerOfDungeon));
         //? 위가 적용 아래가 새로교체
 
         CurrentDay = new DayResult();
@@ -409,8 +445,8 @@ public class Main : MonoBehaviour
             {
                 DayOver_Dayresult();
                 NightEvent();
-                StartCoroutine(TurnOverEvent());
-                FindObjectOfType<UI_Management>().Texts_Refresh();
+                TurnOverEvent();
+                UI_Main.Texts_Refresh();
             }
         }
     }
@@ -446,16 +482,22 @@ public class Main : MonoBehaviour
                 break;
 
             case 3:
-                //Debug.Log("3일차 시작 이벤트 발생");
+                Debug.Log("3일차 시작 이벤트 - 모험가 한명 무조건 소환");
+                GameManager.NPC.AddEventNPC(NPCManager.NPCType.Adventurer_0, 9);
                 break;
 
+
+            case 8:
+                Debug.Log("8일차 시작 이벤트 - 패배 트리거 이벤트 모험가 소환");
+                //GameManager.NPC.AddEventNPC(NPCManager.NPCType.Adventurer_0, 9);
+                break;
 
 
             default:
                 break;
         }
     }
-    public IEnumerator TurnOverEvent()
+    public void TurnOverEvent()
     {
         UI_EventBox.AddEventText($"※{Turn}일차 종료※");
 
@@ -464,71 +506,59 @@ public class Main : MonoBehaviour
         {
 
             case 1:
-                //Debug.Log("1일차 종료 이벤트 발생");
-                
+                Debug.Log("1일차 종료 이벤트 - 시설배치");
+                Managers.Dialogue.ShowDialogueUI("Facility", GameObject.Find("Player").transform);
+                UI_Main.Active_Button(UI_Management.ButtonEvent._1_Facility);
+                UI_Main.Active_Floor();
                 break;
 
             case 2:
-                Debug.Log("2일차 종료 이벤트 발생");
-                //GameManager.Technical.Level_2();
+                Debug.Log("2일차 종료 이벤트 - 몬스터");
+                Managers.Dialogue.ShowDialogueUI("Monster", GameObject.Find("Player").transform);
+                UI_Main.Active_Button(UI_Management.ButtonEvent._2_Summon);
+                UI_Main.Active_Button(UI_Management.ButtonEvent._3_Management);
+                break;
+
+            case 3:
+                Debug.Log("3일차 종료 이벤트 - 없음");
+                break;
+
+            case 4:
+                Debug.Log("4일차 종료 이벤트 - 테크니컬");
+                Technical_Expansion();
+                Managers.Dialogue.ShowDialogueUI("Technical", GameObject.Find("Player").transform);
                 break;
 
             case 5:
                 Debug.Log("5일차 종료 이벤트 - 비밀방");
-                yield return StartCoroutine(TurnEvent_EggAppear());
+                Managers.Dialogue.ShowDialogueUI("EggAppear", GameObject.Find("Player").transform);
+                //yield return StartCoroutine(TurnEvent_EggAppear());
                 break;
 
+            case 6:
+                Debug.Log("6일차 종료 이벤트 - 길드");
+                Managers.Dialogue.ShowDialogueUI("Guild", GameObject.Find("Player").transform);
+                UI_Main.Active_Button(UI_Management.ButtonEvent._4_Guild);
+                break;
 
             default:
                 break;
         }
 
+        StartCoroutine(AutoSave());
+    }
+
+
+    IEnumerator AutoSave()
+    {
+        yield return new WaitForEndOfFrame();
+
+        yield return new WaitUntil(() => Time.timeScale == 1);
         Debug.Log($"자동저장 : {Turn}일차");
         Managers.Data.SaveToJson("AutoSave", 0);
     }
 
 
-    IEnumerator TurnEvent_EggAppear()
-    {
-        Time.timeScale = 0;
-        yield return new WaitForSecondsRealtime(2);
-
-        Managers.UI.CloseAll();
-        FindObjectOfType<UI_EventBox>().BoxActive(false);
-
-        Camera.main.transform.position = new Vector3(Floor[3].transform.position.x, Floor[3].transform.position.y, -10);
-        //Camera.main.orthographicSize = 3;
-
-        yield return new WaitForSecondsRealtime(1);
-        {
-            var tile = Floor[3].GetRandomTile();
-            Floor[3].TileMap.TryGetValue(new Vector2Int(9, 2), out tile);
-            PlacementInfo info = new PlacementInfo(Floor[3], tile);
-
-            var obj = GameManager.Facility.CreateFacility_OnlyOne("Exit", info, true);
-        }
-        
-
-        yield return new WaitForSecondsRealtime(1);
-
-        Camera.main.transform.position = new Vector3(Floor[2].transform.position.x, Floor[2].transform.position.y, -10);
-        //Camera.main.orthographicSize = 3;
-
-        yield return new WaitForSecondsRealtime(1);
-        {
-            var tile = Floor[2].GetRandomTile();
-            Floor[2].TileMap.TryGetValue(new Vector2Int(0, 0), out tile);
-            PlacementInfo info = new PlacementInfo(Floor[2], tile);
-
-            var obj = GameManager.Facility.CreateFacility_OnlyOne("EggEntrance", info, true);
-        }
-        yield return new WaitForSecondsRealtime(1);
-
-        var dia = Managers.UI.ShowPopUp<UI_Dialogue>();
-        var data = Managers.Dialogue.GetDialogue("EggAppear");
-
-        dia.Data = data;
-    }
 
 
     #endregion
@@ -557,9 +587,9 @@ public class Main : MonoBehaviour
 
     void Init_Animation()
     {
-        ani_MainUI = FindObjectOfType<UI_Management>().GetComponent<Animator>();
+        ani_MainUI = UI_Main.GetComponent<Animator>();
         ani_Sky = GameObject.Find("SkyBackground").GetComponent<Animator>();
-        layout = FindObjectOfType<UI_Management>().GetComponentInChildren<VerticalLayoutGroup>();
+        layout = UI_Main.GetComponentInChildren<VerticalLayoutGroup>();
     }
 
 
@@ -628,11 +658,13 @@ public class Main : MonoBehaviour
         {
             Floor[3].Hidden = true;
         }
-        DungeonExpansionUI();
-        //FindObjectOfType<UI_Management>().DungeonExpansion();
+        //DungeonExpansionUI();
+        //UI_Main.DungeonExpansion();
+
+        Camera.main.GetComponent<CameraControl>().LimitRefresh();
     }
 
-    void DungeonExpansionUI()
+    public void DungeonExpansionUI()
     {
         if (Floor.Length > ActiveFloor_Basement)
         {

@@ -36,7 +36,7 @@ public class UI_Placement_TypeSelect : UI_PopUp, IWorldSpaceUI
         {
             ClosePopUp();
             var facility = Managers.UI.ShowPopUpAlone<UI_Placement_Facility>("Facility/UI_Placement_Facility");
-            facility.parents = this.parents;
+            //facility.parents = this.parents;
             FindObjectOfType<UI_Management>().FloorPanelClear();
         });
         GetObject((int)Objects.Monster).AddUIEvent(data =>

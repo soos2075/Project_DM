@@ -13,6 +13,14 @@ public class UI_Placement_Facility : UI_PopUp
         Init();
     }
 
+    public enum FacilityMode
+    {
+        Single,
+        All,
+    }
+    public FacilityMode Mode { get; set; }
+
+
 
     enum Preview
     {
@@ -37,7 +45,7 @@ public class UI_Placement_Facility : UI_PopUp
     }
 
 
-    public UI_Floor parents { get; set; }
+    //public UI_Floor parents { get; set; }
     public ContentData Current { get; set; }
 
     List<UI_Facility_Content> childList;

@@ -26,6 +26,12 @@ public class NPCManager
 
     public void TurnStart()
     {
+        if (EventNPCAction != null)
+        {
+            EventNPCAction.Invoke();
+            EventNPCAction = null;
+        }
+
         Calculation_MaxNPC();
         Debug.Log($"Max Value = {Max_NPC_Value}");
 
@@ -91,7 +97,29 @@ public class NPCManager
     }
 
 
-    enum NPCType //? Prefab 이름과 동일해야함. 추가로 사전의 이름까지도.
+    System.Action EventNPCAction { get; set; }
+
+    public void AddEventNPC(NPCType type, float time)
+    {
+        if (EventNPCAction == null)
+        {
+            EventNPCAction = () => Main.Instance.StartCoroutine(EventNPC(type, time));
+        }
+        else
+        {
+            EventNPCAction += () => Main.Instance.StartCoroutine(EventNPC(type, time));
+        }
+    }
+    IEnumerator EventNPC(NPCType type, float time)
+    {
+        yield return new WaitForSeconds(time);
+        InstantiateNPC(type);
+        Main.Instance.StartCoroutine(ActiveNPC(Current_NPCList.Count - 1, 1));
+    }
+
+
+
+    public enum NPCType //? Prefab 이름과 동일해야함. 추가로 사전의 이름까지도.
     {
         Herbalist_0 = 0,
         Miner_0 = 1,
@@ -271,7 +299,7 @@ public class NPCManager
             npc.HP = 10;
             npc.HP_MAX = 10;
 
-            npc.ActionPoint = 3;
+            npc.ActionPoint = 2;
             npc.Mana = 30;
             npc.Speed_Ground = 1.5f;
             npc.ActionDelay = 0.7f;
@@ -316,7 +344,7 @@ public class NPCManager
             npc.HP = 15;
             npc.HP_MAX = 15;
 
-            npc.ActionPoint = 5;
+            npc.ActionPoint = 4;
             npc.Mana = 25;
             npc.Speed_Ground = 1.4f;
             npc.ActionDelay = 0.5f;
@@ -362,7 +390,7 @@ public class NPCManager
             npc.HP = 20;
             npc.HP_MAX = 20;
 
-            npc.ActionPoint = 4;
+            npc.ActionPoint = 3;
             npc.Mana = 40;
             npc.Speed_Ground = 1.6f;
             npc.ActionDelay = 0.6f;

@@ -194,7 +194,7 @@ public class ContentManager
             Vector2Int delta = new Vector2Int(_deltaX, _deltaY);
 
             BasementTile temp = null;
-            if (Main.Instance.CurrentFloor.TileMap.TryGetValue(delta, out temp))
+            if (Main.Instance.CurrentTile.floor.TileMap.TryGetValue(delta, out temp))
             {
                 if (temp.tileType == Define.TileType.Facility || temp.tileType == Define.TileType.Entrance || temp.tileType == Define.TileType.Exit)
                 {
@@ -295,17 +295,34 @@ public class ContentManager
 
     void SetBoundary(Vector2Int[] vector2Ints, Action action, UI_Floor.BuildMode buildMode = UI_Floor.BuildMode.Build)
     {
+        Managers.UI.PausePopUp();
+
+        if (GameObject.FindObjectOfType<UI_Placement_Facility>().Mode == UI_Placement_Facility.FacilityMode.All)
+        {
+            GameManager.Instance.StartCoroutine(ShowAllFloor(vector2Ints, action, buildMode));
+            return;
+        }
+
         Main.Instance.CurrentBoundary = vector2Ints;
         Main.Instance.CurrentAction += action;
 
-        //parents.ShowTile();
-        //parents.Mode = buildMode;
-
         Main.Instance.CurrentFloor.UI_Floor.ShowTile();
         Main.Instance.CurrentFloor.UI_Floor.Mode = buildMode;
+    }
 
-        Managers.UI.PausePopUp();
-        //Managers.UI.ClosePopUp(this);
+    IEnumerator ShowAllFloor(Vector2Int[] vector2Ints, Action action, UI_Floor.BuildMode buildMode = UI_Floor.BuildMode.Build)
+    {
+        Managers.UI.ShowPopUpAlone<UI_DungeonPlacement>();
+        yield return new WaitForEndOfFrame();
+
+        Main.Instance.CurrentBoundary = vector2Ints;
+        Main.Instance.CurrentAction += action;
+
+        for (int i = 0; i < Main.Instance.ActiveFloor_Basement; i++)
+        {
+            Main.Instance.Floor[i].UI_Floor.ShowTile();
+            Main.Instance.Floor[i].UI_Floor.Mode = buildMode;
+        }
     }
 
     void ResetAction()
@@ -337,9 +354,9 @@ public class ContentManager
         {
             Vector2Int delta = tile.index + item;
             BasementTile temp = null;
-            if (Main.Instance.CurrentFloor.TileMap.TryGetValue(delta, out temp))
+            if (Main.Instance.CurrentTile.floor.TileMap.TryGetValue(delta, out temp))
             {
-                var info = new PlacementInfo(Main.Instance.CurrentFloor, temp);
+                var info = new PlacementInfo(Main.Instance.CurrentTile.floor, temp);
                 GameManager.Facility.CreateFacility(prefab, info, isUnChangeable);
             }
         }
@@ -362,9 +379,9 @@ public class ContentManager
         {
             Vector2Int delta = tile.index + item;
             BasementTile temp = null;
-            if (Main.Instance.CurrentFloor.TileMap.TryGetValue(delta, out temp))
+            if (Main.Instance.CurrentTile.floor.TileMap.TryGetValue(delta, out temp))
             {
-                var info = new PlacementInfo(Main.Instance.CurrentFloor, temp);
+                var info = new PlacementInfo(Main.Instance.CurrentTile.floor, temp);
                 placementable[index] = GameManager.Facility.CreateFacility(prefab, info, isUnChangeable);
                 index++;
             }
@@ -383,9 +400,9 @@ public class ContentManager
         {
             Vector2Int delta = tile.index + item;
             BasementTile temp = null;
-            if (Main.Instance.CurrentFloor.TileMap.TryGetValue(delta, out temp))
+            if (Main.Instance.CurrentTile.floor.TileMap.TryGetValue(delta, out temp))
             {
-                var info = new PlacementInfo(Main.Instance.CurrentFloor, temp);
+                var info = new PlacementInfo(Main.Instance.CurrentTile.floor, temp);
                 GameManager.Facility.CreateFacility_OnlyOne(prefab, info, true);
             }
         }

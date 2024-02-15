@@ -134,7 +134,7 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
 
         yield return new WaitForEndOfFrame();
 
-        FindObjectOfType<UI_Management>().PlacementButtonEvent();
+        FindObjectOfType<UI_Management>().FloorPanelActive();
         ChildColorChange(Define.Color_Blue);
         ui.uI_Floors[FloorID].OpenPlacementType(data);
 

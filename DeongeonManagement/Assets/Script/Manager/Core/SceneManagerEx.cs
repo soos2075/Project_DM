@@ -12,6 +12,7 @@ public class SceneManagerEx
         OneTimeAction = new List<UnityAction<Scene, LoadSceneMode>>();
         AddLoadAction_Usual(() => LoadActionOver());
         AddLoadAction_Usual(() => Managers.UI.SceneChange());
+        AddLoadAction_Usual(() => FadeIn());
 
         //loadAction = new List<Action>();
         //SceneManager.sceneLoaded += CustomSceneLoadAction;
@@ -20,11 +21,31 @@ public class SceneManagerEx
     List<UnityAction<Scene, LoadSceneMode>> OneTimeAction;
     AsyncOperation CurrentOperation { get; set; }
 
-    public void LoadSceneAsync(string sceneName)
+    public void LoadSceneAsync(string sceneName, bool _fade = true)
     {
         CurrentOperation = SceneManager.LoadSceneAsync(sceneName);
-    }
 
+        if (_fade)
+        {
+            Managers.Instance.StartCoroutine(FadeOut());
+        }
+    }
+    IEnumerator FadeOut()
+    {
+        CurrentOperation.allowSceneActivation = false;
+
+        var fade = Managers.UI.ShowPopUpNonPush<UI_Fade>();
+        fade.SetFadeOption(UI_Fade.FadeMode.Out, 2);
+        yield return new WaitForEndOfFrame();
+        yield return new WaitUntil(() => fade.isFade == false);
+
+        CurrentOperation.allowSceneActivation = true;
+    }
+    void FadeIn()
+    {
+        var fade = Managers.UI.ShowPopUpNonPush<UI_Fade>();
+        fade.SetFadeOption(UI_Fade.FadeMode.In, 2);
+    }
 
 
     public void AddLoadAction_Usual(Action action)

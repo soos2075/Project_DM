@@ -333,7 +333,7 @@ public class UI_Monster_Management : UI_PopUp
         if (Main.Instance.CurrentTile == null) return false;
 
         var tile = Main.Instance.CurrentTile;
-        Main.Instance.CurrentFloor = tile.floor;
+        //Main.Instance.CurrentFloor = tile.floor;
 
         foreach (var item in boundary)
         {
@@ -365,7 +365,7 @@ public class UI_Monster_Management : UI_PopUp
 
     void CreateOver()
     {
-        Debug.Log($"{Current.monster.Name_KR}(이)가 {Main.Instance.CurrentFloor.Name_KR}에 배치되었습니다");
+        Debug.Log($"{Current.monster.Name_KR}(이)가 {Main.Instance.CurrentTile.floor.Name_KR}에 배치되었습니다");
         ResetAction();
         Managers.UI.CloseAll();
     }

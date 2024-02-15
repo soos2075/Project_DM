@@ -238,7 +238,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         transform.position = startPoint;
         GameManager.Placement.Visible(this);
 
-        Managers.Resource.Instantiate("UI/UI_StateBar", transform);
+        //Managers.Resource.Instantiate("UI/UI_StateBar", transform);
 
         StartCoroutine(MoveToPoint(endPoint));
         Anim_State = moveState.right;

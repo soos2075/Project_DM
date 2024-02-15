@@ -7,8 +7,8 @@ using UnityEngine.U2D;
 public class CameraControl : MonoBehaviour
 {
 
-    readonly float limit_up = 0;
-    readonly float limit_down = -16;
+    float limit_up = 0;
+    float limit_down = -17;
 
     float limit_left;
     float limit_right;
@@ -27,7 +27,8 @@ public class CameraControl : MonoBehaviour
         mainCam = GetComponent<Camera>();
         pixelCam = GetComponent<PixelPerfectCamera>();
         Move = true;
-        
+
+        //LimitRefresh();
     }
 
 
@@ -35,8 +36,10 @@ public class CameraControl : MonoBehaviour
     {
         if (Time.timeScale == 0) return;
 
-        limit_left = -81 / (mainCam.orthographicSize * mainCam.orthographicSize);
-        limit_right = 81 / (mainCam.orthographicSize * mainCam.orthographicSize);
+
+
+        limit_left = -90 / (mainCam.orthographicSize * mainCam.orthographicSize);
+        limit_right = 90 / (mainCam.orthographicSize * mainCam.orthographicSize);
 
 
         ClickAction();
@@ -44,6 +47,15 @@ public class CameraControl : MonoBehaviour
         KeyboardMove();
     }
 
+
+    public void LimitRefresh()
+    {
+        limit_down = Main.Instance.Floor[Main.Instance.ActiveFloor_Basement - 1].transform.position.y - 5;
+    }
+
+
+
+    #region InputAction
 
     float scrollValue;
     void PixelPerfection_Zoom()
@@ -75,9 +87,6 @@ public class CameraControl : MonoBehaviour
             MouseLimit();
         }
     }
-
-
-
 
 
     Vector3 startMousePos;
@@ -182,4 +191,75 @@ public class CameraControl : MonoBehaviour
             Move = true;
         }
     }
+
+    #endregion
+
+
+    #region Direction
+
+    Coroutine currentCor;
+
+    public void ChasingTarget(Transform target, float duration)
+    {
+        if (currentCor != null)
+        {
+            StopCoroutine(currentCor);
+        }
+        currentCor = StartCoroutine(ChasingLerp(target, duration));
+    }
+
+    IEnumerator Chasing(Transform target, float duration)
+    {
+        var startPos = transform.position;
+        var targetPos = target.position;
+
+        var direction = targetPos - transform.position;
+
+        float timer = 0;
+        while (timer < duration)
+        {
+            yield return null;
+            timer += Time.unscaledDeltaTime;
+
+            var movePos = direction * (Time.unscaledDeltaTime / duration);
+            transform.position += new Vector3(movePos.x, movePos.y, 0);
+        }
+
+        transform.position = new Vector3(targetPos.x, targetPos.y, transform.position.z);
+        currentCor = null;
+    }
+
+    IEnumerator ChasingLerp(Transform target, float duration)
+    {
+        var targetPos = target.position;
+        var direction = targetPos - transform.position;
+        var startPos = transform.position;
+
+        float timer = 0;
+        while (timer < duration)
+        {
+            yield return null;
+            timer += Time.unscaledDeltaTime;
+
+            float t = Mathf.Clamp01(timer / duration);
+
+            var movePos2 = Vector3.Lerp(startPos, targetPos, Smoothstep(t));
+            transform.position = new Vector3(movePos2.x, movePos2.y, transform.position.z);
+
+
+            //if (Smoothstep(t) >= 1)
+            //{
+            //    Debug.Log(timer);
+            //}
+        }
+        transform.position = new Vector3(targetPos.x, targetPos.y, transform.position.z);
+        currentCor = null;
+    }
+
+    float Smoothstep(float t)
+    {
+        return 0.4f * Mathf.Log(t) + 1;
+    }
+
+    #endregion
 }

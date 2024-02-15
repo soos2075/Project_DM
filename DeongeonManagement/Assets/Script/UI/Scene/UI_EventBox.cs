@@ -29,7 +29,7 @@ public class UI_EventBox : UI_Scene
 
         if (maxPage > 1)
         {
-            pageText.text = $"{mainText.pageToDisplay} / {maxPage}";
+            pageText.text = $"{mainText.pageToDisplay}/{maxPage}";
         }
         else
         {
