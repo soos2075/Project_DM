@@ -81,6 +81,9 @@ public class Define
 
     public enum TextColor
     {
+        Bold,
+        Italic,
+
         red,
         green,
         blue,
@@ -124,6 +127,10 @@ public class Define
     public static readonly Color Color_Alpha_3 = new Color32(255, 255, 255, 195);
     public static readonly Color Color_Alpha_4 = new Color32(255, 255, 255, 175);
     public static readonly Color Color_Alpha_5 = new Color32(255, 255, 255, 155);
+
+    public static readonly Color Color_Alpha_6 = new Color32(255, 255, 255, 100);
+    public static readonly Color Color_Alpha_7 = new Color32(255, 255, 255, 50);
+    public static readonly Color Color_Alpha_8 = new Color32(255, 255, 255, 25);
 
     public static readonly Color Color_Gamma_0 = new Color32(255, 255, 255, 255);
     public static readonly Color Color_Gamma_1 = new Color32(235, 235, 235, 255);

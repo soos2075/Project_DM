@@ -55,8 +55,8 @@ public class UI_Monster_Content : UI_Base
 
     void AddUIEvent_ContentsImage()
     {
-        gameObject.AddUIEvent((data) => ChangePanelColor(Define.Color_White), Define.UIEvent.Enter);
-        gameObject.AddUIEvent((data) => ChangePanelColor(Define.Color_Gray), Define.UIEvent.Exit);
+        gameObject.AddUIEvent((data) => ChangePanelColor(Define.Color_Gamma_2), Define.UIEvent.Enter);
+        gameObject.AddUIEvent((data) => ChangePanelColor(Define.Color_Gamma_4), Define.UIEvent.Exit);
 
         gameObject.AddUIEvent((data) => LeftClick(), Define.UIEvent.LeftClick);
     }
@@ -69,7 +69,7 @@ public class UI_Monster_Content : UI_Base
 
     void LeftClick()
     {
-        ChangePanelColor(Define.Color_Green);
+        ChangePanelColor(Define.Color_Gamma_0);
         Parent.SelectContent(Content);
     }
 

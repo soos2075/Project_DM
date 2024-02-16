@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,44 @@ public class MonsterManager
 
         Init_Data();
     }
+
+
+
+
+    public List<MonsterStatusTemporary> LevelUpList { get; set; }
+    public int InjuryMonster { get; set; }
+    public void AddLevelUpEvent(Monster _monster)
+    {
+        if (LevelUpList == null)
+        {
+            LevelUpList = new List<MonsterStatusTemporary>();
+        }
+        else if (LevelUpList.Count > 0)
+        {
+            foreach (var item in LevelUpList)
+            {
+                if (item.monster == _monster)
+                {
+                    item.times++;
+                    return;
+                }
+            }
+        }
+
+        var TemporaryData = new MonsterStatusTemporary(_monster);
+        LevelUpList.Add(TemporaryData);
+    }
+    public void RemoveLevelUpEvent(Monster _monster)
+    {
+        if (LevelUpList == null)
+        {
+            return;
+        }
+        LevelUpList.RemoveAll((item) => item.monster == _monster);
+    }
+
+
+
 
     #region 실제 인스턴트
     public Monster[] Monsters { get; set; }
@@ -182,6 +221,32 @@ public class MonsterManager
     }
 
     #endregion
+}
+
+public class MonsterStatusTemporary
+{
+    public Monster monster;
+    public int lv;
+    public int hpMax;
+    public int atk;
+    public int def;
+    public int agi;
+    public int luk;
+
+    public int times;
+
+    public MonsterStatusTemporary(Monster _monster)
+    {
+        monster = _monster;
+        lv = monster.LV;
+        hpMax = monster.HP_Max;
+        atk = monster.ATK;
+        def = monster.DEF;
+        agi = monster.AGI;
+        luk = monster.LUK;
+
+        times = 1;
+    }
 }
 
 public class MonsterData

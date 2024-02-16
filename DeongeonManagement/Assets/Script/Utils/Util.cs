@@ -76,6 +76,12 @@ public class Util
     {
         switch (color)
         {
+            case Define.TextColor.Bold:
+                return $"<b>{text}</b>";
+
+            case Define.TextColor.Italic:
+                return $"<i>{text}</i>";
+
             case Define.TextColor.red:
                 return $"<color=red>{text}</color>";
 

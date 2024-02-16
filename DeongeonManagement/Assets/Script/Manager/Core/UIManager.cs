@@ -98,6 +98,38 @@ public class UIManager
     public UI_PopUp _paused;
 
 
+
+    Queue<Action> Reservation_ShowPopup = new Queue<Action>();
+    Coroutine ReservationCor;
+
+    public void Popup_Reservation(Action action)
+    {
+        if (_popupStack.Count > 0)
+        {
+            Reservation_ShowPopup.Enqueue(action);
+            if (ReservationCor == null)
+            {
+                ReservationCor = Managers.Instance.StartCoroutine(Show_Reservation());
+            }
+        }
+        else
+        {
+            action.Invoke();
+        }
+    }
+
+    IEnumerator Show_Reservation()
+    {
+        while (Reservation_ShowPopup.Count > 0)
+        {
+            yield return new WaitUntil(() => _popupStack.Count == 0);
+            var res = Reservation_ShowPopup.Dequeue();
+            res.Invoke();
+        }
+
+        ReservationCor = null;
+        Debug.Log("예약팝업 끝");
+    }
     public T ShowPopUpNonPush<T>(string name = null) where T : UI_PopUp
     {
         if (string.IsNullOrEmpty(name))
@@ -198,6 +230,31 @@ public class UIManager
 
         ClosePopUp();
     }
+    public void ClosePopupPick(UI_PopUp popup)
+    {
+        if (_popupStack.Contains(popup))
+        {
+            Stack<UI_PopUp> tempStack = new Stack<UI_PopUp>();
+
+            // 스택에서 해당 팝업을 찾을 때까지 팝업을 임시 스택에 복사
+            while (_popupStack.Peek() != popup)
+            {
+                tempStack.Push(_popupStack.Pop());
+            }
+
+            // 해당 팝업을 제거
+            UI_PopUp uiObject = _popupStack.Pop();
+            Managers.Resource.Destroy(uiObject.gameObject);
+            uiObject = null;
+
+
+            // 임시 스택에 있는 나머지 팝업을 다시 원래 스택에 추가
+            while (tempStack.Count > 0)
+            {
+                _popupStack.Push(tempStack.Pop());
+            }
+        }
+    }
 
 
     public void CloseAll()
@@ -268,6 +325,10 @@ public class UIManager
         _popupStack.Push(_paused);
         _paused = null;
     }
+
+
+
+
 
 
 

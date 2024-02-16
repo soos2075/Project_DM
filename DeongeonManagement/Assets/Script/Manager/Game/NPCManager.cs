@@ -53,7 +53,7 @@ public class NPCManager
         {
             for (int i = 0; i < Current_NPCList.Count; i++)
             {
-                float ranValue = Random.Range(2f, 8f);
+                float ranValue = Random.Range(1f, 8f);
                 Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
             }
         }

@@ -65,7 +65,18 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         Placement,
         Injury,
     }
-    public MonsterState State { get; set; }
+
+    private MonsterState state;
+    public MonsterState State { get { return state; } 
+        set 
+        {
+            state = value;
+            if (state == MonsterState.Injury)
+            {
+                Injury();
+            }
+        } 
+    }
 
 
     #endregion
@@ -136,7 +147,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
     Coroutine Cor_Battle;
 
-    public virtual Coroutine Battle(NPC npc)
+    public Coroutine Battle(NPC npc)
     {
         if (this.HP > 0)
         {
@@ -171,6 +182,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         {
             case BattleField.BattleResult.Nothing:
                 UI_EventBox.AddEventText($"★{Name_KR} vs {npc.Name_KR} 의 전투가 종료되었습니다.");
+                GetBattlePoint(npc.Rank);
                 break;
 
             case BattleField.BattleResult.Monster_Die:
@@ -180,6 +192,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
             case BattleField.BattleResult.NPC_Die:
                 UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 {Name_KR} (이)가 {npc.Name_KR} {npc.Name_Index} 에게 승리하였습니다!");
+                GetBattlePoint(npc.Rank * 2);
                 break;
         }
 
@@ -240,7 +253,43 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     //}
 
 
+    #region Battle
 
+    public int BattleCount_Rank { get; set; }
+    public int BattleCount_Quantity { get; set; }
+
+
+    public void GetBattlePoint(int _npcRank)
+    {
+        BattleCount_Rank += _npcRank;
+        BattleCount_Quantity++;
+        //Debug.Log($"{Name_KR}// 랭크포인트:{BattleCount_Rank} // 전투횟수:{BattleCount_Quantity}");
+
+        if (BattleCount_Quantity >= 5 || BattleCount_Rank >= LV * 2)
+        {
+            Debug.Log($"{Name_KR}.Lv{LV}가 레벨업");
+            BattleLevelUp();
+            BattleCount_Rank = 0;
+            BattleCount_Quantity = 0;
+        }
+    }
+
+
+    public void BattleLevelUp()
+    {
+        GameManager.Monster.AddLevelUpEvent(this);
+    }
+
+    void Injury()
+    {
+        GameManager.Monster.RemoveLevelUpEvent(this);
+        BattleCount_Rank = 0;
+        BattleCount_Quantity = 0;
+        GameManager.Monster.InjuryMonster++;
+    }
+
+
+    #endregion
 
 
 
@@ -266,24 +315,37 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     {
         if (Main.Instance.Player_AP <= 0)
         {
-            Debug.Log("훈련횟수 없음");
+            //Debug.Log("훈련횟수 없음");
+            var ui = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+            ui.Message = "행동력이 부족합니다.";
             return;
         }
+        if (Data.MAXLV <= LV)
+        {
+            //Debug.Log("최대레벨임");
+            var ui = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+            ui.Message = "최대레벨에 도달했습니다.";
+            return;
+        }
+
+        Main.Instance.Player_AP--;
+        Debug.Log($"{Name_KR} 훈련진행");
+        LevelUp(true); ;
+    }
+
+    public void LevelUp(bool _showPopup)
+    {
         if (Data.MAXLV <= LV)
         {
             Debug.Log("최대레벨임");
             return;
         }
 
-        Main.Instance.Player_AP--;
-        Debug.Log($"{Name_KR} 훈련진행");
-        LevelUp();
-    }
-
-    public void LevelUp()
-    {
-        var ui = Managers.UI.ShowPopUpAlone<UI_StatusUp>();
-        ui.TargetMonster(this);
+        if (_showPopup)
+        {
+            var ui = Managers.UI.ShowPopUp<UI_StatusUp>();
+            ui.TargetMonster(this);
+        }
 
         LV++;
 

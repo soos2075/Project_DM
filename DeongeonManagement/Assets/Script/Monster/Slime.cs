@@ -13,6 +13,7 @@ public class Slime : Monster
     {
         Data = GameManager.Monster.GetMonsterData("Slime");
         Type = MonsterType.Normal_Move;
+
     }
 
 

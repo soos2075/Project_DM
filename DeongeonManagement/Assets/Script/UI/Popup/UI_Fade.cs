@@ -91,7 +91,7 @@ public class UI_Fade : UI_PopUp
         yield return new WaitForEndOfFrame();
         if (SelfClose)
         {
-            Managers.Resource.Destroy(gameObject);
+            Managers.UI.ClosePopupPick(this);
         }
     }
 }

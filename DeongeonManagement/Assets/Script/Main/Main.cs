@@ -33,9 +33,39 @@ public class Main : MonoBehaviour
     void Start()
     {
         Debug.Log("디버그용 Start");
-        NewGame_Init();
-        Default_Init();
+        //NewGame_Init();
+        //Default_Init();
+        Test_Init();
     }
+    [Obsolete]
+    void Test_Init()
+    {
+        ActiveFloor_Basement = 5;
+        ActiveFloor_Technical = 2;
+        DungeonRank = 2;
+
+        DangerOfDungeon = 100;
+        FameOfDungeon = 80;
+        //Turn = 7;
+
+        Player_Mana = 3000;
+        Player_Gold = 3000;
+        Player_AP = 100;
+        AP_MAX = 100;
+
+        Init_BasementFloor();
+        Init_Animation();
+        UI_Main.Start_Main();
+        UI_Main.ButtonAllActive();
+
+        Init_DayResult();
+        ExpansionConfirm();
+        GameManager.Technical.Expantion_Technical();
+
+        Init_Secret();
+        Init_Basic();
+    }
+
 
     UI_Management _ui_main;
     UI_Management UI_Main 
@@ -61,7 +91,6 @@ public class Main : MonoBehaviour
 
 
         Init_BasementFloor();
-        _dayList = new List<DayResult>();
         Init_Animation();
         UI_Main.Start_Main();
 
@@ -79,9 +108,6 @@ public class Main : MonoBehaviour
         ActiveFloor_Technical = 0;
         DungeonRank = 1;
 
-        DangerOfDungeon = 100;
-        FameOfDungeon = 200;
-
         Player_Mana = 300;
         Player_Gold = 300;
         Player_AP = 2;
@@ -89,12 +115,9 @@ public class Main : MonoBehaviour
 
 
         Init_BasementFloor();
-        _dayList = new List<DayResult>();
         Init_Animation();
         UI_Main.Start_Main();
-
         Init_DayResult();
-
         ExpansionConfirm();
         GameManager.Technical.Expantion_Technical();
 
@@ -191,7 +214,7 @@ public class Main : MonoBehaviour
 
         CurrentDay = data.CurrentDay;
 
-        _dayList = data.DayResultList;
+        DayList = data.DayResultList;
 
         ActiveFloor_Basement = (data.ActiveFloor_Basement);
         ActiveFloor_Technical = (data.ActiveFloor_Technical);
@@ -269,7 +292,7 @@ public class Main : MonoBehaviour
     public int Prisoner { get; set; }
 
 
-    public List<DayResult> _dayList;
+    public List<DayResult> DayList { get; private set; } = new List<DayResult>();
 
     public DayResult CurrentDay { get; set; }
 
@@ -337,8 +360,6 @@ public class Main : MonoBehaviour
             Use_Kill += value;
         }
 
-        public int Monster_Injury;
-        public int Monster_LvUP;
 
         public int Fame { get; set; }
         public int Danger { get; set; }
@@ -364,7 +385,7 @@ public class Main : MonoBehaviour
 
     void DayOver_Dayresult()
     {
-        _dayList.Add(CurrentDay);
+        DayList.Add(CurrentDay);
         AddScore(CurrentDay);
 
 
@@ -379,7 +400,7 @@ public class Main : MonoBehaviour
         EventManager.Instance.TryRankUp(FameOfDungeon, DangerOfDungeon);
 
         var ui = Managers.UI.ShowPopUp<UI_DayResult>();
-        ui.TextContents(_dayList[Turn - 1]);
+        ui.TextContents(DayList[Turn - 1]);
         //ui.RankUpResult(EventManager.Instance.TryRankUp(FameOfDungeon, DangerOfDungeon));
         //? 위가 적용 아래가 새로교체
 
@@ -444,6 +465,7 @@ public class Main : MonoBehaviour
             else
             {
                 DayOver_Dayresult();
+                DayMonsterEvent();
                 NightEvent();
                 TurnOverEvent();
                 UI_Main.Texts_Refresh();
@@ -492,6 +514,21 @@ public class Main : MonoBehaviour
                 //GameManager.NPC.AddEventNPC(NPCManager.NPCType.Adventurer_0, 9);
                 break;
 
+            case 15:
+                Debug.Log("8일차 시작 이벤트 - 패배 트리거 이벤트 모험가 소환");
+                //GameManager.NPC.AddEventNPC(NPCManager.NPCType.Adventurer_0, 9);
+                break;
+
+            case 23:
+                Debug.Log("8일차 시작 이벤트 - 패배 트리거 이벤트 모험가 소환");
+                //GameManager.NPC.AddEventNPC(NPCManager.NPCType.Adventurer_0, 9);
+                break;
+
+            case 30:
+                Debug.Log("8일차 시작 이벤트 - 패배 트리거 이벤트 모험가 소환");
+                //GameManager.NPC.AddEventNPC(NPCManager.NPCType.Adventurer_0, 9);
+                break;
+
 
             default:
                 break;
@@ -520,25 +557,23 @@ public class Main : MonoBehaviour
                 break;
 
             case 3:
-                Debug.Log("3일차 종료 이벤트 - 없음");
-                break;
-
-            case 4:
                 Debug.Log("4일차 종료 이벤트 - 테크니컬");
                 Technical_Expansion();
                 Managers.Dialogue.ShowDialogueUI("Technical", GameObject.Find("Player").transform);
                 break;
 
-            case 5:
-                Debug.Log("5일차 종료 이벤트 - 비밀방");
+            case 4:
+                Debug.Log("4일차 종료 이벤트 - 비밀방");
                 Managers.Dialogue.ShowDialogueUI("EggAppear", GameObject.Find("Player").transform);
-                //yield return StartCoroutine(TurnEvent_EggAppear());
+                break;
+
+            case 5:
+                Debug.Log("5일차 종료 이벤트 - 길드");
+                Managers.Dialogue.ShowDialogueUI("Guild", GameObject.Find("Player").transform);
+                UI_Main.Active_Button(UI_Management.ButtonEvent._4_Guild);
                 break;
 
             case 6:
-                Debug.Log("6일차 종료 이벤트 - 길드");
-                Managers.Dialogue.ShowDialogueUI("Guild", GameObject.Find("Player").transform);
-                UI_Main.Active_Button(UI_Management.ButtonEvent._4_Guild);
                 break;
 
             default:
@@ -558,6 +593,27 @@ public class Main : MonoBehaviour
         Managers.Data.SaveToJson("AutoSave", 0);
     }
 
+
+
+    void DayMonsterEvent()
+    {
+        if (GameManager.Monster.LevelUpList != null)
+        {
+            foreach (var item in GameManager.Monster.LevelUpList)
+            {
+                Managers.UI.Popup_Reservation(() => 
+                {
+                    for (int i = 0; i < item.times; i++)
+                    {
+                        item.monster.LevelUp(false);
+                    }
+                    var ui = Managers.UI.ShowPopUp<UI_StatusUp>();
+                    ui.TargetMonster(item.monster, item.lv, item.hpMax, item.atk, item.def, item.agi, item.luk);
+                });
+            }
+            GameManager.Monster.LevelUpList.Clear();
+        }
+    }
 
 
 

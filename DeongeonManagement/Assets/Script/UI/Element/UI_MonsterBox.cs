@@ -15,6 +15,7 @@ public class UI_MonsterBox : UI_Base
     public Monster monster;
     public UI_Monster_Management parent;
 
+
     enum Contents
     {
         BG,
@@ -69,7 +70,7 @@ public class UI_MonsterBox : UI_Base
 
     void Clear()
     {
-        GetObject(((int)Contents.Sprite)).GetComponent<Image>().sprite = Managers.Sprite.GetSprite("Nothing");
+        GetObject(((int)Contents.Sprite)).GetComponent<Image>().sprite = Managers.Sprite.GetClear();
         GetObject(((int)Contents.Name)).GetComponent<TextMeshProUGUI>().text = "";
         GetObject(((int)Contents.State)).GetComponent<TextMeshProUGUI>().text = "";
         GetObject(((int)Contents.Lv)).GetComponent<TextMeshProUGUI>().text = "";

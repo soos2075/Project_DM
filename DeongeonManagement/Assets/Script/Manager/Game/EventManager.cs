@@ -40,20 +40,20 @@ public class EventManager : MonoBehaviour
     }
     public void Init()
     {
-        DialogueAction = new Dictionary<int, Action>();
+        GuildNPCAction = new Dictionary<int, Action>();
         EventAction = new Dictionary<string, Action>();
 
         AddDialogueAction();
         AddEventAction();
     }
 
-    Dictionary<int, Action> DialogueAction;
+    Dictionary<int, Action> GuildNPCAction;
     Dictionary<string, Action> EventAction;
 
 
     void AddDialogueAction()
     {
-        DialogueAction.Add(2100, () => GuildManager.Instance.AddBackAction(() => Main.Instance.CurrentDay.Fame += 15));
+        GuildNPCAction.Add(2100, () => GuildManager.Instance.AddBackAction(() => Main.Instance.CurrentDay.Fame += 15));
     }
     void AddEventAction()
     {
@@ -88,10 +88,16 @@ public class EventManager : MonoBehaviour
 
     }
 
+    public void AddCustomAction(string _name, Action _action)
+    {
+        EventAction.Add(_name, _action);
+    }
+
+
     public Action GetAction(int dialogueID)
     {
         Action action = null;
-        DialogueAction.TryGetValue(dialogueID, out action);
+        GuildNPCAction.TryGetValue(dialogueID, out action);
         return action;
     }
 

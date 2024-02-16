@@ -34,7 +34,7 @@ public class SceneManagerEx
     {
         CurrentOperation.allowSceneActivation = false;
 
-        var fade = Managers.UI.ShowPopUpNonPush<UI_Fade>();
+        var fade = Managers.UI.ShowPopUpAlone<UI_Fade>();
         fade.SetFadeOption(UI_Fade.FadeMode.Out, 2);
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => fade.isFade == false);
@@ -43,7 +43,7 @@ public class SceneManagerEx
     }
     void FadeIn()
     {
-        var fade = Managers.UI.ShowPopUpNonPush<UI_Fade>();
+        var fade = Managers.UI.ShowPopUpAlone<UI_Fade>();
         fade.SetFadeOption(UI_Fade.FadeMode.In, 2);
     }
 

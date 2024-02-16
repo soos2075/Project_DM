@@ -166,7 +166,7 @@ public class DataManager
         saveData.Prisoner = Main.Instance.Prisoner;
         saveData.CurrentDay = Main.Instance.CurrentDay;
 
-        saveData.DayResultList = Main.Instance._dayList;
+        saveData.DayResultList = Main.Instance.DayList;
 
         saveData.ActiveFloor_Basement = Main.Instance.ActiveFloor_Basement;
         saveData.ActiveFloor_Technical = Main.Instance.ActiveFloor_Technical;

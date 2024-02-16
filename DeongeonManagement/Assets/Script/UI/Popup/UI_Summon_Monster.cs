@@ -30,6 +30,7 @@ public class UI_Summon_Monster : UI_PopUp
     enum Info
     {
         CurrentMana,
+        NeedMana,
     }
 
     public override void Init()
@@ -44,6 +45,7 @@ public class UI_Summon_Monster : UI_PopUp
         Init_Preview();
         Init_Buttons();
         Init_Texts();
+        Clear_NeedText();
 
         Init_Contents();
     }
@@ -53,11 +55,12 @@ public class UI_Summon_Monster : UI_PopUp
     {
         for (int i = 0; i < 3; i++)
         {
+            GetObject(i + 3).transform.parent.GetComponent<Image>().color = Color.clear;
             GetObject(i + 3).GetComponent<Image>().color = Color.clear;
             GetObject(i + 3).GetComponentInChildren<TextMeshProUGUI>().text = "";
         }
 
-        GetObject((int)Preview.Preview_Image).GetComponent<Image>().sprite = Managers.Sprite.GetSprite("Nothing");
+        GetObject((int)Preview.Preview_Image).GetComponent<Image>().sprite = Managers.Sprite.GetClear();
         GetObject((int)Preview.Preview_Text_Title).GetComponent<TextMeshProUGUI>().text = "";
         GetObject((int)Preview.Preview_Text_Contents).GetComponent<TextMeshProUGUI>().text = "";
     }
@@ -65,9 +68,9 @@ public class UI_Summon_Monster : UI_PopUp
     {
         GetButton((int)Buttons.Return).gameObject.AddUIEvent(data => CloseAll());
     }
-    void Init_Texts()
+    void Init_Texts() //? 추후에 행동력이나 기타등등 필요하면 다시 추가
     {
-        GetTMP((int)Info.CurrentMana).text = $"현재 마나 : {Main.Instance.Player_Mana}";
+        GetTMP((int)Info.CurrentMana).text = $"마나\t{Main.Instance.Player_Mana}";
     }
 
 
@@ -87,6 +90,45 @@ public class UI_Summon_Monster : UI_PopUp
     }
 
 
+
+    void Clear_NeedText()
+    {
+        GetTMP((int)Info.NeedMana).text = "";
+    }
+    void Set_NeedTexts(int mana, int gold, int ap)
+    {
+        if (mana == 0)
+        {
+            GetTMP((int)Info.NeedMana).text = $"\n";
+        }
+        else
+        {
+            GetTMP((int)Info.NeedMana).text = $"-{mana}";
+        }
+
+        if (gold == 0)
+        {
+            GetTMP((int)Info.NeedMana).text += $"\n";
+        }
+        else
+        {
+            GetTMP((int)Info.NeedMana).text += $"\n-{gold}";
+        }
+
+        if (ap == 0)
+        {
+            GetTMP((int)Info.NeedMana).text += $"\n";
+        }
+        else
+        {
+            GetTMP((int)Info.NeedMana).text += $"\n-{ap}";
+        }
+    }
+
+
+
+
+
     public MonsterData Current { get; set; }
     List<UI_Monster_Content> childList = new List<UI_Monster_Content>();
 
@@ -95,9 +137,10 @@ public class UI_Summon_Monster : UI_PopUp
         Current = content;
         for (int i = 0; i < childList.Count; i++)
         {
-            childList[i].ChangePanelColor(Define.Color_Gray);
+            childList[i].ChangePanelColor(Define.Color_Gamma_4);
         }
         PreviewRefresh(content);
+        Set_NeedTexts(content.ManaCost, 0, 0);
     }
 
 
@@ -116,13 +159,17 @@ public class UI_Summon_Monster : UI_PopUp
 
     void MonsterSummon(MonsterData data)
     {
-        if (GameManager.Monster.MaximumCheck() && Main.Instance.Player_Mana >= data.ManaCost)
+        if (GameManager.Monster.MaximumCheck())
         {
-            SummonConfirm(data);
+            if (ConfirmCheck(data.ManaCost))
+            {
+                SummonConfirm(data);
+            }
         }
         else
         {
-            Debug.Log("자리없어인마 아님 마나부족일수도");
+            var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+            msg.Message = "몬스터 슬롯이 부족합니다";
         }
     }
 
@@ -135,12 +182,45 @@ public class UI_Summon_Monster : UI_PopUp
 
         GameManager.Monster.AddMonster(mon);
 
-        Debug.Log($"{data.ManaCost}마나를 사용하여 {data.Name_KR}을 소환");
+        //Debug.Log($"{data.ManaCost}마나를 사용하여 {data.Name_KR}을 소환");
         Main.Instance.CurrentDay.SubtractMana(data.ManaCost);
 
         Init_Texts();
+
+        var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+        msg.Message = $"{data.Name_KR} 소환 성공!";
     }
 
+
+    bool ConfirmCheck(int mana, int gold = 0, int lv = 0, int ap = 0)
+    {
+        if (Main.Instance.Player_Mana < mana)
+        {
+            var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+            msg.Message = "마나가 부족합니다";
+            return false;
+        }
+        if (Main.Instance.Player_Gold < gold)
+        {
+            var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+            msg.Message = "골드가 부족합니다";
+            return false;
+        }
+        if (Main.Instance.DungeonRank < lv)
+        {
+            var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+            msg.Message = "던전 등급이 부족합니다";
+            return false;
+        }
+        if (Main.Instance.Player_AP < ap)
+        {
+            var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+            msg.Message = "행동력이 부족합니다";
+            return false;
+        }
+
+        return true;
+    }
 
 
 }

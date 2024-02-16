@@ -272,7 +272,7 @@ public class BattleField : MonoBehaviour
         int damage = 1;
         if (TryDodge(monster.LUK, npc.LUK))
         {
-            Debug.Log("회피함");
+            //Debug.Log("회피함");
             damage = 0;
         }
         else
@@ -299,7 +299,7 @@ public class BattleField : MonoBehaviour
         int damage = 1;
         if (TryDodge(npc.LUK, monster.LUK))
         {
-            Debug.Log("회피함");
+            //Debug.Log("회피함");
             damage = 0;
         }
         else

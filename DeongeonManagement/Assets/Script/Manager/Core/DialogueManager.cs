@@ -60,6 +60,7 @@ public class DialogueManager
         SO_DialogueData data = GetDialogue(dialogueName);
         if (data == null)
         {
+            Debug.Log($"dialogueData ¾øÀ½ : {dialogueName}");
             return;
         }
         ShowDialogueUI(data, pos);

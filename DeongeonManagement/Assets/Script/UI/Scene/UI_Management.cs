@@ -83,7 +83,6 @@ public class UI_Management : UI_Base
         Texts_Refresh();
         Init_Button();
        
-
         StartCoroutine(DayInit());
     }
 
@@ -114,6 +113,26 @@ public class UI_Management : UI_Base
         GetButton((int)ButtonEvent.Test2).gameObject.AddUIEvent((data) => GameManager.NPC.TestCreate("Herbalist"));
         GetButton((int)ButtonEvent.Test3).gameObject.AddUIEvent((data) => GameManager.NPC.TestCreate("Miner"));
         GetButton((int)ButtonEvent.DayChange_Temp).gameObject.AddUIEvent((data) => DayChange_Temp());
+    }
+
+    [System.Obsolete]
+    public void ButtonAllActive()
+    {
+        StartCoroutine(ObsAct());
+    }
+    IEnumerator ObsAct()
+    {
+        yield return new WaitForSecondsRealtime(1);
+        GetButton((int)ButtonEvent._1_Facility).gameObject.SetActive(true);
+        GetButton((int)ButtonEvent._2_Summon).gameObject.SetActive(true);
+        GetButton((int)ButtonEvent._3_Management).gameObject.SetActive(true);
+        GetButton((int)ButtonEvent._4_Guild).gameObject.SetActive(true);
+        GetButton((int)ButtonEvent._5_Special).gameObject.SetActive(true);
+        GetButton((int)ButtonEvent.Test1).gameObject.SetActive(true);
+        GetButton((int)ButtonEvent.Test2).gameObject.SetActive(true);
+        GetButton((int)ButtonEvent.Test3).gameObject.SetActive(true);
+
+        Active_Floor();
     }
 
 

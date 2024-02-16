@@ -25,6 +25,29 @@ public class UI_StartMenu : UI_Scene
         GetButton(((int)Buttons.NewGame)).gameObject.AddUIEvent(data => Button_NewGame());
 
         GetButton(((int)Buttons.Load)).gameObject.AddUIEvent(data => LoadGame());
+
+        LoadButtonActive();
+    }
+
+
+
+    void LoadButtonActive()
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            if (Managers.Data.GetData($"DM_Save_{i}") != null)
+            {
+                Debug.Log($"Data exist : DM_Save_{i}");
+                return;
+            }
+        }
+        if (Managers.Data.GetData($"AutoSave") != null)
+        {
+            Debug.Log($"Data exist : AutoSave");
+            return;
+        }
+
+        GetButton(((int)Buttons.Load)).gameObject.SetActive(false);
     }
 
 

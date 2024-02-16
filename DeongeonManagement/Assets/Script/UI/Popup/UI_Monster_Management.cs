@@ -153,18 +153,18 @@ public class UI_Monster_Management : UI_PopUp
         GetTMP(((int)Texts.Name)).text = "";
         GetTMP(((int)Texts.Status)).text = "";
         GetTMP(((int)Texts.State)).text = "";
-        GetObject(((int)Etc.Profile)).GetComponent<Image>().sprite = Managers.Sprite.GetSprite("Nothing");
+        GetObject(((int)Etc.Profile)).GetComponent<Image>().sprite = Managers.Sprite.GetClear();
     }
 
     void SelectedPanel(UI_MonsterBox selected)
     {
-        selected.ChangePanelColor(Define.Color_Yellow);
+        selected.ChangePanelColor(Define.Color_Alpha_2);
 
         Current = selected;
         //Debug.Log(Current.monster.MonsterID);
         for (int i = 0; i < childList.Count; i++)
         {
-            childList[i].ChangePanelColor(Define.Color_Dark);
+            childList[i].ChangePanelColor(Define.Color_Alpha_6);
         }
     }
 

@@ -118,7 +118,7 @@ public class UI_Placement_Facility : UI_PopUp
             GetObject(i + 3).GetComponentInChildren<TextMeshProUGUI>().text = "";
         }
 
-        GetObject((int)Preview.Preview_Image).GetComponent<Image>().sprite = Managers.Sprite.GetSprite("Nothing");
+        GetObject((int)Preview.Preview_Image).GetComponent<Image>().sprite = Managers.Sprite.GetClear();
         GetObject((int)Preview.Preview_Text_Title).GetComponent<TextMeshProUGUI>().text = "";
         GetObject((int)Preview.Preview_Text_Contents).GetComponent<TextMeshProUGUI>().text = "";
     }

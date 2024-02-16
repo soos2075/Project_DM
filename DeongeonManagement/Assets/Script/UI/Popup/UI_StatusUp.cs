@@ -61,34 +61,16 @@ public class UI_StatusUp : UI_PopUp
     void ShowDefault()
     {
         GetImage(((int)Images.Profile)).sprite = monster.Data.sprite;
-        GetTMP(((int)Texts.Name)).text = monster.Data.Name_KR;
+        GetTMP(((int)Texts.Name)).text = monster.Data.Name_KR.SetTextColorTag(Define.TextColor.monster_green);
     }
     void ShowUpStatus()
     {
         GetTMP(((int)Texts.Lv)).text = $"LV.{show_lv}";
-        GetTMP(((int)Texts.Status)).text = $"HP : {show_hp}\n" +
-            $"ATK : {show_atk} \tDEF : {show_def} \n" +
-            $"AGI : {show_agi} \tLUK : {show_luk}";
+        GetTMP(((int)Texts.Status)).text = $"HP\t{show_hp}\n" +
+            $"ATK\t{show_atk} \tDEF\t{show_def} \n" +
+            $"AGI\t{show_agi} \tLUK\t{show_luk}";
     }
 
-
-    [System.Obsolete]
-    IEnumerator TestFunc()
-    {
-        var mon = GameManager.Placement.CreatePlacementObject("Monster/Slime", null, Define.PlacementType.Monster);
-        GameManager.Monster.AddMonster(mon as Monster);
-
-        yield return new WaitForEndOfFrame();
-        TargetMonster(mon as Monster);
-        ShowDefault();
-        
-
-        yield return new WaitForEndOfFrame();
-        monster.LevelUp();
-        AfterStatus();
-        StatusComparison();
-        ShowUpStatus();
-    }
 
 
     Monster monster;
@@ -131,6 +113,25 @@ public class UI_StatusUp : UI_PopUp
         show_def = monster.DEF.ToString();
         show_agi = monster.AGI.ToString();
         show_luk = monster.LUK.ToString();
+    }
+
+    public void TargetMonster(Monster _monster, int _lv, int _hpMax, int _atk, int _def, int _agi, int _luk)
+    {
+        monster = _monster;
+
+        before_lv = _lv;
+        before_hp = _hpMax;
+        before_atk = _atk;
+        before_def = _def;
+        before_agi = _agi;
+        before_luk = _luk;
+
+        show_lv = _lv.ToString();
+        show_hp = _hpMax.ToString();
+        show_atk = _atk.ToString();
+        show_def = _def.ToString();
+        show_agi = _agi.ToString();
+        show_luk = _luk.ToString();
     }
 
     void AfterStatus()

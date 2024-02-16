@@ -11,6 +11,7 @@ public class Goblin : Monster
     {
         Type = MonsterType.Normal_Fixed;
         Data = GameManager.Monster.GetMonsterData("Skeleton");
+
     }
 
 }
