@@ -146,7 +146,7 @@ public class Director_Story : MonoBehaviour
         yield return new WaitForSecondsRealtime(2);
 
         var fade = Managers.UI.ShowPopUpAlone<UI_Fade>();
-        fade.SetFadeOption(UI_Fade.FadeMode.Out, 2, false);
+        fade.SetFadeOption(UI_Fade.FadeMode.BlackOut, 2, false);
 
         //yield return new WaitForSecondsRealtime(4);
         //Destroy(fade.gameObject);
@@ -203,7 +203,7 @@ public class Director_Story : MonoBehaviour
     IEnumerator Scene2_FadeOut()
     {
         var fade = Managers.UI.ShowPopUpAlone<UI_Fade>();
-        fade.SetFadeOption(UI_Fade.FadeMode.Out, 2, false);
+        fade.SetFadeOption(UI_Fade.FadeMode.BlackOut, 2, false);
 
         yield return new WaitForSecondsRealtime(3f);
         StartScene_3();
@@ -279,7 +279,7 @@ public class Director_Story : MonoBehaviour
 
     void SceneOver_GotoManagement()
     {
-        Managers.Scene.LoadSceneAsync("2_Management");
+        Managers.Scene.LoadSceneAsync(SceneName._2_Management);
         Managers.Scene.AddLoadAction_OneTime(() => Main.Instance.NewGame_Init());
 
 
@@ -311,7 +311,7 @@ public class Director_Story : MonoBehaviour
         yield return new WaitForSecondsRealtime(2);
 
         var fade = Managers.UI.ShowPopUpAlone<UI_Fade>();
-        fade.SetFadeOption(UI_Fade.FadeMode.In, 2, true);
+        fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 2, true);
     }
 
 }

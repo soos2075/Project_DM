@@ -37,7 +37,7 @@ public class UI_PopUp : UI_Base
         if (obj)
         {
             obj.AddUIEvent((data) => Managers.UI.ClosePopUp(), Define.UIEvent.RightClick);
-            Debug.Log($"{name} : 우클릭 창닫기 이벤트 추가됨");
+            //Debug.Log($"{name} : 우클릭 창닫기 이벤트 추가됨");
         }
 
         
@@ -48,7 +48,7 @@ public class UI_PopUp : UI_Base
         if (obj)
         {
             obj.AddUIEvent((data) => Managers.UI.CloseAll(), Define.UIEvent.RightClick);
-            Debug.Log($"{name}우클릭 전체닫기 이벤트 추가됨");
+            //Debug.Log($"{name}우클릭 전체닫기 이벤트 추가됨");
         }
     }
 }

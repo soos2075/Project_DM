@@ -129,7 +129,7 @@ public class Save_FacilityData
             case Facility.FacilityType.Special:
                 isOnlyOne = true;
                 break;
-            case Facility.FacilityType.Event:
+            case Facility.FacilityType.NPCEvent:
                 isOnlyOne = true;
                 break;
 

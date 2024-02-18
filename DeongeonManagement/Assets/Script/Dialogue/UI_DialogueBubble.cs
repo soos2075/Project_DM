@@ -27,7 +27,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
     {
         Managers.UI.SetCanvas(gameObject, RenderMode.WorldSpace, true);
 
-        if (Managers.Scene.GetSceneName() != "2_Management")
+        if (Managers.Scene.GetCurrentScene() != SceneName._2_Management)
         {
             GetComponent<RectTransform>().localScale = Vector3.one * 0.02f;
         }
@@ -115,9 +115,10 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
     public Transform bubble_Position;
     [field: SerializeField]
     public SO_DialogueData Data { get; set; }
+    public float TextDelay { get; set; }
 
     int textCount;
-    public float delay;
+
     public int charCount = 1;
 
     WaitForSecondsRealtime seconds;
@@ -126,7 +127,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
 
     void Init_Conversation()
     {
-        seconds = new WaitForSecondsRealtime(delay);
+        seconds = new WaitForSecondsRealtime(TextDelay);
         //GetObject(((int)Objects.TextBox)).AddUIEvent((data) => SkipText(), Define.UIEvent.LeftClick);
         //GetObject(((int)Objects.Panel)).AddUIEvent((data) => SkipText(), Define.UIEvent.LeftClick);
 

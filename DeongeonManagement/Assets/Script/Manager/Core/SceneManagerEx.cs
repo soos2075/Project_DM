@@ -10,9 +10,10 @@ public class SceneManagerEx
     public void Init()
     {
         OneTimeAction = new List<UnityAction<Scene, LoadSceneMode>>();
-        AddLoadAction_Usual(() => LoadActionOver());
-        AddLoadAction_Usual(() => Managers.UI.SceneChange());
-        AddLoadAction_Usual(() => FadeIn());
+        AddLoadAction_Usual((scene, mode) => LoadActionOver());
+        AddLoadAction_Usual((scene, mode) => Managers.UI.SceneChange());
+        AddLoadAction_Usual((scene, mode) => FadeIn());
+        AddLoadAction_Usual((scene, mode) => BGM_Change(GetSceneEnum(scene.name)));
 
         //loadAction = new List<Action>();
         //SceneManager.sceneLoaded += CustomSceneLoadAction;
@@ -21,9 +22,9 @@ public class SceneManagerEx
     List<UnityAction<Scene, LoadSceneMode>> OneTimeAction;
     AsyncOperation CurrentOperation { get; set; }
 
-    public void LoadSceneAsync(string sceneName, bool _fade = true)
+    public void LoadSceneAsync(SceneName _sceneName, bool _fade = true)
     {
-        CurrentOperation = SceneManager.LoadSceneAsync(sceneName);
+        CurrentOperation = SceneManager.LoadSceneAsync(_sceneName.ToString());
 
         if (_fade)
         {
@@ -35,7 +36,7 @@ public class SceneManagerEx
         CurrentOperation.allowSceneActivation = false;
 
         var fade = Managers.UI.ShowPopUpAlone<UI_Fade>();
-        fade.SetFadeOption(UI_Fade.FadeMode.Out, 2);
+        fade.SetFadeOption(UI_Fade.FadeMode.BlackOut, 2);
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => fade.isFade == false);
 
@@ -44,13 +45,41 @@ public class SceneManagerEx
     void FadeIn()
     {
         var fade = Managers.UI.ShowPopUpAlone<UI_Fade>();
-        fade.SetFadeOption(UI_Fade.FadeMode.In, 2);
+        fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 2);
     }
 
 
-    public void AddLoadAction_Usual(Action action)
+    void BGM_Change(SceneName _scene)
     {
-        SceneManager.sceneLoaded += (scene, mode) => action.Invoke();
+        switch (_scene)
+        {
+            case SceneName._1_Start:
+                SoundManager.Instance.PlaySound("BGM/StartScene", Define.AudioType.BGM);
+                break;
+
+            case SceneName._2_Management:
+                SoundManager.Instance.PlaySound("BGM/MainThema", Define.AudioType.BGM);
+                break;
+
+            case SceneName._3_Guild:
+                SoundManager.Instance.PlaySound("BGM/Guild", Define.AudioType.BGM);
+                break;
+
+            case SceneName._4_Direction:
+                SoundManager.Instance.PlaySound("BGM/Opening", Define.AudioType.BGM);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+
+
+
+    public void AddLoadAction_Usual(Action<Scene, LoadSceneMode> action)
+    {
+        SceneManager.sceneLoaded += (scene, mode) => action.Invoke(scene, mode);
     }
     public void AddLoadAction_OneTime(Action action)
     {
@@ -75,10 +104,6 @@ public class SceneManagerEx
     //    loadAction.Clear();
     //}
 
-
-
-
-
     void LoadActionOver() //? 얘가 sceneLoaded의 첫번째 함수로서 실행이 되서 sceneLoaded의 체인이 0이되어도 일단 이미 명령이 들어가서 다 실행은 함.
     {
         for (int i = 0; i < OneTimeAction.Count; i++)
@@ -90,10 +115,66 @@ public class SceneManagerEx
         OneTimeAction.Clear();
     }
 
-    public string GetSceneName()
+
+
+
+    public SceneName GetCurrentScene()
     {
-        return SceneManager.GetActiveScene().name;
+        string sName = SceneManager.GetActiveScene().name;
+        //Debug.Log(sName);
+        switch (sName)
+        {
+            case "_1_Start":
+                return SceneName._1_Start;
+
+            case "_2_Management":
+                return SceneName._2_Management;
+
+            case "_3_Guild":
+                return SceneName._3_Guild;
+
+            case "_4_Direction":
+                return SceneName._4_Direction;
+
+            case "_5_Ending":
+                return SceneName._5_Ending;
+
+            default:
+                return SceneName._1_Start;
+        }
     }
 
+    SceneName GetSceneEnum(string _name)
+    {
+        switch (_name)
+        {
+            case "_1_Start":
+                return SceneName._1_Start;
 
+            case "_2_Management":
+                return SceneName._2_Management;
+
+            case "_3_Guild":
+                return SceneName._3_Guild;
+
+            case "_4_Direction":
+                return SceneName._4_Direction;
+
+            case "_5_Ending":
+                return SceneName._5_Ending;
+
+            default:
+                return SceneName._1_Start;
+        }
+    }
+
+}
+
+public enum SceneName
+{
+    _1_Start = 1,
+    _2_Management = 2,
+    _3_Guild = 3,
+    _4_Direction = 4,
+    _5_Ending = 5,
 }

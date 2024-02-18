@@ -24,7 +24,7 @@ public class Herbalist : NPC
         AddList(list1);
         AddList(list2, AddPos.Front);
 
-        var list5 = GetFacilityPick(Facility.FacilityType.Event);
+        var list5 = GetFacilityPick(Facility.FacilityType.NPCEvent);
         AddList(list5);
 
         PickToProbability(GetPriorityPick(typeof(Entrance_Egg)), (PlacementInfo.Place_Floor.FloorIndex + Rank) * 0.04f);

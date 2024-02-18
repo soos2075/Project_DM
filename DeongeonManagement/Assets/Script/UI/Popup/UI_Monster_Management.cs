@@ -20,6 +20,11 @@ public class UI_Monster_Management : UI_PopUp
         SubPanel,
         GridPanel,
         ButtonPanel,
+
+        CommandPanel,
+        atk,
+        def,
+        wan,
     }
 
     enum Texts
@@ -42,6 +47,11 @@ public class UI_Monster_Management : UI_PopUp
         Release,
         Recover,
         Return,
+
+        //? Command
+        Command_Attack,
+        Command_Defend,
+        Command_Wander,
     }
 
     public override void Init()
@@ -68,6 +78,9 @@ public class UI_Monster_Management : UI_PopUp
                 Init_Placement();
                 break;
         }
+
+        ButtonClear();
+        Init_CommandPanel();
     }
 
 
@@ -87,14 +100,62 @@ public class UI_Monster_Management : UI_PopUp
     void Init_Placement()
     {
         //? Main.Instance.CurrentFloor이 결정되있는 상태 = 즉 바로 배치로 들어감
-        //GetObject((int)Objects.ResumeCount).GetComponent<TextMeshProUGUI>().text = $"배치 가능 횟수 : {Main.Instance.CurrentFloor.MaxMonsterSize}";
         GetTMP((int)Texts.DetailInfo).text = $"{Main.Instance.CurrentFloor.Name_KR}\n배치된 몬스터 : {Main.Instance.CurrentFloor.monsterList.Count}\n" +
             $"추가 배치가능 몬스터 : {Main.Instance.CurrentFloor.MaxMonsterSize}";
-        ButtonClear();
+        //ButtonClear();
     }
 
 
+    void Init_CommandPanel()
+    {
+        GetButton(((int)Buttons.Command_Attack)).gameObject.AddUIEvent(data => ChangeMoveMode(Monster.MoveType.Move_Hunting));
+        GetButton(((int)Buttons.Command_Defend)).gameObject.AddUIEvent(data => ChangeMoveMode(Monster.MoveType.Fixed));
+        GetButton(((int)Buttons.Command_Wander)).gameObject.AddUIEvent(data => ChangeMoveMode(Monster.MoveType.Move_Wandering));
 
+        GetImage(((int)Panels.CommandPanel)).gameObject.SetActive(false);
+    }
+
+    void ChangeMoveMode(Monster.MoveType _mode)
+    {
+        if (Current == null || Current.monster == null) return;
+
+        Current.monster.SetMoveType(_mode);
+        //Debug.Log("change");
+        SelectedImage();
+    }
+
+    
+
+    void AddCommandPanel()
+    {
+        if (Current == null || Current.monster == null) return;
+
+        GetImage(((int)Panels.CommandPanel)).gameObject.SetActive(true);
+        SelectedImage();
+    }
+    void SelectedImage()
+    {
+        switch (Current.monster.Mode)
+        {
+            case Monster.MoveType.Fixed:
+                GetImage(((int)Panels.atk)).color = Color.clear;
+                GetImage(((int)Panels.def)).color = Color.white;
+                GetImage(((int)Panels.wan)).color = Color.clear;
+                break;
+
+            case Monster.MoveType.Move_Wandering:
+                GetImage(((int)Panels.atk)).color = Color.clear;
+                GetImage(((int)Panels.def)).color = Color.clear;
+                GetImage(((int)Panels.wan)).color = Color.white;
+                break;
+
+            case Monster.MoveType.Move_Hunting:
+                GetImage(((int)Panels.atk)).color = Color.white;
+                GetImage(((int)Panels.def)).color = Color.clear;
+                GetImage(((int)Panels.wan)).color = Color.clear;
+                break;
+        }
+    }
 
 
     void CreateMonsterBox()
@@ -132,6 +193,7 @@ public class UI_Monster_Management : UI_PopUp
         }
 
         AddButtonEvent();
+        AddCommandPanel();
 
 
         GetTMP(((int)Texts.Lv)).text = $"Lv.{selected.monster.LV}";
@@ -146,6 +208,18 @@ public class UI_Monster_Management : UI_PopUp
 
         GetObject(((int)Etc.Profile)).GetComponent<Image>().sprite = selected.monster.Data.sprite;
     }
+
+    public void ShowDetail(Monster _monster)
+    {
+        foreach (var item in childList)
+        {
+            if (item.monster == _monster)
+            {
+                ShowDetail(item);
+            }
+        }
+    }
+
 
     void TextClear()
     {
@@ -177,7 +251,7 @@ public class UI_Monster_Management : UI_PopUp
     #region Buttons
     void ButtonClear()
     {
-        for (int i = 0; i < Enum.GetNames(typeof(Buttons)).Length; i++)
+        for (int i = 0; i < 5; i++)
         {
             GetButton(i).gameObject.SetActive(false);
         }
@@ -185,7 +259,7 @@ public class UI_Monster_Management : UI_PopUp
 
     void Init_ButtonEvent()
     {
-        for (int i = 0; i < Enum.GetNames(typeof(Buttons)).Length; i++)
+        for (int i = 0; i < 5; i++)
         {
             GetButton(i).gameObject.SetActive(true);
             GetButton(i).gameObject.RemoveUIEventAll();

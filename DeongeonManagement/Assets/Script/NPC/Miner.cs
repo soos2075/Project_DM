@@ -27,7 +27,7 @@ public class Miner : NPC
 
 
         {
-            var list5 = GetFacilityPick(Facility.FacilityType.Event);
+            var list5 = GetFacilityPick(Facility.FacilityType.NPCEvent);
             AddList(list5);
         }
        

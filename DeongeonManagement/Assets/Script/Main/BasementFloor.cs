@@ -352,6 +352,47 @@ public class BasementFloor : MonoBehaviour
         return null;
     }
 
+
+
+    //? 처리는 받아간곳에서
+    public BasementTile GetTileUp(IPlacementable placementable, BasementTile currentTile)
+    {
+        BasementTile tile = null;
+        if (TileMap.TryGetValue(new Vector2Int(currentTile.index.x, currentTile.index.y + 1), out tile))
+        {
+            return tile;
+        }
+        return null;
+    }
+    public BasementTile GetTileDown(IPlacementable placementable, BasementTile currentTile)
+    {
+        BasementTile tile = null;
+        if (TileMap.TryGetValue(new Vector2Int(currentTile.index.x, currentTile.index.y - 1), out tile))
+        {
+            return tile;
+        }
+        return null;
+    }
+    public BasementTile GetTileLeft(IPlacementable placementable, BasementTile currentTile)
+    {
+        BasementTile tile = null;
+        if (TileMap.TryGetValue(new Vector2Int(currentTile.index.x - 1, currentTile.index.y), out tile))
+        {
+            return tile;
+        }
+        return null;
+    }
+    public BasementTile GetTileRight(IPlacementable placementable, BasementTile currentTile)
+    {
+        BasementTile tile = null;
+        if (TileMap.TryGetValue(new Vector2Int(currentTile.index.x + 1, currentTile.index.y), out tile))
+        {
+            return tile;
+        }
+        return null;
+    }
+
+
     #endregion
 
 
@@ -841,6 +882,11 @@ public class BasementTile
             tileType = Define.TileType.Exit;
             tileType_unchange = Define.TileType.Exit;
         }
+        else if (_placementable.GetType() == typeof(Statue))
+        {
+            tileType = Define.TileType.Player;
+            tileType_unchange = Define.TileType.Player;
+        }
         else if (_placementable.GetType() == typeof(SpecialEgg))
         {
             tileType = Define.TileType.Special;
@@ -976,7 +1022,7 @@ public class BasementTile
                             {
                                 return Define.PlaceEvent.Using_Portal;
                             }
-                            if (facil.Type == Facility.FacilityType.Event)
+                            if (facil.Type == Facility.FacilityType.NPCEvent)
                             {
                                 return Define.PlaceEvent.Event;
                             }

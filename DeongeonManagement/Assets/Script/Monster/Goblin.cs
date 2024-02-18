@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class Goblin : Monster
 {
-    public override MonsterType Type { get; set; }
     public override MonsterData Data { get; set; }
 
     public override void MonsterInit()
     {
-        Type = MonsterType.Normal_Fixed;
         Data = GameManager.Monster.GetMonsterData("Skeleton");
-
     }
 
 }

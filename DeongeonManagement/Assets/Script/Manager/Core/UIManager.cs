@@ -99,14 +99,14 @@ public class UIManager
 
 
 
-    Queue<Action> Reservation_ShowPopup = new Queue<Action>();
+    public Queue<Action> _reservationQueue = new Queue<Action>();
     Coroutine ReservationCor;
 
     public void Popup_Reservation(Action action)
     {
         if (_popupStack.Count > 0)
         {
-            Reservation_ShowPopup.Enqueue(action);
+            _reservationQueue.Enqueue(action);
             if (ReservationCor == null)
             {
                 ReservationCor = Managers.Instance.StartCoroutine(Show_Reservation());
@@ -120,10 +120,10 @@ public class UIManager
 
     IEnumerator Show_Reservation()
     {
-        while (Reservation_ShowPopup.Count > 0)
+        while (_reservationQueue.Count > 0)
         {
             yield return new WaitUntil(() => _popupStack.Count == 0);
-            var res = Reservation_ShowPopup.Dequeue();
+            var res = _reservationQueue.Dequeue();
             res.Invoke();
         }
 
@@ -265,7 +265,7 @@ public class UIManager
         }
         PauseClose();
 
-        if (Managers.Scene.GetSceneName() == "2_Management")
+        if (Managers.Scene.GetCurrentScene() == SceneName._2_Management)
         {
             SceneUIRefresh();
         }

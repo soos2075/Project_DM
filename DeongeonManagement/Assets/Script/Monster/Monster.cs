@@ -21,11 +21,31 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     {
         return this.gameObject;
     }
+
     public string Name_KR { get { return $"{name_Tag_Start}{Name}{name_Tag_End}"; } }
     private string name_Tag_Start = "<color=#44ff44ff>";
     private string name_Tag_End = "</color>";
 
     public virtual string Detail_KR { get { return Data.detail; } }
+
+
+    public virtual void MouseClickEvent()
+    {
+        if (Main.Instance.Management == false) return;
+
+        if (Data == null) return;
+
+        StartCoroutine(ShowMonsterManagement());
+    }
+
+    IEnumerator ShowMonsterManagement()
+    {
+        var ui = Managers.UI.ClearAndShowPopUp<UI_Monster_Management>();
+        yield return new WaitForEndOfFrame();
+
+        ui.ShowDetail(this);
+    }
+
     #endregion
 
 
@@ -74,6 +94,11 @@ public abstract class Monster : MonoBehaviour, IPlacementable
             if (state == MonsterState.Injury)
             {
                 Injury();
+                if (Cor_Moving != null)
+                {
+                    StopCoroutine(Cor_Moving);
+                    Cor_Moving = null;
+                }
             }
         } 
     }
@@ -106,14 +131,6 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     public float agi_chance;
     public float luk_chance;
 
-    public enum MonsterType
-    {
-        Normal_Move,
-        Normal_Fixed,
-        Boss,
-    }
-
-    public abstract MonsterType Type { get; set; }
 
 
     public abstract void MonsterInit();
@@ -144,8 +161,31 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
 
 
+    public virtual void TurnStart()
+    {
+        //MoveSelf();
+    }
 
-    Coroutine Cor_Battle;
+    public enum MoveType
+    {
+        Fixed,
+
+        Move_Wandering,
+        Move_Hunting,
+    }
+
+    public MoveType Mode { get; set; } = MoveType.Fixed;
+    public void SetMoveType(MoveType _moveType)
+    {
+        Mode = _moveType;
+    }
+
+    protected Coroutine Cor_Moving { get; set; }
+
+
+
+
+    Coroutine Cor_Battle { get; set; }
 
     public Coroutine Battle(NPC npc)
     {

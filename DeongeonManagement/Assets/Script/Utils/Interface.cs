@@ -19,20 +19,23 @@ public interface IWorldSpaceUI
 public interface IPlacementable
 {
     Define.PlacementType PlacementType { get; set; }
+    PlacementInfo PlacementInfo { get; set; }
+
     string Name_KR { get; }
     string Detail_KR { get; }
 
-    PlacementInfo PlacementInfo { get; set; }
-
+    //? 게임오브젝트로 가져오기
     GameObject GetObject();
 
-
+    //? 마우스 클릭했을 때 뜨게 할 이벤트
+    void MouseClickEvent();
 
 }
 
 public interface IDialogue
 {
     public SO_DialogueData Data { get; set; }
+    public float TextDelay { get; set; }
 
     public void AddOption(GameObject button);
 }

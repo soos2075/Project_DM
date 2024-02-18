@@ -46,10 +46,17 @@ public class UI_SaveLoad : UI_PopUp
         Bind<Image>(typeof(Slot));
         Bind<Button>(typeof(Buttons));
 
-        if (State != Buttons.Close)
+        if (State == Buttons.Load)
         {
             GetButton(((int)Buttons.Save)).gameObject.SetActive(false);
-            GetButton(((int)Buttons.Load)).gameObject.SetActive(false);
+            //GetButton(((int)Buttons.Load)).gameObject.SetActive(false);
+            GetButton(((int)Buttons.Load)).GetComponent<Image>().sprite = button_Down;
+            GetButton(((int)Buttons.Load)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 12, 0, 0);
+
+        }
+        if (State == Buttons.Save)
+        {
+            SaveButton();
         }
 
         GetButton(((int)Buttons.Close)).gameObject.AddUIEvent((data) => ClosePopUp());
@@ -118,7 +125,7 @@ public class UI_SaveLoad : UI_PopUp
                     {
                         Managers.Scene.AddLoadAction_OneTime(() => Main.Instance.Default_Init());
                         Managers.Scene.AddLoadAction_OneTime(() => Managers.Data.LoadGame($"AutoSave"));
-                        Managers.Scene.LoadSceneAsync("2_Management");
+                        Managers.Scene.LoadSceneAsync(SceneName._2_Management);
                         return;
                     }
                 }
@@ -129,7 +136,7 @@ public class UI_SaveLoad : UI_PopUp
                 }
                 //ClosePopUp();
                 Managers.Scene.AddLoadAction_OneTime(() => LoadAction(index));
-                Managers.Scene.LoadSceneAsync("2_Management");
+                Managers.Scene.LoadSceneAsync(SceneName._2_Management);
                 break;
         }
     }
@@ -160,10 +167,20 @@ public class UI_SaveLoad : UI_PopUp
     void ShowAutoInfo()
     {
         var autodata = Managers.Data.GetData($"AutoSave");
-        GetImage(((int)Slot.AutoSave)).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"자동저장";
-        GetImage(((int)Slot.AutoSave)).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{autodata.dateTime}";
-        GetImage(((int)Slot.AutoSave)).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = 
-            $"{autodata.turn}일차\n유명도 : {autodata.FameOfDungeon} / 위험도 : {autodata.DangerOfDungeon}";
+        if (autodata != null)
+        {
+            GetImage(((int)Slot.AutoSave)).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"자동저장";
+            GetImage(((int)Slot.AutoSave)).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{autodata.dateTime}";
+            GetImage(((int)Slot.AutoSave)).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text =
+                $"{autodata.turn}일차\n유명도 : {autodata.FameOfDungeon} / 위험도 : {autodata.DangerOfDungeon}";
+        }
+        else
+        {
+            GetImage(((int)Slot.AutoSave)).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"자동저장";
+            GetImage(((int)Slot.AutoSave)).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"";
+            GetImage(((int)Slot.AutoSave)).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"데이터 없음";
+        }
+
     }
 
 

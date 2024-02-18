@@ -17,7 +17,7 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
         {
             if (view)
             {
-                Managers.UI.ClosePopUp(view);
+                Managers.UI.ClosePopupPick(view);
                 view = null;
             }
         }
@@ -52,7 +52,7 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
         {
             if (view)
             {
-                Managers.UI.ClosePopUp(view);
+                Managers.UI.ClosePopupPick(view);
                 view = null;
                 CurrentTile = null;
             }

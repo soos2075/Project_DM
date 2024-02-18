@@ -10,7 +10,7 @@ public class SpecialEgg : Facility
 
     public override void FacilityInit()
     {
-        Type = FacilityType.Event;
+        Type = FacilityType.NPCEvent;
         InteractionOfTimes = 1000;
         Name = "던전의 알";
         Detail_KR = "정체모를 수수께끼의 알입니다. 계약에 따라 알을 지켜야만 합니다.";

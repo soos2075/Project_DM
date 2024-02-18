@@ -25,7 +25,7 @@ public class EventManager : MonoBehaviour
 
     private void Awake()
     {
-        Init();
+        Initialize();
         if (_instance != null)
         {
             if (_instance != this)
@@ -36,19 +36,16 @@ public class EventManager : MonoBehaviour
     }
     private void Start()
     {
-        
+        Init_Event();
     }
-    public void Init()
+    public void Init_Event()
     {
-        GuildNPCAction = new Dictionary<int, Action>();
-        EventAction = new Dictionary<string, Action>();
-
         AddDialogueAction();
         AddEventAction();
     }
 
-    Dictionary<int, Action> GuildNPCAction;
-    Dictionary<string, Action> EventAction;
+    Dictionary<int, Action> GuildNPCAction = new Dictionary<int, Action>();
+    Dictionary<string, Action> EventAction = new Dictionary<string, Action>();
 
 
     void AddDialogueAction()
@@ -86,6 +83,21 @@ public class EventManager : MonoBehaviour
             message.Message = "숨겨진 방으로 향하는 통로가 생겼습니다.\n\n이후로 이 방에 누군가 침입해 알이 발견당하면 게임오버가 됩니다.";
         });
 
+
+        EventAction.Add("Ending", () =>
+        {
+            StartCoroutine(WaitEnding(1));
+        });
+
+    }
+    IEnumerator WaitEnding(float _time)
+    {
+        var fade = Managers.UI.ClearAndShowPopUp<UI_Fade>();
+        fade.SetFadeOption(UI_Fade.FadeMode.WhiteOut, 1);
+        UserData.Instance.GameClear();
+
+        yield return new WaitForSecondsRealtime(_time);
+        Managers.Scene.LoadSceneAsync(SceneName._5_Ending, false);
     }
 
     public void AddCustomAction(string _name, Action _action)

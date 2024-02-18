@@ -6,7 +6,7 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 {
     protected void Awake()
     {
-        
+
     }
     protected void Start()
     {
@@ -24,6 +24,10 @@ public abstract class Facility : MonoBehaviour, IPlacementable
     public GameObject GetObject()
     {
         return this.gameObject;
+    }
+    public virtual void MouseClickEvent()
+    {
+        if (Main.Instance.Management == false) return;
     }
     public string Name_KR { get { return Name; } }
 
@@ -57,8 +61,12 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         Portal,
 
         Trap,
+
         Special,
-        Event,
+
+        NPCEvent, //? npc와 상호작용하는 이벤트
+
+        PlayerEvent, //? 플레이어 전용 이벤트(npc는 절대 상호작용 ㄴㄴ)
     }
     public abstract FacilityType Type { get; set; }
     public abstract int InteractionOfTimes { get; set; }
@@ -121,6 +129,9 @@ public abstract class Facility : MonoBehaviour, IPlacementable
             GameManager.Facility.RemoveFacility(this);
         }
     }
+
+
+
 
 
 }

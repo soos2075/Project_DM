@@ -43,15 +43,15 @@ public class UI_Management : UI_Base
         _4_Guild,
         _5_Special,
 
+        DayChange,
+
+        Save,
+        Pause,
 
         Test1,
         Test2,
         Test3,
-
-
-        DayChange,
         DayChange_Temp,
-        Save,
     }
 
     enum Texts
@@ -106,7 +106,12 @@ public class UI_Management : UI_Base
 
         GetButton((int)ButtonEvent.DayChange).gameObject.AddUIEvent((data) => DayStart());
 
-        GetButton((int)ButtonEvent.Save).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_SaveLoad>());
+        GetButton((int)ButtonEvent.Save).gameObject.AddUIEvent((data) => { 
+            var save = Managers.UI.ShowPopUp<UI_SaveLoad>();
+            save.SetMode(UI_SaveLoad.Buttons.Save);
+        });
+
+        GetButton((int)ButtonEvent.Pause).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_Pause>());
 
 
         GetButton((int)ButtonEvent.Test1).gameObject.AddUIEvent((data) => GameManager.NPC.TestCreate("Adventurer"));
@@ -247,7 +252,7 @@ public class UI_Management : UI_Base
         if (confirm.GetAnswer() == UI_Confirm.State.Yes)
         {
             Managers.Data.SaveToJson("AutoSave", 0);
-            Managers.Scene.LoadSceneAsync("3_Guild");
+            Managers.Scene.LoadSceneAsync(SceneName._3_Guild);
         }
     }
 

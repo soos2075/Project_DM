@@ -7,7 +7,7 @@ public class AnimationCall : MonoBehaviour
 
     public void Call_Mash()
     {
-        Debug.Log("npc 어택");
+        //Debug.Log("npc 어택");
 
         GetComponentInParent<BattleField>().Call_Mash();
     }

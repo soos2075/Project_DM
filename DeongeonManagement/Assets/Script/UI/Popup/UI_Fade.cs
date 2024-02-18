@@ -24,13 +24,17 @@ public class UI_Fade : UI_PopUp
 
     public enum FadeMode
     {
-        In,
-        Out,
+        BlackIn,
+        BlackOut,
+        WhiteIn,
+        WhiteOut,
     }
     public FadeMode Mode { get; private set; }
     public bool SelfClose { get; private set; } = true;
     public bool isFade { get; private set; }
     public float FadeDuration { get; private set; } = 2;
+
+
     Canvas canvas;
 
     public override void Init()
@@ -57,10 +61,16 @@ public class UI_Fade : UI_PopUp
 
         switch (Mode)
         {
-            case FadeMode.In:
+            case FadeMode.BlackIn:
                 color = Color.black;
                 break;
-            case FadeMode.Out:
+            case FadeMode.BlackOut:
+                color = Color.clear;
+                break;
+            case FadeMode.WhiteIn:
+                color = Color.white;
+                break;
+            case FadeMode.WhiteOut:
                 color = Color.clear;
                 break;
         }
@@ -72,11 +82,20 @@ public class UI_Fade : UI_PopUp
         {
             switch (Mode)
             {
-                case FadeMode.In:
+                case FadeMode.BlackIn:
                     color.a -= (Time.unscaledDeltaTime / time);
                     break;
-                case FadeMode.Out:
+                case FadeMode.BlackOut:
                     color.a += (Time.unscaledDeltaTime / time);
+                    break;
+                case FadeMode.WhiteIn:
+                    color.a -= (Time.unscaledDeltaTime / time);
+                    break;
+                case FadeMode.WhiteOut:
+                    color.a += (Time.unscaledDeltaTime / time);
+                    color.r += (Time.unscaledDeltaTime / time);
+                    color.g += (Time.unscaledDeltaTime / time);
+                    color.b += (Time.unscaledDeltaTime / time);
                     break;
             }
 
@@ -94,4 +113,5 @@ public class UI_Fade : UI_PopUp
             Managers.UI.ClosePopupPick(this);
         }
     }
+    
 }

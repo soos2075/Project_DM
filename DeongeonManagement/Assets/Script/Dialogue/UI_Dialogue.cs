@@ -144,9 +144,10 @@ public class UI_Dialogue : UI_PopUp, IDialogue
 
     [field:SerializeField]
     public SO_DialogueData Data { get; set; }
+    public float TextDelay { get; set; }
 
     int textCount;
-    public float delay;
+
     public int charCount = 1;
 
     WaitForSecondsRealtime seconds;
@@ -156,7 +157,7 @@ public class UI_Dialogue : UI_PopUp, IDialogue
     {
 
 
-        seconds = new WaitForSecondsRealtime(delay);
+        seconds = new WaitForSecondsRealtime(TextDelay);
         GetObject(((int)Objects.TextBox)).AddUIEvent((data) => SkipText(), Define.UIEvent.LeftClick);
         //GetObject(((int)Objects.Panel)).AddUIEvent((data) => SkipText(), Define.UIEvent.LeftClick);
 

@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class Player : Monster
 {
-    public override MonsterType Type { get; set; }
     public override MonsterData Data { get; set; }
 
     public override string Detail_KR { get { return detail; } }
     private string detail;
     public override void MonsterInit()
     {
-        Type = MonsterType.Normal_Fixed;
         PlacementType = Define.PlacementType.Monster;
         //Data = GameManager.Monster.GetMonsterData("Skeleton");
         detail = "모험이 끝난 모험가입니다. 모험가로서의 지식은 상당한 편이에요.";

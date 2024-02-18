@@ -77,6 +77,17 @@ public class UI_Confirm : UI_PopUp
         yield return new WaitForEndOfFrame();
         ClosePopUp();
     }
+
+
+
+    private void OnEnable()
+    {
+        Time.timeScale = 0;
+    }
+    private void OnDestroy()
+    {
+        Time.timeScale = 1;
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////

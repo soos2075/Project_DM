@@ -19,8 +19,6 @@ public class CameraControl : MonoBehaviour
 
     Camera mainCam;
     PixelPerfectCamera pixelCam;
-    Director_Story director;
-
     public bool Move { get; set; }
 
     void Start()
@@ -29,14 +27,15 @@ public class CameraControl : MonoBehaviour
         pixelCam = GetComponent<PixelPerfectCamera>();
         Move = true;
 
-        //LimitRefresh();
-        director = FindAnyObjectByType<Director_Story>();
     }
 
 
     private void LateUpdate()
     {
-        if (director) return;
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != SceneName._2_Management.ToString())
+        {
+            return;
+        }
 
         if (Time.timeScale == 0) return;
 

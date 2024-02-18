@@ -102,6 +102,11 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     string name_Tag_End = "</color>";
 
     public string Detail_KR { get { return Data.Detail; } }
+
+    public virtual void MouseClickEvent()
+    {
+        
+    }
     #endregion
 
 
@@ -369,6 +374,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         set 
         { 
             _state = value;
+            Cor_Encounter = null;
             BehaviourByState();
         }
     }
@@ -563,9 +569,18 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         PriorityList.RemoveAll(r => r.tileType == Define.TileType.Empty || r.tileType == Define.TileType.NPC);
 
+
         if (PriorityList.Count == 0)
         {
-            return NPCState.Next;
+            SetPriorityList();
+            if (PriorityList.Count == 0)
+            {
+                return NPCState.Next;
+            }
+            else
+            {
+                return NPCState.Priority;
+            }
         }
         if (PriorityList[0].unchangeable == PlacementInfo.Place_Floor.Entrance.PlacementInfo.Place_Tile.unchangeable)
         {
@@ -627,7 +642,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
 
 
-    Coroutine Cor_Encounter;
+    public Coroutine Cor_Encounter { get; set; }
     Coroutine Cor_Move;
 
 
@@ -778,8 +793,9 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             case Define.PlaceEvent.Battle:
                 StopCoroutine(Cor_Move);
                 Cor_Move = null;
-                Cor_Encounter = StartCoroutine(Encounter_Monster(tile));
                 State = NPCState.Battle;
+                Cor_Encounter = StartCoroutine(Encounter_Monster(tile));
+
                 return true;
 
             case Define.PlaceEvent.Interaction:
@@ -860,6 +876,19 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             yield return new WaitForEndOfFrame();
             State = StateRefresh();
         }
+    }
+
+    public IEnumerator Encounter_ByMonster(Monster monster)
+    {
+        StopCoroutine(Cor_Move);
+        Cor_Move = null;
+        State = NPCState.Battle;
+
+        //Debug.Log("배틀 시작");
+        yield return monster.Battle(this);
+        //Debug.Log("배틀 종료");
+        yield return new WaitForEndOfFrame();
+        State = StateRefresh();
     }
 
 

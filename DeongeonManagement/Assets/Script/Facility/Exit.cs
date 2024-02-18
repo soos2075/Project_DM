@@ -13,7 +13,7 @@ public class Exit : Facility
         InteractionOfTimes = 10000;
         Type = FacilityType.Exit;
         Name = "출구";
-        Detail_KR = "던전 밖으로 나가는 방향의 출입구 입니다.";
+        Detail_KR = "던전 밖으로 나가는 출입구 입니다.";
         Name_prefab = this.GetType().Name;
     }
 

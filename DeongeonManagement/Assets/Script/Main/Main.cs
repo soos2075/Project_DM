@@ -27,7 +27,7 @@ public class Main : MonoBehaviour
 
     //private void Awake()
     //{
-       
+
     //}
 
     void Start()
@@ -64,11 +64,12 @@ public class Main : MonoBehaviour
 
         Init_Secret();
         Init_Basic();
+        Init_Statue();
     }
 
 
     UI_Management _ui_main;
-    UI_Management UI_Main 
+    UI_Management UI_Main
     {
         get
         {
@@ -77,7 +78,7 @@ public class Main : MonoBehaviour
                 //_ui_main = FindObjectOfType<UI_Management>();
                 _ui_main = FindAnyObjectByType<UI_Management>();
             }
-            return _ui_main; } 
+            return _ui_main; }
     }
 
     bool _DefaultSetting = false;
@@ -133,7 +134,7 @@ public class Main : MonoBehaviour
     {
         yield return null;
         yield return new WaitForEndOfFrame();
-        Instantiate_Egg();
+        Instantiate_DayOne();
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => Time.timeScale == 1);
         var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
@@ -141,10 +142,11 @@ public class Main : MonoBehaviour
             "마나는 기본적으로 모험가들이 던전에서 행하는 모든 행동에서 얻을 수 있어요.";
 
     }
-    void Instantiate_Egg()
+    void Instantiate_DayOne()
     {
         Init_Secret();
         Init_Basic();
+        Init_Statue();
 
         Managers.Dialogue.ShowDialogueUI("Prologue", GameObject.Find("Player").transform);
     }
@@ -193,6 +195,77 @@ public class Main : MonoBehaviour
         }
     }
 
+    void Init_Statue()
+    {
+        //? 마나 스태츄
+        {
+            BasementTile tile = null;
+            Floor[3].TileMap.TryGetValue(new Vector2Int(7, 0), out tile);
+            PlacementInfo info = new PlacementInfo(Floor[3], tile);
+            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, true);
+            var statue = obj as Statue;
+            statue.statueType = Statue.StatueType.Mana;
+        }
+        {
+            BasementTile tile = null;
+            Floor[3].TileMap.TryGetValue(new Vector2Int(7, 1), out tile);
+            PlacementInfo info = new PlacementInfo(Floor[3], tile);
+            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, true);
+            var statue = obj as Statue;
+            statue.statueType = Statue.StatueType.Mana;
+        }
+        {
+            BasementTile tile = null;
+            Floor[3].TileMap.TryGetValue(new Vector2Int(8, 0), out tile);
+            PlacementInfo info = new PlacementInfo(Floor[3], tile);
+            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, true);
+            var statue = obj as Statue;
+            statue.statueType = Statue.StatueType.Mana;
+        }
+        {
+            BasementTile tile = null;
+            Floor[3].TileMap.TryGetValue(new Vector2Int(8, 1), out tile);
+            PlacementInfo info = new PlacementInfo(Floor[3], tile);
+            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, true);
+            var statue = obj as Statue;
+            statue.statueType = Statue.StatueType.Mana;
+        }
+
+        //? 골드 스태츄
+        {
+            BasementTile tile = null;
+            Floor[3].TileMap.TryGetValue(new Vector2Int(7, 4), out tile);
+            PlacementInfo info = new PlacementInfo(Floor[3], tile);
+            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, true);
+            var statue = obj as Statue;
+            statue.statueType = Statue.StatueType.Gold;
+        }
+        {
+            BasementTile tile = null;
+            Floor[3].TileMap.TryGetValue(new Vector2Int(7, 5), out tile);
+            PlacementInfo info = new PlacementInfo(Floor[3], tile);
+            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, true);
+            var statue = obj as Statue;
+            statue.statueType = Statue.StatueType.Gold;
+        }
+        {
+            BasementTile tile = null;
+            Floor[3].TileMap.TryGetValue(new Vector2Int(8, 4), out tile);
+            PlacementInfo info = new PlacementInfo(Floor[3], tile);
+            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, true);
+            var statue = obj as Statue;
+            statue.statueType = Statue.StatueType.Gold;
+        }
+        {
+            BasementTile tile = null;
+            Floor[3].TileMap.TryGetValue(new Vector2Int(8, 5), out tile);
+            PlacementInfo info = new PlacementInfo(Floor[3], tile);
+            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, true);
+            var statue = obj as Statue;
+            statue.statueType = Statue.StatueType.Gold;
+        }
+
+    }
 
 
     #region Load Data
@@ -279,14 +352,27 @@ public class Main : MonoBehaviour
 
     public int DungeonRank { get; set; }
     public int Player_Mana { get; private set; }
-    public int Player_Gold { get; private set; }
 
-    
+    public void ClickEvent_Mana(int _value)
+    {
+        Player_Mana += _value;
+    }
+    public int Player_Gold { get; private set; }
+    public void ClickEvent_Gold(int _value)
+    {
+        Player_Gold += _value;
+    }
+
+
     public int AP_MAX { get; private set; }
 
     public void AddAP()
     {
         AP_MAX++;
+    }
+    public void SubtractAP()
+    {
+        AP_MAX--;
     }
     public int Player_AP { get; set; }
     public int Prisoner { get; set; }
@@ -461,6 +547,7 @@ public class Main : MonoBehaviour
                 TurnStartEvent();
                 DayEvent();
                 GameManager.NPC.TurnStart();
+                GameManager.Monster.MonsterTurnStartEvent();
             }
             else
             {
@@ -576,6 +663,11 @@ public class Main : MonoBehaviour
             case 6:
                 break;
 
+            case 30:
+                Debug.Log("게임클리어");
+                break;
+
+
             default:
                 break;
         }
@@ -588,7 +680,7 @@ public class Main : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
 
-        yield return new WaitUntil(() => Time.timeScale == 1);
+        yield return new WaitUntil(() => Time.timeScale == 1 && Managers.UI._reservationQueue.Count == 0 && Managers.UI._popupStack.Count == 0);
         Debug.Log($"자동저장 : {Turn}일차");
         Managers.Data.SaveToJson("AutoSave", 0);
     }
@@ -597,7 +689,9 @@ public class Main : MonoBehaviour
 
     void DayMonsterEvent()
     {
-        if (GameManager.Monster.LevelUpList != null)
+        GameManager.Monster.InjuryMonster = 0;
+
+        if (GameManager.Monster.LevelUpList.Count != 0)
         {
             foreach (var item in GameManager.Monster.LevelUpList)
             {

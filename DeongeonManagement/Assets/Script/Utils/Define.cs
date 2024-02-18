@@ -53,6 +53,8 @@ public class Define
         Using,
 
         Special, //? 절대 삭제되지 않아야하는거
+
+        Player, //? 플레이어 클릭 이벤트 전용 타일
     }
 
     public enum PlacementType

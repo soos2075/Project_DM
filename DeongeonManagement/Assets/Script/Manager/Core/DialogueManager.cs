@@ -8,11 +8,25 @@ public class DialogueManager
 {
     //? 너무 데이터가 많아지면 딕셔너리로 한번 더 등록해줘도 됨
     public SO_DialogueData[] so_DataAll;
+    float textSpeed;
 
     public void Init()
     {
         so_DataAll = Resources.LoadAll<SO_DialogueData>("Data");
+
+        CurrentTextSpeed = UserData.Instance.GetDataInt(PrefsKey.TextSpeed, 5);
     }
+
+    int textSpeedOption;
+    public int CurrentTextSpeed { get { return textSpeedOption; } set { SetTextSpeed(value); } }
+
+    void SetTextSpeed(int _value)
+    {
+        textSpeedOption = _value;
+        textSpeed = (11 - _value) * 0.01f;
+        UserData.Instance.SetData(PrefsKey.TextSpeed, textSpeedOption);
+    }
+
 
 
     public SO_DialogueData GetDialogue(string dialogueName)
@@ -44,11 +58,13 @@ public class DialogueManager
             case SO_DialogueData.DialogueType.Box:
                 currentDialogue = Managers.UI.ShowPopUpAlone<UI_Dialogue>();
                 currentDialogue.Data = data;
+                currentDialogue.TextDelay = textSpeed;
                 break;
 
             case SO_DialogueData.DialogueType.Bubble:
                 currentDialogue = Managers.UI.ShowPopUpAlone<UI_DialogueBubble>();
                 currentDialogue.Data = data;
+                currentDialogue.TextDelay = textSpeed;
                 var bubble = currentDialogue as UI_DialogueBubble;
                 bubble.bubble_Position = pos;
                 break;

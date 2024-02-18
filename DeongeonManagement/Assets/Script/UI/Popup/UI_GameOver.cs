@@ -24,7 +24,7 @@ public class UI_GameOver : UI_PopUp
 
         yield return new WaitForSecondsRealtime(3);
 
-        Managers.Scene.LoadSceneAsync("1_Start");
+        Managers.Scene.LoadSceneAsync(SceneName._1_Start);
         //Time.timeScale = 1;
 
     }

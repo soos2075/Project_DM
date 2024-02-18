@@ -197,9 +197,20 @@ public class TechnicalManager
         {
             TechnicalData content = new TechnicalData("HerbFarm");
             content.SetName("허브농장", "2일마다 활성화 된 모든 층에 약초를 공급해줍니다. 가끔 좋은 약초가 나올때도 있어요!");
-            content.SetCondition(200, 100, 1, 1);
+            content.SetCondition(150, 100, 1, 1);
             content.prefabPath = "HerbFarm";
             content.sprite = Managers.Sprite.GetSprite("Object/HerbFarm");
+            content.action = (data) => CreateAction(content);
+
+            TechnicalDataList.Add(content);
+        }
+
+        {
+            TechnicalData content = new TechnicalData("ApOrb");
+            content.SetName("힘의 오브", "최대 행동력이 1 늘어납니다. 역시 건강한게 제일이죠.");
+            content.SetCondition(200, 350, 1, 1);
+            content.prefabPath = "ApOrb";
+            content.sprite = Managers.Sprite.GetSprite("Object/ApOrb");
             content.action = (data) => CreateAction(content);
 
             TechnicalDataList.Add(content);

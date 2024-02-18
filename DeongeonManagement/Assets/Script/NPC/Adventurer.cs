@@ -30,7 +30,7 @@ public class Adventurer : NPC
         var list2 = GetFacilityPick(Facility.FacilityType.RestZone);
         var list3 = GetFacilityPick(Facility.FacilityType.Treasure);
         var list4 = GetFacilityPick(Facility.FacilityType.Artifact);
-        var list5 = GetFacilityPick(Facility.FacilityType.Event);
+        var list5 = GetFacilityPick(Facility.FacilityType.NPCEvent);
 
         AddList(list1);
         AddList(list2);

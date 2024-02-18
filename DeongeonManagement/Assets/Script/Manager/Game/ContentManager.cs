@@ -334,7 +334,7 @@ public class ContentManager
 
     void CreateOver()
     {
-        Debug.Log($"{Main.Instance.CurrentTile.index} : {Main.Instance.CurrentTile.placementable.Name_KR} 설치완료");
+        //Debug.Log($"{Main.Instance.CurrentTile.index} : {Main.Instance.CurrentTile.placementable.Name_KR} 설치완료");
 
         //Main.Instance.CurrentDay.SubtractMana(mana);
         //Main.Instance.CurrentDay.SubtractGold(gold);

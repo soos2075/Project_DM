@@ -15,15 +15,16 @@ public class MonsterManager
 
 
 
-    public List<MonsterStatusTemporary> LevelUpList { get; set; }
+    public List<MonsterStatusTemporary> LevelUpList { get; set; } = new List<MonsterStatusTemporary>();
     public int InjuryMonster { get; set; }
     public void AddLevelUpEvent(Monster _monster)
     {
-        if (LevelUpList == null)
-        {
-            LevelUpList = new List<MonsterStatusTemporary>();
-        }
-        else if (LevelUpList.Count > 0)
+        //if (LevelUpList == null)
+        //{
+        //    LevelUpList = new List<MonsterStatusTemporary>();
+        //}
+        //else 
+        if (LevelUpList.Count > 0)
         {
             foreach (var item in LevelUpList)
             {
@@ -40,12 +41,27 @@ public class MonsterManager
     }
     public void RemoveLevelUpEvent(Monster _monster)
     {
-        if (LevelUpList == null)
+        if (LevelUpList.Count == 0)
         {
             return;
         }
         LevelUpList.RemoveAll((item) => item.monster == _monster);
     }
+
+
+
+    public void MonsterTurnStartEvent()
+    {
+        foreach (var monster in Monsters)
+        {
+            if (monster != null && monster.State == Monster.MonsterState.Placement)
+            {
+                monster.TurnStart();
+            }
+        }
+    }
+
+
 
 
 

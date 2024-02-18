@@ -13,6 +13,7 @@ public class UI_StartMenu : UI_Scene
     {
         NewGame,
         Load,
+        Quit,
     }
 
     public override void Init()
@@ -26,9 +27,17 @@ public class UI_StartMenu : UI_Scene
 
         GetButton(((int)Buttons.Load)).gameObject.AddUIEvent(data => LoadGame());
 
+        GetButton(((int)Buttons.Quit)).gameObject.AddUIEvent(data => Button_Quit());
+
         LoadButtonActive();
     }
 
+
+    void Button_Quit()
+    {
+        Debug.Log("게임종료");
+        Application.Quit();
+    }
 
 
     void LoadButtonActive()
@@ -59,7 +68,7 @@ public class UI_StartMenu : UI_Scene
     IEnumerator OpeningSkip()
     {
         var fade = Managers.UI.ShowPopUpAlone<UI_Fade>();
-        fade.SetFadeOption(UI_Fade.FadeMode.Out, 2, false);
+        fade.SetFadeOption(UI_Fade.FadeMode.BlackOut, 2, false);
 
         yield return new WaitForSecondsRealtime(2);
 
@@ -75,12 +84,12 @@ public class UI_StartMenu : UI_Scene
         if (confirm.GetAnswer() == UI_Confirm.State.Yes)
         {
             Managers.Scene.AddLoadAction_OneTime(() => Opening());
-            Managers.Scene.LoadSceneAsync("4_Direction", false);
+            Managers.Scene.LoadSceneAsync(SceneName._4_Direction, false);
         }
         else if (confirm.GetAnswer() == UI_Confirm.State.No)
         {
             Managers.Scene.AddLoadAction_OneTime(() => NewGame_Action());
-            Managers.Scene.LoadSceneAsync("2_Management", false);
+            Managers.Scene.LoadSceneAsync(SceneName._2_Management, false);
         }
     }
 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class UI_TileView_Tile : UI_Base
 {
@@ -28,28 +29,23 @@ public class UI_TileView_Tile : UI_Base
         gameObject.AddUIEvent((data) => parent.ChildExitEvent(), Define.UIEvent.Exit);
 
 
-        gameObject.AddUIEvent((data) => parent.InsteadOpenFloorEvent(data), Define.UIEvent.LeftClick);
+        gameObject.AddUIEvent((data) => TileClickEvent(data), Define.UIEvent.LeftClick);
     }
 
 
 
+    void TileClickEvent(PointerEventData _data)
+    {
+        if (Tile.placementable == null)
+        {
+            parent.InsteadOpenFloorEvent(_data);
+        }
+        else
+        {
+            parent.ChildExitEvent();
+            Tile.placementable.MouseClickEvent();
+        }
+    }
 
-    //void MouseMoveEvent()
-    //{
-    //    Debug.Log("자식 무브");
 
-    //    if (Tile.placementable != null)
-    //    {
-    //        parent.CurrentTile = Tile;
-    //    }
-    //    else
-    //    {
-    //        parent.CurrentTile = null;
-    //    }
-    //}
-
-    //void MouseExit()
-    //{
-    //    parent.CurrentTile = null;
-    //}
 }

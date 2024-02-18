@@ -45,6 +45,7 @@ public class SpriteManager
         if (sprite == null)
         {
             Debug.Log($"Sprite Not Exist : Sprite/{path}");
+            return clear;
         }
         return sprite;
     }

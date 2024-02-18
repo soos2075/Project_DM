@@ -6,34 +6,126 @@ public class Slime : Monster
 {
 
     public override MonsterData Data { get; set; }
-    public override MonsterType Type { get; set; }
-
 
     public override void MonsterInit()
     {
         Data = GameManager.Monster.GetMonsterData("Slime");
-        Type = MonsterType.Normal_Move;
-
+        //Mode = MoveType.Move_Hunting;
     }
+
+    public override void TurnStart()
+    {
+        MoveSelf();
+    }
+
 
 
     void MoveSelf()
     {
-        StartCoroutine(MoveCor());
+        Cor_Moving = StartCoroutine(MoveCor());
     }
 
 
     IEnumerator MoveCor()
     {
-        while (true)
+        while (Main.Instance.Management == false && State == MonsterState.Placement)
         {
-            yield return new WaitForSeconds(Random.Range(0.5f, 1.0f));
-            MoveAround();
-
+            yield return new WaitForSeconds(Random.Range(1.0f, 1.5f));
+            switch (Mode)
+            {
+                case MoveType.Fixed:
+                    break;
+                case MoveType.Move_Wandering:
+                    Move_Wandering();
+                    break;
+                case MoveType.Move_Hunting:
+                    Moving();
+                    break;
+            }
         }
     }
 
-    void MoveAround()
+
+
+    BasementTile GetRandomTile()
+    {
+        BasementTile newTile;
+
+        int dir = Random.Range(0, 5);
+        switch (dir)
+        {
+            case 0:
+                newTile = PlacementInfo.Place_Floor.GetTileUp(this, PlacementInfo.Place_Tile);
+                break;
+
+            case 1:
+                newTile = PlacementInfo.Place_Floor.GetTileDown(this, PlacementInfo.Place_Tile);
+                break;
+
+            case 2:
+                newTile = PlacementInfo.Place_Floor.GetTileLeft(this, PlacementInfo.Place_Tile);
+                break;
+
+            case 3:
+                newTile = PlacementInfo.Place_Floor.GetTileRight(this, PlacementInfo.Place_Tile);
+                break;
+
+            default:
+                newTile = null;
+                break;
+        }
+
+        return newTile;
+    }
+
+    void Moving()
+    {
+        BasementTile tile = GetRandomTile();
+        if (tile != null)
+        {
+            var eventType = tile.TryPlacement(this);
+
+            switch (eventType)
+            {
+                case Define.PlaceEvent.Placement:
+                    GameManager.Placement.PlacementMove(this, new PlacementInfo(PlacementInfo.Place_Floor, tile));
+                    Debug.Log($"이동 이벤트");
+                    break;
+
+                case Define.PlaceEvent.Battle:
+                    var npc = tile.placementable as NPC;
+                    switch (Mode)
+                    {
+                        case MoveType.Move_Wandering:
+
+                            if (npc.Cor_Encounter == null)
+                            {
+                                npc.Cor_Encounter = StartCoroutine(npc.Encounter_ByMonster(this));
+                                Debug.Log($"몬스터 배틀 이벤트");
+                            }
+                            break;
+
+                        case MoveType.Move_Hunting:
+                            if (npc.Cor_Encounter == null)
+                            {
+                                npc.Cor_Encounter = StartCoroutine(npc.Encounter_ByMonster(this));
+                                Debug.Log($"몬스터 배틀 이벤트");
+                            }
+                            break;
+                    }
+                    break;
+
+                default:
+                    Debug.Log($"{eventType.ToString()} : 아무이벤트 없음");
+                    break;
+            }
+        }
+    }
+
+
+
+
+    void Move_Wandering()
     {
         BasementTile newTile;
 

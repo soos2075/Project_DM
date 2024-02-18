@@ -136,7 +136,7 @@ public class PlayerController : MonoBehaviour
             GuildManager.Instance.DungeonBackAction.Clear();
             Managers.Scene.AddLoadAction_OneTime(() => FindObjectOfType<UI_Management>().Texts_Refresh());
 
-            Managers.Scene.LoadSceneAsync("2_Management");
+            Managers.Scene.LoadSceneAsync(SceneName._2_Management);
         }
     }
 }
