@@ -77,7 +77,9 @@ public class FacilityManager
                 BasementTile tile = null;
                 if (floor.TileMap.TryGetValue(data[i].posIndex, out tile))
                 {
-                    CreateFacility_OnlyOne(data[i].prefabName, new PlacementInfo(floor, tile), true);
+                    var obj = CreateFacility_OnlyOne(data[i].prefabName, new PlacementInfo(floor, tile), true);
+                    var facil = obj as Facility;
+                    facil.Load_Data(data[i]);
                 }
             }
             else
@@ -86,7 +88,9 @@ public class FacilityManager
                 BasementTile tile = null;
                 if (floor.TileMap.TryGetValue(data[i].posIndex, out tile))
                 {
-                    CreateFacility(data[i].prefabName, new PlacementInfo(floor, tile), data[i].isUnchange);
+                    var obj = CreateFacility(data[i].prefabName, new PlacementInfo(floor, tile), data[i].isUnchange);
+                    var facil = obj as Facility;
+                    facil.Load_Data(data[i]);
                 }
             }
         }
@@ -100,6 +104,9 @@ public class Save_FacilityData
 {
     public string prefabName;
     public int interactionTimes;
+
+    public int OptionIndex;
+
     public int floorIndex;
     public Vector2Int posIndex;
     public bool isOnlyOne;
@@ -112,6 +119,7 @@ public class Save_FacilityData
     {
         prefabName = facility.name;
         interactionTimes = facility.InteractionOfTimes;
+        OptionIndex = facility.OptionIndex;
         floorIndex = facility.PlacementInfo.Place_Floor.FloorIndex;
         posIndex = facility.PlacementInfo.Place_Tile.index;
 

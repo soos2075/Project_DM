@@ -7,12 +7,17 @@ public class Statue : Facility
     public override FacilityType Type { get; set; }
     public override int InteractionOfTimes { get; set; }
     public override string Name { get; set; }
+    public override int OptionIndex { get { return ((int)statueType); } set { statueType = (StatueType)value; } }
 
     public override void FacilityInit()
     {
         Type = FacilityType.PlayerEvent;
-        InteractionOfTimes = 10000;
         Name_prefab = name;
+
+        if (InteractionOfTimes <= 0)
+        {
+            InteractionOfTimes = 10000;
+        }
 
         Init_TypeSelect();
     }
@@ -63,12 +68,12 @@ public class Statue : Facility
         switch (statueType)
         {
             case StatueType.Gold:
-                ui.SetText("금빛 조각상에게 기도할까요?");
+                ui.SetText("금빛 천사상에게 기도할까요?");
                 StartCoroutine(WaitForAnswer_Gold(ui));
                 break;
 
             case StatueType.Mana:
-                ui.SetText("은빛 조각상에게 기도할까요?");
+                ui.SetText("은빛 천사상에게 기도할까요?");
                 StartCoroutine(WaitForAnswer_Mana(ui));
                 break;
         }

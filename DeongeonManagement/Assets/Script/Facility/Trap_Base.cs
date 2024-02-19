@@ -7,13 +7,23 @@ public class Trap_Base : Facility
     public override FacilityType Type { get; set; }
     public override int InteractionOfTimes { get; set; }
     public override string Name { get; set; }
+    public override int OptionIndex { get { return ((int)trapType); } set { trapType = (TrapType)value; } }
+
+    public override void FacilityInit()
+    {
+        Type = FacilityType.Trap;
+        Name_prefab = name;
+
+        TrapInit();
+    }
+
 
 
     public enum TrapType
     {
-        Fallen_1,
-        Fallen_2,
-        Awl_1,
+        Fallen_1 = 0,
+        Fallen_2 = 1,
+        Awl_1 = 2,
     }
 
     public TrapType trapType { get; set; } = TrapType.Fallen_1;
@@ -21,14 +31,18 @@ public class Trap_Base : Facility
     int ap_value;
     int mp_value;
     int hp_value;
-    public override void FacilityInit()
+    void TrapInit()
     {
         Type = FacilityType.Trap;
 
         switch (trapType)
         {
             case TrapType.Fallen_1:
-                InteractionOfTimes = 2;
+                if (InteractionOfTimes <= 0)
+                {
+                    InteractionOfTimes = 2;
+                }
+
                 Name = "낙하 함정";
                 Detail_KR = "뻔히 보이는 함정입니만, 걸린다면 꽤나 효과가 있을거에요.";
                 durationTime = 5;
@@ -38,7 +52,11 @@ public class Trap_Base : Facility
                 break;
 
             case TrapType.Fallen_2:
-                InteractionOfTimes = 5;
+                if (InteractionOfTimes <= 0)
+                {
+                    InteractionOfTimes = 5;
+                }
+
                 Name = "강화 낙하 함정";
                 Detail_KR = "뻔히 보이는 함정입니만, 걸린다면 꽤나 효과가 있을거에요. 좀 더 효과를 개량했어요.";
                 durationTime = 5;
@@ -48,7 +66,11 @@ public class Trap_Base : Facility
                 break;
 
             case TrapType.Awl_1:
-                InteractionOfTimes = 5;
+                if (InteractionOfTimes <= 0)
+                {
+                    InteractionOfTimes = 5;
+                }
+
                 Name = "송곳 함정";
                 Detail_KR = "무시무시한 송곳이 올라오는 함정이에요. 모르고 위를 지나간다면 크게 다칠거에요.";
                 durationTime = 5;
@@ -82,9 +104,6 @@ public class Trap_Base : Facility
         GetComponentInChildren<Animator>().Play(Define.ANIM_idle);
         npc.GetComponent<SpriteRenderer>().color = Color.white;
     }
-
-
-
 
 
 }

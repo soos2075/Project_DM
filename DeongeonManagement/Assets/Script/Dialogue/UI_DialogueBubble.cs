@@ -17,7 +17,6 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
         {
             SkipText();
         }
-
     }
     private void LateUpdate()
     {
@@ -107,8 +106,11 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
         GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0);
         GetObject(((int)Contents.Panel)).GetComponent<RectTransform>().localRotation = Quaternion.Euler(0, 0, 0);
         textTransform.localRotation = Quaternion.Euler(0, 0, 0);
-        textTransform.localPosition = Vector3.zero;
+        textTransform.localPosition = new Vector3(0, textTransform.sizeDelta.y / 2, 0);
     }
+
+
+
 
 
 

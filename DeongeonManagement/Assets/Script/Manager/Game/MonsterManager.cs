@@ -318,6 +318,7 @@ public class Save_MonsterData
     public float LUK_chance { get; set; }
 
     public Monster.MonsterState State { get; set; }
+    public Monster.MoveType MoveMode { get; set; }
 
 
     public int FloorIndex { get; set; }
@@ -342,6 +343,8 @@ public class Save_MonsterData
 
 
         State = monster.State;
+        MoveMode = monster.Mode;
+
         if (monster.PlacementInfo != null)
         {
             FloorIndex = monster.PlacementInfo.Place_Floor.FloorIndex;

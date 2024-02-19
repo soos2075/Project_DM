@@ -169,4 +169,9 @@ public class SoundManager : MonoBehaviour
     }
 
 
+    public void StopMusic(Define.AudioType type = Define.AudioType.BGM)
+    {
+        audioSources[(int)type].Stop();
+    }
+
 }

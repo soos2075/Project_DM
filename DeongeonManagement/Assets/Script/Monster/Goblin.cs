@@ -11,4 +11,15 @@ public class Goblin : Monster
         Data = GameManager.Monster.GetMonsterData("Skeleton");
     }
 
+
+    public override void TurnStart()
+    {
+        MoveSelf();
+    }
+
+    void MoveSelf()
+    {
+        Cor_Moving = StartCoroutine(MoveCor());
+    }
+
 }

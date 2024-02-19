@@ -9,6 +9,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     }
     protected void Start()
     {
+        anim = GetComponentInChildren<Animator>();
+
         //MonsterInit();
         //Initialize_Status();
     }
@@ -72,6 +74,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         luk_chance = Data.LUK_chance;
 
         State = Data.State;
+        Mode = Data.MoveMode;
     }
 
     #endregion
@@ -166,6 +169,12 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         //MoveSelf();
     }
 
+    #region MonsterMove
+    Animator anim;
+
+    protected Coroutine Cor_Moving { get; set; }
+    Coroutine Cor_moveAnimation;
+
     public enum MoveType
     {
         Fixed,
@@ -180,9 +189,160 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         Mode = _moveType;
     }
 
-    protected Coroutine Cor_Moving { get; set; }
+
+    protected IEnumerator MoveCor()
+    {
+        while (Main.Instance.Management == false && State == MonsterState.Placement)
+        {
+            float ranDelay = Random.Range(1.5f, 2.5f);
+            switch (Mode)
+            {
+                case MoveType.Fixed:
+                    break;
+                case MoveType.Move_Wandering:
+                    Moving(ranDelay);
+                    break;
+                case MoveType.Move_Hunting:
+                    Moving(ranDelay);
+                    break;
+            }
+            yield return new WaitForSeconds(ranDelay);
+        }
+    }
+
+    protected BasementTile GetRandomTile()
+    {
+        BasementTile newTile;
+
+        int dir = Random.Range(0, 5);
+        switch (dir)
+        {
+            case 0:
+                newTile = PlacementInfo.Place_Floor.GetTileUp(this, PlacementInfo.Place_Tile);
+                break;
+
+            case 1:
+                newTile = PlacementInfo.Place_Floor.GetTileDown(this, PlacementInfo.Place_Tile);
+                break;
+
+            case 2:
+                newTile = PlacementInfo.Place_Floor.GetTileLeft(this, PlacementInfo.Place_Tile);
+                break;
+
+            case 3:
+                newTile = PlacementInfo.Place_Floor.GetTileRight(this, PlacementInfo.Place_Tile);
+                break;
+
+            default:
+                newTile = null;
+                break;
+        }
+
+        return newTile;
+    }
+
+    protected void Moving(float _delay)
+    {
+        BasementTile tile = GetRandomTile();
+        if (tile != null)
+        {
+            var eventType = tile.TryPlacement(this);
+
+            switch (eventType)
+            {
+                case Define.PlaceEvent.Placement:
+                    if (Cor_moveAnimation != null)
+                    {
+                        StopCoroutine(Cor_moveAnimation);
+                    }
+                    Cor_moveAnimation = StartCoroutine(MoveUpdate_Monster(tile, _delay));
+                    GameManager.Placement.PlacementMove(this, new PlacementInfo(PlacementInfo.Place_Floor, tile));
+                    break;
+
+                case Define.PlaceEvent.Battle:
+                    var npc = tile.placementable as NPC;
+                    switch (Mode)
+                    {
+                        case MoveType.Move_Wandering:
+
+                            if (npc.Cor_Encounter == null)
+                            {
+                                npc.Cor_Encounter = StartCoroutine(npc.Encounter_ByMonster(this));
+                                Debug.Log($"몬스터 선빵때리기");
+                            }
+                            break;
+
+                        case MoveType.Move_Hunting:
+                            if (npc.Cor_Encounter == null)
+                            {
+                                npc.Cor_Encounter = StartCoroutine(npc.Encounter_ByMonster(this));
+                                Debug.Log($"몬스터 선빵때리기");
+                            }
+                            break;
+                    }
+                    break;
+
+                default:
+                    Debug.Log($"{eventType.ToString()} : 아무이벤트 없음");
+                    break;
+            }
+        }
+    }
 
 
+
+    IEnumerator MoveUpdate_Monster(BasementTile endPos, float duration)
+    {
+        var startPos = PlacementInfo.Place_Tile;
+        Vector3 dir = endPos.worldPosition - startPos.worldPosition;
+        SetDirection(dir);
+
+        float dis = Vector3.Distance(startPos.worldPosition, endPos.worldPosition);
+
+        float moveValue = dis / duration;
+        float timer = 0;
+
+        anim.Play(Define.ANIM_run);
+        while (timer < (duration * 0.95f))
+        {
+            yield return null;
+            timer += Time.deltaTime;
+            transform.position += dir.normalized * moveValue * Time.deltaTime;
+        }
+        anim.Play(Define.ANIM_idle);
+
+        transform.position = endPos.worldPosition;
+        Cor_moveAnimation = null;
+    }
+
+
+    void SetDirection(Vector3 dir)
+    {
+        if (dir.x > 0)
+        {
+            //? 무브 오른쪽
+            transform.localRotation = Quaternion.Euler(0, 180, 0);
+        }
+        else if (dir.x < 0)
+        {
+            //? 왼쪽
+            transform.localRotation = Quaternion.Euler(0, 0, 0);
+        }
+        //else if (dir.y > 0)
+        //{
+        //    //? 위
+        //    _monster.Anim_State = NPC.moveState.back;
+        //}
+        //else if (dir.y < 0)
+        //{
+        //    //? 아래
+        //    _monster.Anim_State = NPC.moveState.front;
+        //}
+    }
+
+
+
+    #endregion
 
 
     Coroutine Cor_Battle { get; set; }
@@ -317,6 +477,10 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
     public void BattleLevelUp()
     {
+        if (GetType() == typeof(Player))
+        {
+            return;
+        }
         GameManager.Monster.AddLevelUpEvent(this);
     }
 

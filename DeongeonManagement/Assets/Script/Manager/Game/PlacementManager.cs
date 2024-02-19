@@ -92,7 +92,7 @@ public class PlacementManager
         obj.PlacementInfo.Place_Tile.ClearPlacement();
         obj.PlacementInfo = newPlace;
         newPlace.Place_Tile.SetPlacement(obj);
-        obj.GetObject().transform.position = obj.PlacementInfo.Place_Tile.worldPosition;
+        //obj.GetObject().transform.position = obj.PlacementInfo.Place_Tile.worldPosition;
     }
     public void PlacementMove_NPC(NPC npc, PlacementInfo newPlace, float duration)
     {
@@ -171,7 +171,6 @@ public class PlacementManager
             npc.Anim_State = NPC.moveState.front_Action;
         }
     }
-
 
 
 

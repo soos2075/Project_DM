@@ -41,5 +41,11 @@ public class TimelineDirector : MonoBehaviour
     }
 
 
+    public void Ending()
+    {
+        Debug.Log("여기서 끝내면 됨.");
+
+        var ui = Managers.UI.ShowPopUp<UI_Ending>();
+    }
 
 }

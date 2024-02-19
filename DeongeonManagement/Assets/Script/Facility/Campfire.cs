@@ -11,10 +11,14 @@ public class Campfire : Facility
     public override void FacilityInit()
     {
         Type = FacilityType.RestZone;
-        InteractionOfTimes = 4;
         Name = "모닥불";
         Detail_KR = "모험가들이 쉬어가며 체력과 기력을 회복할 수 있습니다.";
         Name_prefab = this.GetType().Name;
+
+        if (InteractionOfTimes <= 0)
+        {
+            InteractionOfTimes = 4;
+        }
     }
 
 

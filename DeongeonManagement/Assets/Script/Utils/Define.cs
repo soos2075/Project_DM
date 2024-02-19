@@ -108,6 +108,7 @@ public class Define
     public static readonly int ANIM_idle = Animator.StringToHash("idle");
     public static readonly int ANIM_dead = Animator.StringToHash("dead");
     public static readonly int ANIM_interaction = Animator.StringToHash("interaction");
+    public static readonly int ANIM_run = Animator.StringToHash("run");
 
     #endregion
 

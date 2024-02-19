@@ -33,7 +33,7 @@ public class ContentManager
     {
         {
             ContentData content = new ContentData("Clear");
-            content.SetName("비우기", "힘들게 설치한 시설을 철거합니다. 마나와 골드는 회수할 수 없지만, 철거비용을 안받는게 어디에요.");
+            content.SetName("철거", "힘들게 설치한 시설을 철거합니다. 마나와 골드는 회수할 수 없지만, 철거비용을 안받는게 어디에요.");
             content.SetCondition(0, 0, 1);
             content.sprite = Managers.Sprite.GetSprite("Nothing");
             content.AddOption("\n적용 범위는 1 x 1 입니다.", Define.Boundary_1x1,
@@ -48,27 +48,7 @@ public class ContentManager
             Contents.Add(content);
         }
 
-        {
-            ContentData content = new ContentData("Entrance");
-            content.SetName("입구", "플레이어가 들어올 입구를 지정합니다. 만약 입구가 없으면 랜덤위치에 자동으로 지정돼요. 입구는 층 당 한개만 존재할 수 있어요.");
-            content.SetCondition(50, 0, 1);
-            content.sprite = Managers.Sprite.GetSprite("Entrance");
-            content.AddOption("\n적용 범위는 1 x 1 입니다.", Define.Boundary_1x1,
-                () => SetBoundary(Define.Boundary_1x1, () => CreateOnlyOne("Entrance")));
 
-            Contents.Add(content);
-        }
-
-        {
-            ContentData content = new ContentData("Exit");
-            content.SetName("출구", "플레이어가 돌아갈 출구를 지정합니다. 만약 출구가 없으면 랜덤위치에 자동으로 지정돼요. 출구는 층 당 한개만 존재할 수 있어요.");
-            content.SetCondition(50, 0, 1);
-            content.sprite = Managers.Sprite.GetSprite("Exit");
-            content.AddOption("\n적용 범위는 1 x 1 입니다.", Define.Boundary_1x1,
-                () => SetBoundary(Define.Boundary_1x1, () => CreateOnlyOne("Exit")));
-
-            Contents.Add(content);
-        }
 
 
         {
@@ -135,6 +115,28 @@ public class ContentManager
 
     public void AddLevel2()
     {
+        {
+            ContentData content = new ContentData("Entrance");
+            content.SetName("입구", "플레이어가 들어올 입구를 지정합니다. 만약 입구가 없으면 랜덤위치에 자동으로 생성됩니다. 입구는 층 당 한개만 존재할 수 있어요.");
+            content.SetCondition(50, 0, 2);
+            content.sprite = Managers.Sprite.GetSprite("Entrance");
+            content.AddOption("\n적용 범위는 1 x 1 입니다.", Define.Boundary_1x1,
+                () => SetBoundary(Define.Boundary_1x1, () => CreateOnlyOne("Entrance")));
+
+            Contents.Add(content);
+        }
+
+        {
+            ContentData content = new ContentData("Exit");
+            content.SetName("출구", "플레이어가 돌아갈 출구를 지정합니다. 만약 출구가 없으면 랜덤위치에 자동으로 생성됩니다. 출구는 층 당 한개만 존재할 수 있어요.");
+            content.SetCondition(50, 0, 2);
+            content.sprite = Managers.Sprite.GetSprite("Exit");
+            content.AddOption("\n적용 범위는 1 x 1 입니다.", Define.Boundary_1x1,
+                () => SetBoundary(Define.Boundary_1x1, () => CreateOnlyOne("Exit")));
+
+            Contents.Add(content);
+        }
+
         {
             ContentData content = new ContentData("Trap_Fallen_2");
             content.SetName("강화 발밑 함정", "뻔히 보이는 고전식 발밑 함정을 설치합니다. 조금 더 효과가 강해졌어요. 하지만 겉모습은 별로 달라진게 없어보이네요.");

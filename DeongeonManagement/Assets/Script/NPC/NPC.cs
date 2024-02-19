@@ -390,6 +390,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         if (FloorLevel == Main.Instance.ActiveFloor_Basement)
         {
+            FloorLevel--;
             Debug.Log($"{name}(이)가 {FloorLevel}층에서 더이상 올라갈 수 없음");
             State = NPCState.Return;
             return;

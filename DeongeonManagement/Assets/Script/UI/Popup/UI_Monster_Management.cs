@@ -15,11 +15,12 @@ public class UI_Monster_Management : UI_PopUp
 
     enum Panels
     {
-        //? Panel취소이벤트는 base.Init이 하는중
         //Panel,
         SubPanel,
         GridPanel,
         ButtonPanel,
+        ProfilePanel,
+        FloorPanel,
 
         CommandPanel,
         atk,
@@ -65,22 +66,10 @@ public class UI_Monster_Management : UI_PopUp
         Bind<Button>(typeof(Buttons));
 
         CreateMonsterBox();
-        TextClear();
 
+        Init_CommandButton();
 
-        switch (Type)
-        {
-            case UI_Type.Management:
-                Init_Management();
-                break;
-
-            case UI_Type.Placement:
-                Init_Placement();
-                break;
-        }
-
-        ButtonClear();
-        Init_CommandPanel();
+        PanelClear();
     }
 
 
@@ -92,27 +81,140 @@ public class UI_Monster_Management : UI_PopUp
     public UI_Type Type;
 
 
-    void Init_Management()
+    void PanelClear()
     {
-        //? 몬스터를 누르면 그 때 각종 버튼이 나타나고 누를 수 있게됨. 그전까진 의미없음
+        GetImage(((int)Panels.ProfilePanel)).gameObject.SetActive(false);
+        GetImage(((int)Panels.ButtonPanel)).gameObject.SetActive(false);
+        GetImage(((int)Panels.CommandPanel)).gameObject.SetActive(false);
+
+        if (Type == UI_Type.Placement)
+        {
+            GetImage(((int)Panels.FloorPanel)).gameObject.SetActive(true);
+            GetTMP((int)Texts.DetailInfo).text = $"{Main.Instance.CurrentFloor.Name_KR}\n배치된 몬스터 : {Main.Instance.CurrentFloor.monsterList.Count}\n" +
+                $"추가 배치가능 몬스터 : {Main.Instance.CurrentFloor.MaxMonsterSize}";
+        }
+        else
+        {
+            GetImage(((int)Panels.FloorPanel)).gameObject.SetActive(false);
+        }
+    }
+
+
+
+
+    void CreateMonsterBox()
+    {
+        childList = new List<UI_MonsterBox>();
+
+        for (int i = 0; i < GameManager.Monster.Monsters.Length; i++)
+        {
+            var obj = Managers.Resource.Instantiate("UI/PopUp/Element/MonsterBox", GetImage(((int)Panels.GridPanel)).transform);
+
+            var box = obj.GetComponent<UI_MonsterBox>();
+            box.monster = GameManager.Monster.Monsters[i];
+            box.parent = this;
+            childList.Add(box);
+        }
+    }
+
+    public UI_MonsterBox Current { get; private set; }
+    List<UI_MonsterBox> childList;
+
+    public void ShowDetail(UI_MonsterBox selected)
+    {
+        SelectedPanel(selected);
+        if (selected.monster == null)
+        {
+            //TextClear();
+            PanelClear();
+            return;
+        }
+
+        if (Type == UI_Type.Placement && selected.monster.State != Monster.MonsterState.Injury)
+        {
+            PlacementOne(Define.Boundary_1x1, () => CreateAll(Current.monster.MonsterID));
+            return;
+        }
+
+
+        AddFloorInfo();
+        AddButtonEvent();
+        AddCommandPanel();
+        AddTextContents();
+    }
+
+    public void ShowDetail(Monster _monster)
+    {
+        foreach (var item in childList)
+        {
+            if (item.monster == _monster)
+            {
+                ShowDetail(item);
+            }
+        }
+    }
+
+
+    #region FloorPanel
+
+    void AddFloorInfo()
+    {
+        GetImage(((int)Panels.FloorPanel)).gameObject.SetActive(true);
         GetTMP((int)Texts.DetailInfo).text = $"남은 행동력 : {Main.Instance.Player_AP}";
     }
-    void Init_Placement()
+
+    #endregion
+
+
+    #region ProfilePanel
+    //void TextClear()
+    //{
+    //    GetTMP(((int)Texts.Lv)).text = "";
+    //    GetTMP(((int)Texts.Name)).text = "";
+    //    GetTMP(((int)Texts.Status)).text = "";
+    //    GetTMP(((int)Texts.State)).text = "";
+    //    GetObject(((int)Etc.Profile)).GetComponent<Image>().sprite = Managers.Sprite.GetClear();
+    //}
+
+    void SelectedPanel(UI_MonsterBox selected)
     {
-        //? Main.Instance.CurrentFloor이 결정되있는 상태 = 즉 바로 배치로 들어감
-        GetTMP((int)Texts.DetailInfo).text = $"{Main.Instance.CurrentFloor.Name_KR}\n배치된 몬스터 : {Main.Instance.CurrentFloor.monsterList.Count}\n" +
-            $"추가 배치가능 몬스터 : {Main.Instance.CurrentFloor.MaxMonsterSize}";
-        //ButtonClear();
+        selected.ChangePanelColor(Define.Color_Alpha_2);
+
+        Current = selected;
+        //Debug.Log(Current.monster.MonsterID);
+        for (int i = 0; i < childList.Count; i++)
+        {
+            childList[i].ChangePanelColor(Define.Color_Alpha_6);
+        }
     }
 
 
-    void Init_CommandPanel()
+    void AddTextContents()
+    {
+        if (Current == null || Current.monster == null) return;
+
+        GetImage(((int)Panels.ProfilePanel)).gameObject.SetActive(true);
+
+        GetTMP(((int)Texts.Lv)).text = $"Lv.{Current.monster.LV}";
+        GetTMP(((int)Texts.Name)).text = Current.monster.Name_KR;
+
+        GetTMP(((int)Texts.Status)).text = $"HP : {Current.monster.HP} / {Current.monster.HP_Max} \n";
+        GetTMP(((int)Texts.Status)).text += $"ATK : {Current.monster.ATK} \tDEF : {Current.monster.DEF} \n" +
+            $"AGI : {Current.monster.AGI} \tLUK : {Current.monster.LUK}";
+
+        GetTMP(((int)Texts.State)).text = "진화조건 : ???";
+
+        GetObject(((int)Etc.Profile)).GetComponent<Image>().sprite = Current.monster.Data.sprite;
+    }
+
+    #endregion
+
+    #region CommandPanel
+    void Init_CommandButton()
     {
         GetButton(((int)Buttons.Command_Attack)).gameObject.AddUIEvent(data => ChangeMoveMode(Monster.MoveType.Move_Hunting));
         GetButton(((int)Buttons.Command_Defend)).gameObject.AddUIEvent(data => ChangeMoveMode(Monster.MoveType.Fixed));
         GetButton(((int)Buttons.Command_Wander)).gameObject.AddUIEvent(data => ChangeMoveMode(Monster.MoveType.Move_Wandering));
-
-        GetImage(((int)Panels.CommandPanel)).gameObject.SetActive(false);
     }
 
     void ChangeMoveMode(Monster.MoveType _mode)
@@ -123,8 +225,6 @@ public class UI_Monster_Management : UI_PopUp
         //Debug.Log("change");
         SelectedImage();
     }
-
-    
 
     void AddCommandPanel()
     {
@@ -156,106 +256,16 @@ public class UI_Monster_Management : UI_PopUp
                 break;
         }
     }
+    #endregion
 
-
-    void CreateMonsterBox()
-    {
-        childList = new List<UI_MonsterBox>();
-
-        for (int i = 0; i < GameManager.Monster.Monsters.Length; i++)
-        {
-            var obj = Managers.Resource.Instantiate("UI/PopUp/Element/MonsterBox", GetImage(((int)Panels.GridPanel)).transform);
-
-            var box = obj.GetComponent<UI_MonsterBox>();
-            box.monster = GameManager.Monster.Monsters[i];
-            box.parent = this;
-            childList.Add(box);
-        }
-    }
-
-    public UI_MonsterBox Current { get; private set; }
-    List<UI_MonsterBox> childList;
-
-    public void ShowDetail(UI_MonsterBox selected)
-    {
-        SelectedPanel(selected);
-        if (selected.monster == null)
-        {
-            TextClear();
-            ButtonClear();
-            return;
-        }
-
-        if (Type == UI_Type.Placement && selected.monster.State != Monster.MonsterState.Injury)
-        {
-            PlacementOne(Define.Boundary_1x1, () => CreateAll(Current.monster.MonsterID));
-            return;
-        }
-
-        AddButtonEvent();
-        AddCommandPanel();
-
-
-        GetTMP(((int)Texts.Lv)).text = $"Lv.{selected.monster.LV}";
-        GetTMP(((int)Texts.Name)).text = selected.monster.Name_KR;
-
-
-        GetTMP(((int)Texts.Status)).text = $"HP : {selected.monster.HP} / {selected.monster.HP_Max} \n";
-        GetTMP(((int)Texts.Status)).text += $"ATK : {selected.monster.ATK} \tDEF : {selected.monster.DEF} \n" +
-            $"AGI : {selected.monster.AGI} \tLUK : {selected.monster.LUK}";
-
-        GetTMP(((int)Texts.State)).text = "진화조건 : ???";
-
-        GetObject(((int)Etc.Profile)).GetComponent<Image>().sprite = selected.monster.Data.sprite;
-    }
-
-    public void ShowDetail(Monster _monster)
-    {
-        foreach (var item in childList)
-        {
-            if (item.monster == _monster)
-            {
-                ShowDetail(item);
-            }
-        }
-    }
-
-
-    void TextClear()
-    {
-        GetTMP(((int)Texts.Lv)).text = "";
-        GetTMP(((int)Texts.Name)).text = "";
-        GetTMP(((int)Texts.Status)).text = "";
-        GetTMP(((int)Texts.State)).text = "";
-        GetObject(((int)Etc.Profile)).GetComponent<Image>().sprite = Managers.Sprite.GetClear();
-    }
-
-    void SelectedPanel(UI_MonsterBox selected)
-    {
-        selected.ChangePanelColor(Define.Color_Alpha_2);
-
-        Current = selected;
-        //Debug.Log(Current.monster.MonsterID);
-        for (int i = 0; i < childList.Count; i++)
-        {
-            childList[i].ChangePanelColor(Define.Color_Alpha_6);
-        }
-    }
-
-
-
-
-
-
-
-    #region Buttons
-    void ButtonClear()
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            GetButton(i).gameObject.SetActive(false);
-        }
-    }
+    #region ButtonPanel
+    //void ButtonClear()
+    //{
+    //    for (int i = 0; i < 5; i++)
+    //    {
+    //        GetButton(i).gameObject.SetActive(false);
+    //    }
+    //}
 
     void Init_ButtonEvent()
     {
@@ -283,6 +293,7 @@ public class UI_Monster_Management : UI_PopUp
     {
         if (Current == null || Current.monster == null) return;
 
+        GetImage(((int)Panels.ButtonPanel)).gameObject.SetActive(true);
         Init_ButtonEvent();
 
         switch (Current.monster.State)
@@ -451,6 +462,17 @@ public class UI_Monster_Management : UI_PopUp
         Main.Instance.CurrentFloor = null;
     }
 
-    
+
     #endregion
+
+
+
+    //private void OnEnable()
+    //{
+    //    Time.timeScale = 0;
+    //}
+    //private void OnDestroy()
+    //{
+    //    Time.timeScale = 1;
+    //}
 }

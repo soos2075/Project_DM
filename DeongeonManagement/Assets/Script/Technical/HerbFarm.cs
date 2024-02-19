@@ -11,18 +11,18 @@ public class HerbFarm : Technical
     public override int InstanceDate { get; set; }
     public override int Cycle { get; set; }
 
-    Action<int> action;
+
     public override void Init()
     {
         Cycle = 2;
-        action = (turn) => { MainEvent(turn); };
+        MainAction = (turn) => { MainEvent(turn); };
 
-        AddTurnEvent(action, DayType.Day);
+        AddTurnEvent(MainAction, DayType.Day);
     }
 
     public override void RemoveTechnical()
     {
-        RemoveTurnEvent(action, DayType.Day);
+        RemoveTurnEvent(MainAction, DayType.Day);
     }
 
 

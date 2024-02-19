@@ -2125,7 +2125,6 @@ Transform:
   - {fileID: 1911208391}
   - {fileID: 1689630766}
   - {fileID: 1160858417}
-  - {fileID: 1437957099}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2649,7 +2648,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 0}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -2705,6 +2704,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1437957099}
+  - component: {fileID: 1437957100}
   m_Layer: 0
   m_Name: Special_MagicEgg
   m_TagString: Untagged
@@ -2719,15 +2719,36 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1437957098}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.5, y: -4.5, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 166958907}
-  m_Father: {fileID: 303457911}
-  m_RootOrder: 4
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1437957100
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437957098}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1689630765
 GameObject:
   m_ObjectHideFlags: 0
@@ -4935,6 +4956,7 @@ MonoBehaviour:
     m_Signals:
     - {fileID: 11400000, guid: 4a6312007aea4af409e0a13cc661cc83, type: 2}
     - {fileID: 11400000, guid: bb7b258381f83cd4d9c4af765f532587, type: 2}
+    - {fileID: 11400000, guid: e73d20b225520d844a87201c458fe377, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -4955,6 +4977,20 @@ MonoBehaviour:
         - m_Target: {fileID: 1972892857}
           m_TargetAssemblyTypeName: TimelineDirector, Assembly-CSharp
           m_MethodName: StartDialogue
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1972892857}
+          m_TargetAssemblyTypeName: TimelineDirector, Assembly-CSharp
+          m_MethodName: Ending
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4988,7 +5024,7 @@ PlayableDirector:
   serializedVersion: 3
   m_PlayableAsset: {fileID: 11400000, guid: 99954da5c38164148804fb0074bf279b, type: 2}
   m_InitialState: 1
-  m_WrapMode: 2
+  m_WrapMode: 0
   m_DirectorUpdateMode: 2
   m_InitialTime: 0
   m_SceneBindings:
@@ -4996,6 +5032,8 @@ PlayableDirector:
     value: {fileID: 1972892856}
   - key: {fileID: -7445857885921033659, guid: 99954da5c38164148804fb0074bf279b, type: 2}
     value: {fileID: 1231204107}
+  - key: {fileID: -3247456609514105699, guid: 99954da5c38164148804fb0074bf279b, type: 2}
+    value: {fileID: 1437957100}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &1972892859

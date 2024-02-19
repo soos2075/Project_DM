@@ -11,9 +11,14 @@ public class Meat : Facility
     public override void FacilityInit()
     {
         Type = FacilityType.RestZone;
-        InteractionOfTimes = 2;
         Name = "°í±â";
         Name_prefab = this.GetType().Name;
+
+
+        if (InteractionOfTimes <= 0)
+        {
+            InteractionOfTimes = 2;
+        }
     }
 
 

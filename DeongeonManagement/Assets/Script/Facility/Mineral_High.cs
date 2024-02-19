@@ -11,9 +11,14 @@ public class Mineral_High : Facility
     public override void FacilityInit()
     {
         Type = FacilityType.Mineral;
-        InteractionOfTimes = 1;
         Name = "다이아몬드";
         Name_prefab = this.GetType().Name;
+
+
+        if (InteractionOfTimes <= 0)
+        {
+            InteractionOfTimes = 2;
+        }
     }
 
 

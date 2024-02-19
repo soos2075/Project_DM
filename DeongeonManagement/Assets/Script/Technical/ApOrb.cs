@@ -11,18 +11,20 @@ public class ApOrb : Technical
 
     public override void Init()
     {
-        Main.Instance.AddAP();
+        MainAction = (turn) => { MainEvent(turn); };
+
+        AddTurnEvent(MainAction, DayType.Night);
     }
 
 
     public override void RemoveTechnical()
     {
-        Main.Instance.SubtractAP();
+        RemoveTurnEvent(MainAction, DayType.Night);
     }
 
     protected override void MainEvent(int day)
     {
-        
+        Main.Instance.Player_AP++;
     }
 
 

@@ -7,6 +7,19 @@ public class Treasure_Base : Facility
     public override FacilityType Type { get; set; }
     public override int InteractionOfTimes { get; set; }
     public override string Name { get; set; }
+    public override int OptionIndex { get { return ((int)treasureType); } set { treasureType = (TreasureType)value; } }
+
+
+
+    public enum TreasureType
+    {
+        sword,
+        ring,
+        coin,
+        scroll,
+    }
+    public TreasureType treasureType;
+
 
     public override void FacilityInit()
     {
@@ -14,6 +27,11 @@ public class Treasure_Base : Facility
         InteractionOfTimes = 1;
         Name = "보물";
         Detail_KR = "모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.";
+
+        if (InteractionOfTimes <= 0)
+        {
+            InteractionOfTimes = 1;
+        }
     }
 
 

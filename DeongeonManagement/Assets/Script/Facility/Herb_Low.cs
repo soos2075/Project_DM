@@ -11,10 +11,14 @@ public class Herb_Low : Facility
     public override void FacilityInit()
     {
         Type = FacilityType.Herb;
-        InteractionOfTimes = 1;
         Name = "하급 약초";
         Detail_KR = "흔한 약초입니다. 소량이지만 마나를 머금고 있고 던전에서만 얻을 수 있어 인기는 많습니다.";
         Name_prefab = this.GetType().Name;
+
+        if (InteractionOfTimes <= 0)
+        {
+            InteractionOfTimes = 1;
+        }
     }
 
 

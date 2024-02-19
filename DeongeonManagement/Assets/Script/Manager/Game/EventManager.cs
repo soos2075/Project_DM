@@ -48,6 +48,10 @@ public class EventManager : MonoBehaviour
     Dictionary<string, Action> EventAction = new Dictionary<string, Action>();
 
 
+
+
+
+
     void AddDialogueAction()
     {
         GuildNPCAction.Add(2100, () => GuildManager.Instance.AddBackAction(() => Main.Instance.CurrentDay.Fame += 15));
@@ -173,11 +177,11 @@ public class EventManager : MonoBehaviour
 
 }
 
-public class QuestData
-{
-    public SO_DialogueData Data;
-    public int DataID;
-    public string DataName;
-    public int OriginIndex;
-    public Action QuestAction;
-}
+//public class QuestData
+//{
+//    public SO_DialogueData Data;
+//    public int DataID;
+//    public string DataName;
+//    public int OriginIndex;
+//    public Action QuestAction;
+//}

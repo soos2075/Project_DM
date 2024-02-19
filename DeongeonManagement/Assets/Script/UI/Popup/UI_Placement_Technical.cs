@@ -160,5 +160,13 @@ public class UI_Placement_Technical : UI_PopUp
     }
 
 
+    //private void OnEnable()
+    //{
+    //    Time.timeScale = 0;
+    //}
+    //private void OnDestroy()
+    //{
+    //    Time.timeScale = 1;
+    //}
 
 }

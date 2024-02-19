@@ -35,7 +35,7 @@ public class Main : MonoBehaviour
         Debug.Log("디버그용 Start");
         //NewGame_Init();
         //Default_Init();
-        Test_Init();
+        //Test_Init();
     }
     [Obsolete]
     void Test_Init()
@@ -149,6 +149,8 @@ public class Main : MonoBehaviour
         Init_Statue();
 
         Managers.Dialogue.ShowDialogueUI("Prologue", GameObject.Find("Player").transform);
+        //? 테스트용 삭제필
+        //Managers.Dialogue.ShowDialogueUI("Ending", GameObject.Find("Player").transform);
     }
 
 
@@ -175,19 +177,19 @@ public class Main : MonoBehaviour
     }
     void Init_Basic()
     {
-        for (int k = 0; k < 5; k++)
+        for (int k = 0; k < 8; k++)
         {
             BasementTile tile = Floor[0].GetRandomTile();
             var info = new PlacementInfo(Floor[0], tile);
             GameManager.Facility.CreateFacility("Herb_Low", info);
         }
-        for (int k = 0; k < 2; k++)
+        for (int k = 0; k < 3; k++)
         {
             BasementTile tile = Floor[1].GetRandomTile();
             var info = new PlacementInfo(Floor[1], tile);
             GameManager.Facility.CreateFacility("Herb_Low", info);
         }
-        for (int k = 0; k < 4; k++)
+        for (int k = 0; k < 0; k++)
         {
             BasementTile tile = Floor[2].GetRandomTile();
             var info = new PlacementInfo(Floor[2], tile);
@@ -490,10 +492,7 @@ public class Main : MonoBehaviour
         //ui.RankUpResult(EventManager.Instance.TryRankUp(FameOfDungeon, DangerOfDungeon));
         //? 위가 적용 아래가 새로교체
 
-        CurrentDay = new DayResult();
-        CurrentDay.SetOrigin(Player_Mana, Player_Gold, Prisoner);
-        CurrentDay.fame_perv = FameOfDungeon;
-        CurrentDay.danger_perv = DangerOfDungeon;
+        Init_DayResult();
     }
 
     #endregion

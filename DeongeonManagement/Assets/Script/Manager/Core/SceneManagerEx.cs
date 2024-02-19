@@ -69,6 +69,10 @@ public class SceneManagerEx
                 SoundManager.Instance.PlaySound("BGM/Opening", Define.AudioType.BGM);
                 break;
 
+            case SceneName._5_Ending:
+                SoundManager.Instance.StopMusic();
+                break;
+
             default:
                 break;
         }

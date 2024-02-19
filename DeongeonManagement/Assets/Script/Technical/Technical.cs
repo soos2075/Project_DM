@@ -21,6 +21,7 @@ public abstract class Technical : MonoBehaviour
 
     public abstract int InstanceDate { get; set; }
     public abstract int Cycle { get; set; }
+    public Action<int> MainAction { get; set; }
 
 
     protected enum DayType
@@ -29,30 +30,30 @@ public abstract class Technical : MonoBehaviour
         Night,
     }
 
-    protected void AddTurnEvent(Action<int> action, DayType dayType)
+    protected void AddTurnEvent(Action<int> _action, DayType dayType)
     {
         switch (dayType)
         {
             case DayType.Day:
-                Main.Instance.DayActions.Add(action);
+                Main.Instance.DayActions.Add(_action);
                 break;
 
             case DayType.Night:
-                Main.Instance.NightActions.Add(action);
+                Main.Instance.NightActions.Add(_action);
                 break;
 
         }
     }
-    protected void RemoveTurnEvent(Action<int> action, DayType dayType)
+    protected void RemoveTurnEvent(Action<int> _action, DayType dayType)
     {
         switch (dayType)
         {
             case DayType.Day:
-                Main.Instance.DayActions.Remove(action);
+                Main.Instance.DayActions.Remove(_action);
                 break;
 
             case DayType.Night:
-                Main.Instance.NightActions.Remove(action);
+                Main.Instance.NightActions.Remove(_action);
                 break;
 
         }

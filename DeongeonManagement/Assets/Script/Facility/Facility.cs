@@ -36,15 +36,18 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
 
     #region SaveLoad
-    public void Load_Data(int times)
+    public void Load_Data(Save_FacilityData _data)
     {
-        InteractionOfTimes = times;
+        InteractionOfTimes = _data.interactionTimes;
+        OptionIndex = _data.OptionIndex;
     }
+
     #endregion
 
 
-
-
+    //? 하나의 클래스에 여러타입을 가져야하는 경우(조각상 / 함정 / 이후로 추가할 퍼실리티들.
+    //? 최종적으로는 아래 FacilityType이 클래스가 되야함. 허브는 허브로 통합, 광물은 광물로 통합 이런식으로.
+    public virtual int OptionIndex { get; set; }
 
 
     public enum FacilityType

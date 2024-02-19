@@ -40,7 +40,14 @@ public class UI_EventBox : UI_Scene
     static string textOrigin;
     public static void AddEventText(string contents)
     {
-        textOrigin += $"{contents}\n";
+        if (string.IsNullOrEmpty(textOrigin))
+        {
+            textOrigin += $"{contents}";
+        }
+        else
+        {
+            textOrigin += $"\n{contents}";
+        }
     }
 
 
