@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Adventurer : NPC
 {
+    [field: SerializeField]
     public override List<BasementTile> PriorityList { get; set; }
     protected override Define.TileType[] AvoidTileType { get; set; }
 

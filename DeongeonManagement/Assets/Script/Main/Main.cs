@@ -32,13 +32,13 @@ public class Main : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("디버그용 Start");
+        //Debug.Log("디버그용 Start");
         //NewGame_Init();
         //Default_Init();
         //Test_Init();
     }
     [Obsolete]
-    void Test_Init()
+    public void Test_Init()
     {
         ActiveFloor_Basement = 5;
         ActiveFloor_Technical = 2;
@@ -147,10 +147,9 @@ public class Main : MonoBehaviour
         Init_Secret();
         Init_Basic();
         Init_Statue();
+        Init_EggEntrance();
 
         Managers.Dialogue.ShowDialogueUI("Prologue", GameObject.Find("Player").transform);
-        //? 테스트용 삭제필
-        //Managers.Dialogue.ShowDialogueUI("Ending", GameObject.Find("Player").transform);
     }
 
 
@@ -162,8 +161,15 @@ public class Main : MonoBehaviour
         var egg = GameManager.Placement.CreateOnlyOne($"Facility/Special_MagicEgg", info, Define.PlacementType.Facility);
         GameManager.Placement.PlacementConfirm(egg, info, true);
         //GameManager.Facility.CreateFacility_OnlyOne("Special_MagicEgg", info, true);
+        Init_Player();
+    }
 
-
+    public void Init_Player()
+    {
+        if (GameObject.Find("Player") != null)
+        {
+            return;
+        }
 
         BasementTile tile2 = null;
         Floor[3].TileMap.TryGetValue(new Vector2Int(3, 3), out tile2);
@@ -171,10 +177,11 @@ public class Main : MonoBehaviour
         var player = GameManager.Placement.CreatePlacementObject("Player", info2, Define.PlacementType.Monster);
         var component = player as Player;
         component.MonsterInit();
-        component.Level_Stat(1);
+        component.Level_Stat(DungeonRank);
         component.State = Monster.MonsterState.Placement;
         GameManager.Placement.PlacementConfirm(player, info2);
     }
+
     void Init_Basic()
     {
         for (int k = 0; k < 8; k++)
@@ -189,11 +196,32 @@ public class Main : MonoBehaviour
             var info = new PlacementInfo(Floor[1], tile);
             GameManager.Facility.CreateFacility("Herb_Low", info);
         }
-        for (int k = 0; k < 0; k++)
+        for (int k = 0; k < 5; k++)
         {
             BasementTile tile = Floor[2].GetRandomTile();
             var info = new PlacementInfo(Floor[2], tile);
-            GameManager.Facility.CreateFacility("Mineral_Rock", info);
+            var facil = GameManager.Facility.CreateFacility("Mineral", info);
+            var mineral = facil as Mineral;
+            mineral.OptionIndex = (int)Mineral.MineralType.Rock;
+        }
+    }
+
+    void Init_EggEntrance()
+    {
+        {
+            var tile = Main.Instance.Floor[3].GetRandomTile();
+            Main.Instance.Floor[3].TileMap.TryGetValue(new Vector2Int(12, 3), out tile);
+            PlacementInfo info = new PlacementInfo(Main.Instance.Floor[3], tile);
+
+            var obj = GameManager.Facility.CreateFacility_OnlyOne("Obstacle", info, true);
+        }
+
+        {
+            var tile = Main.Instance.Floor[2].GetRandomTile();
+            Main.Instance.Floor[2].TileMap.TryGetValue(new Vector2Int(0, 0), out tile);
+            PlacementInfo info = new PlacementInfo(Main.Instance.Floor[2], tile);
+
+            var obj = GameManager.Facility.CreateFacility_OnlyOne("Obstacle", info, true);
         }
     }
 
@@ -286,23 +314,23 @@ public class Main : MonoBehaviour
         AP_MAX = data.AP_MAX;
 
         Prisoner = data.Prisoner;
-
         CurrentDay = data.CurrentDay;
-
         DayList = data.DayResultList;
 
         ActiveFloor_Basement = (data.ActiveFloor_Basement);
         ActiveFloor_Technical = (data.ActiveFloor_Technical);
         ExpansionConfirm();
         GameManager.Technical.Expantion_Technical();
-        UI_Main.DungeonExpansion();
-
-        UI_Main.Texts_Refresh();
-
 
 
         //? 플레이어랑 알소환
         Init_Secret();
+
+        //? 레벨 적용
+        EventManager.Instance.Load_EventData();
+
+        UI_Main.DungeonExpansion();
+        UI_Main.Texts_Refresh();
     }
     #endregion
 
@@ -368,14 +396,11 @@ public class Main : MonoBehaviour
 
     public int AP_MAX { get; private set; }
 
-    public void AddAP()
+    public void Set_AP_Max(int _ap)
     {
-        AP_MAX++;
+        AP_MAX = _ap;
     }
-    public void SubtractAP()
-    {
-        AP_MAX--;
-    }
+
     public int Player_AP { get; set; }
     public int Prisoner { get; set; }
 
@@ -545,11 +570,13 @@ public class Main : MonoBehaviour
                 Turn++;
                 TurnStartEvent();
                 DayEvent();
+                EventManager.Instance.TurnStart();
                 GameManager.NPC.TurnStart();
                 GameManager.Monster.MonsterTurnStartEvent();
             }
             else
             {
+                Init_Player(); //? 플레이어 없으면 재소환
                 DayOver_Dayresult();
                 DayMonsterEvent();
                 NightEvent();
@@ -662,6 +689,11 @@ public class Main : MonoBehaviour
             case 6:
                 break;
 
+            case 15:
+                Debug.Log("임시로 15일 게임클리어");
+                Managers.Dialogue.ShowDialogueUI("Ending", GameObject.Find("Player").transform);
+                break;
+
             case 30:
                 Debug.Log("게임클리어");
                 break;
@@ -688,13 +720,20 @@ public class Main : MonoBehaviour
 
     void DayMonsterEvent()
     {
+        StartCoroutine(WaitForResultUI());
+    }
+
+    IEnumerator WaitForResultUI()
+    {
+        yield return new WaitForEndOfFrame();
+
         GameManager.Monster.InjuryMonster = 0;
 
         if (GameManager.Monster.LevelUpList.Count != 0)
         {
             foreach (var item in GameManager.Monster.LevelUpList)
             {
-                Managers.UI.Popup_Reservation(() => 
+                Managers.UI.Popup_Reservation(() =>
                 {
                     for (int i = 0; i < item.times; i++)
                     {
@@ -767,6 +806,7 @@ public class Main : MonoBehaviour
     public BasementFloor CurrentFloor { get; set; }
     public BasementTile CurrentTile { get; set; }
     public Action CurrentAction { get; set; }
+    public Action PurchaseAction { get; set; }
 
     public Vector2Int[] CurrentBoundary { get; set; } = Define.Boundary_Cross_1;
 

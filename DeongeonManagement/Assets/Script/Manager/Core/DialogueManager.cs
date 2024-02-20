@@ -147,7 +147,7 @@ public class DialogueManager
     {
         Managers.UI.CloseAll();
         ShowDialogueUI(data);
-        var npc = GuildManager.Instance.GetInteraction(id);
+        var npc = GameObject.FindAnyObjectByType<GuildManager>().GetInteraction(id);
         npc.OptionList.RemoveAt(pointer.pointerCurrentRaycast.gameObject.transform.GetSiblingIndex());
     }
 

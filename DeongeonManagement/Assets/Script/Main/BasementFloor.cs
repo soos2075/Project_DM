@@ -842,7 +842,7 @@ public class BasementFloor : MonoBehaviour
 
 }
 
-
+[Serializable]
 public class BasementTile
 {
     public BasementFloor floor;
@@ -888,6 +888,16 @@ public class BasementTile
             tileType_unchange = Define.TileType.Player;
         }
         else if (_placementable.GetType() == typeof(SpecialEgg))
+        {
+            tileType = Define.TileType.Special;
+            tileType_unchange = Define.TileType.Special;
+        }
+        else if (_placementable.GetType() == typeof(Entrance_Egg))
+        {
+            tileType = Define.TileType.Special;
+            tileType_unchange = Define.TileType.Special;
+        }
+        else if (_placementable.GetType() == typeof(Obstacle))
         {
             tileType = Define.TileType.Special;
             tileType_unchange = Define.TileType.Special;
@@ -960,6 +970,10 @@ public class BasementTile
                 return Define.PlaceEvent.Placement;
 
             case Define.TileType.Special:
+                //if (_placementable.GetType() == typeof(Entrance_Egg))
+                //{
+                //    return Define.PlaceEvent.Using_Portal;
+                //}
                 return Define.PlaceEvent.Event;
 
             case Define.TileType.Entrance:

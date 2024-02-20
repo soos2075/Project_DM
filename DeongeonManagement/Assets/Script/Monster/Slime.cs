@@ -24,5 +24,10 @@ public class Slime : Monster
     }
 
 
+    public override void MaxLevelQuest()
+    {
+        base.MaxLevelQuest();
+        EventManager.Instance.GuildQuestAdd.Add(1100);
+    }
 
 }

@@ -199,15 +199,15 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
 
             if (option.Contains("@Action"))
             {
-                string spritePath = option.Substring(option.IndexOf("@Action::") + 9, option.IndexOf("::Action") - (option.IndexOf("@Action::") + 9));
+                string actionName = option.Substring(option.IndexOf("@Action::") + 9, option.IndexOf("::Action") - (option.IndexOf("@Action::") + 9));
                 int id = 0;
-                if (int.TryParse(spritePath, out id))
+                if (int.TryParse(actionName, out id))
                 {
                     EventManager.Instance.GetAction(id)?.Invoke();
                 }
                 else
                 {
-                    EventManager.Instance.GetAction(spritePath)?.Invoke();
+                    EventManager.Instance.GetAction(actionName)?.Invoke();
                 }
             }
 
@@ -217,17 +217,22 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
             if (option.Contains("@Option")) //? 옵션 타입은 두가지. 하나는 아이디를 받는거 / 하나는 Dia번호를 받는거. 두개 이름만 다르게하면됨
             {
                 string npcID = option.Substring(option.IndexOf("@Option::") + 9, option.IndexOf("::Option") - (option.IndexOf("@Option::") + 9));
-                var npc = GuildManager.Instance.GetInteraction(int.Parse(npcID));
+                var npc = FindAnyObjectByType<GuildManager>().GetInteraction(int.Parse(npcID));
                 //var optionList = Managers.Dialogue.ShowOption(npcID);
                 optionAction = () => npc.OneTimeOptionButton();
             }
+
+
+            //? 위의 Option은 길드에서만 가능. 만약 게임씬에서 선택지를 쓰고싶으면 새로 다른이름으로 새로 만들어야함.
+
+
 
             yield return StartCoroutine(TypingEffect(Data.TextDataList[textCount].mainText, optionAction));
             textCount++;
         }
 
         Time.timeScale = 1;
-        Managers.UI.ClosePopUp(this);
+        Managers.UI.ClosePopupPick(this);
         Managers.Dialogue.currentDialogue = null;
         //Debug.Log("대화창 닫음");
     }

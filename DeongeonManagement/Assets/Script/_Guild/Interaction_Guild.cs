@@ -34,6 +34,22 @@ public class Interaction_Guild : MonoBehaviour
         }
     }
 
+
+    public void AddQuest(int _index)
+    {
+        if (_index / 100 == 0)
+        {
+            InstanceQuestList.Add(_index);
+        }
+        else
+        {
+            OptionList.Add(_index);
+        }
+    }
+
+
+
+
     SpriteOutline outline;
     GameObject key;
     GameObject eventKey;
@@ -118,3 +134,4 @@ public class Interaction_Guild : MonoBehaviour
         Managers.Dialogue.OneTimeOption(OptionList, Original_Index);
     }
 }
+

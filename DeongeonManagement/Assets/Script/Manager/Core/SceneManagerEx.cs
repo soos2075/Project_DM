@@ -9,21 +9,44 @@ public class SceneManagerEx
 {
     public void Init()
     {
-        OneTimeAction = new List<UnityAction<Scene, LoadSceneMode>>();
         AddLoadAction_Usual((scene, mode) => LoadActionOver());
         AddLoadAction_Usual((scene, mode) => Managers.UI.SceneChange());
         AddLoadAction_Usual((scene, mode) => FadeIn());
         AddLoadAction_Usual((scene, mode) => BGM_Change(GetSceneEnum(scene.name)));
+        AddLoadAction_Usual((scene, mode) => Time.timeScale = 1);
 
-        //loadAction = new List<Action>();
-        //SceneManager.sceneLoaded += CustomSceneLoadAction;
     }
 
-    List<UnityAction<Scene, LoadSceneMode>> OneTimeAction;
+    private Action beforeChangeAction;
+    public Action BeforeSceneChangeAction
+    {
+        get { return beforeChangeAction; }
+        set
+        {
+            if (beforeChangeAction == null)
+            {
+                beforeChangeAction = value;
+            }
+            else
+            {
+                beforeChangeAction += value;
+            }
+        }
+    }
+
+    List<UnityAction<Scene, LoadSceneMode>> OneTimeAction = new List<UnityAction<Scene, LoadSceneMode>>();
     AsyncOperation CurrentOperation { get; set; }
 
     public void LoadSceneAsync(SceneName _sceneName, bool _fade = true)
     {
+        Time.timeScale = 0;
+        if (BeforeSceneChangeAction != null)
+        {
+            BeforeSceneChangeAction.Invoke();
+            beforeChangeAction = null;
+        }
+
+
         CurrentOperation = SceneManager.LoadSceneAsync(_sceneName.ToString());
 
         if (_fade)
@@ -31,6 +54,9 @@ public class SceneManagerEx
             Managers.Instance.StartCoroutine(FadeOut());
         }
     }
+
+
+
     IEnumerator FadeOut()
     {
         CurrentOperation.allowSceneActivation = false;

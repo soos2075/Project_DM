@@ -94,83 +94,83 @@ public class PlacementManager
         newPlace.Place_Tile.SetPlacement(obj);
         //obj.GetObject().transform.position = obj.PlacementInfo.Place_Tile.worldPosition;
     }
-    public void PlacementMove_NPC(NPC npc, PlacementInfo newPlace, float duration)
-    {
-        Managers.Instance.StartCoroutine(MoveUpdate(npc, npc.PlacementInfo.Place_Tile, newPlace.Place_Tile, duration));
+    //public void PlacementMove_NPC(NPC npc, PlacementInfo newPlace, float duration)
+    //{
+    //    Managers.Instance.StartCoroutine(MoveUpdate(npc, npc.PlacementInfo.Place_Tile, newPlace.Place_Tile, duration));
 
-        npc.PlacementInfo.Place_Tile.ClearPlacement();
-        npc.PlacementInfo = newPlace;
-        newPlace.Place_Tile.SetPlacement(npc);
-        //npc.GetObject().transform.position = npc.PlacementInfo.Place_Tile.worldPosition;
-    }
+    //    npc.PlacementInfo.Place_Tile.ClearPlacement();
+    //    npc.PlacementInfo = newPlace;
+    //    newPlace.Place_Tile.SetPlacement(npc);
+    //    //npc.GetObject().transform.position = npc.PlacementInfo.Place_Tile.worldPosition;
+    //}
 
-    IEnumerator MoveUpdate(NPC npc, BasementTile startPos, BasementTile endPos, float duration)
-    {
-        Vector3 dir = endPos.worldPosition - startPos.worldPosition;
-        //Debug.Log(dir);
-        if (dir.x > 0)
-        {
-            //? 무브 오른쪽
-            npc.Anim_State = NPC.moveState.right;
-        }
-        else if (dir.x < 0)
-        {
-            //? 왼쪽
-            npc.Anim_State = NPC.moveState.left;
-        }
-        else if (dir.y > 0)
-        {
-            //? 위
-            npc.Anim_State = NPC.moveState.back;
-        }
-        else if (dir.y < 0)
-        {
-            //? 아래
-            npc.Anim_State = NPC.moveState.front;
-        }
+    //IEnumerator MoveUpdate(NPC npc, BasementTile startPos, BasementTile endPos, float duration)
+    //{
+    //    Vector3 dir = endPos.worldPosition - startPos.worldPosition;
+    //    //Debug.Log(dir);
+    //    if (dir.x > 0)
+    //    {
+    //        //? 무브 오른쪽
+    //        npc.Anim_State = NPC.moveState.right;
+    //    }
+    //    else if (dir.x < 0)
+    //    {
+    //        //? 왼쪽
+    //        npc.Anim_State = NPC.moveState.left;
+    //    }
+    //    else if (dir.y > 0)
+    //    {
+    //        //? 위
+    //        npc.Anim_State = NPC.moveState.back;
+    //    }
+    //    else if (dir.y < 0)
+    //    {
+    //        //? 아래
+    //        npc.Anim_State = NPC.moveState.front;
+    //    }
 
 
-        float dis = Vector3.Distance(startPos.worldPosition, endPos.worldPosition);
+    //    float dis = Vector3.Distance(startPos.worldPosition, endPos.worldPosition);
 
-        float moveValue = dis / duration;
-        float timer = 0;
+    //    float moveValue = dis / duration;
+    //    float timer = 0;
 
-        while (timer < duration)// && dis > 0.05f)
-        {
-            yield return null;
-            timer += Time.deltaTime;
-            npc.transform.position += dir.normalized * moveValue * Time.deltaTime;
-            //dis = Vector3.Distance(npc.transform.position, endPos.worldPosition);
-        }
+    //    while (timer < duration)// && dis > 0.05f)
+    //    {
+    //        yield return null;
+    //        timer += Time.deltaTime;
+    //        npc.transform.position += dir.normalized * moveValue * Time.deltaTime;
+    //        //dis = Vector3.Distance(npc.transform.position, endPos.worldPosition);
+    //    }
 
-        npc.transform.position = endPos.worldPosition;
-    }
+    //    npc.transform.position = endPos.worldPosition;
+    //}
 
-    public void LookInteraction(NPC npc, BasementTile startPos, BasementTile endPos)
-    {
-        Vector3 dir = endPos.worldPosition - startPos.worldPosition;
-        //Debug.Log(dir);
-        if (dir.x > 0)
-        {
-            //? 무브 오른쪽
-            npc.Anim_State = NPC.moveState.right_Action;
-        }
-        else if (dir.x < 0)
-        {
-            //? 왼쪽
-            npc.Anim_State = NPC.moveState.left_Action;
-        }
-        else if (dir.y > 0)
-        {
-            //? 위
-            npc.Anim_State = NPC.moveState.back_Action;
-        }
-        else if (dir.y < 0)
-        {
-            //? 아래
-            npc.Anim_State = NPC.moveState.front_Action;
-        }
-    }
+    //public void LookInteraction(NPC npc, BasementTile startPos, BasementTile endPos)
+    //{
+    //    Vector3 dir = endPos.worldPosition - startPos.worldPosition;
+    //    //Debug.Log(dir);
+    //    if (dir.x > 0)
+    //    {
+    //        //? 무브 오른쪽
+    //        npc.Anim_State = NPC.moveState.right_Action;
+    //    }
+    //    else if (dir.x < 0)
+    //    {
+    //        //? 왼쪽
+    //        npc.Anim_State = NPC.moveState.left_Action;
+    //    }
+    //    else if (dir.y > 0)
+    //    {
+    //        //? 위
+    //        npc.Anim_State = NPC.moveState.back_Action;
+    //    }
+    //    else if (dir.y < 0)
+    //    {
+    //        //? 아래
+    //        npc.Anim_State = NPC.moveState.front_Action;
+    //    }
+    //}
 
 
 

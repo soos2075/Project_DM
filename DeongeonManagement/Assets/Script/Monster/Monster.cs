@@ -75,6 +75,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
         State = Data.State;
         Mode = Data.MoveMode;
+        Evolution = Data.Evolution;
     }
 
     #endregion
@@ -302,7 +303,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         float moveValue = dis / duration;
         float timer = 0;
 
-        anim.Play(Define.ANIM_run);
+        anim.Play(Define.ANIM_walk);
         while (timer < (duration * 0.95f))
         {
             yield return null;
@@ -391,7 +392,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
                 break;
 
             case BattleField.BattleResult.NPC_Die:
-                UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 {Name_KR} (이)가 {npc.Name_KR} {npc.Name_Index} 에게 승리하였습니다!");
+                UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 {Name_KR} (이)가 {npc.Name_KR} 에게 승리하였습니다!");
                 GetBattlePoint(npc.Rank * 2);
                 break;
         }
@@ -404,6 +405,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         if (player != null)
         {
             Debug.Log("게임오버");
+            GameManager.Placement.PlacementClear(this);
             return;
         }
 
@@ -455,6 +457,13 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
     #region Battle
 
+    public virtual void MaxLevelQuest()
+    {
+        //? 최대레벨 됐을 때 발생할 퀘스트
+        Debug.Log($"{Name_KR} : 퀘스트 발생");
+    }
+    public bool Evolution { get; set; } = false;
+
     public int BattleCount_Rank { get; set; }
     public int BattleCount_Quantity { get; set; }
 
@@ -481,6 +490,18 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         {
             return;
         }
+
+        if (LV >= Data.MAXLV)
+        {
+            if (Evolution == false)
+            {
+                Evolution = true;
+                MaxLevelQuest();
+            }
+            return;
+        }
+
+
         GameManager.Monster.AddLevelUpEvent(this);
     }
 

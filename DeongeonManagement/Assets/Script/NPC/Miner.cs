@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Miner : NPC
 {
+
+
+    [field: SerializeField]
     public override List<BasementTile> PriorityList { get; set; }
     protected override Define.TileType[] AvoidTileType { get; set; }
 
@@ -19,11 +22,9 @@ public class Miner : NPC
         if (PriorityList != null) PriorityList.Clear();
 
 
-        var list1 = GetPriorityPick(typeof(Mineral_High));
-        var list2 = GetPriorityPick(typeof(Mineral_Low));
+        var list1 = GetPriorityPick(typeof(Mineral));
 
         AddList(list1);
-        AddList(list2);
 
 
         {

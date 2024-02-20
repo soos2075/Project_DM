@@ -8,20 +8,35 @@ public class NPCManager
     {
         FillIndex();
         Init_Data();
+        Init_EventNPCData();
 
         guild = Util.FindChild<Transform>(Main.Instance.gameObject, "Guild");
         dungeonEntrance = Util.FindChild<Transform>(Main.Instance.gameObject, "Dungeon");
 
-        
+        Managers.Scene.BeforeSceneChangeAction = () => StopAllMoving();
     }
+
+    void StopAllMoving()
+    {
+        if (Instance_NPC_List.Count == 0) return;
+
+        foreach (var item in Instance_NPC_List)
+        {
+            item.StopAllCoroutines();
+        }
+    }
+
+
 
 
     public Transform guild;
     public Transform dungeonEntrance;
 
     int Max_NPC_Value { get; set; }
-    int Current_Value;
-    public List<NPC> Current_NPCList;
+    int Current_Value { get; set; }
+
+    public List<NPC> Instance_NPC_List { get; set; } = new List<NPC>();
+    public List<NPC> Remove_NPC_List { get; set; } = new List<NPC>();
 
 
     public void TurnStart()
@@ -38,20 +53,20 @@ public class NPCManager
         Calculation_Rank();
         Debug.Log($"최대 적 랭크 = {rankList.Count}");
 
-        Current_NPCList = new List<NPC>();
+        //Instance_NPC_List = new List<NPC>();
 
         for (Current_Value = 0; Current_Value < Max_NPC_Value;)
         {
             InstantiateNPC((NPCType)WeightRandomPicker());
         }
 
-        Debug.Log($"생성된 적 숫자 = {Current_NPCList.Count}");
+        Debug.Log($"생성된 적 숫자 = {Instance_NPC_List.Count}");
 
 
 
-        if (Current_NPCList.Count < 7)
+        if (Instance_NPC_List.Count <= 7)
         {
-            for (int i = 0; i < Current_NPCList.Count; i++)
+            for (int i = 0; i < Instance_NPC_List.Count; i++)
             {
                 float ranValue = Random.Range(1f, 8f);
                 Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
@@ -65,9 +80,9 @@ public class NPCManager
                 Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
             }
 
-            if (Current_NPCList.Count < 15)
+            if (Instance_NPC_List.Count <= 15)
             {
-                for (int i = 7; i < Current_NPCList.Count; i++)
+                for (int i = 7; i < Instance_NPC_List.Count; i++)
                 {
                     float ranValue = Random.Range(8f, 14f);
                     Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
@@ -81,7 +96,7 @@ public class NPCManager
                     Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
                 }
 
-                for (int i = 15; i < Current_NPCList.Count; i++)
+                for (int i = 15; i < Instance_NPC_List.Count; i++)
                 {
                     float ranValue = Random.Range(14f, 20f);
                     Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
@@ -101,26 +116,39 @@ public class NPCManager
 
     public void AddEventNPC(NPCType type, float time)
     {
-        if (EventNPCAction == null)
-        {
-            EventNPCAction = () => Main.Instance.StartCoroutine(EventNPC(type, time));
-        }
-        else
-        {
-            EventNPCAction += () => Main.Instance.StartCoroutine(EventNPC(type, time));
-        }
+        EventNPCAction += () => Main.Instance.StartCoroutine(EventNPC(type, time));
+
+        //if (EventNPCAction == null)
+        //{
+        //    EventNPCAction = () => Main.Instance.StartCoroutine(EventNPC(type, time));
+        //}
+        //else
+        //{
+        //    EventNPCAction += () => Main.Instance.StartCoroutine(EventNPC(type, time));
+        //}
+    }
+    public void AddEventNPC(QuestHunter.HunterType _hunter, float time)
+    {
+        EventNPCAction += () => Main.Instance.StartCoroutine(EventNPC(_hunter, time));
     }
     IEnumerator EventNPC(NPCType type, float time)
     {
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSeconds(1);
         InstantiateNPC(type);
-        Main.Instance.StartCoroutine(ActiveNPC(Current_NPCList.Count - 1, 1));
+        Main.Instance.StartCoroutine(ActiveNPC(Instance_NPC_List.Count - 1, time));
+    }
+    IEnumerator EventNPC(QuestHunter.HunterType _hunter, float time)
+    {
+        yield return new WaitForSeconds(1);
+        InstantiateNPC_Event(NPCType.Hunter, _hunter);
+        Main.Instance.StartCoroutine(ActiveNPC(Instance_NPC_List.Count - 1, time));
     }
 
 
 
     public enum NPCType //? Prefab 이름과 동일해야함. 추가로 사전의 이름까지도.
     {
+        //? 가중치 랜덤으로 뽑을 NPC들 / rankWeightedList 의 Lenght와 동일해야함. + 순서도 0부터 순차적으로 증가
         Herbalist_0 = 0,
         Miner_0 = 1,
         Adventurer_0 = 2,
@@ -128,6 +156,14 @@ public class NPCManager
         Herbalist_1 = 3,
         Miner_1 = 4,
         Adventurer_1 = 5,
+
+
+
+        //? 이벤트 NPC들.  순서는 자유, rankWeightedList와 관련없음.
+        Hunter = 1000,
+
+
+
     }
 
     bool[] NameIndex;
@@ -174,33 +210,67 @@ public class NPCManager
         }
         Debug.Log($"{_value}랭크 생성");
         Current_Value += _value;
-        Current_NPCList.Add(_npc);
+        Instance_NPC_List.Add(_npc);
+    }
+    void InstantiateNPC_Event(NPCType _name, QuestHunter.HunterType _type)
+    {
+        var obj = GameManager.Placement.CreatePlacementObject($"NPC/{_name.ToString()}", null, Define.PlacementType.NPC);
+        QuestHunter _hunter = obj as QuestHunter;
+        _hunter.Hunter = _type;
+
+        NPC_Data data = null;
+        if (NPCDatas.TryGetValue(_name.ToString(), out data))
+        {
+            _hunter.SetData(data, -1);
+        }
+        else
+        {
+            Debug.Log($"NPC_Data 없음 : {_name.ToString()}");
+        }
+        Debug.Log($"{_type}헌터 생성");
+        Instance_NPC_List.Add(_hunter);
     }
 
 
 
     public void ActiveNPC(int index)
     {
-        Current_NPCList[index].Departure(guild.position, dungeonEntrance.position);
+        Instance_NPC_List[index].Departure(guild.position, dungeonEntrance.position);
     }
 
     public void InactiveNPC(NPC npc)
     {
         GameManager.Placement.PlacementClear(npc);
-        Current_NPCList.Remove(npc);
 
-        Managers.Resource.Destroy(npc.gameObject);
+        Remove_NPC_List.Add(npc);
+        npc.gameObject.SetActive(false);
 
         TurnOverCheck();
     }
 
+
+
+
     void TurnOverCheck()
     {
-        if (Current_NPCList.Count == 0)
+        if (Instance_NPC_List.Count == Remove_NPC_List.Count)
         {
+            foreach (var item in Remove_NPC_List)
+            {
+                Managers.Resource.Destroy(item.gameObject);
+            }
+            Remove_NPC_List.Clear();
+            Instance_NPC_List.Clear();
+
             Debug.Log("모든 npc가 비활성화됨");
             Main.Instance.DayChange();
         }
+
+        //if (Instance_NPC_List.Count == 0)
+        //{
+        //    Debug.Log("모든 npc가 비활성화됨");
+        //    Main.Instance.DayChange();
+        //}
     }
 
 
@@ -224,7 +294,7 @@ public class NPCManager
     #region Calculation
     void Calculation_MaxNPC()
     {
-        int ofFame = Main.Instance.FameOfDungeon / 10;
+        int ofFame = Main.Instance.FameOfDungeon / 15;
 
         Max_NPC_Value = Mathf.Clamp(Main.Instance.Turn + ofFame, 5, Main.Instance.Turn + ofFame);
     }
@@ -313,7 +383,7 @@ public class NPCManager
             npc.Name = "숙련된 약초꾼";
             npc.Detail = "약초꾼을 업으로 오랜기간 일한 숙련자입니다.";
 
-            npc.Rank = 2;
+            npc.Rank = 3;
             npc.ATK = 6;
             npc.DEF = 6;
             npc.AGI = 6;
@@ -358,7 +428,7 @@ public class NPCManager
             npc.Name = "숙련된 광부";
             npc.Detail = "광물캐기 숙련자입니다. 더 오래 효율적으로 일 할 수 있습니다.";
 
-            npc.Rank = 2;
+            npc.Rank = 3;
             npc.ATK = 10;
             npc.DEF = 8;
             npc.AGI = 2;
@@ -404,7 +474,7 @@ public class NPCManager
             npc.Name = "이름있는 모험가";
             npc.Detail = "꽤 이름있는 모험가입니다. 전투력과 상황판단능력 등 새내기 모험가와는 비교할 수 없어요.";
 
-            npc.Rank = 4;
+            npc.Rank = 6;
             npc.ATK = 15;
             npc.DEF = 5;
             npc.AGI = 9;
@@ -420,6 +490,34 @@ public class NPCManager
             NPCDatas.Add(npc.PrefabName, npc);
         }
     }
+
+
+    void Init_EventNPCData()
+    {
+        {
+            NPC_Data npc = new NPC_Data();
+
+            npc.PrefabName = "Hunter";
+            npc.Name = "헌터";
+            npc.Detail = "길드의 퀘스트를 받고 출동한 토벌대";
+
+            npc.Rank = 3;
+            npc.ATK = 20;
+            npc.DEF = 5;
+            npc.AGI = 5;
+            npc.LUK = 5;
+            npc.HP = 50;
+            npc.HP_MAX = 50;
+
+            npc.ActionPoint = 100;
+            npc.Mana = 100;
+            npc.Speed_Ground = 1.0f;
+            npc.ActionDelay = 1.0f;
+
+            NPCDatas.Add(npc.PrefabName, npc);
+        }
+    }
+
 
 }
 

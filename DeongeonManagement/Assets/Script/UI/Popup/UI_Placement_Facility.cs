@@ -243,7 +243,7 @@ public class UI_Placement_Facility : UI_PopUp
 
 
 
-        Main.Instance.CurrentAction = () => SubAction(mana, gold, ap);
+        Main.Instance.PurchaseAction = () => SubAction(mana, gold, ap);
         action.Invoke();
         return true;
     }

@@ -35,4 +35,25 @@ public class Herb_High : Facility
             return null;
         }
     }
+
+
+    public override void MouseClickEvent()
+    {
+        if (Main.Instance.Management == false) return;
+
+        var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
+        ui.SetText($"[{Name}] Ã¶°ÅÇÒ±î¿ä? ");
+        StartCoroutine(WaitForAnswer(ui));
+    }
+
+
+    IEnumerator WaitForAnswer(UI_Confirm confirm)
+    {
+        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
+
+        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
+        {
+            GameManager.Facility.RemoveFacility(this);
+        }
+    }
 }

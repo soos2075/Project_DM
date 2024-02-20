@@ -109,6 +109,7 @@ public class Define
     public static readonly int ANIM_dead = Animator.StringToHash("dead");
     public static readonly int ANIM_interaction = Animator.StringToHash("interaction");
     public static readonly int ANIM_run = Animator.StringToHash("run");
+    public static readonly int ANIM_walk = Animator.StringToHash("walk");
 
     #endregion
 
@@ -223,6 +224,12 @@ public class Define
 
     public static readonly Vector2Int[] Boundary_Side_Cross = {
         new Vector2Int(1, 0), new Vector2Int(-1, 0), new Vector2Int(0, 1), new Vector2Int(0, -1)};
+
+    public static readonly Vector2Int[] Boundary_Side_Cross_2 = {
+        new Vector2Int(2, 0), new Vector2Int(-2, 0), new Vector2Int(0, 2), new Vector2Int(0, -2) };
+
+
+
     #endregion Boundary
 
 

@@ -2,15 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Goblin : Monster
+public class MushBoy : Monster
 {
     public override MonsterData Data { get; set; }
 
     public override void MonsterInit()
     {
-        Data = GameManager.Monster.GetMonsterData("Skeleton");
+        Data = GameManager.Monster.GetMonsterData("MushBoy");
     }
-
 
     public override void TurnStart()
     {
@@ -20,6 +19,13 @@ public class Goblin : Monster
     void MoveSelf()
     {
         Cor_Moving = StartCoroutine(MoveCor());
+    }
+
+
+    public override void MaxLevelQuest()
+    {
+        base.MaxLevelQuest();
+        //EventManager.Instance.GuildQuestAdd.Add(1100);
     }
 
 }

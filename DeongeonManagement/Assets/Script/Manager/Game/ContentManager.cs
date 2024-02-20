@@ -16,18 +16,8 @@ public class ContentManager
         EventContentsDic = new Dictionary<string, ContentData>();
         Contents = new List<ContentData>();
         AddContents();
-        //AddEventContents();
     }
 
-    //void AddEventContents()
-    //{
-    //    ContentData content = new ContentData("EggAppear");
-    //    content.AddOption("비밀방 / 통상설치 불가능", Define.Boundary_1x1,
-    //        (data) => CreateOnlyOne("EggEntrance"));
-
-
-    //    EventContentsDic.Add(content.contentName, content);
-    //}
 
     void AddContents()
     {
@@ -47,8 +37,6 @@ public class ContentManager
 
             Contents.Add(content);
         }
-
-
 
 
         {
@@ -86,15 +74,42 @@ public class ContentManager
         {
             ContentData content = new ContentData("Mineral");
             content = new ContentData("Mineral");
-            content.SetName("광맥", "유용한 물질을 얻을 수 있는 광맥을 설치합니다. 귀한 물질도 조금 섞여있어요.");
-            content.SetCondition(40, 0, 1);
+            content.SetName("광맥", "유용한 물질을 얻을 수 있는 광맥을 설치합니다. 여러 물질이 조금 섞여있어요.");
+            content.SetCondition(50, 0, 1);
             content.sprite = Managers.Sprite.GetSprite("Mineral");
-            content.AddOption("\n적용 범위는 작은 십자모양 입니다.", Define.Boundary_Cross_1,
+            content.AddOption("\n적용 범위는 작은 십자 입니다.", Define.Boundary_Cross_1,
                 () => SetBoundary(Define.Boundary_Cross_1, () =>
-                CreateTwo("Mineral_Diamond", "Mineral_Rock", Define.Boundary_1x1, Define.Boundary_Side_Cross)));
+                CreateCustom(Create<Mineral>("Mineral", Define.Boundary_1x1, (int)Mineral.MineralType.Stone),
+                        Create<Mineral>("Mineral", Define.Boundary_Side_Cross, (int)Mineral.MineralType.Rock))));
+            //CreateTwo("Mineral_Diamond", "Mineral_Rock", Define.Boundary_1x1, Define.Boundary_Side_Cross)));
+
+            content.AddOption("\n적용 범위는 큰 마름모 입니다.", Define.Boundary_Cross_3,
+                () => SetBoundary(Define.Boundary_Cross_3, () =>
+                    CreateCustom(Create<Mineral>("Mineral", Define.Boundary_Cross_1, (int)Mineral.MineralType.Rock),
+                        Create<Mineral>("Mineral", Define.Boundary_Side_X, (int)Mineral.MineralType.Stone),
+                        Create<Mineral>("Mineral", Define.Boundary_Side_Cross_2, (int)Mineral.MineralType.Sand))), mana: 75, ap: 1);
 
             Contents.Add(content);
         }
+
+        {
+            ContentData content = new ContentData("Mineral_Lv2");
+            content = new ContentData("Mineral_Lv2");
+            content.SetName("단단한 광맥", "유용한 물질을 얻을 수 있는 광맥을 설치합니다. 마나를 많이 소모 할 수록 더 단단하고 귀한 물질로 되어있어요.");
+            content.SetCondition(100, 0, 2);
+            content.sprite = Managers.Sprite.GetSprite("Mineral");
+            content.AddOption("\n적용 범위는 3 x 1 입니다.", Define.Boundary_3x1,
+                () => SetBoundary(Define.Boundary_3x1, () => CreateAll<Mineral>("Mineral", (int)Mineral.MineralType.Stone)));
+            content.AddOption("\n적용 범위는 3 x 1 입니다.", Define.Boundary_3x1,
+                () => SetBoundary(Define.Boundary_3x1, () => CreateAll<Mineral>("Mineral", (int)Mineral.MineralType.Iron)), mana: 50);
+            content.AddOption("\n적용 범위는 3 x 1 입니다.", Define.Boundary_3x1,
+                () => SetBoundary(Define.Boundary_3x1, () => CreateAll<Mineral>("Mineral", (int)Mineral.MineralType.Coal)), mana: 100);
+
+            Contents.Add(content);
+        }
+
+
+
 
         {
             ContentData content = new ContentData("Trap_Fallen_1");
@@ -232,10 +247,21 @@ public class ContentManager
             Debug.Log("배치할 수 없음");
         }
     }
-
-    void CreateOnlyOne(string prefab)
+    void CreateAll<T>(string prefab, int _optionIndex, bool isUnchangeable = false) where T : Facility
     {
-        if (CreateUnique(prefab, Main.Instance.CurrentBoundary))
+        if (Create<T>(prefab, Main.Instance.CurrentBoundary, _optionIndex, isUnchangeable))
+        {
+            CreateOver();
+        }
+        else
+        {
+            Debug.Log("배치할 수 없음");
+        }
+    }
+
+    void CreateCustom(bool _create1, bool _create2 = true, bool _create3 = true)
+    {
+        if (_create1 && _create2 && _create3)
         {
             CreateOver();
         }
@@ -246,9 +272,9 @@ public class ContentManager
     }
 
 
-    void CreateTwo(string prefab1, string prefab2, Vector2Int[] boundary1, Vector2Int[] boundary2)
+    void CreateOnlyOne(string prefab)
     {
-        if (Create(prefab1, boundary1) && Create(prefab2, boundary2))
+        if (CreateUnique(prefab, Main.Instance.CurrentBoundary))
         {
             CreateOver();
         }
@@ -277,18 +303,6 @@ public class ContentManager
         }
     }
 
-
-    //void CreateThree(string prefab1, string prefab2, string prefab3, Vector2Int[] boundary1, Vector2Int[] boundary2, Vector2Int[] boundary3)
-    //{
-    //    if (Create(prefab1, boundary1) && Create(prefab2, boundary2) && Create(prefab3, boundary3))
-    //    {
-    //        CreateOver();
-    //    }
-    //    else
-    //    {
-    //        Debug.Log("배치할 수 없음");
-    //    }
-    //}
 
     #endregion UIEvent 함수
 
@@ -332,6 +346,7 @@ public class ContentManager
         Main.Instance.CurrentBoundary = null;
         Main.Instance.CurrentAction = null;
         Main.Instance.CurrentTile = null;
+        Main.Instance.PurchaseAction = null;
     }
 
     void CreateOver()
@@ -341,8 +356,9 @@ public class ContentManager
         //Main.Instance.CurrentDay.SubtractMana(mana);
         //Main.Instance.CurrentDay.SubtractGold(gold);
 
-        //Managers.UI.PauseClose();
-        //Managers.UI.ClosePopUp();
+
+        Main.Instance.PurchaseAction.Invoke();
+
         ResetAction();
         Managers.UI.CloseAll();
     }
@@ -365,6 +381,30 @@ public class ContentManager
 
         return true;
     }
+
+    bool Create<T>(string prefab, Vector2Int[] boundary, int _optionIndex, bool isUnChangeable = false) where T : Facility
+    {
+        if (Main.Instance.CurrentTile == null) return false;
+
+        var tile = Main.Instance.CurrentTile;
+        foreach (var item in boundary)
+        {
+            Vector2Int delta = tile.index + item;
+            BasementTile temp = null;
+            if (Main.Instance.CurrentTile.floor.TileMap.TryGetValue(delta, out temp))
+            {
+                var info = new PlacementInfo(Main.Instance.CurrentTile.floor, temp);
+                var facil = GameManager.Facility.CreateFacility(prefab, info, isUnChangeable);
+                var t1 = facil as T;
+                t1.OptionIndex = _optionIndex;
+            }
+        }
+
+        return true;
+    }
+
+
+
     bool Create_Trap(string prefab, Vector2Int[] boundary, bool isUnChangeable, out IPlacementable[] placementable)
     {
         if (Main.Instance.CurrentTile == null)

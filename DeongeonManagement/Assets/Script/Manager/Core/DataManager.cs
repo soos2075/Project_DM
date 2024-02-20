@@ -59,10 +59,19 @@ public class DataManager
         // Technical 정보 - 완료
         public Save_TechnicalData[] tachnicalList;
 
+        // Guild 정보
+        public List<GuildNPC_Data> guildNPCList;
+
+        // 조건채운 퀘스트 목록(길드에 추가되기전)
+        public List<int> guildQuestList;
+
+        // 현재 진행중인 퀘스트 목록
+        public List<int> currentQuestList;
     }
 
     //private SaveData tempData;
     #endregion
+
 
 
 
@@ -114,6 +123,7 @@ public class DataManager
         if (SaveFileList.TryGetValue(fileKey, out data))
         {
             LoadFileApply(data);
+            LoadGuildData(data);
             Debug.Log($"Load Success : {fileKey}");
         }
         else
@@ -121,7 +131,21 @@ public class DataManager
             Debug.Log($"Load Fail : {fileKey}");
         }
     }
-    
+    //? 길드에서 돌아올 땐 길드관련 데이터를 받으면 안되므로 이걸 호출
+    public void LoadGame_ToGuild(string fileKey)
+    {
+        SaveData data = null;
+        if (SaveFileList.TryGetValue(fileKey, out data))
+        {
+            LoadFileApply(data);
+            Debug.Log($"Load Success : {fileKey}");
+        }
+        else
+        {
+            Debug.Log($"Load Fail : {fileKey}");
+        }
+    }
+
     public SaveData GetData(string fileKey)
     {
         SaveData data = null;
@@ -177,8 +201,14 @@ public class DataManager
         saveData.facilityList = GameManager.Facility.GetSaveData_Facility();
 
 
+        saveData.guildNPCList = EventManager.Instance.CurrentGuildData;
+        saveData.guildQuestList = EventManager.Instance.GuildQuestAdd;
+        saveData.currentQuestList = EventManager.Instance.CurrentQuestEvent_ForSave;
+
         Add_File(saveData, $"{fileName}");
     }
+
+
 
 
     void SaveToStorage(SaveData data, string fileName)
@@ -206,6 +236,14 @@ public class DataManager
         GameManager.Monster.Load_MonsterData(loadData.monsterList);
         GameManager.Technical.Load_TechnicalData(loadData.tachnicalList);
         GameManager.Facility.Load_FacilityData(loadData.facilityList);
+
+    }
+    void LoadGuildData(SaveData loadData)
+    {
+        EventManager.Instance.CurrentTurn = loadData.turn;
+        EventManager.Instance.CurrentGuildData = loadData.guildNPCList;
+        EventManager.Instance.GuildQuestAdd = loadData.guildQuestList;
+        EventManager.Instance.Load_QuestEvent(loadData.currentQuestList);
     }
 
 

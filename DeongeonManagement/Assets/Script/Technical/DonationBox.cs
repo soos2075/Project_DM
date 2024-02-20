@@ -36,7 +36,7 @@ public class DonationBox : Technical
 
     void GetGold()
     {
-        int people = GameManager.NPC.Current_NPCList.Count;
+        int people = GameManager.NPC.Instance_NPC_List.Count;
 
         Main.Instance.CurrentDay.AddGold(people * 5);
         Debug.Log($"¿‘¿Â∑· »πµÊ : {people * 5}");

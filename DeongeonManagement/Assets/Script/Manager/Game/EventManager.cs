@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
+    #region Singleton
     private static EventManager _instance;
     public static EventManager Instance { get { Initialize(); return _instance; } }
 
@@ -34,6 +35,8 @@ public class EventManager : MonoBehaviour
             }
         }
     }
+
+    #endregion
     private void Start()
     {
         Init_Event();
@@ -42,19 +45,123 @@ public class EventManager : MonoBehaviour
     {
         AddDialogueAction();
         AddEventAction();
+        AddForQuestAction();
     }
 
+
+    public void TurnStart()
+    {
+        CurrentTurn = Main.Instance.Turn;
+        CurrentQuestEvent?.Invoke();
+    }
+
+
+    public int CurrentTurn { get; set; }
+
+
+    //? 길드정보 저장용(길드에서 변화된 npc들의 퀘스트 정보들이 들어있음)
+    public List<GuildNPC_Data> CurrentGuildData { get; set; }
+
+    //? 길드가면 추가시켜야 될 퀘스트 리스트
+    public List<int> GuildQuestAdd { get; set; } = new List<int>();
+
+
+
+    //? 현재 진행중인 퀘스트 목록 - 실제 매턴 실행될 Action
+    public Action CurrentQuestEvent { get; private set; }
+
+    //? 현재 진행중인 퀘스트 목록(dataManager에서 저장용으로만 사용)
+    public List<int> CurrentQuestEvent_ForSave { get; set; } = new List<int>();
+
+
+    public void Load_QuestEvent(List<int> _loadData)
+    {
+        CurrentQuestEvent = null;
+        CurrentQuestEvent_ForSave.Clear();
+
+        if (_loadData == null)
+        {
+            return;
+        }
+        foreach (var item in _loadData)
+        {
+            AddQuestAction(item);
+        }
+    }
+
+    public void AddQuestAction(int _index)
+    {
+        CurrentQuestEvent += GetQuestAction(_index);
+        CurrentQuestEvent_ForSave.Add(_index);
+    }
+    public void RemoveQuestAction(int _index)
+    {
+        CurrentQuestEvent -= GetQuestAction(_index);
+        CurrentQuestEvent_ForSave.Remove(_index);
+    }
+
+
+
+
+    //? 길드에서 대화로 실행할 Action
     Dictionary<int, Action> GuildNPCAction = new Dictionary<int, Action>();
+
+    //? 기타 대화가 종료되고 바로 실행할 Action
     Dictionary<string, Action> EventAction = new Dictionary<string, Action>();
 
+    //? 단순히 CurrentQuestEvent에 add / remove 하는 용도로만 사용되어야함. 또 GuildAction과 중복되서 사용될 수도, 독립적으로 사용될 수도 있음.
+    Dictionary<int, Action> forQuestAction = new Dictionary<int, Action>();
 
+    void AddForQuestAction() 
+    {
+        forQuestAction.Add(1100, () =>
+        {
+            Debug.Log("슬라임 토벌단 생성");
+            GameManager.NPC.AddEventNPC(QuestHunter.HunterType.Slime, 15);
+        });
 
+        forQuestAction.Add(1101, () =>
+        {
+            Debug.Log("1101 퀘스트");
+        });
 
+        forQuestAction.Add(1102, () =>
+        {
+            Debug.Log("1102 퀘스트");
+        });
+    }
+    public Action GetQuestAction(int _QuestID)
+    {
+        Action action = null;
+        forQuestAction.TryGetValue(_QuestID, out action);
+        return action;
+    }
 
 
     void AddDialogueAction()
     {
-        GuildNPCAction.Add(2100, () => GuildManager.Instance.AddBackAction(() => Main.Instance.CurrentDay.Fame += 15));
+        GuildNPCAction.Add(2100, () =>
+        {
+            int ranPop = UnityEngine.Random.Range(10, 20);
+            var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
+            msg.Message = $"던전의 유명도가 {ranPop} 올랐습니다.";
+            FindAnyObjectByType<GuildManager>().AddBackAction(() => Main.Instance.CurrentDay.Fame += ranPop);
+        });
+
+        GuildNPCAction.Add(1100, () =>
+        {
+            AddQuestAction(1100);
+        });
+
+        GuildNPCAction.Add(1101, () =>
+        {
+            AddQuestAction(1101);
+        });
+
+        GuildNPCAction.Add(1102, () =>
+        {
+            AddQuestAction(1102);
+        });
     }
     void AddEventAction()
     {
@@ -63,8 +170,10 @@ public class EventManager : MonoBehaviour
         EventAction.Add("EggAppear", () => {
             var tile = Main.Instance.Floor[3].GetRandomTile();
             Main.Instance.Floor[3].TileMap.TryGetValue(new Vector2Int(12, 3), out tile);
-            PlacementInfo info = new PlacementInfo(Main.Instance.Floor[3], tile);
 
+            GameManager.Facility.RemoveFacility(tile.placementable as Facility);
+
+            PlacementInfo info = new PlacementInfo(Main.Instance.Floor[3], tile);
             var obj = GameManager.Facility.CreateFacility_OnlyOne("Exit", info, true);
         });
 
@@ -72,8 +181,10 @@ public class EventManager : MonoBehaviour
         {
             var tile = Main.Instance.Floor[2].GetRandomTile();
             Main.Instance.Floor[2].TileMap.TryGetValue(new Vector2Int(0, 0), out tile);
-            PlacementInfo info = new PlacementInfo(Main.Instance.Floor[2], tile);
 
+            GameManager.Facility.RemoveFacility(tile.placementable as Facility);
+
+            PlacementInfo info = new PlacementInfo(Main.Instance.Floor[2], tile);
             var obj = GameManager.Facility.CreateFacility_OnlyOne("EggEntrance", info, true);
         });
 
@@ -133,20 +244,14 @@ public class EventManager : MonoBehaviour
             DungeonLvUp();
             return true;
         }
-        else
-        {
-            return false;
-        }
 
         if (Main.Instance.DungeonRank == 2 && fame + danger >= 500)
         {
             DungeonLvUp();
             return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
     void DungeonLvUp()
     {
@@ -155,25 +260,61 @@ public class EventManager : MonoBehaviour
     }
     void DungeonLvApply()
     {
+        FindObjectOfType<Player>().Level_Stat(Main.Instance.DungeonRank);
+        Camera.main.GetComponent<CameraControl>().LimitRefresh();
+
         switch (Main.Instance.DungeonRank)
         {
             case 1:
+                Main.Instance.Set_AP_Max(2);
                 break;
 
             case 2:
+                Main.Instance.Set_AP_Max(3);
+
+                GameManager.Monster.AddLevel2();
                 GameManager.Technical.Level_2();
-                FindObjectOfType<Player>().Level_Stat(Main.Instance.DungeonRank);
-                Main.Instance.AddAP();
                 GameManager.Content.AddLevel2();
                 Main.Instance.DungeonExpansionUI();
-                Camera.main.GetComponent<CameraControl>().LimitRefresh();
+
                 break;
 
             case 3:
-                Debug.Log("3랭크 = 레벨최대");
+                Main.Instance.Set_AP_Max(4);
                 break;
         }
     }
+
+    public void Load_EventData()
+    {
+        FindObjectOfType<Player>().Level_Stat(Main.Instance.DungeonRank);
+        Camera.main.GetComponent<CameraControl>().LimitRefresh();
+
+        if (Main.Instance.DungeonRank == 1)
+        {
+            Main.Instance.Set_AP_Max(2);
+        }
+        else if (Main.Instance.DungeonRank == 2)
+        {
+            Main.Instance.Set_AP_Max(3);
+
+            GameManager.Monster.AddLevel2();
+            GameManager.Technical.Level_2();
+            GameManager.Content.AddLevel2();
+            Main.Instance.DungeonExpansionUI();
+        }
+        else if (Main.Instance.DungeonRank == 3)
+        {
+            Main.Instance.Set_AP_Max(4);
+
+            GameManager.Monster.AddLevel2();
+            GameManager.Technical.Level_2();
+            GameManager.Content.AddLevel2();
+            Main.Instance.DungeonExpansionUI();
+        }
+
+    }
+
 
 }
 

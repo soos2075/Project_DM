@@ -11,10 +11,13 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody2D rig;
     Animator anim;
+
+    GuildManager guildManager;
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
+        guildManager = FindAnyObjectByType<GuildManager>();
     }
 
    
@@ -122,18 +125,18 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("각종 데이터 처리");
             Managers.Scene.AddLoadAction_OneTime(() => Main.Instance.Default_Init());
-            Managers.Scene.AddLoadAction_OneTime(() => Managers.Data.LoadGame("AutoSave"));
+            Managers.Scene.AddLoadAction_OneTime(() => Managers.Data.LoadGame_ToGuild("AutoSave"));
             Managers.Scene.AddLoadAction_OneTime(() => Main.Instance.Player_AP = 0);
 
             //for (int i = 0; i < GuildManager.Instance.DungeonBackAction.Count; i++)
             //{
             //    Managers.Scene.AddLoadAction_Once(GuildManager.Instance.DungeonBackAction[i]);
             //}
-            for (int i = 0; i < GuildManager.Instance.DungeonBackAction.Count; i++)
+            for (int i = 0; i < guildManager.DungeonBackAction.Count; i++)
             {
-                Managers.Scene.AddLoadAction_OneTime(GuildManager.Instance.DungeonBackAction[i]);
+                Managers.Scene.AddLoadAction_OneTime(guildManager.DungeonBackAction[i]);
             }
-            GuildManager.Instance.DungeonBackAction.Clear();
+            guildManager.DungeonBackAction.Clear();
             Managers.Scene.AddLoadAction_OneTime(() => FindObjectOfType<UI_Management>().Texts_Refresh());
 
             Managers.Scene.LoadSceneAsync(SceneName._2_Management);

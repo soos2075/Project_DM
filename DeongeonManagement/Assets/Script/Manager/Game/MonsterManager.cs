@@ -10,8 +10,21 @@ public class MonsterManager
         Monsters = new Monster[7];
 
         Init_Data();
+
+        Managers.Scene.BeforeSceneChangeAction = () => StopAllMoving();
     }
 
+
+    void StopAllMoving()
+    {
+        foreach (var item in Monsters)
+        {
+            if (item != null)
+            {
+                item.StopAllCoroutines();
+            }
+        }
+    }
 
 
 
@@ -183,7 +196,68 @@ public class MonsterManager
             MonsterDatas.Add(monster);
         }
 
+
+
     }
+
+    public void AddLevel2()
+    {
+        {
+            MonsterData monster = new MonsterData();
+            monster.Name_KR = "머쉬보이";
+            monster.Name = "MushBoy";
+            monster.prefabPath = "Monster/MushBoy";
+            monster.detail = "어둡고 습한곳을 좋아하는 버섯소년이에요. 강력한 독을 지니고 있어 모험가들에게 위협이 됩니다. 하지만 사실 건드리지 않으면 안전해요.";
+            monster.sprite = Managers.Sprite.GetSprite("Monster/MushBoy");
+
+            monster.ManaCost = 300;
+
+            monster.LV = 1;
+            monster.MAXLV = 30;
+            monster.HP = 25;
+            monster.ATK = 6;
+            monster.DEF = 2;
+            monster.AGI = 2;
+            monster.LUK = 5;
+
+            monster.HP_chance = 1.25f;
+            monster.ATK_chance = 0.6f;
+            monster.DEF_chance = 0.1f;
+            monster.AGI_chance = 0.15f;
+            monster.LUK_chance = 0.2f;
+
+            MonsterDatas.Add(monster);
+        }
+
+        {
+            MonsterData monster = new MonsterData();
+            monster.Name_KR = "이블아이";
+            monster.Name = "EvilEye";
+            monster.prefabPath = "Monster/EvilEye";
+            monster.detail = "매력적인 눈을 지닌 몬스터에요. 생김새때문에 피부가 약할 것 같지만, 실은 엄청 단단하기 때문에 괜찮다네요.";
+            monster.sprite = Managers.Sprite.GetSprite("Monster/EvilEye");
+
+            monster.ManaCost = 400;
+
+            monster.LV = 5;
+            monster.MAXLV = 30;
+            monster.HP = 35;
+            monster.ATK = 5;
+            monster.DEF = 8;
+            monster.AGI = 6;
+            monster.LUK = 1;
+
+            monster.HP_chance = 1.6f;
+            monster.ATK_chance = 0.4f;
+            monster.DEF_chance = 0.4f;
+            monster.AGI_chance = 0.2f;
+            monster.LUK_chance = 0.05f;
+
+            MonsterDatas.Add(monster);
+        }
+    }
+
+
 
 
 
@@ -292,6 +366,7 @@ public class MonsterData
     public float LUK_chance { get; set; }
 
 
+
     public string prefabPath;
 
     public string detail;
@@ -320,6 +395,8 @@ public class Save_MonsterData
     public Monster.MonsterState State { get; set; }
     public Monster.MoveType MoveMode { get; set; }
 
+    public bool Evolution { get; set; }
+
 
     public int FloorIndex { get; set; }
     public Vector2Int PosIndex { get; set; }
@@ -341,6 +418,7 @@ public class Save_MonsterData
         AGI_chance = monster.agi_chance;
         LUK_chance = monster.luk_chance;
 
+        Evolution = monster.Evolution;
 
         State = monster.State;
         MoveMode = monster.Mode;

@@ -24,11 +24,11 @@ public class UI_Management : UI_Base
 
         if (Managers.UI._popupStack.Count > 0)
         {
-            canvas.sortingOrder = 1;
+            canvas.sortingOrder = 5;
         }
         else
         {
-            canvas.sortingOrder = 5;
+            canvas.sortingOrder = 9;
         }
     }
 
@@ -41,17 +41,17 @@ public class UI_Management : UI_Base
         _2_Summon,
         _3_Management,
         _4_Guild,
-        _5_Special,
+        _5_Quest,
 
         DayChange,
 
         Save,
         Pause,
 
-        Test1,
-        Test2,
-        Test3,
-        DayChange_Temp,
+        //Test1,
+        //Test2,
+        //Test3,
+        //DayChange_Temp,
     }
 
     enum Texts
@@ -103,6 +103,7 @@ public class UI_Management : UI_Base
         GetButton((int)ButtonEvent._2_Summon).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Summon_Monster>());
         GetButton((int)ButtonEvent._3_Management).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Monster_Management>());
         GetButton((int)ButtonEvent._4_Guild).gameObject.AddUIEvent((data) => Visit_Guild());
+        GetButton((int)ButtonEvent._5_Quest).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUpAlone<UI_Quest>());
 
         GetButton((int)ButtonEvent.DayChange).gameObject.AddUIEvent((data) => DayStart());
 
@@ -114,10 +115,10 @@ public class UI_Management : UI_Base
         GetButton((int)ButtonEvent.Pause).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_Pause>());
 
 
-        GetButton((int)ButtonEvent.Test1).gameObject.AddUIEvent((data) => GameManager.NPC.TestCreate("Adventurer"));
-        GetButton((int)ButtonEvent.Test2).gameObject.AddUIEvent((data) => GameManager.NPC.TestCreate("Herbalist"));
-        GetButton((int)ButtonEvent.Test3).gameObject.AddUIEvent((data) => GameManager.NPC.TestCreate("Miner"));
-        GetButton((int)ButtonEvent.DayChange_Temp).gameObject.AddUIEvent((data) => DayChange_Temp());
+        //GetButton((int)ButtonEvent.Test1).gameObject.AddUIEvent((data) => GameManager.NPC.TestCreate("Adventurer"));
+        //GetButton((int)ButtonEvent.Test2).gameObject.AddUIEvent((data) => GameManager.NPC.TestCreate("Herbalist"));
+        //GetButton((int)ButtonEvent.Test3).gameObject.AddUIEvent((data) => GameManager.NPC.TestCreate("Miner"));
+        //GetButton((int)ButtonEvent.DayChange_Temp).gameObject.AddUIEvent((data) => DayChange_Temp());
     }
 
     [System.Obsolete]
@@ -132,10 +133,11 @@ public class UI_Management : UI_Base
         GetButton((int)ButtonEvent._2_Summon).gameObject.SetActive(true);
         GetButton((int)ButtonEvent._3_Management).gameObject.SetActive(true);
         GetButton((int)ButtonEvent._4_Guild).gameObject.SetActive(true);
-        GetButton((int)ButtonEvent._5_Special).gameObject.SetActive(true);
-        GetButton((int)ButtonEvent.Test1).gameObject.SetActive(true);
-        GetButton((int)ButtonEvent.Test2).gameObject.SetActive(true);
-        GetButton((int)ButtonEvent.Test3).gameObject.SetActive(true);
+        GetButton((int)ButtonEvent._5_Quest).gameObject.SetActive(true);
+
+        //GetButton((int)ButtonEvent.Test1).gameObject.SetActive(true);
+        //GetButton((int)ButtonEvent.Test2).gameObject.SetActive(true);
+        //GetButton((int)ButtonEvent.Test3).gameObject.SetActive(true);
 
         Active_Floor();
     }
@@ -170,12 +172,12 @@ public class UI_Management : UI_Base
         GetButton((int)ButtonEvent._2_Summon).gameObject.SetActive(false);
         GetButton((int)ButtonEvent._3_Management).gameObject.SetActive(false);
         GetButton((int)ButtonEvent._4_Guild).gameObject.SetActive(false);
-        GetButton((int)ButtonEvent._5_Special).gameObject.SetActive(false);
-        //GetButton((int)ButtonEvent.Guild).gameObject.SetActive(false);
+        GetButton((int)ButtonEvent._5_Quest).gameObject.SetActive(false);
+
         //GetButton((int)ButtonEvent.DayChange).gameObject.SetActive(false);
-        GetButton((int)ButtonEvent.Test1).gameObject.SetActive(false);
-        GetButton((int)ButtonEvent.Test2).gameObject.SetActive(false);
-        GetButton((int)ButtonEvent.Test3).gameObject.SetActive(false);
+        //GetButton((int)ButtonEvent.Test1).gameObject.SetActive(false);
+        //GetButton((int)ButtonEvent.Test2).gameObject.SetActive(false);
+        //GetButton((int)ButtonEvent.Test3).gameObject.SetActive(false);
 
         InActive_Floor();
     }
@@ -193,12 +195,12 @@ public class UI_Management : UI_Base
                 GetButton((int)ButtonEvent._2_Summon).gameObject.SetActive(false);
                 GetButton((int)ButtonEvent._3_Management).gameObject.SetActive(false);
                 GetButton((int)ButtonEvent._4_Guild).gameObject.SetActive(false);
-                GetButton((int)ButtonEvent._5_Special).gameObject.SetActive(false);
+                GetButton((int)ButtonEvent._5_Quest).gameObject.SetActive(false);
                 break;
 
             case 2:
                 GetButton((int)ButtonEvent._4_Guild).gameObject.SetActive(false);
-                GetButton((int)ButtonEvent._5_Special).gameObject.SetActive(false);
+                GetButton((int)ButtonEvent._5_Quest).gameObject.SetActive(false);
                 break;
 
 
