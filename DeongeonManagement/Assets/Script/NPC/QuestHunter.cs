@@ -45,24 +45,26 @@ public class QuestHunter : NPC
     }
 
 
+    protected override void NPC_Return_Empty()
+    {
+        
+    }
+    protected override void NPC_Return_Satisfaction()
+    {
+        
+    }
+    protected override void NPC_Runaway()
+    {
+        
+    }
+
     protected override void NPC_Die()
     {
         Main.Instance.CurrentDay.AddKill(1);
         UI_EventBox.AddEventText($"◈{Name_KR} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 쓰러짐");
         GameManager.NPC.InactiveNPC(this);
 
-        //Main.Instance.CurrentDay.Fame += 1;
-        //Main.Instance.CurrentDay.Danger += 5;
-        //Main.Instance.CurrentDay.AddGold(Data.Rank * UnityEngine.Random.Range(20, 30));
-
-        HunterOverAction();
-    }
-
-    void HunterOverAction()
-    {
-        //? 타입번호 = 해당 몬스터의 퀘스트 번호
         EventManager.Instance.RemoveQuestAction((int)Hunter);
-
         switch (Hunter)
         {
             case HunterType.Slime:
@@ -75,5 +77,9 @@ public class QuestHunter : NPC
                 Debug.Log("스켈레톤 진~~화");
                 break;
         }
+    }
+    protected override void NPC_Captive()
+    {
+
     }
 }

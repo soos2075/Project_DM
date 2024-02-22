@@ -15,7 +15,9 @@ public class UI_Monster_Management : UI_PopUp
 
     enum Panels
     {
-        //Panel,
+        Panel,
+        ClosePanel,
+
         SubPanel,
         GridPanel,
         ButtonPanel,
@@ -39,6 +41,7 @@ public class UI_Monster_Management : UI_PopUp
     enum Etc
     {
         Profile,
+        Return,
     }
 
     enum Buttons
@@ -47,7 +50,7 @@ public class UI_Monster_Management : UI_PopUp
         Placement,
         Release,
         Recover,
-        Return,
+        Retrieve,
 
         //? Command
         Command_Attack,
@@ -58,17 +61,16 @@ public class UI_Monster_Management : UI_PopUp
     public override void Init()
     {
         Managers.UI.SetCanvas(gameObject);
-        AddRightClickCloseAllEvent();
 
         Bind<Image>(typeof(Panels));
         Bind<TextMeshProUGUI>(typeof(Texts));
         Bind<GameObject>(typeof(Etc));
         Bind<Button>(typeof(Buttons));
 
+        Init_Panels();
+
         CreateMonsterBox();
-
         Init_CommandButton();
-
         PanelClear();
     }
 
@@ -80,6 +82,15 @@ public class UI_Monster_Management : UI_PopUp
     }
     public UI_Type Type;
 
+
+    void Init_Panels()
+    {
+        GetImage(((int)Panels.ClosePanel)).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.LeftClick);
+        GetImage(((int)Panels.ClosePanel)).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.RightClick);
+        GetImage(((int)Panels.Panel)).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.RightClick);
+
+        GetObject((int)Etc.Return).gameObject.AddUIEvent(data => CloseAll());
+    }
 
     void PanelClear()
     {
@@ -108,7 +119,7 @@ public class UI_Monster_Management : UI_PopUp
 
         for (int i = 0; i < GameManager.Monster.Monsters.Length; i++)
         {
-            var obj = Managers.Resource.Instantiate("UI/PopUp/Element/MonsterBox", GetImage(((int)Panels.GridPanel)).transform);
+            var obj = Managers.Resource.Instantiate("UI/PopUp/Monster/MonsterBox", GetImage(((int)Panels.GridPanel)).transform);
 
             var box = obj.GetComponent<UI_MonsterBox>();
             box.monster = GameManager.Monster.Monsters[i];
@@ -132,7 +143,8 @@ public class UI_Monster_Management : UI_PopUp
 
         if (Type == UI_Type.Placement && selected.monster.State != Monster.MonsterState.Injury)
         {
-            PlacementOne(Define.Boundary_1x1, () => CreateAll(Current.monster.MonsterID));
+            //PlacementOne(Define.Boundary_1x1, () => CreateAll(Current.monster.MonsterID));
+            PlacementEvent(Define.Boundary_1x1, () => CreateAll(Current.monster.MonsterID));
             return;
         }
 
@@ -259,13 +271,6 @@ public class UI_Monster_Management : UI_PopUp
     #endregion
 
     #region ButtonPanel
-    //void ButtonClear()
-    //{
-    //    for (int i = 0; i < 5; i++)
-    //    {
-    //        GetButton(i).gameObject.SetActive(false);
-    //    }
-    //}
 
     void Init_ButtonEvent()
     {
@@ -299,7 +304,7 @@ public class UI_Monster_Management : UI_PopUp
         switch (Current.monster.State)
         {
             case Monster.MonsterState.Standby:
-                GetButton(((int)Buttons.Return)).gameObject.SetActive(false);
+                GetButton(((int)Buttons.Retrieve)).gameObject.SetActive(false);
                 GetButton(((int)Buttons.Recover)).gameObject.SetActive(false);
 
                 GetButton(((int)Buttons.Placement)).gameObject.
@@ -321,7 +326,7 @@ public class UI_Monster_Management : UI_PopUp
                 GetButton(((int)Buttons.Release)).gameObject.SetActive(false);
                 GetButton(((int)Buttons.Recover)).gameObject.SetActive(false);
 
-                GetButton(((int)Buttons.Return)).gameObject.
+                GetButton(((int)Buttons.Retrieve)).gameObject.
                     AddUIEvent((data) => Current.monster.MonsterOutFloor());
 
                 GetButton(((int)Buttons.Training)).gameObject.
@@ -335,7 +340,7 @@ public class UI_Monster_Management : UI_PopUp
             case Monster.MonsterState.Injury:
                 GetButton(((int)Buttons.Training)).gameObject.SetActive(false);
                 GetButton(((int)Buttons.Placement)).gameObject.SetActive(false);
-                GetButton(((int)Buttons.Return)).gameObject.SetActive(false);
+                GetButton(((int)Buttons.Retrieve)).gameObject.SetActive(false);
 
                 GetButton(((int)Buttons.Release)).gameObject.
                     AddUIEvent((data) => GameManager.Monster.ReleaseMonster(Current.monster.MonsterID));
@@ -354,22 +359,23 @@ public class UI_Monster_Management : UI_PopUp
 
 
 
-    void PlacementOne(Vector2Int[] vector2Ints, Action action)
-    {
-        if (Current.monster.State == Monster.MonsterState.Placement)
-        {
-            Current.monster.MonsterOutFloor();
-        }
-        if (Main.Instance.CurrentFloor.MaxMonsterSize <= 0)
-        {
-            return;
-        }
+    //void PlacementOne(Vector2Int[] vector2Ints, Action action)
+    //{
+    //    if (Current.monster.State == Monster.MonsterState.Placement)
+    //    {
+    //        Current.monster.MonsterOutFloor();
+    //    }
+    //    if (Main.Instance.CurrentFloor.MaxMonsterSize <= 0)
+    //    {
+    //        return;
+    //    }
 
-        Managers.UI.PausePopUp(this);
-        Main.Instance.CurrentBoundary = vector2Ints;
-        Main.Instance.CurrentAction = action;
-        Main.Instance.CurrentFloor.UI_Floor.ShowTile();
-    }
+    //    Managers.UI.PausePopUp(this);
+    //    Time.timeScale = 1;
+    //    Main.Instance.CurrentBoundary = vector2Ints;
+    //    Main.Instance.CurrentAction = action;
+    //    Main.Instance.CurrentFloor.UI_Floor.ShowTile();
+    //}
 
 
     void PlacementEvent(Vector2Int[] vector2Ints, Action action)
@@ -391,6 +397,7 @@ public class UI_Monster_Management : UI_PopUp
         yield return new WaitForEndOfFrame();
         PanelDisable();
 
+        Time.timeScale = 1;
         Main.Instance.CurrentBoundary = vector2Ints;
         Main.Instance.CurrentAction = action;
         for (int i = 0; i < Main.Instance.ActiveFloor_Basement; i++)
@@ -400,7 +407,6 @@ public class UI_Monster_Management : UI_PopUp
                 Main.Instance.Floor[i].UI_Floor.ShowTile();
             }
         }
-
     }
     public void PanelDisable()
     {
@@ -452,14 +458,17 @@ public class UI_Monster_Management : UI_PopUp
     {
         Debug.Log($"{Current.monster.Name_KR}(이)가 {Main.Instance.CurrentTile.floor.Name_KR}에 배치되었습니다");
         ResetAction();
-        Managers.UI.CloseAll();
     }
     void ResetAction()
     {
         Main.Instance.CurrentBoundary = null;
         Main.Instance.CurrentAction = null;
         Main.Instance.CurrentTile = null;
-        Main.Instance.CurrentFloor = null;
+        Main.Instance.PurchaseAction = null;
+        Managers.UI.ClosePopupPick(GameObject.FindAnyObjectByType<UI_DungeonPlacement>());
+        Managers.UI.PauseOpen();
+        Time.timeScale = 0;
+        StartCoroutine(RefreshAll());
     }
 
 
@@ -467,12 +476,12 @@ public class UI_Monster_Management : UI_PopUp
 
 
 
-    //private void OnEnable()
-    //{
-    //    Time.timeScale = 0;
-    //}
-    //private void OnDestroy()
-    //{
-    //    Time.timeScale = 1;
-    //}
+    private void OnEnable()
+    {
+        Time.timeScale = 0;
+    }
+    private void OnDestroy()
+    {
+        Time.timeScale = 1;
+    }
 }

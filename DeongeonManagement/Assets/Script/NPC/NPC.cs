@@ -407,6 +407,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
     public int HP { get; set; }
     public int HP_MAX { get; set; }
+    //? HP_Runaway로 도망칠 hp를 따로 정하는것도 방법
+
     public int ActionPoint { get; set; }
     public int Mana { get; set; }
 
@@ -446,20 +448,18 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
     public enum NPCState
     {
-        Next,
-
+        Non,
         Priority,
 
-        Runaway,
-        Return,
+        Next,
 
+        Runaway,
+        Return_Empty,
+        Return_Satisfaction,
         Die,
 
         Interaction,
-
         Battle,
-
-        Non,
     }
 
     [SerializeField]
@@ -488,7 +488,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         {
             FloorLevel--;
             Debug.Log($"{name}(이)가 {FloorLevel}층에서 더이상 올라갈 수 없음");
-            State = NPCState.Return;
+            State = NPCState.Return_Empty;
             return;
         }
 
@@ -542,21 +542,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
     void FloorEscape() //? 긴급탈출 - 바로 지상으로 감
     {
-        UI_EventBox.AddEventText($"◆{Name_KR} (이)가 지상으로 탈출");
-        //Debug.Log($"{name}(이)가 지상으로 탈출");
         Arrival();
-
-        switch (State)
-        {
-            case NPCState.Runaway:
-                Main.Instance.CurrentDay.Fame += 3;
-                Main.Instance.CurrentDay.Danger += 1;
-                break;
-            case NPCState.Return:
-                Main.Instance.CurrentDay.Fame += -1;
-                Main.Instance.CurrentDay.Danger += -2;
-                break;
-        }
+        NPC_Return();
     }
 
     void FloorPortal(int hiddenFloor) //? 특정층으로 순간이동
@@ -578,7 +565,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         }
         else
         {
-            State = NPCState.Return;
+            State = NPCState.Return_Empty;
         }
         Debug.Log("일단 비밀방 이동완료");
     }
@@ -599,43 +586,38 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     }
 
 
-    protected virtual void NPC_Die()
+
+    void NPC_Return()
     {
-        var prison = GameManager.Technical.Prison;
-        if (prison != null)
+        switch (State)
         {
-            var ran = UnityEngine.Random.Range(0, 10);
-            if (ran > 4)
-            {
-                NPC_Captive();
-                return;
-            }
+            case NPCState.Runaway:
+                UI_EventBox.AddEventText($"◆{Name_KR} (이)가 가까스로 도망침");
+                NPC_Runaway();
+                break;
+
+            case NPCState.Return_Empty:
+                UI_EventBox.AddEventText($"◆{Name_KR} (이)가 빈손으로 돌아감");
+                NPC_Return_Empty();
+                break;
+
+            case NPCState.Return_Satisfaction:
+                UI_EventBox.AddEventText($"◆{Name_KR} (이)가 만족하고 돌아감");
+                NPC_Return_Satisfaction();
+                break;
         }
-
-
-        Main.Instance.CurrentDay.AddKill(1);
-        //Main.Instance.CurrentDay.AddGold(100);
-        Debug.Log($"{name}(이)가 죽음 + 자세한 사유는 이후에 추가");
-        UI_EventBox.AddEventText($"◈{Name_KR} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 쓰러짐");
-        GameManager.NPC.InactiveNPC(this);
-
-        Main.Instance.CurrentDay.Fame += 1;
-        Main.Instance.CurrentDay.Danger += 5;
-        Main.Instance.CurrentDay.AddGold(Data.Rank * UnityEngine.Random.Range(20, 30));
     }
-
-    void NPC_Captive()
+    void NPC_Inactive()
     {
-        Main.Instance.CurrentDay.AddPrisoner(1);
-        Debug.Log($"{name}(이)가 포로로 잡힘");
-        UI_EventBox.AddEventText($"◈{Name_KR} (이)가 포로로 잡힘");
         GameManager.NPC.InactiveNPC(this);
-
-
-        Main.Instance.CurrentDay.Fame += 2;
-        Main.Instance.CurrentDay.Danger += 7;
-        Main.Instance.CurrentDay.AddGold(Data.Rank * UnityEngine.Random.Range(40, 60));
+        NPC_Die();
     }
+    protected abstract void NPC_Runaway();
+    protected abstract void NPC_Return_Empty();
+    protected abstract void NPC_Return_Satisfaction();
+    protected abstract void NPC_Die();
+    protected abstract void NPC_Captive();
+
 
 
 
@@ -655,7 +637,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         if (ActionPoint <= 0 || Mana <= 0)
         {
-            return NPCState.Runaway;
+            return NPCState.Return_Satisfaction;
         }
 
         if (HP < (HP_MAX / 4))
@@ -694,15 +676,18 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             return NPCState.Next;
         }
 
-
         if (PriorityList[0].unchangeable == PlacementInfo.Place_Floor.Exit.PlacementInfo.Place_Tile.unchangeable)
         {
-            return NPCState.Return;
+            return NPCState.Return_Empty;
         }
 
-        if (prevState == NPCState.Return)
+        if (prevState == NPCState.Return_Empty)
         {
-            return NPCState.Return;
+            return NPCState.Return_Empty;
+        }
+        if (prevState == NPCState.Return_Satisfaction)
+        {
+            return NPCState.Return_Satisfaction;
         }
         if (prevState == NPCState.Runaway)
         {
@@ -732,17 +717,20 @@ public abstract class NPC : MonoBehaviour, IPlacementable
                 MoveToTargetTile(PriorityList[0]);
                 break;
 
-            case NPCState.Return:
+            case NPCState.Return_Empty:
                 SearchPreviousFloor();
                 break;
 
+            case NPCState.Return_Satisfaction:
+                SearchPreviousFloor();
+                break;
 
             case NPCState.Runaway:
                 SearchPreviousFloor();
                 break;
 
             case NPCState.Die:
-                NPC_Die();
+                NPC_Inactive();
                 break;
         }
     }
@@ -865,7 +853,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
                 return false;
 
             case Define.PlaceEvent.Exit:
-                if (State == NPCState.Return)
+                if (State == NPCState.Return_Empty)
                 {
                     PlacementMove_NPC(this, next, ActionDelay);
                     StopCoroutine(Cor_Move);
@@ -875,7 +863,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
                     //FloorPrevious();
                     return true;
                 }
-                else if (State == NPCState.Runaway)
+                else if (State == NPCState.Runaway || State == NPCState.Return_Satisfaction)
                 {
                     PlacementMove_NPC(this, next, ActionDelay);
                     StopCoroutine(Cor_Move);
@@ -893,6 +881,14 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
 
             case Define.PlaceEvent.Avoid:
+                avoidCount++;
+                if (avoidCount > 10)
+                {
+                    StopCoroutine(Cor_Move);
+                    Cor_Move = StartCoroutine(Wandering());
+                    avoidCount = 0;
+                    return true;
+                }
                 State = StateRefresh();
                 return true;
 
@@ -1001,6 +997,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         State = StateRefresh();
     }
 
+
+    int avoidCount = 0;
 
 
     IEnumerator Wandering()

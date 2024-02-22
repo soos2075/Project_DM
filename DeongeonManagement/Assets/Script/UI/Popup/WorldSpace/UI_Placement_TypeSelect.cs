@@ -42,7 +42,7 @@ public class UI_Placement_TypeSelect : UI_PopUp, IWorldSpaceUI
         GetObject((int)Objects.Monster).AddUIEvent(data =>
         {
             ClosePopUp();
-            var monster = Managers.UI.ShowPopUpAlone<UI_Monster_Management>();
+            var monster = Managers.UI.ShowPopUpAlone<UI_Monster_Management>("Monster/UI_Monster_Management");
             monster.Type = UI_Monster_Management.UI_Type.Placement;
             FindObjectOfType<UI_Management>().FloorPanelClear();
 

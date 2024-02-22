@@ -23,18 +23,21 @@ public class ContentManager
     {
         {
             ContentData content = new ContentData("Clear");
-            content.SetName("철거", "힘들게 설치한 시설을 철거합니다. 마나와 골드는 회수할 수 없지만, 철거비용을 안받는게 어디에요.");
-            content.SetCondition(0, 0, 1);
+            content.SetName("철거 (1x1)", "힘들게 설치한 시설을 철거합니다. 마나와 골드는 회수할 수 없지만, 철거비용을 안받는게 어디에요." +
+                "\n적용 범위는 1 x 1 입니다.");
+            content.SetCondition(0, 0, 1, Facility_Priority.System);
             content.sprite = Managers.Sprite.GetSprite("Nothing");
-            content.AddOption("\n적용 범위는 1 x 1 입니다.", Define.Boundary_1x1,
-                () => SetBoundary(Define.Boundary_1x1, () => ClearAll(), UI_Floor.BuildMode.Clear));
+            content.SetAction(() => SetBoundary(Define.Boundary_1x1, () => ClearAll(), UI_Floor.BuildMode.Clear));
 
-            content.AddOption("\n적용 범위는 3 x 3 입니다.", Define.Boundary_3x3,
-                () => SetBoundary(Define.Boundary_3x3, () => ClearAll(), UI_Floor.BuildMode.Clear));
-
-            content.AddOption("\n적용 범위는 5 x 5 입니다.", Define.Boundary_5x5,
-                () => SetBoundary(Define.Boundary_5x5, () => ClearAll(), UI_Floor.BuildMode.Clear));
-
+            Contents.Add(content);
+        }
+        {
+            ContentData content = new ContentData("Clear");
+            content.SetName("철거 (3x3)", "힘들게 설치한 시설을 철거합니다. 마나와 골드는 회수할 수 없지만, 철거비용을 안받는게 어디에요." +
+                "\n적용 범위는 3 x 3 입니다.");
+            content.SetCondition(0, 0, 1, Facility_Priority.System);
+            content.sprite = Managers.Sprite.GetSprite("Nothing");
+            content.SetAction(() => SetBoundary(Define.Boundary_3x3, () => ClearAll(), UI_Floor.BuildMode.Clear));
             Contents.Add(content);
         }
 
@@ -42,31 +45,46 @@ public class ContentManager
         {
             ContentData content = new ContentData("Herb_Low");
             content = new ContentData("Herb_Low");
-            content.SetName("흔한 약초밭", "흔한 약초밭을 설치합니다. 흔하긴 해도 마나를 지니고 있기 때문에 쓰임새는 많은 편이에요. " +
-                "대량으로 설치하면 좀 더 효율적이에요.");
-            content.SetCondition(25, 0, 1);
+            content.SetName("하급 약초밭(소)", "하급 약초가 자라나는 약초밭을 설치합니다. 흔하긴 해도 마나를 지니고 있기 때문에 쓰임새는 많은 편이에요." +
+                "\n적용 범위는 2 x 2 입니다.");
+            content.SetCondition(25, 0, 1, Facility_Priority.Herb);
             content.sprite = Managers.Sprite.GetSprite("Herb_Low");
+            content.SetAction(() => SetBoundary(Define.Boundary_2x2, () => CreateAll("Herb_Low")));
 
-            content.AddOption("\n적용 범위는 2 x 2 입니다.", Define.Boundary_2x2,
-                () => SetBoundary(Define.Boundary_2x2, () => CreateAll("Herb_Low")));
-            content.AddOption("\n적용 범위는 3 x 3 입니다.", Define.Boundary_3x3,
-                () => SetBoundary(Define.Boundary_3x3, () => CreateAll("Herb_Low")), mana: 20);
-            content.AddOption("\n적용 범위는 5 x 5 입니다.", Define.Boundary_5x5,
-                () => SetBoundary(Define.Boundary_5x5, () => CreateAll("Herb_Low")), mana: 50, ap: 1);
+            Contents.Add(content);
+        }
+        {
+            ContentData content = new ContentData("Herb_Low");
+            content = new ContentData("Herb_Low");
+            content.SetName("흔한 약초밭(중)", "하급 약초가 자라나는 약초밭을 설치합니다. 흔하긴 해도 마나를 지니고 있기 때문에 쓰임새는 많은 편이에요." +
+                "\n적용 범위는 3 x 3 입니다.");
+            content.SetCondition(50, 0, 1, Facility_Priority.Herb);
+            content.sprite = Managers.Sprite.GetSprite("Herb_Low");
+            content.SetAction(() => SetBoundary(Define.Boundary_3x3, () => CreateAll("Herb_Low")));
+
+            Contents.Add(content);
+        }
+        {
+            ContentData content = new ContentData("Herb_Low");
+            content = new ContentData("Herb_Low");
+            content.SetName("흔한 약초밭(대)", "하급 약초가 자라나는 약초밭을 설치합니다. 흔하긴 해도 마나를 지니고 있기 때문에 쓰임새는 많은 편이에요." +
+                "\n적용 범위는 5 x 5 입니다.");
+            content.SetCondition(100, 0, 1, Facility_Priority.Herb);
+            content.sprite = Managers.Sprite.GetSprite("Herb_Low");
+            content.SetAction(() => SetBoundary(Define.Boundary_5x5, () => CreateAll("Herb_Low")));
 
             Contents.Add(content);
         }
 
+
         {
             ContentData content = new ContentData("Herb_High");
             content = new ContentData("Herb_High");
-            content.SetName("귀한 약초밭", "귀한 약초밭을 설치합니다. 쉽게 구할 수 없는 귀한 약초입니다. 누구든지 발견하면 꼭 챙기려고 할 거에요.");
-            content.SetCondition(40, 0, 1);
-            content.sprite = Managers.Sprite.GetSprite("Nothing");
-            content.AddOption("\n적용 범위는 1 x 3 입니다.", Define.Boundary_1x3,
-                () => SetBoundary(Define.Boundary_1x3, () => CreateAll("Herb_High")));
-            content.AddOption("\n적용 범위는 3 x 1 입니다.", Define.Boundary_3x1,
-                () => SetBoundary(Define.Boundary_3x1, () => CreateAll("Herb_High")));
+            content.SetName("고급 약초밭", "고급 약초가 자라나는 약초밭을 설치합니다. 쉽게 구할 수 없는 귀한 약초입니다. 마나 효율이 높아요." +
+                "\n적용 범위는 1 x 3 입니다.");
+            content.SetCondition(75, 0, 1, Facility_Priority.Herb);
+            content.sprite = Managers.Sprite.GetSprite("Herb_Low");
+            content.SetAction(() => SetBoundary(Define.Boundary_1x3, () => CreateAll("Herb_High")));
 
             Contents.Add(content);
         }
@@ -74,55 +92,47 @@ public class ContentManager
         {
             ContentData content = new ContentData("Mineral");
             content = new ContentData("Mineral");
-            content.SetName("광맥", "유용한 물질을 얻을 수 있는 광맥을 설치합니다. 여러 물질이 조금 섞여있어요.");
-            content.SetCondition(50, 0, 1);
+            content.SetName("작은 광맥", "유용한 물질을 얻을 수 있는 광맥을 설치합니다. 여러 광물이 섞여있어요." +
+                "\n적용 범위는 작은 십자 입니다.");
+            content.SetCondition(50, 0, 1, Facility_Priority.Mineral);
             content.sprite = Managers.Sprite.GetSprite("Mineral");
-            content.AddOption("\n적용 범위는 작은 십자 입니다.", Define.Boundary_Cross_1,
-                () => SetBoundary(Define.Boundary_Cross_1, () =>
+            content.SetAction(() => SetBoundary(Define.Boundary_Cross_1, () =>
                 CreateCustom(Create<Mineral>("Mineral", Define.Boundary_1x1, (int)Mineral.MineralType.Stone),
                         Create<Mineral>("Mineral", Define.Boundary_Side_Cross, (int)Mineral.MineralType.Rock))));
-            //CreateTwo("Mineral_Diamond", "Mineral_Rock", Define.Boundary_1x1, Define.Boundary_Side_Cross)));
-
-            content.AddOption("\n적용 범위는 큰 마름모 입니다.", Define.Boundary_Cross_3,
-                () => SetBoundary(Define.Boundary_Cross_3, () =>
-                    CreateCustom(Create<Mineral>("Mineral", Define.Boundary_Cross_1, (int)Mineral.MineralType.Rock),
-                        Create<Mineral>("Mineral", Define.Boundary_Side_X, (int)Mineral.MineralType.Stone),
-                        Create<Mineral>("Mineral", Define.Boundary_Side_Cross_2, (int)Mineral.MineralType.Sand))), mana: 75, ap: 1);
 
             Contents.Add(content);
         }
 
         {
-            ContentData content = new ContentData("Mineral_Lv2");
-            content = new ContentData("Mineral_Lv2");
-            content.SetName("단단한 광맥", "유용한 물질을 얻을 수 있는 광맥을 설치합니다. 마나를 많이 소모 할 수록 더 단단하고 귀한 물질로 되어있어요.");
-            content.SetCondition(100, 0, 2);
+            ContentData content = new ContentData("Mineral");
+            content = new ContentData("Mineral");
+            content.SetName("큰 광맥", "유용한 물질을 얻을 수 있는 광맥을 설치합니다. 여러 광물이 섞여있어요." +
+                "\n적용 범위는 큰 마름모 입니다.");
+            content.SetCondition(100, 0, 1, Facility_Priority.Mineral);
             content.sprite = Managers.Sprite.GetSprite("Mineral");
-            content.AddOption("\n적용 범위는 3 x 1 입니다.", Define.Boundary_3x1,
-                () => SetBoundary(Define.Boundary_3x1, () => CreateAll<Mineral>("Mineral", (int)Mineral.MineralType.Stone)));
-            content.AddOption("\n적용 범위는 3 x 1 입니다.", Define.Boundary_3x1,
-                () => SetBoundary(Define.Boundary_3x1, () => CreateAll<Mineral>("Mineral", (int)Mineral.MineralType.Iron)), mana: 50);
-            content.AddOption("\n적용 범위는 3 x 1 입니다.", Define.Boundary_3x1,
-                () => SetBoundary(Define.Boundary_3x1, () => CreateAll<Mineral>("Mineral", (int)Mineral.MineralType.Coal)), mana: 100);
+            content.SetAction(() => SetBoundary(Define.Boundary_Cross_3, () =>
+                    CreateCustom(Create<Mineral>("Mineral", Define.Boundary_Cross_1, (int)Mineral.MineralType.Rock),
+                        Create<Mineral>("Mineral", Define.Boundary_Side_X, (int)Mineral.MineralType.Stone),
+                        Create<Mineral>("Mineral", Define.Boundary_Side_Cross_2, (int)Mineral.MineralType.Sand))));
 
             Contents.Add(content);
         }
-
 
 
 
         {
             ContentData content = new ContentData("Trap_Fallen_1");
-            content.SetName("발밑 함정", "뻔히 보이는 고전식 발밑 함정을 설치합니다. 하지만 이런거에 걸리는 사람이 있을까요? 동시에 여러개를 설치할 수도 있어요.");
-            content.SetCondition(0, 50, 1);
-            content.sprite = Managers.Sprite.GetSprite("Nothing");
+            content.SetName("낙하 함정", "고전식 발밑 함정을 설치합니다. 발동되면 시간과 체력에 피해를 줄 수 있어요." +
+                "\n적용 범위는 1 x 1 입니다.");
+            content.SetCondition(0, 50, 1, Facility_Priority.Trap);
+            content.sprite = Managers.Sprite.GetSprite("Trap");
 
-            content.AddOption("\n적용 범위는 1 x 1 입니다.", Define.Boundary_1x1,
-                () => SetBoundary(Define.Boundary_1x1, () => CreateAll("Trap_Fallen_1", true)));
-            content.AddOption("\n적용 범위는 1 x 3 입니다.", Define.Boundary_1x3,
-                () => SetBoundary(Define.Boundary_1x3, () => CreateAll("Trap_Fallen_1", true)), mana: 0, gold: 50);
-            content.AddOption("\n적용 범위는 3 x 1 입니다.", Define.Boundary_3x1,
-                () => SetBoundary(Define.Boundary_3x1, () => CreateAll("Trap_Fallen_1", true)), mana: 0, gold: 50);
+            //content.AddOption("\n적용 범위는 1 x 1 입니다.", Define.Boundary_1x1,
+            //    () => SetBoundary(Define.Boundary_1x1, () => CreateAll("Trap_Fallen_1", true)));
+            //content.AddOption("\n적용 범위는 1 x 3 입니다.", Define.Boundary_1x3,
+            //    () => SetBoundary(Define.Boundary_1x3, () => CreateAll("Trap_Fallen_1", true)), mana: 0, gold: 50);
+            //content.AddOption("\n적용 범위는 3 x 1 입니다.", Define.Boundary_3x1,
+            //    () => SetBoundary(Define.Boundary_3x1, () => CreateAll("Trap_Fallen_1", true)), mana: 0, gold: 50);
 
             Contents.Add(content);
         }
@@ -133,53 +143,82 @@ public class ContentManager
         {
             ContentData content = new ContentData("Entrance");
             content.SetName("입구", "플레이어가 들어올 입구를 지정합니다. 만약 입구가 없으면 랜덤위치에 자동으로 생성됩니다. 입구는 층 당 한개만 존재할 수 있어요.");
-            content.SetCondition(50, 0, 2);
+            content.SetCondition(50, 0, 2, Facility_Priority.System);
             content.sprite = Managers.Sprite.GetSprite("Entrance");
-            content.AddOption("\n적용 범위는 1 x 1 입니다.", Define.Boundary_1x1,
-                () => SetBoundary(Define.Boundary_1x1, () => CreateOnlyOne("Entrance")));
+
+            content.SetAction(() => SetBoundary(Define.Boundary_1x1, () => CreateOnlyOne("Entrance")));
 
             Contents.Add(content);
         }
 
         {
             ContentData content = new ContentData("Exit");
-            content.SetName("출구", "플레이어가 돌아갈 출구를 지정합니다. 만약 출구가 없으면 랜덤위치에 자동으로 생성됩니다. 출구는 층 당 한개만 존재할 수 있어요.");
-            content.SetCondition(50, 0, 2);
+            content.SetName("출구", "플레이어가 나갈 출구를 지정합니다. 만약 출구가 없으면 랜덤위치에 자동으로 생성됩니다. 출구는 층 당 한개만 존재할 수 있어요.");
+            content.SetCondition(50, 0, 2, Facility_Priority.System);
             content.sprite = Managers.Sprite.GetSprite("Exit");
-            content.AddOption("\n적용 범위는 1 x 1 입니다.", Define.Boundary_1x1,
-                () => SetBoundary(Define.Boundary_1x1, () => CreateOnlyOne("Exit")));
+
+            content.SetAction(() => SetBoundary(Define.Boundary_1x1, () => CreateOnlyOne("Exit")));
+
+            Contents.Add(content);
+        }
+
+        {
+            ContentData content = new ContentData("Mineral_Lv2");
+            content = new ContentData("Mineral_Lv2");
+            content.SetName("단단한 광맥", "유용한 물질을 얻을 수 있는 광맥을 설치합니다. 마나를 많이 소모 할 수록 더 단단하고 귀한 물질로 되어있어요." +
+                "\n적용 범위는 3 x 1 입니다.");
+            content.SetCondition(100, 0, 2, Facility_Priority.Mineral);
+            content.sprite = Managers.Sprite.GetSprite("Mineral");
+
+            content.SetAction(() => SetBoundary(Define.Boundary_3x1, () => CreateAll<Mineral>("Mineral", (int)Mineral.MineralType.Stone)));
+
+            Contents.Add(content);
+        }
+        {
+            ContentData content = new ContentData("Mineral_Lv2");
+            content = new ContentData("Mineral_Lv2");
+            content.SetName("철 광맥", "유용한 물질을 얻을 수 있는 광맥을 설치합니다. 마나를 많이 소모 할 수록 더 단단하고 귀한 물질로 되어있어요." +
+                "\n적용 범위는 3 x 1 입니다.");
+            content.SetCondition(150, 0, 2, Facility_Priority.Mineral);
+            content.sprite = Managers.Sprite.GetSprite("Mineral");
+
+            content.SetAction(() => SetBoundary(Define.Boundary_3x1, () => CreateAll<Mineral>("Mineral", (int)Mineral.MineralType.Iron)));
+
+            Contents.Add(content);
+        }
+        {
+            ContentData content = new ContentData("Mineral_Lv2");
+            content = new ContentData("Mineral_Lv2");
+            content.SetName("석탄 광맥", "유용한 물질을 얻을 수 있는 광맥을 설치합니다. 마나를 많이 소모 할 수록 더 단단하고 귀한 물질로 되어있어요." +
+                "\n적용 범위는 3 x 1 입니다.");
+            content.SetCondition(200, 0, 2, Facility_Priority.Mineral);
+            content.sprite = Managers.Sprite.GetSprite("Mineral");
+
+            content.SetAction(() => SetBoundary(Define.Boundary_3x1, () => CreateAll<Mineral>("Mineral", (int)Mineral.MineralType.Coal)));
 
             Contents.Add(content);
         }
 
         {
             ContentData content = new ContentData("Trap_Fallen_2");
-            content.SetName("강화 발밑 함정", "뻔히 보이는 고전식 발밑 함정을 설치합니다. 조금 더 효과가 강해졌어요. 하지만 겉모습은 별로 달라진게 없어보이네요.");
-            content.SetCondition(100, 50, 2);
-            content.sprite = Managers.Sprite.GetSprite("Nothing");
+            content.SetName("강화 낙화 함정", "고전식 발밑 함정을 설치합니다. 기존의 함정보다조금 더 효과가 강해졌어요." +
+                "\n적용 범위는 1 x 1 입니다.");
+            content.SetCondition(0, 100, 2, Facility_Priority.Trap);
+            content.sprite = Managers.Sprite.GetSprite("Trap");
 
-            content.AddOption("\n적용 범위는 1 x 1 입니다.", Define.Boundary_1x1,
-                () => SetBoundary(Define.Boundary_1x1, () => CreateTrap("Trap_Fallen_2", Trap_Base.TrapType.Fallen_2)));
-            content.AddOption("\n적용 범위는 1 x 3 입니다.", Define.Boundary_1x3,
-                () => SetBoundary(Define.Boundary_1x3, () => CreateTrap("Trap_Fallen_2", Trap_Base.TrapType.Fallen_2)), mana: 100, gold: 50);
-            content.AddOption("\n적용 범위는 3 x 1 입니다.", Define.Boundary_3x1,
-                () => SetBoundary(Define.Boundary_3x1, () => CreateTrap("Trap_Fallen_2", Trap_Base.TrapType.Fallen_2)), mana: 100, gold: 50);
+            content.SetAction(() => SetBoundary(Define.Boundary_1x1, () => CreateTrap("Trap_Fallen_2", Trap_Base.TrapType.Fallen_2)));
 
             Contents.Add(content);
         }
 
         {
             ContentData content = new ContentData("Trap_Awl");
-            content.SetName("송곳 함정", "바닥에서 송곳이 올라오는 무시무시한 함정을 설치합니다. 웬만하면 여길 지나가길 원하는 모험가는 없을거에요.");
-            content.SetCondition(50, 100, 2);
-            content.sprite = Managers.Sprite.GetSprite("Nothing");
+            content.SetName("송곳 함정", "바닥에서 송곳이 올라오는 무시무시한 함정을 설치합니다. 발동되면 큰 피해를 입힙니다." +
+                "\n적용 범위는 1 x 1 입니다.");
+            content.SetCondition(0, 150, 2, Facility_Priority.Trap);
+            content.sprite = Managers.Sprite.GetSprite("Trap");
 
-            content.AddOption("\n적용 범위는 1 x 1 입니다.", Define.Boundary_1x1,
-                () => SetBoundary(Define.Boundary_1x1, () => CreateTrap("Trap_Awl_1", Trap_Base.TrapType.Awl_1)));
-            content.AddOption("\n적용 범위는 1 x 3 입니다.", Define.Boundary_1x3,
-                () => SetBoundary(Define.Boundary_1x3, () => CreateTrap("Trap_Awl_1", Trap_Base.TrapType.Awl_1)), mana: 50, gold: 100);
-            content.AddOption("\n적용 범위는 3 x 1 입니다.", Define.Boundary_3x1,
-                () => SetBoundary(Define.Boundary_3x1, () => CreateTrap("Trap_Awl_1", Trap_Base.TrapType.Awl_1)), mana: 50, gold: 100);
+            content.SetAction(() => SetBoundary(Define.Boundary_1x1, () => CreateTrap("Trap_Awl_1", Trap_Base.TrapType.Awl_1)));
 
             Contents.Add(content);
         }
@@ -312,18 +351,21 @@ public class ContentManager
     void SetBoundary(Vector2Int[] vector2Ints, Action action, UI_Floor.BuildMode buildMode = UI_Floor.BuildMode.Build)
     {
         Managers.UI.PausePopUp();
+        Time.timeScale = 1;
 
-        if (GameObject.FindObjectOfType<UI_Placement_Facility>().Mode == UI_Placement_Facility.FacilityMode.All)
-        {
-            GameManager.Instance.StartCoroutine(ShowAllFloor(vector2Ints, action, buildMode));
-            return;
-        }
+        GameManager.Instance.StartCoroutine(ShowAllFloor(vector2Ints, action, buildMode));
 
-        Main.Instance.CurrentBoundary = vector2Ints;
-        Main.Instance.CurrentAction += action;
+        //if (GameObject.FindObjectOfType<UI_Placement_Facility>().Mode == UI_Placement_Facility.FacilityMode.All)
+        //{
+        //    GameManager.Instance.StartCoroutine(ShowAllFloor(vector2Ints, action, buildMode));
+        //    return;
+        //}
 
-        Main.Instance.CurrentFloor.UI_Floor.ShowTile();
-        Main.Instance.CurrentFloor.UI_Floor.Mode = buildMode;
+        //Main.Instance.CurrentBoundary = vector2Ints;
+        //Main.Instance.CurrentAction += action;
+
+        //Main.Instance.CurrentFloor.UI_Floor.ShowTile();
+        //Main.Instance.CurrentFloor.UI_Floor.Mode = buildMode;
     }
 
     IEnumerator ShowAllFloor(Vector2Int[] vector2Ints, Action action, UI_Floor.BuildMode buildMode = UI_Floor.BuildMode.Build)
@@ -347,20 +389,16 @@ public class ContentManager
         Main.Instance.CurrentAction = null;
         Main.Instance.CurrentTile = null;
         Main.Instance.PurchaseAction = null;
+        Managers.UI.ClosePopupPick(GameObject.FindAnyObjectByType<UI_DungeonPlacement>());
+        Managers.UI.PauseOpen();
+        Time.timeScale = 0;
     }
 
     void CreateOver()
     {
-        //Debug.Log($"{Main.Instance.CurrentTile.index} : {Main.Instance.CurrentTile.placementable.Name_KR} 설치완료");
-
-        //Main.Instance.CurrentDay.SubtractMana(mana);
-        //Main.Instance.CurrentDay.SubtractGold(gold);
-
-
         Main.Instance.PurchaseAction.Invoke();
 
         ResetAction();
-        Managers.UI.CloseAll();
     }
 
     bool Create(string prefab, Vector2Int[] boundary, bool isUnChangeable = false)
@@ -458,9 +496,64 @@ public class ContentManager
 
 }
 
+public enum Facility_Priority // 상점에서 contents 정렬시 우선순위
+{
+    System = 0,
+
+    Herb = 100,
+
+    Mineral = 200,
+
+    Trap = 300,
+
+    Artifact = 400,
+
+    Etc = 900,
+}
+// 상품 종류별 정렬, 숫자가 낮을수록 우선순위가 높음 
+// 1순위비교 - Facility_Priority
+// 2순위 - 요구레벨
+// 3순위 - 필요 마나
+// 4순위 - 필요 골드
+public class ContentComparer : IComparer<ContentData>
+{
+    public int Compare(ContentData x, ContentData y)
+    {
+        if (x.priority > y.priority)
+        {
+            return 1;
+        }
+        else if (x.priority < y.priority)
+        {
+            return -1;
+        }
+        else
+        {
+            var compare_lv = x.need_LV.CompareTo(y.need_LV);
+            if (compare_lv == 0)
+            {
+                var compare_mana = x.need_Mana.CompareTo(y.need_Mana);
+                if (compare_mana == 0)
+                {
+                    return x.need_Gold.CompareTo(y.need_Gold);
+                }
+                else
+                {
+                    return compare_mana;
+                }
+            }
+            else
+            {
+                return compare_lv;
+            }
+        }
+    }
+}
 
 public class ContentData
 {
+    public Facility_Priority priority;
+
     public Sprite sprite;
     public string name_Placement;
     public string name_Detail;
@@ -468,35 +561,42 @@ public class ContentData
     public int need_Mana;
     public int need_Gold;
     public int need_LV;
-    public int need_AP;
 
     public string contentName;
     public string path;
 
-    public List<Option> boundaryOption;
+    public Action contentAction;
+
+    //public List<Option> boundaryOption;
     public ContentData(string _contentName)
     {
         contentName = _contentName;
-        boundaryOption = new List<Option>();
+        //boundaryOption = new List<Option>();
     }
 
-    public void AddOption(string _text, Vector2Int[] _option, Action _action, int mana = 0, int gold = 0, int ap = 0)
-    {
-        boundaryOption.Add(new Option(_text, _option, _action, mana, gold, ap));
-    }
+    //public void AddOption(string _text, Vector2Int[] _option, Action _action, int mana = 0, int gold = 0)
+    //{
+    //    boundaryOption.Add(new Option(_text, _option, _action, mana, gold));
+    //}
 
     public void SetName(string title, string box)
     {
         name_Placement = title;
         name_Detail = box;
     }
-    public void SetCondition(int mana, int gold, int lv, int ap = 0)
+    public void SetCondition(int mana, int gold, int lv, Facility_Priority _Priority)
     {
         need_Mana = mana;
         need_Gold = gold;
         need_LV = lv;
-        need_AP = ap;
+        priority = _Priority;
     }
+
+    public void SetAction(Action _action)
+    {
+        contentAction = _action;
+    }
+
 }
 
 public class Option
@@ -506,16 +606,14 @@ public class Option
 
     public int addMana;
     public int addGold;
-    public int addAP;
     public Action Action { get; set; }
 
-    public Option(string option, Vector2Int[] _bounds, Action _action, int _mana, int _gold, int _ap)
+    public Option(string option, Vector2Int[] _bounds, Action _action, int _mana, int _gold)
     {
         optionText = option;
         boundary = _bounds;
         Action = _action;
         addMana = _mana;
         addGold = _gold;
-        addAP = _ap;
     }
 }

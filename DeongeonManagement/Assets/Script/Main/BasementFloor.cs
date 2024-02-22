@@ -433,13 +433,16 @@ public class BasementFloor : MonoBehaviour
             return;
         }
 
-        {
-            var info = new PlacementInfo(this, GetRandomTile());
-            GameManager.Facility.CreateFacility_OnlyOne("Exit", info, true);
-        }
+        if (PickObjectOfType(typeof(Entrance)) == null)
         {
             var info = new PlacementInfo(this, GetRandomTile());
             GameManager.Facility.CreateFacility_OnlyOne("Entrance", info, true);
+        }
+
+        if (PickObjectOfType(typeof(Exit)) == null)
+        {
+            var info = new PlacementInfo(this, GetRandomTile());
+            GameManager.Facility.CreateFacility_OnlyOne("Exit", info, true);
         }
     }
 

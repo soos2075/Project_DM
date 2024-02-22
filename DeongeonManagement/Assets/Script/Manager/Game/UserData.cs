@@ -39,7 +39,35 @@ public class UserData : MonoBehaviour
     private void Start()
     {
         Init_Resolution();
+        Init_Cursor();
     }
+
+
+
+    #region Cursor
+
+    public Texture2D CursorImage;
+    void Init_Cursor()
+    {
+        Cursor.SetCursor(CursorImage, Vector2.zero, CursorMode.Auto);
+
+
+        if (Screen.fullScreen)
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
+    }
+
+
+
+    #endregion
+
+
+
 
 
     #region Resolution
@@ -121,10 +149,12 @@ public class UserData : MonoBehaviour
             if (screenMode)
             {
                 SetData(PrefsKey.Full_Screen, 1);
+                Cursor.lockState = CursorLockMode.Confined;
             }
             else
             {
                 SetData(PrefsKey.Full_Screen, 0);
+                Cursor.lockState = CursorLockMode.None;
             }
             
             Debug.Log("스크린모드 변경");

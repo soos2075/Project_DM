@@ -27,6 +27,8 @@ public class UI_Technical_Content : UI_Base
     {
         Bind<TextMeshProUGUI>(typeof(Texts));
 
+        scroll = GetComponentInParent<ScrollRect>();
+
         AddUIEvent_ContentsImage();
 
         TextUpdate(Content.name_Placement, Content.need_Mana, Content.need_Gold, Content.need_LV, Content.need_AP);
@@ -43,12 +45,19 @@ public class UI_Technical_Content : UI_Base
         GetTMP((int)Texts.AP).text = $"{ap}";
     }
 
+
+    ScrollRect scroll;
     void AddUIEvent_ContentsImage()
     {
-        gameObject.AddUIEvent((data) => ChangePanelColor(Define.Color_Gamma_2), Define.UIEvent.Enter);
-        gameObject.AddUIEvent((data) => ChangePanelColor(Define.Color_Gamma_4), Define.UIEvent.Exit);
+        gameObject.AddUIEvent((data) => ChangePanelColor(Color.cyan), Define.UIEvent.Enter);
+        gameObject.AddUIEvent((data) => ChangePanelColor(Color.clear), Define.UIEvent.Exit);
 
         gameObject.AddUIEvent((data) => LeftClick(), Define.UIEvent.LeftClick);
+
+        //? 부모의 스크롤렉트의 드래그이벤트 연결
+        gameObject.AddUIEvent((data) => scroll.OnDrag(data), Define.UIEvent.Drag);
+        gameObject.AddUIEvent((data) => scroll.OnBeginDrag(data), Define.UIEvent.BeginDrag);
+        gameObject.AddUIEvent((data) => scroll.OnEndDrag(data), Define.UIEvent.EndDrag);
     }
     public void ChangePanelColor(Color color)
     {

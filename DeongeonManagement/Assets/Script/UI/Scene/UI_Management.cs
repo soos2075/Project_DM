@@ -100,8 +100,8 @@ public class UI_Management : UI_Base
     void Init_Button()
     {
         GetButton((int)ButtonEvent._1_Facility).gameObject.AddUIEvent((data) => FacilityButton());
-        GetButton((int)ButtonEvent._2_Summon).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Summon_Monster>());
-        GetButton((int)ButtonEvent._3_Management).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Monster_Management>());
+        GetButton((int)ButtonEvent._2_Summon).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Summon_Monster>("Monster/UI_Summon_Monster"));
+        GetButton((int)ButtonEvent._3_Management).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Monster_Management>("Monster/UI_Monster_Management"));
         GetButton((int)ButtonEvent._4_Guild).gameObject.AddUIEvent((data) => Visit_Guild());
         GetButton((int)ButtonEvent._5_Quest).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUpAlone<UI_Quest>());
 
@@ -305,8 +305,6 @@ public class UI_Management : UI_Base
     public void FacilityButton()
     {
         var facility = Managers.UI.ShowPopUpAlone<UI_Placement_Facility>("Facility/UI_Placement_Facility");
-        facility.Mode = UI_Placement_Facility.FacilityMode.All;
-        //facility.parents = this.parents;
         FloorPanelClear();
     }
 }

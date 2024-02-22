@@ -85,9 +85,9 @@ public class Statue : Facility
 
         if (confirm.GetAnswer() == UI_Confirm.State.Yes)
         {
-            int gold = Random.Range(5, 16) * (Main.Instance.Turn + 1);
+            int gold = Random.Range(5, 11) * (5);
             Main.Instance.Player_AP--;
-            Main.Instance.ClickEvent_Gold(gold);
+            Main.Instance.CurrentDay.AddGold(gold);
 
             Managers.UI.ClosePopupPick(confirm);
             var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
@@ -100,9 +100,9 @@ public class Statue : Facility
 
         if (confirm.GetAnswer() == UI_Confirm.State.Yes)
         {
-            int mana = Random.Range(10, 31) * (Main.Instance.Turn + 1);
+            int mana = Random.Range(10, 16) * (5);
             Main.Instance.Player_AP--;
-            Main.Instance.ClickEvent_Mana(mana);
+            Main.Instance.CurrentDay.AddMana(mana);
 
             Managers.UI.ClosePopupPick(confirm);
             var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();

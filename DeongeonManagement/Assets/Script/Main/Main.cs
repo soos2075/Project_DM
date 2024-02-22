@@ -35,7 +35,7 @@ public class Main : MonoBehaviour
         //Debug.Log("디버그용 Start");
         //NewGame_Init();
         //Default_Init();
-        //Test_Init();
+        Test_Init();
     }
     [Obsolete]
     public void Test_Init()
@@ -46,7 +46,6 @@ public class Main : MonoBehaviour
 
         DangerOfDungeon = 100;
         FameOfDungeon = 80;
-        //Turn = 7;
 
         Player_Mana = 3000;
         Player_Gold = 3000;
@@ -65,6 +64,8 @@ public class Main : MonoBehaviour
         Init_Secret();
         Init_Basic();
         Init_Statue();
+
+        EventManager.Instance.Load_EventData();
     }
 
 
@@ -382,16 +383,7 @@ public class Main : MonoBehaviour
 
     public int DungeonRank { get; set; }
     public int Player_Mana { get; private set; }
-
-    public void ClickEvent_Mana(int _value)
-    {
-        Player_Mana += _value;
-    }
     public int Player_Gold { get; private set; }
-    public void ClickEvent_Gold(int _value)
-    {
-        Player_Gold += _value;
-    }
 
 
     public int AP_MAX { get; private set; }
@@ -423,7 +415,6 @@ public class Main : MonoBehaviour
             Origin_Prisoner = prisoner;
         }
 
-
         public int Get_Mana;
         public int Get_Gold;
         public int Get_Prisoner;
@@ -434,14 +425,15 @@ public class Main : MonoBehaviour
         public int Use_Prisoner;
         public int Use_Kill;
 
-
         public void AddMana(int value)
         {
             Get_Mana += value;
+            Instance.Player_Mana += value;
         }
         public void AddGold(int value)
         {
             Get_Gold += value;
+            Instance.Player_Gold += value;
         }
         public void AddPrisoner(int value)
         {
@@ -473,13 +465,11 @@ public class Main : MonoBehaviour
             Use_Kill += value;
         }
 
-
         public int Fame { get; set; }
         public int Danger { get; set; }
 
         public int fame_perv;
         public int danger_perv;
-
         public int dungeonRank;
     }
 
@@ -502,8 +492,8 @@ public class Main : MonoBehaviour
         AddScore(CurrentDay);
 
 
-        Player_Mana += CurrentDay.Get_Mana;
-        Player_Gold += CurrentDay.Get_Gold;
+        //Player_Mana += CurrentDay.Get_Mana;
+        //Player_Gold += CurrentDay.Get_Gold;
         Player_AP = AP_MAX;
         FameOfDungeon += CurrentDay.Fame;
         DangerOfDungeon += CurrentDay.Danger;
@@ -568,6 +558,7 @@ public class Main : MonoBehaviour
             if (_Management == false)
             {
                 Turn++;
+                Start_Entrance();
                 TurnStartEvent();
                 DayEvent();
                 EventManager.Instance.TurnStart();
@@ -739,7 +730,7 @@ public class Main : MonoBehaviour
                     {
                         item.monster.LevelUp(false);
                     }
-                    var ui = Managers.UI.ShowPopUp<UI_StatusUp>();
+                    var ui = Managers.UI.ShowPopUp<UI_StatusUp>("Monster/UI_StatusUp");
                     ui.TargetMonster(item.monster, item.lv, item.hpMax, item.atk, item.def, item.agi, item.luk);
                 });
             }
@@ -828,6 +819,14 @@ public class Main : MonoBehaviour
     }
 
 
+    void Start_Entrance()
+    {
+        for (int i = 0; i < ActiveFloor_Basement; i++)
+        {
+            Floor[i].Init_Entrance();
+        }
+    }
+
 
     void ExpansionConfirm()
     {
@@ -839,7 +838,7 @@ public class Main : MonoBehaviour
         for (int i = 0; i < ActiveFloor_Basement; i++)
         {
             Floor[i].gameObject.SetActive(true);
-            Floor[i].Init_Entrance();
+            //Floor[i].Init_Entrance();
         }
 
 

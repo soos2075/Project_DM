@@ -26,7 +26,7 @@ public class UI_Floor_Tile : UI_Base
 
         gameObject.AddUIEvent((data) => ActionCheckEvent(), Define.UIEvent.LeftClick);
 
-        gameObject.AddUIEvent((data) => Managers.UI.PauseOpen(), Define.UIEvent.RightClick);
+        gameObject.AddUIEvent((data) => ActionReturnEvent(), Define.UIEvent.RightClick);
     }
 
 
@@ -43,6 +43,19 @@ public class UI_Floor_Tile : UI_Base
         if (Main.Instance.CurrentAction != null)
             Main.Instance.CurrentAction.Invoke();
     }
+
+    void ActionReturnEvent()
+    {
+        Main.Instance.CurrentBoundary = null;
+        Main.Instance.CurrentAction = null;
+        Main.Instance.CurrentTile = null;
+        Main.Instance.PurchaseAction = null;
+        Managers.UI.ClosePopupPick(GameObject.FindAnyObjectByType<UI_DungeonPlacement>());
+        Managers.UI.PauseOpen();
+        Time.timeScale = 0;
+    }
+
+
 
     void TileCheckEvent(Vector2Int[] boundary)
     {

@@ -33,6 +33,8 @@ public class Define
         LeftClick,
         RightClick,
         Drag,
+        BeginDrag,
+        EndDrag,
         Move,
         Enter,
         Exit,

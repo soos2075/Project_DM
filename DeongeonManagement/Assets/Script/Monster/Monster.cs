@@ -42,7 +42,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
     IEnumerator ShowMonsterManagement()
     {
-        var ui = Managers.UI.ClearAndShowPopUp<UI_Monster_Management>();
+        var ui = Managers.UI.ClearAndShowPopUp<UI_Monster_Management>("Monster/UI_Monster_Management");
         yield return new WaitForEndOfFrame();
 
         ui.ShowDetail(this);
@@ -568,7 +568,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
         if (_showPopup)
         {
-            var ui = Managers.UI.ShowPopUp<UI_StatusUp>();
+            var ui = Managers.UI.ShowPopUp<UI_StatusUp>("Monster/UI_StatusUp");
             ui.TargetMonster(this);
         }
 

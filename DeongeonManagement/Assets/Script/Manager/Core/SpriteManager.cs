@@ -15,6 +15,9 @@ public class SpriteManager
     Sprite clear;
 
 
+    Sprite[] ui_Cursor;
+
+
     public enum UI_Small_Buttons
     {
         X_Normal = 128,
@@ -24,15 +27,27 @@ public class SpriteManager
         Plus_Pressed = 149,
     }
 
+    public enum Cursors
+    {
+        orange = 4,
+        strawberry = 5,
+        outLine = 8,
+    }
+
 
     public void Init()
     {
         ui_small_buttons = Resources.LoadAll<Sprite>("Sprite/UI/ui-small-buttons");
         clear = Resources.Load<Sprite>("Sprite/UI/Clear");
+
+        ui_Cursor = Resources.LoadAll<Sprite>("Sprite/UI/Cursors");
     }
 
 
-
+    public Sprite GetCursor(Cursors cursors)
+    {
+        return ui_Cursor[(int)cursors];
+    }
 
     public Sprite SmallButtons (UI_Small_Buttons name)
     {
@@ -44,8 +59,12 @@ public class SpriteManager
         Sprite sprite = Resources.Load<Sprite>($"Sprite/{path}");
         if (sprite == null)
         {
-            Debug.Log($"Sprite Not Exist : Sprite/{path}");
-            return clear;
+            sprite = Resources.Load<Sprite>($"Sprite/Object/{path}");
+            if (sprite == null)
+            {
+                Debug.Log($"Sprite Not Exist : Sprite/{path}");
+                return clear;
+            }
         }
         return sprite;
     }

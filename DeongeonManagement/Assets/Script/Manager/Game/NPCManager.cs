@@ -294,9 +294,9 @@ public class NPCManager
     #region Calculation
     void Calculation_MaxNPC()
     {
-        int ofFame = Main.Instance.FameOfDungeon / 15;
+        int ofFame = Main.Instance.FameOfDungeon / 10;
 
-        Max_NPC_Value = Mathf.Clamp(Main.Instance.Turn + ofFame, 5, Main.Instance.Turn + ofFame);
+        Max_NPC_Value = Mathf.Clamp(Main.Instance.Turn + ofFame, 5, 5 + (Main.Instance.Turn * 2));
     }
 
 

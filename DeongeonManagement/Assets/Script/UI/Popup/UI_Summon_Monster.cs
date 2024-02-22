@@ -9,17 +9,12 @@ public class UI_Summon_Monster : UI_PopUp
     void Start()
     {
         Init();
-
-
     }
     enum Preview
     {
         Preview_Image,
         Preview_Text_Title,
         Preview_Text_Contents,
-        Preview_Option_1,
-        Preview_Option_2,
-        Preview_Option_3,
     }
 
     enum Buttons
@@ -33,33 +28,38 @@ public class UI_Summon_Monster : UI_PopUp
         NeedMana,
     }
 
+    enum Panels
+    {
+        Panel,
+        ClosePanel,
+    }
+
     public override void Init()
     {
-        base.Init();
-        AddRightClickCloseAllEvent();
+        Managers.UI.SetCanvas(gameObject);
 
+        Bind<Image>(typeof(Panels));
         Bind<GameObject>(typeof(Preview));
         Bind<Button>(typeof(Buttons));
         Bind<TextMeshProUGUI>(typeof(Info));
 
+        Init_Panels();
         Init_Preview();
         Init_Buttons();
         Init_Texts();
         Clear_NeedText();
-
         Init_Contents();
     }
 
+    void Init_Panels()
+    {
+        GetImage(((int)Panels.ClosePanel)).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.LeftClick);
+        GetImage(((int)Panels.ClosePanel)).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.RightClick);
+        GetImage(((int)Panels.Panel)).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.RightClick);
+    }
 
     void Init_Preview()
     {
-        for (int i = 0; i < 3; i++)
-        {
-            GetObject(i + 3).transform.parent.GetComponent<Image>().color = Color.clear;
-            GetObject(i + 3).GetComponent<Image>().color = Color.clear;
-            GetObject(i + 3).GetComponentInChildren<TextMeshProUGUI>().text = "";
-        }
-
         GetObject((int)Preview.Preview_Image).GetComponent<Image>().sprite = Managers.Sprite.GetClear();
         GetObject((int)Preview.Preview_Text_Title).GetComponent<TextMeshProUGUI>().text = "";
         GetObject((int)Preview.Preview_Text_Contents).GetComponent<TextMeshProUGUI>().text = "";
@@ -73,14 +73,13 @@ public class UI_Summon_Monster : UI_PopUp
         GetTMP((int)Info.CurrentMana).text = $"¸¶³ª\t{Main.Instance.Player_Mana}";
     }
 
-
     void Init_Contents()
     {
         var pos = GetComponentInChildren<ContentSizeFitter>().transform;
 
         for (int i = 0; i < GameManager.Monster.MonsterDatas.Count; i++)
         {
-            var content = Managers.Resource.Instantiate("UI/PopUp/Element/Monster_Content", pos).GetComponent<UI_Monster_Content>();
+            var content = Managers.Resource.Instantiate("UI/PopUp/Monster/Monster_Content", pos).GetComponent<UI_Monster_Content>();
             content.Content = GameManager.Monster.MonsterDatas[i];
             content.Parent = this;
 
@@ -137,7 +136,7 @@ public class UI_Summon_Monster : UI_PopUp
         Current = content;
         for (int i = 0; i < childList.Count; i++)
         {
-            childList[i].ChangePanelColor(Define.Color_Gamma_4);
+            childList[i].ChangePanelColor(Color.clear);
         }
         PreviewRefresh(content);
         Set_NeedTexts(content.ManaCost, 0, 0);
@@ -223,5 +222,14 @@ public class UI_Summon_Monster : UI_PopUp
     }
 
 
+
+    private void OnEnable()
+    {
+        Time.timeScale = 0;
+    }
+    private void OnDestroy()
+    {
+        Time.timeScale = 1;
+    }
 }
 

@@ -45,7 +45,13 @@ public class UI_ClearPanel : UI_Scene
     {
         if (Managers.UI._paused != null)
         {
+            Main.Instance.CurrentBoundary = null;
+            Main.Instance.CurrentAction = null;
+            Main.Instance.CurrentTile = null;
+            Main.Instance.PurchaseAction = null;
+            Managers.UI.ClosePopupPick(GameObject.FindAnyObjectByType<UI_DungeonPlacement>());
             Managers.UI.PauseOpen();
+            Time.timeScale = 0;
         }
         else
         {

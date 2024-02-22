@@ -269,6 +269,8 @@ public class UIManager
         {
             SceneUIRefresh();
         }
+
+        Time.timeScale = 1;
     }
 
 
