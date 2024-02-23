@@ -18,24 +18,24 @@ public class PlacementManager
     }
 
 
-    public IPlacementable CreateOnlyOne(string path, PlacementInfo info, Define.PlacementType type)
+    public IPlacementable CreateOnlyOne(string path, PlacementInfo info, PlacementType type)
     {
         var newObj = CreatePlacementObject(path, info, type);
         //? 모든 오브젝트 검색
         var objList = info.Place_Floor.GetFloorObjectList();
         foreach (var item in objList)
         {
-            if (newObj.GetType() == item.placementable.GetType())
+            if (newObj.GetType() == item.Original.GetType())
             {
                 //? 퍼실리티가 아닌 유일하게 존재해야하는게 있다면 오류
-                GameManager.Facility.RemoveFacility(item.placementable as Facility); 
+                GameManager.Facility.RemoveFacility(item.Original as Facility); 
                 //PlacementClear_Completely(item.placementable);
             }
         }
         return newObj;
     }
 
-    public IPlacementable CreatePlacementObject(string path, PlacementInfo info, Define.PlacementType type)
+    public IPlacementable CreatePlacementObject(string path, PlacementInfo info, PlacementType type)
     {
         var obj = Managers.Resource.Instantiate(path, Placement_Root).GetComponent<IPlacementable>();
         obj.PlacementType = type;
@@ -49,7 +49,7 @@ public class PlacementManager
         obj.PlacementInfo = newPlace;
         if (isUnchange)
         {
-            obj.PlacementInfo.Place_Tile.SetUnchangeable(obj);
+            obj.PlacementInfo.Place_Tile.SetPlacement_Facility(obj);
         }
         else
         {
@@ -73,7 +73,7 @@ public class PlacementManager
         //Debug.Log($"{obj.GetObject().name} 가 {obj.PlacementInfo.Place_Floor.Name_KR} - {obj.PlacementInfo.Place_Tile.index} 에서 해제");
 
         obj.PlacementInfo.Place_Floor.RemoveObject(obj);
-        obj.PlacementInfo.Place_Tile.ClearPlacement();
+        obj.PlacementInfo.Place_Tile.ClearPlacement(obj);
         obj.PlacementInfo = null;
         Disable(obj);
     }
@@ -89,7 +89,7 @@ public class PlacementManager
 
     public void PlacementMove(IPlacementable obj, PlacementInfo newPlace)
     {
-        obj.PlacementInfo.Place_Tile.ClearPlacement();
+        obj.PlacementInfo.Place_Tile.ClearPlacement(obj);
         obj.PlacementInfo = newPlace;
         newPlace.Place_Tile.SetPlacement(obj);
         //obj.GetObject().transform.position = obj.PlacementInfo.Place_Tile.worldPosition;

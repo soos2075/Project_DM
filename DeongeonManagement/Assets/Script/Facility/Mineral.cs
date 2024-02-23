@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Mineral : Facility
 {
-    public override FacilityType Type { get; set; }
+    public override FacilityEventType Type { get; set; }
     public override int InteractionOfTimes { get; set; }
     public override string Name { get; set; }
     public override int OptionIndex { get { return ((int)mineralType); } set { mineralType = (MineralType)value; } }
 
     public override void FacilityInit()
     {
-        Type = FacilityType.Mineral;
+        Type = FacilityEventType.NPC_Interaction;
         Name_prefab = name;
 
         Init_Mineral();
@@ -37,7 +37,6 @@ public class Mineral : Facility
 
     void Init_Mineral()
     {
-
         GetComponentInChildren<SpriteRenderer>().sprite = mineralSprites[(int)mineralType];
 
         switch (mineralType)
@@ -133,8 +132,27 @@ public class Mineral : Facility
     {
         if (InteractionOfTimes > 0)
         {
+            int changeMP = mp_value;
+
+            if (npc.GetType() == typeof(Miner))
+            {
+                changeMP = mp_value;
+            }
+            else if (npc.GetType() == typeof(Herbalist))
+            {
+                changeMP = (int)(mp_value * 0.5f);
+            }
+            else if (npc.GetType() == typeof(Adventurer))
+            {
+                changeMP = (int)(mp_value * 0.3f);
+            }
+            else
+            {
+                changeMP = (int)(mp_value * 0.3f);
+            }
+
             InteractionOfTimes--;
-            Cor_Facility = StartCoroutine(FacilityEvent(npc, durationTime, "±¤¼® Ã¤±¼Áß...", ap: ap_value, mp: mp_value, hp: hp_value));
+            Cor_Facility = StartCoroutine(FacilityEvent(npc, durationTime, "±¤¼® Ã¤±¼Áß...", ap: ap_value, mp: changeMP, hp: hp_value));
             return Cor_Facility;
         }
         else

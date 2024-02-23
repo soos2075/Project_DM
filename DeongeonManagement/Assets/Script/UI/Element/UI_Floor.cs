@@ -61,11 +61,11 @@ public class UI_Floor : UI_Base
                     var content = Managers.Resource.Instantiate("UI/PopUp/Element/Floor_Tile", transform);
                     content.GetComponent<RectTransform>().position = tile.worldPosition;
 
-                    if (tile.tileType == Define.TileType.Empty)
+                    if (tile.tileType_Original == Define.TileType.Empty)
                     {
                         content.GetComponent<Image>().color = Define.Color_White;
                     }
-                    else if (tile.tileType == Define.TileType.Monster)
+                    else if (tile.tileType_Original == Define.TileType.Monster)
                     {
                         content.GetComponent<Image>().color = Define.Color_Blue;
                     }
@@ -92,11 +92,11 @@ public class UI_Floor : UI_Base
                 if (Main.Instance.Floor[FloorID].TileMap.TryGetValue(new Vector2Int(i, k), out tile))
                 {
                     var content = TileList[i, k];
-                    if (tile.tileType == Define.TileType.Empty)
+                    if (tile.tileType_Original == Define.TileType.Empty)
                     {
                         content.GetComponent<Image>().color = Define.Color_White;
                     }
-                    else if (tile.tileType == Define.TileType.Monster)
+                    else if (tile.tileType_Original == Define.TileType.Monster)
                     {
                         content.GetComponent<Image>().color = Define.Color_Blue;
                     }

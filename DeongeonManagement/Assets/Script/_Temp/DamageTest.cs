@@ -13,18 +13,32 @@ public class DamageTest : MonoBehaviour
     public Action myAction = null;
     void Start()
     {
-        Debug.Log(myAction);
 
-        myAction -= () => Debug.Log("안되기만해봐 진짜 뒤졌다.");
-
-        myAction += () => Debug.Log("안되기만해봐 진짜 뒤졌다.");
-        myAction += () => Debug.Log("머지 원래 안됐는데 시발 머임???.");
-
-        myAction.Invoke();
     }
 
 
-    public void SpawnMesh()
+    public void Spawn_Mana()
+    {
+        int ran = UnityEngine.Random.Range(1, 10);
+        DamageNumber dn = damage.Spawn(transform.position, $"+{ran} mana");
+        dn.SetColor(Color.blue);
+    }
+    public void Spawn_gold()
+    {
+        int ran = UnityEngine.Random.Range(1, 10);
+        DamageNumber dn = damage.Spawn(transform.position, $"+{ran} gold");
+        dn.SetColor(Color.yellow);
+    }
+    public void Spawn_fame()
+    {
+        int ran = UnityEngine.Random.Range(1, 10);
+        DamageNumber dn = damage.Spawn(transform.position, $"+{ran} pop");
+        DamageNumber dn2 = damage.Spawn(transform.position, $"+{ran} danger");
+        dn.SetColor(Color.green);
+        dn2.SetColor(Color.red);
+    }
+
+    public void SpawnRandomMesh()
     {
         int ran = UnityEngine.Random.Range(1, 100);
         

@@ -10,6 +10,7 @@ public abstract class Facility : MonoBehaviour, IPlacementable
     }
     protected void Start()
     {
+        SetFacilityBool();
         FacilityInit();
     }
     //protected void Update()
@@ -19,7 +20,8 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
 
     #region IPlacementable
-    public Define.PlacementType PlacementType { get; set; }
+    public PlacementType PlacementType { get; set; }
+    public PlacementState PlacementState { get; set; }
     public PlacementInfo PlacementInfo { get; set; }
     public GameObject GetObject()
     {
@@ -48,30 +50,28 @@ public abstract class Facility : MonoBehaviour, IPlacementable
     //? 하나의 클래스에 여러타입을 가져야하는 경우(조각상 / 함정 / 이후로 추가할 퍼실리티들.
     //? 최종적으로는 아래 FacilityType이 클래스가 되야함. 허브는 허브로 통합, 광물은 광물로 통합 이런식으로.
     public virtual int OptionIndex { get; set; }
+    public bool isOnlyOne { get; set; } = false;
+    public bool isClearable { get; set; } = true;
 
-
-    public enum FacilityType
+    public virtual void SetFacilityBool()
     {
-        Herb,
-        Mineral,
-
-        RestZone,
-        Treasure,
-        Artifact,
-
-        Entrance,
-        Exit,
-        Portal,
-
-        Trap,
-
-        Special,
-
-        NPCEvent, //? npc와 상호작용하는 이벤트
-
-        PlayerEvent, //? 플레이어 전용 이벤트(npc는 절대 상호작용 ㄴㄴ)
+        isOnlyOne = false;
+        isClearable = true;
     }
-    public abstract FacilityType Type { get; set; }
+    public enum FacilityEventType
+    {
+
+        NPC_Interaction, // 일반 상호작용 / 1칸 떨어져서 상호작용함
+
+        //NPC_Portal,
+
+        NPC_Event, //? 특수 상호작용 혹은 이벤트 / 이동해서 상호작용함
+
+        Player_Event, //? 플레이어 전용 이벤트(npc는 절대 상호작용 ㄴㄴ)
+
+        Non_Interaction, //? 아무랑도 상호작용하지않지만 타일은 차지해야함. 이거 나중에 타일ui자체도 없애는것도 방법일듯.
+    }
+    public abstract FacilityEventType Type { get; set; }
     public abstract int InteractionOfTimes { get; set; }
     public abstract string Name { get; set; }
     public string Name_prefab { get; set; }
@@ -80,18 +80,14 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
     public abstract Coroutine NPC_Interaction(NPC npc);
 
-    public virtual Coroutine NPC_Interaction_Portal(NPC npc, out int floor)
-    {
-        floor = 0;
-        return null;
-    }
 
-
-    protected Coroutine Cor_Facility;
+    protected Coroutine Cor_Facility { get; set; }
 
     protected IEnumerator FacilityEvent(NPC npc, float durationTime, string text, int ap = 0, int mp = 0, int hp = 0)
     {
         UI_EventBox.AddEventText($"●{npc.Name_KR} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 {text}");
+
+        PlacementState = PlacementState.Busy;
 
         yield return new WaitForSeconds(durationTime);
 
@@ -104,20 +100,21 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
         //? 최대치 이상으로 회복시키고 싶지 않으면 위에 -= 하는 부분에서 Clamp 해주면 됨
 
-        if (Type != FacilityType.RestZone) //? 휴식으로 차는 마나는 플레이어의 마나에서 마이너스되면 안되니까
+        if (applyMana > 0)
         {
             Main.Instance.CurrentDay.AddMana(applyMana);
+            var dm = Main.Instance.dmMesh_dungeon.Spawn(transform.position, $"+{applyMana} mana");
+            dm.SetColor(Color.blue);
         }
-        
 
-        Cor_Facility = null;
         OverCor(npc);
-        ClearCheck();
     }
 
     protected virtual void OverCor(NPC npc)
     {
-        
+        Cor_Facility = null;
+        PlacementState = PlacementState.Standby;
+        ClearCheck();
     }
 
 

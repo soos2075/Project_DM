@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Statue : Facility
 {
-    public override FacilityType Type { get; set; }
+    public override FacilityEventType Type { get; set; }
     public override int InteractionOfTimes { get; set; }
     public override string Name { get; set; }
     public override int OptionIndex { get { return ((int)statueType); } set { statueType = (StatueType)value; } }
 
     public override void FacilityInit()
     {
-        Type = FacilityType.PlayerEvent;
+        Type = FacilityEventType.Player_Event;
         Name_prefab = name;
 
         if (InteractionOfTimes <= 0)
@@ -20,6 +20,11 @@ public class Statue : Facility
         }
 
         Init_TypeSelect();
+    }
+    public override void SetFacilityBool()
+    {
+        isOnlyOne = false;
+        isClearable = false;
     }
 
     public override Coroutine NPC_Interaction(NPC npc)

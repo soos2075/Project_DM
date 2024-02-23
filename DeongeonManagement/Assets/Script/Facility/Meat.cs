@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Meat : Facility
 {
-    public override FacilityType Type { get; set; }
+    public override FacilityEventType Type { get; set; }
     public override int InteractionOfTimes { get; set; }
     public override string Name { get; set; }
 
     public override void FacilityInit()
     {
-        Type = FacilityType.RestZone;
+        Type = FacilityEventType.NPC_Interaction;
         Name = "°í±â";
         Name_prefab = this.GetType().Name;
 

@@ -288,7 +288,7 @@ public class MonsterManager
         {
             if (data[i] != null)
             {
-                var mon = GameManager.Placement.CreatePlacementObject($"Monster/{data[i].Name}", null, Define.PlacementType.Monster) as Monster;
+                var mon = GameManager.Placement.CreatePlacementObject($"Monster/{data[i].Name}", null, PlacementType.Monster) as Monster;
                 mon.MonsterInit();
                 mon.Initialize_Status();
                 mon.Initialize_SaveData(data[i]);

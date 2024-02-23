@@ -44,23 +44,23 @@ public class ContentManager
 
         {
             ContentData content = new ContentData("Herb_Low");
-            content = new ContentData("Herb_Low");
+            content = new ContentData("Herb");
             content.SetName("하급 약초밭(소)", "하급 약초가 자라나는 약초밭을 설치합니다. 흔하긴 해도 마나를 지니고 있기 때문에 쓰임새는 많은 편이에요." +
                 "\n적용 범위는 2 x 2 입니다.");
             content.SetCondition(25, 0, 1, Facility_Priority.Herb);
             content.sprite = Managers.Sprite.GetSprite("Herb_Low");
-            content.SetAction(() => SetBoundary(Define.Boundary_2x2, () => CreateAll("Herb_Low")));
+            content.SetAction(() => SetBoundary(Define.Boundary_2x2, () => CreateAll<Herb>("Herb", (int)Herb.HerbType.Low)));
 
             Contents.Add(content);
         }
         {
             ContentData content = new ContentData("Herb_Low");
-            content = new ContentData("Herb_Low");
+            content = new ContentData("Herb");
             content.SetName("흔한 약초밭(중)", "하급 약초가 자라나는 약초밭을 설치합니다. 흔하긴 해도 마나를 지니고 있기 때문에 쓰임새는 많은 편이에요." +
                 "\n적용 범위는 3 x 3 입니다.");
             content.SetCondition(50, 0, 1, Facility_Priority.Herb);
             content.sprite = Managers.Sprite.GetSprite("Herb_Low");
-            content.SetAction(() => SetBoundary(Define.Boundary_3x3, () => CreateAll("Herb_Low")));
+            content.SetAction(() => SetBoundary(Define.Boundary_3x3, () => CreateAll<Herb>("Herb", (int)Herb.HerbType.Low)));
 
             Contents.Add(content);
         }
@@ -71,7 +71,7 @@ public class ContentManager
                 "\n적용 범위는 5 x 5 입니다.");
             content.SetCondition(100, 0, 1, Facility_Priority.Herb);
             content.sprite = Managers.Sprite.GetSprite("Herb_Low");
-            content.SetAction(() => SetBoundary(Define.Boundary_5x5, () => CreateAll("Herb_Low")));
+            content.SetAction(() => SetBoundary(Define.Boundary_5x5, () => CreateAll<Herb>("Herb", (int)Herb.HerbType.Low)));
 
             Contents.Add(content);
         }
@@ -84,10 +84,15 @@ public class ContentManager
                 "\n적용 범위는 1 x 3 입니다.");
             content.SetCondition(75, 0, 1, Facility_Priority.Herb);
             content.sprite = Managers.Sprite.GetSprite("Herb_Low");
-            content.SetAction(() => SetBoundary(Define.Boundary_1x3, () => CreateAll("Herb_High")));
+            content.SetAction(() => SetBoundary(Define.Boundary_1x3, () => CreateAll<Herb>("Herb", (int)Herb.HerbType.High)));
 
             Contents.Add(content);
         }
+
+
+
+
+
 
         {
             ContentData content = new ContentData("Mineral");
@@ -140,6 +145,18 @@ public class ContentManager
 
     public void AddLevel2()
     {
+        {
+            ContentData content = new ContentData("Herb_Pumpkin");
+            content = new ContentData("Herb_Low");
+            content.SetName("마나 호박밭", "마나를 지닌 호박입니다. 최고급 식재료로도 사용이 되며 기타 여러 합성에 재료로 사용됩니다." +
+                "\n적용 범위는 작은 X 입니다.");
+            content.SetCondition(125, 0, 1, Facility_Priority.Herb);
+            content.sprite = Managers.Sprite.GetSprite("Herb_Low");
+            content.SetAction(() => SetBoundary(Define.Boundary_X_1, () => CreateAll<Herb>("Herb", (int)Herb.HerbType.Pumpkin)));
+
+            Contents.Add(content);
+        }
+
         {
             ContentData content = new ContentData("Entrance");
             content.SetName("입구", "플레이어가 들어올 입구를 지정합니다. 만약 입구가 없으면 랜덤위치에 자동으로 생성됩니다. 입구는 층 당 한개만 존재할 수 있어요.");
@@ -206,7 +223,7 @@ public class ContentManager
             content.SetCondition(0, 100, 2, Facility_Priority.Trap);
             content.sprite = Managers.Sprite.GetSprite("Trap");
 
-            content.SetAction(() => SetBoundary(Define.Boundary_1x1, () => CreateTrap("Trap_Fallen_2", Trap_Base.TrapType.Fallen_2)));
+            content.SetAction(() => SetBoundary(Define.Boundary_1x1, () => CreateTrap("Trap_Fallen_2", Trap.TrapType.Fallen_2)));
 
             Contents.Add(content);
         }
@@ -218,7 +235,7 @@ public class ContentManager
             content.SetCondition(0, 150, 2, Facility_Priority.Trap);
             content.sprite = Managers.Sprite.GetSprite("Trap");
 
-            content.SetAction(() => SetBoundary(Define.Boundary_1x1, () => CreateTrap("Trap_Awl_1", Trap_Base.TrapType.Awl_1)));
+            content.SetAction(() => SetBoundary(Define.Boundary_1x1, () => CreateTrap("Trap_Awl_1", Trap.TrapType.Awl_1)));
 
             Contents.Add(content);
         }
@@ -252,9 +269,13 @@ public class ContentManager
             BasementTile temp = null;
             if (Main.Instance.CurrentTile.floor.TileMap.TryGetValue(delta, out temp))
             {
-                if (temp.tileType == Define.TileType.Facility || temp.tileType == Define.TileType.Entrance || temp.tileType == Define.TileType.Exit)
+                if (temp.tileType_Original == Define.TileType.Facility)
                 {
-                    GameManager.Facility.RemoveFacility(temp.placementable as Facility);
+                    var facil = temp.Original as Facility;
+                    if (facil.isClearable)
+                    {
+                        GameManager.Facility.RemoveFacility(temp.Original as Facility);
+                    }
                 }
             }
         }
@@ -324,7 +345,7 @@ public class ContentManager
     }
 
     
-    void CreateTrap(string prefab, Trap_Base.TrapType trapType, bool isUnchangeable = true)
+    void CreateTrap(string prefab, Trap.TrapType trapType, bool isUnchangeable = true)
     {
         IPlacementable[] traparray = null;
         if (Create_Trap(prefab, Main.Instance.CurrentBoundary, isUnchangeable, out traparray))
@@ -332,7 +353,7 @@ public class ContentManager
             CreateOver();
             foreach (var item in traparray)
             {
-                var trap = item as Trap_Base;
+                var trap = item as Trap;
                 trap.trapType = trapType;
             }
         }

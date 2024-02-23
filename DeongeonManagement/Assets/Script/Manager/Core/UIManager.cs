@@ -270,7 +270,10 @@ public class UIManager
             SceneUIRefresh();
         }
 
-        Time.timeScale = 1;
+        if (Time.timeScale == 0)
+        {
+            Time.timeScale = 1;
+        }
     }
 
 

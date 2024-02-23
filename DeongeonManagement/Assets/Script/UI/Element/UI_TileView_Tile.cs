@@ -36,14 +36,14 @@ public class UI_TileView_Tile : UI_Base
 
     void TileClickEvent(PointerEventData _data)
     {
-        if (Tile.placementable == null)
+        if (Tile.Original == null)
         {
             parent.InsteadOpenFloorEvent(_data);
         }
         else
         {
             parent.ChildExitEvent();
-            Tile.placementable.MouseClickEvent();
+            Tile.Original.MouseClickEvent();
         }
     }
 

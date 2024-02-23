@@ -145,7 +145,7 @@ public class EventManager : MonoBehaviour
             int ranPop = UnityEngine.Random.Range(10, 20);
             var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
             msg.Message = $"던전의 유명도가 {ranPop} 올랐습니다.";
-            FindAnyObjectByType<GuildManager>().AddBackAction(() => Main.Instance.CurrentDay.Fame += ranPop);
+            FindAnyObjectByType<GuildManager>().AddBackAction(() => Main.Instance.CurrentDay.AddPop(ranPop));
         });
 
         GuildNPCAction.Add(1100, () =>
@@ -171,7 +171,7 @@ public class EventManager : MonoBehaviour
             var tile = Main.Instance.Floor[3].GetRandomTile();
             Main.Instance.Floor[3].TileMap.TryGetValue(new Vector2Int(12, 3), out tile);
 
-            GameManager.Facility.RemoveFacility(tile.placementable as Facility);
+            GameManager.Facility.RemoveFacility(tile.Original as Facility);
 
             PlacementInfo info = new PlacementInfo(Main.Instance.Floor[3], tile);
             var obj = GameManager.Facility.CreateFacility_OnlyOne("Exit", info, true);
@@ -182,7 +182,7 @@ public class EventManager : MonoBehaviour
             var tile = Main.Instance.Floor[2].GetRandomTile();
             Main.Instance.Floor[2].TileMap.TryGetValue(new Vector2Int(0, 0), out tile);
 
-            GameManager.Facility.RemoveFacility(tile.placementable as Facility);
+            GameManager.Facility.RemoveFacility(tile.Original as Facility);
 
             PlacementInfo info = new PlacementInfo(Main.Instance.Floor[2], tile);
             var obj = GameManager.Facility.CreateFacility_OnlyOne("EggEntrance", info, true);

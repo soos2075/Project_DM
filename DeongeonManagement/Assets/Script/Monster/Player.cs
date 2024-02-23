@@ -10,7 +10,7 @@ public class Player : Monster
     private string detail;
     public override void MonsterInit()
     {
-        PlacementType = Define.PlacementType.Monster;
+        PlacementType = PlacementType.Monster;
         //Data = GameManager.Monster.GetMonsterData("Skeleton");
         detail = "모험이 끝난 모험가입니다. 모험가로서의 지식은 상당한 편이에요.";
     }

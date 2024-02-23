@@ -58,27 +58,6 @@ public class BasementFloor : MonoBehaviour
 
         X_Size = tilemap.cellBounds.size.x;
         Y_Size = tilemap.cellBounds.size.y;
-        //Debug.Log(tilemap.cellBounds.size.x + "//" + tilemap.cellBounds.size.y);
-
-        //BasementTile start = null;
-        //BasementTile end = null;
-        //TileMap_Dic.TryGetValue(new Vector2Int(1, 1), out start);
-        //TileMap_Dic.TryGetValue(new Vector2Int(1, 8), out end);
-
-
-        //var obj = GameManager.Placement.CreatePlacementObject("Facility/Herb_Low", new PlacementInfo(this, start), Define.PlacementType.Facility);
-        //GameManager.Placement.PlacementConfirm(obj, new PlacementInfo(this, start));
-        //var obj2 = GameManager.Placement.CreatePlacementObject("Facility/Herb_Low", new PlacementInfo(this, end), Define.PlacementType.Facility);
-        //GameManager.Placement.PlacementConfirm(obj2, new PlacementInfo(this, end));
-
-        //bool isFind = false;
-        //var path = PathFinding(start, end, out isFind);
-
-        //foreach (var item in path)
-        //{
-        //    var obj3 = GameManager.Placement.CreatePlacementObject("Facility/Herb_High", new PlacementInfo(this, item), Define.PlacementType.Facility);
-        //    GameManager.Placement.PlacementConfirm(obj3, new PlacementInfo(this, item));
-        //}
     }
 
     public BasementTile GetRandomTile()
@@ -94,7 +73,7 @@ public class BasementFloor : MonoBehaviour
             randomTile = new Vector2Int(UnityEngine.Random.Range(0, tilemap.cellBounds.size.x), UnityEngine.Random.Range(0, tilemap.cellBounds.size.y));
             if (TileMap.TryGetValue(randomTile, out tempTile))
             {
-                if (tempTile.placementable == null)
+                if (tempTile.Original == null)
                 {
                     emptyTile = tempTile;
                 }
@@ -165,7 +144,7 @@ public class BasementFloor : MonoBehaviour
                 }
 
 
-                if (value.tileType == Define.TileType.Using)
+                if (value.Original != null && value.Original.PlacementState == PlacementState.Busy)
                 {
                     continue;
                 }
@@ -174,7 +153,7 @@ public class BasementFloor : MonoBehaviour
                 bool avoid = false;
                 foreach (var type in avoidType)
                 {
-                    if (value.tileType == type)
+                    if (value.tileType_Original == type)
                     {
                         avoid = true;
                         break;
@@ -254,10 +233,10 @@ public class BasementFloor : MonoBehaviour
                 }
 
 
-                if (value.tileType == Define.TileType.Using)
-                {
-                    continue;
-                }
+                //if (value.tileType == Define.TileType.Using)
+                //{
+                //    continue;
+                //}
 
 
                 priorityQueue.Push(new PQNode()
@@ -556,293 +535,6 @@ public class BasementFloor : MonoBehaviour
 
 
 
-
-
-
-
-
-    //#region Tilemap_Legacy
-    //void Init_TileMap()
-    //{
-    //    Vector2Int size = new Vector2Int((int)(BoxCollider.bounds.size.x * 2), (int)(BoxCollider.bounds.size.y * 2));
-    //    TileMap = new BasementTile[size.x, size.y];
-
-    //    float standard = 0.5f;
-    //    float offset = 0.25f;
-
-    //    for (int i = 0; i < size.x; i++)
-    //    {
-    //        for (int k = 0; k < size.y; k++)
-    //        {
-    //            Vector3 pos = new Vector2((-size.x * offset) + (standard * i) + offset, (-size.y * offset) + (standard * k) + offset);
-    //            Vector3 worldPos = pos + transform.position;
-    //            TileMap[i, k] = new BasementTile(new Vector2Int(i, k), worldPos, Define.TileType.Empty, this);
-    //        }
-    //    }
-    //}
-
-
-    //public BasementTile GetRandomTile()
-    //{
-    //    int whileCount = 0; //? 무한루프 방지용
-    //    Vector2Int randomTile;
-
-    //    BasementTile emptyTile = null;
-    //    while (emptyTile == null && whileCount < 50)
-    //    {
-    //        whileCount++;
-    //        randomTile = new Vector2Int(UnityEngine.Random.Range(0, TileMap.GetLength(0)), UnityEngine.Random.Range(0, TileMap.GetLength(1)));
-    //        if (TileMap[randomTile.x, randomTile.y].placementable == null)
-    //        {
-    //            emptyTile = TileMap[randomTile.x, randomTile.y];
-    //        }
-    //    }
-
-    //    if (emptyTile == null)
-    //    {
-    //        randomTile = new Vector2Int(UnityEngine.Random.Range(0, TileMap.GetLength(0)), UnityEngine.Random.Range(0, TileMap.GetLength(1)));
-    //        emptyTile = TileMap[randomTile.x, randomTile.y];
-    //    }
-
-    //    return emptyTile;
-    //}
-
-
-
-
-
-    //public BasementTile MoveUp(IPlacementable placementable, BasementTile currentTile)
-    //{
-    //    if (currentTile.index.y + 1 == TileMap.GetLength(1)) return null;
-    //    if (TileMap[currentTile.index.x, currentTile.index.y + 1].TryPlacement(placementable) != Define.PlaceEvent.Placement) return null;
-
-    //    return TileMap[currentTile.index.x, currentTile.index.y + 1];
-    //}
-    //public BasementTile MoveDown(IPlacementable placementable, BasementTile currentTile)
-    //{
-    //    if (currentTile.index.y == 0) return null;
-    //    if (TileMap[currentTile.index.x, currentTile.index.y - 1].TryPlacement(placementable) != Define.PlaceEvent.Placement) return null;
-
-    //    return TileMap[currentTile.index.x, currentTile.index.y - 1];
-    //}
-    //public BasementTile MoveLeft(IPlacementable placementable, BasementTile currentTile)
-    //{
-    //    if (currentTile.index.x == 0) return null;
-    //    if (TileMap[currentTile.index.x - 1, currentTile.index.y].TryPlacement(placementable) != Define.PlaceEvent.Placement) return null;
-
-    //    return TileMap[currentTile.index.x - 1, currentTile.index.y];
-    //}
-    //public BasementTile MoveRight(IPlacementable placementable, BasementTile currentTile)
-    //{
-    //    if (currentTile.index.x + 1 == TileMap.GetLength(0)) return null;
-    //    if (TileMap[currentTile.index.x + 1, currentTile.index.y].TryPlacement(placementable) != Define.PlaceEvent.Placement) return null;
-
-    //    return TileMap[currentTile.index.x + 1, currentTile.index.y];
-    //}
-
-    //#region PathFinding
-
-    //public List<BasementTile> PathFinding(BasementTile startPoint, BasementTile targetPoint, Define.TileType[] avoidType, out bool isFind)
-    //{
-    //    //? 순서는 위 아래 왼쪽 오른쪽 순서
-    //    int[] deltaX = new int[4] { 0, 0, -1, 1 };
-    //    int[] deltaY = new int[4] { 1, -1, 0, 0 };
-
-    //    bool[,] closed = new bool[TileMap.GetLength(0), TileMap.GetLength(1)];
-
-    //    PriorityQueue<PQNode> priorityQueue = new PriorityQueue<PQNode>();
-    //    Vector2Int[,] pathTile = new Vector2Int[TileMap.GetLength(0), TileMap.GetLength(1)];
-
-
-    //    priorityQueue.Push(new PQNode()
-    //    {
-    //        F = Vector3.Distance(startPoint.worldPosition, targetPoint.worldPosition),
-    //        posX = startPoint.index.x,
-    //        posY = startPoint.index.y
-    //    });
-
-    //    //? 첨에 엔드포인트도 정해줌
-    //    pathTile[startPoint.index.x, startPoint.index.y] = new Vector2Int(startPoint.index.x, startPoint.index.y);
-    //    pathTile[targetPoint.index.x, targetPoint.index.y] = new Vector2Int(targetPoint.index.x, targetPoint.index.y);
-
-    //    while (priorityQueue.Count > 0)
-    //    {
-    //        PQNode node = priorityQueue.Pop();
-
-    //        //? 이미 방문한곳이면 스킵
-    //        if (closed[node.posX, node.posY])
-    //            continue;
-
-    //        closed[node.posX, node.posY] = true;
-
-    //        //? 도착이면 바로 끝내기
-    //        if (node.posX == targetPoint.index.x && node.posY == targetPoint.index.y)
-    //        {
-    //            break;
-    //        }
-
-    //        for (int i = 0; i < deltaX.Length; i++)
-    //        {
-    //            int nextX = node.posX + deltaX[i];
-    //            int nextY = node.posY + deltaY[i];
-
-    //            if (nextX == TileMap.GetLength(0) || nextX < 0 || nextY == TileMap.GetLength(1) || nextY < 0)
-    //            {
-    //                continue;
-    //            }
-    //            if (closed[nextX, nextY])
-    //                continue;
-
-
-    //            //? 사용중타일 = 갈수없는 타일
-    //            if (TileMap[nextX, nextY].tileType == Define.TileType.Using)
-    //            {
-    //                continue;
-    //            }
-
-    //            //? 추가한 회피 조건
-    //            bool avoid = false;
-    //            foreach (var type in avoidType)
-    //            {
-    //                if (TileMap[nextX, nextY].tileType == type)
-    //                {
-    //                    avoid = true;
-    //                    break;
-    //                }
-    //            }
-
-    //            if (avoid)
-    //            {
-    //                continue;
-    //            }
-
-
-    //            priorityQueue.Push(new PQNode()
-    //            {
-    //                F = Vector3.Distance(TileMap[nextX, nextY].worldPosition, targetPoint.worldPosition),
-    //                posX = nextX,
-    //                posY = nextY
-    //            });
-    //            pathTile[nextX, nextY] = new Vector2Int(node.posX, node.posY);
-    //        }
-    //    }
-
-    //    return (MoveList(pathTile, targetPoint, out isFind));
-    //}
-
-
-
-    //public List<BasementTile> PathFinding(BasementTile startPoint, BasementTile targetPoint, out bool isFind)
-    //{
-    //    //? 순서는 위 아래 왼쪽 오른쪽 순서
-    //    int[] deltaX = new int[4] { 0, 0, -1, 1 };
-    //    int[] deltaY = new int[4] { 1, -1, 0, 0 };
-
-    //    bool[,] closed = new bool[TileMap.GetLength(0), TileMap.GetLength(1)];
-
-    //    PriorityQueue<PQNode> priorityQueue = new PriorityQueue<PQNode>();
-    //    Vector2Int[,] pathTile = new Vector2Int[TileMap.GetLength(0), TileMap.GetLength(1)];
-
-
-    //    priorityQueue.Push(new PQNode()
-    //    {
-    //        F = Vector3.Distance(startPoint.worldPosition, targetPoint.worldPosition),
-    //        posX = startPoint.index.x,
-    //        posY = startPoint.index.y
-    //    });
-
-    //    pathTile[startPoint.index.x, startPoint.index.y] = new Vector2Int(startPoint.index.x, startPoint.index.y);
-    //    pathTile[targetPoint.index.x, targetPoint.index.y] = new Vector2Int(targetPoint.index.x, targetPoint.index.y);
-
-    //    while (priorityQueue.Count > 0)
-    //    {
-    //        PQNode node = priorityQueue.Pop();
-
-    //        //? 이미 방문한곳이면 스킵
-    //        if (closed[node.posX, node.posY])
-    //            continue;
-
-    //        closed[node.posX, node.posY] = true;
-
-    //        //? 도착이면 스킵
-    //        if (node.posX == targetPoint.index.x && node.posY == targetPoint.index.y)
-    //            break;
-
-
-    //        for (int i = 0; i < deltaX.Length; i++)
-    //        {
-    //            int nextX = node.posX + deltaX[i];
-    //            int nextY = node.posY + deltaY[i];
-
-    //            if (nextX == TileMap.GetLength(0) || nextX < 0 || nextY == TileMap.GetLength(1) || nextY < 0)
-    //            {
-    //                continue;
-    //            }
-    //            if (closed[nextX, nextY])
-    //                continue;
-
-
-    //            if (TileMap[nextX, nextY].tileType == Define.TileType.Using)
-    //            {
-    //                continue;
-    //            }
-
-
-    //            priorityQueue.Push(new PQNode()
-    //            {
-    //                F = Vector3.Distance(TileMap[nextX, nextY].worldPosition, targetPoint.worldPosition),
-    //                posX = nextX,
-    //                posY = nextY
-    //            });
-    //            pathTile[nextX, nextY] = new Vector2Int(node.posX, node.posY);
-    //        }
-    //    }
-
-
-    //    return (MoveList(pathTile, targetPoint, out isFind));
-    //}
-
-
-
-    //List<BasementTile> MoveList(Vector2Int[,] path, BasementTile destination, out bool isFind)
-    //{
-    //    List<BasementTile> moveList = new List<BasementTile>();
-    //    moveList.Add(destination);
-
-    //    int x = destination.index.x;
-    //    int y = destination.index.y;
-
-    //    while (path[x, y].x != x || path[x, y].y != y)  //? 여기서 path[x,y]는 목적지를 거쳐온 경로임. 목적지에 도달할 경로가 없으면 스킵되는거
-    //    {
-    //        moveList.Add(TileMap[path[x, y].x, path[x, y].y]);
-    //        Vector2Int pos = path[x, y];
-    //        x = pos.x;
-    //        y = pos.y;
-    //    }
-    //    moveList.Reverse();      //? 전체 경로를 추가했으면 시작부터 탐색해야하므로 반전시켜준다.
-
-    //    if (moveList.Count == 1)
-    //    {
-    //        isFind = false;
-    //        return moveList;
-    //    }
-
-    //    isFind = true;
-    //    return moveList;
-    //}
-
-
-    //#endregion Pathfinding
-
-
-    //#endregion
-
-
-
-
-
-
-
 }
 
 [Serializable]
@@ -853,12 +545,11 @@ public class BasementTile
     public Vector2Int index;
     public Vector3 worldPosition;
 
-    public Define.TileType tileType;
-    Define.TileType tileType_unchange;
+    Define.TileType tileType_Current;
+    public Define.TileType tileType_Original;
 
-    public IPlacementable placementable;
-    public IPlacementable unchangeable;
-    public bool isUnchangeable { get { return (unchangeable != null); } }
+    IPlacementable Current { get; set; }
+    public IPlacementable Original { get; set; }
 
 
     public BasementTile(Vector2Int _index, Vector3 _worldPosition, Define.TileType _type, BasementFloor _floor)
@@ -866,194 +557,180 @@ public class BasementTile
         floor = _floor;
         index = _index;
         worldPosition = _worldPosition;
-        tileType = _type;
+        tileType_Original = _type;
+        tileType_Current = _type;
     }
 
-
-    public void SetUnchangeable(IPlacementable _placementable)
+    public void SetPlacement_Facility(IPlacementable _placementable)
     {
-        placementable = _placementable;
-        unchangeable = _placementable;
+        Current = _placementable;
+        Original = _placementable;
 
-        if (_placementable.GetType() == typeof(Entrance))
+        if (_placementable.GetType() == typeof(Statue))
         {
-            tileType = Define.TileType.Entrance;
-            tileType_unchange = Define.TileType.Entrance;
-        }
-        else if (_placementable.GetType() == typeof(Exit))
-        {
-            tileType = Define.TileType.Exit;
-            tileType_unchange = Define.TileType.Exit;
-        }
-        else if (_placementable.GetType() == typeof(Statue))
-        {
-            tileType = Define.TileType.Player;
-            tileType_unchange = Define.TileType.Player;
-        }
-        else if (_placementable.GetType() == typeof(SpecialEgg))
-        {
-            tileType = Define.TileType.Special;
-            tileType_unchange = Define.TileType.Special;
-        }
-        else if (_placementable.GetType() == typeof(Entrance_Egg))
-        {
-            tileType = Define.TileType.Special;
-            tileType_unchange = Define.TileType.Special;
+            tileType_Current = Define.TileType.Player;
+            tileType_Original = Define.TileType.Player;
         }
         else if (_placementable.GetType() == typeof(Obstacle))
         {
-            tileType = Define.TileType.Special;
-            tileType_unchange = Define.TileType.Special;
+            tileType_Current = Define.TileType.Non_Interaction;
+            tileType_Original = Define.TileType.Non_Interaction;
         }
         else
         {
-            tileType = Define.TileType.Facility; //? 입구 출구가 아니고 변하지 않는 퍼실리티 = 지나가면 발동하는 설치형 함정 등등
-            tileType_unchange = Define.TileType.Facility;
+            tileType_Current = Define.TileType.Facility; //? 입구 출구가 아니고 변하지 않는 퍼실리티 = 지나가면 발동하는 설치형 함정 등등
+            tileType_Original = Define.TileType.Facility;
         }
     }
 
     public void SetPlacement(IPlacementable _placementable)
     {
-        if (isUnchangeable) //? 얘는 타입을 바꾸지않음.(다른 객체가 들어올 순 있어도 타입은 불변이라 Clear에서도 바꿔줄 필요 없음)
+        switch (_placementable.PlacementType)
         {
-            placementable = _placementable;
+            case PlacementType.Facility:
+                //Debug.Log("오류!! 여긴 퍼실리티가 호출하면 안됨");
+                SetPlacement_Facility(_placementable);
+                return;
 
-            if (tileType_unchange == Define.TileType.Facility)
-            {
-                tileType = Define.TileType.Using;
-            }
-            return;
+            case PlacementType.Monster:
+                tileType_Current = Define.TileType.Monster;
+                break;
+            case PlacementType.NPC:
+                tileType_Current = Define.TileType.NPC;
+                break;
         }
-        else
-        {
-            placementable = _placementable;
 
-            switch (_placementable.PlacementType)
-            {
-                case Define.PlacementType.Facility:
-                    tileType = Define.TileType.Facility;
-                    break;
-                case Define.PlacementType.Monster:
-                    tileType = Define.TileType.Monster;
-                    break;
-                case Define.PlacementType.NPC:
-                    tileType = Define.TileType.NPC;
-                    break;
-            }
+        Current = _placementable;
+
+        if (Original == null)
+        {
+            Original = _placementable;
+            tileType_Original = tileType_Current;
         }
     }
 
-    public void ClearPlacement()
+    public void ClearPlacement(IPlacementable placementable)
     {
-        if (isUnchangeable)
+        if (placementable == Original)
         {
-            placementable = unchangeable;
-            tileType = tileType_unchange;
+            if (Current != null &&  Original != Current)
+            {
+                Original = null;
+                tileType_Original = Define.TileType.Empty;
+                SetPlacement(Current);
+            }
+            else
+            {
+                ClearAbsolute();
+            }
+
         }
-        else
+        else if (placementable == Current)
         {
-            placementable = null;
-            tileType = Define.TileType.Empty;
+            Current = Original;
+            tileType_Current = tileType_Original;
+            Original.PlacementState = PlacementState.Standby;
         }
     }
     public void ClearAbsolute()
     {
-        placementable = null;
-        unchangeable = null;
-        tileType = Define.TileType.Empty;
-        tileType_unchange = Define.TileType.Empty;
+        Current = null;
+        Original = null;
+        tileType_Current = Define.TileType.Empty;
+        tileType_Original = Define.TileType.Empty;
     }
 
 
     public Define.PlaceEvent TryPlacement(IPlacementable _placementable, bool overlap = false)
     {
-        switch (tileType)
+        switch (tileType_Original)
         {
             case Define.TileType.Empty:
                 return Define.PlaceEvent.Placement;
 
-            case Define.TileType.Special:
-                //if (_placementable.GetType() == typeof(Entrance_Egg))
-                //{
-                //    return Define.PlaceEvent.Using_Portal;
-                //}
-                return Define.PlaceEvent.Event;
-
-            case Define.TileType.Entrance:
-                return Define.PlaceEvent.Entrance;
-
-            case Define.TileType.Exit:
-                return Define.PlaceEvent.Exit;
-
-            case Define.TileType.Using:
-                return Define.PlaceEvent.Avoid;
-
-
             case Define.TileType.Monster:
-                switch (_placementable.PlacementType)
+                if (_placementable.PlacementType == PlacementType.NPC)
                 {
-                    case Define.PlacementType.NPC:
+                    if (Original.PlacementState == PlacementState.Standby)
+                    {
                         return Define.PlaceEvent.Battle;
-
-                    default:
-                        return Define.PlaceEvent.Nothing;
+                    }
+                    else
+                    {
+                        return Define.PlaceEvent.Avoid;
+                    }
                 }
+                else
+                    return Define.PlaceEvent.Nothing;
 
             case Define.TileType.NPC:
-                switch (_placementable.PlacementType)
+                if (_placementable.PlacementType == PlacementType.Monster)
                 {
-                    case Define.PlacementType.Facility:
-                        return Define.PlaceEvent.Interaction;
-
-                    case Define.PlacementType.Monster:
+                    if (Original.PlacementState == PlacementState.Standby)
+                    {
                         return Define.PlaceEvent.Battle;
-
-                    case Define.PlacementType.NPC:
-                        if (overlap)
-                        {
-                            return Define.PlaceEvent.Overlap;
-                        }
+                    }
+                    else
+                    {
                         return Define.PlaceEvent.Avoid;
-                    //var npc = placementable as NPC;
-                    //if (npc.State == NPC.NPCState.Interaction)
-                    //{
-                    //    return Define.PlaceEvent.Avoid;
-                    //}
-                    //else
-                    //{
-                    //    return Define.PlaceEvent.Nothing;
-                    //}
-
-                    default:
-                        return Define.PlaceEvent.Nothing;
+                    }
                 }
+                else if(_placementable.PlacementType == PlacementType.NPC)
+                {
+                    if (overlap)
+                    {
+                        return Define.PlaceEvent.Placement;
+                    }
+                    else
+                    {
+                        return Define.PlaceEvent.Avoid;
+                    }
+                    
+                }
+                else
+                    return Define.PlaceEvent.Nothing;
+
 
             case Define.TileType.Facility:
-                switch (_placementable.PlacementType)
+                if (_placementable.PlacementType == PlacementType.NPC)
                 {
-                    case Define.PlacementType.NPC:
-                        if (isUnchangeable)
-                        {
-                            var facil = unchangeable as Facility;
-                            if (facil.Type == Facility.FacilityType.Portal)
-                            {
-                                return Define.PlaceEvent.Using_Portal;
-                            }
-                            if (facil.Type == Facility.FacilityType.NPCEvent)
-                            {
-                                return Define.PlaceEvent.Event;
-                            }
-                            return Define.PlaceEvent.Using;
-                        }
-                        else
+                    if (Original.GetType() == typeof(Entrance) || Original.GetType() == typeof(Exit))
+                    {
+                        return Define.PlaceEvent.Event;
+                    }
+
+
+                    if (Original.PlacementState == PlacementState.Standby)
+                    {
+                        var facil = Original as Facility;
+                        if (facil.Type == Facility.FacilityEventType.NPC_Interaction)
                         {
                             return Define.PlaceEvent.Interaction;
                         }
-                        
-
-                    default:
-                        return Define.PlaceEvent.Nothing;
+                        else if (facil.Type == Facility.FacilityEventType.NPC_Event)
+                        {
+                            return Define.PlaceEvent.Event;
+                        }
+                        else
+                        {
+                            return Define.PlaceEvent.Nothing;
+                        }
+                    }
+                    else
+                    {
+                        return Define.PlaceEvent.Avoid;
+                    }
                 }
+                else
+                    return Define.PlaceEvent.Avoid;
+
+
+
+            case Define.TileType.Player:
+                return Define.PlaceEvent.Nothing;
+
+            case Define.TileType.Non_Interaction:
+                return Define.PlaceEvent.Nothing;
 
 
             default:

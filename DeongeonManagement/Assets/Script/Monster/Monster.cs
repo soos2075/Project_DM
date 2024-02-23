@@ -17,7 +17,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
 
     #region IPlacementable
-    public Define.PlacementType PlacementType { get; set; }
+    public PlacementType PlacementType { get; set; }
+    public PlacementState PlacementState { get; set; }
     public PlacementInfo PlacementInfo { get; set; }
     public GameObject GetObject()
     {
@@ -261,7 +262,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
                     break;
 
                 case Define.PlaceEvent.Battle:
-                    var npc = tile.placementable as NPC;
+                    var npc = tile.Original as NPC;
                     switch (Mode)
                     {
                         case MoveType.Move_Wandering:
@@ -528,7 +529,6 @@ public abstract class Monster : MonoBehaviour, IPlacementable
             HP = HP_Max;
             State = MonsterState.Standby;
             Debug.Log("회복성공");
-            Main.Instance.Player_AP--;
         }
         else
         {

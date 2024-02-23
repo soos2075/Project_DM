@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Campfire : Facility
 {
-    public override FacilityType Type { get; set; }
+    public override FacilityEventType Type { get; set; }
     public override int InteractionOfTimes { get; set; }
     public override string Name { get; set; }
 
     public override void FacilityInit()
     {
-        Type = FacilityType.RestZone;
+        Type = FacilityEventType.NPC_Interaction;
         Name = "모닥불";
         Detail_KR = "모험가들이 쉬어가며 체력과 기력을 회복할 수 있습니다.";
         Name_prefab = this.GetType().Name;

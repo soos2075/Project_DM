@@ -178,7 +178,7 @@ public class DataManager
 
         saveData.DungeonLV = Main.Instance.DungeonRank;
 
-        saveData.FameOfDungeon = Main.Instance.FameOfDungeon;
+        saveData.FameOfDungeon = Main.Instance.PopularityOfDungeon;
         saveData.DangerOfDungeon = Main.Instance.DangerOfDungeon;
 
         saveData.Player_Mana = Main.Instance.Player_Mana;

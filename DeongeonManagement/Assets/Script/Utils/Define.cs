@@ -46,24 +46,35 @@ public class Define
         Empty,
 
         Monster,
+
         NPC,
+
         Facility,
-        Entrance,
-        Exit,
+
+        Player,
+
+        Non_Interaction,
+
+        //Monster_Standby,
+        //Monster_Battle,
+
+        //NPC_Stanby,
+        //NPC_Busy,
+
+        //Interaction_Stanby,
+        //Interaction_Using,
+
+        //Event_Stanby,
+        //Event_Using,
+
+        //Facility,
+        //Entrance,
+        //Exit,
 
         //Trap,
-        Using,
+        //Using,
 
-        Special, //? 절대 삭제되지 않아야하는거
-
-        Player, //? 플레이어 클릭 이벤트 전용 타일
-    }
-
-    public enum PlacementType
-    {
-        Facility,
-        Monster,
-        NPC,
+        //Special, //? 절대 삭제되지 않아야하는거
     }
 
     public enum PlaceEvent
@@ -71,16 +82,22 @@ public class Define
         Nothing, 
 
         Placement, // 이동 / 혼자
+
         Battle,
-        Interaction, // 이동없이 상호작용
+
+        Interaction,    // npc - 이동없이 상호작용
+        Event,          // npc - 이동 후 상호작용
+
+        Avoid,          // 피하기 / 상태리셋
+
         Entrance,
         Exit,
-        Avoid, // 상태 리셋
-        Overlap, // 이동 / 겹침
-        Using, // 이동 후 상호작용
 
-        Using_Portal, // 이동 후 상호작용 후 순간이동
-        Event, // 이동 후 상호작용 후 State = Return
+        //Overlap, // 이동 / 겹침
+        //Using, // 이동 후 상호작용
+
+        //Using_Portal, // 이동 후 상호작용 후 순간이동
+
     }
 
     public enum TextColor

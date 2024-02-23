@@ -86,7 +86,7 @@ public class UI_Floor_Tile : UI_Base
                     allClean &= TileCheck(tile, Define.TileType.Empty);
                     break;
                 case UI_Floor.BuildMode.Clear:
-                    allEmpty |= TileCheck(tile, Define.TileType.Facility, Define.TileType.Entrance, Define.TileType.Exit);
+                    allEmpty |= TileCheck(tile, Define.TileType.Facility);
                     break;
             }
         }
@@ -120,7 +120,7 @@ public class UI_Floor_Tile : UI_Base
                         BasementTile tile = null;
                         if (Main.Instance.Floor[parent.FloorID].TileMap.TryGetValue(new Vector2Int(_deltaX, _deltaY), out tile))
                         {
-                            if (TileCheck(tile, Define.TileType.Facility, Define.TileType.Entrance, Define.TileType.Exit))
+                            if (TileCheck(tile, Define.TileType.Facility))
                             {
                                 content.GetComponent<Image>().color = Define.Color_Green;
                             }
@@ -250,7 +250,7 @@ public class UI_Floor_Tile : UI_Base
 
     bool TileCheck(BasementTile tile, Define.TileType type)
     {
-        if (tile.tileType == type)
+        if (tile.tileType_Original == type)
         {
             return true;
         }
@@ -259,16 +259,6 @@ public class UI_Floor_Tile : UI_Base
             return false;
         }
     }
-    bool TileCheck(BasementTile tile, Define.TileType type, Define.TileType type2, Define.TileType type3)
-    {
-        if (tile.tileType == type || tile.tileType == type2 || tile.tileType == type3)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+
 
 }

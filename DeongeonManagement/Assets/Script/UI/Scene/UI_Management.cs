@@ -17,11 +17,6 @@ public class UI_Management : UI_Base
     }
     void Update()
     {
-        GetTMP(((int)Texts.Mana)).text = $"마나 : {Main.Instance.Player_Mana}";
-        GetTMP(((int)Texts.Gold)).text = $"골드 : {Main.Instance.Player_Gold}";
-        GetTMP(((int)Texts.AP)).text = $"행동력 : {Main.Instance.Player_AP}";
-
-
         if (Managers.UI._popupStack.Count > 0)
         {
             canvas.sortingOrder = 5;
@@ -31,7 +26,10 @@ public class UI_Management : UI_Base
             canvas.sortingOrder = 9;
         }
     }
-
+    private void LateUpdate()
+    {
+        Texts_Refresh();
+    }
 
 
 
@@ -48,6 +46,9 @@ public class UI_Management : UI_Base
         Save,
         Pause,
 
+        Speed2x,
+        Speed3x,
+        
         //Test1,
         //Test2,
         //Test3,
@@ -56,12 +57,15 @@ public class UI_Management : UI_Base
 
     enum Texts
     {
-        Mana,
-        Gold,
-        AP,
+        Default,
+        Value,
+
         Day,
-        Fame,
-        Danger,
+    }
+
+    enum ActionPoint
+    {
+        AP,
     }
 
 
@@ -79,22 +83,40 @@ public class UI_Management : UI_Base
 
         Bind<Button>(typeof(ButtonEvent));
         Bind<TextMeshProUGUI>(typeof(Texts));
+        Bind<GameObject>(typeof(ActionPoint));
 
         Texts_Refresh();
         Init_Button();
-       
         StartCoroutine(DayInit());
+        AP_Refresh();
+    }
+
+    public void AP_Refresh()
+    {
+        if (GetObject(((int)ActionPoint.AP)) == null) return;
+
+        var pos = GetObject(((int)ActionPoint.AP)).transform;
+
+        for (int i = pos.childCount - 1; i >= 0; i--)
+        {
+            Destroy(pos.GetChild(i).gameObject);
+        }
+
+        for (int i = 0; i < Main.Instance.Player_AP; i++)
+        {
+            Managers.Resource.Instantiate("UI/PopUp/Element/behaviour", pos);
+        }
     }
 
 
     public void Texts_Refresh()
     {
         GetTMP(((int)Texts.Day)).text = $"{Main.Instance.Turn}일차";
-        GetTMP(((int)Texts.AP)).text = $"행동력 : {Main.Instance.Player_AP}";
-        GetTMP(((int)Texts.Mana)).text = $"마나 : {Main.Instance.Player_Mana}";
-        GetTMP(((int)Texts.Gold)).text = $"골드 : {Main.Instance.Player_Gold}";
-        GetTMP(((int)Texts.Fame)).text = $"유명도 : {Main.Instance.FameOfDungeon}";
-        GetTMP(((int)Texts.Danger)).text = $"위험도 : {Main.Instance.DangerOfDungeon}";
+        GetTMP(((int)Texts.Value)).text = $"{Main.Instance.Player_Mana}";
+        GetTMP(((int)Texts.Value)).text += $"\n{Main.Instance.Player_Gold}";
+        GetTMP(((int)Texts.Value)).text += $"\n{Main.Instance.PopularityOfDungeon}";
+        GetTMP(((int)Texts.Value)).text += $"\n{Main.Instance.DangerOfDungeon}";
+        GetTMP(((int)Texts.Value)).text += $"\n{Main.Instance.DungeonRank}";
     }
 
     void Init_Button()
@@ -113,6 +135,12 @@ public class UI_Management : UI_Base
         });
 
         GetButton((int)ButtonEvent.Pause).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_Pause>());
+
+        GetButton((int)ButtonEvent.Speed2x).gameObject.AddUIEvent((data) => Time.timeScale = 1.5f);
+        GetButton((int)ButtonEvent.Speed3x).gameObject.AddUIEvent((data) => Time.timeScale = 2f);
+
+
+
 
 
         //GetButton((int)ButtonEvent.Test1).gameObject.AddUIEvent((data) => GameManager.NPC.TestCreate("Adventurer"));

@@ -48,7 +48,7 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
     public void ChildMoveEvent(BasementTile child, PointerEventData data)
     {
         CurrentTile = child;
-        if (child.placementable == null)
+        if (child.Original == null)
         {
             if (view)
             {
@@ -66,7 +66,7 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
 
             var pos = Camera.main.ScreenToWorldPoint(data.position);
             view.transform.localPosition = new Vector3(pos.x, pos.y, 0);
-            view.ViewContents($"[{CurrentTile.placementable.Name_KR}]", $"{CurrentTile.placementable.Detail_KR } ");
+            view.ViewContents($"[{CurrentTile.Original.Name_KR}]", $"{CurrentTile.Original.Detail_KR } ");
         }
     }
     public void ChildExitEvent()

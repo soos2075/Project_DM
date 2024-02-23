@@ -16,7 +16,7 @@ public class FacilityManager
 
     public IPlacementable CreateFacility(string prefabName, PlacementInfo info, bool isUnChangeable = false)
     {
-        var newObj = GameManager.Placement.CreatePlacementObject($"Facility/{prefabName}", info, Define.PlacementType.Facility);
+        var newObj = GameManager.Placement.CreatePlacementObject($"Facility/{prefabName}", info, PlacementType.Facility);
         GameManager.Placement.PlacementConfirm(newObj, info, isUnChangeable);
 
         facilityList.Add(newObj as Facility);
@@ -24,7 +24,7 @@ public class FacilityManager
     }
     public IPlacementable CreateFacility_OnlyOne(string prefabName, PlacementInfo info, bool isUnChangeable = false)
     {
-        var newObj = GameManager.Placement.CreateOnlyOne($"Facility/{prefabName}", info, Define.PlacementType.Facility);
+        var newObj = GameManager.Placement.CreateOnlyOne($"Facility/{prefabName}", info, PlacementType.Facility);
         GameManager.Placement.PlacementConfirm(newObj, info, isUnChangeable);
 
         facilityList.Add(newObj as Facility);
@@ -125,27 +125,6 @@ public class Save_FacilityData
         floorIndex = facility.PlacementInfo.Place_Floor.FloorIndex;
         posIndex = facility.PlacementInfo.Place_Tile.index;
 
-        switch (facility.Type)
-        {
-            case Facility.FacilityType.Entrance:
-                isOnlyOne = true;
-                break;
-            case Facility.FacilityType.Exit:
-                isOnlyOne = true;
-                break;
-            case Facility.FacilityType.Portal:
-                isOnlyOne = true;
-                break;
-            case Facility.FacilityType.Special:
-                isOnlyOne = true;
-                break;
-            case Facility.FacilityType.NPCEvent:
-                isOnlyOne = true;
-                break;
-
-            default:
-                isOnlyOne = false;
-                break;
-        }
+        isOnlyOne = facility.isOnlyOne;
     }
 }

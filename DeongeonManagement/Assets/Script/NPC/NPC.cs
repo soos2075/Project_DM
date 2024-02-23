@@ -170,8 +170,9 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
 
     #region IPlacementable
-    public Define.PlacementType PlacementType { get; set; }
     public PlacementInfo PlacementInfo { get; set; }
+    public PlacementType PlacementType { get; set; }
+    public PlacementState PlacementState { get; set; }
     public GameObject GetObject()
     {
         return this.gameObject;
@@ -217,7 +218,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         for (int i = 0; i < allList.Count; i++)
         {
-            if (allList[i].placementable != null && allList[i].placementable.GetType() == type)
+            if (allList[i].Original != null && allList[i].Original.GetType() == type)
             {
                 newList.Add(allList[i]);
             }
@@ -226,14 +227,14 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         newList = Util.ListShuffle(newList);
         return RefinementList(newList);
     }
-    protected List<BasementTile> GetFacilityPick(Facility.FacilityType facilityType) //? 특정타입의 퍼실리티만 가져오는 리스트
+    protected List<BasementTile> GetFacilityPick(Facility.FacilityEventType facilityType) //? 특정타입의 퍼실리티만 가져오는 리스트
     {
         List<BasementTile> allList = GetFloorObjectsAll(Define.TileType.Facility);
         List<BasementTile> newList = new List<BasementTile>();
 
         for (int i = 0; i < allList.Count; i++)
         {
-            var facil = allList[i].placementable as Facility;
+            var facil = allList[i].Original as Facility;
             if (facil != null && facil.Type == facilityType)
             {
                 newList.Add(allList[i]);
@@ -449,6 +450,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     public enum NPCState
     {
         Non,
+
         Priority,
 
         Next,
@@ -458,8 +460,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         Return_Satisfaction,
         Die,
 
-        Interaction,
-        Battle,
+        //Interaction,
+        //Battle,
     }
 
     [SerializeField]
@@ -477,7 +479,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
     int FloorLevel { get; set; }
 
-    void FloorNext() //? 지하층으로 내려가는 입구에 도착했을 때 호출
+    public void FloorNext() //? 지하층으로 내려가는 입구에 도착했을 때 호출
     {
         if (FloorLevel == 3)
         {
@@ -496,6 +498,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         //? 랜덤위치로 소환
         //var info = Managers.Placement.GetRandomPlacement(this, Main.Instance.Floor[FloorLevel]); 
+
+        UI_EventBox.AddEventText($"●{Name_KR} (이)가 {Main.Instance.Floor[FloorLevel].Exit.PlacementInfo.Place_Floor.Name_KR}으로 이동");
         //? 입구에서 소환
         var info_Entrance = new PlacementInfo(Main.Instance.Floor[FloorLevel], Main.Instance.Floor[FloorLevel].Exit.PlacementInfo.Place_Tile);
         GameManager.Placement.PlacementConfirm(this, info_Entrance);
@@ -513,9 +517,9 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         {
             State = StateRefresh();
         }
-        
+
     }
-    void FloorPrevious() //? 지상층으로 올라가는 입구에 도착했을 때 호출
+    public void FloorPrevious() //? 지상층으로 올라가는 입구에 도착했을 때 호출
     {
         if (FloorLevel == 5)
         {
@@ -530,8 +534,6 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             return;
         }
 
-        //Debug.Log($"{name}(이)가 {FloorLevel}층에 도착");
-
         GameManager.Placement.PlacementClear(this);
 
         var info_Exit = new PlacementInfo(Main.Instance.Floor[FloorLevel - 1], Main.Instance.Floor[FloorLevel - 1].Entrance.PlacementInfo.Place_Tile);
@@ -540,25 +542,22 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         SearchPreviousFloor(); //? 지상으로 올라가는 경우는 나가는 경우니까 우선순위상관없이 출구만 1순위로 찾음. 추가로 State의 변경도 하면 안됨.
     }
 
-    void FloorEscape() //? 긴급탈출 - 바로 지상으로 감
+    public void FloorEscape() //? 긴급탈출 - 바로 지상으로 감
     {
         Arrival();
         NPC_Return();
     }
 
-    void FloorPortal(int hiddenFloor) //? 특정층으로 순간이동
+    public void FloorPortal(int hiddenFloor) //? 특정층으로 순간이동
     {
-        GameManager.Placement.PlacementClear(this);
+        UI_EventBox.AddEventText($"●{Name_KR} (이)가 {Main.Instance.Floor[hiddenFloor].Exit.PlacementInfo.Place_Floor.Name_KR}으로 이동");
 
+        GameManager.Placement.PlacementClear(this);
         //? 입구에서 소환
         var info_Exit = new PlacementInfo(Main.Instance.Floor[hiddenFloor], Main.Instance.Floor[hiddenFloor].Exit.PlacementInfo.Place_Tile);
-        //var info = new PlacementInfo(Main.Instance.Floor[hiddenFloor], Main.Instance.Floor[hiddenFloor].GetRandomTile(this));
-
         GameManager.Placement.PlacementConfirm(this, info_Exit);
 
-
         SetPriorityList(); //? 우선순위에 맞춰 맵탐색
-
         if (PriorityList.Count > 0)
         {
             State = NPCState.Priority;
@@ -567,7 +566,6 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         {
             State = NPCState.Return_Empty;
         }
-        Debug.Log("일단 비밀방 이동완료");
     }
 
 
@@ -621,7 +619,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
 
 
-    NPCState StateRefresh()
+    public NPCState StateRefresh()
     {
         if (!inDungeon)
         {
@@ -649,7 +647,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         }
 
 
-        PriorityList.RemoveAll(r => r.tileType == Define.TileType.Empty || r.tileType == Define.TileType.NPC);
+        PriorityList.RemoveAll(r => r.tileType_Original == Define.TileType.Empty || r.Original.PlacementState == PlacementState.Busy);
 
 
         if (PriorityList.Count == 0)
@@ -671,12 +669,12 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         //}
 
-        if (PriorityList[0].unchangeable == PlacementInfo.Place_Floor.Entrance.PlacementInfo.Place_Tile.unchangeable)
+        if (PriorityList[0].Original == PlacementInfo.Place_Floor.Entrance.PlacementInfo.Place_Tile.Original)
         {
             return NPCState.Next;
         }
 
-        if (PriorityList[0].unchangeable == PlacementInfo.Place_Floor.Exit.PlacementInfo.Place_Tile.unchangeable)
+        if (PriorityList[0].Original == PlacementInfo.Place_Floor.Exit.PlacementInfo.Place_Tile.Original)
         {
             return NPCState.Return_Empty;
         }
@@ -812,72 +810,29 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         switch (encount)
         {
+            case Define.PlaceEvent.Battle:
+                StopCoroutine(Cor_Move);
+                Cor_Move = null;
+                PlacementState = PlacementState.Busy;
+                Cor_Encounter = StartCoroutine(Encounter_Monster(tile));
+                return true;
+
+            case Define.PlaceEvent.Interaction:
+                StopCoroutine(Cor_Move);
+                Cor_Move = null;
+                PlacementState = PlacementState.Busy;
+                LookInteraction(next.Place_Tile);
+                Cor_Encounter = StartCoroutine(Encounter_Interaction(tile));
+                return true;
+
+
             case Define.PlaceEvent.Event:
                 PlacementMove_NPC(this, next, ActionDelay);
                 StopCoroutine(Cor_Move);
                 Cor_Move = null;
-                //Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => State = NPCState.Priority));
-                Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => { SetPriorityList(); State = StateRefresh(); }));
+                PlacementState = PlacementState.Busy;
+                Cor_Encounter = StartCoroutine(Encounter_Event(tile));
                 return true;
-
-            case Define.PlaceEvent.Using:
-                PlacementMove_NPC(this, next, ActionDelay);
-                StopCoroutine(Cor_Move);
-                Cor_Move = null;
-                Cor_Encounter = StartCoroutine(Encounter_Facility(tile));
-                State = NPCState.Interaction;
-                return true;
-
-
-            case Define.PlaceEvent.Using_Portal:
-                PlacementMove_NPC(this, next, ActionDelay);
-                StopCoroutine(Cor_Move);
-                Cor_Move = null;
-                Cor_Encounter = StartCoroutine(Encounter_Portal(tile, (floor) => FloorPortal(floor)));
-                return true;
-
-
-            case Define.PlaceEvent.Entrance:
-                if (State == NPCState.Next)
-                {
-                    PlacementMove_NPC(this, next, ActionDelay);
-                    StopCoroutine(Cor_Move);
-                    Cor_Move = null;
-                    Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => FloorNext()));
-                    return true;
-                }
-                if (State == NPCState.Priority)
-                {
-                    return false;
-                }
-                return false;
-
-            case Define.PlaceEvent.Exit:
-                if (State == NPCState.Return_Empty)
-                {
-                    PlacementMove_NPC(this, next, ActionDelay);
-                    StopCoroutine(Cor_Move);
-                    Cor_Move = null;
-                    Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => FloorPrevious()));
-
-                    //FloorPrevious();
-                    return true;
-                }
-                else if (State == NPCState.Runaway || State == NPCState.Return_Satisfaction)
-                {
-                    PlacementMove_NPC(this, next, ActionDelay);
-                    StopCoroutine(Cor_Move);
-                    Cor_Move = null;
-                    Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => FloorEscape()));
-
-                    //FloorEscape();
-                    return true;
-                }
-                if (State == NPCState.Priority)
-                {
-                    return false;
-                }
-                return false;
 
 
             case Define.PlaceEvent.Avoid:
@@ -892,87 +847,197 @@ public abstract class NPC : MonoBehaviour, IPlacementable
                 State = StateRefresh();
                 return true;
 
-            case Define.PlaceEvent.Overlap:
-                break;
+            case Define.PlaceEvent.Nothing:
 
-
-            case Define.PlaceEvent.Battle:
-                StopCoroutine(Cor_Move);
-                Cor_Move = null;
-                State = NPCState.Battle;
-                Cor_Encounter = StartCoroutine(Encounter_Monster(tile));
-
+                State = StateRefresh();
                 return true;
 
-            case Define.PlaceEvent.Interaction:
-                StopCoroutine(Cor_Move);
-                Cor_Move = null;
-                LookInteraction(next.Place_Tile);
-                Cor_Encounter = StartCoroutine(Encounter_Facility(tile));
-                State = NPCState.Interaction;
-                return true;
+            //case Define.PlaceEvent.Entrance:
+            //    break;
+            //case Define.PlaceEvent.Exit:
+            //    break;
+
 
             case Define.PlaceEvent.Placement:
                 break;
 
-            case Define.PlaceEvent.Nothing:
-                break;
 
             default:
                 break;
         }
 
         return false;
+
+
+
+
+        //switch (encount)
+        //{
+        //    case Define.PlaceEvent.Event:
+        //        PlacementMove_NPC(this, next, ActionDelay);
+        //        StopCoroutine(Cor_Move);
+        //        Cor_Move = null;
+        //        //Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => State = NPCState.Priority));
+        //        Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => { SetPriorityList(); State = StateRefresh(); }));
+        //        return true;
+
+        //    case Define.PlaceEvent.Using:
+        //        PlacementMove_NPC(this, next, ActionDelay);
+        //        StopCoroutine(Cor_Move);
+        //        Cor_Move = null;
+        //        Cor_Encounter = StartCoroutine(Encounter_Interaction(tile));
+        //        State = NPCState.Interaction;
+        //        return true;
+
+
+        //    case Define.PlaceEvent.Using_Portal:
+        //        PlacementMove_NPC(this, next, ActionDelay);
+        //        StopCoroutine(Cor_Move);
+        //        Cor_Move = null;
+        //        Cor_Encounter = StartCoroutine(Encounter_Portal(tile, (floor) => FloorPortal(floor)));
+        //        return true;
+
+
+        //    case Define.PlaceEvent.Entrance:
+        //        if (State == NPCState.Next)
+        //        {
+        //            PlacementMove_NPC(this, next, ActionDelay);
+        //            StopCoroutine(Cor_Move);
+        //            Cor_Move = null;
+        //            Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => FloorNext()));
+        //            return true;
+        //        }
+        //        if (State == NPCState.Priority)
+        //        {
+        //            return false;
+        //        }
+        //        return false;
+
+        //    case Define.PlaceEvent.Exit:
+        //        if (State == NPCState.Return_Empty)
+        //        {
+        //            PlacementMove_NPC(this, next, ActionDelay);
+        //            StopCoroutine(Cor_Move);
+        //            Cor_Move = null;
+        //            Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => FloorPrevious()));
+
+        //            //FloorPrevious();
+        //            return true;
+        //        }
+        //        else if (State == NPCState.Runaway || State == NPCState.Return_Satisfaction)
+        //        {
+        //            PlacementMove_NPC(this, next, ActionDelay);
+        //            StopCoroutine(Cor_Move);
+        //            Cor_Move = null;
+        //            Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => FloorEscape()));
+
+        //            //FloorEscape();
+        //            return true;
+        //        }
+        //        if (State == NPCState.Priority)
+        //        {
+        //            return false;
+        //        }
+        //        return false;
+
+
+        //    case Define.PlaceEvent.Avoid:
+        //        avoidCount++;
+        //        if (avoidCount > 10)
+        //        {
+        //            StopCoroutine(Cor_Move);
+        //            Cor_Move = StartCoroutine(Wandering());
+        //            avoidCount = 0;
+        //            return true;
+        //        }
+        //        State = StateRefresh();
+        //        return true;
+
+        //    case Define.PlaceEvent.Overlap:
+        //        break;
+
+
+        //    case Define.PlaceEvent.Battle:
+        //        StopCoroutine(Cor_Move);
+        //        Cor_Move = null;
+        //        State = NPCState.Battle;
+        //        Cor_Encounter = StartCoroutine(Encounter_Monster(tile));
+
+        //        return true;
+
+        //    case Define.PlaceEvent.Interaction:
+        //        StopCoroutine(Cor_Move);
+        //        Cor_Move = null;
+        //        LookInteraction(next.Place_Tile);
+        //        Cor_Encounter = StartCoroutine(Encounter_Interaction(tile));
+        //        State = NPCState.Interaction;
+        //        return true;
+
+        //    case Define.PlaceEvent.Placement:
+        //        break;
+
+        //    case Define.PlaceEvent.Nothing:
+        //        break;
+
+        //    default:
+        //        break;
+        //}
+
+        //return false;
     }
 
-    IEnumerator Encounter_Portal(BasementTile tile, Action<int> action)
+    //IEnumerator Encounter_Portal(BasementTile tile, Action<int> action)
+    //{
+    //    var type = tile.unchangeable as Facility;
+    //    int floor;
+
+    //    if (type)
+    //    {
+    //        yield return type.NPC_Interaction_Portal(this, out floor);
+    //        yield return new WaitForEndOfFrame();
+    //        action.Invoke(floor);
+    //    }
+    //}
+
+    //IEnumerator Encounter_NoStateRefresh(BasementTile tile, Action action)
+    //{
+    //    var type = tile.unchangeable as Facility;
+
+    //    if (type)
+    //    {
+    //        yield return type.NPC_Interaction(this);
+    //        yield return new WaitForEndOfFrame();
+    //        action.Invoke();
+    //    }
+    //}
+
+    IEnumerator Encounter_Interaction(BasementTile tile)
     {
-        var type = tile.unchangeable as Facility;
-        int floor;
+        Facility facility = tile.Original as Facility;
 
-        if (type)
-        {
-            yield return type.NPC_Interaction_Portal(this, out floor);
-            yield return new WaitForEndOfFrame();
-            action.Invoke(floor);
-        }
-    }
-
-    IEnumerator Encounter_NoStateRefresh(BasementTile tile, Action action)
-    {
-        var type = tile.unchangeable as Facility;
-
-        if (type)
-        {
-            yield return type.NPC_Interaction(this);
-            yield return new WaitForEndOfFrame();
-            action.Invoke();
-        }
-    }
-
-    IEnumerator Encounter_Facility(BasementTile tile)
-    {
-        Facility facility;
-        if (tile.isUnchangeable)
-        {
-            facility = tile.unchangeable as Facility;
-        }
-        else
-        {
-            facility = tile.placementable as Facility;
-        }
-        
         if (facility)
         {
             yield return facility.NPC_Interaction(this);
             yield return new WaitForEndOfFrame();
             State = StateRefresh();
+            PlacementState = PlacementState.Standby;
+        }
+    }
+    IEnumerator Encounter_Event(BasementTile tile)
+    {
+        Facility facility = tile.Original as Facility;
+
+        if (facility)
+        {
+            yield return facility.NPC_Interaction(this);
+            yield return new WaitForEndOfFrame();
+            PlacementState = PlacementState.Standby;
         }
     }
 
     IEnumerator Encounter_Monster(BasementTile tile)
     {
-        var monster = tile.placementable as Monster;
+        var monster = tile.Original as Monster;
 
         if (monster)
         {
@@ -981,6 +1046,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             //Debug.Log("배틀 종료");
             yield return new WaitForEndOfFrame();
             State = StateRefresh();
+            PlacementState = PlacementState.Standby;
         }
     }
 
@@ -988,19 +1054,19 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     {
         StopCoroutine(Cor_Move);
         Cor_Move = null;
-        State = NPCState.Battle;
+        //State = NPCState.Battle;
 
         //Debug.Log("배틀 시작");
         yield return monster.Battle(this);
         //Debug.Log("배틀 종료");
         yield return new WaitForEndOfFrame();
         State = StateRefresh();
+        PlacementState = PlacementState.Standby;
     }
 
 
+
     int avoidCount = 0;
-
-
     IEnumerator Wandering()
     {
         yield return new WaitForSeconds(ActionDelay);

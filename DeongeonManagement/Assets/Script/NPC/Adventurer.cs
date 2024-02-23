@@ -28,16 +28,17 @@ public class Adventurer : NPC
 
         //var list0 = GetFloorObjectsAll(Define.TileType.Facility);
         var list1 = GetFloorObjectsAll(Define.TileType.Monster);
-        var list2 = GetFacilityPick(Facility.FacilityType.RestZone);
-        var list3 = GetFacilityPick(Facility.FacilityType.Treasure);
-        var list4 = GetFacilityPick(Facility.FacilityType.Artifact);
-        var list5 = GetFacilityPick(Facility.FacilityType.NPCEvent);
-
         AddList(list1);
-        AddList(list2);
-        AddList(list3);
-        AddList(list4);
-        AddList(list5);
+
+        //var list2 = GetFacilityPick(Facility.FacilityEventType.RestZone);
+        //var list3 = GetFacilityPick(Facility.FacilityEventType.Treasure);
+        //AddList(list2);
+
+
+        {
+            var add_egg = GetPriorityPick(typeof(SpecialEgg));
+            AddList(add_egg);
+        }
 
         PickToProbability(GetPriorityPick(typeof(Entrance_Egg)), (PlacementInfo.Place_Floor.FloorIndex + Rank) * 0.05f);
     }
@@ -45,16 +46,16 @@ public class Adventurer : NPC
 
     protected override void NPC_Return_Empty()
     {
-        Main.Instance.CurrentDay.Fame -= 1;
-        Main.Instance.CurrentDay.Danger -= 1;
+        Main.Instance.CurrentDay.AddPop(-1);
+        Main.Instance.CurrentDay.AddDanger(-1);
     }
     protected override void NPC_Return_Satisfaction()
     {
-        Main.Instance.CurrentDay.Fame += (2 + Data.Rank);
+        Main.Instance.CurrentDay.AddPop(2 + Data.Rank);
     }
     protected override void NPC_Runaway()
     {
-        Main.Instance.CurrentDay.Danger += (2 + Data.Rank);
+        Main.Instance.CurrentDay.AddDanger(2 + Data.Rank);
     }
     protected override void NPC_Die()
     {
@@ -72,7 +73,7 @@ public class Adventurer : NPC
         UI_EventBox.AddEventText($"◈{Name_KR} (이)가 쓰러짐");
         Main.Instance.CurrentDay.AddKill(1);
 
-        Main.Instance.CurrentDay.Danger += (3 + Data.Rank);
+        Main.Instance.CurrentDay.AddDanger(1 + Data.Rank);
         Main.Instance.CurrentDay.AddGold(Data.Rank * Random.Range(20, 30));
     }
     protected override void NPC_Captive()
@@ -80,7 +81,7 @@ public class Adventurer : NPC
         UI_EventBox.AddEventText($"◈{Name_KR} (이)가 포로로 잡힘");
         Main.Instance.CurrentDay.AddPrisoner(1);
 
-        Main.Instance.CurrentDay.Danger += (3 + Data.Rank);
+        Main.Instance.CurrentDay.AddDanger(1 + Data.Rank);
         Main.Instance.CurrentDay.AddGold(Data.Rank * Random.Range(40, 60));
     }
 

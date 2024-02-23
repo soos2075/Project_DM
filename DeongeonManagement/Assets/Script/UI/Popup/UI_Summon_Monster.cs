@@ -175,7 +175,7 @@ public class UI_Summon_Monster : UI_PopUp
 
     void SummonConfirm(MonsterData data)
     {
-        var mon = GameManager.Placement.CreatePlacementObject(data.prefabPath, null, Define.PlacementType.Monster) as Monster;
+        var mon = GameManager.Placement.CreatePlacementObject(data.prefabPath, null, PlacementType.Monster) as Monster;
         mon.MonsterInit();
         mon.Initialize_Status();
 

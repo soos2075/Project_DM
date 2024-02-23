@@ -1,3 +1,4 @@
+using DamageNumbersPro;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -29,9 +30,32 @@ public class Main : MonoBehaviour
     //{
 
     //}
+    #region TextMesh
+    Transform guild;
+    Transform dungeon;
+
+    public DamageNumber dmMesh;
+    public DamageNumber dmMesh_dungeon;
+
+    public void ShowDM_Guild(string _msg, Color _color)
+    {
+        var dm = dmMesh.Spawn(guild.position, _msg);
+        dm.SetColor(_color);
+    }
+    public void ShowDM_Dungeon(string _msg, Color _color)
+    {
+        var dm = dmMesh.Spawn(dungeon.position, _msg);
+        dm.SetColor(_color);
+    }
+
+
+    #endregion
 
     void Start()
     {
+        guild = transform.GetChild(0);
+        dungeon = transform.GetChild(1);
+
         //Debug.Log("디버그용 Start");
         //NewGame_Init();
         //Default_Init();
@@ -44,13 +68,13 @@ public class Main : MonoBehaviour
         ActiveFloor_Technical = 2;
         DungeonRank = 2;
 
-        DangerOfDungeon = 100;
-        FameOfDungeon = 80;
+        DangerOfDungeon = 60;
+        PopularityOfDungeon = 300;
 
         Player_Mana = 3000;
         Player_Gold = 3000;
-        Player_AP = 100;
-        AP_MAX = 100;
+        Player_AP = 30;
+        AP_MAX = 30;
 
         Init_BasementFloor();
         Init_Animation();
@@ -159,7 +183,7 @@ public class Main : MonoBehaviour
         BasementTile tile = null;
         Floor[3].TileMap.TryGetValue(new Vector2Int(0, 3), out tile);
         PlacementInfo info = new PlacementInfo(Floor[3], tile);
-        var egg = GameManager.Placement.CreateOnlyOne($"Facility/Special_MagicEgg", info, Define.PlacementType.Facility);
+        var egg = GameManager.Placement.CreateOnlyOne($"Facility/Special_MagicEgg", info, PlacementType.Facility);
         GameManager.Placement.PlacementConfirm(egg, info, true);
         //GameManager.Facility.CreateFacility_OnlyOne("Special_MagicEgg", info, true);
         Init_Player();
@@ -175,7 +199,7 @@ public class Main : MonoBehaviour
         BasementTile tile2 = null;
         Floor[3].TileMap.TryGetValue(new Vector2Int(3, 3), out tile2);
         PlacementInfo info2 = new PlacementInfo(Floor[3], tile2);
-        var player = GameManager.Placement.CreatePlacementObject("Player", info2, Define.PlacementType.Monster);
+        var player = GameManager.Placement.CreatePlacementObject("Player", info2, PlacementType.Monster);
         var component = player as Player;
         component.MonsterInit();
         component.Level_Stat(DungeonRank);
@@ -189,13 +213,17 @@ public class Main : MonoBehaviour
         {
             BasementTile tile = Floor[0].GetRandomTile();
             var info = new PlacementInfo(Floor[0], tile);
-            GameManager.Facility.CreateFacility("Herb_Low", info);
+            var obj = GameManager.Facility.CreateFacility("Herb", info);
+            var herb = obj as Herb;
+            herb.OptionIndex = (int)Herb.HerbType.Low;
         }
-        for (int k = 0; k < 3; k++)
+        for (int k = 0; k < 2; k++)
         {
             BasementTile tile = Floor[1].GetRandomTile();
             var info = new PlacementInfo(Floor[1], tile);
-            GameManager.Facility.CreateFacility("Herb_Low", info);
+            var obj = GameManager.Facility.CreateFacility("Herb", info);
+            var herb = obj as Herb;
+            herb.OptionIndex = (int)Herb.HerbType.High;
         }
         for (int k = 0; k < 5; k++)
         {
@@ -306,7 +334,7 @@ public class Main : MonoBehaviour
         Final_Score = data.Final_Score;
 
         DungeonRank = data.DungeonLV;
-        FameOfDungeon = data.FameOfDungeon;
+        PopularityOfDungeon = data.FameOfDungeon;
         DangerOfDungeon = data.DangerOfDungeon;
 
         Player_Mana = data.Player_Mana;
@@ -375,8 +403,8 @@ public class Main : MonoBehaviour
         Final_Score += score;
     }
 
-    int _fame;
-    public int FameOfDungeon { get { return _fame; } private set { _fame = Mathf.Clamp(value, 0, value); } }
+    int _pop;
+    public int PopularityOfDungeon { get { return _pop; } private set { _pop = Mathf.Clamp(value, 0, value); } }
     int _danger;
     public int DangerOfDungeon { get { return _danger; } private set { _danger = Mathf.Clamp(value, 0, value); } }
 
@@ -393,7 +421,8 @@ public class Main : MonoBehaviour
         AP_MAX = _ap;
     }
 
-    public int Player_AP { get; set; }
+    int player_ap;
+    public int Player_AP { get { return player_ap; } set { player_ap = value; UI_Main.AP_Refresh(); } }
     public int Prisoner { get; set; }
 
 
@@ -465,8 +494,33 @@ public class Main : MonoBehaviour
             Use_Kill += value;
         }
 
-        public int Fame { get; set; }
-        public int Danger { get; set; }
+        public int Popularity { get; private set; }
+        public int Danger { get; private set; }
+
+        public void AddPop(int _value)
+        {
+            Popularity += _value;
+            if (_value > 0)
+            {
+                Instance.ShowDM_Dungeon($"+{_value} pop", Color.green);
+            }
+            else
+            {
+                Instance.ShowDM_Dungeon($"{_value} pop", Color.green);
+            }
+        }
+        public void AddDanger(int _value)
+        {
+            Danger += _value;
+            if (_value > 0)
+            {
+                Instance.ShowDM_Dungeon($"+{_value} danger", Color.red);
+            }
+            else
+            {
+                Instance.ShowDM_Dungeon($"{_value} danger", Color.red);
+            }
+        }
 
         public int fame_perv;
         public int danger_perv;
@@ -478,7 +532,7 @@ public class Main : MonoBehaviour
     {
         CurrentDay = new DayResult();
         CurrentDay.SetOrigin(Player_Mana, Player_Gold, Prisoner);
-        CurrentDay.fame_perv = FameOfDungeon;
+        CurrentDay.fame_perv = PopularityOfDungeon;
         CurrentDay.danger_perv = DangerOfDungeon;
         CurrentDay.dungeonRank = DungeonRank;
     }
@@ -491,16 +545,14 @@ public class Main : MonoBehaviour
         DayList.Add(CurrentDay);
         AddScore(CurrentDay);
 
+        Player_AP = AP_MAX;
 
         //Player_Mana += CurrentDay.Get_Mana;
         //Player_Gold += CurrentDay.Get_Gold;
-        Player_AP = AP_MAX;
-        FameOfDungeon += CurrentDay.Fame;
+        PopularityOfDungeon += CurrentDay.Popularity;
         DangerOfDungeon += CurrentDay.Danger;
 
-        DangerOfDungeon += 10;
-
-        EventManager.Instance.TryRankUp(FameOfDungeon, DangerOfDungeon);
+        EventManager.Instance.TryRankUp(PopularityOfDungeon, DangerOfDungeon);
 
         var ui = Managers.UI.ShowPopUp<UI_DayResult>();
         ui.TextContents(DayList[Turn - 1]);

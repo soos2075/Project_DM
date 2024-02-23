@@ -195,7 +195,7 @@ public class NPCManager
 
     void InstantiateNPC(NPCType rank)
     {
-        var obj = GameManager.Placement.CreatePlacementObject($"NPC/{rank.ToString()}", null, Define.PlacementType.NPC);
+        var obj = GameManager.Placement.CreatePlacementObject($"NPC/{rank.ToString()}", null, PlacementType.NPC);
         NPC _npc = obj as NPC;
         int _value = 0;
         NPC_Data data = null;
@@ -214,7 +214,7 @@ public class NPCManager
     }
     void InstantiateNPC_Event(NPCType _name, QuestHunter.HunterType _type)
     {
-        var obj = GameManager.Placement.CreatePlacementObject($"NPC/{_name.ToString()}", null, Define.PlacementType.NPC);
+        var obj = GameManager.Placement.CreatePlacementObject($"NPC/{_name.ToString()}", null, PlacementType.NPC);
         QuestHunter _hunter = obj as QuestHunter;
         _hunter.Hunter = _type;
 
@@ -279,7 +279,7 @@ public class NPCManager
     [System.Obsolete]
     public void TestCreate(string name)
     {
-        var adv = GameManager.Placement.CreatePlacementObject($"NPC/{name}", null, Define.PlacementType.NPC);
+        var adv = GameManager.Placement.CreatePlacementObject($"NPC/{name}", null, PlacementType.NPC);
         var npc = adv as NPC;
         npc.Departure(guild.position, dungeonEntrance.position);
     }
@@ -294,7 +294,7 @@ public class NPCManager
     #region Calculation
     void Calculation_MaxNPC()
     {
-        int ofFame = Main.Instance.FameOfDungeon / 10;
+        int ofFame = Main.Instance.PopularityOfDungeon / 10;
 
         Max_NPC_Value = Mathf.Clamp(Main.Instance.Turn + ofFame, 5, 5 + (Main.Instance.Turn * 2));
     }

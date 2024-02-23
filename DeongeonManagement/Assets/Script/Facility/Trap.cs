@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Trap_Base : Facility
+public class Trap : Facility
 {
-    public override FacilityType Type { get; set; }
+    public override FacilityEventType Type { get; set; }
     public override int InteractionOfTimes { get; set; }
     public override string Name { get; set; }
     public override int OptionIndex { get { return ((int)trapType); } set { trapType = (TrapType)value; } }
 
     public override void FacilityInit()
     {
-        Type = FacilityType.Trap;
+        Type = FacilityEventType.NPC_Event;
         Name_prefab = name;
 
         TrapInit();
@@ -33,8 +33,6 @@ public class Trap_Base : Facility
     int hp_value;
     void TrapInit()
     {
-        Type = FacilityType.Trap;
-
         switch (trapType)
         {
             case TrapType.Fallen_1:

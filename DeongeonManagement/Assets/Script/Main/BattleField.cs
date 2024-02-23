@@ -50,7 +50,7 @@ public class BattleField : MonoBehaviour
     {
         for (int i = 0; i < roundList.Count; i++)
         {
-            if (roundList[i].attacker == Define.PlacementType.Monster)
+            if (roundList[i].attacker == PlacementType.Monster)
             {
                 ani_monster.CrossFade(Define.ANIM_attack, 0.1f);
                 yield return new WaitForSecondsRealtime(0.1f); //? crossFade 시간 동안은 hash값이 바뀌지 않으므로 그만큼은 기다려줘야함
@@ -70,7 +70,7 @@ public class BattleField : MonoBehaviour
                 yield return new WaitForSecondsRealtime(0.2f);
             }
 
-            if (roundList[i].attacker == Define.PlacementType.NPC)
+            if (roundList[i].attacker == PlacementType.NPC)
             {
                 yield return new WaitForSecondsRealtime(0.5f);
                 ani_npc.CrossFade(Define.ANIM_attack, 0.1f);
@@ -173,13 +173,13 @@ public class BattleField : MonoBehaviour
 
     public class Round
     {
-        public Define.PlacementType attacker;
+        public PlacementType attacker;
         public int damage;
 
         public BattleResult roundResult;
 
 
-        public Round(Define.PlacementType _attacker, int _damage, BattleResult _result)
+        public Round(PlacementType _attacker, int _damage, BattleResult _result)
         {
             attacker = _attacker;
             damage = _damage;
@@ -287,11 +287,11 @@ public class BattleField : MonoBehaviour
         if (npc.HP <= 0)
         {
             result = BattleResult.NPC_Die;
-            roundList.Add(new Round(Define.PlacementType.Monster, damage, result));
+            roundList.Add(new Round(PlacementType.Monster, damage, result));
             return true;
         }
 
-        roundList.Add(new Round(Define.PlacementType.Monster, damage, BattleResult.Nothing));
+        roundList.Add(new Round(PlacementType.Monster, damage, BattleResult.Nothing));
         return false;
     }
     bool NPCAttack()
@@ -313,11 +313,11 @@ public class BattleField : MonoBehaviour
         {
             monster.HP = 0;
             result = BattleResult.Monster_Die;
-            roundList.Add(new Round(Define.PlacementType.NPC, damage, result));
+            roundList.Add(new Round(PlacementType.NPC, damage, result));
             return true;
         }
 
-        roundList.Add(new Round(Define.PlacementType.NPC, damage, BattleResult.Nothing));
+        roundList.Add(new Round(PlacementType.NPC, damage, BattleResult.Nothing));
         return false;
     }
 
