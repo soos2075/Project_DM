@@ -61,7 +61,8 @@ public class Herbalist : NPC
         Main.Instance.CurrentDay.AddKill(1);
 
         Main.Instance.CurrentDay.AddDanger(1 + Data.Rank);
-        Main.Instance.CurrentDay.AddGold(Data.Rank * Random.Range(20, 30));
+        //Main.Instance.CurrentDay.AddGold(Data.Rank * Random.Range(20, 30));
+        Main.Instance.CurrentDay.AddGold(KillGold);
     }
     protected override void NPC_Captive()
     {
@@ -69,6 +70,7 @@ public class Herbalist : NPC
         Main.Instance.CurrentDay.AddPrisoner(1);
 
         Main.Instance.CurrentDay.AddDanger(1 + Data.Rank);
-        Main.Instance.CurrentDay.AddGold(Data.Rank * Random.Range(40, 60));
+        //Main.Instance.CurrentDay.AddGold(Data.Rank * Random.Range(40, 60));
+        Main.Instance.CurrentDay.AddGold(KillGold * 2);
     }
 }

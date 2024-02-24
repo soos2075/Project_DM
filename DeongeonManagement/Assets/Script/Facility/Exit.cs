@@ -42,5 +42,9 @@ public class Exit : Facility
         {
             npc.FloorEscape();
         }
+        else
+        {
+            npc.State = npc.StateRefresh();
+        }
     }
 }

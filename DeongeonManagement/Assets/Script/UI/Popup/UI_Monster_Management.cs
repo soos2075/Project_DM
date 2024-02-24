@@ -80,7 +80,7 @@ public class UI_Monster_Management : UI_PopUp
         Management,
         Placement,
     }
-    public UI_Type Type;
+    public UI_Type Type { get; set; }
 
 
     void Init_Panels()
@@ -286,6 +286,7 @@ public class UI_Monster_Management : UI_PopUp
         yield return new WaitForEndOfFrame();
         Debug.Log("창 새로고침");
         GetTMP((int)Texts.DetailInfo).text = $"남은 행동력 : {Main.Instance.Player_AP}";
+
         ShowDetail(Current);
         for (int i = 0; i < childList.Count; i++)
         {
@@ -468,7 +469,19 @@ public class UI_Monster_Management : UI_PopUp
         Managers.UI.ClosePopupPick(GameObject.FindAnyObjectByType<UI_DungeonPlacement>());
         Managers.UI.PauseOpen();
         Time.timeScale = 0;
-        StartCoroutine(RefreshAll());
+
+
+        if (Type == UI_Type.Management)
+        {
+            StartCoroutine(RefreshAll());
+        }
+        //else if (Type == UI_Type.Placement)
+        //{
+        //    for (int i = 0; i < childList.Count; i++)
+        //    {
+        //        childList[i].ShowContents();
+        //    }
+        //}
     }
 
 

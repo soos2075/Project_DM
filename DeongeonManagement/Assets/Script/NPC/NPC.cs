@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public abstract class NPC : MonoBehaviour, IPlacementable
 {
@@ -382,6 +383,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     #region Npc Status Property
     public NPC_Data Data { get; private set; }
 
+    [field: SerializeField]
     private int name_index;
     public string Name_Index
     {
@@ -405,12 +407,13 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     public int AGI { get; set; }
     public int LUK { get; set; }
 
-
+    [field:SerializeField]
     public int HP { get; set; }
     public int HP_MAX { get; set; }
     //? HP_Runaway로 도망칠 hp를 따로 정하는것도 방법
-
+    [field: SerializeField]
     public int ActionPoint { get; set; }
+    [field: SerializeField]
     public int Mana { get; set; }
 
 
@@ -441,6 +444,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         Speed_Ground = speed;
         ActionDelay = delay;
+
+        KillGold = Data.Rank * Random.Range(15, 31);
     }
 
     #endregion
@@ -613,6 +618,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     protected abstract void NPC_Runaway();
     protected abstract void NPC_Return_Empty();
     protected abstract void NPC_Return_Satisfaction();
+
+    public int KillGold { get; set; }
     protected abstract void NPC_Die();
     protected abstract void NPC_Captive();
 
@@ -653,6 +660,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         if (PriorityList.Count == 0)
         {
             SetPriorityList();
+            PriorityList.RemoveAll(r => r.tileType_Original == Define.TileType.Empty || r.Original.PlacementState == PlacementState.Busy);
             if (PriorityList.Count == 0)
             {
                 return NPCState.Next;

@@ -365,20 +365,25 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
     IEnumerator BattleWait(NPC npc)
     {
+        PlacementState = PlacementState.Busy;
         npc.ActionPoint -= 2;
 
         UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 전투발생 : " +
             $"{npc.Name_KR} vs " +
             $"{Name_KR}");
 
-        var bf = Managers.Resource.Instantiate("Battle/BattleField").GetComponent<BattleField>();
-        bf.transform.position = npc.transform.position + new Vector3(Random.value, Random.value, 0);
-        var result = bf.Battle(npc, this);
+        BattleField.BattleResult result = 0;
+        yield return BattleManager.Instance.ShowBattleField(npc, this, out result);
 
-        Time.timeScale = 0;
-        yield return bf.BattlePlay();
-        Managers.Resource.Destroy(bf.gameObject);
-        Time.timeScale = 1;
+
+        //var bf = Managers.Resource.Instantiate("Battle/BattleField").GetComponent<BattleField>();
+        //bf.transform.position = npc.transform.position + new Vector3(Random.value, Random.value, 0);
+        //var result = bf.Battle(npc, this);
+
+        //Time.timeScale = 0;
+        //yield return bf.BattlePlay();
+        //Managers.Resource.Destroy(bf.gameObject);
+        //Time.timeScale = 1;
 
         switch (result)
         {
@@ -397,7 +402,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
                 GetBattlePoint(npc.Rank * 2);
                 break;
         }
-
+        PlacementState = PlacementState.Standby;
     }
 
     public void MonsterOutFloor()

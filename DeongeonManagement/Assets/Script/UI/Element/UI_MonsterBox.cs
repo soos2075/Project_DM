@@ -83,4 +83,13 @@ public class UI_MonsterBox : UI_Base
         GetObject(((int)Contents.BG)).GetComponent<Image>().color = color;
     }
 
+
+
+    private void OnEnable()
+    {
+        if (GetObject(((int)Contents.BG)) != null)
+        {
+            ShowContents();
+        }
+    }
 }

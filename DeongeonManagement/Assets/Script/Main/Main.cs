@@ -68,8 +68,8 @@ public class Main : MonoBehaviour
         ActiveFloor_Technical = 2;
         DungeonRank = 2;
 
-        DangerOfDungeon = 60;
-        PopularityOfDungeon = 300;
+        DangerOfDungeon = 100;
+        PopularityOfDungeon = 500;
 
         Player_Mana = 3000;
         Player_Gold = 3000;
@@ -613,6 +613,7 @@ public class Main : MonoBehaviour
                 Start_Entrance();
                 TurnStartEvent();
                 DayEvent();
+                BattleManager.Instance.TurnStart();
                 EventManager.Instance.TurnStart();
                 GameManager.NPC.TurnStart();
                 GameManager.Monster.MonsterTurnStartEvent();

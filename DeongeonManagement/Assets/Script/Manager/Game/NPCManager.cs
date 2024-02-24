@@ -296,7 +296,9 @@ public class NPCManager
     {
         int ofFame = Main.Instance.PopularityOfDungeon / 10;
 
-        Max_NPC_Value = Mathf.Clamp(Main.Instance.Turn + ofFame, 5, 5 + (Main.Instance.Turn * 2));
+        Max_NPC_Value = Mathf.Clamp(Main.Instance.Turn + ofFame, 5, 5 + (Main.Instance.Turn * 2) + 50);
+
+        Debug.Log("테스트모드!!!!!!!!!!!!!빌드전수정필");
     }
 
 

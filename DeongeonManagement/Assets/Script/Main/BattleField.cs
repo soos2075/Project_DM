@@ -14,7 +14,7 @@ public class BattleField : MonoBehaviour
         sprite_BG.sortingOrder = sort;
         sprite_border.sortingOrder = sort;
 
-        Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
+        //Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
     }
 
 
@@ -48,6 +48,8 @@ public class BattleField : MonoBehaviour
 
     IEnumerator BattleAnimation()
     {
+        bool isOver = false;
+
         for (int i = 0; i < roundList.Count; i++)
         {
             if (roundList[i].attacker == PlacementType.Monster)
@@ -59,6 +61,22 @@ public class BattleField : MonoBehaviour
                 if (roundList[i].roundResult == BattleResult.NPC_Die)
                 {
                     AddAction(roundList[i].damage, pos_Left, ani_npc);
+
+
+                    yield return new WaitForSecondsRealtime(1f);
+                    var dm = Main.Instance.dmMesh.Spawn(pos_Right.GetChild(0).position, $"+{npc.Rank * 2} exp");
+                    dm.SetColor(Color.white);
+
+
+                    yield return new WaitForSecondsRealtime(0.5f);
+                    var dm2 = Main.Instance.dmMesh.Spawn(pos_Right.GetChild(0).position, $"+{npc.KillGold} gold");
+                    dm2.SetColor(Color.yellow);
+
+
+
+                    yield return new WaitForSecondsRealtime(0.5f);
+                    isOver = true;
+                    break;
                 }
                 else
                 {
@@ -79,6 +97,10 @@ public class BattleField : MonoBehaviour
                 if (roundList[i].roundResult == BattleResult.Monster_Die)
                 {
                     AddAction(roundList[i].damage, pos_Right, ani_monster);
+
+                    yield return new WaitForSecondsRealtime(0.5f);
+                    isOver = true;
+                    break;
                 }
                 else
                 {
@@ -89,6 +111,14 @@ public class BattleField : MonoBehaviour
                 yield return new WaitUntil(() => ani_npc.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_idle);
                 yield return new WaitForSecondsRealtime(0.2f);
             }
+        }
+
+        if (!isOver)
+        {
+            yield return new WaitForSecondsRealtime(0.5f);
+            var dm_over = Main.Instance.dmMesh.Spawn(pos_Right.GetChild(0).position, $"+{npc.Rank} exp");
+            dm_over.SetColor(Color.white);
+            yield return new WaitForSecondsRealtime(0.5f);
         }
 
         yield return new WaitForSecondsRealtime(0.5f);
