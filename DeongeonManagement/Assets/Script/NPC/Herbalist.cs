@@ -8,6 +8,26 @@ public class Herbalist : NPC
     public override List<BasementTile> PriorityList { get; set; }
     protected override Define.TileType[] AvoidTileType { get; set; }
 
+    protected override void SetRandomClothes()
+    {
+        var collection = characterBuilder.SpriteCollection;
+        characterBuilder.Armor = "ArcherTunic";
+        characterBuilder.Weapon = "WoodenStuff";
+        characterBuilder.Helmet = "ArcherHood";
+        characterBuilder.Back = "SmallBackpack";
+
+        characterBuilder.Helmet += $"#FFFFFF/{Random.Range(-150, 150)}:{Random.Range(-80, 80)}:{Random.Range(-70, 70)}";
+        { // mask = 8
+            int ran = Random.Range(-3, collection.Layers[8].Textures.Count);
+            if (ran > 0)
+            {
+                characterBuilder.Mask = collection.Layers[8].Textures[ran].name;
+            }
+        }
+
+        characterBuilder.Rebuild();
+    }
+
     void Init_AvoidType()
     {
         AvoidTileType = new Define.TileType[] { Define.TileType.NPC, Define.TileType.Monster };

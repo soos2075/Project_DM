@@ -13,15 +13,7 @@ public class Slime : Monster
         //Mode = MoveType.Move_Hunting;
     }
 
-    public override void TurnStart()
-    {
-        MoveSelf();
-    }
 
-    void MoveSelf()
-    {
-        Cor_Moving = StartCoroutine(MoveCor());
-    }
 
 
     public override void MaxLevelQuest()

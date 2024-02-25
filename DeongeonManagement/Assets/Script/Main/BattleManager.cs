@@ -41,6 +41,7 @@ public class BattleManager : MonoBehaviour
     public int BattleCount { get; set; } = 10;
     public List<BattleField> BattleList = new List<BattleField>();
 
+
     public Coroutine ShowBattleField(NPC _npc, Monster _monster, out BattleField.BattleResult result)
     {
         Vector3 bfPos = _monster.PlacementInfo.Place_Floor.transform.position;
@@ -48,22 +49,23 @@ public class BattleManager : MonoBehaviour
         float direction = _monster.PlacementInfo.Place_Tile.worldPosition.x - bfPos.x;
         if (direction >= 0)
         {
-            bfPos += new Vector3(Mathf.Clamp(Random.Range(3f, 8f) + direction, 5f, 9.5f) , Random.Range(-2.5f, 2.5f), 0);
+            bfPos += new Vector3(Mathf.Clamp(Random.Range(3f, 8f) + direction, 5.5f, 9.5f) , Random.Range(-2.5f, 2.5f), 0);
         }
         else
         {
-            bfPos += new Vector3(Mathf.Clamp(Random.Range(-3f, -8f) + direction, -5f, -9.5f), Random.Range(-2.5f, 2.5f), 0);
+            bfPos += new Vector3(Mathf.Clamp(Random.Range(-3f, -8f) + direction, -5.5f, -9.5f), Random.Range(-2.5f, 2.5f), 0);
         }
 
         var bf = Managers.Resource.Instantiate("Battle/BattleField").GetComponent<BattleField>();
         bf.sort = BattleCount;
-        BattleCount++;
-
+        BattleCount += 2;
         bf.transform.position = bfPos;
 
         var line = Managers.Resource.Instantiate("Battle/Line").GetComponent<LineRenderer>();
         line.SetPosition(0, _monster.transform.position);
         line.SetPosition(1, bfPos);
+
+        bf.SetHPBar(_npc.HP, _npc.HP_MAX, _monster.HP, _monster.HP_Max);
 
 
         result = bf.Battle(_npc, _monster);

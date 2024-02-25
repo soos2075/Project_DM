@@ -718,7 +718,14 @@ public class BasementTile
                     }
                     else
                     {
-                        return Define.PlaceEvent.Avoid;
+                        if (overlap)
+                        {
+                            return Define.PlaceEvent.Placement;
+                        }
+                        else
+                        {
+                            return Define.PlaceEvent.Avoid;
+                        }
                     }
                 }
                 else

@@ -11,15 +11,6 @@ public class EvilEye : Monster
         Data = GameManager.Monster.GetMonsterData("EvilEye");
     }
 
-    public override void TurnStart()
-    {
-        MoveSelf();
-    }
-
-    void MoveSelf()
-    {
-        Cor_Moving = StartCoroutine(MoveCor());
-    }
 
 
     public override void MaxLevelQuest()

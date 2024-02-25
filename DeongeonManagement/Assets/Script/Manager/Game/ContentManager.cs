@@ -131,6 +131,7 @@ public class ContentManager
                 "\n적용 범위는 1 x 1 입니다.");
             content.SetCondition(0, 50, 1, Facility_Priority.Trap);
             content.sprite = Managers.Sprite.GetSprite("Trap");
+            content.SetAction(() => SetBoundary(Define.Boundary_1x1, () => CreateTrap("Trap_Fallen_1", Trap.TrapType.Fallen_1)));
 
             //content.AddOption("\n적용 범위는 1 x 1 입니다.", Define.Boundary_1x1,
             //    () => SetBoundary(Define.Boundary_1x1, () => CreateAll("Trap_Fallen_1", true)));

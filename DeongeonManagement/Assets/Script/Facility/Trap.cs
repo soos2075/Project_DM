@@ -99,8 +99,10 @@ public class Trap : Facility
 
     protected override void OverCor(NPC npc)
     {
+        base.OverCor(npc);
         GetComponentInChildren<Animator>().Play(Define.ANIM_idle);
         npc.GetComponent<SpriteRenderer>().color = Color.white;
+        npc.State = npc.StateRefresh();
     }
 
 

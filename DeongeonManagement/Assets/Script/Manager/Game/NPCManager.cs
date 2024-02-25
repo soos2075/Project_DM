@@ -195,40 +195,39 @@ public class NPCManager
 
     void InstantiateNPC(NPCType rank)
     {
-        var obj = GameManager.Placement.CreatePlacementObject($"NPC/{rank.ToString()}", null, PlacementType.NPC);
-        NPC _npc = obj as NPC;
-        int _value = 0;
         NPC_Data data = null;
         if (NPCDatas.TryGetValue(rank.ToString(), out data))
         {
+            var obj = GameManager.Placement.CreatePlacementObject($"NPC/{data.PrefabName}", null, PlacementType.NPC);
+            NPC _npc = obj as NPC;
             _npc.SetData(data, RandomPicker());
-            _value = data.Rank;
+
+            int _value = data.Rank;
+            Debug.Log($"{_value}랭크 생성");
+            Current_Value += _value;
+            Instance_NPC_List.Add(_npc);
         }
         else
         {
             Debug.Log($"NPC_Data 없음 : {rank.ToString()}");
         }
-        Debug.Log($"{_value}랭크 생성");
-        Current_Value += _value;
-        Instance_NPC_List.Add(_npc);
     }
     void InstantiateNPC_Event(NPCType _name, QuestHunter.HunterType _type)
     {
-        var obj = GameManager.Placement.CreatePlacementObject($"NPC/{_name.ToString()}", null, PlacementType.NPC);
-        QuestHunter _hunter = obj as QuestHunter;
-        _hunter.Hunter = _type;
-
         NPC_Data data = null;
         if (NPCDatas.TryGetValue(_name.ToString(), out data))
         {
+            var obj = GameManager.Placement.CreatePlacementObject($"NPC/{data.PrefabName}", null, PlacementType.NPC);
+            QuestHunter _hunter = obj as QuestHunter;
+            _hunter.Hunter = _type;
             _hunter.SetData(data, -1);
+            Debug.Log($"{_type}헌터 생성");
+            Instance_NPC_List.Add(_hunter);
         }
         else
         {
             Debug.Log($"NPC_Data 없음 : {_name.ToString()}");
         }
-        Debug.Log($"{_type}헌터 생성");
-        Instance_NPC_List.Add(_hunter);
     }
 
 
@@ -359,137 +358,143 @@ public class NPCManager
         {
             NPC_Data npc = new NPC_Data();
 
-            npc.PrefabName = "Herbalist_0";
-            npc.Name = "약초꾼";
+            npc.DictName = "Herbalist_0";
+            npc.PrefabName = "Herbalist";
+            npc.Name_Kr = "약초꾼";
             npc.Detail = "던전에서 나오는 약초나 풀들을 채취해서 마을과 길드에 공급해주는 역할을 합니다.";
 
             npc.Rank = 1;
-            npc.ATK = 3;
+            npc.ATK = 6;
             npc.DEF = 3;
             npc.AGI = 3;
             npc.LUK = 3;
-            npc.HP = 10;
-            npc.HP_MAX = 10;
+            npc.HP = 20;
+            npc.HP_MAX = 20;
 
             npc.ActionPoint = 2;
             npc.Mana = 30;
             npc.Speed_Ground = 1.5f;
             npc.ActionDelay = 0.7f;
 
-            NPCDatas.Add(npc.PrefabName, npc);
+            NPCDatas.Add(npc.DictName, npc);
         }
         {
             NPC_Data npc = new NPC_Data();
 
-            npc.PrefabName = "Herbalist_1";
-            npc.Name = "숙련된 약초꾼";
+            npc.DictName = "Herbalist_1";
+            npc.PrefabName = "Herbalist";
+            npc.Name_Kr = "숙련된 약초꾼";
             npc.Detail = "약초꾼을 업으로 오랜기간 일한 숙련자입니다.";
 
             npc.Rank = 3;
-            npc.ATK = 6;
+            npc.ATK = 12;
             npc.DEF = 6;
             npc.AGI = 6;
             npc.LUK = 6;
-            npc.HP = 20;
-            npc.HP_MAX = 20;
+            npc.HP = 40;
+            npc.HP_MAX = 40;
 
             npc.ActionPoint = 4;
             npc.Mana = 80;
             npc.Speed_Ground = 1.55f;
             npc.ActionDelay = 0.7f;
 
-            NPCDatas.Add(npc.PrefabName, npc);
+            NPCDatas.Add(npc.DictName, npc);
         }
 
         {
             NPC_Data npc = new NPC_Data();
 
-            npc.PrefabName = "Miner_0";
-            npc.Name = "광부";
+            npc.DictName = "Miner_0";
+            npc.PrefabName = "Miner";
+            npc.Name_Kr = "광부";
             npc.Detail = "던전에서 생성되는 다양한 광물을 캐내서 마을에 공급해주는 역할을 합니다.";
 
             npc.Rank = 1;
-            npc.ATK = 5;
+            npc.ATK = 10;
             npc.DEF = 4;
             npc.AGI = 1;
             npc.LUK = 1;
-            npc.HP = 15;
-            npc.HP_MAX = 15;
+            npc.HP = 30;
+            npc.HP_MAX = 30;
 
             npc.ActionPoint = 4;
             npc.Mana = 25;
             npc.Speed_Ground = 1.4f;
             npc.ActionDelay = 0.5f;
 
-            NPCDatas.Add(npc.PrefabName, npc);
+            NPCDatas.Add(npc.DictName, npc);
         }
         {
             NPC_Data npc = new NPC_Data();
 
-            npc.PrefabName = "Miner_1";
-            npc.Name = "숙련된 광부";
+            npc.DictName = "Miner_1";
+            npc.PrefabName = "Miner";
+            npc.Name_Kr = "숙련된 광부";
             npc.Detail = "광물캐기 숙련자입니다. 더 오래 효율적으로 일 할 수 있습니다.";
 
             npc.Rank = 3;
-            npc.ATK = 10;
+            npc.ATK = 20;
             npc.DEF = 8;
             npc.AGI = 2;
             npc.LUK = 2;
-            npc.HP = 30;
-            npc.HP_MAX = 30;
+            npc.HP = 60;
+            npc.HP_MAX = 60;
 
             npc.ActionPoint = 8;
             npc.Mana = 30;
             npc.Speed_Ground = 1.45f;
             npc.ActionDelay = 0.5f;
 
-            NPCDatas.Add(npc.PrefabName, npc);
+            NPCDatas.Add(npc.DictName, npc);
         }
 
 
         {
             NPC_Data npc = new NPC_Data();
 
-            npc.PrefabName = "Adventurer_0";
-            npc.Name = "견습 모험가";
+            npc.DictName = "Adventurer_0";
+            npc.PrefabName = "Adventurer";
+            npc.Name_Kr = "견습 모험가";
             npc.Detail = "모험가가 된지 얼마 안된 새내기 모험가입니다. 나름 모험가라서 자원보단 몬스터와 보물에 관심이 있습니다.";
 
             npc.Rank = 2;
-            npc.ATK = 7;
+            npc.ATK = 14;
             npc.DEF = 2;
             npc.AGI = 6;
             npc.LUK = 5;
-            npc.HP = 20;
-            npc.HP_MAX = 20;
+            npc.HP = 50;
+            npc.HP_MAX = 50;
 
             npc.ActionPoint = 3;
             npc.Mana = 40;
             npc.Speed_Ground = 1.6f;
             npc.ActionDelay = 0.6f;
 
-            NPCDatas.Add(npc.PrefabName, npc);
+            NPCDatas.Add(npc.DictName, npc);
         }
         {
             NPC_Data npc = new NPC_Data();
 
-            npc.PrefabName = "Adventurer_1";
-            npc.Name = "이름있는 모험가";
+            npc.DictName = "Adventurer_1";
+            npc.PrefabName = "Adventurer";
+            npc.Name_Kr = "이름있는 모험가";
             npc.Detail = "꽤 이름있는 모험가입니다. 전투력과 상황판단능력 등 새내기 모험가와는 비교할 수 없어요.";
 
             npc.Rank = 6;
-            npc.ATK = 15;
+            npc.ATK = 30;
             npc.DEF = 5;
             npc.AGI = 9;
             npc.LUK = 8;
-            npc.HP = 40;
-            npc.HP_MAX = 40;
+            npc.HP = 100;
+            npc.HP_MAX = 100;
 
             npc.ActionPoint = 6;
             npc.Mana = 60;
             npc.Speed_Ground = 1.6f;
             npc.ActionDelay = 0.7f;
 
-            NPCDatas.Add(npc.PrefabName, npc);
+            NPCDatas.Add(npc.DictName, npc);
         }
     }
 
@@ -499,24 +504,25 @@ public class NPCManager
         {
             NPC_Data npc = new NPC_Data();
 
+            npc.DictName = "Hunter_0";
             npc.PrefabName = "Hunter";
-            npc.Name = "헌터";
+            npc.Name_Kr = "헌터";
             npc.Detail = "길드의 퀘스트를 받고 출동한 토벌대";
 
             npc.Rank = 3;
-            npc.ATK = 20;
-            npc.DEF = 5;
-            npc.AGI = 5;
-            npc.LUK = 5;
-            npc.HP = 50;
-            npc.HP_MAX = 50;
+            npc.ATK = 40;
+            npc.DEF = 15;
+            npc.AGI = 7;
+            npc.LUK = 7;
+            npc.HP = 150;
+            npc.HP_MAX = 150;
 
             npc.ActionPoint = 100;
             npc.Mana = 100;
             npc.Speed_Ground = 1.0f;
             npc.ActionDelay = 1.0f;
 
-            NPCDatas.Add(npc.PrefabName, npc);
+            NPCDatas.Add(npc.DictName, npc);
         }
     }
 
@@ -529,8 +535,9 @@ public class NPC_Data
 {
     public int Rank { get; set; } //? 소환시에 랭크만큼의 Value를 빼줌. 강한적만 너무 많이 나오는거 방지용.
 
+    public string DictName { get; set; }
     public string PrefabName { get; set; }
-    public string Name { get; set; }
+    public string Name_Kr { get; set; }
     public string Detail { get; set; }
     public int LV { get; set; }
     public int ATK { get; set; }

@@ -253,6 +253,19 @@ public class Define
 
 
 
+    #region ColorPalette
+    public static readonly string[] HairColors = new string[] {
+        "#3D3D3D","#5D5D5D","#858585","#C7CFDD",
+        "#5D2C28","#8A4836","#BF6F4A","#E69C69",
+        "#F6CA9F","#C64524","#E07438","#FFA214",
+        "#891E2B","#C42430","#622461","#93388F",
+        "#F389F5","#0098DC","#00CDF9","#657392",
+        "#134C4C","#1E6F50","#33984B","#5AC54F",};
+
+    #endregion
+
+
+
 }
 
 

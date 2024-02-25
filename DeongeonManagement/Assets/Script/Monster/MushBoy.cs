@@ -11,15 +11,7 @@ public class MushBoy : Monster
         Data = GameManager.Monster.GetMonsterData("MushBoy");
     }
 
-    public override void TurnStart()
-    {
-        MoveSelf();
-    }
 
-    void MoveSelf()
-    {
-        Cor_Moving = StartCoroutine(MoveCor());
-    }
 
 
     public override void MaxLevelQuest()

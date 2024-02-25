@@ -4,84 +4,164 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Assets.PixelFantasy.PixelHeroes.Common.Scripts.CharacterScripts;
 
 public abstract class NPC : MonoBehaviour, IPlacementable
 {
     void Start()
     {
         anim = GetComponent<Animator>();
+        characterBuilder = GetComponent<CharacterBuilder>();
+        SetRandomClothes();
     }
     //void Update()
     //{
 
     //}
 
+
+    #region PixelEditor
+    protected CharacterBuilder characterBuilder;
+
+    protected virtual void SetRandomClothes()
+    {
+
+    }
+
+    #endregion
+
+
+
     #region Animation
     Animator anim;
     public enum moveState
     {
         none = 0,
+
+        // running
         front = 1,
         left = 2,
         right = 3,
         back = 4,
 
+        // interaction
         front_Action = 5,
         left_Action = 6,
         right_Action = 7,
         back_Action = 8,
+
+        // battle
+        front_Battle,
+        left_Battle ,
+        right_Battle ,
+        back_Battle ,
+
+        // trap
+        Trap,
+
+        // resting
+        Resting,
     }
     private moveState _animState;
     public moveState Anim_State { get { return _animState; } 
         set 
         { 
             _animState = value;
-            SetAnim(_animState);
+            SetAnim_State(_animState);
         } }
 
-    void SetAnim(moveState state)
+    void SetAnim_State(moveState state)
     {
         if (anim == null)
         {
             return;
         }
-        //anim.SetInteger("move", (int)state);
+
         switch (state)
         {
             case moveState.front:
-                anim.Play("walk_f");
-                break;
-
             case moveState.left:
-                anim.Play("walk_l");
-                break;
-
-            case moveState.right:
-                anim.Play("walk_r");
+                transform.localScale = new Vector3(-0.5f, 0.5f, 0.5f);
+                anim.Play("Running");
                 break;
 
             case moveState.back:
-                anim.Play("walk_b");
+            case moveState.right:
+                transform.localScale = Vector3.one * 0.5f;
+                anim.Play("Running");
                 break;
-
 
             case moveState.front_Action:
-                anim.Play("ing_f");
-                break;
-
             case moveState.left_Action:
-                anim.Play("ing_l");
-                break;
-
-            case moveState.right_Action:
-                anim.Play("ing_r");
+                transform.localScale = new Vector3(-0.5f, 0.5f, 0.5f);
+                anim.Play("Interaction");
                 break;
 
             case moveState.back_Action:
-                anim.Play("ing_b");
+            case moveState.right_Action:
+                transform.localScale = Vector3.one * 0.5f;
+                anim.Play("Interaction");
+                break;
+
+            case moveState.front_Battle:
+            case moveState.left_Battle:
+                transform.localScale = new Vector3(-0.5f, 0.5f, 0.5f);
+                anim.Play("Ready");
+                break;
+
+            case moveState.back_Battle:
+            case moveState.right_Battle:
+                transform.localScale = Vector3.one * 0.5f;
+                anim.Play("Ready");
                 break;
         }
     }
+
+
+
+    //void SetAnim(moveState state)
+    //{
+    //    if (anim == null)
+    //    {
+    //        return;
+    //    }
+    //    //anim.SetInteger("move", (int)state);
+    //    switch (state)
+    //    {
+    //        case moveState.front:
+    //            anim.Play("walk_f");
+    //            break;
+
+    //        case moveState.left:
+    //            anim.Play("walk_l");
+    //            break;
+
+    //        case moveState.right:
+    //            anim.Play("walk_r");
+    //            break;
+
+    //        case moveState.back:
+    //            anim.Play("walk_b");
+    //            break;
+
+
+    //        case moveState.front_Action:
+    //            anim.Play("ing_f");
+    //            break;
+
+    //        case moveState.left_Action:
+    //            anim.Play("ing_l");
+    //            break;
+
+    //        case moveState.right_Action:
+    //            anim.Play("ing_r");
+    //            break;
+
+    //        case moveState.back_Action:
+    //            anim.Play("ing_b");
+    //            break;
+    //    }
+    //}
 
 
     #region MoveAnimation
@@ -158,6 +238,32 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         {
             //? 아래
             Anim_State = NPC.moveState.front_Action;
+        }
+    }
+    void LookBattle(BasementTile endPos)
+    {
+        var startPos = PlacementInfo.Place_Tile;
+        Vector3 dir = endPos.worldPosition - startPos.worldPosition;
+        //Debug.Log(dir);
+        if (dir.x > 0)
+        {
+            //? 무브 오른쪽
+            Anim_State = NPC.moveState.right_Battle;
+        }
+        else if (dir.x < 0)
+        {
+            //? 왼쪽
+            Anim_State = NPC.moveState.left_Battle;
+        }
+        else if (dir.y > 0)
+        {
+            //? 위
+            Anim_State = NPC.moveState.back_Battle;
+        }
+        else if (dir.y < 0)
+        {
+            //? 아래
+            Anim_State = NPC.moveState.front_Battle;
         }
     }
 
@@ -428,7 +534,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         Rank = data.Rank;
 
-        Name = data.Name;
+        Name = data.Name_Kr;
         ATK = data.ATK;
         DEF = data.DEF;
         AGI = data.AGI;
@@ -822,6 +928,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
                 StopCoroutine(Cor_Move);
                 Cor_Move = null;
                 PlacementState = PlacementState.Busy;
+                LookBattle(next.Place_Tile);
                 Cor_Encounter = StartCoroutine(Encounter_Monster(tile));
                 return true;
 
@@ -876,148 +983,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         return false;
 
-
-
-
-        //switch (encount)
-        //{
-        //    case Define.PlaceEvent.Event:
-        //        PlacementMove_NPC(this, next, ActionDelay);
-        //        StopCoroutine(Cor_Move);
-        //        Cor_Move = null;
-        //        //Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => State = NPCState.Priority));
-        //        Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => { SetPriorityList(); State = StateRefresh(); }));
-        //        return true;
-
-        //    case Define.PlaceEvent.Using:
-        //        PlacementMove_NPC(this, next, ActionDelay);
-        //        StopCoroutine(Cor_Move);
-        //        Cor_Move = null;
-        //        Cor_Encounter = StartCoroutine(Encounter_Interaction(tile));
-        //        State = NPCState.Interaction;
-        //        return true;
-
-
-        //    case Define.PlaceEvent.Using_Portal:
-        //        PlacementMove_NPC(this, next, ActionDelay);
-        //        StopCoroutine(Cor_Move);
-        //        Cor_Move = null;
-        //        Cor_Encounter = StartCoroutine(Encounter_Portal(tile, (floor) => FloorPortal(floor)));
-        //        return true;
-
-
-        //    case Define.PlaceEvent.Entrance:
-        //        if (State == NPCState.Next)
-        //        {
-        //            PlacementMove_NPC(this, next, ActionDelay);
-        //            StopCoroutine(Cor_Move);
-        //            Cor_Move = null;
-        //            Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => FloorNext()));
-        //            return true;
-        //        }
-        //        if (State == NPCState.Priority)
-        //        {
-        //            return false;
-        //        }
-        //        return false;
-
-        //    case Define.PlaceEvent.Exit:
-        //        if (State == NPCState.Return_Empty)
-        //        {
-        //            PlacementMove_NPC(this, next, ActionDelay);
-        //            StopCoroutine(Cor_Move);
-        //            Cor_Move = null;
-        //            Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => FloorPrevious()));
-
-        //            //FloorPrevious();
-        //            return true;
-        //        }
-        //        else if (State == NPCState.Runaway || State == NPCState.Return_Satisfaction)
-        //        {
-        //            PlacementMove_NPC(this, next, ActionDelay);
-        //            StopCoroutine(Cor_Move);
-        //            Cor_Move = null;
-        //            Cor_Encounter = StartCoroutine(Encounter_NoStateRefresh(tile, () => FloorEscape()));
-
-        //            //FloorEscape();
-        //            return true;
-        //        }
-        //        if (State == NPCState.Priority)
-        //        {
-        //            return false;
-        //        }
-        //        return false;
-
-
-        //    case Define.PlaceEvent.Avoid:
-        //        avoidCount++;
-        //        if (avoidCount > 10)
-        //        {
-        //            StopCoroutine(Cor_Move);
-        //            Cor_Move = StartCoroutine(Wandering());
-        //            avoidCount = 0;
-        //            return true;
-        //        }
-        //        State = StateRefresh();
-        //        return true;
-
-        //    case Define.PlaceEvent.Overlap:
-        //        break;
-
-
-        //    case Define.PlaceEvent.Battle:
-        //        StopCoroutine(Cor_Move);
-        //        Cor_Move = null;
-        //        State = NPCState.Battle;
-        //        Cor_Encounter = StartCoroutine(Encounter_Monster(tile));
-
-        //        return true;
-
-        //    case Define.PlaceEvent.Interaction:
-        //        StopCoroutine(Cor_Move);
-        //        Cor_Move = null;
-        //        LookInteraction(next.Place_Tile);
-        //        Cor_Encounter = StartCoroutine(Encounter_Interaction(tile));
-        //        State = NPCState.Interaction;
-        //        return true;
-
-        //    case Define.PlaceEvent.Placement:
-        //        break;
-
-        //    case Define.PlaceEvent.Nothing:
-        //        break;
-
-        //    default:
-        //        break;
-        //}
-
-        //return false;
     }
 
-    //IEnumerator Encounter_Portal(BasementTile tile, Action<int> action)
-    //{
-    //    var type = tile.unchangeable as Facility;
-    //    int floor;
-
-    //    if (type)
-    //    {
-    //        yield return type.NPC_Interaction_Portal(this, out floor);
-    //        yield return new WaitForEndOfFrame();
-    //        action.Invoke(floor);
-    //    }
-    //}
-
-    //IEnumerator Encounter_NoStateRefresh(BasementTile tile, Action action)
-    //{
-    //    var type = tile.unchangeable as Facility;
-
-    //    if (type)
-    //    {
-    //        yield return type.NPC_Interaction(this);
-    //        yield return new WaitForEndOfFrame();
-    //        action.Invoke();
-    //    }
-    //}
 
     IEnumerator Encounter_Interaction(BasementTile tile)
     {

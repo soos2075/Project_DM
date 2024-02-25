@@ -12,14 +12,5 @@ public class Skeleton : Monster
     }
 
 
-    public override void TurnStart()
-    {
-        MoveSelf();
-    }
-
-    void MoveSelf()
-    {
-        Cor_Moving = StartCoroutine(MoveCor());
-    }
 
 }

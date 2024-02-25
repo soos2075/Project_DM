@@ -10,6 +10,20 @@ public class Miner : NPC
     public override List<BasementTile> PriorityList { get; set; }
     protected override Define.TileType[] AvoidTileType { get; set; }
 
+    protected override void SetRandomClothes()
+    {
+        var collection = characterBuilder.SpriteCollection;
+        characterBuilder.Armor = "MinerArmour";
+        characterBuilder.Weapon = "Pickaxe";
+        characterBuilder.Helmet = "MinerHelment";
+        characterBuilder.Back = "LargeBackpack";
+
+        characterBuilder.Armor += $"#FFFFFF/{Random.Range(-100, 100)}:{Random.Range(-70, 70)}:{Random.Range(-50, 50)}";
+        characterBuilder.Weapon += $"#FFFFFF/{Random.Range(-100, 100)}:{Random.Range(-70, 70)}:{Random.Range(-50, 50)}";
+        characterBuilder.Helmet += $"#FFFFFF/{Random.Range(-50, 50)}:0:0";
+
+        characterBuilder.Rebuild();
+    }
     void Init_AvoidType()
     {
         AvoidTileType = new Define.TileType[] { Define.TileType.NPC, Define.TileType.Monster };

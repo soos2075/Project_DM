@@ -168,7 +168,12 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
     public virtual void TurnStart()
     {
-        //MoveSelf();
+        MoveSelf();
+    }
+    public virtual void MoveSelf()
+    {
+        Debug.Log("몬스터 무브애니메이션 다시 시작");
+        Cor_Moving = StartCoroutine(MoveCor());
     }
 
     #region MonsterMove
@@ -346,7 +351,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
     #endregion
 
-
+    int BattleCount { get; set; } = 0;
     Coroutine Cor_Battle { get; set; }
 
     public Coroutine Battle(NPC npc)
@@ -365,8 +370,14 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
     IEnumerator BattleWait(NPC npc)
     {
-        PlacementState = PlacementState.Busy;
-        npc.ActionPoint -= 2;
+        BattleCount++;
+        StartCoroutine(BattleStateBusy());
+        if (Cor_Moving != null)
+        {
+            StopCoroutine(Cor_Moving);
+        }
+
+        npc.ActionPoint -= Data.Battle_AP;
 
         UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 전투발생 : " +
             $"{npc.Name_KR} vs " +
@@ -374,16 +385,6 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
         BattleField.BattleResult result = 0;
         yield return BattleManager.Instance.ShowBattleField(npc, this, out result);
-
-
-        //var bf = Managers.Resource.Instantiate("Battle/BattleField").GetComponent<BattleField>();
-        //bf.transform.position = npc.transform.position + new Vector3(Random.value, Random.value, 0);
-        //var result = bf.Battle(npc, this);
-
-        //Time.timeScale = 0;
-        //yield return bf.BattlePlay();
-        //Managers.Resource.Destroy(bf.gameObject);
-        //Time.timeScale = 1;
 
         switch (result)
         {
@@ -402,8 +403,21 @@ public abstract class Monster : MonoBehaviour, IPlacementable
                 GetBattlePoint(npc.Rank * 2);
                 break;
         }
+
+        BattleCount--;
+        if (BattleCount == 0)
+        {
+            MoveSelf();
+        }
+    }
+
+    IEnumerator BattleStateBusy()
+    {
+        PlacementState = PlacementState.Busy;
+        yield return new WaitForSeconds(Data.Battle_Interval);
         PlacementState = PlacementState.Standby;
     }
+
 
     public void MonsterOutFloor()
     {

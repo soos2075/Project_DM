@@ -8,6 +8,30 @@ public class Adventurer : NPC
     public override List<BasementTile> PriorityList { get; set; }
     protected override Define.TileType[] AvoidTileType { get; set; }
 
+    protected override void SetRandomClothes()
+    {
+        var collection = characterBuilder.SpriteCollection;
+        { // hair = 9
+            int ran = Random.Range(0, collection.Layers[9].Textures.Count);
+            characterBuilder.Hair = collection.Layers[9].Textures[ran].name;
+            string hexColor = Define.HairColors[Random.Range(0, 24)];
+            characterBuilder.Hair += hexColor;
+        }
+
+        { // armor = 4
+            int ran = Random.Range(0, collection.Layers[4].Textures.Count);
+            characterBuilder.Armor = collection.Layers[4].Textures[ran].name;
+        }
+
+        { // Weapon = 14
+            int ran = Random.Range(0, collection.Layers[14].Textures.Count);
+            characterBuilder.Weapon = collection.Layers[14].Textures[ran].name;
+        }
+
+        characterBuilder.Rebuild();
+    }
+
+
     void Init_AvoidType()
     {
         AvoidTileType = new Define.TileType[] { Define.TileType.NPC };

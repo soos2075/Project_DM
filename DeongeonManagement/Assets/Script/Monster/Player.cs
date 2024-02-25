@@ -15,6 +15,18 @@ public class Player : Monster
         detail = "모험이 끝난 모험가입니다. 모험가로서의 지식은 상당한 편이에요.";
     }
 
+    public override void TurnStart()
+    {
+        //MoveSelf();
+    }
+
+    public override void MoveSelf()
+    {
+        //Cor_Moving = StartCoroutine(MoveCor());
+    }
+
+
+
     public void Level_Stat(int dungeonLV)
     {
         switch (dungeonLV)

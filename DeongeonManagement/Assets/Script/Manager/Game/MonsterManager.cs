@@ -154,17 +154,20 @@ public class MonsterManager
 
             monster.LV = 1;
             monster.MAXLV = 25;
-            monster.HP = 15;
-            monster.ATK = 2;
+            monster.HP = 35;
+            monster.ATK = 5;
             monster.DEF = 4;
             monster.AGI = 2;
             monster.LUK = 3;
 
-            monster.HP_chance= 1.2f;
-            monster.ATK_chance = 0.3f;
+            monster.HP_chance= 1.6f;
+            monster.ATK_chance = 0.45f;
             monster.DEF_chance = 0.25f;
             monster.AGI_chance = 0.15f;
             monster.LUK_chance = 0.1f;
+
+            monster.Battle_AP = 1;
+            monster.Battle_Interval = 2;
 
             MonsterDatas.Add(monster);
         }
@@ -181,17 +184,20 @@ public class MonsterManager
 
             monster.LV = 3;
             monster.MAXLV = 20;
-            monster.HP = 30;
-            monster.ATK = 5;
+            monster.HP = 60;
+            monster.ATK = 9;
             monster.DEF = 4;
             monster.AGI = 4;
             monster.LUK = 4;
 
-            monster.HP_chance = 1.5f;
-            monster.ATK_chance = 0.4f;
+            monster.HP_chance = 1.3f;
+            monster.ATK_chance = 0.75f;
             monster.DEF_chance = 0.15f;
             monster.AGI_chance = 0.1f;
             monster.LUK_chance = 0.08f;
+
+            monster.Battle_AP = 1;
+            monster.Battle_Interval = 2;
 
             MonsterDatas.Add(monster);
         }
@@ -207,24 +213,27 @@ public class MonsterManager
             monster.Name_KR = "머쉬보이";
             monster.Name = "MushBoy";
             monster.prefabPath = "Monster/MushBoy";
-            monster.detail = "어둡고 습한곳을 좋아하는 버섯소년이에요. 강력한 독을 지니고 있어 모험가들에게 위협이 됩니다. 하지만 사실 건드리지 않으면 안전해요.";
+            monster.detail = "어둡고 습한곳을 좋아하는 버섯소년이에요. 강력한 독을 내뿜어 모험가들에게 위협이 됩니다. 높은 공격 잠재력을 지녔어요.";
             monster.sprite = Managers.Sprite.GetSprite("Monster/MushBoy");
 
-            monster.ManaCost = 300;
+            monster.ManaCost = 350;
 
             monster.LV = 1;
             monster.MAXLV = 30;
-            monster.HP = 25;
-            monster.ATK = 6;
+            monster.HP = 50;
+            monster.ATK = 15;
             monster.DEF = 2;
             monster.AGI = 2;
-            monster.LUK = 5;
+            monster.LUK = 7;
 
-            monster.HP_chance = 1.25f;
-            monster.ATK_chance = 0.6f;
+            monster.HP_chance = 1.6f;
+            monster.ATK_chance = 1.15f;
             monster.DEF_chance = 0.1f;
             monster.AGI_chance = 0.15f;
             monster.LUK_chance = 0.2f;
+
+            monster.Battle_AP = 2;
+            monster.Battle_Interval = 1f;
 
             MonsterDatas.Add(monster);
         }
@@ -234,24 +243,27 @@ public class MonsterManager
             monster.Name_KR = "이블아이";
             monster.Name = "EvilEye";
             monster.prefabPath = "Monster/EvilEye";
-            monster.detail = "매력적인 눈을 지닌 몬스터에요. 생김새때문에 피부가 약할 것 같지만, 실은 엄청 단단하기 때문에 괜찮다네요.";
+            monster.detail = "매력적인 눈을 지닌 몬스터에요. 생김새때문에 피부가 약할 것 같지만, 실은 엄청 단단하기 때문에 수비용으로 적절합니다.";
             monster.sprite = Managers.Sprite.GetSprite("Monster/EvilEye");
 
-            monster.ManaCost = 400;
+            monster.ManaCost = 550;
 
             monster.LV = 5;
             monster.MAXLV = 30;
-            monster.HP = 35;
-            monster.ATK = 5;
-            monster.DEF = 8;
+            monster.HP = 90;
+            monster.ATK = 9;
+            monster.DEF = 10;
             monster.AGI = 6;
-            monster.LUK = 1;
+            monster.LUK = 2;
 
-            monster.HP_chance = 1.6f;
-            monster.ATK_chance = 0.4f;
-            monster.DEF_chance = 0.4f;
+            monster.HP_chance = 1.8f;
+            monster.ATK_chance = 0.35f;
+            monster.DEF_chance = 0.55f;
             monster.AGI_chance = 0.2f;
             monster.LUK_chance = 0.05f;
+
+            monster.Battle_AP = 2;
+            monster.Battle_Interval = 1f;
 
             MonsterDatas.Add(monster);
         }
@@ -364,6 +376,10 @@ public class MonsterData
     public float DEF_chance { get; set; }
     public float AGI_chance { get; set; }
     public float LUK_chance { get; set; }
+
+
+    public int Battle_AP { get; set; }
+    public float Battle_Interval { get; set; }
 
 
 
