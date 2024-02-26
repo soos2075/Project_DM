@@ -25,7 +25,6 @@ public class UI_Monster_Management : UI_PopUp
         FloorPanel,
 
         CommandPanel,
-        atk,
         def,
         wan,
     }
@@ -53,7 +52,7 @@ public class UI_Monster_Management : UI_PopUp
         Retrieve,
 
         //? Command
-        Command_Attack,
+        //Command_Attack,
         Command_Defend,
         Command_Wander,
     }
@@ -214,7 +213,8 @@ public class UI_Monster_Management : UI_PopUp
         GetTMP(((int)Texts.Status)).text += $"ATK : {Current.monster.ATK} \tDEF : {Current.monster.DEF} \n" +
             $"AGI : {Current.monster.AGI} \tLUK : {Current.monster.LUK}";
 
-        GetTMP(((int)Texts.State)).text = "진화조건 : ???";
+
+        GetTMP(((int)Texts.State)).text = $"진화조건 : {Current.monster.Data.Evolution_Hint}";
 
         GetObject(((int)Etc.Profile)).GetComponent<Image>().sprite = Current.monster.Data.sprite;
     }
@@ -224,9 +224,9 @@ public class UI_Monster_Management : UI_PopUp
     #region CommandPanel
     void Init_CommandButton()
     {
-        GetButton(((int)Buttons.Command_Attack)).gameObject.AddUIEvent(data => ChangeMoveMode(Monster.MoveType.Move_Hunting));
+        //GetButton(((int)Buttons.Command_Attack)).gameObject.AddUIEvent(data => ChangeMoveMode(Monster.MoveType.Move_Hunting));
         GetButton(((int)Buttons.Command_Defend)).gameObject.AddUIEvent(data => ChangeMoveMode(Monster.MoveType.Fixed));
-        GetButton(((int)Buttons.Command_Wander)).gameObject.AddUIEvent(data => ChangeMoveMode(Monster.MoveType.Move_Wandering));
+        GetButton(((int)Buttons.Command_Wander)).gameObject.AddUIEvent(data => ChangeMoveMode(Monster.MoveType.Moving));
     }
 
     void ChangeMoveMode(Monster.MoveType _mode)
@@ -250,22 +250,20 @@ public class UI_Monster_Management : UI_PopUp
         switch (Current.monster.Mode)
         {
             case Monster.MoveType.Fixed:
-                GetImage(((int)Panels.atk)).color = Color.clear;
                 GetImage(((int)Panels.def)).color = Color.white;
                 GetImage(((int)Panels.wan)).color = Color.clear;
                 break;
 
-            case Monster.MoveType.Move_Wandering:
-                GetImage(((int)Panels.atk)).color = Color.clear;
+            case Monster.MoveType.Moving:
                 GetImage(((int)Panels.def)).color = Color.clear;
                 GetImage(((int)Panels.wan)).color = Color.white;
                 break;
 
-            case Monster.MoveType.Move_Hunting:
-                GetImage(((int)Panels.atk)).color = Color.white;
-                GetImage(((int)Panels.def)).color = Color.clear;
-                GetImage(((int)Panels.wan)).color = Color.clear;
-                break;
+            //case Monster.MoveType.Move_Hunting:
+            //    GetImage(((int)Panels.atk)).color = Color.white;
+            //    GetImage(((int)Panels.def)).color = Color.clear;
+            //    GetImage(((int)Panels.wan)).color = Color.clear;
+            //    break;
         }
     }
     #endregion

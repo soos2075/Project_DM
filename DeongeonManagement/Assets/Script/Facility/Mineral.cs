@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D.Animation;
 
 public class Mineral : Facility
 {
     public override FacilityEventType Type { get; set; }
     public override int InteractionOfTimes { get; set; }
     public override string Name { get; set; }
-    public override int OptionIndex { get { return ((int)mineralType); } set { mineralType = (MineralType)value; } }
+    public override int OptionIndex { get { return ((int)mineralType); } set { mineralType = (MienralCategory)value; } }
 
     public override void FacilityInit()
     {
@@ -17,9 +18,7 @@ public class Mineral : Facility
         Init_Mineral();
     }
 
-    public Sprite[] mineralSprites;
-
-    public enum MineralType
+    public enum MienralCategory
     {
         Rock = 0,
         Sand = 1,
@@ -28,7 +27,7 @@ public class Mineral : Facility
         Coal = 4,
         Diamond = 5,
     }
-    public MineralType mineralType { get; set; } = MineralType.Rock;
+    public MienralCategory mineralType { get; set; } = MienralCategory.Rock;
 
     float durationTime;
     int ap_value;
@@ -37,11 +36,12 @@ public class Mineral : Facility
 
     void Init_Mineral()
     {
-        GetComponentInChildren<SpriteRenderer>().sprite = mineralSprites[(int)mineralType];
+        var SLA = GetComponentInChildren<SpriteResolver>();
+        SLA.SetCategoryAndLabel(mineralType.ToString(), "Entry");
 
         switch (mineralType)
         {
-            case MineralType.Rock:
+            case MienralCategory.Rock:
                 if (InteractionOfTimes <= 0)
                 {
                     InteractionOfTimes = 3;
@@ -55,7 +55,7 @@ public class Mineral : Facility
                 hp_value = 0;
                 break;
 
-            case MineralType.Sand:
+            case MienralCategory.Sand:
                 if (InteractionOfTimes <= 0)
                 {
                     InteractionOfTimes = 4;
@@ -69,7 +69,7 @@ public class Mineral : Facility
                 hp_value = 0;
                 break;
 
-            case MineralType.Stone:
+            case MienralCategory.Stone:
                 if (InteractionOfTimes <= 0)
                 {
                     InteractionOfTimes = 5;
@@ -83,7 +83,7 @@ public class Mineral : Facility
                 hp_value = 0;
                 break;
 
-            case MineralType.Iron:
+            case MienralCategory.Iron:
                 if (InteractionOfTimes <= 0)
                 {
                     InteractionOfTimes = 3;
@@ -97,7 +97,7 @@ public class Mineral : Facility
                 hp_value = 0;
                 break;
 
-            case MineralType.Coal:
+            case MienralCategory.Coal:
                 if (InteractionOfTimes <= 0)
                 {
                     InteractionOfTimes = 5;
@@ -111,7 +111,7 @@ public class Mineral : Facility
                 hp_value = 0;
                 break;
 
-            case MineralType.Diamond:
+            case MienralCategory.Diamond:
                 if (InteractionOfTimes <= 0)
                 {
                     InteractionOfTimes = 2;

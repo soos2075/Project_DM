@@ -123,12 +123,14 @@ public class Define
 
 
     #region Animation
-    public static readonly int ANIM_attack = Animator.StringToHash("attack");
-    public static readonly int ANIM_idle = Animator.StringToHash("idle");
-    public static readonly int ANIM_dead = Animator.StringToHash("dead");
-    public static readonly int ANIM_interaction = Animator.StringToHash("interaction");
-    public static readonly int ANIM_run = Animator.StringToHash("run");
-    public static readonly int ANIM_walk = Animator.StringToHash("walk");
+    public static readonly int ANIM_Attack = Animator.StringToHash("Attack");
+    public static readonly int ANIM_Idle = Animator.StringToHash("Idle");
+    public static readonly int ANIM_Dead = Animator.StringToHash("Dead");
+    public static readonly int ANIM_Interaction = Animator.StringToHash("Interaction");
+    //public static readonly int ANIM_run = Animator.StringToHash("run");
+    //public static readonly int ANIM_walk = Animator.StringToHash("walk");
+    public static readonly int ANIM_Running = Animator.StringToHash("Running");
+    public static readonly int ANIM_Ready = Animator.StringToHash("Ready");
 
     #endregion
 
@@ -139,23 +141,19 @@ public class Define
     public static readonly Color Color_Blue = new Color32(100, 100, 255, 175);
     public static readonly Color Color_Red = new Color32(255, 100, 100, 175);
     public static readonly Color Color_White = new Color32(255, 255, 255, 175);
-    public static readonly Color Color_Gray = new Color32(155, 155, 155, 255);
 
     public static readonly Color Color_Yellow = new Color32(255, 255, 100, 175);
     public static readonly Color Color_Dark = new Color32(50, 50, 50, 175);
 
-    public static readonly Color Color_Alpha_0 = new Color32(255, 255, 255, 255);
     public static readonly Color Color_Alpha_1 = new Color32(255, 255, 255, 235);
     public static readonly Color Color_Alpha_2 = new Color32(255, 255, 255, 215);
     public static readonly Color Color_Alpha_3 = new Color32(255, 255, 255, 195);
     public static readonly Color Color_Alpha_4 = new Color32(255, 255, 255, 175);
     public static readonly Color Color_Alpha_5 = new Color32(255, 255, 255, 155);
-
     public static readonly Color Color_Alpha_6 = new Color32(255, 255, 255, 100);
     public static readonly Color Color_Alpha_7 = new Color32(255, 255, 255, 50);
     public static readonly Color Color_Alpha_8 = new Color32(255, 255, 255, 25);
 
-    public static readonly Color Color_Gamma_0 = new Color32(255, 255, 255, 255);
     public static readonly Color Color_Gamma_1 = new Color32(235, 235, 235, 255);
     public static readonly Color Color_Gamma_2 = new Color32(215, 215, 215, 255);
     public static readonly Color Color_Gamma_3 = new Color32(190, 190, 190, 255);

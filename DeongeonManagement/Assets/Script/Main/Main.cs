@@ -34,20 +34,55 @@ public class Main : MonoBehaviour
     Transform guild;
     Transform dungeon;
 
-    public DamageNumber dmMesh;
-    public DamageNumber dmMesh_dungeon;
+    public DamageNumber dm_large; // 1
+    public DamageNumber dm_small; // 0
 
-    public void ShowDM_Guild(string _msg, Color _color)
+    public enum TextType
     {
-        var dm = dmMesh.Spawn(guild.position, _msg);
-        dm.SetColor(_color);
+        pop,
+        danger,
+        mana,
+        gold,
+        exp,
     }
-    public void ShowDM_Dungeon(string _msg, Color _color)
+    public void ShowDM(int _value, TextType _textType, Transform _pos, int _sizeOption = 0)
     {
-        var dm = dmMesh.Spawn(dungeon.position, _msg);
-        dm.SetColor(_color);
-    }
+        DamageNumber origin = _sizeOption == 0 ? dm_small : dm_large;
 
+        string _msg = _value > 0 ? $"+{_value} " : $"{_value} ";
+        switch (_textType)
+        {
+            case TextType.pop:
+                _msg += "pop";
+                var dm = origin.Spawn(_pos.position, _msg);
+                dm.SetColor(Color.green);
+                break;
+
+            case TextType.danger:
+                _msg += "danger";
+                var dm2 = origin.Spawn(_pos.position, _msg);
+                dm2.SetColor(Color.red);
+                break;
+
+            case TextType.mana:
+                _msg += "mana";
+                var dm3 = origin.Spawn(_pos.position, _msg);
+                dm3.SetColor(Color.blue);
+                break;
+
+            case TextType.gold:
+                _msg += "gold";
+                var dm4 = origin.Spawn(_pos.position, _msg);
+                dm4.SetColor(Color.yellow);
+                break;
+
+            case TextType.exp:
+                _msg += "exp";
+                var dm5 = origin.Spawn(_pos.position, _msg);
+                dm5.SetColor(Color.white);
+                break;
+        }
+    }
 
     #endregion
 
@@ -66,10 +101,10 @@ public class Main : MonoBehaviour
     {
         ActiveFloor_Basement = 5;
         ActiveFloor_Technical = 2;
-        DungeonRank = 2;
+        DungeonRank = 3;
 
         DangerOfDungeon = 100;
-        PopularityOfDungeon = 500;
+        PopularityOfDungeon = 200;
 
         Player_Mana = 3000;
         Player_Gold = 3000;
@@ -100,7 +135,6 @@ public class Main : MonoBehaviour
         {
             if (_ui_main == null)
             {
-                //_ui_main = FindObjectOfType<UI_Management>();
                 _ui_main = FindAnyObjectByType<UI_Management>();
             }
             return _ui_main; }
@@ -139,7 +173,6 @@ public class Main : MonoBehaviour
         Player_AP = 2;
         AP_MAX = 2;
 
-
         Init_BasementFloor();
         Init_Animation();
         UI_Main.Start_Main();
@@ -164,7 +197,7 @@ public class Main : MonoBehaviour
         yield return new WaitUntil(() => Time.timeScale == 1);
         var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
         message.Message = "던전에 다양한 시설과 몬스터들을 배치하여 모험가들에게 마나를 얻으세요!\n\n" +
-            "마나는 기본적으로 모험가들이 던전에서 행하는 모든 행동에서 얻을 수 있어요.";
+            "마나는 기본적으로 모험가들이 던전에서 행하는 대부분의 행동에서 얻을 수 있어요.";
 
     }
     void Instantiate_DayOne()
@@ -231,7 +264,7 @@ public class Main : MonoBehaviour
             var info = new PlacementInfo(Floor[2], tile);
             var facil = GameManager.Facility.CreateFacility("Mineral", info);
             var mineral = facil as Mineral;
-            mineral.OptionIndex = (int)Mineral.MineralType.Rock;
+            mineral.OptionIndex = (int)Mineral.MienralCategory.Rock;
         }
     }
 
@@ -500,26 +533,26 @@ public class Main : MonoBehaviour
         public void AddPop(int _value)
         {
             Popularity += _value;
-            if (_value > 0)
-            {
-                Instance.ShowDM_Dungeon($"+{_value} pop", Color.green);
-            }
-            else
-            {
-                Instance.ShowDM_Dungeon($"{_value} pop", Color.green);
-            }
+            //if (_value > 0)
+            //{
+            //    Instance.ShowDM_Dungeon($"+{_value} pop", Color.green);
+            //}
+            //else
+            //{
+            //    Instance.ShowDM_Dungeon($"{_value} pop", Color.green);
+            //}
         }
         public void AddDanger(int _value)
         {
             Danger += _value;
-            if (_value > 0)
-            {
-                Instance.ShowDM_Dungeon($"+{_value} danger", Color.red);
-            }
-            else
-            {
-                Instance.ShowDM_Dungeon($"{_value} danger", Color.red);
-            }
+            //if (_value > 0)
+            //{
+            //    Instance.ShowDM_Dungeon($"+{_value} danger", Color.red);
+            //}
+            //else
+            //{
+            //    Instance.ShowDM_Dungeon($"{_value} danger", Color.red);
+            //}
         }
 
         public int fame_perv;
@@ -656,8 +689,7 @@ public class Main : MonoBehaviour
                 break;
 
             case 1:
-                //Debug.Log("1일차 시작 이벤트 발생");
-                
+                Debug.Log("1일차 테스트");
                 break;
 
             case 3:
@@ -668,7 +700,7 @@ public class Main : MonoBehaviour
 
             case 8:
                 Debug.Log("8일차 시작 이벤트 - 패배 트리거 이벤트 모험가 소환");
-                //GameManager.NPC.AddEventNPC(NPCManager.NPCType.Adventurer_0, 9);
+                GameManager.NPC.AddEventNPC(NPCManager.NPCType.Event_Day8, 9);
                 break;
 
             case 15:

@@ -32,14 +32,15 @@ public class Exit : Facility
     IEnumerator FloorExit(NPC npc) //? 지하층으로 내려가는 입구에 도착했을 때 호출
     {
         yield return new WaitForSeconds(npc.ActionDelay);
-        yield return new WaitForSeconds(1);
 
         if (npc.State == NPC.NPCState.Return_Empty)
         {
+            yield return new WaitForSeconds(0.5f);
             npc.FloorPrevious();
         }
         else if(npc.State == NPC.NPCState.Runaway || npc.State == NPC.NPCState.Return_Satisfaction)
         {
+            yield return new WaitForSeconds(0.5f);
             npc.FloorEscape();
         }
         else

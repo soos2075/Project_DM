@@ -37,8 +37,8 @@ public class Entrance : Facility
         {
             yield return new WaitForSeconds(0.5f);
             Main.Instance.CurrentDay.AddMana(3);
-            var dm = Main.Instance.dmMesh_dungeon.Spawn(transform.position, $"+{3} mana");
-            dm.SetColor(Color.blue);
+            Main.Instance.ShowDM(3, Main.TextType.mana, transform);
+
             npc.FloorNext();
         }
         else

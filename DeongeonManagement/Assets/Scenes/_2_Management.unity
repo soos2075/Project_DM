@@ -36376,8 +36376,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38b750f1a25be524d977ed77ced37da4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dmMesh: {fileID: 3805890467462669109, guid: e33356c1f3db6e545b3281cd08173db5, type: 3}
-  dmMesh_dungeon: {fileID: 3805890467462669109, guid: 003c40b4cf6436e4299f1482600203db, type: 3}
+  dm_large: {fileID: 3805890467462669109, guid: e33356c1f3db6e545b3281cd08173db5, type: 3}
+  dm_small: {fileID: 3805890467462669109, guid: 003c40b4cf6436e4299f1482600203db, type: 3}
 --- !u!4 &1061827759
 Transform:
   m_ObjectHideFlags: 0

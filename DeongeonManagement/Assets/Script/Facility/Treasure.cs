@@ -1,24 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D.Animation;
 
 public class Treasure : Facility
 {
     public override FacilityEventType Type { get; set; }
     public override int InteractionOfTimes { get; set; }
     public override string Name { get; set; }
-    public override int OptionIndex { get { return ((int)treasureType); } set { treasureType = (TreasureType)value; } }
+    public override int OptionIndex { get { return ((int)treasureType); } set { treasureType = (TreasureCategory)value; } }
 
-
-    public Sprite[] treasureSprites;
-    public enum TreasureType
+    public enum TreasureCategory
     {
-        sword,
-        ring,
-        coin,
-        scroll,
+        Sword,
+        Ring,
+        Hat,
+        Scroll,
+        Coin,
+        Crown,
+
     }
-    public TreasureType treasureType;
+    public TreasureCategory treasureType;
 
     float durationTime;
     int ap_value;
@@ -32,15 +34,74 @@ public class Treasure : Facility
     public override void FacilityInit()
     {
         Type = FacilityEventType.NPC_Interaction;
+        Name_prefab = name;
         InteractionOfTimes = 1;
-        Name = "보물";
-        Detail_KR = "모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.";
+        durationTime = 5;
+        ap_value = 3;
+        mp_value = 30;
+        gold_value = 0;
+        hp_value = 0;
+        pop_value = 5;
+        danger_value = 0;
 
-        if (InteractionOfTimes <= 0)
+        CategorySelect();
+    }
+
+    void CategorySelect()
+    {
+        var SLA = GetComponentInChildren<SpriteResolver>();
+        SLA.SetCategoryAndLabel(treasureType.ToString(), "Entry");
+
+        switch (treasureType)
         {
-            InteractionOfTimes = 1;
+            case TreasureCategory.Sword:
+                Name = "골든 소드";
+                Detail_KR = "모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.";
+
+                break;
+
+            case TreasureCategory.Ring:
+                Name = "매직 링";
+                Detail_KR = "모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.";
+                ap_value = 5;
+                mp_value = 50;
+                pop_value = 8;
+                break;
+
+            case TreasureCategory.Hat:
+                Name = "마법사의 모자";
+                Detail_KR = "모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.";
+                mp_value = 50;
+                pop_value = 10;
+                break;
+
+            case TreasureCategory.Scroll:
+                Name = "마법 스크롤";
+                Detail_KR = "모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.";
+                ap_value = 5;
+                mp_value = 50;
+                pop_value = 7;
+                danger_value = 3;
+                break;
+
+            case TreasureCategory.Coin:
+                Name = "던전 금화";
+                Detail_KR = "모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.";
+                ap_value = 2;
+                mp_value = 20;
+                break;
+
+            case TreasureCategory.Crown:
+                Name = "황금 왕관";
+                Detail_KR = "모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.";
+                ap_value = 7;
+                mp_value = 70;
+                pop_value = 5;
+                break;
         }
     }
+
+
 
 
     public override Coroutine NPC_Interaction(NPC npc)
@@ -65,12 +126,16 @@ public class Treasure : Facility
         yield return new WaitForSeconds(durationTime);
 
         int changeMP = mp_value;
+        int changeGold = gold_value;
         int changePop = pop_value;
+        int changeDanger = danger_value;
 
         if (npc.GetType() != typeof(Adventurer))
         {
             changeMP = (int)(mp_value * 0.3f);
+            changeGold = (int)(gold_value * 0.3f);
             changePop = (int)(pop_value * 0.3f);
+            changeDanger = (int)(danger_value * 0.3f);
         }
 
 
@@ -84,13 +149,13 @@ public class Treasure : Facility
         if (applyMana > 0)
         {
             Main.Instance.CurrentDay.AddMana(applyMana);
-            var dm = Main.Instance.dmMesh_dungeon.Spawn(transform.position, $"+{applyMana} mana");
+            var dm = Main.Instance.dm_small.Spawn(transform.position, $"+{applyMana} mana");
             dm.SetColor(Color.blue);
         }
 
-        Main.Instance.CurrentDay.AddGold(gold_value);
-        Main.Instance.CurrentDay.AddPop(pop_value);
-        Main.Instance.CurrentDay.AddDanger(danger_value);
+        Main.Instance.CurrentDay.AddGold(changeGold);
+        Main.Instance.CurrentDay.AddPop(changePop);
+        Main.Instance.CurrentDay.AddDanger(changeDanger);
 
         OverCor(npc);
     }

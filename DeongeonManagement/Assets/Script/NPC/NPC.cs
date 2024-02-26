@@ -22,11 +22,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
     #region PixelEditor
     protected CharacterBuilder characterBuilder;
-
-    protected virtual void SetRandomClothes()
-    {
-
-    }
+    protected abstract void SetRandomClothes();
 
     #endregion
 
@@ -34,7 +30,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
     #region Animation
     Animator anim;
-    public enum moveState
+    public enum animState
     {
         none = 0,
 
@@ -62,15 +58,15 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         // resting
         Resting,
     }
-    private moveState _animState;
-    public moveState Anim_State { get { return _animState; } 
+    private animState _animState;
+    public animState Anim_State { get { return _animState; } 
         set 
         { 
             _animState = value;
             SetAnim_State(_animState);
         } }
 
-    void SetAnim_State(moveState state)
+    void SetAnim_State(animState state)
     {
         if (anim == null)
         {
@@ -79,38 +75,38 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         switch (state)
         {
-            case moveState.front:
-            case moveState.left:
+            case animState.front:
+            case animState.left:
                 transform.localScale = new Vector3(-0.5f, 0.5f, 0.5f);
                 anim.Play("Running");
                 break;
 
-            case moveState.back:
-            case moveState.right:
+            case animState.back:
+            case animState.right:
                 transform.localScale = Vector3.one * 0.5f;
                 anim.Play("Running");
                 break;
 
-            case moveState.front_Action:
-            case moveState.left_Action:
+            case animState.front_Action:
+            case animState.left_Action:
                 transform.localScale = new Vector3(-0.5f, 0.5f, 0.5f);
                 anim.Play("Interaction");
                 break;
 
-            case moveState.back_Action:
-            case moveState.right_Action:
+            case animState.back_Action:
+            case animState.right_Action:
                 transform.localScale = Vector3.one * 0.5f;
                 anim.Play("Interaction");
                 break;
 
-            case moveState.front_Battle:
-            case moveState.left_Battle:
+            case animState.front_Battle:
+            case animState.left_Battle:
                 transform.localScale = new Vector3(-0.5f, 0.5f, 0.5f);
                 anim.Play("Ready");
                 break;
 
-            case moveState.back_Battle:
-            case moveState.right_Battle:
+            case animState.back_Battle:
+            case animState.right_Battle:
                 transform.localScale = Vector3.one * 0.5f;
                 anim.Play("Ready");
                 break;
@@ -180,22 +176,22 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         if (dir.x > 0)
         {
             //? 무브 오른쪽
-            Anim_State = moveState.right;
+            Anim_State = animState.right;
         }
         else if (dir.x < 0)
         {
             //? 왼쪽
-            Anim_State = moveState.left;
+            Anim_State = animState.left;
         }
         else if (dir.y > 0)
         {
             //? 위
-            Anim_State = moveState.back;
+            Anim_State = animState.back;
         }
         else if (dir.y < 0)
         {
             //? 아래
-            Anim_State = moveState.front;
+            Anim_State = animState.front;
         }
 
         float dis = Vector3.Distance(startPos.worldPosition, endPos.worldPosition);
@@ -222,23 +218,23 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         if (dir.x > 0)
         {
             //? 무브 오른쪽
-            Anim_State = NPC.moveState.right_Action;
+            Anim_State = NPC.animState.right_Action;
         }
         else if (dir.x < 0)
         {
             //? 왼쪽
-            Anim_State = NPC.moveState.left_Action;
+            Anim_State = NPC.animState.left_Action;
         }
-        else if (dir.y > 0)
-        {
-            //? 위
-            Anim_State = NPC.moveState.back_Action;
-        }
-        else if (dir.y < 0)
-        {
-            //? 아래
-            Anim_State = NPC.moveState.front_Action;
-        }
+        //else if (dir.y > 0)
+        //{
+        //    //? 위
+        //    Anim_State = NPC.moveState.back_Action;
+        //}
+        //else if (dir.y < 0)
+        //{
+        //    //? 아래
+        //    Anim_State = NPC.moveState.front_Action;
+        //}
     }
     void LookBattle(BasementTile endPos)
     {
@@ -248,23 +244,23 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         if (dir.x > 0)
         {
             //? 무브 오른쪽
-            Anim_State = NPC.moveState.right_Battle;
+            Anim_State = NPC.animState.right_Battle;
         }
         else if (dir.x < 0)
         {
             //? 왼쪽
-            Anim_State = NPC.moveState.left_Battle;
+            Anim_State = NPC.animState.left_Battle;
         }
-        else if (dir.y > 0)
-        {
-            //? 위
-            Anim_State = NPC.moveState.back_Battle;
-        }
-        else if (dir.y < 0)
-        {
-            //? 아래
-            Anim_State = NPC.moveState.front_Battle;
-        }
+        //else if (dir.y > 0)
+        //{
+        //    //? 위
+        //    Anim_State = NPC.moveState.back_Battle;
+        //}
+        //else if (dir.y < 0)
+        //{
+        //    //? 아래
+        //    Anim_State = NPC.moveState.front_Battle;
+        //}
     }
 
     #endregion
@@ -424,9 +420,9 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
     #region Ground
 
-    bool inDungeon;
+    protected bool inDungeon;
 
-    public void Departure(Vector3 startPoint, Vector3 endPoint)
+    public virtual void Departure(Vector3 startPoint, Vector3 endPoint)
     {
         transform.position = startPoint;
         GameManager.Placement.Visible(this);
@@ -434,7 +430,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         //Managers.Resource.Instantiate("UI/UI_StateBar", transform);
 
         StartCoroutine(MoveToPoint(endPoint));
-        Anim_State = moveState.right;
+        Anim_State = animState.right;
     }
 
     IEnumerator MoveToPoint(Vector3 point)
@@ -462,7 +458,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         transform.position = GameManager.NPC.dungeonEntrance.position;
         GameManager.Placement.Visible(this);
         StartCoroutine(MoveToHome(GameManager.NPC.guild.position));
-        Anim_State = moveState.left;
+        Anim_State = animState.left;
     }
 
     IEnumerator MoveToHome(Vector3 point)
@@ -557,7 +553,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     #endregion
 
 
-
+    public bool isReturn { get; set; } = false;
     public enum NPCState
     {
         Non,
@@ -602,6 +598,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             FloorLevel--;
             Debug.Log($"{name}(이)가 {FloorLevel}층에서 더이상 올라갈 수 없음");
             State = NPCState.Return_Empty;
+            isReturn = true;
             return;
         }
 
@@ -650,7 +647,17 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         var info_Exit = new PlacementInfo(Main.Instance.Floor[FloorLevel - 1], Main.Instance.Floor[FloorLevel - 1].Entrance.PlacementInfo.Place_Tile);
         GameManager.Placement.PlacementConfirm(this, info_Exit);
 
-        SearchPreviousFloor(); //? 지상으로 올라가는 경우는 나가는 경우니까 우선순위상관없이 출구만 1순위로 찾음. 추가로 State의 변경도 하면 안됨.
+        //SearchPreviousFloor(); // FloorPrevious로 들어오는경우는 Return_Empty 하나임. 나머진 즉시 탈출이라. 그러니까 돌아갈떄도 추가서치하는게 맞음.
+        SetPriorityList(); //? 우선순위에 맞춰 맵탐색
+
+        if (PriorityList.Count > 0)
+        {
+            State = NPCState.Priority;
+        }
+        else
+        {
+            SearchPreviousFloor();
+        }
     }
 
     public void FloorEscape() //? 긴급탈출 - 바로 지상으로 감
@@ -718,7 +725,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     }
     void NPC_Inactive()
     {
-        GameManager.NPC.InactiveNPC(this);
+        //GameManager.NPC.InactiveNPC(this);
         NPC_Die();
     }
     protected abstract void NPC_Runaway();
@@ -729,8 +736,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     protected abstract void NPC_Die();
     protected abstract void NPC_Captive();
 
-
-
+    public virtual int RunawayHpRatio { get; set; } = 4;
 
     public NPCState StateRefresh()
     {
@@ -751,12 +757,9 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             return NPCState.Return_Satisfaction;
         }
 
-        if (HP < (HP_MAX / 4))
+        if (HP < (HP_MAX / RunawayHpRatio))
         {
-            if (GetType() != typeof(QuestHunter))
-            {
-                return NPCState.Runaway;
-            }
+            return NPCState.Runaway;
         }
 
 
@@ -769,7 +772,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             PriorityList.RemoveAll(r => r.tileType_Original == Define.TileType.Empty || r.Original.PlacementState == PlacementState.Busy);
             if (PriorityList.Count == 0)
             {
-                return NPCState.Next;
+                return isReturn ? NPCState.Return_Empty : NPCState.Next;
+                //return NPCState.Next;
             }
             else
             {

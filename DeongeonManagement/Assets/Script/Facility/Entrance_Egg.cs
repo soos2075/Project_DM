@@ -38,7 +38,7 @@ public class Entrance_Egg : Facility
         {
             yield return new WaitForSeconds(0.5f);
 
-            var dm = Main.Instance.dmMesh_dungeon.Spawn(transform.position, $"+{5} danger");
+            var dm = Main.Instance.dm_small.Spawn(transform.position, $"+{5} danger");
             dm.SetColor(Color.red);
             Main.Instance.CurrentDay.AddDanger(5);
 

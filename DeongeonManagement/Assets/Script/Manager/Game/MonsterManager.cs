@@ -147,8 +147,11 @@ public class MonsterManager
             monster.Name_KR = "슬라임";
             monster.Name = "Slime";
             monster.prefabPath = "Monster/Slime";
-            monster.detail = "의외로 귀여운 슬라임입니다. 약하긴 하지만 그렇다고 슬라임을 버리실건가요? 분명 열심히 키우면 보답받을거에요!";
+            monster.detail = "자세히 보면 의외로 귀여운 슬라임입니다. 약하긴 하지만 성장가능성이 무궁무진한 몬스터입니다.";
             monster.sprite = Managers.Sprite.GetSprite("Monster/Slime");
+
+            monster.Evolution_Hint = "최대 레벨을 찍고 길드게시판을 확인";
+            monster.Evolution_Detail = "슬라임 헌터 처치";
 
             monster.ManaCost = 120;
 
@@ -167,23 +170,26 @@ public class MonsterManager
             monster.LUK_chance = 0.1f;
 
             monster.Battle_AP = 1;
-            monster.Battle_Interval = 2;
+            monster.Battle_Interval = 5;
 
             MonsterDatas.Add(monster);
         }
 
         {
             MonsterData monster = new MonsterData();
-            monster.Name_KR = "스켈레톤";
-            monster.Name = "Skeleton";
-            monster.prefabPath = "Monster/Skeleton";
-            monster.detail = "조금은 무서운 스켈레톤입니다. 튼튼하고 강해서 모험가들을 상대로 제격이에요. 하지만 조금 한계가 있을지도?";
-            monster.sprite = Managers.Sprite.GetSprite("Monster/Skeleton");
+            monster.Name_KR = "어스골렘";
+            monster.Name = "EarthGolem";
+            monster.prefabPath = "Monster/EarthGolem";
+            monster.detail = "던전에 마나를 융합해 창조해낸 골렘입니다. 튼튼하고 강해서 모험가들을 상대로 제격이에요. 하지만 조금 한계가 있을지도?";
+            monster.sprite = Managers.Sprite.GetSprite("Monster/EarthGolem");
+
+            monster.Evolution_Hint = "최대 레벨을 찍고 길드게시판을 확인";
+            monster.Evolution_Detail = "원소술사 처치";
 
             monster.ManaCost = 250;
 
             monster.LV = 3;
-            monster.MAXLV = 20;
+            monster.MAXLV = 18;
             monster.HP = 60;
             monster.ATK = 9;
             monster.DEF = 4;
@@ -197,23 +203,22 @@ public class MonsterManager
             monster.LUK_chance = 0.08f;
 
             monster.Battle_AP = 1;
-            monster.Battle_Interval = 2;
+            monster.Battle_Interval = 5;
 
             MonsterDatas.Add(monster);
         }
 
 
-
     }
 
-    public void AddLevel2()
+    public void AddLevel_2()
     {
         {
             MonsterData monster = new MonsterData();
             monster.Name_KR = "머쉬보이";
             monster.Name = "MushBoy";
             monster.prefabPath = "Monster/MushBoy";
-            monster.detail = "어둡고 습한곳을 좋아하는 버섯소년이에요. 강력한 독을 내뿜어 모험가들에게 위협이 됩니다. 높은 공격 잠재력을 지녔어요.";
+            monster.detail = "어둡고 습한곳을 좋아하는 버섯몬스터입니다. 높은 공격력을 지녔어요.";
             monster.sprite = Managers.Sprite.GetSprite("Monster/MushBoy");
 
             monster.ManaCost = 350;
@@ -233,7 +238,7 @@ public class MonsterManager
             monster.LUK_chance = 0.2f;
 
             monster.Battle_AP = 2;
-            monster.Battle_Interval = 1f;
+            monster.Battle_Interval = 3f;
 
             MonsterDatas.Add(monster);
         }
@@ -249,7 +254,7 @@ public class MonsterManager
             monster.ManaCost = 550;
 
             monster.LV = 5;
-            monster.MAXLV = 30;
+            monster.MAXLV = 25;
             monster.HP = 90;
             monster.ATK = 9;
             monster.DEF = 10;
@@ -263,13 +268,104 @@ public class MonsterManager
             monster.LUK_chance = 0.05f;
 
             monster.Battle_AP = 2;
-            monster.Battle_Interval = 1f;
+            monster.Battle_Interval = 3f;
+
+            MonsterDatas.Add(monster);
+        }
+
+        {
+            MonsterData monster = new MonsterData();
+            monster.Name_KR = "페어리";
+            monster.Name = "Fairy";
+            monster.prefabPath = "Monster/Fairy";
+            monster.detail = "순수한 마나의 결정체인 요정 몬스터입니다. 여러방면에서 좋은 밸런스를 가지고 있고, 잠재력도 높은 편입니다.";
+            monster.sprite = Managers.Sprite.GetSprite("Monster/Fairy");
+
+            monster.ManaCost = 550;
+
+            monster.LV = 1;
+            monster.MAXLV = 35;
+            monster.HP = 45;
+            monster.ATK = 8;
+            monster.DEF = 8;
+            monster.AGI = 6;
+            monster.LUK = 4;
+
+            monster.HP_chance = 1.6f;
+            monster.ATK_chance = 0.55f;
+            monster.DEF_chance = 0.35f;
+            monster.AGI_chance = 0.2f;
+            monster.LUK_chance = 0.25f;
+
+            monster.Battle_AP = 1;
+            monster.Battle_Interval = 3f;
 
             MonsterDatas.Add(monster);
         }
     }
 
+    public void AddLevel_3()
+    {
+        {
+            MonsterData monster = new MonsterData();
+            monster.Name_KR = "살라만드라";
+            monster.Name = "Salamandra";
+            monster.prefabPath = "Monster/Salamandra";
+            monster.detail = "원시적인 형태를 지닌 몬스터입니다. 불을 내뿜어 적을 공격합니다. 종족 특성으로 적을 위압하여 빨리 지치게 만들어요.";
+            monster.sprite = Managers.Sprite.GetSprite("Monster/Salamandra");
 
+            monster.ManaCost = 980;
+
+            monster.LV = 1;
+            monster.MAXLV = 40;
+            monster.HP = 65;
+            monster.ATK = 12;
+            monster.DEF = 9;
+            monster.AGI = 4;
+            monster.LUK = 4;
+
+            monster.HP_chance = 1.8f;
+            monster.ATK_chance = 0.9f;
+            monster.DEF_chance = 0.4f;
+            monster.AGI_chance = 0.15f;
+            monster.LUK_chance = 0.15f;
+
+            monster.Battle_AP = 3;
+            monster.Battle_Interval = 3f;
+
+            MonsterDatas.Add(monster);
+        }
+
+        {
+            MonsterData monster = new MonsterData();
+            monster.Name_KR = "그레이하운드";
+            monster.Name = "GreyHound";
+            monster.prefabPath = "Monster/GreyHound";
+            monster.detail = "친근감이 느껴지는 늑대형 몬스터입니다. 매우 용맹하고 재빠른 몸놀림을 지녔어요.";
+            monster.sprite = Managers.Sprite.GetSprite("Monster/GreyHound");
+
+            monster.ManaCost = 750;
+
+            monster.LV = 10;
+            monster.MAXLV = 35;
+            monster.HP = 80;
+            monster.ATK = 17;
+            monster.DEF = 5;
+            monster.AGI = 9;
+            monster.LUK = 8;
+
+            monster.HP_chance = 1.4f;
+            monster.ATK_chance = 0.55f;
+            monster.DEF_chance = 0.35f;
+            monster.AGI_chance = 0.35f;
+            monster.LUK_chance = 0.15f;
+
+            monster.Battle_AP = 2;
+            monster.Battle_Interval = 3f;
+
+            MonsterDatas.Add(monster);
+        }
+    }
 
 
 
@@ -355,8 +451,11 @@ public class MonsterData
 {
     public int ManaCost { get; set; }
     public string Name_KR { get; set; }
-
     public string Name { get; set; }
+
+
+    public string Evolution_Hint { get; set; }
+    public string Evolution_Detail { get; set; }
 
 
 

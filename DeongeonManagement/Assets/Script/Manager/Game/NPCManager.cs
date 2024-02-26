@@ -8,7 +8,8 @@ public class NPCManager
     {
         FillIndex();
         Init_Data();
-        Init_EventNPCData();
+        Init_QuestNPC();
+        Init_EventNPC();
 
         guild = Util.FindChild<Transform>(Main.Instance.gameObject, "Guild");
         dungeonEntrance = Util.FindChild<Transform>(Main.Instance.gameObject, "Dungeon");
@@ -117,16 +118,8 @@ public class NPCManager
     public void AddEventNPC(NPCType type, float time)
     {
         EventNPCAction += () => Main.Instance.StartCoroutine(EventNPC(type, time));
-
-        //if (EventNPCAction == null)
-        //{
-        //    EventNPCAction = () => Main.Instance.StartCoroutine(EventNPC(type, time));
-        //}
-        //else
-        //{
-        //    EventNPCAction += () => Main.Instance.StartCoroutine(EventNPC(type, time));
-        //}
     }
+
     public void AddEventNPC(QuestHunter.HunterType _hunter, float time)
     {
         EventNPCAction += () => Main.Instance.StartCoroutine(EventNPC(_hunter, time));
@@ -134,13 +127,13 @@ public class NPCManager
     IEnumerator EventNPC(NPCType type, float time)
     {
         yield return new WaitForSeconds(1);
-        InstantiateNPC(type);
+        InstantiateNPC_Event(type);
         Main.Instance.StartCoroutine(ActiveNPC(Instance_NPC_List.Count - 1, time));
     }
     IEnumerator EventNPC(QuestHunter.HunterType _hunter, float time)
     {
         yield return new WaitForSeconds(1);
-        InstantiateNPC_Event(NPCType.Hunter, _hunter);
+        InstantiateNPC_Quest(NPCType.Hunter, _hunter);
         Main.Instance.StartCoroutine(ActiveNPC(Instance_NPC_List.Count - 1, time));
     }
 
@@ -161,7 +154,10 @@ public class NPCManager
 
         //? 이벤트 NPC들.  순서는 자유, rankWeightedList와 관련없음.
         Hunter = 1000,
-
+        Event_Day8,
+        Event_Day15,
+        Event_Day23,
+        Event_Day30,
 
 
     }
@@ -212,7 +208,23 @@ public class NPCManager
             Debug.Log($"NPC_Data 없음 : {rank.ToString()}");
         }
     }
-    void InstantiateNPC_Event(NPCType _name, QuestHunter.HunterType _type)
+    void InstantiateNPC_Event(NPCType _name)
+    {
+        NPC_Data data = null;
+        if (NPCDatas.TryGetValue(_name.ToString(), out data))
+        {
+            var obj = GameManager.Placement.CreatePlacementObject($"NPC/{data.PrefabName}", null, PlacementType.NPC);
+            EventNPC _npc = obj as EventNPC;
+            _npc.SetData(data, -1);
+            Instance_NPC_List.Add(_npc);
+        }
+        else
+        {
+            Debug.Log($"이벤트 데이터 없음 : {_name.ToString()}");
+        }
+    }
+
+    void InstantiateNPC_Quest(NPCType _name, QuestHunter.HunterType _type)
     {
         NPC_Data data = null;
         if (NPCDatas.TryGetValue(_name.ToString(), out data))
@@ -499,12 +511,12 @@ public class NPCManager
     }
 
 
-    void Init_EventNPCData()
+    void Init_QuestNPC()
     {
         {
             NPC_Data npc = new NPC_Data();
 
-            npc.DictName = "Hunter_0";
+            npc.DictName = "Hunter";
             npc.PrefabName = "Hunter";
             npc.Name_Kr = "헌터";
             npc.Detail = "길드의 퀘스트를 받고 출동한 토벌대";
@@ -520,6 +532,33 @@ public class NPCManager
             npc.ActionPoint = 100;
             npc.Mana = 100;
             npc.Speed_Ground = 1.0f;
+            npc.ActionDelay = 1.0f;
+
+            NPCDatas.Add(npc.DictName, npc);
+        }
+    }
+
+    void Init_EventNPC()
+    {
+        {
+            NPC_Data npc = new NPC_Data();
+
+            npc.DictName = "Event_Day8";
+            npc.PrefabName = "EventNPC";
+            npc.Name_Kr = "혈기왕성한 견습모험가";
+            npc.Detail = "초보자 던전을 답파하여 주변의 인정을 받으려하는 견습 모험가";
+
+            npc.Rank = 3;
+            npc.ATK = 25;
+            npc.DEF = 0;
+            npc.AGI = 3;
+            npc.LUK = 3;
+            npc.HP = 80;
+            npc.HP_MAX = 80;
+
+            npc.ActionPoint = 15;
+            npc.Mana = 150;
+            npc.Speed_Ground = 0.8f;
             npc.ActionDelay = 1.0f;
 
             NPCDatas.Add(npc.DictName, npc);

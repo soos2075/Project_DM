@@ -89,22 +89,20 @@ public class BattleField : MonoBehaviour
             {
                 AddFlashWhite(obj_Left.GetComponentInChildren<SpriteRenderer>());
                 AddHPBar(roundList[i].damage, 0);
-                ani_monster.CrossFade(Define.ANIM_attack, 0.1f);
+                ani_monster.CrossFade(Define.ANIM_Attack, 0.1f);
                 yield return new WaitForSeconds(0.1f); //? crossFade 시간 동안은 hash값이 바뀌지 않으므로 그만큼은 기다려줘야함
 
                 if (roundList[i].roundResult == BattleResult.NPC_Die)
                 {
                     AddAction(roundList[i].damage, pos_Left, ani_npc);
 
-                    yield return new WaitUntil(() => ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_idle);
-
-                    yield return new WaitForSeconds(1f);
-                    var dm = Main.Instance.dmMesh.Spawn(pos_Right.GetChild(0).position, $"+{npc.Rank * 2} exp");
-                    dm.SetColor(Color.white);
+                    yield return new WaitUntil(() => ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Idle);
 
                     yield return new WaitForSeconds(0.5f);
-                    var dm2 = Main.Instance.dmMesh.Spawn(pos_Right.GetChild(0).position, $"+{npc.KillGold} gold");
-                    dm2.SetColor(Color.yellow);
+                    Main.Instance.ShowDM(npc.Rank * 2, Main.TextType.exp, pos_Right.GetChild(0), 1);
+
+                    yield return new WaitForSeconds(0.5f);
+                    Main.Instance.ShowDM(npc.KillGold, Main.TextType.gold, pos_Right.GetChild(0), 1);
 
                     yield return new WaitForSeconds(0.5f);
                     isOver = true;
@@ -115,23 +113,22 @@ public class BattleField : MonoBehaviour
                     AddAction(roundList[i].damage, pos_Left);
                 }
                 //Debug.Log(ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash + $"##");
-                yield return new WaitUntil(() => ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_idle);
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitUntil(() => ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Idle);
+                yield return new WaitForSeconds(0.5f);
             }
 
             if (roundList[i].attacker == PlacementType.NPC)
             {
-                yield return new WaitForSeconds(0.5f);
                 AddFlashWhite(obj_Right.GetComponentInChildren<SpriteRenderer>());
                 AddHPBar(0, roundList[i].damage);
-                ani_npc.CrossFade(Define.ANIM_attack, 0.1f);
+                ani_npc.CrossFade(Define.ANIM_Attack, 0.1f);
                 yield return new WaitForSeconds(0.1f); //? crossFade 시간 동안은 hash값이 바뀌지 않으므로 그만큼은 기다려줘야함
 
                 if (roundList[i].roundResult == BattleResult.Monster_Die)
                 {
                     AddAction(roundList[i].damage, pos_Right, ani_monster);
 
-                    yield return new WaitUntil(() => ani_npc.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_idle);
+                    yield return new WaitUntil(() => ani_npc.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Idle);
                     yield return new WaitForSeconds(0.5f);
                     isOver = true;
                     break;
@@ -141,16 +138,15 @@ public class BattleField : MonoBehaviour
                     AddAction(roundList[i].damage, pos_Right);
                 }
 
-                yield return new WaitUntil(() => ani_npc.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_idle);
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitUntil(() => ani_npc.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Idle);
+                yield return new WaitForSeconds(0.5f);
             }
         }
 
         if (!isOver)
         {
             yield return new WaitForSeconds(0.5f);
-            var dm_over = Main.Instance.dmMesh.Spawn(pos_Right.GetChild(0).position, $"+{npc.Rank} exp");
-            dm_over.SetColor(Color.white);
+            Main.Instance.ShowDM(npc.Rank, Main.TextType.exp, pos_Right.GetChild(0), 1);
             yield return new WaitForSeconds(0.5f);
         }
 
@@ -185,7 +181,7 @@ public class BattleField : MonoBehaviour
     public void AddAction(int _dam, Transform parent, Animator deadAnim)
     {
         AddAction(_dam, parent);
-        Call_Damage += () => deadAnim.Play(Define.ANIM_dead);
+        Call_Damage += () => deadAnim.Play(Define.ANIM_Dead);
     }
     public void AddFlashWhite(SpriteRenderer renderer)
     {
@@ -267,20 +263,24 @@ public class BattleField : MonoBehaviour
         Destroy(obj_Left.GetComponent<NPC>());
         obj_Left.transform.localPosition = Vector3.zero;
         obj_Left.transform.localScale = Vector3.one;
-        obj_Left.GetComponentInChildren<SpriteRenderer>().sortingOrder = sort;
+        obj_Left.GetComponentInChildren<SpriteRenderer>().sortingOrder = sort + 1;
         ani_npc = obj_Left.GetComponent<Animator>();
         this.npc = npc;
 
-        //obj_Left = Managers.Resource.Instantiate($"Battle/{npc.name}_Avatar", pos_Left);
-        //obj_Left.GetComponent<SpriteRenderer>().sortingOrder = sort;
-        //ani_npc = obj_Left.GetComponent<Animator>();
-        //this.npc = npc;
 
-
-        obj_Right = Managers.Resource.Instantiate($"Battle/{monster.name}_Avatar", pos_Right);
-        obj_Right.GetComponentInChildren<SpriteRenderer>().sortingOrder = sort;
-        ani_monster = obj_Right.GetComponentInChildren<Animator>();
+        obj_Right = Instantiate(monster.gameObject, pos_Right);
+        Destroy(obj_Right.GetComponent<Monster>());
+        obj_Right.transform.localPosition = Vector3.zero;
+        obj_Right.transform.localScale = new Vector3(-1, 1, 1);
+        obj_Right.GetComponentInChildren<SpriteRenderer>().sortingOrder = sort + 1;
+        ani_monster = obj_Right.GetComponent<Animator>();
         this.monster = monster;
+
+
+        //obj_Right = Managers.Resource.Instantiate($"Battle/{monster.name}_Avatar", pos_Right);
+        //obj_Right.GetComponentInChildren<SpriteRenderer>().sortingOrder = sort;
+        //ani_monster = obj_Right.GetComponentInChildren<Animator>();
+
 
 
         if (!npc || !monster)

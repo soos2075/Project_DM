@@ -68,7 +68,7 @@ public class UI_Technical_Content : UI_Base
 
     void LeftClick()
     {
-        ChangePanelColor(Define.Color_Gamma_0);
+        ChangePanelColor(Color.yellow);
         Parent.SelectContent(Content);
     }
 

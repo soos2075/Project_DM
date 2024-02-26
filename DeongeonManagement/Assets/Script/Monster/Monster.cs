@@ -10,7 +10,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     protected void Start()
     {
         anim = GetComponentInChildren<Animator>();
-
+        sizeOffset = transform.localScale.x;
         //MonsterInit();
         //Initialize_Status();
     }
@@ -114,6 +114,10 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
 
 
+
+
+
+
     public abstract MonsterData Data { get; set; }
     public int MonsterID { get; set; }
 
@@ -186,8 +190,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     {
         Fixed,
 
-        Move_Wandering,
-        Move_Hunting,
+        Moving,
     }
 
     public MoveType Mode { get; set; } = MoveType.Fixed;
@@ -206,10 +209,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable
             {
                 case MoveType.Fixed:
                     break;
-                case MoveType.Move_Wandering:
-                    Moving(ranDelay);
-                    break;
-                case MoveType.Move_Hunting:
+
+                case MoveType.Moving:
                     Moving(ranDelay);
                     break;
             }
@@ -268,24 +269,10 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
                 case Define.PlaceEvent.Battle:
                     var npc = tile.Original as NPC;
-                    switch (Mode)
+                    if (npc.Cor_Encounter == null)
                     {
-                        case MoveType.Move_Wandering:
-
-                            if (npc.Cor_Encounter == null)
-                            {
-                                npc.Cor_Encounter = StartCoroutine(npc.Encounter_ByMonster(this));
-                                Debug.Log($"몬스터 선빵때리기");
-                            }
-                            break;
-
-                        case MoveType.Move_Hunting:
-                            if (npc.Cor_Encounter == null)
-                            {
-                                npc.Cor_Encounter = StartCoroutine(npc.Encounter_ByMonster(this));
-                                Debug.Log($"몬스터 선빵때리기");
-                            }
-                            break;
+                        npc.Cor_Encounter = StartCoroutine(npc.Encounter_ByMonster(this));
+                        Debug.Log($"몬스터 선빵때리기");
                     }
                     break;
 
@@ -309,31 +296,34 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         float moveValue = dis / duration;
         float timer = 0;
 
-        anim.Play(Define.ANIM_walk);
+        anim.Play(Define.ANIM_Running);
         while (timer < (duration * 0.95f))
         {
             yield return null;
             timer += Time.deltaTime;
             transform.position += dir.normalized * moveValue * Time.deltaTime;
         }
-        anim.Play(Define.ANIM_idle);
+        anim.Play(Define.ANIM_Idle);
 
         transform.position = endPos.worldPosition;
         Cor_moveAnimation = null;
     }
 
-
+    [SerializeField]
+    private float sizeOffset;
     void SetDirection(Vector3 dir)
     {
         if (dir.x > 0)
         {
             //? 무브 오른쪽
-            transform.localRotation = Quaternion.Euler(0, 180, 0);
+            //transform.localRotation = Quaternion.Euler(0, 180, 0);
+            transform.localScale = Vector3.one * sizeOffset;
         }
         else if (dir.x < 0)
         {
             //? 왼쪽
-            transform.localRotation = Quaternion.Euler(0, 0, 0);
+            //transform.localRotation = Quaternion.Euler(0, 0, 0);
+            transform.localScale = new Vector3(-sizeOffset, sizeOffset, sizeOffset);
         }
         //else if (dir.y > 0)
         //{
@@ -376,6 +366,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         {
             StopCoroutine(Cor_Moving);
         }
+        LookAtTarget(npc.PlacementInfo.Place_Tile);
 
         npc.ActionPoint -= Data.Battle_AP;
 
@@ -418,6 +409,20 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         PlacementState = PlacementState.Standby;
     }
 
+    void LookAtTarget(BasementTile _target)
+    {
+        if (Cor_moveAnimation != null)
+        {
+            StopCoroutine(Cor_moveAnimation);
+            transform.position = PlacementInfo.Place_Tile.worldPosition;
+        }
+
+        var startPos = PlacementInfo.Place_Tile;
+        Vector3 dir = _target.worldPosition - startPos.worldPosition;
+        SetDirection(dir);
+
+        anim.Play(Define.ANIM_Ready);
+    }
 
     public void MonsterOutFloor()
     {

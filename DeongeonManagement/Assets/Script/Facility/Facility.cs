@@ -103,8 +103,7 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         if (applyMana > 0)
         {
             Main.Instance.CurrentDay.AddMana(applyMana);
-            var dm = Main.Instance.dmMesh_dungeon.Spawn(transform.position, $"+{applyMana} mana");
-            dm.SetColor(Color.blue);
+            Main.Instance.ShowDM(applyMana, Main.TextType.mana, transform);
         }
 
         OverCor(npc);

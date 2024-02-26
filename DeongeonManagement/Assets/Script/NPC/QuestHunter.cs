@@ -5,17 +5,35 @@ using UnityEngine;
 public class QuestHunter : NPC
 {
     public override List<BasementTile> PriorityList { get; set; }
-    protected override Define.TileType[] AvoidTileType { get; set; }
+    protected override Define.TileType[] AvoidTileType { get; set; } = new Define.TileType[] { Define.TileType.NPC, Define.TileType.Facility };
+    public override int RunawayHpRatio { get; set; } = 999;
 
-    void Init_AvoidType()
+    protected override void SetRandomClothes()
     {
-        AvoidTileType = new Define.TileType[] { Define.TileType.NPC, Define.TileType.Facility };
+        var collection = characterBuilder.SpriteCollection;
+
+        switch (Hunter)
+        {
+            case HunterType.Slime:
+                characterBuilder.Armor = "MilitiamanArmor";
+                characterBuilder.Weapon = "MasterGreataxe";
+                characterBuilder.Helmet = "VikingHelmet";
+                characterBuilder.Back = "BackSword";
+                break;
+
+            case HunterType.Skeleton:
+                characterBuilder.Armor = "MilitiamanArmor";
+                characterBuilder.Weapon = "MasterGreataxe";
+                characterBuilder.Helmet = "VikingHelmet";
+                characterBuilder.Back = "BackSword";
+                break;
+        }
+
+        characterBuilder.Rebuild();
     }
 
     protected override void SetPriorityList()
     {
-        Init_AvoidType();
-
         if (PriorityList != null) PriorityList.Clear();
 
         SetHunterType();
@@ -39,7 +57,7 @@ public class QuestHunter : NPC
                 break;
 
             case HunterType.Skeleton:
-                AddList(GetPriorityPick(typeof(Skeleton)));
+                AddList(GetPriorityPick(typeof(EarthGolem)));
                 break;
         }
     }
@@ -82,4 +100,6 @@ public class QuestHunter : NPC
     {
 
     }
+
+
 }

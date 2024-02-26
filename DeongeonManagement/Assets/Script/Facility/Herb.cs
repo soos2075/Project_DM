@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D.Animation;
 
 public class Herb : Facility
 {
@@ -17,7 +18,6 @@ public class Herb : Facility
         Init_Herb();
     }
 
-    public Sprite[] herbSprites;
     public enum HerbType
     {
         Low = 0,
@@ -34,7 +34,8 @@ public class Herb : Facility
 
     void Init_Herb()
     {
-        GetComponentInChildren<SpriteRenderer>().sprite = herbSprites[(int)herbType];
+        var SLA = GetComponentInChildren<SpriteResolver>();
+        SLA.SetCategoryAndLabel(herbType.ToString(), "Entry");
 
         switch (herbType)
         {

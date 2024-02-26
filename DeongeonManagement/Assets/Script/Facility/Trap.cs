@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D.Animation;
 
 public class Trap : Facility
 {
@@ -14,9 +15,9 @@ public class Trap : Facility
         Type = FacilityEventType.NPC_Event;
         Name_prefab = name;
 
+        trap_Anim = GetComponentInChildren<Animator>();
         TrapInit();
     }
-
 
 
     public enum TrapType
@@ -33,6 +34,9 @@ public class Trap : Facility
     int hp_value;
     void TrapInit()
     {
+        var SLA = GetComponentInChildren<SpriteResolver>();
+        SLA.SetCategoryAndLabel(trapType.ToString(), "Ready");
+
         switch (trapType)
         {
             case TrapType.Fallen_1:
@@ -46,7 +50,7 @@ public class Trap : Facility
                 durationTime = 5;
                 ap_value = 2;
                 mp_value = 0;
-                hp_value = 5;
+                hp_value = 10;
                 break;
 
             case TrapType.Fallen_2:
@@ -56,17 +60,17 @@ public class Trap : Facility
                 }
 
                 Name = "강화 낙하 함정";
-                Detail_KR = "뻔히 보이는 함정입니만, 걸린다면 꽤나 효과가 있을거에요. 좀 더 효과를 개량했어요.";
+                Detail_KR = "뻔히 보이는 함정입니만, 걸린다면 꽤나 효과가 있을거에요. 좀 더 여러번 사용 가능합니다.";
                 durationTime = 5;
                 ap_value = 4;
                 mp_value = 0;
-                hp_value = 10;
+                hp_value = 12;
                 break;
 
             case TrapType.Awl_1:
                 if (InteractionOfTimes <= 0)
                 {
-                    InteractionOfTimes = 5;
+                    InteractionOfTimes = 3;
                 }
 
                 Name = "송곳 함정";
@@ -74,11 +78,12 @@ public class Trap : Facility
                 durationTime = 5;
                 ap_value = 3;
                 mp_value = 0;
-                hp_value = 15;
+                hp_value = 25;
                 break;
         }
     }
 
+    Animator trap_Anim;
 
     public override Coroutine NPC_Interaction(NPC npc)
     {
@@ -86,8 +91,10 @@ public class Trap : Facility
         {
             InteractionOfTimes--;
             Cor_Facility = StartCoroutine(FacilityEvent(npc, durationTime, "함정에 빠짐...", ap: ap_value, mp: mp_value, hp: hp_value));
-            GetComponentInChildren<Animator>().Play(Define.ANIM_interaction);
-            npc.GetComponent<SpriteRenderer>().color = Define.Color_White;
+            trap_Anim.enabled = true;
+            trap_Anim.Play(trapType.ToString());
+
+            npc.GetComponentInChildren<Animator>().Play("Trap");
             return Cor_Facility;
         }
         else
@@ -100,8 +107,9 @@ public class Trap : Facility
     protected override void OverCor(NPC npc)
     {
         base.OverCor(npc);
-        GetComponentInChildren<Animator>().Play(Define.ANIM_idle);
-        npc.GetComponent<SpriteRenderer>().color = Color.white;
+
+        trap_Anim.enabled = false;
+        //npc.GetComponentInChildren<SpriteRenderer>().color = Color.white;
         npc.State = npc.StateRefresh();
     }
 

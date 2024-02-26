@@ -33,22 +33,21 @@ public class Player : Monster
         {
             case 1:
                 LV = 1;
-                HP = 25;
-                HP_Max = 25;
-
-                ATK = 6;
-                DEF = 4;
-                AGI = 4;
-                LUK = 4;
-
-                break;
-
-            case 2:
-                LV = 2;
                 HP = 50;
                 HP_Max = 50;
 
                 ATK = 12;
+                DEF = 4;
+                AGI = 4;
+                LUK = 4;
+                break;
+
+            case 2:
+                LV = 2;
+                HP = 100;
+                HP_Max = 100;
+
+                ATK = 24;
                 DEF = 8;
                 AGI = 8;
                 LUK = 8;
@@ -57,10 +56,10 @@ public class Player : Monster
 
             case 3:
                 LV = 3;
-                HP = 75;
-                HP_Max = 75;
+                HP = 150;
+                HP_Max = 150;
 
-                ATK = 18;
+                ATK = 36;
                 DEF = 12;
                 AGI = 12;
                 LUK = 12;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D.Animation;
 
 public class SpriteManager
 {
@@ -17,6 +18,11 @@ public class SpriteManager
 
     Sprite[] ui_Cursor;
 
+
+    SpriteLibraryAsset[] SLA_Array;
+
+
+    Dictionary<string, Sprite> spriteDict = new Dictionary<string, Sprite>();
 
     public enum UI_Small_Buttons
     {
@@ -41,6 +47,8 @@ public class SpriteManager
         clear = Resources.Load<Sprite>("Sprite/UI/Clear");
 
         ui_Cursor = Resources.LoadAll<Sprite>("Sprite/UI/Cursors");
+
+        SLA_Array = Resources.LoadAll<SpriteLibraryAsset>("SpriteLabraryAsset");
     }
 
 
@@ -56,7 +64,13 @@ public class SpriteManager
 
     public Sprite GetSprite (string path)
     {
-        Sprite sprite = Resources.Load<Sprite>($"Sprite/{path}");
+        Sprite sprite = null;
+        if (spriteDict.TryGetValue(path, out sprite))
+        {
+            return sprite;
+        }
+
+        sprite = Resources.Load<Sprite>($"Sprite/{path}");
         if (sprite == null)
         {
             sprite = Resources.Load<Sprite>($"Sprite/Object/{path}");
@@ -66,7 +80,34 @@ public class SpriteManager
                 return clear;
             }
         }
+        spriteDict.Add(path, sprite);
         return sprite;
+    }
+    public Sprite GetSprite_SLA(string _searchName)
+    {
+        foreach (var item in SLA_Array)
+        {
+            foreach (var _category in item.GetCategoryNames())
+            {
+                if (_searchName == _category)
+                {
+                    return item.GetSprite(_category, "Entry");
+                }
+                else
+                {
+                    foreach (var _label in item.GetCategoryLabelNames(_category))
+                    {
+                        if (_searchName == _label)
+                        {
+                            return item.GetSprite(_category, _label);
+                        }
+                    }
+                }
+            }
+        }
+
+        Debug.Log($"{_searchName} : Sprite Not Exist from SLA Data");
+        return null;
     }
 
     public Sprite GetClear()

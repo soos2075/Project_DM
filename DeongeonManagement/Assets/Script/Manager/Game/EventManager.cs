@@ -272,7 +272,7 @@ public class EventManager : MonoBehaviour
             case 2:
                 Main.Instance.Set_AP_Max(3);
 
-                GameManager.Monster.AddLevel2();
+                GameManager.Monster.AddLevel_2();
                 GameManager.Technical.Level_2();
                 GameManager.Content.AddLevel2();
                 Main.Instance.DungeonExpansionUI();
@@ -281,6 +281,9 @@ public class EventManager : MonoBehaviour
 
             case 3:
                 Main.Instance.Set_AP_Max(4);
+
+                GameManager.Monster.AddLevel_3();
+
                 break;
         }
     }
@@ -290,27 +293,26 @@ public class EventManager : MonoBehaviour
         FindObjectOfType<Player>().Level_Stat(Main.Instance.DungeonRank);
         Camera.main.GetComponent<CameraControl>().LimitRefresh();
 
-        if (Main.Instance.DungeonRank == 1)
+        if (Main.Instance.DungeonRank >= 1)
         {
             Main.Instance.Set_AP_Max(2);
         }
-        else if (Main.Instance.DungeonRank == 2)
+        
+        if (Main.Instance.DungeonRank >= 2)
         {
             Main.Instance.Set_AP_Max(3);
 
-            GameManager.Monster.AddLevel2();
+            GameManager.Monster.AddLevel_2();
             GameManager.Technical.Level_2();
             GameManager.Content.AddLevel2();
             Main.Instance.DungeonExpansionUI();
         }
-        else if (Main.Instance.DungeonRank == 3)
+        
+        if (Main.Instance.DungeonRank >= 3)
         {
             Main.Instance.Set_AP_Max(4);
 
-            GameManager.Monster.AddLevel2();
-            GameManager.Technical.Level_2();
-            GameManager.Content.AddLevel2();
-            Main.Instance.DungeonExpansionUI();
+            GameManager.Monster.AddLevel_3();
         }
 
     }
@@ -318,11 +320,3 @@ public class EventManager : MonoBehaviour
 
 }
 
-//public class QuestData
-//{
-//    public SO_DialogueData Data;
-//    public int DataID;
-//    public string DataName;
-//    public int OriginIndex;
-//    public Action QuestAction;
-//}
