@@ -100,6 +100,7 @@ public class SceneManagerEx
                 break;
 
             default:
+                //Debug.Log("브금 바꾸기 off");
                 break;
         }
     }

@@ -94,7 +94,7 @@ public class Main : MonoBehaviour
         //Debug.Log("디버그용 Start");
         //NewGame_Init();
         //Default_Init();
-        Test_Init();
+        //Test_Init();
     }
     [Obsolete]
     public void Test_Init()
@@ -103,13 +103,13 @@ public class Main : MonoBehaviour
         ActiveFloor_Technical = 2;
         DungeonRank = 3;
 
-        DangerOfDungeon = 100;
-        PopularityOfDungeon = 200;
+        //DangerOfDungeon = 100;
+        //PopularityOfDungeon = 200;
 
-        Player_Mana = 3000;
-        Player_Gold = 3000;
-        Player_AP = 30;
-        AP_MAX = 30;
+        Player_Mana = 30000;
+        Player_Gold = 30000;
+        Player_AP = 50;
+        AP_MAX = 50;
 
         Init_BasementFloor();
         Init_Animation();
@@ -125,6 +125,14 @@ public class Main : MonoBehaviour
         Init_Statue();
 
         EventManager.Instance.Load_EventData();
+
+        //StartCoroutine(waitA());
+    }
+    IEnumerator waitA()
+    {
+        yield return null;
+        EventManager.Instance.AddQuestAction(1100);
+        EventManager.Instance.AddQuestAction(1200);
     }
 
 
@@ -168,10 +176,10 @@ public class Main : MonoBehaviour
         ActiveFloor_Technical = 0;
         DungeonRank = 1;
 
-        Player_Mana = 300;
-        Player_Gold = 300;
-        Player_AP = 2;
-        AP_MAX = 2;
+        Player_Mana = 30000;
+        Player_Gold = 30000;
+        Player_AP = 20;
+        AP_MAX = 20;
 
         Init_BasementFloor();
         Init_Animation();
@@ -689,7 +697,7 @@ public class Main : MonoBehaviour
                 break;
 
             case 1:
-                Debug.Log("1일차 테스트");
+                //Debug.Log("1일차 테스트");
                 break;
 
             case 3:
@@ -704,7 +712,8 @@ public class Main : MonoBehaviour
                 break;
 
             case 15:
-                Debug.Log("8일차 시작 이벤트 - 패배 트리거 이벤트 모험가 소환");
+                Debug.Log("15일차 시작 이벤트 - 패배 트리거 이벤트 모험가 소환");
+                GameManager.NPC.AddEventNPC(NPCManager.NPCType.Event_Day15, 9);
                 //GameManager.NPC.AddEventNPC(NPCManager.NPCType.Adventurer_0, 9);
                 break;
 

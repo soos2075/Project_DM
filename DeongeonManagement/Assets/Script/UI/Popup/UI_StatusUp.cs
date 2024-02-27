@@ -26,6 +26,9 @@ public class UI_StatusUp : UI_PopUp
         State,
     }
 
+
+    public string StateText { get; set; }
+
     public override void Init()
     {
         base.Init();
@@ -56,6 +59,11 @@ public class UI_StatusUp : UI_PopUp
         AfterStatus();
         ShowDefault();
         ShowUpStatus();
+
+        if (string.IsNullOrEmpty(StateText) == false)
+        {
+            GetTMP(((int)Texts.State)).text = StateText;
+        }
     }
 
     void ShowDefault()
@@ -148,44 +156,75 @@ public class UI_StatusUp : UI_PopUp
 
     void StatusComparison()
     {
-        if (before_lv != after_lv)
+        if (before_lv < after_lv)
         {
             show_lv = $"{after_lv}".SetTextColorTag(Define.TextColor.LightGreen);
             show_lv += $" ¡ã{after_lv - before_lv}".SetTextColorTag(Define.TextColor.SkyBlue);
         }
+        else if (before_lv > after_lv)
+        {
+            show_lv = $"{after_lv}".SetTextColorTag(Define.TextColor.npc_red);
+            show_lv += $" ¡å{Mathf.Abs(after_lv - before_lv)}".SetTextColorTag(Define.TextColor.yellow);
+        }
 
-        if (before_hp != after_hp)
+
+        if (before_hp < after_hp)
         {
             show_hp = $"{after_hp}".SetTextColorTag(Define.TextColor.LightGreen);
             show_hp += $" ¡ã{after_hp - before_hp}".SetTextColorTag(Define.TextColor.SkyBlue);
         }
+        else if (before_hp > after_hp)
+        {
+            show_hp = $"{after_hp}".SetTextColorTag(Define.TextColor.npc_red);
+            show_hp += $" ¡å{Mathf.Abs(after_hp - before_hp)}".SetTextColorTag(Define.TextColor.yellow);
+        }
 
-        if (before_atk != after_atk)
+
+        if (before_atk < after_atk)
         {
             show_atk = $"{after_atk}".SetTextColorTag(Define.TextColor.LightGreen);
             show_atk += $" ¡ã{after_atk - before_atk}".SetTextColorTag(Define.TextColor.SkyBlue);
         }
+        else if (before_atk > after_atk)
+        {
+            show_atk = $"{after_atk}".SetTextColorTag(Define.TextColor.npc_red);
+            show_atk += $" ¡å{Mathf.Abs(after_atk - before_atk)}".SetTextColorTag(Define.TextColor.yellow);
+        }
 
-        if (before_def != after_def)
+
+        if (before_def < after_def)
         {
             show_def = $"{after_def}".SetTextColorTag(Define.TextColor.LightGreen);
             show_def += $" ¡ã{after_def - before_def}".SetTextColorTag(Define.TextColor.SkyBlue);
         }
+        else if (before_def > after_def)
+        {
+            show_def = $"{after_def}".SetTextColorTag(Define.TextColor.npc_red);
+            show_def += $" ¡å{Mathf.Abs(after_def - before_def)}".SetTextColorTag(Define.TextColor.yellow);
+        }
 
-        if (before_agi != after_agi)
+
+        if (before_agi < after_agi)
         {
             show_agi = $"{after_agi}".SetTextColorTag(Define.TextColor.LightGreen);
             show_agi += $" ¡ã{after_agi - before_agi}".SetTextColorTag(Define.TextColor.SkyBlue);
         }
+        else if (before_agi > after_agi)
+        {
+            show_agi = $"{after_agi}".SetTextColorTag(Define.TextColor.npc_red);
+            show_agi += $" ¡å{Mathf.Abs(after_agi - before_agi)}".SetTextColorTag(Define.TextColor.yellow);
+        }
 
-        if (before_luk != after_luk)
+
+        if (before_luk < after_luk)
         {
             show_luk = $"{after_luk}".SetTextColorTag(Define.TextColor.LightGreen);
             show_luk += $" ¡ã{after_luk - before_luk}".SetTextColorTag(Define.TextColor.SkyBlue);
         }
+        else if (before_luk > after_luk)
+        {
+            show_luk = $"{after_luk}".SetTextColorTag(Define.TextColor.npc_red);
+            show_luk += $" ¡å{Mathf.Abs(after_luk - before_luk)}".SetTextColorTag(Define.TextColor.yellow);
+        }
     }
-
-
-
-
 }

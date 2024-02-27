@@ -7,13 +7,13 @@ public class SO_DialogueData : ScriptableObject
 {
     public enum DialogueType
     {
-        Box,
+        Quest,
         Bubble,
     }    
 
 
     public string dialogueName;
-    public DialogueType Type = DialogueType.Box;
+    public DialogueType Type = DialogueType.Quest;
 
 
     [SerializeField]

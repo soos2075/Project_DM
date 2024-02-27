@@ -13,11 +13,19 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         anim = GetComponent<Animator>();
         characterBuilder = GetComponent<CharacterBuilder>();
         SetRandomClothes();
+        Start_Setting();
     }
     //void Update()
     //{
 
     //}
+
+
+    protected virtual void Start_Setting()
+    {
+
+    }
+
 
 
     #region PixelEditor
@@ -480,7 +488,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
 
 
-
+    
 
     #region Npc Status Property
     public NPC_Data Data { get; private set; }
@@ -551,6 +559,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     }
 
     #endregion
+
+    public int EventID { get; set; }
 
 
     public bool isReturn { get; set; } = false;

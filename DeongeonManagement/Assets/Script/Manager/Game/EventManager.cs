@@ -116,13 +116,14 @@ public class EventManager : MonoBehaviour
     {
         forQuestAction.Add(1100, () =>
         {
-            Debug.Log("슬라임 토벌단 생성");
-            GameManager.NPC.AddEventNPC(QuestHunter.HunterType.Slime, 15);
+            Debug.Log("퀘스트 - 슬라임토벌 활성화");
+            GameManager.NPC.AddEventNPC(NPCManager.NPCType.Hunter_Slime, 12);
         });
 
         forQuestAction.Add(1101, () =>
         {
-            Debug.Log("1101 퀘스트");
+            Debug.Log("퀘스트 - 어스골렘 활성화");
+            GameManager.NPC.AddEventNPC(NPCManager.NPCType.Hunter_EarthGolem, 13);
         });
 
         forQuestAction.Add(1102, () =>
@@ -130,21 +131,20 @@ public class EventManager : MonoBehaviour
             Debug.Log("1102 퀘스트");
         });
     }
-    public Action GetQuestAction(int _QuestID)
-    {
-        Action action = null;
-        forQuestAction.TryGetValue(_QuestID, out action);
-        return action;
-    }
+
 
 
     void AddDialogueAction()
     {
         GuildNPCAction.Add(2100, () =>
         {
+            Time.timeScale = 1;
+            Managers.UI.ClosePopUp();
+            Managers.Dialogue.currentDialogue = null;
+
             int ranPop = UnityEngine.Random.Range(10, 20);
             var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
-            msg.Message = $"던전의 유명도가 {ranPop} 올랐습니다.";
+            msg.Message = $"던전의 인기도가 {ranPop} 올랐습니다.";
             FindAnyObjectByType<GuildManager>().AddBackAction(() => Main.Instance.CurrentDay.AddPop(ranPop));
         });
 
@@ -232,6 +232,12 @@ public class EventManager : MonoBehaviour
     {
         Action action = null;
         EventAction.TryGetValue(eventName, out action);
+        return action;
+    }
+    public Action GetQuestAction(int _QuestID)
+    {
+        Action action = null;
+        forQuestAction.TryGetValue(_QuestID, out action);
         return action;
     }
 

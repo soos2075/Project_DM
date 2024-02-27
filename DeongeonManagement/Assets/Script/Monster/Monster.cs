@@ -55,28 +55,28 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
     #region SaveLoad
 
-    public void Initialize_SaveData(Save_MonsterData Data)
+    public void Initialize_SaveData(Save_MonsterData _SaveData)
     {
-        if (Data == null) { Debug.Log($"세이브데이터 없음 : {name}"); return; }
+        if (_SaveData == null) { Debug.Log($"세이브데이터 없음 : {name}"); return; }
 
-        LV = Data.LV;
-        HP = Data.HP;
-        HP_Max = Data.HP_MAX;
+        LV = _SaveData.LV;
+        HP = _SaveData.HP;
+        HP_Max = _SaveData.HP_MAX;
 
-        ATK = Data.ATK;
-        DEF = Data.DEF;
-        AGI = Data.AGI;
-        LUK = Data.LUK;
+        ATK = _SaveData.ATK;
+        DEF = _SaveData.DEF;
+        AGI = _SaveData.AGI;
+        LUK = _SaveData.LUK;
 
-        hp_chance = Data.HP_chance;
-        atk_chance = Data.ATK_chance;
-        def_chance = Data.DEF_chance;
-        agi_chance = Data.AGI_chance;
-        luk_chance = Data.LUK_chance;
+        hp_chance = _SaveData.HP_chance;
+        atk_chance = _SaveData.ATK_chance;
+        def_chance = _SaveData.DEF_chance;
+        agi_chance = _SaveData.AGI_chance;
+        luk_chance = _SaveData.LUK_chance;
 
-        State = Data.State;
-        Mode = Data.MoveMode;
-        Evolution = Data.Evolution;
+        State = _SaveData.State;
+        Mode = _SaveData.MoveMode;
+        EvolutionState = _SaveData.Evolution;
     }
 
     #endregion
@@ -377,6 +377,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         BattleField.BattleResult result = 0;
         yield return BattleManager.Instance.ShowBattleField(npc, this, out result);
 
+        BattleEvent(result, npc);
         switch (result)
         {
             case BattleField.BattleResult.Nothing:
@@ -481,13 +482,29 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
 
     #region Battle
-
-    public virtual void MaxLevelQuest()
+    public enum LevelUpEventType
     {
-        //? 최대레벨 됐을 때 발생할 퀘스트
-        Debug.Log($"{Name_KR} : 퀘스트 발생");
+        Training,
+        Battle,
     }
-    public bool Evolution { get; set; } = false;
+    public virtual void LevelUpEvent(LevelUpEventType levelUpType)
+    {
+
+    }
+    public virtual void BattleEvent(BattleField.BattleResult result, NPC npc)
+    {
+
+    }
+
+
+    public enum Evolution
+    {
+        None,
+        Ready,
+        Progress,
+        Complete,
+    }
+    public Evolution EvolutionState { get; set; }
 
     public int BattleCount_Rank { get; set; }
     public int BattleCount_Quantity { get; set; }
@@ -511,22 +528,11 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
     public void BattleLevelUp()
     {
-        if (GetType() == typeof(Player))
-        {
-            return;
-        }
+        if (GetType() == typeof(Player)) return;
 
-        if (LV >= Data.MAXLV)
-        {
-            if (Evolution == false)
-            {
-                Evolution = true;
-                MaxLevelQuest();
-            }
-            return;
-        }
+        LevelUpEvent(LevelUpEventType.Battle);
 
-
+        if (LV >= Data.MAXLV) return;
         GameManager.Monster.AddLevelUpEvent(this);
     }
 
@@ -564,14 +570,12 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     {
         if (Main.Instance.Player_AP <= 0)
         {
-            //Debug.Log("훈련횟수 없음");
             var ui = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
             ui.Message = "행동력이 부족합니다.";
             return;
         }
         if (Data.MAXLV <= LV)
         {
-            //Debug.Log("최대레벨임");
             var ui = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
             ui.Message = "최대레벨에 도달했습니다.";
             return;
@@ -579,6 +583,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
         Main.Instance.Player_AP--;
         Debug.Log($"{Name_KR} 훈련진행");
+        LevelUpEvent(LevelUpEventType.Training);
         LevelUp(true); ;
     }
 

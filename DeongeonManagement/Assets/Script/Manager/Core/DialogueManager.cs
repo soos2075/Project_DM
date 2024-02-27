@@ -55,8 +55,8 @@ public class DialogueManager
 
         switch (data.Type)
         {
-            case SO_DialogueData.DialogueType.Box:
-                currentDialogue = Managers.UI.ShowPopUpAlone<UI_Dialogue>();
+            case SO_DialogueData.DialogueType.Quest:
+                currentDialogue = Managers.UI.ShowPopUpAlone<UI_QuestBoard>();
                 currentDialogue.Data = data;
                 currentDialogue.TextDelay = textSpeed;
                 break;

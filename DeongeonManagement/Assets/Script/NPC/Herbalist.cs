@@ -19,13 +19,13 @@ public class Herbalist : NPC
 
         //characterBuilder.Helmet += $"#FFFFFF/{Random.Range(-150, 150)}:{Random.Range(-80, 80)}:{Random.Range(-70, 70)}";
 
-        { // mask = 8
-            int ran = Random.Range(-3, collection.Layers[8].Textures.Count);
-            if (ran > 0)
-            {
-                characterBuilder.Mask = collection.Layers[8].Textures[ran].name;
-            }
-        }
+        //{ // mask = 8
+        //    int ran = Random.Range(-3, collection.Layers[8].Textures.Count);
+        //    if (ran > 0)
+        //    {
+        //        characterBuilder.Mask = collection.Layers[8].Textures[ran].name;
+        //    }
+        //}
 
         characterBuilder.Rebuild();
     }

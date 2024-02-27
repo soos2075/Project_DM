@@ -49,9 +49,6 @@ public class UI_Management : UI_Base
         Speed2x,
         Speed3x,
         
-        //Test1,
-        //Test2,
-        //Test3,
         //DayChange_Temp,
     }
 
@@ -140,12 +137,6 @@ public class UI_Management : UI_Base
         GetButton((int)ButtonEvent.Speed3x).gameObject.AddUIEvent((data) => Time.timeScale = 2f);
 
 
-
-
-
-        //GetButton((int)ButtonEvent.Test1).gameObject.AddUIEvent((data) => GameManager.NPC.TestCreate("Adventurer"));
-        //GetButton((int)ButtonEvent.Test2).gameObject.AddUIEvent((data) => GameManager.NPC.TestCreate("Herbalist"));
-        //GetButton((int)ButtonEvent.Test3).gameObject.AddUIEvent((data) => GameManager.NPC.TestCreate("Miner"));
         //GetButton((int)ButtonEvent.DayChange_Temp).gameObject.AddUIEvent((data) => DayChange_Temp());
     }
 
@@ -162,10 +153,6 @@ public class UI_Management : UI_Base
         GetButton((int)ButtonEvent._3_Management).gameObject.SetActive(true);
         GetButton((int)ButtonEvent._4_Guild).gameObject.SetActive(true);
         GetButton((int)ButtonEvent._5_Quest).gameObject.SetActive(true);
-
-        //GetButton((int)ButtonEvent.Test1).gameObject.SetActive(true);
-        //GetButton((int)ButtonEvent.Test2).gameObject.SetActive(true);
-        //GetButton((int)ButtonEvent.Test3).gameObject.SetActive(true);
 
         Active_Floor();
     }
@@ -203,9 +190,6 @@ public class UI_Management : UI_Base
         GetButton((int)ButtonEvent._5_Quest).gameObject.SetActive(false);
 
         //GetButton((int)ButtonEvent.DayChange).gameObject.SetActive(false);
-        //GetButton((int)ButtonEvent.Test1).gameObject.SetActive(false);
-        //GetButton((int)ButtonEvent.Test2).gameObject.SetActive(false);
-        //GetButton((int)ButtonEvent.Test3).gameObject.SetActive(false);
 
         InActive_Floor();
     }

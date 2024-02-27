@@ -23,6 +23,11 @@ public class PlayerController : MonoBehaviour
    
     void Update()
     {
+        if (Time.timeScale == 0 || Managers.UI._popupStack.Count > 0)
+        {
+            return;
+        }
+
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
 
@@ -65,10 +70,14 @@ public class PlayerController : MonoBehaviour
 
     void StartTalk()
     {
-        if (Managers.Dialogue.GetState() == DialogueManager.DialogueState.Talking)
+        if (Managers.UI._popupStack.Count > 0)
         {
             return;
         }
+        //if (Managers.Dialogue.GetState() == DialogueManager.DialogueState.Talking)
+        //{
+        //    return;
+        //}
 
         if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
         {

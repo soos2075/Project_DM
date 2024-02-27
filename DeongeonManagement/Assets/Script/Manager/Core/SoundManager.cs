@@ -63,8 +63,6 @@ public class SoundManager : MonoBehaviour
 
 
 
-
-
     private void Start()
     {
         for (int i = 0; i < Sound_Root.transform.childCount; i++)

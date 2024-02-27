@@ -214,11 +214,10 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
 
 
             Action optionAction = null;
-            if (option.Contains("@Option")) //? 옵션 타입은 두가지. 하나는 아이디를 받는거 / 하나는 Dia번호를 받는거. 두개 이름만 다르게하면됨
+            if (option.Contains("@Option")) //? ID를 받아서 퀘스트만큼의 선택지를 제공
             {
                 string npcID = option.Substring(option.IndexOf("@Option::") + 9, option.IndexOf("::Option") - (option.IndexOf("@Option::") + 9));
                 var npc = FindAnyObjectByType<GuildManager>().GetInteraction(int.Parse(npcID));
-                //var optionList = Managers.Dialogue.ShowOption(npcID);
                 optionAction = () => npc.OneTimeOptionButton();
             }
 
@@ -234,7 +233,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
         Time.timeScale = 1;
         Managers.UI.ClosePopupPick(this);
         Managers.Dialogue.currentDialogue = null;
-        //Debug.Log("대화창 닫음");
+        Debug.Log("대화 종료");
     }
 
 
@@ -281,7 +280,6 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
 
         //Debug.Log("마우스 클릭 대기중");
         yield return new WaitUntil(() => isTyping == true);
-
         yield return new WaitForEndOfFrame();
     }
 

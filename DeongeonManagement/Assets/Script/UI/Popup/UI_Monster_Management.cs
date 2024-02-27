@@ -206,15 +206,15 @@ public class UI_Monster_Management : UI_PopUp
 
         GetImage(((int)Panels.ProfilePanel)).gameObject.SetActive(true);
 
-        GetTMP(((int)Texts.Lv)).text = $"Lv.{Current.monster.LV}";
+        GetTMP(((int)Texts.Lv)).text = $"Lv.{Current.monster.LV} / {Current.monster.Data.MAXLV}";
         GetTMP(((int)Texts.Name)).text = Current.monster.Name_KR;
 
-        GetTMP(((int)Texts.Status)).text = $"HP : {Current.monster.HP} / {Current.monster.HP_Max} \n";
+        GetTMP(((int)Texts.Status)).text = $"HP : {Current.monster.HP} / {Current.monster.HP_Max}\n";
         GetTMP(((int)Texts.Status)).text += $"ATK : {Current.monster.ATK} \tDEF : {Current.monster.DEF} \n" +
             $"AGI : {Current.monster.AGI} \tLUK : {Current.monster.LUK}";
 
 
-        GetTMP(((int)Texts.State)).text = $"진화조건 : {Current.monster.Data.Evolution_Hint}";
+        GetTMP(((int)Texts.State)).text = $"{Current.monster.Data.Evolution_Hint}";
 
         GetObject(((int)Etc.Profile)).GetComponent<Image>().sprite = Current.monster.Data.sprite;
     }

@@ -49,4 +49,14 @@ public class UI_SystemMessage : UI_PopUp
 
         GetObject(((int)Contents.BG)).GetComponent<RectTransform>().sizeDelta = size + new Vector2(60, 40);
     }
+
+
+    //private void OnEnable()
+    //{
+    //    Time.timeScale = 0;
+    //}
+    //private void OnDestroy()
+    //{
+    //    Time.timeScale = 1;
+    //}
 }

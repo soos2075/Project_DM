@@ -19,25 +19,29 @@ public class EventNPC : NPC
     {
         yield return new WaitForSeconds(5);
 
-        Managers.Dialogue.ShowDialogueUI($"Day{8}_Event", transform);
+        Managers.Dialogue.ShowDialogueUI($"Day{Main.Instance.Turn}_Event", transform);
     }
 
 
     protected override void SetRandomClothes()
     {
         var collection = characterBuilder.SpriteCollection;
-        if (Main.Instance.Turn == 1)
+        if (Main.Instance.Turn == 8)
         {
             KillGold = 200;
             characterBuilder.Hair = "Hair11#C42430/0:0:0";
             characterBuilder.Armor = "DemigodArmour";
             characterBuilder.Weapon = "Katana";
-            characterBuilder.Shield = "GoldenEagle";
+            //characterBuilder.Shield = "GoldenEagle";
         }
 
         if (Main.Instance.Turn == 15)
         {
-
+            KillGold = 500;
+            characterBuilder.Hair = "Hair10#858585/0:0:0";
+            characterBuilder.Armor = "HeavyKnightArmor";
+            characterBuilder.Weapon = "Epee";
+            characterBuilder.Shield = "KnightShield";
         }
 
         characterBuilder.Rebuild();
@@ -71,7 +75,7 @@ public class EventNPC : NPC
 
     IEnumerator DieEvent()
     {
-        Managers.Dialogue.ShowDialogueUI($"Day{8}_Event_Die", transform);
+        Managers.Dialogue.ShowDialogueUI($"Day{15}_Event_Die", transform);
         yield return null;
         yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
 
@@ -101,7 +105,7 @@ public class EventNPC : NPC
 
     void Return()
     {
-        Managers.Dialogue.ShowDialogueUI($"Day{8}_Event_Return", transform);
+        Managers.Dialogue.ShowDialogueUI($"Day{Main.Instance.Turn}_Event_Return", transform);
         Main.Instance.CurrentDay.AddDanger(-50);
     }
 

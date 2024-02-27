@@ -17,7 +17,7 @@ public class Miner : NPC
         characterBuilder.Helmet = "MinerHelment";
         characterBuilder.Back = "LargeBackpack";
 
-        characterBuilder.Armor += $"#FFFFFF/{Random.Range(-100, 100)}:{Random.Range(-70, 70)}:{Random.Range(-50, 50)}";
+        //characterBuilder.Armor += $"#FFFFFF/{Random.Range(-100, 100)}:{Random.Range(-70, 70)}:{Random.Range(-50, 50)}";
         //characterBuilder.Helmet += $"#FFFFFF/{Random.Range(-50, 50)}:0:0";
 
         characterBuilder.Rebuild();

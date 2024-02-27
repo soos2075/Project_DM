@@ -57399,30 +57399,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2406647813736893563, guid: 53222dd6a9fa7bf48b3b904eea6da234, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2406647813736893563, guid: 53222dd6a9fa7bf48b3b904eea6da234, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2406647813736893563, guid: 53222dd6a9fa7bf48b3b904eea6da234, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2406647813736893563, guid: 53222dd6a9fa7bf48b3b904eea6da234, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4252336321567001292, guid: 53222dd6a9fa7bf48b3b904eea6da234, type: 3}
-      propertyPath: m_Spacing
-      value: -35
-      objectReference: {fileID: 0}
-    - target: {fileID: 4252336321567001292, guid: 53222dd6a9fa7bf48b3b904eea6da234, type: 3}
-      propertyPath: m_Padding.m_Left
-      value: -20
-      objectReference: {fileID: 0}
     - target: {fileID: 9022615982053578253, guid: 53222dd6a9fa7bf48b3b904eea6da234, type: 3}
       propertyPath: m_Name
       value: '@MainUI'
