@@ -254,7 +254,7 @@ public class MonsterManager
             monster.detail = "매력적인 눈을 지닌 몬스터에요. 생김새때문에 피부가 약할 것 같지만, 실은 엄청 단단하기 때문에 수비용으로 적절합니다.";
             monster.sprite = Managers.Sprite.GetSprite("Monster/EvilEye");
 
-            monster.ManaCost = 550;
+            monster.ManaCost = 425;
 
             monster.LV = 5;
             monster.MAXLV = 25;
@@ -284,7 +284,7 @@ public class MonsterManager
             monster.detail = "순수한 마나의 결정체인 요정 몬스터입니다. 여러방면에서 좋은 밸런스를 가지고 있고, 잠재력도 높은 편입니다.";
             monster.sprite = Managers.Sprite.GetSprite("Monster/Fairy");
 
-            monster.ManaCost = 550;
+            monster.ManaCost = 600;
 
             monster.LV = 1;
             monster.MAXLV = 35;

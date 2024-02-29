@@ -99,7 +99,7 @@ public class UI_Ending : UI_PopUp
     IEnumerator ClearText()
     {
 
-        clear.text = "Ending";
+        clear.text = "Ending(Demo)";
         yield return StartCoroutine(TextFadeIn(clear, 1));
         yield return new WaitForSeconds(2);
         yield return StartCoroutine(TextFadeOut(clear, 1));
@@ -115,7 +115,7 @@ public class UI_Ending : UI_PopUp
         yield return new WaitForSeconds(2);
         yield return StartCoroutine(TextFadeOut(clear, 1));
 
-        clear.text = "Banished Hero";
+        clear.text = "Novice Dungeon Master";
         yield return StartCoroutine(TextFadeIn(clear, 1));
         yield return new WaitForSeconds(2);
         yield return StartCoroutine(TextFadeOut(clear, 1));

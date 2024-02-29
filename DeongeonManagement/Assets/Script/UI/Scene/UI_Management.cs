@@ -133,7 +133,7 @@ public class UI_Management : UI_Base
 
         GetButton((int)ButtonEvent.Pause).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_Pause>());
 
-        GetButton((int)ButtonEvent.Speed2x).gameObject.AddUIEvent((data) => Time.timeScale = 1.5f);
+        GetButton((int)ButtonEvent.Speed2x).gameObject.AddUIEvent((data) => Time.timeScale = 1f);
         GetButton((int)ButtonEvent.Speed3x).gameObject.AddUIEvent((data) => Time.timeScale = 2f);
 
 
@@ -189,8 +189,6 @@ public class UI_Management : UI_Base
         GetButton((int)ButtonEvent._4_Guild).gameObject.SetActive(false);
         GetButton((int)ButtonEvent._5_Quest).gameObject.SetActive(false);
 
-        //GetButton((int)ButtonEvent.DayChange).gameObject.SetActive(false);
-
         InActive_Floor();
     }
 
@@ -211,6 +209,8 @@ public class UI_Management : UI_Base
                 break;
 
             case 2:
+            case 3:
+            case 4:
                 GetButton((int)ButtonEvent._4_Guild).gameObject.SetActive(false);
                 GetButton((int)ButtonEvent._5_Quest).gameObject.SetActive(false);
                 break;

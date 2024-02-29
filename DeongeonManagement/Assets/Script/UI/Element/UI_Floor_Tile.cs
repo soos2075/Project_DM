@@ -22,7 +22,8 @@ public class UI_Floor_Tile : UI_Base
         parent = GetComponentInParent<UI_Floor>();
 
         gameObject.AddUIEvent((data) => TileCheckEvent(Main.Instance.CurrentBoundary), Define.UIEvent.Move);
-        gameObject.AddUIEvent((data) => GetComponent<Image>().color = Define.Color_White, Define.UIEvent.Exit);
+
+        gameObject.AddUIEvent((data) => TileExit(), Define.UIEvent.Exit);
 
         gameObject.AddUIEvent((data) => ActionCheckEvent(), Define.UIEvent.LeftClick);
 
@@ -35,6 +36,14 @@ public class UI_Floor_Tile : UI_Base
     {
         Init();
     }
+
+
+    void TileExit()
+    {
+        //GetComponent<Image>().color = Define.Color_White;
+        parent.TileUpdate();
+    }
+
 
 
 
@@ -147,6 +156,17 @@ public class UI_Floor_Tile : UI_Base
         }
         else
         {
+            foreach (var item in boundary)
+            {
+                Vector2Int delta = Tile.index + item;
+
+                BasementTile tile = null;
+                if (Main.Instance.Floor[parent.FloorID].TileMap.TryGetValue(delta, out tile))
+                {
+                    var content = parent.TileList[delta.x, delta.y];
+                    content.GetComponent<Image>().color = Define.Color_Red;
+                }
+            }
             Main.Instance.CurrentTile = null;
         }
     }

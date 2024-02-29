@@ -196,6 +196,15 @@ public class UI_Placement_Facility : UI_PopUp
 
 
 
+
+    public override void PauseRefresh()
+    {
+        Init_Texts();
+    }
+
+
+
+
     private void OnEnable()
     {
         Time.timeScale = 0;

@@ -325,6 +325,7 @@ public class UIManager
         for (int i = 0; i < _paused.transform.childCount; i++)
         {
             _paused.transform.GetChild(i).gameObject.SetActive(true);
+            _paused.PauseRefresh();
         }
 
         _popupStack.Push(_paused);

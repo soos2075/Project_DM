@@ -369,6 +369,9 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         LookAtTarget(npc.PlacementInfo.Place_Tile);
 
         npc.ActionPoint -= Data.Battle_AP;
+        int battleMP = npc.Rank * 8;
+        npc.Mana -= battleMP;
+
 
         UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 전투발생 : " +
             $"{npc.Name_KR} vs " +
@@ -401,6 +404,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         {
             MoveSelf();
         }
+
+        Main.Instance.ShowDM(battleMP, Main.TextType.mana, transform);
     }
 
     IEnumerator BattleStateBusy()

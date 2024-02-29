@@ -155,8 +155,20 @@ public class BasementFloor : MonoBehaviour
                 {
                     if (value.tileType_Original == type)
                     {
-                        avoid = true;
-                        break;
+                        if (type == Define.TileType.Facility)
+                        {
+                            var facil = value.Original as Facility;
+                            if (facil.Type == Facility.FacilityEventType.NPC_Interaction)
+                            {
+                                avoid = true;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            avoid = true;
+                            break;
+                        }
                     }
                 }
 

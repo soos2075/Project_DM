@@ -59,7 +59,7 @@ public class UI_DayResult : UI_PopUp
         GetTMP(((int)Texts.Monster_LvUp)).text = $"레벨업한 몬스터 : {Util.SetTextColorTag(GameManager.Monster.LevelUpList.Count.ToString(), Define.TextColor.Bold)}";
         GetTMP(((int)Texts.Monster_Injury)).text = $"부상당한 몬스터 : {Util.SetTextColorTag(GameManager.Monster.InjuryMonster.ToString(), Define.TextColor.Bold)}";
 
-        GetTMP(((int)Texts.Fame)).text = $"유명도 : {Util.SetTextColorTag(Result.fame_perv.ToString(), Define.TextColor.Bold)} → " +
+        GetTMP(((int)Texts.Fame)).text = $"인기도 : {Util.SetTextColorTag(Result.fame_perv.ToString(), Define.TextColor.Bold)} → " +
             $"{Util.SetTextColorTag(Main.Instance.PopularityOfDungeon.ToString(), Define.TextColor.Bold)}";
 
         GetTMP(((int)Texts.Danger)).text = $"위험도 : {Util.SetTextColorTag(Result.danger_perv.ToString(), Define.TextColor.Bold)} → " +

@@ -6,7 +6,18 @@ public class Adventurer : NPC
 {
     [field: SerializeField]
     public override List<BasementTile> PriorityList { get; set; }
-    protected override Define.TileType[] AvoidTileType { get; set; } = new Define.TileType[] { Define.TileType.NPC };
+    protected override Define.TileType[] AvoidTileType { get { return AvoidTile(); } }
+    Define.TileType[] AvoidTile()
+    {
+        if (ActionPoint <= 0 || Mana <= 0)
+        {
+            return new Define.TileType[] { Define.TileType.NPC, Define.TileType.Facility };
+        }
+        else
+        {
+            return new Define.TileType[] { Define.TileType.NPC, Define.TileType.Facility };
+        }
+    }
 
     protected override void SetRandomClothes()
     {
@@ -19,9 +30,6 @@ public class Adventurer : NPC
         }
 
         { // armor = 4
-            //int ran = Random.Range(0, collection.Layers[4].Textures.Count);
-            //characterBuilder.Armor = collection.Layers[4].Textures[ran].name;
-            //characterBuilder.Armor = "Overalls";
             characterBuilder.Armor = GameManager.Pixel.GetRandomItem(GameManager.Pixel.Armor_Warrior);
         }
 
@@ -34,6 +42,12 @@ public class Adventurer : NPC
 
         {
             characterBuilder.Shield = GameManager.Pixel.GetRandomItem(GameManager.Pixel.Weapon_BeginnerShield);
+        }
+
+        if (Rank > 7)
+        {
+            characterBuilder.Weapon = GameManager.Pixel.GetRandomItem(GameManager.Pixel.Weapon_TwoHandSword);
+            characterBuilder.Shield = "";
         }
 
         characterBuilder.Rebuild();
@@ -73,20 +87,23 @@ public class Adventurer : NPC
     protected override void NPC_Return_Empty()
     {
         Main.Instance.CurrentDay.AddPop(-1);
-        Main.Instance.CurrentDay.AddDanger(-1);
-
         Main.Instance.ShowDM(-1, Main.TextType.pop, transform, 1);
-        Main.Instance.ShowDM(-1, Main.TextType.danger, transform, 1);
+
+        //Main.Instance.CurrentDay.AddDanger(-1);
+        //Main.Instance.ShowDM(-1, Main.TextType.danger, transform, 1);
     }
     protected override void NPC_Return_Satisfaction()
     {
-        Main.Instance.CurrentDay.AddPop(2 + Data.Rank);
-        Main.Instance.ShowDM(2 + Data.Rank, Main.TextType.pop, transform, 1);
+        Main.Instance.CurrentDay.AddPop(Data.Rank);
+        Main.Instance.ShowDM(Data.Rank, Main.TextType.pop, transform, 1);
+
+        Main.Instance.CurrentDay.AddDanger(Data.Rank - 1);
+        Main.Instance.ShowDM(Data.Rank - 1, Main.TextType.danger, transform, 1);
     }
     protected override void NPC_Runaway()
     {
-        Main.Instance.CurrentDay.AddDanger(2 + Data.Rank);
-        Main.Instance.ShowDM(2 + Data.Rank, Main.TextType.danger, transform, 1);
+        Main.Instance.CurrentDay.AddDanger(Data.Rank + 1);
+        Main.Instance.ShowDM(Data.Rank + 1, Main.TextType.danger, transform, 1);
     }
     protected override void NPC_Die()
     {

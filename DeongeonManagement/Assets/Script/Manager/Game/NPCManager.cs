@@ -141,23 +141,34 @@ public class NPCManager
 
 
 
-    public enum NPCType //? 사전의 이름과 동일해야함
+    public enum NPCType
     {
-        //? 가중치 랜덤으로 뽑을 NPC들 / rankWeightedList 의 Lenght와 동일해야함. + 순서도 0부터 순차적으로 증가
-        Herbalist_0 = 0,
-        Miner_0 = 1,
-        Adventurer_0 = 2,
+        //? 가중치 랜덤으로 뽑을 NPC들 / rankWeightedList가 enum의 순서
+        Herbalist0_1 = 0,
+        Miner0_1 = 1,
+        Adventurer0_1 = 2,
 
-        Herbalist_1 = 3,
-        Miner_1 = 4,
-        Adventurer_1 = 5,
+        Herbalist0_2,
+        Miner0_2,
+        Adventurer0_2,
+
+
+        Herbalist1_1,
+        Miner1_1,
+        Adventurer1_1,
+
+        Herbalist1_2,
+        Miner1_2,
+        Adventurer1_2,
 
 
 
         //? 이벤트 NPC들.  순서는 자유, rankWeightedList와 관련없음. index는 고유 타입의 enum 값과 같아야함.
+        //? Dict_Key와 enum string값이 동일해야함
         Hunter_Slime = 1100,
         Hunter_EarthGolem = 1101,
 
+        Event_Day3 = 2000,
         Event_Day8,
         Event_Day15,
         Event_Day23,
@@ -194,8 +205,11 @@ public class NPCManager
 
     void InstantiateNPC(NPCType rank)
     {
+        string Dict_Key = rank.ToString().Substring(0, rank.ToString().IndexOf('_'));
+        //Debug.Log(Dict_Key);
+
         NPC_Data data = null;
-        if (NPCDatas.TryGetValue(rank.ToString(), out data))
+        if (NPCDatas.TryGetValue(Dict_Key, out data))
         {
             var obj = GameManager.Placement.CreatePlacementObject($"NPC/{data.PrefabName}", null, PlacementType.NPC);
             NPC _npc = obj as NPC;
@@ -275,14 +289,16 @@ public class NPCManager
     {
         int ofFame = Main.Instance.PopularityOfDungeon / 10;
 
-        Max_NPC_Value = Mathf.Clamp(Main.Instance.Turn + ofFame, 5, 5 + (Main.Instance.Turn * 2) + 50);
+        Max_NPC_Value = Mathf.Clamp(Main.Instance.Turn + ofFame, 5, 5 + (Main.Instance.Turn * 2));
 
-        Debug.Log("테스트모드!!!!!!!!!!!!!빌드전수정필");
+        //Debug.Log("테스트모드!!!!!!!!!!!!!빌드전수정필");
     }
 
 
-
-    int[] rankWeightedList = new int[] { 20, 20, 60, 40, 40, 100 };
+    // 1,2,3, 4,5,6 = 랭크 1 // 10부터 랭크2
+    int[] rankWeightedList = new int[] { 
+        15, 15, 20, 25, 25, 30,  // 1랭크
+        15, 15, 20, 25, 25, 30 }; // 2랭크
     List<int> rankList;
 
 
@@ -290,7 +306,7 @@ public class NPCManager
     {
         rankList = new List<int>();
 
-        int _danger = Mathf.Clamp(Main.Instance.DangerOfDungeon, 30 + (Main.Instance.Turn * 5), Main.Instance.DangerOfDungeon);
+        int _danger = Mathf.Clamp(Main.Instance.DangerOfDungeon, 15 + (Main.Instance.Turn * 5), Main.Instance.DangerOfDungeon);
 
         for (int i = 0; i < rankWeightedList.Length; i++)
         {
@@ -338,7 +354,7 @@ public class NPCManager
         {
             NPC_Data npc = new NPC_Data();
 
-            npc.DictName = "Herbalist_0";
+            npc.DictName = "Herbalist0";
             npc.PrefabName = "Herbalist";
             npc.Name_Kr = "약초꾼";
             npc.Detail = "던전에서 나오는 약초나 풀들을 채취해서 마을과 길드에 공급해주는 역할을 합니다.";
@@ -352,7 +368,7 @@ public class NPCManager
             npc.HP_MAX = 20;
 
             npc.ActionPoint = 2;
-            npc.Mana = 30;
+            npc.Mana = 50;
             npc.Speed_Ground = 1.5f;
             npc.ActionDelay = 0.7f;
 
@@ -361,12 +377,12 @@ public class NPCManager
         {
             NPC_Data npc = new NPC_Data();
 
-            npc.DictName = "Herbalist_1";
+            npc.DictName = "Herbalist1";
             npc.PrefabName = "Herbalist";
             npc.Name_Kr = "숙련된 약초꾼";
             npc.Detail = "약초꾼을 업으로 오랜기간 일한 숙련자입니다.";
 
-            npc.Rank = 4;
+            npc.Rank = 5;
             npc.ATK = 12;
             npc.DEF = 6;
             npc.AGI = 6;
@@ -375,7 +391,7 @@ public class NPCManager
             npc.HP_MAX = 40;
 
             npc.ActionPoint = 4;
-            npc.Mana = 80;
+            npc.Mana = 100;
             npc.Speed_Ground = 1.55f;
             npc.ActionDelay = 0.7f;
 
@@ -385,7 +401,7 @@ public class NPCManager
         {
             NPC_Data npc = new NPC_Data();
 
-            npc.DictName = "Miner_0";
+            npc.DictName = "Miner0";
             npc.PrefabName = "Miner";
             npc.Name_Kr = "광부";
             npc.Detail = "던전에서 생성되는 다양한 광물을 캐내서 마을에 공급해주는 역할을 합니다.";
@@ -408,12 +424,12 @@ public class NPCManager
         {
             NPC_Data npc = new NPC_Data();
 
-            npc.DictName = "Miner_1";
+            npc.DictName = "Miner1";
             npc.PrefabName = "Miner";
             npc.Name_Kr = "숙련된 광부";
             npc.Detail = "광물캐기 숙련자입니다. 더 오래 효율적으로 일 할 수 있습니다.";
 
-            npc.Rank = 4;
+            npc.Rank = 5;
             npc.ATK = 20;
             npc.DEF = 8;
             npc.AGI = 2;
@@ -422,7 +438,7 @@ public class NPCManager
             npc.HP_MAX = 60;
 
             npc.ActionPoint = 8;
-            npc.Mana = 30;
+            npc.Mana = 50;
             npc.Speed_Ground = 1.45f;
             npc.ActionDelay = 0.5f;
 
@@ -433,7 +449,7 @@ public class NPCManager
         {
             NPC_Data npc = new NPC_Data();
 
-            npc.DictName = "Adventurer_0";
+            npc.DictName = "Adventurer0";
             npc.PrefabName = "Adventurer";
             npc.Name_Kr = "견습 모험가";
             npc.Detail = "모험가가 된지 얼마 안된 새내기 모험가입니다. 나름 모험가라서 자원보단 몬스터와 보물에 관심이 있습니다.";
@@ -447,22 +463,22 @@ public class NPCManager
             npc.HP_MAX = 50;
 
             npc.ActionPoint = 3;
-            npc.Mana = 40;
+            npc.Mana = 90;
             npc.Speed_Ground = 1.6f;
-            npc.ActionDelay = 0.6f;
+            npc.ActionDelay = 0.8f;
 
             NPCDatas.Add(npc.DictName, npc);
         }
         {
             NPC_Data npc = new NPC_Data();
 
-            npc.DictName = "Adventurer_1";
+            npc.DictName = "Adventurer1";
             npc.PrefabName = "Adventurer";
             npc.Name_Kr = "이름있는 모험가";
-            npc.Detail = "꽤 이름있는 모험가입니다. 전투력과 상황판단능력 등 새내기 모험가와는 비교할 수 없어요.";
+            npc.Detail = "꽤 이름있는 모험가입니다. 전투 능력과 상황판단 능력 등 새내기 모험가와는 비교할 수 없어요.";
 
-            npc.Rank = 6;
-            npc.ATK = 30;
+            npc.Rank = 8;
+            npc.ATK = 25;
             npc.DEF = 5;
             npc.AGI = 9;
             npc.LUK = 8;
@@ -470,9 +486,9 @@ public class NPCManager
             npc.HP_MAX = 100;
 
             npc.ActionPoint = 6;
-            npc.Mana = 60;
+            npc.Mana = 180;
             npc.Speed_Ground = 1.6f;
-            npc.ActionDelay = 0.7f;
+            npc.ActionDelay = 0.8f;
 
             NPCDatas.Add(npc.DictName, npc);
         }
@@ -490,7 +506,7 @@ public class NPCManager
             npc.Detail = "길드의 퀘스트를 받고 출동한 몬스터 헌터";
 
             npc.Rank = 3;
-            npc.ATK = 40;
+            npc.ATK = 30;
             npc.DEF = 15;
             npc.AGI = 7;
             npc.LUK = 7;
@@ -516,8 +532,8 @@ public class NPCManager
             npc.Rank = 2;
             npc.ATK = 16;
             npc.DEF = 4;
-            npc.AGI = 5;
-            npc.LUK = 5;
+            npc.AGI = 9;
+            npc.LUK = 9;
             npc.HP = 80;
             npc.HP_MAX = 80;
 
@@ -535,6 +551,30 @@ public class NPCManager
         {
             NPC_Data npc = new NPC_Data();
 
+            npc.DictName = "Event_Day3";
+            npc.PrefabName = "EventNPC";
+            npc.Name_Kr = "견습모험가";
+            npc.Detail = "모험가가 된지 얼마 안된 새내기 모험가입니다. 나름 모험가라서 자원보단 몬스터와 보물에 관심이 있습니다.";
+
+            npc.Rank = 2;
+            npc.ATK = 10;
+            npc.DEF = 1;
+            npc.AGI = 1;
+            npc.LUK = 1;
+            npc.HP = 25;
+            npc.HP_MAX = 25;
+
+            npc.ActionPoint = 5;
+            npc.Mana = 90;
+            npc.Speed_Ground = 1.0f;
+            npc.ActionDelay = 1.0f;
+
+            NPCDatas.Add(npc.DictName, npc);
+        }
+
+        {
+            NPC_Data npc = new NPC_Data();
+
             npc.DictName = "Event_Day8";
             npc.PrefabName = "EventNPC";
             npc.Name_Kr = "혈기왕성한 견습모험가";
@@ -542,9 +582,9 @@ public class NPCManager
 
             npc.Rank = 3;
             npc.ATK = 25;
-            npc.DEF = 0;
-            npc.AGI = 3;
-            npc.LUK = 3;
+            npc.DEF = 1;
+            npc.AGI = 1;
+            npc.LUK = 1;
             npc.HP = 80;
             npc.HP_MAX = 80;
 

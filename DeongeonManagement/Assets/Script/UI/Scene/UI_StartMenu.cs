@@ -14,6 +14,7 @@ public class UI_StartMenu : UI_Scene
         NewGame,
         Load,
         Quit,
+        Pause,
     }
 
     public override void Init()
@@ -28,6 +29,8 @@ public class UI_StartMenu : UI_Scene
         GetButton(((int)Buttons.Load)).gameObject.AddUIEvent(data => LoadGame());
 
         GetButton(((int)Buttons.Quit)).gameObject.AddUIEvent(data => Button_Quit());
+
+        GetButton((int)Buttons.Pause).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_Pause>());
 
         LoadButtonActive();
     }
@@ -84,7 +87,7 @@ public class UI_StartMenu : UI_Scene
         if (confirm.GetAnswer() == UI_Confirm.State.Yes)
         {
             Managers.Scene.AddLoadAction_OneTime(() => Opening());
-            Managers.Scene.LoadSceneAsync(SceneName._4_Direction, false);
+            Managers.Scene.LoadSceneAsync(SceneName._6_NewOpening, false);
         }
         else if (confirm.GetAnswer() == UI_Confirm.State.No)
         {
@@ -105,7 +108,8 @@ public class UI_StartMenu : UI_Scene
     void Opening()
     {
         Debug.Log($"¿ÀÇÁ´× Àç»ý");
-        Director_Story.Instance.StartScene_1();
+        //Director_Story.Instance.StartScene_1();
+
     }
 
 

@@ -191,16 +191,16 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             //? 왼쪽
             Anim_State = animState.left;
         }
-        else if (dir.y > 0)
-        {
-            //? 위
-            Anim_State = animState.back;
-        }
-        else if (dir.y < 0)
-        {
-            //? 아래
-            Anim_State = animState.front;
-        }
+        //else if (dir.y > 0)
+        //{
+        //    //? 위
+        //    Anim_State = animState.back;
+        //}
+        //else if (dir.y < 0)
+        //{
+        //    //? 아래
+        //    Anim_State = animState.front;
+        //}
 
         float dis = Vector3.Distance(startPos.worldPosition, endPos.worldPosition);
 
@@ -233,16 +233,16 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             //? 왼쪽
             Anim_State = NPC.animState.left_Action;
         }
-        //else if (dir.y > 0)
-        //{
-        //    //? 위
-        //    Anim_State = NPC.moveState.back_Action;
-        //}
-        //else if (dir.y < 0)
-        //{
-        //    //? 아래
-        //    Anim_State = NPC.moveState.front_Action;
-        //}
+        else if (dir.y > 0)
+        {
+            //? 위
+            Anim_State = NPC.animState.back_Action;
+        }
+        else if (dir.y < 0)
+        {
+            //? 아래
+            Anim_State = NPC.animState.front_Action;
+        }
     }
     void LookBattle(BasementTile endPos)
     {
@@ -304,7 +304,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
 
     #region PriorityList
-    protected abstract Define.TileType[] AvoidTileType { get; set; }
+    protected abstract Define.TileType[] AvoidTileType { get;}
 
     public abstract List<BasementTile> PriorityList { get; set; }
     protected abstract void SetPriorityList();
@@ -1012,7 +1012,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             PlacementState = PlacementState.Standby;
         }
     }
-    IEnumerator Encounter_Event(BasementTile tile)
+    IEnumerator Encounter_Event(BasementTile tile) //? FacilityEventType.NPC_Event 는 자동 State갱신이 없으니 꼭 수동으로 해줘야함. 꼮!!!!!
     {
         Facility facility = tile.Original as Facility;
 
@@ -1087,13 +1087,13 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         if (newTile != null)
         {
-            Debug.Log("길찾기 실패 / 랜덤이동" + Time.time);
+            //Debug.Log("길찾기 실패 / 랜덤이동" + Time.time);
             var next = new PlacementInfo(PlacementInfo.Place_Floor, newTile);
             PlacementMove_NPC(this, next, ActionDelay);
         }
         yield return new WaitForEndOfFrame();
         Cor_Move = null;
-        Debug.Log("길찾기 실패 / 상태새로고침" + Time.time);
+        //Debug.Log("길찾기 실패 / 상태새로고침");
         //? 이거 ap포인트 막 줄이면 출구에서 갇혀서 이도저도못하는 상황 나옴. 다른 카운트로 방황을 몇초이상하면 새 메서드로 해야할듯
         //ActionPoint--;
         //Debug.Log(ActionPoint);

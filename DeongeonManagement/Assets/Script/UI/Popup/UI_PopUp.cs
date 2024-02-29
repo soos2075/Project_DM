@@ -12,6 +12,10 @@ public class UI_PopUp : UI_Base
         AddRightClickCloseEvent();
     }
 
+    public virtual void PauseRefresh()
+    {
+
+    }
 
 
     public virtual void ClosePopUp()

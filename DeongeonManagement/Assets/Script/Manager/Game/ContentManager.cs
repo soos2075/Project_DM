@@ -328,9 +328,9 @@ public class ContentManager
             Debug.Log("배치할 수 없음");
         }
     }
-    void CreateAll<T>(string prefab, int _optionIndex, bool isUnchangeable = false) where T : Facility
+    void CreateAll<T>(string prefab, int _optionIndex) where T : Facility
     {
-        if (Create<T>(prefab, Main.Instance.CurrentBoundary, _optionIndex, isUnchangeable))
+        if (Create<T>(prefab, Main.Instance.CurrentBoundary, _optionIndex))
         {
             CreateOver();
         }
@@ -455,14 +455,14 @@ public class ContentManager
             if (Main.Instance.CurrentTile.floor.TileMap.TryGetValue(delta, out temp))
             {
                 var info = new PlacementInfo(Main.Instance.CurrentTile.floor, temp);
-                GameManager.Facility.CreateFacility(prefab, info, isUnChangeable);
+                GameManager.Facility.CreateFacility(prefab, info);
             }
         }
 
         return true;
     }
 
-    bool Create<T>(string prefab, Vector2Int[] boundary, int _optionIndex, bool isUnChangeable = false) where T : Facility
+    bool Create<T>(string prefab, Vector2Int[] boundary, int _optionIndex) where T : Facility
     {
         if (Main.Instance.CurrentTile == null) return false;
 
@@ -474,43 +474,13 @@ public class ContentManager
             if (Main.Instance.CurrentTile.floor.TileMap.TryGetValue(delta, out temp))
             {
                 var info = new PlacementInfo(Main.Instance.CurrentTile.floor, temp);
-                var facil = GameManager.Facility.CreateFacility(prefab, info, isUnChangeable);
-                var t1 = facil as T;
-                t1.OptionIndex = _optionIndex;
+                GameManager.Facility.CreateFacility(prefab, info, _optionIndex);
             }
         }
 
         return true;
     }
 
-
-
-    //bool Create_Trap(string prefab, Vector2Int[] boundary, bool isUnChangeable, out IPlacementable[] placementable)
-    //{
-    //    if (Main.Instance.CurrentTile == null)
-    //    {
-    //        placementable = null;
-    //        return false; 
-    //    }
-
-    //    placementable = new IPlacementable[boundary.Length];
-    //    int index = 0;
-
-    //    var tile = Main.Instance.CurrentTile;
-    //    foreach (var item in boundary)
-    //    {
-    //        Vector2Int delta = tile.index + item;
-    //        BasementTile temp = null;
-    //        if (Main.Instance.CurrentTile.floor.TileMap.TryGetValue(delta, out temp))
-    //        {
-    //            var info = new PlacementInfo(Main.Instance.CurrentTile.floor, temp);
-    //            placementable[index] = GameManager.Facility.CreateFacility(prefab, info, isUnChangeable);
-    //            index++;
-    //        }
-    //    }
-
-    //    return true;
-    //}
 
 
     bool CreateUnique(string prefab, Vector2Int[] boundary)

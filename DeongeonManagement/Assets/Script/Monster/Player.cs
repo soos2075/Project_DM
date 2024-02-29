@@ -11,8 +11,9 @@ public class Player : Monster
     public override void MonsterInit()
     {
         PlacementType = PlacementType.Monster;
-        //Data = GameManager.Monster.GetMonsterData("Skeleton");
-        detail = "모험이 끝난 모험가입니다. 모험가로서의 지식은 상당한 편이에요.";
+
+        Name = "초보자 던전 마스터";
+        detail = "모험레벨은 적어도 던전 지식은 상당한 편이에요.";
 
         Data = new MonsterData();
         Data.Battle_AP = 2;

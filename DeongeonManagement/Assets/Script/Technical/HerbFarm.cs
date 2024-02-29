@@ -57,13 +57,17 @@ public class HerbFarm : Technical
                 var tile = Main.Instance.Floor[i].GetRandomTile();
                 var info = new PlacementInfo(Main.Instance.Floor[i], tile);
 
-                if (ranValue > 0.75f)
+                if (ranValue > 0.9f)
                 {
-                    GameManager.Facility.CreateFacility("Herb_High", info);
+                    GameManager.Facility.CreateFacility("Herb", info, (int)Herb.HerbType.High);
+                }
+                else if (ranValue > 0.6f)
+                {
+                    GameManager.Facility.CreateFacility("Herb", info, (int)Herb.HerbType.Pumpkin);
                 }
                 else
                 {
-                    GameManager.Facility.CreateFacility("Herb_Low", info);
+                    GameManager.Facility.CreateFacility("Herb", info, (int)Herb.HerbType.Low);
                 }
             }
         }

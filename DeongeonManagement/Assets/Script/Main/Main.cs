@@ -176,10 +176,10 @@ public class Main : MonoBehaviour
         ActiveFloor_Technical = 0;
         DungeonRank = 1;
 
-        Player_Mana = 30000;
-        Player_Gold = 30000;
-        Player_AP = 20;
-        AP_MAX = 20;
+        Player_Mana = 300;
+        Player_Gold = 300;
+        Player_AP = 2;
+        AP_MAX = 2;
 
         Init_BasementFloor();
         Init_Animation();
@@ -302,33 +302,25 @@ public class Main : MonoBehaviour
             BasementTile tile = null;
             Floor[3].TileMap.TryGetValue(new Vector2Int(7, 0), out tile);
             PlacementInfo info = new PlacementInfo(Floor[3], tile);
-            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, true);
-            var statue = obj as Statue;
-            statue.statueType = Statue.StatueType.Mana;
+            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, (int)Statue.StatueType.Mana);
         }
         {
             BasementTile tile = null;
             Floor[3].TileMap.TryGetValue(new Vector2Int(7, 1), out tile);
             PlacementInfo info = new PlacementInfo(Floor[3], tile);
-            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, true);
-            var statue = obj as Statue;
-            statue.statueType = Statue.StatueType.Mana;
+            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, (int)Statue.StatueType.Mana);
         }
         {
             BasementTile tile = null;
             Floor[3].TileMap.TryGetValue(new Vector2Int(8, 0), out tile);
             PlacementInfo info = new PlacementInfo(Floor[3], tile);
-            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, true);
-            var statue = obj as Statue;
-            statue.statueType = Statue.StatueType.Mana;
+            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, (int)Statue.StatueType.Mana);
         }
         {
             BasementTile tile = null;
             Floor[3].TileMap.TryGetValue(new Vector2Int(8, 1), out tile);
             PlacementInfo info = new PlacementInfo(Floor[3], tile);
-            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, true);
-            var statue = obj as Statue;
-            statue.statueType = Statue.StatueType.Mana;
+            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, (int)Statue.StatueType.Mana);
         }
 
         //? 골드 스태츄
@@ -336,33 +328,25 @@ public class Main : MonoBehaviour
             BasementTile tile = null;
             Floor[3].TileMap.TryGetValue(new Vector2Int(7, 4), out tile);
             PlacementInfo info = new PlacementInfo(Floor[3], tile);
-            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, true);
-            var statue = obj as Statue;
-            statue.statueType = Statue.StatueType.Gold;
+            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, (int)Statue.StatueType.Gold);
         }
         {
             BasementTile tile = null;
             Floor[3].TileMap.TryGetValue(new Vector2Int(7, 5), out tile);
             PlacementInfo info = new PlacementInfo(Floor[3], tile);
-            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, true);
-            var statue = obj as Statue;
-            statue.statueType = Statue.StatueType.Gold;
+            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, (int)Statue.StatueType.Gold);
         }
         {
             BasementTile tile = null;
             Floor[3].TileMap.TryGetValue(new Vector2Int(8, 4), out tile);
             PlacementInfo info = new PlacementInfo(Floor[3], tile);
-            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, true);
-            var statue = obj as Statue;
-            statue.statueType = Statue.StatueType.Gold;
+            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, (int)Statue.StatueType.Gold);
         }
         {
             BasementTile tile = null;
             Floor[3].TileMap.TryGetValue(new Vector2Int(8, 5), out tile);
             PlacementInfo info = new PlacementInfo(Floor[3], tile);
-            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, true);
-            var statue = obj as Statue;
-            statue.statueType = Statue.StatueType.Gold;
+            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, (int)Statue.StatueType.Gold);
         }
 
     }
@@ -702,7 +686,7 @@ public class Main : MonoBehaviour
 
             case 3:
                 Debug.Log("3일차 시작 이벤트 - 모험가 한명 무조건 소환");
-                GameManager.NPC.AddEventNPC(NPCManager.NPCType.Adventurer_0, 9);
+                GameManager.NPC.AddEventNPC(NPCManager.NPCType.Event_Day3, 7);
                 break;
 
 
@@ -755,7 +739,7 @@ public class Main : MonoBehaviour
                 break;
 
             case 3:
-                Debug.Log("4일차 종료 이벤트 - 테크니컬");
+                Debug.Log("3일차 종료 이벤트 - 테크니컬");
                 Technical_Expansion();
                 Managers.Dialogue.ShowDialogueUI("Technical", GameObject.Find("Player").transform);
                 break;

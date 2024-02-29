@@ -155,7 +155,7 @@ public class UI_SaveLoad : UI_PopUp
                 GetImage(i - 1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{i}번 슬롯";
                 GetImage(i - 1).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{data.dateTime}";
                 GetImage(i - 1).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = 
-                    $"{data.turn}일차\n유명도 : {data.FameOfDungeon} / 위험도 : {data.DangerOfDungeon}";
+                    $"{data.turn}일차\n인기도 : {data.FameOfDungeon} / 위험도 : {data.DangerOfDungeon}";
             }
             else
             {
@@ -174,7 +174,7 @@ public class UI_SaveLoad : UI_PopUp
             GetImage(((int)Slot.AutoSave)).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"자동저장";
             GetImage(((int)Slot.AutoSave)).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{autodata.dateTime}";
             GetImage(((int)Slot.AutoSave)).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text =
-                $"{autodata.turn}일차\n유명도 : {autodata.FameOfDungeon} / 위험도 : {autodata.DangerOfDungeon}";
+                $"{autodata.turn}일차\n인기도 : {autodata.FameOfDungeon} / 위험도 : {autodata.DangerOfDungeon}";
         }
         else
         {

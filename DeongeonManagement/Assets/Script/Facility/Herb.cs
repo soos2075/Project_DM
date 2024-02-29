@@ -58,7 +58,7 @@ public class Herb : Facility
                     InteractionOfTimes = 3;
                 }
                 Name = "마나 펌킨";
-                Detail_KR = "마나를 지닌 호박입니다. 최고급 식재료로도 사용이 되며 기타 여러 합성에 재료로 사용됩니다.";
+                Detail_KR = "마나를 지닌 호박입니다. 최고급 식재료로 사용되며 기타 여러 합성에도 사용됩니다.";
                 durationTime = 2;
                 ap_value = 1;
                 mp_value = 12;

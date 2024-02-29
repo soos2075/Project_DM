@@ -6,7 +6,20 @@ public class Miner : NPC
 {
     [field: SerializeField]
     public override List<BasementTile> PriorityList { get; set; }
-    protected override Define.TileType[] AvoidTileType { get; set; } = new Define.TileType[] { Define.TileType.NPC, Define.TileType.Monster };
+    protected override Define.TileType[] AvoidTileType { get { return AvoidTile(); } }
+
+    Define.TileType[] AvoidTile()
+    {
+        if (ActionPoint <= 0 || Mana <= 0)
+        {
+            return new Define.TileType[] { Define.TileType.NPC, Define.TileType.Facility };
+        }
+        else
+        {
+            return new Define.TileType[] { Define.TileType.NPC, Define.TileType.Monster };
+        }
+    }
+
 
     protected override void SetRandomClothes()
     {
@@ -20,11 +33,17 @@ public class Miner : NPC
         //characterBuilder.Armor += $"#FFFFFF/{Random.Range(-100, 100)}:{Random.Range(-70, 70)}:{Random.Range(-50, 50)}";
         //characterBuilder.Helmet += $"#FFFFFF/{Random.Range(-50, 50)}:0:0";
 
+
+        if (Rank > 3)
+        {
+            characterBuilder.Helmet = "MinerHelment#FFFFFF/-45:0:0";
+        }
+        if (Rank > 7)
+        {
+            characterBuilder.Helmet = "MinerHelment#FFFFFF/180:0:0";
+        }
+
         characterBuilder.Rebuild();
-    }
-    void Init_AvoidType()
-    {
-        AvoidTileType = new Define.TileType[] { Define.TileType.NPC, Define.TileType.Monster };
     }
 
     protected override void SetPriorityList()
@@ -46,22 +65,19 @@ public class Miner : NPC
 
     protected override void NPC_Return_Empty()
     {
-        Main.Instance.CurrentDay.AddPop(-1);
-        Main.Instance.CurrentDay.AddDanger(-1);
-
-        Main.Instance.ShowDM(-1, Main.TextType.pop, transform, 1);
-        Main.Instance.ShowDM(-1, Main.TextType.danger, transform, 1);
+        Main.Instance.CurrentDay.AddPop(-3);
+        Main.Instance.ShowDM(-3, Main.TextType.pop, transform, 1);
     }
     protected override void NPC_Return_Satisfaction()
     {
-        Main.Instance.CurrentDay.AddPop(2 + Data.Rank);
-        Main.Instance.ShowDM(2 + Data.Rank, Main.TextType.pop, transform, 1);
+        Main.Instance.CurrentDay.AddPop(Data.Rank + 1);
+        Main.Instance.ShowDM(Data.Rank + 1, Main.TextType.pop, transform, 1);
     }
     protected override void NPC_Runaway()
     {
-        Main.Instance.CurrentDay.AddDanger(2 + Data.Rank);
+        Main.Instance.CurrentDay.AddDanger(Data.Rank + 3);
 
-        Main.Instance.ShowDM(2 + Data.Rank, Main.TextType.danger, transform, 1);
+        Main.Instance.ShowDM(Data.Rank + 3, Main.TextType.danger, transform, 1);
     }
     protected override void NPC_Die()
     {

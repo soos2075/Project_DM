@@ -5,7 +5,7 @@ using UnityEngine;
 public class EventNPC : NPC
 {
     public override List<BasementTile> PriorityList { get; set; }
-    protected override Define.TileType[] AvoidTileType { get; set; } = new Define.TileType[] { Define.TileType.NPC, Define.TileType.Facility };
+    protected override Define.TileType[] AvoidTileType { get; } = new Define.TileType[] { Define.TileType.NPC, Define.TileType.Facility };
 
     public override int RunawayHpRatio { get; set; } = 999;
 
@@ -22,26 +22,51 @@ public class EventNPC : NPC
         Managers.Dialogue.ShowDialogueUI($"Day{Main.Instance.Turn}_Event", transform);
     }
 
+    public enum EventNPCType
+    {
+        Event_Day3 = 2000,
+        Event_Day8,
+        Event_Day15,
+        Event_Day23,
+        Event_Day30,
+    }
+    public EventNPCType EventDay { get { return (EventNPCType)EventID; } }
 
     protected override void SetRandomClothes()
     {
         var collection = characterBuilder.SpriteCollection;
-        if (Main.Instance.Turn == 8)
-        {
-            KillGold = 200;
-            characterBuilder.Hair = "Hair11#C42430/0:0:0";
-            characterBuilder.Armor = "DemigodArmour";
-            characterBuilder.Weapon = "Katana";
-            //characterBuilder.Shield = "GoldenEagle";
-        }
 
-        if (Main.Instance.Turn == 15)
+        switch (EventDay)
         {
-            KillGold = 500;
-            characterBuilder.Hair = "Hair10#858585/0:0:0";
-            characterBuilder.Armor = "HeavyKnightArmor";
-            characterBuilder.Weapon = "Epee";
-            characterBuilder.Shield = "KnightShield";
+            case EventNPCType.Event_Day3:
+                KillGold = 50;
+                int ran = Random.Range(0, collection.Layers[9].Textures.Count);
+                characterBuilder.Hair = collection.Layers[9].Textures[ran].name;
+                string hexColor = Define.HairColors[Random.Range(0, 24)];
+                characterBuilder.Hair += hexColor;
+                characterBuilder.Armor = GameManager.Pixel.GetRandomItem(GameManager.Pixel.Armor_Warrior);
+                characterBuilder.Weapon = GameManager.Pixel.GetRandomItem(GameManager.Pixel.Weapon_BeginnerSword);
+                break;
+
+            case EventNPCType.Event_Day8:
+                KillGold = 200;
+                characterBuilder.Hair = "Hair11#C42430/0:0:0";
+                characterBuilder.Armor = "DemigodArmour";
+                characterBuilder.Weapon = "Katana";
+                break;
+
+            case EventNPCType.Event_Day15:
+                KillGold = 500;
+                characterBuilder.Hair = "Hair10#858585/0:0:0";
+                characterBuilder.Armor = "HeavyKnightArmor";
+                characterBuilder.Weapon = "Epee";
+                characterBuilder.Shield = "KnightShield";
+                break;
+
+            case EventNPCType.Event_Day23:
+                break;
+            case EventNPCType.Event_Day30:
+                break;
         }
 
         characterBuilder.Rebuild();
@@ -75,13 +100,30 @@ public class EventNPC : NPC
 
     IEnumerator DieEvent()
     {
-        Managers.Dialogue.ShowDialogueUI($"Day{15}_Event_Die", transform);
+        Managers.Dialogue.ShowDialogueUI($"Day{Main.Instance.Turn}_Event_Die", transform);
         yield return null;
         yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
 
         //UI_EventBox.AddEventText($"◈{Name_KR} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 쓰러짐");
-        Main.Instance.CurrentDay.AddDanger(50);
-        Main.Instance.CurrentDay.AddPop(50);
+        switch (EventDay)
+        {
+            case EventNPCType.Event_Day3:
+                Main.Instance.CurrentDay.AddDanger(5);
+                Main.Instance.CurrentDay.AddPop(5);
+                break;
+            case EventNPCType.Event_Day8:
+                Main.Instance.CurrentDay.AddDanger(25);
+                Main.Instance.CurrentDay.AddPop(25);
+                break;
+            case EventNPCType.Event_Day15:
+                Main.Instance.CurrentDay.AddDanger(50);
+                Main.Instance.CurrentDay.AddPop(50);
+                break;
+            case EventNPCType.Event_Day23:
+                break;
+            case EventNPCType.Event_Day30:
+                break;
+        }
 
         GameManager.NPC.InactiveNPC(this);
     }

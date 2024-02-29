@@ -91,8 +91,8 @@ public class SceneManagerEx
                 SoundManager.Instance.PlaySound("BGM/Guild", Define.AudioType.BGM);
                 break;
 
-            case SceneName._4_Direction:
-                SoundManager.Instance.PlaySound("BGM/Opening", Define.AudioType.BGM);
+            case SceneName._6_NewOpening:
+                SoundManager.Instance.PlaySound("BGM/NewOpening", Define.AudioType.BGM);
                 break;
 
             case SceneName._5_Ending:
@@ -164,8 +164,8 @@ public class SceneManagerEx
             case "_3_Guild":
                 return SceneName._3_Guild;
 
-            case "_4_Direction":
-                return SceneName._4_Direction;
+            case "_6_NewOpening":
+                return SceneName._6_NewOpening;
 
             case "_5_Ending":
                 return SceneName._5_Ending;
@@ -188,8 +188,8 @@ public class SceneManagerEx
             case "_3_Guild":
                 return SceneName._3_Guild;
 
-            case "_4_Direction":
-                return SceneName._4_Direction;
+            case "_6_NewOpening":
+                return SceneName._6_NewOpening;
 
             case "_5_Ending":
                 return SceneName._5_Ending;
@@ -206,6 +206,7 @@ public enum SceneName
     _1_Start = 1,
     _2_Management = 2,
     _3_Guild = 3,
-    _4_Direction = 4,
+    //_4_Direction = 4,
     _5_Ending = 5,
+    _6_NewOpening = 6,
 }

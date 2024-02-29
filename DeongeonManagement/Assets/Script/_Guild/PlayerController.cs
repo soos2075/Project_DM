@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,11 +14,17 @@ public class PlayerController : MonoBehaviour
     Animator anim;
 
     GuildManager guildManager;
+    Tilemap tile_borderline;
+
+    float playerSize;
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
         guildManager = FindAnyObjectByType<GuildManager>();
+        tile_borderline = FindAnyObjectByType<TilemapCollider2D>().GetComponent<Tilemap>();
+
+        playerSize = transform.localScale.y;
     }
 
    
@@ -28,72 +35,128 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        KeyboardEvent();
+        MouseEvent();
+    }
+
+    private void LateUpdate()
+    {
+        RunningAnimation();
+    }
+    void RunningAnimation()
+    {
+        if (rig.velocity.magnitude > 0)
+        {
+            anim.Play(Define.ANIM_Running);
+            if (rig.velocity.x < 0)
+            {
+                transform.localScale = new Vector3(-1, 1, 1) * playerSize;
+            }
+            else
+            {
+                transform.localScale = Vector3.one * playerSize;
+            }
+        }
+        else
+        {
+            anim.Play(Define.ANIM_Idle);
+        }
+    }
+    void KeyboardEvent()
+    {
+        if (current_NPC != null && Input.GetKeyDown(KeyCode.E))
+        {
+            if (moveCor != null)
+            {
+                StopCoroutine(moveCor);
+            }
+            current_NPC.StartDialogue();
+        }
+
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
 
         Vector2 move = new Vector2(h, v).normalized;
         rig.velocity = move * speed;
-
-
-
-
-        if (anim.GetInteger("h") != h)
-        {
-            anim.SetInteger("h", (int)h);
-            anim.SetBool("isMove", true);
-        }
-        else if (anim.GetInteger("v") != v)
-        {
-            if (h == 1)
-            {
-                return;
-            }
-            anim.SetInteger("v", (int)v);
-            anim.SetBool("isMove", true);
-
-        }
-        else
-        {
-            anim.SetBool("isMove", false);
-        }
-
-
-
-
-        if (current_NPC != null)
-        {
-            StartTalk();
-        }
     }
 
 
-
-    void StartTalk()
+    void MouseEvent()
     {
         if (Managers.UI._popupStack.Count > 0)
         {
             return;
         }
-        //if (Managers.Dialogue.GetState() == DialogueManager.DialogueState.Talking)
-        //{
-        //    return;
-        //}
 
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
-            //Managers.Dialogue.ShowDialogueUI(current_NPC.StartDialogue());
-            current_NPC.StartDialogue();
-            //isTalking = true;
-            //StartCoroutine(WaitOverTalking());
+            MouseClick();
         }
     }
 
-    //IEnumerator WaitOverTalking()
-    //{
-    //    yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
-    //    isTalking = false;
-    //}
-    //bool isTalking;
+
+    Coroutine moveCor;
+    void MouseClick()
+    {
+        //스크린 좌표를 월드 좌표로 변환
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        if (current_NPC != null)
+        {
+            RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
+            if (hit.collider != null && hit.collider.gameObject == current_NPC.gameObject)
+            {
+                Debug.Log("충돌한 객체: " + hit.collider.gameObject.name);
+                current_NPC.StartDialogue();
+                return;
+            }
+        }
+
+        Vector3Int cellPosition = tile_borderline.WorldToCell(worldPosition);
+        TileBase tile = tile_borderline.GetTile(cellPosition);
+        if (tile != null)
+        {
+            Debug.Log("충돌한 타일: " + tile.name);
+            if (moveCor != null)
+            {
+                StopCoroutine(moveCor);
+            }
+            return;
+        }
+
+        if (moveCor != null)
+        {
+            StopCoroutine(moveCor);
+        }
+        moveCor = StartCoroutine(PlayerMouseMove(worldPosition));
+    }
+
+    IEnumerator PlayerMouseMove(Vector3 _movePoint)
+    {
+        Vector3 direction = _movePoint - transform.position;
+        Vector2 move = new Vector2(direction.x, direction.y).normalized;
+
+        float distance = Vector3.Distance(transform.position, _movePoint);
+        float timer = 0;
+        while (timer < 0.2f)
+        {
+            yield return null;
+            timer += Time.deltaTime;
+            rig.velocity = move * speed;
+        }
+
+        while (distance > 0.5f && isContact == null)
+        {
+            yield return null;
+            rig.velocity = move * speed;
+            distance = Vector2.Distance(transform.position, _movePoint);
+        }
+
+        moveCor = null;
+    }
+
+    Collision2D isContact;
+
 
     Interaction_Guild current_NPC;
 
@@ -121,6 +184,15 @@ public class PlayerController : MonoBehaviour
             interact.ContactOff();
         }
         current_NPC = null;
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        isContact = collision;
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        isContact = null;
     }
 
 

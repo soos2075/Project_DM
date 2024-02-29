@@ -49,11 +49,11 @@ public class BattleManager : MonoBehaviour
         float direction = _monster.PlacementInfo.Place_Tile.worldPosition.x - bfPos.x;
         if (direction >= 0)
         {
-            bfPos += new Vector3(Mathf.Clamp(Random.Range(3f, 8f) + direction, 5.0f, 8.5f) , Random.Range(-2.0f, 2.0f), 0);
+            bfPos += new Vector3(Mathf.Clamp(Random.Range(3f, 8f) + direction, 5.0f, 8.0f) , Random.Range(-2.0f, 2.0f), 0);
         }
         else
         {
-            bfPos += new Vector3(Mathf.Clamp(Random.Range(-3f, -8f) + direction, -5.0f, -8.5f), Random.Range(-2.0f, 2.0f), 0);
+            bfPos += new Vector3(Mathf.Clamp(Random.Range(-3f, -8f) + direction, -5.0f, -8.0f), Random.Range(-2.0f, 2.0f), 0);
         }
 
         var bf = Managers.Resource.Instantiate("Battle/BattleField").GetComponent<BattleField>();

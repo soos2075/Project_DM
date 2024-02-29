@@ -6,7 +6,19 @@ public class Herbalist : NPC
 {
     [field: SerializeField]
     public override List<BasementTile> PriorityList { get; set; }
-    protected override Define.TileType[] AvoidTileType { get; set; } = new Define.TileType[] { Define.TileType.NPC, Define.TileType.Monster };
+    protected override Define.TileType[] AvoidTileType { get { return AvoidTile(); } }
+
+    Define.TileType[] AvoidTile()
+    {
+        if (ActionPoint <= 0 || Mana <= 0)
+        {
+            return new Define.TileType[] { Define.TileType.NPC, Define.TileType.Facility };
+        }
+        else
+        {
+            return new Define.TileType[] { Define.TileType.NPC, Define.TileType.Monster };
+        }
+    }
 
     protected override void SetRandomClothes()
     {
@@ -16,9 +28,6 @@ public class Herbalist : NPC
         characterBuilder.Weapon = GameManager.Pixel.GetRandomItem(GameManager.Pixel.Weapon_Herbalist);
         characterBuilder.Helmet = "ArcherHood";
         characterBuilder.Back = "SmallBackpack";
-
-        //characterBuilder.Helmet += $"#FFFFFF/{Random.Range(-150, 150)}:{Random.Range(-80, 80)}:{Random.Range(-70, 70)}";
-
         //{ // mask = 8
         //    int ran = Random.Range(-3, collection.Layers[8].Textures.Count);
         //    if (ran > 0)
@@ -26,14 +35,18 @@ public class Herbalist : NPC
         //        characterBuilder.Mask = collection.Layers[8].Textures[ran].name;
         //    }
         //}
+        if (Rank > 3)
+        {
+            characterBuilder.Helmet = "FireWizardHood#FFFFFF/0:0:0";
+        }
+        if (Rank > 7)
+        {
+            characterBuilder.Helmet = "ClericHood#FFFFFF/0:0:0";
+        }
 
         characterBuilder.Rebuild();
     }
 
-    void Init_AvoidType()
-    {
-        AvoidTileType = new Define.TileType[] { Define.TileType.NPC, Define.TileType.Monster };
-    }
 
     protected override void SetPriorityList()
     {
@@ -53,22 +66,19 @@ public class Herbalist : NPC
 
     protected override void NPC_Return_Empty()
     {
-        Main.Instance.CurrentDay.AddPop(-1);
-        Main.Instance.CurrentDay.AddDanger(-1);
-
-        Main.Instance.ShowDM(-1, Main.TextType.pop, transform, 1);
-        Main.Instance.ShowDM(-1, Main.TextType.danger, transform, 1);
+        Main.Instance.CurrentDay.AddPop(-3);
+        Main.Instance.ShowDM(-3, Main.TextType.pop, transform, 1);
     }
     protected override void NPC_Return_Satisfaction()
     {
-        Main.Instance.CurrentDay.AddPop(2 + Data.Rank);
-        Main.Instance.ShowDM(2 + Data.Rank, Main.TextType.pop, transform, 1);
+        Main.Instance.CurrentDay.AddPop(Data.Rank + 1);
+        Main.Instance.ShowDM(Data.Rank + 1, Main.TextType.pop, transform, 1);
     }
     protected override void NPC_Runaway()
     {
-        Main.Instance.CurrentDay.AddDanger(2 + Data.Rank);
+        Main.Instance.CurrentDay.AddDanger(Data.Rank + 3);
 
-        Main.Instance.ShowDM(2 + Data.Rank, Main.TextType.danger, transform, 1);
+        Main.Instance.ShowDM(Data.Rank + 3, Main.TextType.danger, transform, 1);
     }
     protected override void NPC_Die()
     {

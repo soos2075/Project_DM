@@ -14,12 +14,14 @@ public class FacilityManager
 
 
 
-    public IPlacementable CreateFacility(string prefabName, PlacementInfo info, bool isUnChangeable = false)
+    public IPlacementable CreateFacility(string prefabName, PlacementInfo info, int _optionIndex = 0)
     {
         var newObj = GameManager.Placement.CreatePlacementObject($"Facility/{prefabName}", info, PlacementType.Facility);
-        GameManager.Placement.PlacementConfirm(newObj, info, isUnChangeable);
+        GameManager.Placement.PlacementConfirm(newObj, info, true);
+        var facil = newObj as Facility;
+        facil.OptionIndex = _optionIndex;
 
-        facilityList.Add(newObj as Facility);
+        facilityList.Add(facil);
         return newObj;
     }
     public IPlacementable CreateFacility_OnlyOne(string prefabName, PlacementInfo info, bool isUnChangeable = false)
@@ -88,7 +90,7 @@ public class FacilityManager
                 BasementTile tile = null;
                 if (floor.TileMap.TryGetValue(data[i].posIndex, out tile))
                 {
-                    var obj = CreateFacility(data[i].prefabName, new PlacementInfo(floor, tile), data[i].isUnchange);
+                    var obj = CreateFacility(data[i].prefabName, new PlacementInfo(floor, tile));
                     var facil = obj as Facility;
                     facil.Load_Data(data[i]);
                 }

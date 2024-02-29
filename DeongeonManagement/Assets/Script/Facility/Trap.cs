@@ -100,6 +100,7 @@ public class Trap : Facility
         else
         {
             Debug.Log($"{Name}의 이벤트 횟수없음");
+            npc.State = npc.StateRefresh();
             return null;
         }
     }

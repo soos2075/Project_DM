@@ -41,8 +41,8 @@ public class CameraControl : MonoBehaviour
 
 
 
-        limit_left = -90 / (mainCam.orthographicSize * mainCam.orthographicSize);
-        limit_right = 90 / (mainCam.orthographicSize * mainCam.orthographicSize);
+        limit_left = -150 / (mainCam.orthographicSize * mainCam.orthographicSize);
+        limit_right = 150 / (mainCam.orthographicSize * mainCam.orthographicSize);
 
 
         ClickAction();

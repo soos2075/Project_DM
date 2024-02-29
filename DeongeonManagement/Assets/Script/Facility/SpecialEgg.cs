@@ -13,7 +13,7 @@ public class SpecialEgg : Facility
         Type = FacilityEventType.NPC_Event;
         InteractionOfTimes = 10000;
         Name = "던전의 알";
-        Detail_KR = "정체모를 수수께끼의 알입니다. 계약에 따라 알을 지켜야만 합니다.";
+        Detail_KR = "정체모를 수수께끼의 알입니다.";
         Name_prefab = this.GetType().Name;
     }
     public override void SetFacilityBool()

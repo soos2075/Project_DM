@@ -11,13 +11,13 @@ public class TimelineDirector : MonoBehaviour
     void Start()
     {
         anim_Player = player.GetComponent<Animator>();
-
     }
 
 
     public void PlayerMove()
     {
-        anim_Player.Play("walk_l");
+        anim_Player.Play(Define.ANIM_Running);
+        player.transform.localScale = new Vector3(-1, 1, 1);
         StartCoroutine(PlayerMove_1());
     }
     IEnumerator PlayerMove_1()
@@ -30,8 +30,7 @@ public class TimelineDirector : MonoBehaviour
 
             player.transform.Translate(Vector3.left * Time.unscaledDeltaTime * 1f);
         }
-        anim_Player.Play("idle_l");
-
+        anim_Player.Play(Define.ANIM_Idle);
     }
 
 
