@@ -68,13 +68,13 @@ public class Herb : Facility
             case HerbType.High:
                 if (InteractionOfTimes <= 0)
                 {
-                    InteractionOfTimes = 2;
+                    InteractionOfTimes = 3;
                 }
                 Name = "고급 약초";
                 Detail_KR = "꽤 귀한 약초입니다. 고급 포션의 재료로 사용된다고 하네요.";
                 durationTime = 4;
-                ap_value = 3;
-                mp_value = 27;
+                ap_value = 1;
+                mp_value = 35;
                 hp_value = 0;
                 break;
         }

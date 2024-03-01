@@ -275,7 +275,6 @@ public class NPCManager
             Debug.Log("모든 npc가 비활성화됨");
             Main.Instance.DayChange();
         }
-
     }
 
 
@@ -364,11 +363,11 @@ public class NPCManager
             npc.DEF = 3;
             npc.AGI = 3;
             npc.LUK = 3;
-            npc.HP = 20;
-            npc.HP_MAX = 20;
+            npc.HP = 30;
+            npc.HP_MAX = 30;
 
             npc.ActionPoint = 2;
-            npc.Mana = 50;
+            npc.Mana = 80;
             npc.Speed_Ground = 1.5f;
             npc.ActionDelay = 0.7f;
 
@@ -387,11 +386,11 @@ public class NPCManager
             npc.DEF = 6;
             npc.AGI = 6;
             npc.LUK = 6;
-            npc.HP = 40;
-            npc.HP_MAX = 40;
+            npc.HP = 80;
+            npc.HP_MAX = 80;
 
             npc.ActionPoint = 4;
-            npc.Mana = 100;
+            npc.Mana = 300;
             npc.Speed_Ground = 1.55f;
             npc.ActionDelay = 0.7f;
 
@@ -411,11 +410,11 @@ public class NPCManager
             npc.DEF = 4;
             npc.AGI = 1;
             npc.LUK = 1;
-            npc.HP = 30;
-            npc.HP_MAX = 30;
+            npc.HP = 45;
+            npc.HP_MAX = 45;
 
             npc.ActionPoint = 4;
-            npc.Mana = 25;
+            npc.Mana = 80;
             npc.Speed_Ground = 1.4f;
             npc.ActionDelay = 0.5f;
 
@@ -434,11 +433,11 @@ public class NPCManager
             npc.DEF = 8;
             npc.AGI = 2;
             npc.LUK = 2;
-            npc.HP = 60;
-            npc.HP_MAX = 60;
+            npc.HP = 100;
+            npc.HP_MAX = 100;
 
             npc.ActionPoint = 8;
-            npc.Mana = 50;
+            npc.Mana = 300;
             npc.Speed_Ground = 1.45f;
             npc.ActionDelay = 0.5f;
 
@@ -455,7 +454,7 @@ public class NPCManager
             npc.Detail = "모험가가 된지 얼마 안된 새내기 모험가입니다. 나름 모험가라서 자원보단 몬스터와 보물에 관심이 있습니다.";
 
             npc.Rank = 3;
-            npc.ATK = 14;
+            npc.ATK = 13;
             npc.DEF = 2;
             npc.AGI = 6;
             npc.LUK = 5;
@@ -463,7 +462,7 @@ public class NPCManager
             npc.HP_MAX = 50;
 
             npc.ActionPoint = 3;
-            npc.Mana = 90;
+            npc.Mana = 100;
             npc.Speed_Ground = 1.6f;
             npc.ActionDelay = 0.8f;
 
@@ -478,15 +477,15 @@ public class NPCManager
             npc.Detail = "꽤 이름있는 모험가입니다. 전투 능력과 상황판단 능력 등 새내기 모험가와는 비교할 수 없어요.";
 
             npc.Rank = 8;
-            npc.ATK = 25;
-            npc.DEF = 5;
+            npc.ATK = 22;
+            npc.DEF = 6;
             npc.AGI = 9;
             npc.LUK = 8;
-            npc.HP = 100;
-            npc.HP_MAX = 100;
+            npc.HP = 120;
+            npc.HP_MAX = 120;
 
             npc.ActionPoint = 6;
-            npc.Mana = 180;
+            npc.Mana = 400;
             npc.Speed_Ground = 1.6f;
             npc.ActionDelay = 0.8f;
 
@@ -506,7 +505,7 @@ public class NPCManager
             npc.Detail = "길드의 퀘스트를 받고 출동한 몬스터 헌터";
 
             npc.Rank = 3;
-            npc.ATK = 30;
+            npc.ATK = 20;
             npc.DEF = 15;
             npc.AGI = 7;
             npc.LUK = 7;
@@ -556,7 +555,7 @@ public class NPCManager
             npc.Name_Kr = "견습모험가";
             npc.Detail = "모험가가 된지 얼마 안된 새내기 모험가입니다. 나름 모험가라서 자원보단 몬스터와 보물에 관심이 있습니다.";
 
-            npc.Rank = 2;
+            npc.Rank = 1;
             npc.ATK = 10;
             npc.DEF = 1;
             npc.AGI = 1;

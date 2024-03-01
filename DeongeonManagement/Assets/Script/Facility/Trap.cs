@@ -50,7 +50,7 @@ public class Trap : Facility
                 durationTime = 5;
                 ap_value = 2;
                 mp_value = 0;
-                hp_value = 10;
+                hp_value = 15;
                 break;
 
             case TrapType.Fallen_2:
@@ -64,7 +64,7 @@ public class Trap : Facility
                 durationTime = 5;
                 ap_value = 4;
                 mp_value = 0;
-                hp_value = 12;
+                hp_value = 28;
                 break;
 
             case TrapType.Awl_1:
@@ -78,7 +78,7 @@ public class Trap : Facility
                 durationTime = 5;
                 ap_value = 3;
                 mp_value = 0;
-                hp_value = 25;
+                hp_value = 49;
                 break;
         }
     }
@@ -105,13 +105,12 @@ public class Trap : Facility
         }
     }
 
-    protected override void OverCor(NPC npc)
+    protected override void OverCor(NPC npc, bool isRemove)
     {
-        base.OverCor(npc);
-
         trap_Anim.enabled = false;
-        //npc.GetComponentInChildren<SpriteRenderer>().color = Color.white;
         npc.State = npc.StateRefresh();
+
+        base.OverCor(npc, isRemove);
     }
 
 

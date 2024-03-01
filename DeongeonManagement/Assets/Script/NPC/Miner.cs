@@ -75,9 +75,9 @@ public class Miner : NPC
     }
     protected override void NPC_Runaway()
     {
-        Main.Instance.CurrentDay.AddDanger(Data.Rank + 3);
+        Main.Instance.CurrentDay.AddDanger(Data.Rank + 2);
 
-        Main.Instance.ShowDM(Data.Rank + 3, Main.TextType.danger, transform, 1);
+        Main.Instance.ShowDM(Data.Rank + 2, Main.TextType.danger, transform, 1);
     }
     protected override void NPC_Die()
     {

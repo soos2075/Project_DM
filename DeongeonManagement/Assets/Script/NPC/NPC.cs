@@ -733,10 +733,15 @@ public abstract class NPC : MonoBehaviour, IPlacementable
                 break;
         }
     }
+
+    bool OneTimeCheck = false;
     void NPC_Inactive()
     {
-        //GameManager.NPC.InactiveNPC(this);
-        NPC_Die();
+        if (OneTimeCheck == false)
+        {
+            NPC_Die();
+            OneTimeCheck = true;
+        }
     }
     protected abstract void NPC_Runaway();
     protected abstract void NPC_Return_Empty();

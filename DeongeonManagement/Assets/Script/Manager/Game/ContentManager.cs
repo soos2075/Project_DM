@@ -42,21 +42,21 @@ public class ContentManager
         }
 
 
-        {
-            ContentData content = new ContentData("Herb_Low");
-            content = new ContentData("Herb");
-            content.SetName("하급 약초밭(소)", "하급 약초가 자라나는 약초밭을 설치합니다. 흔하긴 해도 마나를 지니고 있기 때문에 쓰임새는 많은 편이에요." +
-                "\n적용 범위는 2 x 2 입니다.");
-            content.SetCondition(25, 0, 1, Facility_Priority.Herb);
-            content.sprite = Managers.Sprite.GetSprite_SLA("Low");
-            content.SetAction(() => SetBoundary(Define.Boundary_2x2, () => CreateAll<Herb>("Herb", (int)Herb.HerbType.Low)));
+        //{
+        //    ContentData content = new ContentData("Herb_Low");
+        //    content = new ContentData("Herb");
+        //    content.SetName("흔한 약초밭(소)", "하급 약초가 자라나는 약초밭을 설치합니다. 흔하긴 해도 마나를 지니고 있기 때문에 쓰임새는 많은 편이에요." +
+        //        "\n적용 범위는 2 x 2 입니다.");
+        //    content.SetCondition(25, 0, 1, Facility_Priority.Herb);
+        //    content.sprite = Managers.Sprite.GetSprite_SLA("Low");
+        //    content.SetAction(() => SetBoundary(Define.Boundary_2x2, () => CreateAll<Herb>("Herb", (int)Herb.HerbType.Low)));
 
-            Contents.Add(content);
-        }
+        //    Contents.Add(content);
+        //}
         {
             ContentData content = new ContentData("Herb_Low");
             content = new ContentData("Herb");
-            content.SetName("흔한 약초밭(중)", "하급 약초가 자라나는 약초밭을 설치합니다. 흔하긴 해도 마나를 지니고 있기 때문에 쓰임새는 많은 편이에요." +
+            content.SetName("작은 약초밭", "하급 약초가 자라나는 약초밭을 설치합니다. 흔하긴 해도 마나를 지니고 있기 때문에 쓰임새는 많은 편이에요." +
                 "\n적용 범위는 3 x 3 입니다.");
             content.SetCondition(50, 0, 1, Facility_Priority.Herb);
             content.sprite = Managers.Sprite.GetSprite_SLA("Low");
@@ -64,10 +64,11 @@ public class ContentManager
 
             Contents.Add(content);
         }
+
         {
             ContentData content = new ContentData("Herb_Low");
             content = new ContentData("Herb_Low");
-            content.SetName("흔한 약초밭(대)", "하급 약초가 자라나는 약초밭을 설치합니다. 흔하긴 해도 마나를 지니고 있기 때문에 쓰임새는 많은 편이에요." +
+            content.SetName("큰 약초밭", "하급 약초가 자라나는 약초밭을 설치합니다. 흔하긴 해도 마나를 지니고 있기 때문에 쓰임새는 많은 편이에요." +
                 "\n적용 범위는 5 x 5 입니다.");
             content.SetCondition(100, 0, 1, Facility_Priority.Herb);
             content.sprite = Managers.Sprite.GetSprite_SLA("Low");
@@ -82,7 +83,7 @@ public class ContentManager
             content = new ContentData("Herb_High");
             content.SetName("고급 약초밭", "고급 약초가 자라나는 약초밭을 설치합니다. 쉽게 구할 수 없는 귀한 약초입니다. 마나 효율이 높아요." +
                 "\n적용 범위는 1 x 3 입니다.");
-            content.SetCondition(75, 0, 1, Facility_Priority.Herb);
+            content.SetCondition(125, 0, 1, Facility_Priority.Herb);
             content.sprite = Managers.Sprite.GetSprite_SLA("High");
             content.SetAction(() => SetBoundary(Define.Boundary_1x3, () => CreateAll<Herb>("Herb", (int)Herb.HerbType.High)));
 
@@ -125,7 +126,7 @@ public class ContentManager
             ContentData content = new ContentData("Trap_Fallen_1");
             content.SetName("낙하 함정", "고전식 발밑 함정을 설치합니다. 발동되면 시간과 체력에 피해를 줄 수 있어요." +
                 "\n적용 범위는 1 x 1 입니다.");
-            content.SetCondition(0, 50, 1, Facility_Priority.Trap);
+            content.SetCondition(0, 20, 1, Facility_Priority.Trap);
             content.sprite = Managers.Sprite.GetSprite_SLA("Fallen_1");
             content.SetAction(() => SetBoundary(Define.Boundary_1x1, () => CreateAll<Trap>("Trap", (int)Trap.TrapType.Fallen_1)));
 
@@ -152,7 +153,7 @@ public class ContentManager
             content = new ContentData("Herb_Pumpkin");
             content.SetName("마나 호박밭", "마나를 지닌 호박입니다. 최고급 식재료로도 사용이 되며 기타 여러 합성에 재료로 사용됩니다." +
                 "\n적용 범위는 작은 X 입니다.");
-            content.SetCondition(125, 0, 1, Facility_Priority.Herb);
+            content.SetCondition(85, 0, 1, Facility_Priority.Herb);
             content.sprite = Managers.Sprite.GetSprite_SLA("Pumpkin");
             content.SetAction(() => SetBoundary(Define.Boundary_X_1, () => CreateAll<Herb>("Herb", (int)Herb.HerbType.Pumpkin)));
 
@@ -161,7 +162,7 @@ public class ContentManager
 
         {
             ContentData content = new ContentData("Entrance");
-            content.SetName("입구", "플레이어가 들어올 입구를 지정합니다. 만약 입구가 없으면 랜덤위치에 자동으로 생성됩니다. 입구는 층 당 한개만 존재할 수 있어요.");
+            content.SetName("입구", "입구의 위치를 지정합니다. 입구는 층 당 한개만 존재할 수 있어요. 만약 입구가 없으면 시작시 자동으로 생성됩니다.");
             content.SetCondition(50, 0, 2, Facility_Priority.System);
             content.sprite = Managers.Sprite.GetSprite("Entrance");
 
@@ -172,7 +173,7 @@ public class ContentManager
 
         {
             ContentData content = new ContentData("Exit");
-            content.SetName("출구", "플레이어가 나갈 출구를 지정합니다. 만약 출구가 없으면 랜덤위치에 자동으로 생성됩니다. 출구는 층 당 한개만 존재할 수 있어요.");
+            content.SetName("출구", "출구의 위치를 지정합니다. 출구는 층 당 한개만 존재할 수 있어요. 만약 출구가 없으면 시작시 자동으로 생성됩니다.");
             content.SetCondition(50, 0, 2, Facility_Priority.System);
             content.sprite = Managers.Sprite.GetSprite("Exit");
 
@@ -199,7 +200,7 @@ public class ContentManager
                 "\n적용 범위는 3 x 1 입니다.");
             content.SetCondition(150, 0, 2, Facility_Priority.Mineral);
             content.sprite = Managers.Sprite.GetSprite_SLA("Iron");
-            content.SetAction(() => SetBoundary(Define.Boundary_3x1, () => CreateAll<Mineral>("Mineral", (int)Mineral.MienralCategory.Iron)));
+            content.SetAction(() => SetBoundary(Define.Boundary_3x1, () => CreateAll<Mineral>("Mineral", (int)Mineral.MienralCategory.Coal)));
 
             Contents.Add(content);
         }
@@ -210,7 +211,7 @@ public class ContentManager
                 "\n적용 범위는 3 x 1 입니다.");
             content.SetCondition(200, 0, 2, Facility_Priority.Mineral);
             content.sprite = Managers.Sprite.GetSprite_SLA("Coal");
-            content.SetAction(() => SetBoundary(Define.Boundary_3x1, () => CreateAll<Mineral>("Mineral", (int)Mineral.MienralCategory.Coal)));
+            content.SetAction(() => SetBoundary(Define.Boundary_3x1, () => CreateAll<Mineral>("Mineral", (int)Mineral.MienralCategory.Iron)));
 
             Contents.Add(content);
         }
@@ -219,7 +220,7 @@ public class ContentManager
             ContentData content = new ContentData("Trap_Fallen_2");
             content.SetName("강화 낙화 함정", "고전식 발밑 함정을 설치합니다. 기존의 함정보다조금 더 효과가 강해졌어요." +
                 "\n적용 범위는 1 x 1 입니다.");
-            content.SetCondition(0, 100, 2, Facility_Priority.Trap);
+            content.SetCondition(0, 45, 2, Facility_Priority.Trap);
             content.sprite = Managers.Sprite.GetSprite_SLA("Fallen_2");
             content.SetAction(() => SetBoundary(Define.Boundary_1x1, () => CreateAll<Trap>("Trap", (int)Trap.TrapType.Fallen_2)));
 
@@ -230,7 +231,7 @@ public class ContentManager
             ContentData content = new ContentData("Trap_Awl");
             content.SetName("송곳 함정", "바닥에서 송곳이 올라오는 무시무시한 함정을 설치합니다. 발동되면 큰 피해를 입힙니다." +
                 "\n적용 범위는 1 x 1 입니다.");
-            content.SetCondition(0, 150, 2, Facility_Priority.Trap);
+            content.SetCondition(0, 125, 2, Facility_Priority.Trap);
             content.sprite = Managers.Sprite.GetSprite_SLA("Awl_1");
 
             content.SetAction(() => SetBoundary(Define.Boundary_1x1, () => CreateAll<Trap>("Trap", (int)Trap.TrapType.Awl_1)));
@@ -270,10 +271,12 @@ public class ContentManager
         if (Clear(Main.Instance.CurrentBoundary))
         {
             ClearOver();
+            SoundManager.Instance.PlaySound("SFX/Action_Build");
         }
         else
         {
             Debug.Log("삭제할 수 없음");
+            SoundManager.Instance.PlaySound("SFX/Action_Wrong");
         }
     }
     bool Clear(Vector2Int[] boundary)
@@ -297,6 +300,11 @@ public class ContentManager
                     {
                         GameManager.Facility.RemoveFacility(temp.Original as Facility);
                     }
+                    else
+                    {
+                        return false;
+                    }
+                    
                 }
             }
         }
@@ -322,10 +330,12 @@ public class ContentManager
         if (Create(prefab, Main.Instance.CurrentBoundary, isUnchangeable))
         {
             CreateOver();
+            SoundManager.Instance.PlaySound("SFX/Action_Build");
         }
         else
         {
             Debug.Log("배치할 수 없음");
+            SoundManager.Instance.PlaySound("SFX/Action_Wrong");
         }
     }
     void CreateAll<T>(string prefab, int _optionIndex) where T : Facility
@@ -333,10 +343,12 @@ public class ContentManager
         if (Create<T>(prefab, Main.Instance.CurrentBoundary, _optionIndex))
         {
             CreateOver();
+            SoundManager.Instance.PlaySound("SFX/Action_Build");
         }
         else
         {
             Debug.Log("배치할 수 없음");
+            SoundManager.Instance.PlaySound("SFX/Action_Wrong");
         }
     }
 
@@ -345,10 +357,12 @@ public class ContentManager
         if (_create1 && _create2 && _create3)
         {
             CreateOver();
+            SoundManager.Instance.PlaySound("SFX/Action_Build");
         }
         else
         {
             Debug.Log("배치할 수 없음");
+            SoundManager.Instance.PlaySound("SFX/Action_Wrong");
         }
     }
 
@@ -358,10 +372,12 @@ public class ContentManager
         if (CreateUnique(prefab, Main.Instance.CurrentBoundary))
         {
             CreateOver();
+            SoundManager.Instance.PlaySound("SFX/Action_Build");
         }
         else
         {
             Debug.Log("배치할 수 없음");
+            SoundManager.Instance.PlaySound("SFX/Action_Wrong");
         }
     }
 
@@ -510,7 +526,7 @@ public class ContentManager
 
 public enum Facility_Priority // 상점에서 contents 정렬시 우선순위
 {
-    System = 0,
+    System = 1000,
 
     Herb = 100,
 

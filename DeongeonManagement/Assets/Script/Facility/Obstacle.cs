@@ -17,7 +17,7 @@ public class Obstacle : Facility
         Name = "";
         Detail_KR = "";
     }
-    public override void SetFacilityBool()
+    public override void Init_FacilityEgo()
     {
         isOnlyOne = false;
         isClearable = false;

@@ -29,9 +29,11 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
         if (Managers.Scene.GetCurrentScene() != SceneName._2_Management)
         {
             GetComponent<RectTransform>().localScale = Vector3.one * 0.02f;
+            OffsetSize = 0.02f;
         }
     }
 
+    float OffsetSize = 0.01f;
 
     enum Contents
     {
@@ -96,17 +98,25 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
 
     void BubbleReverse()
     {
-        GetComponent<RectTransform>().rotation = Quaternion.Euler(180, 0, 0);
-        GetObject(((int)Contents.Panel)).GetComponent<RectTransform>().localRotation = Quaternion.Euler(180, 0, 0);
-        textTransform.localRotation = Quaternion.Euler(180, 0, 0);
+        GetComponent<RectTransform>().localScale = Vector3.one * -OffsetSize;
+        textTransform.localScale = Vector3.one * -1;
         textTransform.localPosition = new Vector3(0, 10, 0);
+
+        //GetComponent<RectTransform>().rotation = Quaternion.Euler(180, 0, 0);
+        //GetObject(((int)Contents.Panel)).GetComponent<RectTransform>().localRotation = Quaternion.Euler(180, 0, 0);
+        //textTransform.localRotation = Quaternion.Euler(180, 0, 0);
+        //textTransform.localPosition = new Vector3(0, 10, 0);
     }
     void BubbleNormal()
     {
-        GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0);
-        GetObject(((int)Contents.Panel)).GetComponent<RectTransform>().localRotation = Quaternion.Euler(0, 0, 0);
-        textTransform.localRotation = Quaternion.Euler(0, 0, 0);
+        GetComponent<RectTransform>().localScale = Vector3.one * OffsetSize;
+        textTransform.localScale = Vector3.one * 1;
         textTransform.localPosition = new Vector3(0, textTransform.sizeDelta.y / 2, 0);
+
+        //GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0);
+        //GetObject(((int)Contents.Panel)).GetComponent<RectTransform>().localRotation = Quaternion.Euler(0, 0, 0);
+        //textTransform.localRotation = Quaternion.Euler(0, 0, 0);
+        //textTransform.localPosition = new Vector3(0, textTransform.sizeDelta.y / 2, 0);
     }
 
 
@@ -264,6 +274,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
             ShowText(nowText);
             yield return seconds;
             charIndexer += charCount;
+            SoundManager.Instance.PlaySound("SFX/Speech1");
         }
         isTyping = false;
         isSkip = false;
@@ -280,6 +291,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
 
         //Debug.Log("마우스 클릭 대기중");
         yield return new WaitUntil(() => isTyping == true);
+        SoundManager.Instance.PlaySound("SFX/Speech2");
         yield return new WaitForEndOfFrame();
     }
 

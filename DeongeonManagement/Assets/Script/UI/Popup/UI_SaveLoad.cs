@@ -112,6 +112,7 @@ public class UI_SaveLoad : UI_PopUp
                 }
                 Managers.Data.SaveToJson($"DM_Save_{index}", index);
                 ShowDataInfo();
+                SoundManager.Instance.PlaySound("SFX/Save");
                 var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
                 msg.Message = "저장되었습니다.";
                 break;

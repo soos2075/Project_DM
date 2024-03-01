@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,21 @@ public class FacilityManager
     {
         facilityList = new List<Facility>();
     }
+
+
+    public Action TurnStartAction { get; set; }
+    public Action TurnOverAction { get; set; }
+    public void TurnStartEvent()
+    {
+        TurnStartAction?.Invoke();
+        TurnStartAction = null;
+    }
+    public void TurnOverEvent()
+    {
+        TurnOverAction?.Invoke();
+        TurnOverAction = null;
+    }
+
 
 
     public List<Facility> facilityList;

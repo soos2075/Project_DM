@@ -208,17 +208,27 @@ public class PlayerController : MonoBehaviour
             Managers.Scene.AddLoadAction_OneTime(() => Main.Instance.Default_Init());
             Managers.Scene.AddLoadAction_OneTime(() => Managers.Data.LoadGame_ToGuild("AutoSave"));
             Managers.Scene.AddLoadAction_OneTime(() => Main.Instance.Player_AP = 0);
+            Managers.Scene.AddLoadAction_OneTime(() => Debug.Log("저장한거 먼저 불러오고나서"));
 
             //for (int i = 0; i < GuildManager.Instance.DungeonBackAction.Count; i++)
             //{
             //    Managers.Scene.AddLoadAction_Once(GuildManager.Instance.DungeonBackAction[i]);
             //}
-            for (int i = 0; i < guildManager.DungeonBackAction.Count; i++)
+            //for (int i = 0; i < guildManager.DungeonBackAction.Count; i++)
+            //{
+            //    Managers.Scene.AddLoadAction_OneTime(guildManager.DungeonBackAction[i]);
+            //}
+            //guildManager.DungeonBackAction.Clear();
+
+            if (guildManager.DungeonBackAction != null)
             {
-                Managers.Scene.AddLoadAction_OneTime(guildManager.DungeonBackAction[i]);
+                Managers.Scene.AddLoadAction_OneTime(guildManager.DungeonBackAction);
+                guildManager.DungeonBackAction = null;
             }
-            guildManager.DungeonBackAction.Clear();
+
+            
             Managers.Scene.AddLoadAction_OneTime(() => FindObjectOfType<UI_Management>().Texts_Refresh());
+            Managers.Scene.AddLoadAction_OneTime(() => Debug.Log("유명도 오르는거 실행하는 순서인데 잘 하고 있냐?"));
 
             Managers.Scene.LoadSceneAsync(SceneName._2_Management);
         }

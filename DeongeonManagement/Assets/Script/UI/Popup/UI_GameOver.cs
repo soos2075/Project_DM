@@ -14,6 +14,8 @@ public class UI_GameOver : UI_PopUp
         Managers.UI.SetCanvas(gameObject);
 
         StartCoroutine(GameOver());
+        SoundManager.Instance.PlaySound("SFX/GameOver");
+        SoundManager.Instance.StopMusic();
     }
 
 

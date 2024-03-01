@@ -11,9 +11,52 @@ public class DamageTest : MonoBehaviour
 
 
     public Action myAction = null;
+
+
+    int a = 10;
+
+    int b;
+    int AA { get { return a; } set { a = value; } }
+
+    void CopyTest1()
+    {
+        b = AA;
+
+        Debug.Log("1 =" + b);
+
+        AA = 20;
+        Debug.Log("2 =" + b);
+    }
+
+
+    class myClass
+    {
+        public List<int> A = new List<int> { 1, 2, 3 };
+
+    }
+    List<myClass> list1 = new List<myClass> { new myClass(), new myClass(), new myClass() };
+    List<myClass> list2;
+    void 얕은복사()
+    {
+        list2 = new List<myClass>(list1);
+        list1[2].A[2] = 3333;
+        Debug.Log(list2[2].A[2]);
+    }
+    void 깊은복사()
+    {
+        list2 = list1;
+        list1[2].A[2] = 3333;
+        Debug.Log(list2[2].A[2]);
+    }
     void Start()
     {
+        얕은복사();
+        깊은복사();
 
+        List<int> list1 = new List<int> { 1, 2, 3 };
+        List<int> list2 = new List<int>(list1);
+        list1[0] = 100; // list1을 변경하면 list2도 영향을 받음
+        Debug.Log(list2[0]); // 출력 결과는 100
     }
 
 

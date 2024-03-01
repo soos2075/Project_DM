@@ -12,6 +12,7 @@ public class UI_Confirm : UI_PopUp
 
     enum Contents
     {
+        NoTouch,
         Panel,
         Yes,
         No,
@@ -28,6 +29,7 @@ public class UI_Confirm : UI_PopUp
 
         Bind<GameObject>(typeof(Contents));
 
+        GetObject(((int)Contents.NoTouch)).gameObject.AddUIEvent((data) => SayNo(), Define.UIEvent.RightClick);
         GetObject(((int)Contents.Panel)).gameObject.AddUIEvent((data) => SayNo(), Define.UIEvent.RightClick);
 
         GetObject(((int)Contents.Yes)).gameObject.AddUIEvent((data) => SayYes());

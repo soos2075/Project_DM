@@ -65,6 +65,7 @@ public class EventNPC : NPC
 
             case EventNPCType.Event_Day23:
                 break;
+
             case EventNPCType.Event_Day30:
                 break;
         }
@@ -104,27 +105,35 @@ public class EventNPC : NPC
         yield return null;
         yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
 
-        //UI_EventBox.AddEventText($"◈{Name_KR} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 쓰러짐");
+        UI_EventBox.AddEventText($"◈{Name_KR} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 쓰러짐");
+
         switch (EventDay)
         {
             case EventNPCType.Event_Day3:
                 Main.Instance.CurrentDay.AddDanger(5);
                 Main.Instance.CurrentDay.AddPop(5);
                 break;
+
             case EventNPCType.Event_Day8:
                 Main.Instance.CurrentDay.AddDanger(25);
                 Main.Instance.CurrentDay.AddPop(25);
                 break;
+
             case EventNPCType.Event_Day15:
                 Main.Instance.CurrentDay.AddDanger(50);
                 Main.Instance.CurrentDay.AddPop(50);
                 break;
+
             case EventNPCType.Event_Day23:
                 break;
+
             case EventNPCType.Event_Day30:
                 break;
         }
-
+        Debug.Log(EventDay + "eventDay");
+        Debug.Log(Main.Instance.Turn + "Turn");
+        Main.Instance.CurrentDay.AddKill(1);
+        Main.Instance.CurrentDay.AddGold(KillGold);
         GameManager.NPC.InactiveNPC(this);
     }
 

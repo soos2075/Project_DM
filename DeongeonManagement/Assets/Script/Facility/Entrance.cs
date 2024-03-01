@@ -13,31 +13,34 @@ public class Entrance : Facility
         InteractionOfTimes = 10000;
         Type = FacilityEventType.NPC_Event;
         Name = "입구";
-        Detail_KR = "던전의 더 깊은곳으로 이어지는 출입구입니다.";
+        Detail_KR = "지하로 향하는 출입구입니다.";
         Name_prefab = this.GetType().Name;
     }
-    public override void SetFacilityBool()
+    public override void Init_FacilityEgo()
     {
         isOnlyOne = true;
         isClearable = true;
+
+        if (PlacementInfo.Place_Floor.FloorIndex == 3)
+        {
+            GameManager.Facility.TurnOverAction += () => GameManager.Facility.RemoveFacility(this);
+        }
     }
 
     public override Coroutine NPC_Interaction(NPC npc)
     {
         Cor_Facility = StartCoroutine(FloorNext(npc));
         return Cor_Facility;
-    }
+    } 
 
 
     IEnumerator FloorNext(NPC npc) //? 지하층으로 내려가는 입구에 도착했을 때 호출
     {
-        yield return new WaitForSeconds(npc.ActionDelay);
-
         if (npc.State == NPC.NPCState.Next)
         {
-            yield return new WaitForSeconds(0.5f);
-            Main.Instance.CurrentDay.AddMana(3);
-            Main.Instance.ShowDM(3, Main.TextType.mana, transform);
+            yield return new WaitForSeconds(npc.ActionDelay);
+            Main.Instance.CurrentDay.AddMana(npc.Rank + 2);
+            Main.Instance.ShowDM(npc.Rank + 2, Main.TextType.mana, transform);
 
             npc.FloorNext();
         }

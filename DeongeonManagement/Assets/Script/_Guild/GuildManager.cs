@@ -93,7 +93,6 @@ public class GuildManager : MonoBehaviour
 
     public void GuildEnter() 
     {
-        DungeonBackAction = new List<Action>();
         Init_Dictionary();
 
         Guild_In_GetGuildData();
@@ -137,11 +136,11 @@ public class GuildManager : MonoBehaviour
     }
 
 
-    public List<Action> DungeonBackAction { get; set; }
+    public Action DungeonBackAction { get; set; }
 
     public void AddBackAction(Action action)
     {
-        DungeonBackAction.Add(action);
+        DungeonBackAction += action;
     }
 
 
@@ -243,15 +242,15 @@ public class GuildNPC_Data
     // id
     public int Original_Index;
     // 우선순위 퀘스트 리스트
-    public List<int> InstanceQuestList = new List<int>();
+    public List<int> InstanceQuestList;
     // 선택지 옵션 리스트
-    public List<int> OptionList = new List<int>();
+    public List<int> OptionList;
 
 
     public void SetData(int _id, List<int> _questList, List<int> _optionList)
     {
         Original_Index = _id;
-        InstanceQuestList = _questList;
-        OptionList = _optionList;
+        InstanceQuestList = new List<int>(_questList);
+        OptionList = new List<int>(_optionList);
     }
 }

@@ -178,6 +178,7 @@ public class UI_Management : UI_Base
 
             Main.Instance.DayChange();
             Texts_Refresh();
+            SoundManager.Instance.PlaySound("SFX/TurnChange");
         }
     }
 

@@ -66,7 +66,6 @@ public class EventManager : MonoBehaviour
     public List<int> GuildQuestAdd { get; set; } = new List<int>();
 
 
-
     //? 현재 진행중인 퀘스트 목록 - 실제 매턴 실행될 Action
     public Action CurrentQuestEvent { get; private set; }
 
@@ -131,9 +130,6 @@ public class EventManager : MonoBehaviour
             Debug.Log("1102 퀘스트");
         });
     }
-
-
-
     void AddDialogueAction()
     {
         GuildNPCAction.Add(2100, () =>
@@ -145,7 +141,11 @@ public class EventManager : MonoBehaviour
             int ranPop = UnityEngine.Random.Range(10, 20);
             var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
             msg.Message = $"던전의 인기도가 {ranPop} 올랐습니다.";
-            FindAnyObjectByType<GuildManager>().AddBackAction(() => Main.Instance.CurrentDay.AddPop(ranPop));
+            FindAnyObjectByType<GuildManager>().AddBackAction(() =>
+            {
+                Main.Instance.CurrentDay.AddPop(ranPop);
+                //Debug.Log($"던전의 인기도가 {ranPop} 올랐습니다.");
+                });
         });
 
         GuildNPCAction.Add(1100, () =>
@@ -165,8 +165,6 @@ public class EventManager : MonoBehaviour
     }
     void AddEventAction()
     {
-        EventAction.Add("DungeonLevelUp", () => DungeonLvUp());
-
         EventAction.Add("EggAppear", () => {
             var tile = Main.Instance.Floor[3].GetRandomTile();
             Main.Instance.Floor[3].TileMap.TryGetValue(new Vector2Int(12, 3), out tile);
@@ -247,82 +245,54 @@ public class EventManager : MonoBehaviour
     {
         if (Main.Instance.DungeonRank == 1 && fame + danger >= 200)
         {
-            DungeonLvUp();
             return true;
         }
 
         if (Main.Instance.DungeonRank == 2 && fame + danger >= 500)
         {
-            DungeonLvUp();
             return true;
         }
 
         return false;
     }
-    void DungeonLvUp()
-    {
-        Main.Instance.DungeonRank++;
-        DungeonLvApply();
-    }
-    void DungeonLvApply()
+
+
+    public void RankUpEvent()
     {
         FindObjectOfType<Player>().Level_Stat(Main.Instance.DungeonRank);
         Camera.main.GetComponent<CameraControl>().LimitRefresh();
-
-        switch (Main.Instance.DungeonRank)
-        {
-            case 1:
-                Main.Instance.Set_AP_Max(2);
-                break;
-
-            case 2:
-                Main.Instance.Set_AP_Max(3);
-
-                GameManager.Monster.AddLevel_2();
-                GameManager.Technical.Level_2();
-                GameManager.Content.AddLevel2();
-                Main.Instance.DungeonExpansionUI();
-
-                break;
-
-            case 3:
-                Main.Instance.Set_AP_Max(4);
-
-                GameManager.Monster.AddLevel_3();
-
-                break;
-        }
-    }
-
-    public void Load_EventData()
-    {
-        FindObjectOfType<Player>().Level_Stat(Main.Instance.DungeonRank);
-        Camera.main.GetComponent<CameraControl>().LimitRefresh();
-
-        if (Main.Instance.DungeonRank >= 1)
-        {
-            Main.Instance.Set_AP_Max(2);
-        }
         
-        if (Main.Instance.DungeonRank >= 2)
+        if (Rank_2 == false && Main.Instance.DungeonRank >= 2)
         {
-            Main.Instance.Set_AP_Max(3);
-
             GameManager.Monster.AddLevel_2();
             GameManager.Technical.Level_2();
             GameManager.Content.AddLevel2();
             Main.Instance.DungeonExpansionUI();
+            Rank_2 = true;
         }
         
-        if (Main.Instance.DungeonRank >= 3)
+        if (Rank_3 == false && Main.Instance.DungeonRank >= 3)
         {
-            Main.Instance.Set_AP_Max(4);
-
             GameManager.Monster.AddLevel_3();
+            Rank_3 = true;
         }
-
     }
 
 
+
+    bool Rank_2 = false;
+    bool Rank_3 = false;
+
+
+    public void Reset_Singleton()
+    {
+        Rank_2 = false;
+        Rank_3 = false;
+        CurrentGuildData?.Clear();
+        GuildQuestAdd?.Clear();
+        CurrentQuestEvent = null;
+        CurrentQuestEvent_ForSave?.Clear();
+        CurrentTurn = 0;
+    }
 }
 

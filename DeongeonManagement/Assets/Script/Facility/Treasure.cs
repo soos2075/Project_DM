@@ -38,10 +38,10 @@ public class Treasure : Facility
         InteractionOfTimes = 1;
         durationTime = 5;
         ap_value = 3;
-        mp_value = 30;
+        mp_value = 60;
         gold_value = 0;
         hp_value = 0;
-        pop_value = 5;
+        pop_value = 2;
         danger_value = 0;
 
         CategorySelect();
@@ -57,45 +57,48 @@ public class Treasure : Facility
             case TreasureCategory.Sword:
                 Name = "골든 소드";
                 Detail_KR = "모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.";
-
+                ap_value = 3;
+                mp_value = 60;
+                pop_value = 2;
                 break;
 
             case TreasureCategory.Ring:
                 Name = "매직 링";
                 Detail_KR = "모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.";
                 ap_value = 5;
-                mp_value = 50;
+                mp_value = 100;
                 pop_value = 8;
                 break;
 
             case TreasureCategory.Hat:
                 Name = "마법사의 모자";
                 Detail_KR = "모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.";
-                mp_value = 50;
-                pop_value = 10;
+                ap_value = 5;
+                mp_value = 200;
+                pop_value = 5;
                 break;
 
             case TreasureCategory.Scroll:
                 Name = "마법 스크롤";
                 Detail_KR = "모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.";
                 ap_value = 5;
-                mp_value = 50;
-                pop_value = 7;
-                danger_value = 3;
+                mp_value = 200;
+                pop_value = 10;
+                danger_value = 5;
                 break;
 
             case TreasureCategory.Coin:
                 Name = "던전 금화";
                 Detail_KR = "모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.";
                 ap_value = 2;
-                mp_value = 20;
+                mp_value = 150;
                 break;
 
             case TreasureCategory.Crown:
                 Name = "황금 왕관";
                 Detail_KR = "모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.";
                 ap_value = 7;
-                mp_value = 70;
+                mp_value = 300;
                 pop_value = 5;
                 break;
         }
@@ -123,6 +126,13 @@ public class Treasure : Facility
     {
         UI_EventBox.AddEventText($"●{npc.Name_KR} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 {"보물 탐색중..."}");
         PlacementState = PlacementState.Busy;
+
+        bool isLastInteraction = false;
+        if (InteractionOfTimes <= 0)
+        {
+            isLastInteraction = true;
+        }
+
         yield return new WaitForSeconds(durationTime);
 
         int changeMP = mp_value;
@@ -157,6 +167,6 @@ public class Treasure : Facility
         Main.Instance.CurrentDay.AddPop(changePop);
         Main.Instance.CurrentDay.AddDanger(changeDanger);
 
-        OverCor(npc);
+        OverCor(npc, isLastInteraction);
     }
 }

@@ -55,28 +55,30 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
     #region SaveLoad
 
-    public void Initialize_SaveData(Save_MonsterData _SaveData)
+    public void Initialize_Load(Save_MonsterData _LoadData)
     {
-        if (_SaveData == null) { Debug.Log($"세이브데이터 없음 : {name}"); return; }
+        if (_LoadData == null) { Debug.Log($"세이브데이터 없음 : {name}"); return; }
 
-        LV = _SaveData.LV;
-        HP = _SaveData.HP;
-        HP_Max = _SaveData.HP_MAX;
+        LV = _LoadData.LV;
+        HP = _LoadData.HP;
+        HP_Max = _LoadData.HP_MAX;
 
-        ATK = _SaveData.ATK;
-        DEF = _SaveData.DEF;
-        AGI = _SaveData.AGI;
-        LUK = _SaveData.LUK;
+        ATK = _LoadData.ATK;
+        DEF = _LoadData.DEF;
+        AGI = _LoadData.AGI;
+        LUK = _LoadData.LUK;
 
-        hp_chance = _SaveData.HP_chance;
-        atk_chance = _SaveData.ATK_chance;
-        def_chance = _SaveData.DEF_chance;
-        agi_chance = _SaveData.AGI_chance;
-        luk_chance = _SaveData.LUK_chance;
+        hp_chance = _LoadData.HP_chance;
+        atk_chance = _LoadData.ATK_chance;
+        def_chance = _LoadData.DEF_chance;
+        agi_chance = _LoadData.AGI_chance;
+        luk_chance = _LoadData.LUK_chance;
 
-        State = _SaveData.State;
-        Mode = _SaveData.MoveMode;
-        EvolutionState = _SaveData.Evolution;
+        State = _LoadData.State;
+        Mode = _LoadData.MoveMode;
+        EvolutionState = _LoadData.Evolution;
+        BattlePoint_Count = _LoadData.BattleCount;
+        BattlePoint_Rank = _LoadData.BattlePoint;
     }
 
     #endregion
@@ -173,6 +175,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     public virtual void TurnStart()
     {
         MoveSelf();
+        HP = HP_Max;
     }
     public virtual void MoveSelf()
     {
@@ -360,8 +363,10 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
     IEnumerator BattleWait(NPC npc)
     {
+        BattleStateCor = StartCoroutine(BattleStateBusy());
+
         BattleCount++;
-        StartCoroutine(BattleStateBusy());
+
         if (Cor_Moving != null)
         {
             StopCoroutine(Cor_Moving);
@@ -369,7 +374,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         LookAtTarget(npc.PlacementInfo.Place_Tile);
 
         npc.ActionPoint -= Data.Battle_AP;
-        int battleMP = npc.Rank * 8;
+        int battleMP = npc.Rank * 10;
         npc.Mana -= battleMP;
 
 
@@ -406,13 +411,22 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         }
 
         Main.Instance.ShowDM(battleMP, Main.TextType.mana, transform);
+
+        if (BattleStateCor != null) //? 만약 전투가 Interval보다 빨리 끝났을 경우.(바로 죽는다든지 인터벌이 ㅈㄴ길다든지)
+        {
+            StopCoroutine(BattleStateCor);
+            PlacementState = PlacementState.Standby;
+            BattleStateCor = null;
+        }
     }
 
+    Coroutine BattleStateCor;
     IEnumerator BattleStateBusy()
     {
         PlacementState = PlacementState.Busy;
         yield return new WaitForSeconds(Data.Battle_Interval);
         PlacementState = PlacementState.Standby;
+        BattleStateCor = null;
     }
 
     void LookAtTarget(BasementTile _target)
@@ -511,22 +525,22 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     }
     public Evolution EvolutionState { get; set; }
 
-    public int BattleCount_Rank { get; set; }
-    public int BattleCount_Quantity { get; set; }
+    public int BattlePoint_Rank { get; set; }
+    public int BattlePoint_Count { get; set; }
 
 
     public void GetBattlePoint(int _npcRank)
     {
-        BattleCount_Rank += _npcRank;
-        BattleCount_Quantity++;
+        BattlePoint_Rank += _npcRank;
+        BattlePoint_Count++;
         //Debug.Log($"{Name_KR}// 랭크포인트:{BattleCount_Rank} // 전투횟수:{BattleCount_Quantity}");
 
-        if (BattleCount_Quantity >= 5 || BattleCount_Rank >= LV * 2)
+        if (BattlePoint_Count >= 5 || BattlePoint_Rank >= Mathf.Clamp(LV * 2, 4, 30) )
         {
             Debug.Log($"{Name_KR}.Lv{LV}가 레벨업");
             BattleLevelUp();
-            BattleCount_Rank = 0;
-            BattleCount_Quantity = 0;
+            BattlePoint_Rank = 0;
+            BattlePoint_Count = 0;
         }
     }
 
@@ -544,8 +558,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     void Injury()
     {
         GameManager.Monster.RemoveLevelUpEvent(this);
-        BattleCount_Rank = 0;
-        BattleCount_Quantity = 0;
+        BattlePoint_Rank = 0;
+        BattlePoint_Count = 0;
         GameManager.Monster.InjuryMonster++;
     }
 
@@ -563,11 +577,13 @@ public abstract class Monster : MonoBehaviour, IPlacementable
             Main.Instance.CurrentDay.SubtractMana(mana);
             HP = HP_Max;
             State = MonsterState.Standby;
-            Debug.Log("회복성공");
+            //Debug.Log("회복성공");
         }
         else
         {
-            Debug.Log("마나부족");
+            var ui = Managers.UI.ShowPopUp<UI_SystemMessage>();
+            ui.Message = "마나가 부족합니다";
+            //Debug.Log("마나부족");
         }
     }
 

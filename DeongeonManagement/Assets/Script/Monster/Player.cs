@@ -42,9 +42,9 @@ public class Player : Monster
                 HP_Max = 50;
 
                 ATK = 12;
-                DEF = 4;
-                AGI = 4;
-                LUK = 4;
+                DEF = 8;
+                AGI = 8;
+                LUK = 8;
                 break;
 
             case 2:
@@ -52,10 +52,10 @@ public class Player : Monster
                 HP = 100;
                 HP_Max = 100;
 
-                ATK = 24;
-                DEF = 8;
-                AGI = 8;
-                LUK = 8;
+                ATK = 18;
+                DEF = 10;
+                AGI = 10;
+                LUK = 10;
                 break;
 
 
@@ -64,7 +64,7 @@ public class Player : Monster
                 HP = 150;
                 HP_Max = 150;
 
-                ATK = 36;
+                ATK = 24;
                 DEF = 12;
                 AGI = 12;
                 LUK = 12;

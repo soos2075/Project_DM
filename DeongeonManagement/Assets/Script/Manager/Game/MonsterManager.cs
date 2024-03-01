@@ -150,7 +150,7 @@ public class MonsterManager
             monster.Name_KR = "슬라임";
             monster.Name_Dict = "Slime";
             monster.prefabPath = "Monster/Slime";
-            monster.detail = "자세히 보면 의외로 귀여운 슬라임입니다. 약하긴 하지만 성장가능성이 무궁무진한 몬스터입니다.";
+            monster.detail = "자세히 보면 의외로 귀여운 슬라임입니다. 약하긴 하지만 성장가능성이 높은 몬스터입니다.";
             monster.sprite = Managers.Sprite.GetSprite("Monster/Slime");
 
             monster.Evolution_Hint = "진화 힌트 : 최대 레벨을 찍고 길드게시판을 확인";
@@ -160,20 +160,20 @@ public class MonsterManager
 
             monster.LV = 1;
             monster.MAXLV = 25;
-            monster.HP = 35;
+            monster.HP = 55;
             monster.ATK = 5;
-            monster.DEF = 4;
+            monster.DEF = 5;
             monster.AGI = 2;
-            monster.LUK = 3;
+            monster.LUK = 4;
 
             monster.HP_chance= 1.6f;
-            monster.ATK_chance = 0.45f;
-            monster.DEF_chance = 0.25f;
-            monster.AGI_chance = 0.15f;
-            monster.LUK_chance = 0.1f;
+            monster.ATK_chance = 0.4f;
+            monster.DEF_chance = 0.3f;
+            monster.AGI_chance = 0.1f;
+            monster.LUK_chance = 0.15f;
 
             monster.Battle_AP = 1;
-            monster.Battle_Interval = 5;
+            monster.Battle_Interval = 3;
 
             MonsterDatas.Add(monster);
         }
@@ -193,20 +193,20 @@ public class MonsterManager
 
             monster.LV = 3;
             monster.MAXLV = 18;
-            monster.HP = 60;
+            monster.HP = 75;
             monster.ATK = 9;
             monster.DEF = 4;
             monster.AGI = 4;
             monster.LUK = 4;
 
-            monster.HP_chance = 1.3f;
+            monster.HP_chance = 1.8f;
             monster.ATK_chance = 0.75f;
-            monster.DEF_chance = 0.15f;
+            monster.DEF_chance = 0.2f;
             monster.AGI_chance = 0.1f;
             monster.LUK_chance = 0.08f;
 
             monster.Battle_AP = 1;
-            monster.Battle_Interval = 5;
+            monster.Battle_Interval = 3;
 
             MonsterDatas.Add(monster);
         }
@@ -228,20 +228,20 @@ public class MonsterManager
 
             monster.LV = 1;
             monster.MAXLV = 30;
-            monster.HP = 50;
-            monster.ATK = 15;
-            monster.DEF = 2;
+            monster.HP = 100;
+            monster.ATK = 24;
+            monster.DEF = 1;
             monster.AGI = 2;
             monster.LUK = 7;
 
-            monster.HP_chance = 1.6f;
+            monster.HP_chance = 2.4f;
             monster.ATK_chance = 1.15f;
             monster.DEF_chance = 0.1f;
             monster.AGI_chance = 0.15f;
             monster.LUK_chance = 0.2f;
 
             monster.Battle_AP = 2;
-            monster.Battle_Interval = 3f;
+            monster.Battle_Interval = 2f;
 
             MonsterDatas.Add(monster);
         }
@@ -258,20 +258,20 @@ public class MonsterManager
 
             monster.LV = 5;
             monster.MAXLV = 25;
-            monster.HP = 90;
-            monster.ATK = 9;
-            monster.DEF = 10;
+            monster.HP = 80;
+            monster.ATK = 8;
+            monster.DEF = 11;
             monster.AGI = 6;
             monster.LUK = 2;
 
             monster.HP_chance = 1.8f;
-            monster.ATK_chance = 0.35f;
-            monster.DEF_chance = 0.55f;
+            monster.ATK_chance = 0.45f;
+            monster.DEF_chance = 0.6f;
             monster.AGI_chance = 0.2f;
             monster.LUK_chance = 0.05f;
 
             monster.Battle_AP = 2;
-            monster.Battle_Interval = 3f;
+            monster.Battle_Interval = 2f;
 
             MonsterDatas.Add(monster);
         }
@@ -288,15 +288,15 @@ public class MonsterManager
 
             monster.LV = 1;
             monster.MAXLV = 35;
-            monster.HP = 45;
-            monster.ATK = 8;
-            monster.DEF = 8;
+            monster.HP = 95;
+            monster.ATK = 13;
+            monster.DEF = 7;
             monster.AGI = 6;
-            monster.LUK = 4;
+            monster.LUK = 6;
 
-            monster.HP_chance = 1.6f;
-            monster.ATK_chance = 0.55f;
-            monster.DEF_chance = 0.35f;
+            monster.HP_chance = 2.2f;
+            monster.ATK_chance = 0.65f;
+            monster.DEF_chance = 0.4f;
             monster.AGI_chance = 0.2f;
             monster.LUK_chance = 0.25f;
 
@@ -321,20 +321,20 @@ public class MonsterManager
 
             monster.LV = 1;
             monster.MAXLV = 40;
-            monster.HP = 65;
+            monster.HP = 125;
             monster.ATK = 12;
             monster.DEF = 9;
             monster.AGI = 4;
             monster.LUK = 4;
 
-            monster.HP_chance = 1.8f;
+            monster.HP_chance = 3.2f;
             monster.ATK_chance = 0.9f;
             monster.DEF_chance = 0.4f;
             monster.AGI_chance = 0.15f;
             monster.LUK_chance = 0.15f;
 
             monster.Battle_AP = 3;
-            monster.Battle_Interval = 3f;
+            monster.Battle_Interval = 1f;
 
             MonsterDatas.Add(monster);
         }
@@ -351,20 +351,20 @@ public class MonsterManager
 
             monster.LV = 10;
             monster.MAXLV = 35;
-            monster.HP = 80;
+            monster.HP = 180;
             monster.ATK = 17;
             monster.DEF = 5;
             monster.AGI = 9;
             monster.LUK = 8;
 
-            monster.HP_chance = 1.4f;
+            monster.HP_chance = 2.4f;
             monster.ATK_chance = 0.55f;
             monster.DEF_chance = 0.35f;
             monster.AGI_chance = 0.35f;
             monster.LUK_chance = 0.15f;
 
             monster.Battle_AP = 2;
-            monster.Battle_Interval = 3f;
+            monster.Battle_Interval = 2f;
 
             MonsterDatas.Add(monster);
         }
@@ -404,9 +404,9 @@ public class MonsterManager
 
             monster.LV = 15;
             monster.MAXLV = 59;
-            monster.HP = 85;
-            monster.ATK = 20;
-            monster.DEF = 12;
+            monster.HP = 95;
+            monster.ATK = 22;
+            monster.DEF = 10;
             monster.AGI = 8;
             monster.LUK = 10;
 
@@ -435,10 +435,10 @@ public class MonsterManager
             monster.LV = 10;
             monster.MAXLV = 39;
             monster.HP = 100;
-            monster.ATK = 18;
+            monster.ATK = 20;
             monster.DEF = 8;
-            monster.AGI = 8;
-            monster.LUK = 8;
+            monster.AGI = 7;
+            monster.LUK = 7;
 
             monster.HP_chance = 1.3f;
             monster.ATK_chance = 1.15f;
@@ -483,7 +483,7 @@ public class MonsterManager
                 var mon = GameManager.Placement.CreatePlacementObject($"{data[i].PrefabPath}", null, PlacementType.Monster) as Monster;
                 mon.MonsterInit();
                 mon.Initialize_Status();
-                mon.Initialize_SaveData(data[i]);
+                mon.Initialize_Load(data[i]);
 
                 if (data[i].FloorIndex != -1)
                 {
@@ -615,6 +615,8 @@ public class Save_MonsterData
     public Monster.MoveType MoveMode { get; set; }
 
     public Monster.Evolution Evolution { get; set; }
+    public int BattleCount;
+    public int BattlePoint;
 
 
     public int FloorIndex { get; set; }
@@ -638,6 +640,8 @@ public class Save_MonsterData
         LUK_chance = monster.luk_chance;
 
         Evolution = monster.EvolutionState;
+        BattleCount = monster.BattlePoint_Count;
+        BattlePoint = monster.BattlePoint_Rank;
 
         State = monster.State;
         MoveMode = monster.Mode;

@@ -197,7 +197,7 @@ public class TechnicalManager
         {
             TechnicalData content = new TechnicalData("HerbFarm");
             content.SetName("허브농장", "2일마다 활성화 된 모든 층에 약초를 공급해줍니다. 가끔 좋은 약초가 나올때도 있어요!");
-            content.SetCondition(150, 100, 1, 1);
+            content.SetCondition(200, 50, 1, 1);
             content.prefabPath = "HerbFarm";
             content.sprite = Managers.Sprite.GetSprite("Object/HerbFarm");
             content.action = (data) => CreateAction(content);
@@ -208,7 +208,7 @@ public class TechnicalManager
         {
             TechnicalData content = new TechnicalData("ApOrb");
             content.SetName("힘의 오브", "최대 행동력이 1 늘어납니다. 역시 건강한게 제일이죠.");
-            content.SetCondition(200, 350, 1, 1);
+            content.SetCondition(300, 300, 1, 1);
             content.prefabPath = "ApOrb";
             content.sprite = Managers.Sprite.GetSprite("Object/ApOrb");
             content.action = (data) => CreateAction(content);
@@ -222,7 +222,7 @@ public class TechnicalManager
             TechnicalData content = new TechnicalData("DonationBox");
             content.SetName("기부함", "던전 입구에 기부함을 설치합니다. 사실 말이 기부함이지 입장료를 받는거에요. " +
                 "많은 인기있는 던전들이 입장료를 받습니다만, 과연 우리 던전도 입장료를 내고서라도 들어올 만한 가치가 있을까요?");
-            content.SetCondition(300, 0, 2, 2);
+            content.SetCondition(500, 0, 2, 2);
             content.prefabPath = "DonationBox";
             content.sprite = Managers.Sprite.GetSprite("Object/DonationBox");
             content.action = (data) => CreateAction(content);
@@ -233,7 +233,7 @@ public class TechnicalManager
         {
             TechnicalData content = new TechnicalData("Prison");
             content.SetName("감옥", "모험가를 포로로 잡을 수 있는 감옥을 설치합니다. 쓰러트린 일부 모험가들에게서 교섭으로 골드를 뜯어낼 수 있을거에요.");
-            content.SetCondition(200, 0, 2, 2);
+            content.SetCondition(500, 0, 2, 2);
             content.prefabPath = "Prison";
             content.sprite = Managers.Sprite.GetSprite("Object/Prison");
             content.action = (data) => CreateAction(content);

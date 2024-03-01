@@ -72,7 +72,7 @@ public class Adventurer : NPC
 
         {
             var list = GetPriorityPick(typeof(Treasure));
-            AddList(list);
+            AddList(list, AddPos.Front);
         }
 
         {

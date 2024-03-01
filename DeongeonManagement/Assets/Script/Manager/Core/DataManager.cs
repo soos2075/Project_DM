@@ -42,8 +42,12 @@ public class DataManager
         public int AP_MAX;
 
         public int Prisoner;
-        public Main.DayResult CurrentDay;
-        public List<Main.DayResult> DayResultList;
+
+        public Save_DayResult CurrentDay;
+        public Save_DayResult[] DayResultList;
+
+        //public Main.DayResult CurrentDay;
+        //public List<Main.DayResult> DayResultList;
 
         // Floor 정보
         public int ActiveFloor_Basement; //? 확장된 계층정보
@@ -59,6 +63,8 @@ public class DataManager
         // Technical 정보 - 완료
         public Save_TechnicalData[] tachnicalList;
 
+
+        //? 값타입으로 싹 바꿔야된다 이거
         // Guild 정보
         public List<GuildNPC_Data> guildNPCList;
 
@@ -170,6 +176,7 @@ public class DataManager
         //? 저장할 정보를 몽땅 기록
         SaveData saveData = new SaveData();
 
+
         saveData.saveIndex = index;
         saveData.dateTime = System.DateTime.Now.ToString("F");
 
@@ -178,32 +185,54 @@ public class DataManager
 
         saveData.DungeonLV = Main.Instance.DungeonRank;
 
-        saveData.FameOfDungeon = Main.Instance.PopularityOfDungeon;
-        saveData.DangerOfDungeon = Main.Instance.DangerOfDungeon;
-
         saveData.Player_Mana = Main.Instance.Player_Mana;
         saveData.Player_Gold = Main.Instance.Player_Gold;
 
-        saveData.Player_AP = Main.Instance.Player_AP;
         saveData.AP_MAX = Main.Instance.AP_MAX;
 
-        saveData.Prisoner = Main.Instance.Prisoner;
-        saveData.CurrentDay = Main.Instance.CurrentDay;
+        //saveData.FameOfDungeon = Main.Instance.PopularityOfDungeon;
+        //saveData.DangerOfDungeon = Main.Instance.DangerOfDungeon;
+        //saveData.Player_AP = Main.Instance.Player_AP;
+        Main.Instance.GetPropertyValue(out saveData.FameOfDungeon, out saveData.DangerOfDungeon, out saveData.Player_AP);
 
-        saveData.DayResultList = Main.Instance.DayList;
+        saveData.Prisoner = Main.Instance.Prisoner;
+
+        saveData.CurrentDay = new Save_DayResult(Main.Instance.CurrentDay);
+        saveData.DayResultList = new Save_DayResult[Main.Instance.DayList.Count];
+        for (int i = 0; i < Main.Instance.DayList.Count; i++)
+        {
+            saveData.DayResultList[i] = new Save_DayResult(Main.Instance.DayList[i]);
+        }
 
         saveData.ActiveFloor_Basement = Main.Instance.ActiveFloor_Basement;
         saveData.ActiveFloor_Technical = Main.Instance.ActiveFloor_Technical;
-
 
         saveData.monsterList = GameManager.Monster.GetSaveData_Monster();
         saveData.tachnicalList = GameManager.Technical.GetSaveData_Technical();
         saveData.facilityList = GameManager.Facility.GetSaveData_Facility();
 
 
-        saveData.guildNPCList = EventManager.Instance.CurrentGuildData;
-        saveData.guildQuestList = EventManager.Instance.GuildQuestAdd;
-        saveData.currentQuestList = EventManager.Instance.CurrentQuestEvent_ForSave;
+        if (EventManager.Instance.GuildQuestAdd != null)
+        {
+            saveData.guildQuestList = new List<int>(EventManager.Instance.GuildQuestAdd);
+        }
+        if (EventManager.Instance.CurrentQuestEvent_ForSave != null)
+        {
+            saveData.currentQuestList = new List<int>(EventManager.Instance.CurrentQuestEvent_ForSave);
+        }
+        if (EventManager.Instance.CurrentGuildData != null)
+        {
+            saveData.guildNPCList = new List<GuildNPC_Data>();
+            foreach (var item in EventManager.Instance.CurrentGuildData)
+            {
+                var newData = new GuildNPC_Data();
+                newData.SetData(item.Original_Index, new List<int>(item.InstanceQuestList), new List<int>(item.OptionList));
+                saveData.guildNPCList.Add(newData);
+            }
+        }
+
+
+
 
         Add_File(saveData, $"{fileName}");
     }
@@ -236,10 +265,11 @@ public class DataManager
         GameManager.Monster.Load_MonsterData(loadData.monsterList);
         GameManager.Technical.Load_TechnicalData(loadData.tachnicalList);
         GameManager.Facility.Load_FacilityData(loadData.facilityList);
-
     }
     void LoadGuildData(SaveData loadData)
     {
+        EventManager.Instance.Reset_Singleton();
+
         EventManager.Instance.CurrentTurn = loadData.turn;
         EventManager.Instance.CurrentGuildData = loadData.guildNPCList;
         EventManager.Instance.GuildQuestAdd = loadData.guildQuestList;

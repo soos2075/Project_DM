@@ -16,7 +16,7 @@ public class SpecialEgg : Facility
         Detail_KR = "정체모를 수수께끼의 알입니다.";
         Name_prefab = this.GetType().Name;
     }
-    public override void SetFacilityBool()
+    public override void Init_FacilityEgo()
     {
         isOnlyOne = true;
         isClearable = false;

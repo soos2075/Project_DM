@@ -2,6 +2,7 @@ using DamageNumbersPro;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -48,6 +49,7 @@ public class Main : MonoBehaviour
     public void ShowDM(int _value, TextType _textType, Transform _pos, int _sizeOption = 0)
     {
         DamageNumber origin = _sizeOption == 0 ? dm_small : dm_large;
+        SoundManager.Instance.PlaySound($"SFX/Add_{_textType.ToString()}");
 
         string _msg = _value > 0 ? $"+{_value} " : $"{_value} ";
         switch (_textType)
@@ -124,7 +126,7 @@ public class Main : MonoBehaviour
         Init_Basic();
         Init_Statue();
 
-        EventManager.Instance.Load_EventData();
+        EventManager.Instance.RankUpEvent();
 
         //StartCoroutine(waitA());
     }
@@ -177,7 +179,7 @@ public class Main : MonoBehaviour
         DungeonRank = 1;
 
         Player_Mana = 300;
-        Player_Gold = 300;
+        Player_Gold = 200;
         Player_AP = 2;
         AP_MAX = 2;
 
@@ -352,7 +354,16 @@ public class Main : MonoBehaviour
     }
 
 
-    #region Load Data
+    #region Save / Load
+
+    public void GetPropertyValue(out int _pop, out int _danger, out int _currentAP)
+    {
+        _pop = this.pop;
+        _danger = this.danger;
+        _currentAP = currentAP;
+    }
+
+
     public void SetLoadData(DataManager.SaveData data)
     {
         Turn = data.turn;
@@ -368,8 +379,13 @@ public class Main : MonoBehaviour
         AP_MAX = data.AP_MAX;
 
         Prisoner = data.Prisoner;
-        CurrentDay = data.CurrentDay;
-        DayList = data.DayResultList;
+
+        CurrentDay = new DayResult(data.CurrentDay);
+        DayList = new List<DayResult>();
+        foreach (var item in data.DayResultList)
+        {
+            DayList.Add(new DayResult(item));
+        }
 
         ActiveFloor_Basement = (data.ActiveFloor_Basement);
         ActiveFloor_Technical = (data.ActiveFloor_Technical);
@@ -381,10 +397,23 @@ public class Main : MonoBehaviour
         Init_Secret();
 
         //? 레벨 적용
-        EventManager.Instance.Load_EventData();
+        EventManager.Instance.RankUpEvent();
 
         UI_Main.DungeonExpansion();
         UI_Main.Texts_Refresh();
+
+
+
+        Type type = CurrentDay.GetType();
+        // 클래스의 모든 필드 정보 가져오기
+        FieldInfo[] fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public);
+
+        // 각 필드의 이름과 값 출력
+        foreach (FieldInfo field in fields)
+        {
+            object value = field.GetValue(CurrentDay);
+            Debug.Log($"{field.Name}: {value}");
+        }
     }
     #endregion
 
@@ -428,26 +457,26 @@ public class Main : MonoBehaviour
         Final_Score += score;
     }
 
-    int _pop;
-    public int PopularityOfDungeon { get { return _pop; } private set { _pop = Mathf.Clamp(value, 0, value); } }
-    int _danger;
-    public int DangerOfDungeon { get { return _danger; } private set { _danger = Mathf.Clamp(value, 0, value); } }
+    int pop;
+    public int PopularityOfDungeon { get { return pop; } private set { pop = Mathf.Clamp(value, 0, value); } }
+    int danger;
+    public int DangerOfDungeon { get { return danger; } private set { danger = Mathf.Clamp(value, 0, value); } }
 
+    public int DungeonRank { get; private set; }
+    public void Dungeon_RankUP()
+    {
+        DungeonRank++;
+        AP_MAX = DungeonRank + 1;
+        EventManager.Instance.RankUpEvent();
+    }
 
-    public int DungeonRank { get; set; }
     public int Player_Mana { get; private set; }
     public int Player_Gold { get; private set; }
 
-
     public int AP_MAX { get; private set; }
 
-    public void Set_AP_Max(int _ap)
-    {
-        AP_MAX = _ap;
-    }
-
-    int player_ap;
-    public int Player_AP { get { return player_ap; } set { player_ap = value; UI_Main.AP_Refresh(); } }
+    int currentAP;
+    public int Player_AP { get { return currentAP; } set { currentAP = value; UI_Main.AP_Refresh(); } }
     public int Prisoner { get; set; }
 
 
@@ -519,37 +548,50 @@ public class Main : MonoBehaviour
             Use_Kill += value;
         }
 
-        public int Popularity { get; private set; }
-        public int Danger { get; private set; }
+        public int GetPopularity;
+        public int GetDanger;
 
         public void AddPop(int _value)
         {
-            Popularity += _value;
-            //if (_value > 0)
-            //{
-            //    Instance.ShowDM_Dungeon($"+{_value} pop", Color.green);
-            //}
-            //else
-            //{
-            //    Instance.ShowDM_Dungeon($"{_value} pop", Color.green);
-            //}
+            GetPopularity += _value;
         }
         public void AddDanger(int _value)
         {
-            Danger += _value;
-            //if (_value > 0)
-            //{
-            //    Instance.ShowDM_Dungeon($"+{_value} danger", Color.red);
-            //}
-            //else
-            //{
-            //    Instance.ShowDM_Dungeon($"{_value} danger", Color.red);
-            //}
+            GetDanger += _value;
         }
 
         public int fame_perv;
         public int danger_perv;
         public int dungeonRank;
+
+
+        public DayResult()
+        {
+
+        }
+        public DayResult(Save_DayResult result)
+        {
+            Origin_Mana = result.Origin_Mana;
+            Origin_Gold = result.Origin_Gold;
+            Origin_Prisoner = result.Origin_Prisoner;
+
+            Get_Mana = result.Get_Mana;
+            Get_Gold = result.Get_Gold;
+            Get_Prisoner = result.Get_Prisoner;
+            Get_Kill = result.Get_Kill;
+
+            Use_Mana = result.Use_Mana;
+            Use_Gold = result.Use_Gold;
+            Use_Prisoner = result.Use_Prisoner;
+            Use_Kill = result.Use_Kill;
+
+            GetPopularity = result.GetPopularity;
+            GetDanger = result.GetDanger;
+
+            fame_perv = result.fame_perv;
+            danger_perv = result.danger_perv;
+            dungeonRank = result.dungeonRank;
+        }
     }
 
 
@@ -570,14 +612,15 @@ public class Main : MonoBehaviour
         DayList.Add(CurrentDay);
         AddScore(CurrentDay);
 
+        PopularityOfDungeon += CurrentDay.GetPopularity;
+        DangerOfDungeon += CurrentDay.GetDanger;
+
+        if (EventManager.Instance.TryRankUp(PopularityOfDungeon, DangerOfDungeon))
+        {
+            Dungeon_RankUP();
+        }
+
         Player_AP = AP_MAX;
-
-        //Player_Mana += CurrentDay.Get_Mana;
-        //Player_Gold += CurrentDay.Get_Gold;
-        PopularityOfDungeon += CurrentDay.Popularity;
-        DangerOfDungeon += CurrentDay.Danger;
-
-        EventManager.Instance.TryRankUp(PopularityOfDungeon, DangerOfDungeon);
 
         var ui = Managers.UI.ShowPopUp<UI_DayResult>();
         ui.TextContents(DayList[Turn - 1]);
@@ -635,6 +678,7 @@ public class Main : MonoBehaviour
             if (_Management == false)
             {
                 Turn++;
+                Init_Player(); //? 플레이어 없으면 재소환
                 Start_Entrance();
                 TurnStartEvent();
                 DayEvent();
@@ -642,14 +686,16 @@ public class Main : MonoBehaviour
                 EventManager.Instance.TurnStart();
                 GameManager.NPC.TurnStart();
                 GameManager.Monster.MonsterTurnStartEvent();
+                GameManager.Facility.TurnStartEvent();
             }
             else
             {
                 Init_Player(); //? 플레이어 없으면 재소환
                 DayOver_Dayresult();
-                DayMonsterEvent();
-                NightEvent();
                 TurnOverEvent();
+                NightEvent();
+                DayMonsterEvent();
+                GameManager.Facility.TurnOverEvent();
                 UI_Main.Texts_Refresh();
             }
         }
@@ -934,6 +980,12 @@ public class Main : MonoBehaviour
     {
         if (Floor.Length > ActiveFloor_Basement)
         {
+            var legacy = FindAnyObjectByType<UI_Expansion_Floor>();
+            if (legacy != null)
+            {
+                Destroy(legacy.gameObject);
+            }
+
             var ui = Managers.Resource.Instantiate("UI/PopUp/Element/UI_Expansion_Floor");
             ui.transform.position = Floor[ActiveFloor_Basement].transform.position;
 
@@ -944,3 +996,57 @@ public class Main : MonoBehaviour
     #endregion
 
 }
+public class Save_DayResult
+{
+    public int Origin_Mana;
+    public int Origin_Gold;
+    public int Origin_Prisoner;
+
+    public int Get_Mana;
+    public int Get_Gold;
+    public int Get_Prisoner;
+    public int Get_Kill;
+
+    public int Use_Mana;
+    public int Use_Gold;
+    public int Use_Prisoner;
+    public int Use_Kill;
+
+    public int GetPopularity;
+    public int GetDanger;
+
+    public int fame_perv;
+    public int danger_perv;
+    public int dungeonRank;
+
+
+    public Save_DayResult()
+    {
+
+    }
+    public Save_DayResult(Main.DayResult result)
+    {
+        Origin_Mana = result.Origin_Mana;
+        Origin_Gold = result.Origin_Gold;
+        Origin_Prisoner = result.Origin_Prisoner;
+
+        Get_Mana = result.Get_Mana;
+        Get_Gold = result.Get_Gold;
+        Get_Prisoner = result.Get_Prisoner;
+        Get_Kill = result.Get_Kill;
+
+        Use_Mana = result.Use_Mana;
+        Use_Gold = result.Use_Gold;
+        Use_Prisoner = result.Use_Prisoner;
+        Use_Kill = result.Use_Kill;
+
+        GetPopularity = result.GetPopularity;
+        GetDanger = result.GetDanger;
+
+        fame_perv = result.fame_perv;
+        danger_perv = result.danger_perv;
+        dungeonRank = result.dungeonRank;
+    }
+
+}
+

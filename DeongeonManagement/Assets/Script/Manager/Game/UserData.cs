@@ -176,10 +176,6 @@ public class UserData : MonoBehaviour
     }
 
 
-    void GetDayData()
-    {
-        //Main.Instance.DayList
-    }
 
 
     #endregion

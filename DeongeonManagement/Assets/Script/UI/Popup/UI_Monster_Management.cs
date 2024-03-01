@@ -347,6 +347,7 @@ public class UI_Monster_Management : UI_PopUp
                 int RecoverCost = (int)(((Current.monster.LV * 0.15f) + 0.15f) * Current.monster.Data.ManaCost);
                 GetButton(((int)Buttons.Recover)).gameObject.
                     AddUIEvent((data) => Current.monster.Recover(RecoverCost));
+                GetButton(((int)Buttons.Recover)).GetComponentInChildren<TextMeshProUGUI>().text = $"회복({RecoverCost})";
 
 
                 GetTMP((int)Texts.DetailInfo).text = $"부상 회복 필요 마나 : {RecoverCost}";
@@ -446,10 +447,12 @@ public class UI_Monster_Management : UI_PopUp
         if (Create(monsterID, Main.Instance.CurrentBoundary))
         {
             CreateOver();
+            SoundManager.Instance.PlaySound("SFX/Action_Build");
         }
         else
         {
             Debug.Log("배치할 수 없음");
+            SoundManager.Instance.PlaySound("SFX/Action_Wrong");
         }
     }
 

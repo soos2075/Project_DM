@@ -21,7 +21,7 @@ public class Statue : Facility
 
         Init_TypeSelect();
     }
-    public override void SetFacilityBool()
+    public override void Init_FacilityEgo()
     {
         isOnlyOne = false;
         isClearable = false;
@@ -90,7 +90,7 @@ public class Statue : Facility
 
         if (confirm.GetAnswer() == UI_Confirm.State.Yes)
         {
-            int gold = Random.Range(5, 11) * (5);
+            int gold = Random.Range(25, 100);
             Main.Instance.Player_AP--;
             Main.Instance.CurrentDay.AddGold(gold);
 
@@ -105,7 +105,7 @@ public class Statue : Facility
 
         if (confirm.GetAnswer() == UI_Confirm.State.Yes)
         {
-            int mana = Random.Range(10, 16) * (5);
+            int mana = Random.Range(50, 200);
             Main.Instance.Player_AP--;
             Main.Instance.CurrentDay.AddMana(mana);
 

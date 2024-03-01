@@ -61,8 +61,6 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     List<AudioClip> audioList = new List<AudioClip>(); //? 0.1초 안에 플레이요청들어온 clip목록. 동일clip은 2개까지만 허용함 -> 허용안함
 
-
-
     private void Start()
     {
         for (int i = 0; i < Sound_Root.transform.childCount; i++)
@@ -70,7 +68,7 @@ public class SoundManager : MonoBehaviour
             audioSources[i] = Sound_Root.transform.GetChild(i).GetComponent<AudioSource>();
         }
 
-        audioSources[(int)Define.AudioType.BGM].volume = UserData.Instance.GetDataFloat(PrefsKey.Volume_Effect, 0.7f);
+        audioSources[(int)Define.AudioType.BGM].volume = UserData.Instance.GetDataFloat(PrefsKey.Volume_BGM, 0.7f);
         audioSources[(int)Define.AudioType.Effect].volume = UserData.Instance.GetDataFloat(PrefsKey.Volume_Effect, 0.7f);
 
         PlaySound("BGM/StartScene", Define.AudioType.BGM);
@@ -79,7 +77,7 @@ public class SoundManager : MonoBehaviour
     float timeCount;
     private void LateUpdate()
     {
-        timeCount += Time.deltaTime;
+        timeCount += Time.unscaledDeltaTime;
         if (timeCount > 0.1f)
         {
             timeCount = 0;
@@ -127,7 +125,7 @@ public class SoundManager : MonoBehaviour
 
                 if (sameCount >= 1)
                 {
-                    Debug.Log($"중복사운드 제거 : {clip.name}");
+                    //Debug.Log($"중복사운드 제거 : {clip.name}");
                     return;
                 }
             }
@@ -143,7 +141,7 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public void PlaySound(string path, Define.AudioType type = Define.AudioType.Effect, float volume = 0.7f)
+    public void PlaySound(string path, Define.AudioType type = Define.AudioType.Effect)
     {
         AudioClip clip;
         clipCaching.TryGetValue(path, out clip); //? 캐싱된게 있는지 먼저 검색
@@ -162,7 +160,7 @@ public class SoundManager : MonoBehaviour
         }
         else
         {
-            PlaySound(clip, type, volume);
+            PlaySound(clip, type);
         }
     }
 
@@ -172,4 +170,22 @@ public class SoundManager : MonoBehaviour
         audioSources[(int)type].Stop();
     }
 
+
+    public void ReplaceSound(string _clipPath)
+    {
+        StartCoroutine(WaitForSound(_clipPath));
+    }
+
+    IEnumerator WaitForSound(string _clipPath)
+    {
+        yield return new WaitForEndOfFrame();
+        if (audioList.Count == 0)
+        {
+            PlaySound($"SFX/{_clipPath}");
+        }
+        //else
+        //{
+        //    Debug.Log("이미 사운드 존재함");
+        //}
+    }
 }

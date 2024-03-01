@@ -14,11 +14,13 @@ public class UI_EventHandler : MonoBehaviour, IPointerClickHandler, IDragHandler
 		if (OnLeftClickHandler != null && eventData.pointerId == -1)
         {
 			OnLeftClickHandler.Invoke(eventData);
+			SoundManager.Instance.ReplaceSound("LeftClick");
 		}
 			
         if (OnRightClickHandler != null && eventData.pointerId == -2)
         {
 			OnRightClickHandler.Invoke(eventData);
+			SoundManager.Instance.ReplaceSound("RightClick");
 		}
 	}
 
@@ -59,7 +61,11 @@ public class UI_EventHandler : MonoBehaviour, IPointerClickHandler, IDragHandler
 	public Action<PointerEventData> OnPointerEnterHandler = null;
 	public void OnPointerEnter(PointerEventData eventData)
     {
-		OnPointerEnterHandler?.Invoke(eventData);
+		if (OnPointerEnterHandler != null)
+        {
+			OnPointerEnterHandler?.Invoke(eventData);
+			SoundManager.Instance.ReplaceSound("UI_Enter");
+		}
 	}
 
 

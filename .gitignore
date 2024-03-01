@@ -3,9 +3,12 @@
 /기타자료
 DeongeonManagement/Assets/_Asset/
 DeongeonManagement/Assets/*.json
+DeongeonManagement/Assets/*.json.meta
 DeongeonManagement/Assets/Resources
 DeongeonManagement/Assets/Animation
 DeongeonManagement/Assets/Res_temp
+DeongeonManagement/Assets/PixelFantasy
+DeongeonManagement/Assets/Interface and Item Sounds
 
 
 # This .gitignore file should be placed at the root of your Unity project directory

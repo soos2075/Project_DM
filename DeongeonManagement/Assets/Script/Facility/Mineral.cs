@@ -51,7 +51,7 @@ public class Mineral : Facility
                 Detail_KR = "흔한 던전의 바위입니다. 그렇지만 지상의 바위와는 완전히 다른 물질이에요.";
                 durationTime = 2;
                 ap_value = 1;
-                mp_value = 3;
+                mp_value = 6;
                 hp_value = 0;
                 break;
 
@@ -63,9 +63,9 @@ public class Mineral : Facility
 
                 Name = "모래바위";
                 Detail_KR = "쉽게 부서져 모래가 되는 바위에요. 마나를 가지고 있어 쉽게 뭉쳐지고 물과 잘 섞여 쓰임새가 많아요.";
-                durationTime = 1;
+                durationTime = 2;
                 ap_value = 1;
-                mp_value = 4;
+                mp_value = 8;
                 hp_value = 0;
                 break;
 
@@ -77,37 +77,37 @@ public class Mineral : Facility
 
                 Name = "단단한 바위";
                 Detail_KR = "단단한 바위입니다. 튼튼해서 부수려면 꽤나 많은 체력이 필요할 거에요. 건축재료로 사용되어 인기가 많습니다.";
-                durationTime = 3;
+                durationTime = 2;
                 ap_value = 1;
-                mp_value = 3;
+                mp_value = 12;
                 hp_value = 0;
                 break;
 
             case MienralCategory.Iron:
                 if (InteractionOfTimes <= 0)
                 {
-                    InteractionOfTimes = 3;
+                    InteractionOfTimes = 5;
                 }
 
                 Name = "마나 철광석";
                 Detail_KR = "순도가 높은 철을 포함하고 있는 철광석입니다. 무기를 만들 때도 쓰이고 각종 장신구에도 쓰여요.";
                 durationTime = 5;
                 ap_value = 2;
-                mp_value = 15;
+                mp_value = 26;
                 hp_value = 0;
                 break;
 
             case MienralCategory.Coal:
                 if (InteractionOfTimes <= 0)
                 {
-                    InteractionOfTimes = 5;
+                    InteractionOfTimes = 4;
                 }
 
                 Name = "석탄";
                 Detail_KR = "불이 잘 붙는 석탄입니다. 마나를 먹은 석탄은 화력도 유지력도 훨씬 길기 때문에 지상에선 고급 연료입니다.";
-                durationTime = 3;
+                durationTime = 4;
                 ap_value = 2;
-                mp_value = 7;
+                mp_value = 21;
                 hp_value = 0;
                 break;
 
@@ -121,7 +121,7 @@ public class Mineral : Facility
                 Detail_KR = "매우 귀한 물질인 다이아몬드입니다. 마나의 순도가 높기때문에 마법무기의 핵심 부분이에요. 매우 단단하기 때문에 캐기도 힘들어요.";
                 durationTime = 5;
                 ap_value = 3;
-                mp_value = 20;
+                mp_value = 45;
                 hp_value = 0;
                 break;
         }

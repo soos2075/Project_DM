@@ -50,6 +50,8 @@ public class UI_StatusUp : UI_PopUp
         }
 
         StartCoroutine(WaitFrame());
+
+        SoundManager.Instance.PlaySound($"SFX/LevelUp");
     }
 
 

@@ -10,7 +10,7 @@ public abstract class Facility : MonoBehaviour, IPlacementable
     }
     protected void Start()
     {
-        SetFacilityBool();
+        Init_FacilityEgo();
         FacilityInit();
     }
     //protected void Update()
@@ -53,7 +53,7 @@ public abstract class Facility : MonoBehaviour, IPlacementable
     public bool isOnlyOne { get; set; } = false;
     public bool isClearable { get; set; } = true;
 
-    public virtual void SetFacilityBool()
+    public virtual void Init_FacilityEgo()
     {
         isOnlyOne = false;
         isClearable = true;
@@ -89,6 +89,12 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
         PlacementState = PlacementState.Busy;
 
+        bool isLastInteraction = false;
+        if (InteractionOfTimes <= 0)
+        {
+            isLastInteraction = true;
+        }
+
         yield return new WaitForSeconds(durationTime);
 
         int applyMana = Mathf.Clamp(mp, 0, npc.Mana); //? 높은 마나회수여도 npc가 가진 마나 이상으로 얻진 못함. - 앵벌이 방지용
@@ -106,28 +112,19 @@ public abstract class Facility : MonoBehaviour, IPlacementable
             Main.Instance.ShowDM(applyMana, Main.TextType.mana, transform);
         }
 
-        OverCor(npc);
+        OverCor(npc, isLastInteraction);
     }
 
-    protected virtual void OverCor(NPC npc)
+    protected virtual void OverCor(NPC npc, bool isRemove)
     {
         Cor_Facility = null;
         PlacementState = PlacementState.Standby;
-        ClearCheck();
-    }
-
-
-    protected void ClearCheck()
-    {
-        if (InteractionOfTimes <= 0 && PlacementInfo != null)
+        if (isRemove)
         {
-            //UI_EventBox.AddEventText($"{Name} (이)가 사라짐");
-            //Managers.Placement.PlacementClear(this);
-            //Managers.Placement.PlacementClear_Completely(this);
-
             GameManager.Facility.RemoveFacility(this);
         }
     }
+
 
 
 
