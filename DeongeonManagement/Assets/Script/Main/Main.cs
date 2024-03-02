@@ -2,7 +2,6 @@ using DamageNumbersPro;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -163,6 +162,7 @@ public class Main : MonoBehaviour
         Init_BasementFloor();
         Init_Animation();
         UI_Main.Start_Main();
+        EventManager.Instance.Enter_ManagementScene();
 
         _DefaultSetting = true;
     }
@@ -204,7 +204,7 @@ public class Main : MonoBehaviour
         yield return new WaitForEndOfFrame();
         Instantiate_DayOne();
         yield return new WaitForEndOfFrame();
-        yield return new WaitUntil(() => Time.timeScale == 1);
+        yield return new WaitUntil(() => Time.timeScale > 0);
         var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
         message.Message = "던전에 다양한 시설과 몬스터들을 배치하여 모험가들에게 마나를 얻으세요!\n\n" +
             "마나는 기본적으로 모험가들이 던전에서 행하는 대부분의 행동에서 얻을 수 있어요.";
@@ -404,16 +404,16 @@ public class Main : MonoBehaviour
 
 
 
-        Type type = CurrentDay.GetType();
-        // 클래스의 모든 필드 정보 가져오기
-        FieldInfo[] fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public);
+        //Type type = CurrentDay.GetType();
+        //// 클래스의 모든 필드 정보 가져오기
+        //FieldInfo[] fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public);
 
-        // 각 필드의 이름과 값 출력
-        foreach (FieldInfo field in fields)
-        {
-            object value = field.GetValue(CurrentDay);
-            Debug.Log($"{field.Name}: {value}");
-        }
+        //// 각 필드의 이름과 값 출력
+        //foreach (FieldInfo field in fields)
+        //{
+        //    object value = field.GetValue(CurrentDay);
+        //    Debug.Log($"{field.Name}: {value}");
+        //}
     }
     #endregion
 
@@ -826,7 +826,7 @@ public class Main : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
 
-        yield return new WaitUntil(() => Time.timeScale == 1 && Managers.UI._reservationQueue.Count == 0 && Managers.UI._popupStack.Count == 0);
+        yield return new WaitUntil(() => Time.timeScale > 0 && Managers.UI._reservationQueue.Count == 0 && Managers.UI._popupStack.Count == 0);
         Debug.Log($"자동저장 : {Turn}일차");
         Managers.Data.SaveToJson("AutoSave", 0);
     }

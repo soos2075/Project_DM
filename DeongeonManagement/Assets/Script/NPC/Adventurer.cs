@@ -107,12 +107,27 @@ public class Adventurer : NPC
     }
     protected override void NPC_Die()
     {
+        Kill();
         GameManager.NPC.InactiveNPC(this);
+    }
+    protected override void NPC_Captive()
+    {
+        UI_EventBox.AddEventText($"◈{Name_KR} 에게 보석금을 뜯어냄");
+        Main.Instance.CurrentDay.AddPrisoner(1);
+
+        Main.Instance.CurrentDay.AddGold(KillGold * 2);
+        Main.Instance.ShowDM(KillGold * 2, Main.TextType.gold, transform);
+
+        Main.Instance.CurrentDay.AddDanger(Data.Rank);
+        Main.Instance.ShowDM(Data.Rank, Main.TextType.danger, transform);
+    }
+    void Kill()
+    {
         var prison = GameManager.Technical.Prison;
         if (prison != null)
         {
             var ran = Random.Range(0, 10);
-            if (ran > 3)
+            if (ran > 6)
             {
                 NPC_Captive();
                 return;
@@ -122,15 +137,7 @@ public class Adventurer : NPC
         UI_EventBox.AddEventText($"◈{Name_KR} (이)가 쓰러짐");
         Main.Instance.CurrentDay.AddKill(1);
         Main.Instance.CurrentDay.AddGold(KillGold);
-
-        Main.Instance.CurrentDay.AddDanger(Data.Rank);
-        Main.Instance.ShowDM(Data.Rank, Main.TextType.danger, transform);
-    }
-    protected override void NPC_Captive()
-    {
-        UI_EventBox.AddEventText($"◈{Name_KR} (이)가 포로로 잡힘");
-        Main.Instance.CurrentDay.AddPrisoner(1);
-        Main.Instance.CurrentDay.AddGold(KillGold * 2);
+        Main.Instance.ShowDM(KillGold, Main.TextType.gold, transform);
 
         Main.Instance.CurrentDay.AddDanger(Data.Rank);
         Main.Instance.ShowDM(Data.Rank, Main.TextType.danger, transform);

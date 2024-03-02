@@ -193,7 +193,13 @@ public class DataManager
         //saveData.FameOfDungeon = Main.Instance.PopularityOfDungeon;
         //saveData.DangerOfDungeon = Main.Instance.DangerOfDungeon;
         //saveData.Player_AP = Main.Instance.Player_AP;
-        Main.Instance.GetPropertyValue(out saveData.FameOfDungeon, out saveData.DangerOfDungeon, out saveData.Player_AP);
+        int _fame;
+        int _danger;
+        int _ap;
+        Main.Instance.GetPropertyValue(out _fame, out _danger, out _ap);
+        saveData.FameOfDungeon = _fame;
+        saveData.DangerOfDungeon = _danger;
+        saveData.Player_AP = _ap;
 
         saveData.Prisoner = Main.Instance.Prisoner;
 

@@ -86,28 +86,28 @@ public class Mineral : Facility
             case MienralCategory.Iron:
                 if (InteractionOfTimes <= 0)
                 {
-                    InteractionOfTimes = 5;
+                    InteractionOfTimes = 10;
                 }
 
                 Name = "마나 철광석";
                 Detail_KR = "순도가 높은 철을 포함하고 있는 철광석입니다. 무기를 만들 때도 쓰이고 각종 장신구에도 쓰여요.";
-                durationTime = 5;
-                ap_value = 2;
-                mp_value = 26;
+                durationTime = 2;
+                ap_value = 1;
+                mp_value = 13;
                 hp_value = 0;
                 break;
 
             case MienralCategory.Coal:
                 if (InteractionOfTimes <= 0)
                 {
-                    InteractionOfTimes = 4;
+                    InteractionOfTimes = 3;
                 }
 
                 Name = "석탄";
                 Detail_KR = "불이 잘 붙는 석탄입니다. 마나를 먹은 석탄은 화력도 유지력도 훨씬 길기 때문에 지상에선 고급 연료입니다.";
-                durationTime = 4;
+                durationTime = 3;
                 ap_value = 2;
-                mp_value = 21;
+                mp_value = 28;
                 hp_value = 0;
                 break;
 
@@ -121,7 +121,7 @@ public class Mineral : Facility
                 Detail_KR = "매우 귀한 물질인 다이아몬드입니다. 마나의 순도가 높기때문에 마법무기의 핵심 부분이에요. 매우 단단하기 때문에 캐기도 힘들어요.";
                 durationTime = 5;
                 ap_value = 3;
-                mp_value = 45;
+                mp_value = 75;
                 hp_value = 0;
                 break;
         }

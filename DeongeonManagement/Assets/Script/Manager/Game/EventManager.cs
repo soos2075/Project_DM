@@ -278,16 +278,18 @@ public class EventManager : MonoBehaviour
         }
     }
 
-
-
     bool Rank_2 = false;
     bool Rank_3 = false;
+
+    public void Enter_ManagementScene()
+    {
+        Rank_2 = false;
+        Rank_3 = false;
+    }
 
 
     public void Reset_Singleton()
     {
-        Rank_2 = false;
-        Rank_3 = false;
         CurrentGuildData?.Clear();
         GuildQuestAdd?.Clear();
         CurrentQuestEvent = null;

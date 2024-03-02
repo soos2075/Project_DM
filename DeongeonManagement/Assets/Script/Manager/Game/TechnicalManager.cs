@@ -36,6 +36,29 @@ public class TechnicalManager
         set { _prison = value; }
     }
 
+    DonationBox _donation;
+    public DonationBox Donation
+    {
+        get
+        {
+            if (_donation == null)
+            {
+                foreach (var item in currentTechnicalList)
+                {
+                    if (item.GetType() == typeof(DonationBox))
+                    {
+                        _donation = item as DonationBox;
+                    }
+                }
+            }
+            return _donation;
+        }
+        set { _donation = value; }
+    }
+
+    public Transform Donation_Pos { get; set; }
+
+
 
     public TechnicalFloor[] Floor_Technical { get; set; }
     void FloorInit()
@@ -136,11 +159,6 @@ public class TechnicalManager
         Managers.UI.CloseAll();
 
         currentTechnicalList.Add(tech);
-
-        if (data.contentName == "DonationBox")
-        {
-            Managers.Resource.Instantiate($"Technical/DonationBox_Entrance");
-        }
     }
     Technical CreateAction(string path, int floor)
     {

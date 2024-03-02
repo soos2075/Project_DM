@@ -153,7 +153,7 @@ public class ContentManager
             content = new ContentData("Herb_Pumpkin");
             content.SetName("마나 호박밭", "마나를 지닌 호박입니다. 최고급 식재료로도 사용이 되며 기타 여러 합성에 재료로 사용됩니다." +
                 "\n적용 범위는 작은 X 입니다.");
-            content.SetCondition(85, 0, 1, Facility_Priority.Herb);
+            content.SetCondition(85, 0, 2, Facility_Priority.Herb);
             content.sprite = Managers.Sprite.GetSprite_SLA("Pumpkin");
             content.SetAction(() => SetBoundary(Define.Boundary_X_1, () => CreateAll<Herb>("Herb", (int)Herb.HerbType.Pumpkin)));
 
@@ -196,10 +196,10 @@ public class ContentManager
         {
             ContentData content = new ContentData("Mineral_Lv2");
             content = new ContentData("Mineral_Lv2");
-            content.SetName("철 광맥", "유용한 물질을 얻을 수 있는 광맥을 설치합니다. 마나를 많이 소모 할 수록 더 단단하고 귀한 물질로 되어있어요." +
+            content.SetName("석탄 광맥", "유용한 물질을 얻을 수 있는 광맥을 설치합니다. 마나를 많이 소모 할 수록 더 단단하고 귀한 물질로 되어있어요." +
                 "\n적용 범위는 3 x 1 입니다.");
             content.SetCondition(150, 0, 2, Facility_Priority.Mineral);
-            content.sprite = Managers.Sprite.GetSprite_SLA("Iron");
+            content.sprite = Managers.Sprite.GetSprite_SLA("Coal");
             content.SetAction(() => SetBoundary(Define.Boundary_3x1, () => CreateAll<Mineral>("Mineral", (int)Mineral.MienralCategory.Coal)));
 
             Contents.Add(content);
@@ -207,10 +207,10 @@ public class ContentManager
         {
             ContentData content = new ContentData("Mineral_Lv2");
             content = new ContentData("Mineral_Lv2");
-            content.SetName("석탄 광맥", "유용한 물질을 얻을 수 있는 광맥을 설치합니다. 마나를 많이 소모 할 수록 더 단단하고 귀한 물질로 되어있어요." +
+            content.SetName("마나 철광맥", "유용한 물질을 얻을 수 있는 광맥을 설치합니다. 마나를 많이 소모 할 수록 더 단단하고 귀한 물질로 되어있어요." +
                 "\n적용 범위는 3 x 1 입니다.");
             content.SetCondition(200, 0, 2, Facility_Priority.Mineral);
-            content.sprite = Managers.Sprite.GetSprite_SLA("Coal");
+            content.sprite = Managers.Sprite.GetSprite_SLA("Iron");
             content.SetAction(() => SetBoundary(Define.Boundary_3x1, () => CreateAll<Mineral>("Mineral", (int)Mineral.MienralCategory.Iron)));
 
             Contents.Add(content);

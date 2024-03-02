@@ -72,7 +72,7 @@ public class Herb : Facility
                 }
                 Name = "고급 약초";
                 Detail_KR = "꽤 귀한 약초입니다. 고급 포션의 재료로 사용된다고 하네요.";
-                durationTime = 4;
+                durationTime = 3;
                 ap_value = 1;
                 mp_value = 35;
                 hp_value = 0;

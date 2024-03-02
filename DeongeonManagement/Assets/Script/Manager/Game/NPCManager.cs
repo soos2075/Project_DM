@@ -254,16 +254,20 @@ public class NPCManager
         Remove_NPC_List.Add(npc);
         npc.gameObject.SetActive(false);
 
-        TurnOverCheck();
+        GameManager.Instance.StartCoroutine(TurnOverCheck());
     }
 
 
 
 
-    void TurnOverCheck()
+    IEnumerator TurnOverCheck()
     {
+        yield return null;
+
         if (Instance_NPC_List.Count + Instance_EventNPC_List.Count == Remove_NPC_List.Count)
         {
+            yield return new WaitUntil(() => Managers.UI._popupStack.Count == 0); //? 진화창같은거 떠있으면 좀만 기둘려
+
             foreach (var item in Remove_NPC_List)
             {
                 Managers.Resource.Destroy(item.gameObject);
@@ -531,8 +535,8 @@ public class NPCManager
             npc.Rank = 2;
             npc.ATK = 16;
             npc.DEF = 4;
-            npc.AGI = 9;
-            npc.LUK = 9;
+            npc.AGI = 10;
+            npc.LUK = 10;
             npc.HP = 80;
             npc.HP_MAX = 80;
 
@@ -604,15 +608,15 @@ public class NPCManager
             npc.Detail = "가르치던 제자의 말을 듣고 던전을 조사하러온 과거 영웅 출신의 모험가";
 
             npc.Rank = 7;
-            npc.ATK = 40;
+            npc.ATK = 35;
             npc.DEF = 15;
             npc.AGI = 5;
             npc.LUK = 10;
             npc.HP = 120;
             npc.HP_MAX = 120;
 
-            npc.ActionPoint = 30;
-            npc.Mana = 300;
+            npc.ActionPoint = 100;
+            npc.Mana = 500;
             npc.Speed_Ground = 0.8f;
             npc.ActionDelay = 1.0f;
 

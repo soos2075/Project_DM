@@ -454,6 +454,12 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         }
 
         UI_EventBox.AddEventText($"◆{Name_KR} (이)가 던전에 입장");
+        if (GameManager.Technical.Donation != null)
+        {
+            Main.Instance.CurrentDay.AddGold(5);
+            Main.Instance.ShowDM(5, Main.TextType.gold, GameManager.Technical.Donation_Pos, 1);
+        }
+
         inDungeon = true;
         FloorNext();
     }
@@ -797,12 +803,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         }
 
 
-        //if (FloorLevel != 3)
-        //{
 
-        //}
-
-        if (PriorityList[0].Original == PlacementInfo.Place_Floor.Entrance.PlacementInfo.Place_Tile.Original)
+        if (PlacementInfo.Place_Floor.FloorIndex != 3 && PriorityList[0].Original == PlacementInfo.Place_Floor.Entrance.PlacementInfo.Place_Tile.Original)
         {
             return NPCState.Next;
         }

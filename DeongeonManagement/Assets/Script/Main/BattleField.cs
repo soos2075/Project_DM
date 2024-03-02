@@ -101,8 +101,8 @@ public class BattleField : MonoBehaviour
                     yield return new WaitForSeconds(0.5f);
                     Main.Instance.ShowDM(npc.Rank * 2, Main.TextType.exp, pos_Right.GetChild(0), 1);
 
-                    yield return new WaitForSeconds(0.5f);
-                    Main.Instance.ShowDM(npc.KillGold, Main.TextType.gold, pos_Right.GetChild(0), 1);
+                    //yield return new WaitForSeconds(0.5f);
+                    //Main.Instance.ShowDM(npc.KillGold, Main.TextType.gold, pos_Right.GetChild(0), 1);
 
                     yield return new WaitForSeconds(0.5f);
                     isOver = true;
@@ -308,7 +308,7 @@ public class BattleField : MonoBehaviour
             if (MonsterAttack()) return roundList;
             if (NPCAttack()) return roundList;
         }
-        if (agi > 0)
+        else if (agi > 0)
         {
             //? 플레이어 선공 / 2방때림
             if (NPCAttack()) return roundList;
@@ -316,8 +316,7 @@ public class BattleField : MonoBehaviour
             if (NPCAttack()) return roundList;
             if (MonsterAttack()) return roundList;
         }
-
-        if (agi < -5)
+        else if (agi < -5)
         {
             //? 몬스터 선공 / 3방때림
             if (MonsterAttack()) return roundList;
@@ -326,8 +325,7 @@ public class BattleField : MonoBehaviour
             if (NPCAttack()) return roundList;
             if (MonsterAttack()) return roundList;
         }
-
-        if (agi <= 0)
+        else if (agi <= 0)
         {
             //? 몬스터 선공 / 2방때림
             if (MonsterAttack()) return roundList;

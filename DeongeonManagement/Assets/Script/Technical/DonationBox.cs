@@ -7,13 +7,13 @@ public class DonationBox : Technical
 {
     public override void Init()
     {
-        //Date = Main.Instance.Turn;
         Cycle = 1;
 
-        action = (turn) => MainEvent(turn);
-        AddTurnEvent(action, DayType.Night);
+        //action = (turn) => MainEvent(turn);
+        //AddTurnEvent(action, DayType.Night);
 
-        //FindObjectOfType<UI_Technical>().CurrentTechnical = this;
+        var pos = Managers.Resource.Instantiate($"Technical/DonationBox_Entrance");
+        GameManager.Technical.Donation_Pos = pos.transform;
     }
 
 
@@ -25,22 +25,16 @@ public class DonationBox : Technical
 
     public override void RemoveTechnical()
     {
-        RemoveTurnEvent(action, DayType.Night);
-        //Debug.Log("입구에 코인박스도 삭제해야함");
-        Destroy(GameObject.Find("DonationBox_Entrance"));
+        //RemoveTurnEvent(action, DayType.Night);
+        GameManager.Technical.Donation = null;
+        Destroy(GameManager.Technical.Donation_Pos.gameObject);
+        GameManager.Technical.Donation_Pos = null;
     }
     protected override void MainEvent(int turn)
     {
-        GetGold();
+
     }
 
-    void GetGold()
-    {
-        int people = GameManager.NPC.Instance_NPC_List.Count;
-
-        Main.Instance.CurrentDay.AddGold(people * 5);
-        Debug.Log($"입장료 획득 : {people * 5}");
-    }
 
 
 
