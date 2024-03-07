@@ -8,14 +8,77 @@ public class MonsterManager
 {
     public void Init()
     {
-        Monsters = new Monster[7];
-
+        Init_SO();
         Init_SLA();
-        Init_Data();
-        Init_Data_Evolution();
+        Init_MonsterSlot();
 
         Managers.Scene.BeforeSceneChangeAction = () => StopAllMoving();
     }
+
+    #region SO_Data
+    SO_Monster[] so_data;
+
+    void Init_SO()
+    {
+        so_data = Resources.LoadAll<SO_Monster>("Data/Monster");
+        foreach (var item in so_data)
+        {
+            string[] datas = null;
+            switch (UserData.Instance.Language)
+            {
+                case Define.Language.EN:
+                    Managers.Data.ObjectsLabel_EN.TryGetValue(item.id, out datas);
+                    break;
+
+                case Define.Language.KR:
+                    Managers.Data.ObjectsLabel_KR.TryGetValue(item.id, out datas);
+                    break;
+            }
+
+            if (datas == null)
+            {
+                Debug.Log($"{item.id} : CSV Data Not Exist");
+                continue;
+            }
+
+            item.labelName = datas[0];
+            item.detail = datas[1];
+            item.evolutionHint = datas[2];
+            item.evolutionDetail = datas[3];
+        }
+    }
+
+    public List<SO_Monster> GetSummonList(int _DungeonRank = 1)
+    {
+        List<SO_Monster> list = new List<SO_Monster>();
+
+        foreach (var item in so_data)
+        {
+            if (item.unlockRank <= _DungeonRank)
+            {
+                list.Add(item);
+            }
+        }
+
+        list.Sort((a, b) => a.id.CompareTo(b.id));
+        return list;
+    }
+
+
+    public SO_Monster GetData(string _keyName)
+    {
+        foreach (var item in so_data)
+        {
+            if (item.keyName == _keyName)
+            {
+                return item;
+            }
+        }
+        Debug.Log($"{_keyName}: Data Not Exist");
+        return null;
+    }
+    #endregion
+
 
 
     void StopAllMoving()
@@ -65,7 +128,6 @@ public class MonsterManager
     }
 
 
-
     public void MonsterTurnStartEvent()
     {
         foreach (var monster in Monsters)
@@ -79,11 +141,8 @@ public class MonsterManager
 
 
 
-
-
-
     #region 실제 인스턴트
-    public Monster[] Monsters { get; set; }
+    public Monster[] Monsters;
     public int TrainingCount { get; set; } = 2;
 
 
@@ -125,332 +184,14 @@ public class MonsterManager
     }
 
 
-    #endregion
-
-    #region 소환 데이터
-    public List<MonsterData> MonsterDatas { get; } = new List<MonsterData>();
-
-    public MonsterData GetMonsterData(string monsterName)
+    public void Resize_MonsterSlot()
     {
-        foreach (var item in MonsterDatas)
-        {
-            if (item.Name_Dict == monsterName)
-            {
-                return item;
-            }
-        }
-        Debug.Log($"{monsterName} 데이터를 찾지 못함");
-        return null;
+        Array.Resize(ref Monsters, 6 + Main.Instance.DungeonRank);
     }
 
-    void Init_Data()
+    void Init_MonsterSlot()
     {
-        {
-            MonsterData monster = new MonsterData();
-            monster.Name_KR = "슬라임";
-            monster.Name_Dict = "Slime";
-            monster.prefabPath = "Monster/Slime";
-            monster.detail = "자세히 보면 의외로 귀여운 슬라임입니다. 약하긴 하지만 성장가능성이 높은 몬스터입니다.";
-            monster.sprite = Managers.Sprite.GetSprite("Monster/Slime");
-
-            monster.Evolution_Hint = "진화 힌트 : 최대 레벨을 찍고 길드게시판을 확인";
-            monster.Evolution_Detail = "슬라임 헌터 처치";
-
-            monster.ManaCost = 120;
-
-            monster.LV = 1;
-            monster.MAXLV = 25;
-            monster.HP = 55;
-            monster.ATK = 5;
-            monster.DEF = 5;
-            monster.AGI = 2;
-            monster.LUK = 4;
-
-            monster.HP_chance= 1.6f;
-            monster.ATK_chance = 0.4f;
-            monster.DEF_chance = 0.3f;
-            monster.AGI_chance = 0.1f;
-            monster.LUK_chance = 0.15f;
-
-            monster.Battle_AP = 1;
-            monster.Battle_Interval = 3;
-
-            MonsterDatas.Add(monster);
-        }
-
-        {
-            MonsterData monster = new MonsterData();
-            monster.Name_KR = "어스골렘";
-            monster.Name_Dict = "EarthGolem";
-            monster.prefabPath = "Monster/EarthGolem";
-            monster.detail = "던전에 마나를 융합해 창조해낸 골렘입니다. 튼튼하고 강해서 모험가들을 상대로 제격이에요. 하지만 조금 한계가 있을지도?";
-            monster.sprite = Managers.Sprite.GetSprite("Monster/EarthGolem");
-
-            monster.Evolution_Hint = "진화 힌트 : 최대 레벨을 찍고 길드게시판을 확인";
-            monster.Evolution_Detail = "원소술사 처치";
-
-            monster.ManaCost = 250;
-
-            monster.LV = 3;
-            monster.MAXLV = 18;
-            monster.HP = 75;
-            monster.ATK = 9;
-            monster.DEF = 4;
-            monster.AGI = 4;
-            monster.LUK = 4;
-
-            monster.HP_chance = 1.8f;
-            monster.ATK_chance = 0.75f;
-            monster.DEF_chance = 0.2f;
-            monster.AGI_chance = 0.1f;
-            monster.LUK_chance = 0.08f;
-
-            monster.Battle_AP = 1;
-            monster.Battle_Interval = 3;
-
-            MonsterDatas.Add(monster);
-        }
-
-
-    }
-
-    public void AddLevel_2()
-    {
-        {
-            MonsterData monster = new MonsterData();
-            monster.Name_KR = "머쉬보이";
-            monster.Name_Dict = "MushBoy";
-            monster.prefabPath = "Monster/MushBoy";
-            monster.detail = "어둡고 습한곳을 좋아하는 버섯몬스터입니다. 높은 공격력을 지녔어요.";
-            monster.sprite = Managers.Sprite.GetSprite("Monster/MushBoy");
-
-            monster.ManaCost = 350;
-
-            monster.LV = 1;
-            monster.MAXLV = 30;
-            monster.HP = 100;
-            monster.ATK = 24;
-            monster.DEF = 1;
-            monster.AGI = 2;
-            monster.LUK = 7;
-
-            monster.HP_chance = 2.4f;
-            monster.ATK_chance = 1.15f;
-            monster.DEF_chance = 0.1f;
-            monster.AGI_chance = 0.15f;
-            monster.LUK_chance = 0.2f;
-
-            monster.Battle_AP = 2;
-            monster.Battle_Interval = 2f;
-
-            MonsterDatas.Add(monster);
-        }
-
-        {
-            MonsterData monster = new MonsterData();
-            monster.Name_KR = "이블아이";
-            monster.Name_Dict = "EvilEye";
-            monster.prefabPath = "Monster/EvilEye";
-            monster.detail = "매력적인 눈을 지닌 몬스터에요. 생김새때문에 피부가 약할 것 같지만, 실은 엄청 단단하기 때문에 수비용으로 적절합니다.";
-            monster.sprite = Managers.Sprite.GetSprite("Monster/EvilEye");
-
-            monster.ManaCost = 425;
-
-            monster.LV = 5;
-            monster.MAXLV = 25;
-            monster.HP = 80;
-            monster.ATK = 8;
-            monster.DEF = 11;
-            monster.AGI = 6;
-            monster.LUK = 2;
-
-            monster.HP_chance = 1.8f;
-            monster.ATK_chance = 0.45f;
-            monster.DEF_chance = 0.6f;
-            monster.AGI_chance = 0.2f;
-            monster.LUK_chance = 0.05f;
-
-            monster.Battle_AP = 2;
-            monster.Battle_Interval = 2f;
-
-            MonsterDatas.Add(monster);
-        }
-
-        {
-            MonsterData monster = new MonsterData();
-            monster.Name_KR = "페어리";
-            monster.Name_Dict = "Fairy";
-            monster.prefabPath = "Monster/Fairy";
-            monster.detail = "순수한 마나의 결정체인 요정 몬스터입니다. 여러방면에서 좋은 밸런스를 가지고 있고, 잠재력도 높은 편입니다.";
-            monster.sprite = Managers.Sprite.GetSprite("Monster/Fairy");
-
-            monster.ManaCost = 600;
-
-            monster.LV = 1;
-            monster.MAXLV = 35;
-            monster.HP = 95;
-            monster.ATK = 13;
-            monster.DEF = 7;
-            monster.AGI = 6;
-            monster.LUK = 6;
-
-            monster.HP_chance = 2.2f;
-            monster.ATK_chance = 0.65f;
-            monster.DEF_chance = 0.4f;
-            monster.AGI_chance = 0.2f;
-            monster.LUK_chance = 0.25f;
-
-            monster.Battle_AP = 1;
-            monster.Battle_Interval = 3f;
-
-            MonsterDatas.Add(monster);
-        }
-    }
-
-    public void AddLevel_3()
-    {
-        {
-            MonsterData monster = new MonsterData();
-            monster.Name_KR = "살라만드라";
-            monster.Name_Dict = "Salamandra";
-            monster.prefabPath = "Monster/Salamandra";
-            monster.detail = "원시적인 형태를 지닌 몬스터입니다. 불을 내뿜어 적을 공격합니다. 종족 특성으로 적을 위압하여 빨리 지치게 만들어요.";
-            monster.sprite = Managers.Sprite.GetSprite("Monster/Salamandra");
-
-            monster.ManaCost = 980;
-
-            monster.LV = 1;
-            monster.MAXLV = 40;
-            monster.HP = 125;
-            monster.ATK = 12;
-            monster.DEF = 9;
-            monster.AGI = 4;
-            monster.LUK = 4;
-
-            monster.HP_chance = 3.2f;
-            monster.ATK_chance = 0.9f;
-            monster.DEF_chance = 0.4f;
-            monster.AGI_chance = 0.15f;
-            monster.LUK_chance = 0.15f;
-
-            monster.Battle_AP = 3;
-            monster.Battle_Interval = 1f;
-
-            MonsterDatas.Add(monster);
-        }
-
-        {
-            MonsterData monster = new MonsterData();
-            monster.Name_KR = "그레이하운드";
-            monster.Name_Dict = "GreyHound";
-            monster.prefabPath = "Monster/GreyHound";
-            monster.detail = "친근감이 느껴지는 늑대형 몬스터입니다. 매우 용맹하고 재빠른 몸놀림을 지녔어요.";
-            monster.sprite = Managers.Sprite.GetSprite("Monster/GreyHound");
-
-            monster.ManaCost = 750;
-
-            monster.LV = 10;
-            monster.MAXLV = 35;
-            monster.HP = 180;
-            monster.ATK = 17;
-            monster.DEF = 5;
-            monster.AGI = 9;
-            monster.LUK = 8;
-
-            monster.HP_chance = 2.4f;
-            monster.ATK_chance = 0.55f;
-            monster.DEF_chance = 0.35f;
-            monster.AGI_chance = 0.35f;
-            monster.LUK_chance = 0.15f;
-
-            monster.Battle_AP = 2;
-            monster.Battle_Interval = 2f;
-
-            MonsterDatas.Add(monster);
-        }
-    }
-
-
-
-    #endregion
-
-    #region 진화 데이터
-    public List<MonsterData> MonsterDatas_Evolution { get; } = new List<MonsterData>();
-
-    public MonsterData GetMonsterData_Evolution(string monsterName)
-    {
-        foreach (var item in MonsterDatas_Evolution)
-        {
-            if (item.Name_Dict == monsterName)
-            {
-                return item;
-            }
-        }
-        Debug.Log($"{monsterName} 데이터를 찾지 못함");
-        return null;
-    }
-
-    void Init_Data_Evolution()
-    {
-        {
-            MonsterData monster = new MonsterData();
-            monster.Name_Dict = "BloodySlime";
-            monster.prefabPath = "Monster/Slime";
-            monster.Name_KR = "블러디 슬라임";
-            monster.detail = "슬라임이 진화해서 블러디 슬라임이 되었습니다. 겉으로 보기엔 별로 달라진게 없어보여도 상당히 강력해졌습니다.";
-            monster.sprite = Managers.Sprite.GetSprite($"Monster/{monster.Name_Dict}");
-
-            monster.Evolution_Hint = "진화 완료";
-
-            monster.LV = 15;
-            monster.MAXLV = 59;
-            monster.HP = 95;
-            monster.ATK = 22;
-            monster.DEF = 10;
-            monster.AGI = 8;
-            monster.LUK = 10;
-
-            monster.HP_chance = 2.2f;
-            monster.ATK_chance = 0.7f;
-            monster.DEF_chance = 0.45f;
-            monster.AGI_chance = 0.25f;
-            monster.LUK_chance = 0.18f;
-
-            monster.Battle_AP = 2;
-            monster.Battle_Interval = 5;
-
-            MonsterDatas_Evolution.Add(monster);
-        }
-
-        {
-            MonsterData monster = new MonsterData();
-            monster.Name_Dict = "FlameGolem";
-            monster.prefabPath = "Monster/EarthGolem";
-            monster.Name_KR = "플레임골렘";
-            monster.detail = "어스골렘이 성장해 플레임골렘으로 진화했습니다. 더 튼튼하고 더 강해졌습니다.";
-            monster.sprite = Managers.Sprite.GetSprite($"Monster/{monster.Name_Dict}");
-
-            monster.Evolution_Hint = "진화 완료";
-
-            monster.LV = 10;
-            monster.MAXLV = 39;
-            monster.HP = 100;
-            monster.ATK = 20;
-            monster.DEF = 8;
-            monster.AGI = 7;
-            monster.LUK = 7;
-
-            monster.HP_chance = 1.3f;
-            monster.ATK_chance = 1.15f;
-            monster.DEF_chance = 0.3f;
-            monster.AGI_chance = 0.2f;
-            monster.LUK_chance = 0.16f;
-
-            monster.Battle_AP = 2;
-            monster.Battle_Interval = 5;
-
-            MonsterDatas_Evolution.Add(monster);
-        }
+        Monsters = new Monster[6 + Main.Instance.DungeonRank];
     }
 
     #endregion
@@ -549,48 +290,6 @@ public class MonsterStatusTemporary
 
         times = 1;
     }
-}
-
-public class MonsterData
-{
-    public int ManaCost { get; set; }
-    public string Name_KR { get; set; }
-    public string Name_Dict { get; set; }
-
-
-    public string Evolution_Hint { get; set; }
-    public string Evolution_Detail { get; set; }
-
-
-
-    public int LV { get; set; }
-    public int MAXLV { get; set; }
-
-    public int HP { get; set; }
-
-    public int ATK { get; set; }
-    public int DEF { get; set; }
-    public int AGI { get; set; }
-    public int LUK { get; set; }
-
-
-    public float HP_chance { get; set; }
-    public float ATK_chance { get; set; }
-    public float DEF_chance { get; set; }
-    public float AGI_chance { get; set; }
-    public float LUK_chance { get; set; }
-
-
-    public int Battle_AP { get; set; }
-    public float Battle_Interval { get; set; }
-
-
-
-    public string prefabPath;
-
-    public string detail;
-    public Sprite sprite;
-
 }
 
 [System.Serializable]

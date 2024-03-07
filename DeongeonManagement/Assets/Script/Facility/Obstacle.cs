@@ -4,18 +4,9 @@ using UnityEngine;
 
 public class Obstacle : Facility
 {
-    public override FacilityEventType Type { get; set; }
-    public override int InteractionOfTimes { get; set; }
-    public override string Name { get; set; }
-
-    public override void FacilityInit()
+    public override void Init_Personal()
     {
-        Type = FacilityEventType.Non_Interaction;
-        Name_prefab = name;
-        InteractionOfTimes = 10000;
 
-        Name = "";
-        Detail_KR = "";
     }
     public override void Init_FacilityEgo()
     {

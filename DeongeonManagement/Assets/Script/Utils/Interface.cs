@@ -22,7 +22,7 @@ public interface IPlacementable
     PlacementType PlacementType { get; set; }
     PlacementState PlacementState { get; set; }
 
-    string Name_KR { get; }
+    string Name_Color { get; }
     string Detail_KR { get; }
 
     //? 게임오브젝트로 가져오기

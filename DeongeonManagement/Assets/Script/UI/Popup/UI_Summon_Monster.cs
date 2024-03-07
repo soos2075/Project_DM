@@ -77,13 +77,24 @@ public class UI_Summon_Monster : UI_PopUp
     {
         var pos = GetComponentInChildren<ContentSizeFitter>().transform;
 
-        for (int i = 0; i < GameManager.Monster.MonsterDatas.Count; i++)
+        //for (int i = 0; i < GameManager.Monster.MonsterDatas.Count; i++)
+        //{
+        //    var content = Managers.Resource.Instantiate("UI/PopUp/Monster/Monster_Content", pos).GetComponent<UI_Monster_Content>();
+        //    content.Content = GameManager.Monster.MonsterDatas[i];
+        //    content.Parent = this;
+
+        //    //content.gameObject.name = Managers.Monster.MonsterDatas[i].Name;
+        //    childList.Add(content);
+        //}
+
+
+        var list = GameManager.Monster.GetSummonList(Main.Instance.DungeonRank);
+        for (int i = 0; i < list.Count; i++)
         {
             var content = Managers.Resource.Instantiate("UI/PopUp/Monster/Monster_Content", pos).GetComponent<UI_Monster_Content>();
-            content.Content = GameManager.Monster.MonsterDatas[i];
+            content.Content = list[i];
             content.Parent = this;
 
-            //content.gameObject.name = Managers.Monster.MonsterDatas[i].Name;
             childList.Add(content);
         }
     }
@@ -128,10 +139,10 @@ public class UI_Summon_Monster : UI_PopUp
 
 
 
-    public MonsterData Current { get; set; }
+    public SO_Monster Current { get; set; }
     List<UI_Monster_Content> childList = new List<UI_Monster_Content>();
 
-    public void SelectContent(MonsterData content)
+    public void SelectContent(SO_Monster content)
     {
         Current = content;
         for (int i = 0; i < childList.Count; i++)
@@ -139,14 +150,14 @@ public class UI_Summon_Monster : UI_PopUp
             childList[i].ChangePanelColor(Color.clear);
         }
         PreviewRefresh(content);
-        Set_NeedTexts(content.ManaCost, 0, 0);
+        Set_NeedTexts(content.manaCost, 0, 0);
     }
 
 
-    void PreviewRefresh(MonsterData content)
+    void PreviewRefresh(SO_Monster content)
     {
-        GetObject((int)Preview.Preview_Image).GetComponent<Image>().sprite = content.sprite;
-        GetObject((int)Preview.Preview_Text_Title).GetComponent<TextMeshProUGUI>().text = content.Name_KR;
+        GetObject((int)Preview.Preview_Image).GetComponent<Image>().sprite = Managers.Sprite.GetSprite(content.spritePath);
+        GetObject((int)Preview.Preview_Text_Title).GetComponent<TextMeshProUGUI>().text = content.labelName;
         GetObject((int)Preview.Preview_Text_Contents).GetComponent<TextMeshProUGUI>().text = content.detail;
 
 
@@ -156,11 +167,11 @@ public class UI_Summon_Monster : UI_PopUp
 
 
 
-    void MonsterSummon(MonsterData data)
+    void MonsterSummon(SO_Monster data)
     {
         if (GameManager.Monster.MaximumCheck())
         {
-            if (ConfirmCheck(data.ManaCost))
+            if (ConfirmCheck(data.manaCost))
             {
                 SummonConfirm(data);
             }
@@ -173,7 +184,7 @@ public class UI_Summon_Monster : UI_PopUp
     }
 
 
-    void SummonConfirm(MonsterData data)
+    void SummonConfirm(SO_Monster data)
     {
         var mon = GameManager.Placement.CreatePlacementObject(data.prefabPath, null, PlacementType.Monster) as Monster;
         mon.MonsterInit();
@@ -182,12 +193,12 @@ public class UI_Summon_Monster : UI_PopUp
         GameManager.Monster.AddMonster(mon);
 
         //Debug.Log($"{data.ManaCost}마나를 사용하여 {data.Name_KR}을 소환");
-        Main.Instance.CurrentDay.SubtractMana(data.ManaCost);
+        Main.Instance.CurrentDay.SubtractMana(data.manaCost);
 
         Init_Texts();
 
         var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-        msg.Message = $"{data.Name_KR} 소환 성공!";
+        msg.Message = $"{data.labelName} 소환 성공!";
     }
 
 

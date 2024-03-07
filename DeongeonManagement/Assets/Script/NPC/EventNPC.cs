@@ -105,7 +105,7 @@ public class EventNPC : NPC
         yield return null;
         yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
 
-        UI_EventBox.AddEventText($"◈{Name_KR} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 쓰러짐");
+        UI_EventBox.AddEventText($"◈{Name_Color} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 쓰러짐");
 
         switch (EventDay)
         {

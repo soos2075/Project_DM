@@ -70,8 +70,8 @@ public class UI_StatusUp : UI_PopUp
 
     void ShowDefault()
     {
-        GetImage(((int)Images.Profile)).sprite = monster.Data.sprite;
-        GetTMP(((int)Texts.Name)).text = monster.Data.Name_KR.SetTextColorTag(Define.TextColor.monster_green);
+        GetImage(((int)Images.Profile)).sprite = Managers.Sprite.GetSprite(monster.Data.spritePath);
+        GetTMP(((int)Texts.Name)).text = monster.Data.labelName.SetTextColorTag(Define.TextColor.monster_green);
     }
     void ShowUpStatus()
     {

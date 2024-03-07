@@ -4,17 +4,9 @@ using UnityEngine;
 
 public class Entrance : Facility
 {
-    public override FacilityEventType Type { get; set; }
-    public override int InteractionOfTimes { get; set; }
-    public override string Name { get; set; }
-
-    public override void FacilityInit()
+    public override void Init_Personal()
     {
-        InteractionOfTimes = 10000;
-        Type = FacilityEventType.NPC_Event;
-        Name = "입구";
-        Detail_KR = "지하로 향하는 출입구입니다.";
-        Name_prefab = this.GetType().Name;
+
     }
     public override void Init_FacilityEgo()
     {

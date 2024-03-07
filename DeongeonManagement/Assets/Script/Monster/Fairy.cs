@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Fairy : Monster
 {
-    public override MonsterData Data { get; set; }
+    public override SO_Monster Data { get; set; }
 
     public override void MonsterInit()
     {
-        Data = GameManager.Monster.GetMonsterData("Fairy");
+        Data = GameManager.Monster.GetData("Fairy");
     }
 
 

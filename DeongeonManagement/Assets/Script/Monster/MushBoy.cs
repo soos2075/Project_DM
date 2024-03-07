@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class MushBoy : Monster
 {
-    public override MonsterData Data { get; set; }
+    public override SO_Monster Data { get; set; }
 
     public override void MonsterInit()
     {
-        Data = GameManager.Monster.GetMonsterData("MushBoy");
+        Data = GameManager.Monster.GetData("MushBoy");
     }
 
 

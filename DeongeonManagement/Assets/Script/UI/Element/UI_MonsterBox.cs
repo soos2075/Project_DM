@@ -48,8 +48,8 @@ public class UI_MonsterBox : UI_Base
             return;
         }
 
-        GetObject(((int)Contents.Sprite)).GetComponent<Image>().sprite = monster.Data.sprite;
-        GetObject(((int)Contents.Name)).GetComponent<TextMeshProUGUI>().text = monster.Data.Name_KR;
+        GetObject(((int)Contents.Sprite)).GetComponent<Image>().sprite = Managers.Sprite.GetSprite(monster.Data.spritePath);
+        GetObject(((int)Contents.Name)).GetComponent<TextMeshProUGUI>().text = monster.Data.labelName;
         switch (monster.State)
         {
             case Monster.MonsterState.Standby:

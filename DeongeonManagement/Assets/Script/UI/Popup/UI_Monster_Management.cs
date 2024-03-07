@@ -206,17 +206,17 @@ public class UI_Monster_Management : UI_PopUp
 
         GetImage(((int)Panels.ProfilePanel)).gameObject.SetActive(true);
 
-        GetTMP(((int)Texts.Lv)).text = $"Lv.{Current.monster.LV} / {Current.monster.Data.MAXLV}";
-        GetTMP(((int)Texts.Name)).text = Current.monster.Name_KR;
+        GetTMP(((int)Texts.Lv)).text = $"Lv.{Current.monster.LV} / {Current.monster.Data.maxLv}";
+        GetTMP(((int)Texts.Name)).text = Current.monster.Name_Color;
 
         GetTMP(((int)Texts.Status)).text = $"HP : {Current.monster.HP} / {Current.monster.HP_Max}\n";
         GetTMP(((int)Texts.Status)).text += $"ATK : {Current.monster.ATK} \tDEF : {Current.monster.DEF} \n" +
             $"AGI : {Current.monster.AGI} \tLUK : {Current.monster.LUK}";
 
 
-        GetTMP(((int)Texts.State)).text = $"{Current.monster.Data.Evolution_Hint}";
+        GetTMP(((int)Texts.State)).text = $"{Current.monster.Data.evolutionHint}";
 
-        GetObject(((int)Etc.Profile)).GetComponent<Image>().sprite = Current.monster.Data.sprite;
+        GetObject(((int)Etc.Profile)).GetComponent<Image>().sprite = Managers.Sprite.GetSprite(Current.monster.Data.spritePath);
     }
 
     #endregion
@@ -344,7 +344,7 @@ public class UI_Monster_Management : UI_PopUp
                 GetButton(((int)Buttons.Release)).gameObject.
                     AddUIEvent((data) => GameManager.Monster.ReleaseMonster(Current.monster.MonsterID));
 
-                int RecoverCost = (int)(((Current.monster.LV * 0.15f) + 0.15f) * Current.monster.Data.ManaCost);
+                int RecoverCost = (int)(((Current.monster.LV * 0.15f) + 0.15f) * Current.monster.Data.manaCost);
                 GetButton(((int)Buttons.Recover)).gameObject.
                     AddUIEvent((data) => Current.monster.Recover(RecoverCost));
                 GetButton(((int)Buttons.Recover)).GetComponentInChildren<TextMeshProUGUI>().text = $"회복({RecoverCost})";
@@ -458,7 +458,7 @@ public class UI_Monster_Management : UI_PopUp
 
     void CreateOver()
     {
-        Debug.Log($"{Current.monster.Name_KR}(이)가 {Main.Instance.CurrentTile.floor.Name_KR}에 배치되었습니다");
+        Debug.Log($"{Current.monster.Name_Color}(이)가 {Main.Instance.CurrentTile.floor.Name_KR}에 배치되었습니다");
         ResetAction();
     }
     void ResetAction()

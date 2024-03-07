@@ -11,7 +11,9 @@ public class UI_Monster_Content : UI_Base
         Init();
     }
 
-    public MonsterData Content { get; set; }
+
+    public SO_Monster Content { get; set; }
+    //public MonsterData Content { get; set; }
     public UI_Summon_Monster Parent;
     enum Texts
     {
@@ -41,15 +43,17 @@ public class UI_Monster_Content : UI_Base
 
     public void TextUpdate()
     {
-        GetTMP((int)Texts.LV).text = $"{Content.LV}";
-        GetTMP((int)Texts.MANA).text = $"{Content.ManaCost}";
-        GetTMP((int)Texts.NAME).text = $"{Content.Name_KR}";
-        GetTMP((int)Texts.HP).text = $"{Content.HP}";
-        GetTMP((int)Texts.ATK).text = $"{Content.ATK}";
-        GetTMP((int)Texts.DEF).text = $"{Content.DEF}";
-        GetTMP((int)Texts.AGI).text = $"{Content.AGI}";
-        GetTMP((int)Texts.LUK).text = $"{Content.LUK}";
-        GetTMP((int)Texts.MAXLV).text = $"{Content.MAXLV}";
+        GetTMP((int)Texts.LV).text = $"{Content.startLv}";
+        GetTMP((int)Texts.MAXLV).text = $"{Content.maxLv}";
+        GetTMP((int)Texts.MANA).text = $"{Content.manaCost}";
+        
+        GetTMP((int)Texts.HP).text = $"{Content.hp}";
+        GetTMP((int)Texts.ATK).text = $"{Content.atk}";
+        GetTMP((int)Texts.DEF).text = $"{Content.def}";
+        GetTMP((int)Texts.AGI).text = $"{Content.agi}";
+        GetTMP((int)Texts.LUK).text = $"{Content.luk}";
+
+        GetTMP((int)Texts.NAME).text = $"{Content.labelName}";
     }
 
 

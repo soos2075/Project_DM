@@ -112,7 +112,7 @@ public class Adventurer : NPC
     }
     protected override void NPC_Captive()
     {
-        UI_EventBox.AddEventText($"¢Â{Name_KR} ¿¡°Ô º¸¼®±ÝÀ» ¶â¾î³¿");
+        UI_EventBox.AddEventText($"¢Â{Name_Color} ¿¡°Ô º¸¼®±ÝÀ» ¶â¾î³¿");
         Main.Instance.CurrentDay.AddPrisoner(1);
 
         Main.Instance.CurrentDay.AddGold(KillGold * 2);
@@ -134,7 +134,7 @@ public class Adventurer : NPC
             }
         }
 
-        UI_EventBox.AddEventText($"¢Â{Name_KR} (ÀÌ)°¡ ¾²·¯Áü");
+        UI_EventBox.AddEventText($"¢Â{Name_Color} (ÀÌ)°¡ ¾²·¯Áü");
         Main.Instance.CurrentDay.AddKill(1);
         Main.Instance.CurrentDay.AddGold(KillGold);
         Main.Instance.ShowDM(KillGold, Main.TextType.gold, transform);

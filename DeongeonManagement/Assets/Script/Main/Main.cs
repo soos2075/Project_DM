@@ -32,7 +32,31 @@ public class Main : MonoBehaviour
     //}
     #region TextMesh
     Transform guild;
+    public Transform Guild
+    {
+        get
+        {
+            if (guild == null)
+            {
+                guild = transform.GetChild(0);
+            }
+            return guild;
+        }
+        set { guild = value; }
+    }
     Transform dungeon;
+    public Transform Dungeon
+    {
+        get
+        {
+            if (dungeon == null)
+            {
+                dungeon = transform.GetChild(1);
+            }
+            return dungeon;
+        }
+        set { dungeon = value; }
+    }
 
     public DamageNumber dm_large; // 1
     public DamageNumber dm_small; // 0
@@ -89,13 +113,10 @@ public class Main : MonoBehaviour
 
     void Start()
     {
-        guild = transform.GetChild(0);
-        dungeon = transform.GetChild(1);
-
         //Debug.Log("µð¹ö±×¿ë Start");
         //NewGame_Init();
         //Default_Init();
-        //Test_Init();
+        Test_Init();
     }
     [Obsolete]
     public void Test_Init()
@@ -162,7 +183,6 @@ public class Main : MonoBehaviour
         Init_BasementFloor();
         Init_Animation();
         UI_Main.Start_Main();
-        EventManager.Instance.Enter_ManagementScene();
 
         _DefaultSetting = true;
     }
@@ -256,25 +276,19 @@ public class Main : MonoBehaviour
         {
             BasementTile tile = Floor[0].GetRandomTile();
             var info = new PlacementInfo(Floor[0], tile);
-            var obj = GameManager.Facility.CreateFacility("Herb", info);
-            var herb = obj as Herb;
-            herb.OptionIndex = (int)Herb.HerbType.Low;
+            var obj = GameManager.Facility.CreateFacility("Herb_Low", info);
         }
         for (int k = 0; k < 2; k++)
         {
             BasementTile tile = Floor[1].GetRandomTile();
             var info = new PlacementInfo(Floor[1], tile);
-            var obj = GameManager.Facility.CreateFacility("Herb", info);
-            var herb = obj as Herb;
-            herb.OptionIndex = (int)Herb.HerbType.High;
+            var obj = GameManager.Facility.CreateFacility("Herb_High", info);
         }
         for (int k = 0; k < 5; k++)
         {
             BasementTile tile = Floor[2].GetRandomTile();
             var info = new PlacementInfo(Floor[2], tile);
-            var facil = GameManager.Facility.CreateFacility("Mineral", info);
-            var mineral = facil as Mineral;
-            mineral.OptionIndex = (int)Mineral.MienralCategory.Rock;
+            var facil = GameManager.Facility.CreateFacility("Mineral_Rock", info);
         }
     }
 
@@ -285,7 +299,7 @@ public class Main : MonoBehaviour
             Main.Instance.Floor[3].TileMap.TryGetValue(new Vector2Int(12, 3), out tile);
             PlacementInfo info = new PlacementInfo(Main.Instance.Floor[3], tile);
 
-            var obj = GameManager.Facility.CreateFacility_OnlyOne("Obstacle", info, true);
+            var obj = GameManager.Facility.CreateFacility_OnlyOne("Obstacle", info);
         }
 
         {
@@ -293,7 +307,7 @@ public class Main : MonoBehaviour
             Main.Instance.Floor[2].TileMap.TryGetValue(new Vector2Int(0, 0), out tile);
             PlacementInfo info = new PlacementInfo(Main.Instance.Floor[2], tile);
 
-            var obj = GameManager.Facility.CreateFacility_OnlyOne("Obstacle", info, true);
+            var obj = GameManager.Facility.CreateFacility_OnlyOne("Obstacle", info);
         }
     }
 
@@ -304,25 +318,25 @@ public class Main : MonoBehaviour
             BasementTile tile = null;
             Floor[3].TileMap.TryGetValue(new Vector2Int(7, 0), out tile);
             PlacementInfo info = new PlacementInfo(Floor[3], tile);
-            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, (int)Statue.StatueType.Mana);
+            var obj = GameManager.Facility.CreateFacility($"Statue_Mana", info);
         }
         {
             BasementTile tile = null;
             Floor[3].TileMap.TryGetValue(new Vector2Int(7, 1), out tile);
             PlacementInfo info = new PlacementInfo(Floor[3], tile);
-            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, (int)Statue.StatueType.Mana);
+            var obj = GameManager.Facility.CreateFacility($"Statue_Mana", info);
         }
         {
             BasementTile tile = null;
             Floor[3].TileMap.TryGetValue(new Vector2Int(8, 0), out tile);
             PlacementInfo info = new PlacementInfo(Floor[3], tile);
-            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, (int)Statue.StatueType.Mana);
+            var obj = GameManager.Facility.CreateFacility($"Statue_Mana", info);
         }
         {
             BasementTile tile = null;
             Floor[3].TileMap.TryGetValue(new Vector2Int(8, 1), out tile);
             PlacementInfo info = new PlacementInfo(Floor[3], tile);
-            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, (int)Statue.StatueType.Mana);
+            var obj = GameManager.Facility.CreateFacility($"Statue_Mana", info);
         }
 
         //? °ñµå ½ºÅÂÃò
@@ -330,25 +344,25 @@ public class Main : MonoBehaviour
             BasementTile tile = null;
             Floor[3].TileMap.TryGetValue(new Vector2Int(7, 4), out tile);
             PlacementInfo info = new PlacementInfo(Floor[3], tile);
-            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, (int)Statue.StatueType.Gold);
+            var obj = GameManager.Facility.CreateFacility($"Statue_Gold", info);
         }
         {
             BasementTile tile = null;
             Floor[3].TileMap.TryGetValue(new Vector2Int(7, 5), out tile);
             PlacementInfo info = new PlacementInfo(Floor[3], tile);
-            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, (int)Statue.StatueType.Gold);
+            var obj = GameManager.Facility.CreateFacility($"Statue_Gold", info);
         }
         {
             BasementTile tile = null;
             Floor[3].TileMap.TryGetValue(new Vector2Int(8, 4), out tile);
             PlacementInfo info = new PlacementInfo(Floor[3], tile);
-            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, (int)Statue.StatueType.Gold);
+            var obj = GameManager.Facility.CreateFacility($"Statue_Gold", info);
         }
         {
             BasementTile tile = null;
             Floor[3].TileMap.TryGetValue(new Vector2Int(8, 5), out tile);
             PlacementInfo info = new PlacementInfo(Floor[3], tile);
-            var obj = GameManager.Facility.CreateFacility($"Statue_Avatar", info, (int)Statue.StatueType.Gold);
+            var obj = GameManager.Facility.CreateFacility($"Statue_Gold", info);
         }
 
     }

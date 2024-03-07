@@ -4,21 +4,13 @@ using UnityEngine;
 
 public class Player : Monster
 {
-    public override MonsterData Data { get; set; }
-
-    public override string Detail_KR { get { return detail; } }
-    private string detail;
+    public override SO_Monster Data { get; set; }
     public override void MonsterInit()
     {
         PlacementType = PlacementType.Monster;
 
-        Name = "초보자 던전 마스터";
-        detail = "모험레벨은 적어도 던전 지식은 상당한 편이에요.";
-
-        Data = new MonsterData();
-        Data.Battle_AP = 2;
-        Data.Battle_Interval = 0;
-}
+        Data = GameManager.Monster.GetData("Player_lv1");
+    }
 
     public override void TurnStart()
     {
@@ -37,37 +29,15 @@ public class Player : Monster
         switch (dungeonLV)
         {
             case 1:
-                LV = 1;
-                HP = 50;
-                HP_Max = 50;
-
-                ATK = 12;
-                DEF = 8;
-                AGI = 8;
-                LUK = 8;
+                Data = GameManager.Monster.GetData("Player_lv1");
                 break;
 
             case 2:
-                LV = 2;
-                HP = 100;
-                HP_Max = 100;
-
-                ATK = 18;
-                DEF = 10;
-                AGI = 10;
-                LUK = 10;
+                Data = GameManager.Monster.GetData("Player_lv2");
                 break;
 
-
             case 3:
-                LV = 3;
-                HP = 150;
-                HP_Max = 150;
-
-                ATK = 24;
-                DEF = 12;
-                AGI = 12;
-                LUK = 12;
+                Data = GameManager.Monster.GetData("Player_lv3");
                 break;
         }
     }

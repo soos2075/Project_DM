@@ -11,9 +11,59 @@ public class DataManager
 
     public void Init()
     {
-        SaveFileList = new Dictionary<string, SaveData>();
         Scan_File();
+        Init_Object_CSV();
     }
+
+
+    #region CSV Data Parsing
+    public Dictionary<int, string[]> ObjectsLabel_KR = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> ObjectsLabel_EN = new Dictionary<int, string[]>();
+
+    void Init_Object_CSV()
+    {
+        CSV_File_Parsing("Object/Object_KR", ObjectsLabel_KR);
+        CSV_File_Parsing("Object/Object_EN", ObjectsLabel_EN);
+    }
+
+
+
+
+    // 0 x / 1 : id / 2 : Label / 3 : Detail / 4 : Option1 / 5 : Option2 / 6: Option3
+    void CSV_File_Parsing(string _filePath, Dictionary<int, string[]> _dict) 
+    {
+        var obj_kr = FileOperation(FileMode.Open, $"{Application.dataPath}/Data/{_filePath}.csv");
+        var spl_n = obj_kr.Split('\n');
+        
+        for (int i = 1; i < spl_n.Length; i++)
+        {
+            var spl_comma = spl_n[i].Split(',');
+
+            if (spl_comma.Length < 2 || string.IsNullOrEmpty(spl_comma[1]))
+            {
+                continue;
+            }
+
+            string[] datas = new string[] { spl_comma[2], spl_comma[3], spl_comma[4], spl_comma[5], spl_comma[6] };
+
+
+            for (int k = 0; k < datas.Length; k++)
+            {
+                if (datas[k].Contains('\\'))
+                {
+                    var split = datas[k].Split('\\');
+                    datas[k] = string.Join("\n", split);
+                }
+            }
+
+            _dict.Add(int.Parse(spl_comma[1]), datas);
+        }
+    }
+
+
+
+
+    #endregion
 
 
 
@@ -79,14 +129,9 @@ public class DataManager
     #endregion
 
 
-
-
-
-
-
     #region SaveLoad
 
-    Dictionary<string, SaveData> SaveFileList;
+    Dictionary<string, SaveData> SaveFileList = new Dictionary<string, SaveData>();
 
 
     void Scan_File()
@@ -282,6 +327,13 @@ public class DataManager
         EventManager.Instance.Load_QuestEvent(loadData.currentQuestList);
     }
 
+    #endregion
+
+
+
+
+    #region FileOperation
+
 
     //? dataPath = Asset폴더 /// persistentDataPath = C:\Users\USER\AppData\LocalLow\SeonghyunKim\DefenseGame_alpha
     //? 안드로이드에선 또 달라짐. 하여튼 접근가능한경로는 persistentDataPath를 써야함
@@ -337,7 +389,5 @@ public class DataManager
     }
 
 
-
     #endregion
-
 }

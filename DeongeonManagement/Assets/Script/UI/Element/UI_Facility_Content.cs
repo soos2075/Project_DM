@@ -11,7 +11,7 @@ public class UI_Facility_Content : UI_Base
         Init();
     }
 
-    public ContentData Content { get; set; }
+    public SO_Contents Content { get; set; }
     public UI_Placement_Facility Parent { get; set; }
 
 
@@ -32,7 +32,7 @@ public class UI_Facility_Content : UI_Base
 
         AddUIEvent_ContentsImage();
 
-        TextUpdate(Content.name_Placement, Content.need_Mana, Content.need_Gold, Content.need_LV);
+        TextUpdate(Content.labelName, Content.Mana, Content.Gold, Content.UnlockRank);
     }
 
 

@@ -17,7 +17,7 @@ public abstract class Technical : MonoBehaviour
     }
 
 
-    public TechnicalData Data { get; set; }
+    public SO_Technical Data { get; set; }
 
     public abstract int InstanceDate { get; set; }
     public abstract int Cycle { get; set; }

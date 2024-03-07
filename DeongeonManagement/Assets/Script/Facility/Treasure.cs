@@ -5,103 +5,29 @@ using UnityEngine.U2D.Animation;
 
 public class Treasure : Facility
 {
-    public override FacilityEventType Type { get; set; }
-    public override int InteractionOfTimes { get; set; }
-    public override string Name { get; set; }
-    public override int OptionIndex { get { return ((int)treasureType); } set { treasureType = (TreasureCategory)value; } }
-
-    public enum TreasureCategory
+    public override void Init_Personal()
     {
-        Sword,
-        Ring,
-        Hat,
-        Scroll,
-        Coin,
-        Crown,
-
-    }
-    public TreasureCategory treasureType;
-
-    float durationTime;
-    int ap_value;
-    int mp_value;
-    int gold_value;
-    int hp_value;
-    int pop_value;
-    int danger_value;
-
-
-    public override void FacilityInit()
-    {
-        Type = FacilityEventType.NPC_Interaction;
-        Name_prefab = name;
-        InteractionOfTimes = 1;
-        durationTime = 5;
-        ap_value = 3;
-        mp_value = 60;
-        gold_value = 0;
-        hp_value = 0;
-        pop_value = 2;
-        danger_value = 0;
+        treasureType = (TreasureCategory)OptionIndex;
 
         CategorySelect();
     }
+
+    public enum TreasureCategory
+    {
+        Sword = 2200,
+        Ring = 2201,
+        Hat = 2202,
+        Scroll = 2203,
+        Coin = 2204,
+        Crown = 2205,
+
+    }
+    public TreasureCategory treasureType;
 
     void CategorySelect()
     {
         var SLA = GetComponentInChildren<SpriteResolver>();
         SLA.SetCategoryAndLabel(treasureType.ToString(), "Entry");
-
-        switch (treasureType)
-        {
-            case TreasureCategory.Sword:
-                Name = "골든 소드";
-                Detail_KR = "모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.";
-                ap_value = 3;
-                mp_value = 60;
-                pop_value = 2;
-                break;
-
-            case TreasureCategory.Ring:
-                Name = "매직 링";
-                Detail_KR = "모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.";
-                ap_value = 5;
-                mp_value = 100;
-                pop_value = 8;
-                break;
-
-            case TreasureCategory.Hat:
-                Name = "마법사의 모자";
-                Detail_KR = "모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.";
-                ap_value = 5;
-                mp_value = 200;
-                pop_value = 5;
-                break;
-
-            case TreasureCategory.Scroll:
-                Name = "마법 스크롤";
-                Detail_KR = "모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.";
-                ap_value = 5;
-                mp_value = 200;
-                pop_value = 10;
-                danger_value = 5;
-                break;
-
-            case TreasureCategory.Coin:
-                Name = "던전 금화";
-                Detail_KR = "모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.";
-                ap_value = 2;
-                mp_value = 150;
-                break;
-
-            case TreasureCategory.Crown:
-                Name = "황금 왕관";
-                Detail_KR = "모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.";
-                ap_value = 7;
-                mp_value = 300;
-                pop_value = 5;
-                break;
-        }
     }
 
 
@@ -124,7 +50,7 @@ public class Treasure : Facility
 
     protected IEnumerator TreasureEvent(NPC npc)
     {
-        UI_EventBox.AddEventText($"●{npc.Name_KR} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 {"보물 탐색중..."}");
+        UI_EventBox.AddEventText($"●{npc.Name_Color} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 {"보물 탐색중..."}");
         PlacementState = PlacementState.Busy;
 
         bool isLastInteraction = false;

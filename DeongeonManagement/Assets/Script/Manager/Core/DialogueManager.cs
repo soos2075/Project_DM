@@ -12,7 +12,7 @@ public class DialogueManager
 
     public void Init()
     {
-        so_DataAll = Resources.LoadAll<SO_DialogueData>("Data");
+        so_DataAll = Resources.LoadAll<SO_DialogueData>("Data/Dialogue");
 
         CurrentTextSpeed = UserData.Instance.GetDataInt(PrefsKey.TextSpeed, 5);
     }

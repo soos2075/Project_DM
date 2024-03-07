@@ -8,8 +8,8 @@ public class Define
 
     public enum Language
     {
-        Eng = 0,
-        Kor = 1,
+        EN = 0,
+        KR = 1,
 
     }
 
@@ -163,6 +163,38 @@ public class Define
 
 
     #region Boundary
+
+    public enum Boundary
+    {
+        Boundary_1x1,
+        Boundary_1x2,
+        Boundary_1x3,
+
+        Boundary_2x1,
+        Boundary_2x2,
+        Boundary_2x3,
+
+        Boundary_3x1,
+        Boundary_3x2,
+        Boundary_3x3,
+
+        Boundary_5x5,
+
+        Boundary_Cross_1,
+        Boundary_Cross_2,
+        Boundary_Cross_3,
+
+        Boundary_X_1,
+
+        Boundary_Side_All,
+        Boundary_Side_X,
+
+        Boundary_Side_Cross,
+        Boundary_Side_Cross_2,
+    }
+
+
+
     //? 짝수의 경우 0,0기준 오른쪽/위쪽 우선함 
     public static readonly Vector2Int[] Boundary_1x1 = { new Vector2Int(0, 0) };
 

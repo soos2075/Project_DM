@@ -76,8 +76,12 @@ public class SpriteManager
             sprite = Resources.Load<Sprite>($"Sprite/Object/{path}");
             if (sprite == null)
             {
-                Debug.Log($"Sprite Not Exist : Sprite/{path}");
-                return clear;
+                sprite = GetSprite_SLA(path);
+                if (sprite == null)
+                {
+                    Debug.Log($"Sprite Not Exist : Sprite/{path}");
+                    return clear;
+                }
             }
         }
         spriteDict.Add(path, sprite);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -40,7 +41,7 @@ public class UI_Placement_Technical : UI_PopUp
 
 
     public UI_Technical parents { get; set; }
-    public TechnicalData Current { get; set; }
+    public SO_Technical Current { get; set; }
 
     List<UI_Technical_Content> childList;
 
@@ -124,18 +125,19 @@ public class UI_Placement_Technical : UI_PopUp
     {
         var pos = GetComponentInChildren<ContentSizeFitter>().transform;
 
-        for (int i = 0; i < GameManager.Technical.TechnicalDataList.Count; i++)
+        var techList = GameManager.Technical.GetTechnicalList(Main.Instance.DungeonRank);
+        for (int i = 0; i < techList.Count; i++)
         {
             var content = Managers.Resource.Instantiate("UI/PopUp/Technical/Technical_Content", pos).GetComponent<UI_Technical_Content>();
-            content.Content = GameManager.Technical.TechnicalDataList[i];
+            content.Content = techList[i];
             content.Parent = this;
 
-            content.gameObject.name = GameManager.Technical.TechnicalDataList[i].contentName;
+            content.gameObject.name = techList[i].keyName;
             childList.Add(content);
         }
     }
 
-    public void SelectContent(TechnicalData content)
+    public void SelectContent(SO_Technical content)
     {
         Current = content;
         for (int i = 0; i < childList.Count; i++)
@@ -143,22 +145,66 @@ public class UI_Placement_Technical : UI_PopUp
             childList[i].ChangePanelColor(Color.clear);
         }
         PreviewRefresh(content);
-        Set_NeedTexts(content.need_Mana, content.need_Gold, content.need_AP);
+        Set_NeedTexts(content.Mana, content.Gold, content.Ap);
     }
 
 
-    void PreviewRefresh(TechnicalData content)
+    void PreviewRefresh(SO_Technical content)
     {
-        GetObject((int)Preview.Preview_Image).GetComponent<Image>().sprite = content.sprite;
-        GetObject((int)Preview.Preview_Text_Title).GetComponent<TextMeshProUGUI>().text = content.name_Placement;
-        GetObject((int)Preview.Preview_Text_Contents).GetComponent<TextMeshProUGUI>().text = content.name_Detail;
+        GetObject((int)Preview.Preview_Image).GetComponent<Image>().sprite = Managers.Sprite.GetSprite(content.spritePath);
+        GetObject((int)Preview.Preview_Text_Title).GetComponent<TextMeshProUGUI>().text = content.labelName;
+        GetObject((int)Preview.Preview_Text_Contents).GetComponent<TextMeshProUGUI>().text = content.detail;
 
         //? 이거 나중에 시설업그레이드같은거 추가하면 옵션추가하면됨
         //GetObject((int)Preview.Preview_Text_Contents).GetComponent<TextMeshProUGUI>().text += content.boundaryOption[optionIndex].optionText;
 
         GetButton((int)Buttons.Confirm).gameObject.RemoveUIEventAll();
-        GetButton((int)Buttons.Confirm).gameObject.AddUIEvent(content.action);
+        GetButton((int)Buttons.Confirm).gameObject.AddUIEvent((data) => ConfirmCheck(content.Mana, content.Gold, content.UnlockRank, content.Ap,
+            content.action));
     }
+
+
+    bool ConfirmCheck(int mana, int gold, int lv, int ap, Action action)
+    {
+        if (Main.Instance.Player_Mana < mana)
+        {
+            var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+            msg.Message = "마나가 부족합니다";
+            return false;
+        }
+        if (Main.Instance.Player_Gold < gold)
+        {
+            var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+            msg.Message = "골드가 부족합니다";
+            return false;
+        }
+        if (Main.Instance.DungeonRank < lv)
+        {
+            var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+            msg.Message = "던전 등급이 부족합니다";
+            return false;
+        }
+        if (Main.Instance.Player_AP < ap)
+        {
+            var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+            msg.Message = "행동력이 부족합니다";
+            return false;
+        }
+
+
+        Main.Instance.CurrentDay.SubtractMana(mana);
+        Main.Instance.CurrentDay.SubtractGold(gold);
+        Main.Instance.Player_AP -= ap;
+        action.Invoke();
+        return true;
+    }
+
+
+
+
+
+
+
 
 
     private void OnEnable()

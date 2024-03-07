@@ -7,11 +7,79 @@ public class TechnicalManager
 {
     public void Init()
     {
-        currentTechnicalList = new List<Technical>();
-
+        Init_LocalData();
         FloorInit();
-        AddContents();
     }
+
+
+    #region SO_Data
+    SO_Technical[] so_data;
+    Dictionary<string, SO_Technical> Technical_Dictionary { get; set; } = new Dictionary<string, SO_Technical>();
+
+    void Init_LocalData()
+    {
+        so_data = Resources.LoadAll<SO_Technical>("Data/Technical");
+        foreach (var item in so_data)
+        {
+            string[] datas = null;
+            switch (UserData.Instance.Language)
+            {
+                case Define.Language.EN:
+                    Managers.Data.ObjectsLabel_EN.TryGetValue(item.id, out datas);
+                    break;
+
+                case Define.Language.KR:
+                    Managers.Data.ObjectsLabel_KR.TryGetValue(item.id, out datas);
+                    break;
+            }
+            if (datas == null)
+            {
+                Debug.Log($"{item.id} : CSV Data Not Exist");
+                continue;
+            }
+
+            item.labelName = datas[0];
+            item.detail = datas[1];
+
+            item.action = () => CreateAction(item.keyName);
+
+            Technical_Dictionary.Add(item.keyName, item);
+        }
+    }
+
+    public List<SO_Technical> GetTechnicalList(int _DungeonRank = 1)
+    {
+        List<SO_Technical> list = new List<SO_Technical>();
+
+        foreach (var item in so_data)
+        {
+            if (item.UnlockRank <= _DungeonRank)
+            {
+                list.Add(item);
+            }
+        }
+
+        list.Sort((a, b) => a.id.CompareTo(b.id));
+        return list;
+    }
+
+    public SO_Technical GetData(string _keyName)
+    {
+        SO_Technical facil = null;
+        if (Technical_Dictionary.TryGetValue(_keyName, out facil))
+        {
+            return facil;
+        }
+
+        Debug.Log($"{_keyName}: Data Not Exist");
+        return null;
+    }
+
+
+    #endregion
+
+
+
 
 
     Prison _prison;
@@ -59,7 +127,7 @@ public class TechnicalManager
     public Transform Donation_Pos { get; set; }
 
 
-
+    #region 건설구역 / Floor
     public TechnicalFloor[] Floor_Technical { get; set; }
     void FloorInit()
     {
@@ -92,89 +160,38 @@ public class TechnicalManager
             }
         }
     }
+    #endregion
 
 
+    #region 실제 액티브 객체
+    public List<Technical> currentTechnicalList = new List<Technical>();
 
-
-
-
-
-
-    public List<Technical> currentTechnicalList;
-
-    public List<TechnicalData> TechnicalDataList { get; set; }
-
-
-    bool ConfirmCheck(int mana, int gold, int lv, int ap)
+    void CreateAction(string _keyName)
     {
-        if (Main.Instance.Player_Mana < mana)
-        {
-            var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = "마나가 부족합니다";
-            return false;
-        }
-        if (Main.Instance.Player_Gold < gold)
-        {
-            var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = "골드가 부족합니다";
-            return false;
-        }
-        if (Main.Instance.DungeonRank < lv)
-        {
-            var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = "던전 등급이 부족합니다";
-            return false;
-        }
-        if (Main.Instance.Player_AP < ap)
-        {
-            var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = "행동력이 부족합니다";
-            return false;
-        }
-
-
-        Main.Instance.CurrentDay.SubtractMana(mana);
-        Main.Instance.CurrentDay.SubtractGold(gold);
-        Main.Instance.Player_AP -= ap;
-        return true;
-    }
-
-    void CreateAction(TechnicalData data)
-    {
-        if (ConfirmCheck(data.need_Mana, data.need_Gold, data.need_LV, data.need_AP) == false)
+        var data = GetData(_keyName);
+        if (data == null)
         {
             return;
         }
 
-        var obj = Managers.Resource.Instantiate($"Technical/{data.prefabPath}");
-        obj.transform.position = Main.Instance.CurrentTechnical.transform.position + new Vector3(0.25f, -0.75f, 0);
-        obj.transform.SetParent(Main.Instance.CurrentTechnical.transform);
+        var tech = Create(data);
 
-        var tech = obj.GetComponent<Technical>();
-        tech.Data = GetData(data.prefabPath);
+        tech.transform.position = Main.Instance.CurrentTechnical.transform.position + new Vector3(0.25f, -0.75f, 0);
+        tech.transform.SetParent(Main.Instance.CurrentTechnical.transform);
 
         Main.Instance.CurrentTechnical.Current = tech;
         tech.parent = Main.Instance.CurrentTechnical;
 
         Managers.UI.CloseAll();
-
-        currentTechnicalList.Add(tech);
     }
-    Technical CreateAction(string path, int floor)
+
+    Technical Create(SO_Technical data)
     {
-        var obj = Managers.Resource.Instantiate($"Technical/{path}");
-        obj.transform.position = Floor_Technical[floor].transform.position + new Vector3(0.25f, -0.75f, 0);
-        obj.transform.SetParent(Floor_Technical[floor].transform);
-
+        var obj = Managers.Resource.Instantiate($"Technical/{data.prefabPath}");
         var tech = obj.GetComponent<Technical>();
-        tech.Data = GetData(path);
-        tech.InstanceDate = Main.Instance.Turn;
-
-        Floor_Technical[floor].Current = tech;
-        tech.parent = Floor_Technical[floor];
+        tech.Data = GetData(data.keyName);
 
         currentTechnicalList.Add(tech);
-
         return tech;
     }
 
@@ -186,82 +203,7 @@ public class TechnicalManager
         technical.parent.Current = null;
         Managers.Resource.Destroy(technical.gameObject);
     }
-
-
-
-
-
-    #region 사전 데이터
-
-
-    public TechnicalData GetData(string technicalName)
-    {
-        foreach (var item in TechnicalDataList)
-        {
-            if (item.contentName == technicalName)
-            {
-                return item;
-            }
-        }
-        Debug.Log($"{technicalName} 데이터를 찾지 못함");
-        return null;
-    }
-
-
-    void AddContents()
-    {
-        TechnicalDataList = new List<TechnicalData>();
-
-        {
-            TechnicalData content = new TechnicalData("HerbFarm");
-            content.SetName("허브농장", "2일마다 활성화 된 모든 층에 약초를 공급해줍니다. 가끔 좋은 약초가 나올때도 있어요!");
-            content.SetCondition(200, 50, 1, 1);
-            content.prefabPath = "HerbFarm";
-            content.sprite = Managers.Sprite.GetSprite("Object/HerbFarm");
-            content.action = (data) => CreateAction(content);
-
-            TechnicalDataList.Add(content);
-        }
-
-        {
-            TechnicalData content = new TechnicalData("ApOrb");
-            content.SetName("힘의 오브", "최대 행동력이 1 늘어납니다. 역시 건강한게 제일이죠.");
-            content.SetCondition(300, 300, 1, 1);
-            content.prefabPath = "ApOrb";
-            content.sprite = Managers.Sprite.GetSprite("Object/ApOrb");
-            content.action = (data) => CreateAction(content);
-
-            TechnicalDataList.Add(content);
-        }
-    }
-    public void Level_2()
-    {
-        {
-            TechnicalData content = new TechnicalData("DonationBox");
-            content.SetName("기부함", "던전 입구에 기부함을 설치합니다. 사실 말이 기부함이지 입장료를 받는거에요. " +
-                "많은 인기있는 던전들이 입장료를 받습니다만, 과연 우리 던전도 입장료를 내고서라도 들어올 만한 가치가 있을까요?");
-            content.SetCondition(500, 0, 2, 2);
-            content.prefabPath = "DonationBox";
-            content.sprite = Managers.Sprite.GetSprite("Object/DonationBox");
-            content.action = (data) => CreateAction(content);
-
-            TechnicalDataList.Add(content);
-        }
-
-        {
-            TechnicalData content = new TechnicalData("Prison");
-            content.SetName("감옥", "모험가를 포로로 잡을 수 있는 감옥을 설치합니다. 쓰러트린 일부 모험가들에게서 교섭으로 골드를 뜯어낼 수 있을거에요.");
-            content.SetCondition(500, 0, 2, 2);
-            content.prefabPath = "Prison";
-            content.sprite = Managers.Sprite.GetSprite("Object/Prison");
-            content.action = (data) => CreateAction(content);
-
-            TechnicalDataList.Add(content);
-        }
-    }
     #endregion
-
-
 
 
 
@@ -285,52 +227,23 @@ public class TechnicalManager
     {
         for (int i = 0; i < data.Length; i++)
         {
-            var tech = CreateAction(data[i].Name_Technical, data[i].LocationIndex);
+            var tech = Create(GetData(data[i].keyName));
+
+            tech.transform.position = Floor_Technical[data[i].LocationIndex].transform.position + new Vector3(0.25f, -0.75f, 0);
+            tech.transform.SetParent(Floor_Technical[data[i].LocationIndex].transform);
+
+            Floor_Technical[data[i].LocationIndex].Current = tech;
+            tech.parent = Floor_Technical[data[i].LocationIndex];
+
             tech.InstanceDate = data[i].InstanceDate;
         }
     }
 
     #endregion
 }
-
-public class TechnicalData
-{
-    public Action<PointerEventData> action;
-
-    public Sprite sprite;
-    public string name_Placement;
-    public string name_Detail;
-
-    public int need_Mana;
-    public int need_Gold;
-    public int need_LV;
-    public int need_AP;
-
-    public string contentName;
-    public string prefabPath;
-
-    public TechnicalData(string _contentName)
-    {
-        contentName = _contentName;
-    }
-
-    public void SetName(string title, string box)
-    {
-        name_Placement = title;
-        name_Detail = box;
-    }
-    public void SetCondition(int mana, int gold, int lv, int ap = 0)
-    {
-        need_Mana = mana;
-        need_Gold = gold;
-        need_LV = lv;
-        need_AP = ap;
-    }
-}
-
 public class Save_TechnicalData
 {
-    public string Name_Technical;
+    public string keyName;
 
     public int LocationIndex;
 
@@ -338,7 +251,7 @@ public class Save_TechnicalData
 
     public void SetData(Technical data)
     {
-        Name_Technical = data.Data.contentName;
+        keyName = data.Data.keyName;
         LocationIndex = data.parent.FloorIndex;
         InstanceDate = data.InstanceDate;
     }

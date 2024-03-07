@@ -11,7 +11,7 @@ public class UI_Technical_Content : UI_Base
         Init();
     }
 
-    public TechnicalData Content { get; set; }
+    public SO_Technical Content { get; set; }
     public UI_Placement_Technical Parent { get; set; }
 
     enum Texts
@@ -31,7 +31,7 @@ public class UI_Technical_Content : UI_Base
 
         AddUIEvent_ContentsImage();
 
-        TextUpdate(Content.name_Placement, Content.need_Mana, Content.need_Gold, Content.need_LV, Content.need_AP);
+        TextUpdate(Content.labelName, Content.Mana, Content.Gold, Content.UnlockRank, Content.Ap);
     }
 
 

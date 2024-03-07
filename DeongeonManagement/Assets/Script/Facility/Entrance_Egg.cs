@@ -4,17 +4,9 @@ using UnityEngine;
 
 public class Entrance_Egg : Facility
 {
-    public override FacilityEventType Type { get; set; }
-    public override int InteractionOfTimes { get; set; }
-    public override string Name { get; set; }
-
-    public override void FacilityInit()
+    public override void Init_Personal()
     {
-        InteractionOfTimes = 10000;
-        Type = FacilityEventType.NPC_Event;
-        Name = "전이진";
-        Detail_KR = "던전의 숨겨진 공간으로 이동할 수 있는 전이진입니다.";
-        Name_prefab = this.GetType().Name;
+
     }
     public override void Init_FacilityEgo()
     {

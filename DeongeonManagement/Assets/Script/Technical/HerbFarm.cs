@@ -59,15 +59,15 @@ public class HerbFarm : Technical
 
                 if (ranValue > 0.9f)
                 {
-                    GameManager.Facility.CreateFacility("Herb", info, (int)Herb.HerbType.High);
+                    GameManager.Facility.CreateFacility("Herb_High", info);
                 }
                 else if (ranValue > 0.6f)
                 {
-                    GameManager.Facility.CreateFacility("Herb", info, (int)Herb.HerbType.Pumpkin);
+                    GameManager.Facility.CreateFacility("Herb_Pumpkin", info);
                 }
                 else
                 {
-                    GameManager.Facility.CreateFacility("Herb", info, (int)Herb.HerbType.Low);
+                    GameManager.Facility.CreateFacility("Herb_Low", info);
                 }
             }
         }

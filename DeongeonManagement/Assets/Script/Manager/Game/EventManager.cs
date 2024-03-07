@@ -172,7 +172,7 @@ public class EventManager : MonoBehaviour
             GameManager.Facility.RemoveFacility(tile.Original as Facility);
 
             PlacementInfo info = new PlacementInfo(Main.Instance.Floor[3], tile);
-            var obj = GameManager.Facility.CreateFacility_OnlyOne("Exit", info, true);
+            var obj = GameManager.Facility.CreateFacility_OnlyOne("Exit", info);
         });
 
         EventAction.Add("EggEntrance", () =>
@@ -183,7 +183,7 @@ public class EventManager : MonoBehaviour
             GameManager.Facility.RemoveFacility(tile.Original as Facility);
 
             PlacementInfo info = new PlacementInfo(Main.Instance.Floor[2], tile);
-            var obj = GameManager.Facility.CreateFacility_OnlyOne("EggEntrance", info, true);
+            var obj = GameManager.Facility.CreateFacility_OnlyOne("EggEntrance", info);
         });
 
 
@@ -261,30 +261,12 @@ public class EventManager : MonoBehaviour
     {
         FindObjectOfType<Player>().Level_Stat(Main.Instance.DungeonRank);
         Camera.main.GetComponent<CameraControl>().LimitRefresh();
-        
-        if (Rank_2 == false && Main.Instance.DungeonRank >= 2)
+        GameManager.Monster.Resize_MonsterSlot();
+
+        if (Main.Instance.DungeonRank >= 2)
         {
-            GameManager.Monster.AddLevel_2();
-            GameManager.Technical.Level_2();
-            GameManager.Content.AddLevel2();
             Main.Instance.DungeonExpansionUI();
-            Rank_2 = true;
         }
-        
-        if (Rank_3 == false && Main.Instance.DungeonRank >= 3)
-        {
-            GameManager.Monster.AddLevel_3();
-            Rank_3 = true;
-        }
-    }
-
-    bool Rank_2 = false;
-    bool Rank_3 = false;
-
-    public void Enter_ManagementScene()
-    {
-        Rank_2 = false;
-        Rank_3 = false;
     }
 
 

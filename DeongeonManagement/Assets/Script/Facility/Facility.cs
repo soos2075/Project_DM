@@ -11,7 +11,7 @@ public abstract class Facility : MonoBehaviour, IPlacementable
     protected void Start()
     {
         Init_FacilityEgo();
-        FacilityInit();
+        Init_Personal();
     }
     //protected void Update()
     //{
@@ -31,7 +31,7 @@ public abstract class Facility : MonoBehaviour, IPlacementable
     {
         if (Main.Instance.Management == false) return;
     }
-    public string Name_KR { get { return Name; } }
+    public string Name_Color { get { return Name; } }
 
     public string Detail_KR { get; protected set; }
     #endregion
@@ -41,15 +41,51 @@ public abstract class Facility : MonoBehaviour, IPlacementable
     public void Load_Data(Save_FacilityData _data)
     {
         InteractionOfTimes = _data.interactionTimes;
-        OptionIndex = _data.OptionIndex;
+        //OptionIndex = _data.OptionIndex;
     }
 
     #endregion
 
 
+
+    public SO_Facility Data { get; set; }
+
+    public void SetData()
+    {
+        if (Data == null) return;
+
+        Type = Data.Type;
+        Name = Data.labelName;
+        Detail_KR = Data.detail;
+        InteractionOfTimes = Data.interactionOfTimes;
+
+        durationTime = Data.durationTime;
+        ap_value = Data.ap_value;
+        mp_value = Data.mp_value;
+        gold_value = Data.gold_value;
+        hp_value = Data.hp_value;
+        pop_value = Data.pop_value;
+        danger_value = Data.danger_value;
+
+        OptionIndex = Data.id;
+
+        isOnlyOne = Data.isOnlyOne;
+        isClearable = Data.isClearable;
+    }
+
+    protected float durationTime;
+    protected int ap_value;
+    protected int hp_value;
+    protected int mp_value;
+    protected int gold_value;
+    protected int pop_value;
+    protected int danger_value;
+
+
+
     //? 하나의 클래스에 여러타입을 가져야하는 경우(조각상 / 함정 / 이후로 추가할 퍼실리티들.
     //? 최종적으로는 아래 FacilityType이 클래스가 되야함. 허브는 허브로 통합, 광물은 광물로 통합 이런식으로.
-    public virtual int OptionIndex { get; set; }
+    public int OptionIndex { get; set; }
     public bool isOnlyOne { get; set; } = false;
     public bool isClearable { get; set; } = true;
 
@@ -60,10 +96,7 @@ public abstract class Facility : MonoBehaviour, IPlacementable
     }
     public enum FacilityEventType
     {
-
         NPC_Interaction, // 일반 상호작용 / 1칸 떨어져서 상호작용함
-
-        //NPC_Portal,
 
         NPC_Event, //? 특수 상호작용 혹은 이벤트 / 이동해서 상호작용함
 
@@ -71,12 +104,11 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
         Non_Interaction, //? 아무랑도 상호작용하지않지만 타일은 차지해야함. 이거 나중에 타일ui자체도 없애는것도 방법일듯.
     }
-    public abstract FacilityEventType Type { get; set; }
-    public abstract int InteractionOfTimes { get; set; }
-    public abstract string Name { get; set; }
-    public string Name_prefab { get; set; }
+    public FacilityEventType Type { get; set; }
+    public int InteractionOfTimes { get; set; }
+    public string Name { get; set; }
 
-    public abstract void FacilityInit();
+    public abstract void Init_Personal();
 
     public abstract Coroutine NPC_Interaction(NPC npc);
 
@@ -85,7 +117,7 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
     protected IEnumerator FacilityEvent(NPC npc, float durationTime, string text, int ap = 0, int mp = 0, int hp = 0)
     {
-        UI_EventBox.AddEventText($"●{npc.Name_KR} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 {text}");
+        UI_EventBox.AddEventText($"●{npc.Name_Color} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 {text}");
 
         PlacementState = PlacementState.Busy;
 

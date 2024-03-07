@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class EvilEye : Monster
 {
-    public override MonsterData Data { get; set; }
+    public override SO_Monster Data { get; set; }
 
     public override void MonsterInit()
     {
-        Data = GameManager.Monster.GetMonsterData("EvilEye");
+        Data = GameManager.Monster.GetData("EvilEye");
     }
 
 

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Util
@@ -68,6 +67,69 @@ public class Util
         }
 
         return _list;
+    }
+
+
+
+    public static Vector2Int[] GetBoundary(Define.Boundary _boundary)
+    {
+        switch (_boundary)
+        {
+            case Define.Boundary.Boundary_1x1:
+                return Define.Boundary_1x1;
+
+            case Define.Boundary.Boundary_1x2:
+                return Define.Boundary_1x2;
+
+            case Define.Boundary.Boundary_1x3:
+                return Define.Boundary_1x3;
+
+            case Define.Boundary.Boundary_2x1:
+                return Define.Boundary_2x1;
+
+            case Define.Boundary.Boundary_2x2:
+                return Define.Boundary_2x2;
+
+            case Define.Boundary.Boundary_2x3:
+                return Define.Boundary_2x3;
+
+            case Define.Boundary.Boundary_3x1:
+                return Define.Boundary_3x1;
+
+            case Define.Boundary.Boundary_3x2:
+                return Define.Boundary_3x2;
+
+            case Define.Boundary.Boundary_3x3:
+                return Define.Boundary_3x3;
+
+            case Define.Boundary.Boundary_5x5:
+                return Define.Boundary_5x5;
+
+            case Define.Boundary.Boundary_Cross_1:
+                return Define.Boundary_Cross_1;
+
+            case Define.Boundary.Boundary_Cross_2:
+                return Define.Boundary_Cross_2;
+
+            case Define.Boundary.Boundary_Cross_3:
+                return Define.Boundary_Cross_3;
+
+            case Define.Boundary.Boundary_X_1:
+                return Define.Boundary_X_1;
+
+            case Define.Boundary.Boundary_Side_All:
+                return Define.Boundary_Side_All;
+
+            case Define.Boundary.Boundary_Side_X:
+                return Define.Boundary_Side_X;
+
+            case Define.Boundary.Boundary_Side_Cross:
+                return Define.Boundary_Side_Cross;
+
+            case Define.Boundary.Boundary_Side_Cross_2:
+                return Define.Boundary_Side_Cross_2;
+        }
+        return null;
     }
 
 

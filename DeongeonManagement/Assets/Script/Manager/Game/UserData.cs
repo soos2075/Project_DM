@@ -43,6 +43,14 @@ public class UserData : MonoBehaviour
     }
 
 
+    #region Localization
+    public Define.Language Language { get; set; } = Define.Language.KR;
+
+
+    #endregion
+
+
+
 
     #region Cursor
 

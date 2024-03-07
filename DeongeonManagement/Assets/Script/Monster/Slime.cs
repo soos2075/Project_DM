@@ -5,11 +5,11 @@ using UnityEngine;
 public class Slime : Monster
 {
 
-    public override MonsterData Data { get; set; }
+    public override SO_Monster Data { get; set; }
 
     public override void MonsterInit()
     {
-        Data = GameManager.Monster.GetMonsterData("Slime");
+        Data = GameManager.Monster.GetData("Slime");
         StartCoroutine(Init_Evolution());
     }
     IEnumerator Init_Evolution()
@@ -28,7 +28,7 @@ public class Slime : Monster
 
     public override void LevelUpEvent(LevelUpEventType levelUpType)
     {
-        if (EvolutionState == Evolution.Ready && LV + 1 >= Data.MAXLV)
+        if (EvolutionState == Evolution.Ready && LV + 1 >= Data.maxLv)
         {
             EvolutionState = Evolution.Progress;
             EventManager.Instance.GuildQuestAdd.Add(1100);
@@ -67,7 +67,7 @@ public class Slime : Monster
         ui.TargetMonster(this);
         ui.StateText = "슬라임 -> 블러디 슬라임 진화!!" +
             "";
-        Data = GameManager.Monster.GetMonsterData_Evolution("BloodySlime");
+        Data = GameManager.Monster.GetData("BloodySlime");
         Initialize_Status();
         GameManager.Monster.ChangeSLA(this, "BloodyJelly");
         //Debug.Log("슬라임 진화완료");

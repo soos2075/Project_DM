@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class EarthGolem : Monster
 {
-    public override MonsterData Data { get; set; }
+    public override SO_Monster Data { get; set; }
 
     public override void MonsterInit()
     {
-        Data = GameManager.Monster.GetMonsterData("EarthGolem");
+        Data = GameManager.Monster.GetData("EarthGolem");
 
         StartCoroutine(Init_Evolution());
     }
@@ -30,7 +30,7 @@ public class EarthGolem : Monster
 
     public override void LevelUpEvent(LevelUpEventType levelUpType)
     {
-        if (EvolutionState == Evolution.Ready && LV + 1 >= Data.MAXLV)
+        if (EvolutionState == Evolution.Ready && LV + 1 >= Data.maxLv)
         {
             EvolutionState = Evolution.Progress;
             Debug.Log("퀘스트 추가");
@@ -67,7 +67,7 @@ public class EarthGolem : Monster
 
     void EvolutionComplete()
     {
-        Data = GameManager.Monster.GetMonsterData_Evolution("FlameGolem");
+        Data = GameManager.Monster.GetData("FlameGolem");
         Initialize_Status();
         GameManager.Monster.ChangeSLA(this, "FlameGolem");
         //Debug.Log("슬라임 진화완료");

@@ -25,7 +25,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         return this.gameObject;
     }
 
-    public string Name_KR { get { return $"{name_Tag_Start}{Name}{name_Tag_End}"; } }
+    public string Name_Color { get { return $"{name_Tag_Start}{Name}{name_Tag_End}"; } }
     private string name_Tag_Start = "<color=#44ff44ff>";
     private string name_Tag_End = "</color>";
 
@@ -120,7 +120,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
 
 
-    public abstract MonsterData Data { get; set; }
+    public abstract SO_Monster Data { get; set; }
     public int MonsterID { get; set; }
 
 
@@ -149,22 +149,22 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     {
         if (Data == null) { Debug.Log($"데이터 없음 : {name}"); return; }
 
-        Name = Data.Name_KR;
-        LV = Data.LV;
+        Name = Data.labelName;
+        LV = Data.startLv;
 
-        HP = Data.HP;
-        HP_Max = Data.HP;
+        HP = Data.hp;
+        HP_Max = Data.hp;
 
-        ATK = Data.ATK;
-        DEF = Data.DEF;
-        AGI = Data.AGI;
-        LUK = Data.LUK;
+        ATK = Data.atk;
+        DEF = Data.def;
+        AGI = Data.agi;
+        LUK = Data.luk;
 
-        hp_chance = Data.HP_chance;
-        atk_chance = Data.ATK_chance;
-        def_chance = Data.DEF_chance;
-        agi_chance = Data.AGI_chance;
-        luk_chance = Data.LUK_chance;
+        hp_chance = Data.up_hp;
+        atk_chance = Data.up_atk;
+        def_chance = Data.up_def;
+        agi_chance = Data.up_agi;
+        luk_chance = Data.up_luk;
     }
 
 
@@ -373,14 +373,14 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         }
         LookAtTarget(npc.PlacementInfo.Place_Tile);
 
-        npc.ActionPoint -= Data.Battle_AP;
+        npc.ActionPoint -= Data.battleAp;
         int battleMP = npc.Rank * 10;
         npc.Mana -= battleMP;
 
 
         UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 전투발생 : " +
-            $"{npc.Name_KR} vs " +
-            $"{Name_KR}");
+            $"{npc.Name_Color} vs " +
+            $"{Name_Color}");
 
         BattleField.BattleResult result = 0;
         yield return BattleManager.Instance.ShowBattleField(npc, this, out result);
@@ -389,17 +389,17 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         switch (result)
         {
             case BattleField.BattleResult.Nothing:
-                UI_EventBox.AddEventText($"★{Name_KR} vs {npc.Name_KR} 의 전투가 종료되었습니다.");
+                UI_EventBox.AddEventText($"★{Name_Color} vs {npc.Name_Color} 의 전투가 종료되었습니다.");
                 GetBattlePoint(npc.Rank);
                 break;
 
             case BattleField.BattleResult.Monster_Die:
-                UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 {Name_KR} (이)가 전투에서 패배했습니다..");
+                UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 {Name_Color} (이)가 전투에서 패배했습니다..");
                 MonsterOutFloor();
                 break;
 
             case BattleField.BattleResult.NPC_Die:
-                UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 {Name_KR} (이)가 {npc.Name_KR} 에게 승리하였습니다!");
+                UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 {Name_Color} (이)가 {npc.Name_Color} 에게 승리하였습니다!");
                 GetBattlePoint(npc.Rank * 2);
                 break;
         }
@@ -424,7 +424,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     IEnumerator BattleStateBusy()
     {
         PlacementState = PlacementState.Busy;
-        yield return new WaitForSeconds(Data.Battle_Interval);
+        yield return new WaitForSeconds(Data.battleInterval);
         PlacementState = PlacementState.Standby;
         BattleStateCor = null;
     }
@@ -537,7 +537,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
         if (BattlePoint_Count >= 5 || BattlePoint_Rank >= Mathf.Clamp(LV * 2, 4, 30) )
         {
-            Debug.Log($"{Name_KR}.Lv{LV}가 레벨업");
+            Debug.Log($"{Name_Color}.Lv{LV}가 레벨업");
             BattleLevelUp();
             BattlePoint_Rank = 0;
             BattlePoint_Count = 0;
@@ -551,7 +551,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
         LevelUpEvent(LevelUpEventType.Battle);
 
-        if (LV >= Data.MAXLV) return;
+        if (LV >= Data.maxLv) return;
         GameManager.Monster.AddLevelUpEvent(this);
     }
 
@@ -595,7 +595,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
             ui.Message = "행동력이 부족합니다.";
             return;
         }
-        if (Data.MAXLV <= LV)
+        if (Data.maxLv <= LV)
         {
             var ui = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
             ui.Message = "최대레벨에 도달했습니다.";
@@ -603,14 +603,14 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         }
 
         Main.Instance.Player_AP--;
-        Debug.Log($"{Name_KR} 훈련진행");
+        Debug.Log($"{Name_Color} 훈련진행");
         LevelUpEvent(LevelUpEventType.Training);
         LevelUp(true); ;
     }
 
     public void LevelUp(bool _showPopup)
     {
-        if (Data.MAXLV <= LV)
+        if (Data.maxLv <= LV)
         {
             Debug.Log("최대레벨임");
             return;
@@ -624,21 +624,21 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
         LV++;
 
-        HP_Max += TryStatUp(Data.HP_chance, ref hp_chance);
+        HP_Max += TryStatUp(Data.up_hp, ref hp_chance);
         HP = HP_Max;
 
-        ATK += TryStatUp(Data.ATK_chance, ref atk_chance);
-        DEF += TryStatUp(Data.DEF_chance, ref def_chance);
-        AGI += TryStatUp(Data.AGI_chance, ref agi_chance);
-        LUK += TryStatUp(Data.LUK_chance, ref luk_chance);
+        ATK += TryStatUp(Data.up_atk, ref atk_chance);
+        DEF += TryStatUp(Data.up_def, ref def_chance);
+        AGI += TryStatUp(Data.up_agi, ref agi_chance);
+        LUK += TryStatUp(Data.up_luk, ref luk_chance);
     }
     public void StatUp()
     {
-        HP_Max += TryStatUp(Data.HP_chance, ref hp_chance);
-        ATK += TryStatUp(Data.ATK_chance, ref atk_chance);
-        DEF += TryStatUp(Data.DEF_chance, ref def_chance);
-        AGI += TryStatUp(Data.AGI_chance, ref agi_chance);
-        LUK += TryStatUp(Data.LUK_chance, ref luk_chance);
+        HP_Max += TryStatUp(Data.up_hp, ref hp_chance);
+        ATK += TryStatUp(Data.up_atk, ref atk_chance);
+        DEF += TryStatUp(Data.up_def, ref def_chance);
+        AGI += TryStatUp(Data.up_agi, ref agi_chance);
+        LUK += TryStatUp(Data.up_luk, ref luk_chance);
     }
 
     int TryStatUp(float origin, ref float probability)

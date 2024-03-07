@@ -4,17 +4,9 @@ using UnityEngine;
 
 public class SpecialEgg : Facility
 {
-    public override FacilityEventType Type { get; set; }
-    public override int InteractionOfTimes { get; set; }
-    public override string Name { get; set; }
-
-    public override void FacilityInit()
+    public override void Init_Personal()
     {
-        Type = FacilityEventType.NPC_Event;
-        InteractionOfTimes = 10000;
-        Name = "던전의 알";
-        Detail_KR = "정체모를 수수께끼의 알입니다.";
-        Name_prefab = this.GetType().Name;
+
     }
     public override void Init_FacilityEgo()
     {

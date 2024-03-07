@@ -397,7 +397,7 @@ public class BasementFloor : MonoBehaviour
             if (obj == null)
             {
                 var info = new PlacementInfo(this, GetRandomTile());
-                obj = GameManager.Facility.CreateFacility_OnlyOne("Entrance", info, true);
+                obj = GameManager.Facility.CreateFacility_OnlyOne("Entrance", info);
             }
             return obj;
         }
@@ -411,7 +411,7 @@ public class BasementFloor : MonoBehaviour
             if (obj == null)
             {
                 var info = new PlacementInfo(this, GetRandomTile());
-                obj = GameManager.Facility.CreateFacility_OnlyOne("Exit", info, true);
+                obj = GameManager.Facility.CreateFacility_OnlyOne("Exit", info);
             }
             return obj;
         }
@@ -427,13 +427,13 @@ public class BasementFloor : MonoBehaviour
         if (PickObjectOfType(typeof(Entrance)) == null)
         {
             var info = new PlacementInfo(this, GetRandomTile());
-            GameManager.Facility.CreateFacility_OnlyOne("Entrance", info, true);
+            GameManager.Facility.CreateFacility_OnlyOne("Entrance", info);
         }
 
         if (PickObjectOfType(typeof(Exit)) == null)
         {
             var info = new PlacementInfo(this, GetRandomTile());
-            GameManager.Facility.CreateFacility_OnlyOne("Exit", info, true);
+            GameManager.Facility.CreateFacility_OnlyOne("Exit", info);
         }
     }
 

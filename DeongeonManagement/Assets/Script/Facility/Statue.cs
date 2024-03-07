@@ -4,57 +4,24 @@ using UnityEngine;
 
 public class Statue : Facility
 {
-    public override FacilityEventType Type { get; set; }
-    public override int InteractionOfTimes { get; set; }
-    public override string Name { get; set; }
-    public override int OptionIndex { get { return ((int)statueType); } set { statueType = (StatueType)value; } }
-
-    public override void FacilityInit()
+    public override void Init_Personal()
     {
-        Type = FacilityEventType.Player_Event;
-        Name_prefab = name;
-
-        if (InteractionOfTimes <= 0)
-        {
-            InteractionOfTimes = 10000;
-        }
-
-        Init_TypeSelect();
+        statueType = (StatueType)OptionIndex;
     }
-    public override void Init_FacilityEgo()
+
+    public enum StatueType
     {
-        isOnlyOne = false;
-        isClearable = false;
+        Gold = 3900,
+        Mana = 3901,
     }
+    public StatueType statueType { get; set; }
+
+
+
 
     public override Coroutine NPC_Interaction(NPC npc)
     {
         throw new System.NotImplementedException();
-    }
-
-
-
-    public enum StatueType
-    {
-        Gold,
-        Mana,
-    }
-    public StatueType statueType { get; set; }
-
-    void Init_TypeSelect()
-    {
-        switch (statueType)
-        {
-            case StatueType.Gold:
-                Name = "금빛 천사상";
-                Detail_KR = "황금으로 만들어진 천사상입니다. 기도를 올리면 소량의 골드를 얻습니다.";
-                break;
-
-            case StatueType.Mana:
-                Name = "은빛 천사상";
-                Detail_KR = "순은으로 만들어진 천사상입니다. 기도를 올리면 소량의 마나를 얻습니다.";
-                break;
-        }
     }
 
     public override void MouseClickEvent()

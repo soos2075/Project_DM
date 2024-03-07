@@ -70,7 +70,7 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
             //view.transform.localPosition = new Vector3(pos.x + 0.45f + (1 - offset), pos.y - (1 - offset), 0);
             view.transform.localPosition = new Vector3(pos.x , pos.y, 0);
 
-            string _title = CurrentTile.Original.Name_KR;
+            string _title = CurrentTile.Original.Name_Color;
             string _detail = CurrentTile.Original.Detail_KR;
             switch (CurrentTile.Original.PlacementType)
             {
@@ -83,6 +83,13 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
                     break;
 
                 case PlacementType.Facility:
+                    var facil = CurrentTile.Original as Facility;
+                    if (facil.GetType() == typeof(Obstacle))
+                    {
+                        Managers.UI.ClosePopupPick(view);
+                        return;
+                    }
+
                     _title = _title.SetTextColorTag(Define.TextColor.white);
                     break;
             }

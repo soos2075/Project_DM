@@ -52,10 +52,10 @@ public class Managers : MonoBehaviour
     {
         Init();
 
+        _data.Init();
         _sprite.Init();
         _scene.Init();
         _dialogue.Init();
-        _data.Init();
     }
 
     void Start()

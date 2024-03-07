@@ -43,7 +43,7 @@ public class UI_Technical : UI_Scene, IWorldSpaceUI
 
         var pos = Camera.main.ScreenToWorldPoint(data.position);
         view.transform.localPosition = new Vector3(pos.x, pos.y, 0);
-        view.ViewContents($"[{Parent.Current.Data.name_Placement}]", $"{Parent.Current.Data.name_Detail}");
+        view.ViewContents($"[{Parent.Current.Data.labelName}]", $"{Parent.Current.Data.detail}");
     }
     void CloseView()
     {
@@ -81,7 +81,7 @@ public class UI_Technical : UI_Scene, IWorldSpaceUI
     void Demolition_Technical()
     {
         var ui = Managers.UI.ShowPopUp<UI_Confirm>();
-        ui.SetText($"{Parent.Current.Data.name_Placement}(을)를 철거할까요?");
+        ui.SetText($"{Parent.Current.Data.labelName}(을)를 철거할까요?");
         StartCoroutine(WaitForAnswer(ui));
     }
 

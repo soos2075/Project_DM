@@ -7,8 +7,58 @@ public class FacilityManager
 {
     public void Init()
     {
-        facilityList = new List<Facility>();
+        Init_LocalData();
+
     }
+
+    #region SO_Data
+    SO_Facility[] so_data;
+    Dictionary<string, SO_Facility> Facility_Dictionary { get; set; } = new Dictionary<string, SO_Facility>();
+
+    void Init_LocalData()
+    {
+        so_data = Resources.LoadAll<SO_Facility>("Data/Facility");
+        foreach (var item in so_data)
+        {
+            string[] datas = null;
+            switch (UserData.Instance.Language)
+            {
+                case Define.Language.EN:
+                    Managers.Data.ObjectsLabel_EN.TryGetValue(item.id, out datas);
+                    break;
+
+                case Define.Language.KR:
+                    Managers.Data.ObjectsLabel_KR.TryGetValue(item.id, out datas);
+                    break;
+            }
+            if (datas == null)
+            {
+                Debug.Log($"{item.id} : CSV Data Not Exist");
+                continue;
+            }
+
+            item.labelName = datas[0];
+            item.detail = datas[1];
+
+            Facility_Dictionary.Add(item.keyName, item);
+        }
+    }
+
+
+    public SO_Facility GetData(string _keyName)
+    {
+        SO_Facility facil = null;
+        if (Facility_Dictionary.TryGetValue(_keyName, out facil))
+        {
+            return facil;
+        }
+
+        Debug.Log($"{_keyName}: Data Not Exist");
+        return null;
+    }
+    #endregion
+
+
 
 
     public Action TurnStartAction { get; set; }
@@ -26,28 +76,46 @@ public class FacilityManager
 
 
 
-    public List<Facility> facilityList;
+    public List<Facility> facilityList = new List<Facility>();
 
 
-
-    public IPlacementable CreateFacility(string prefabName, PlacementInfo info, int _optionIndex = 0)
+    public IPlacementable CreateFacility(string _keyName, PlacementInfo info)
     {
-        var newObj = GameManager.Placement.CreatePlacementObject($"Facility/{prefabName}", info, PlacementType.Facility);
-        GameManager.Placement.PlacementConfirm(newObj, info, true);
-        var facil = newObj as Facility;
-        facil.OptionIndex = _optionIndex;
+        SO_Facility data = GetData(_keyName);
+        if (data != null)
+        {
+            var newObj = GameManager.Placement.CreatePlacementObject(data.prefabPath, info, PlacementType.Facility);
+            GameManager.Placement.PlacementConfirm(newObj, info, true);
+            var facil = newObj as Facility;
+            facil.Data = data;
+            facil.SetData();
 
-        facilityList.Add(facil);
-        return newObj;
+            facilityList.Add(facil);
+            return newObj;
+        }
+
+        Debug.Log($"{_keyName}: Create Fail");
+        return null;
     }
-    public IPlacementable CreateFacility_OnlyOne(string prefabName, PlacementInfo info, bool isUnChangeable = false)
+    public IPlacementable CreateFacility_OnlyOne(string _keyName, PlacementInfo info)
     {
-        var newObj = GameManager.Placement.CreateOnlyOne($"Facility/{prefabName}", info, PlacementType.Facility);
-        GameManager.Placement.PlacementConfirm(newObj, info, isUnChangeable);
+        SO_Facility data = GetData(_keyName);
+        if (data != null)
+        {
+            var newObj = GameManager.Placement.CreateOnlyOne(data.prefabPath, info, PlacementType.Facility);
+            GameManager.Placement.PlacementConfirm(newObj, info, true);
+            var facil = newObj as Facility;
+            facil.Data = data;
+            facil.SetData();
 
-        facilityList.Add(newObj as Facility);
-        return newObj;
+            facilityList.Add(newObj as Facility);
+            return newObj;
+        }
+
+        Debug.Log($"{_keyName}: Create Fail");
+        return null;
     }
+
 
     public void RemoveFacility(Facility facility)
     {
@@ -95,7 +163,7 @@ public class FacilityManager
                 BasementTile tile = null;
                 if (floor.TileMap.TryGetValue(data[i].posIndex, out tile))
                 {
-                    var obj = CreateFacility_OnlyOne(data[i].prefabName, new PlacementInfo(floor, tile), true);
+                    var obj = CreateFacility_OnlyOne(data[i].keyName, new PlacementInfo(floor, tile));
                     var facil = obj as Facility;
                     facil.Load_Data(data[i]);
                 }
@@ -106,7 +174,7 @@ public class FacilityManager
                 BasementTile tile = null;
                 if (floor.TileMap.TryGetValue(data[i].posIndex, out tile))
                 {
-                    var obj = CreateFacility(data[i].prefabName, new PlacementInfo(floor, tile));
+                    var obj = CreateFacility(data[i].keyName, new PlacementInfo(floor, tile));
                     var facil = obj as Facility;
                     facil.Load_Data(data[i]);
                 }
@@ -122,24 +190,27 @@ public class FacilityManager
 
 public class Save_FacilityData
 {
-    public string prefabName;
-    public int interactionTimes;
+    public string keyName;
+    public string prefabPath;
 
-    public int OptionIndex;
+    public int interactionTimes;
+    //public int OptionIndex;
 
     public int floorIndex;
     public Vector2Int posIndex;
+
     public bool isOnlyOne;
 
-    public bool isUnchange; //? 필요하면 나중에 쓰자. 타일 형태가 안바뀌는놈. 근데 이동 후 상호작용은 전부 OnlyOne이라서 아직은 필요가없음
-
-
+    //public bool isUnchange; //? 필요하면 나중에 쓰자. 타일 형태가 안바뀌는놈. 근데 이동 후 상호작용은 전부 OnlyOne이라서 아직은 필요가없음
 
     public void SetData(Facility facility)
     {
-        prefabName = facility.name;
+        keyName = facility.Data.keyName;
+        prefabPath = facility.name;
+
         interactionTimes = facility.InteractionOfTimes;
-        OptionIndex = facility.OptionIndex;
+        //OptionIndex = facility.OptionIndex;
+
         floorIndex = facility.PlacementInfo.Place_Floor.FloorIndex;
         posIndex = facility.PlacementInfo.Place_Tile.index;
 

@@ -40,7 +40,7 @@ public class UI_Placement_Facility : UI_PopUp
 
 
 
-    public ContentData Current { get; set; }
+    public SO_Contents Current { get; set; }
 
     List<UI_Facility_Content> childList;
 
@@ -117,15 +117,15 @@ public class UI_Placement_Facility : UI_PopUp
     {
         var pos = GetComponentInChildren<ContentSizeFitter>().transform;
 
-        GameManager.Content.Contents.Sort(new ContentComparer());
+        //GameManager.Content.Contents.Sort(new ContentComparer());
+        var contentsList = GameManager.Content.GetContentsList(Main.Instance.DungeonRank);
 
-        for (int i = 0; i < GameManager.Content.Contents.Count; i++)
+        for (int i = 0; i < contentsList.Count; i++)
         {
             var content = Managers.Resource.Instantiate("UI/PopUp/Facility/Facility_Content", pos).GetComponent<UI_Facility_Content>();
-            content.Content = GameManager.Content.Contents[i];
+            content.Content = contentsList[i];
             content.Parent = this;
-
-            content.gameObject.name = GameManager.Content.Contents[i].contentName;
+            content.gameObject.name = contentsList[i].labelName;
             childList.Add(content);
         }
     }
@@ -133,7 +133,7 @@ public class UI_Placement_Facility : UI_PopUp
 
 
 
-    public void SelectContent(ContentData content)
+    public void SelectContent(SO_Contents content)
     {
         Current = content;
         for (int i = 0; i < childList.Count; i++)
@@ -142,20 +142,21 @@ public class UI_Placement_Facility : UI_PopUp
         }
 
         PreviewRefresh(content);
-        Set_NeedTexts(content.need_Mana, content.need_Gold);
+        Set_NeedTexts(content.Mana, content.Gold);
     }
 
 
 
-    void PreviewRefresh(ContentData content)
+    void PreviewRefresh(SO_Contents content)
     {
-        GetObject((int)Preview.Preview_Image).GetComponent<Image>().sprite = content.sprite;
-        GetObject((int)Preview.Preview_Text_Title).GetComponent<TextMeshProUGUI>().text = content.name_Placement;
-        GetObject((int)Preview.Preview_Text_Contents).GetComponent<TextMeshProUGUI>().text = content.name_Detail;
+        GetObject((int)Preview.Preview_Image).GetComponent<Image>().sprite = Managers.Sprite.GetSprite(content.spritePath);
+        GetObject((int)Preview.Preview_Text_Title).GetComponent<TextMeshProUGUI>().text = content.labelName;
+        GetObject((int)Preview.Preview_Text_Contents).GetComponent<TextMeshProUGUI>().text = content.detail;
+        GetObject((int)Preview.Preview_Text_Contents).GetComponent<TextMeshProUGUI>().text += "\n" + content.boundary;
 
         GetButton((int)Buttons.Confirm).gameObject.RemoveUIEventAll();
-        GetButton((int)Buttons.Confirm).gameObject.AddUIEvent((data) => ConfirmCheck(content.need_Mana, content.need_Gold, content.need_LV,
-            content.contentAction));
+        GetButton((int)Buttons.Confirm).gameObject.AddUIEvent((data) => ConfirmCheck(content.Mana, content.Gold, content.UnlockRank,
+            content.action));
     }
 
 

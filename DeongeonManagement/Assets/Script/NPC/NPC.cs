@@ -288,11 +288,11 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     {
         return this.gameObject;
     }
-    public string Name_KR { get { return $"{name_Tag_Start}{Name}{Name_Index}{name_Tag_End}"; } }
+    public string Name_Color { get { return $"{name_Tag_Start}{Name}{Name_Index}{name_Tag_End}"; } }
     string name_Tag_Start = "<color=#ff4444ff>";
     string name_Tag_End = "</color>";
 
-    public string Detail_KR { get { return Data.Detail; } }
+    public string Detail_KR { get { return Data.detail; } }
 
     public virtual void MouseClickEvent()
     {
@@ -453,7 +453,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             yield return null;
         }
 
-        UI_EventBox.AddEventText($"◆{Name_KR} (이)가 던전에 입장");
+        UI_EventBox.AddEventText($"◆{Name_Color} (이)가 던전에 입장");
         if (GameManager.Technical.Donation != null)
         {
             Main.Instance.CurrentDay.AddGold(5);
@@ -469,9 +469,9 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     public void Arrival()
     {
         inDungeon = false;
-        transform.position = GameManager.NPC.dungeonEntrance.position;
+        transform.position = Main.Instance.Dungeon.position;
         GameManager.Placement.Visible(this);
-        StartCoroutine(MoveToHome(GameManager.NPC.guild.position));
+        StartCoroutine(MoveToHome(Main.Instance.Guild.position));
         Anim_State = animState.left;
     }
 
@@ -497,7 +497,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     
 
     #region Npc Status Property
-    public NPC_Data Data { get; private set; }
+    public SO_NPC Data { get; private set; }
 
     [field: SerializeField]
     private int name_index;
@@ -537,26 +537,26 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     public float ActionDelay { get; set; } //? 작을수록 빠름
 
 
-    public void SetData(NPC_Data data, int index)
+    public void SetData(SO_NPC data, int index)
     {
         Data = data;
         name_index = index;
 
         Rank = data.Rank;
 
-        Name = data.Name_Kr;
+        Name = data.labelName;
         ATK = data.ATK;
         DEF = data.DEF;
         AGI = data.AGI;
         LUK = data.LUK;
 
         HP = data.HP;
-        HP_MAX = data.HP_MAX;
-        ActionPoint = data.ActionPoint;
-        Mana = data.Mana;
+        HP_MAX = data.HP;
+        ActionPoint = data.AP;
+        Mana = data.MP;
 
-        float speed = data.Speed_Ground * UnityEngine.Random.Range(0.9f, 1.1f);
-        float delay = data.ActionDelay * UnityEngine.Random.Range(0.9f, 1.1f);
+        float speed = data.groundSpeed * UnityEngine.Random.Range(0.9f, 1.1f);
+        float delay = data.actionDelay * UnityEngine.Random.Range(0.9f, 1.1f);
 
         Speed_Ground = speed;
         ActionDelay = delay;
@@ -623,7 +623,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         //? 랜덤위치로 소환
         //var info = Managers.Placement.GetRandomPlacement(this, Main.Instance.Floor[FloorLevel]); 
 
-        UI_EventBox.AddEventText($"●{Name_KR} (이)가 {Main.Instance.Floor[FloorLevel].Exit.PlacementInfo.Place_Floor.Name_KR}으로 이동");
+        UI_EventBox.AddEventText($"●{Name_Color} (이)가 {Main.Instance.Floor[FloorLevel].Exit.PlacementInfo.Place_Floor.Name_KR}으로 이동");
         //? 입구에서 소환
         var info_Entrance = new PlacementInfo(Main.Instance.Floor[FloorLevel], Main.Instance.Floor[FloorLevel].Exit.PlacementInfo.Place_Tile);
         GameManager.Placement.PlacementConfirm(this, info_Entrance);
@@ -684,7 +684,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
     public void FloorPortal(int hiddenFloor) //? 특정층으로 순간이동
     {
-        UI_EventBox.AddEventText($"●{Name_KR} (이)가 {Main.Instance.Floor[hiddenFloor].Exit.PlacementInfo.Place_Floor.Name_KR}으로 이동");
+        UI_EventBox.AddEventText($"●{Name_Color} (이)가 {Main.Instance.Floor[hiddenFloor].Exit.PlacementInfo.Place_Floor.Name_KR}으로 이동");
 
         GameManager.Placement.PlacementClear(this);
         //? 입구에서 소환
@@ -724,17 +724,17 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         switch (State)
         {
             case NPCState.Runaway:
-                UI_EventBox.AddEventText($"◆{Name_KR} (이)가 가까스로 도망침");
+                UI_EventBox.AddEventText($"◆{Name_Color} (이)가 가까스로 도망침");
                 NPC_Runaway();
                 break;
 
             case NPCState.Return_Empty:
-                UI_EventBox.AddEventText($"◆{Name_KR} (이)가 빈손으로 돌아감");
+                UI_EventBox.AddEventText($"◆{Name_Color} (이)가 빈손으로 돌아감");
                 NPC_Return_Empty();
                 break;
 
             case NPCState.Return_Satisfaction:
-                UI_EventBox.AddEventText($"◆{Name_KR} (이)가 만족하고 돌아감");
+                UI_EventBox.AddEventText($"◆{Name_Color} (이)가 만족하고 돌아감");
                 NPC_Return_Satisfaction();
                 break;
         }
