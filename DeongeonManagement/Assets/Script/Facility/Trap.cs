@@ -36,7 +36,8 @@ public class Trap : Facility
         if (InteractionOfTimes > 0)
         {
             InteractionOfTimes--;
-            Cor_Facility = StartCoroutine(FacilityEvent(npc, durationTime, "함정에 빠짐...", ap: ap_value, mp: mp_value, hp: hp_value));
+            Cor_Facility = StartCoroutine(FacilityEvent(npc, durationTime, UserData.Instance.GetLocaleText("Event_Trap"), 
+                ap: ap_value, mp: mp_value, hp: hp_value));
             trap_Anim.enabled = true;
             trap_Anim.Play(trapType.ToString());
 

@@ -48,32 +48,32 @@ public class UI_DayResult : UI_PopUp
         Bind<TextMeshProUGUI>(typeof(Texts));
 
 
-        GetTMP(((int)Texts.Mana)).text = $"얻은 마나 : {Util.SetTextColorTag(Result.Get_Mana.ToString(), Define.TextColor.LightGreen).SetTextColorTag(Define.TextColor.Bold) }";
-        GetTMP(((int)Texts.Gold)).text = $"얻은 골드 : {Result.Get_Gold.ToString().SetTextColorTag(Define.TextColor.LightGreen).SetTextColorTag(Define.TextColor.Bold)}";
-        GetTMP(((int)Texts.Prisoner)).text = $"잡은 포로 : {Util.SetTextColorTag(Result.Get_Prisoner.ToString(), Define.TextColor.Bold)}";
-        GetTMP(((int)Texts.Kill)).text = $"물리친 모험가 : {Util.SetTextColorTag(Result.Get_Kill.ToString(), Define.TextColor.Bold)}";
+        GetTMP(((int)Texts.Mana)).text = $"+ {UserData.Instance.GetLocaleText("Mana")} : {Util.SetTextColorTag(Result.Get_Mana.ToString(), Define.TextColor.LightGreen).SetTextColorTag(Define.TextColor.Bold) }";
+        GetTMP(((int)Texts.Gold)).text = $"+ {UserData.Instance.GetLocaleText("Gold")} : {Result.Get_Gold.ToString().SetTextColorTag(Define.TextColor.LightGreen).SetTextColorTag(Define.TextColor.Bold)}";
+        GetTMP(((int)Texts.Prisoner)).text = $"+ {UserData.Instance.GetLocaleText("포로")} : {Util.SetTextColorTag(Result.Get_Prisoner.ToString(), Define.TextColor.Bold)}";
+        GetTMP(((int)Texts.Kill)).text = $"+ {UserData.Instance.GetLocaleText("모험가")} : {Util.SetTextColorTag(Result.Get_Kill.ToString(), Define.TextColor.Bold)}";
 
-        GetTMP(((int)Texts.Use_Mana)).text = $"사용한 마나 : {Result.Use_Mana.ToString().SetTextColorTag(Define.TextColor.npc_red).SetTextColorTag(Define.TextColor.Bold)}";
-        GetTMP(((int)Texts.Use_Gold)).text = $"사용한 골드 : {Result.Use_Gold.ToString().SetTextColorTag(Define.TextColor.npc_red).SetTextColorTag(Define.TextColor.Bold)}";
+        GetTMP(((int)Texts.Use_Mana)).text = $"- {UserData.Instance.GetLocaleText("Mana")} : {Result.Use_Mana.ToString().SetTextColorTag(Define.TextColor.npc_red).SetTextColorTag(Define.TextColor.Bold)}";
+        GetTMP(((int)Texts.Use_Gold)).text = $"- {UserData.Instance.GetLocaleText("Gold")} : {Result.Use_Gold.ToString().SetTextColorTag(Define.TextColor.npc_red).SetTextColorTag(Define.TextColor.Bold)}";
 
-        GetTMP(((int)Texts.Monster_LvUp)).text = $"레벨업한 몬스터 : {Util.SetTextColorTag(GameManager.Monster.LevelUpList.Count.ToString(), Define.TextColor.Bold)}";
-        GetTMP(((int)Texts.Monster_Injury)).text = $"부상당한 몬스터 : {Util.SetTextColorTag(GameManager.Monster.InjuryMonster.ToString(), Define.TextColor.Bold)}";
+        GetTMP(((int)Texts.Monster_LvUp)).text = $"UP {UserData.Instance.GetLocaleText("몬스터")} : {Util.SetTextColorTag(GameManager.Monster.LevelUpList.Count.ToString(), Define.TextColor.Bold)}";
+        GetTMP(((int)Texts.Monster_Injury)).text = $"Weak {UserData.Instance.GetLocaleText("몬스터")} : {Util.SetTextColorTag(GameManager.Monster.InjuryMonster.ToString(), Define.TextColor.Bold)}";
 
-        GetTMP(((int)Texts.Fame)).text = $"인기도 : {Util.SetTextColorTag(Result.fame_perv.ToString(), Define.TextColor.Bold)} → " +
+        GetTMP(((int)Texts.Fame)).text = $"{UserData.Instance.GetLocaleText("Popularity")} : {Util.SetTextColorTag(Result.fame_perv.ToString(), Define.TextColor.Bold)} → " +
             $"{Util.SetTextColorTag(Main.Instance.PopularityOfDungeon.ToString(), Define.TextColor.Bold)}";
 
-        GetTMP(((int)Texts.Danger)).text = $"위험도 : {Util.SetTextColorTag(Result.danger_perv.ToString(), Define.TextColor.Bold)} → " +
+        GetTMP(((int)Texts.Danger)).text = $"{UserData.Instance.GetLocaleText("Danger")} : {Util.SetTextColorTag(Result.danger_perv.ToString(), Define.TextColor.Bold)} → " +
             $"{Util.SetTextColorTag(Main.Instance.DangerOfDungeon.ToString(), Define.TextColor.Bold)}";
 
 
         if (Result.dungeonRank != Main.Instance.DungeonRank)
         {
-            GetTMP(((int)Texts.DungeonLv)).text = $"던전 랭크 : {Result.dungeonRank} → {Main.Instance.DungeonRank}";
+            GetTMP(((int)Texts.DungeonLv)).text = $"{UserData.Instance.GetLocaleText("Rank")} : {Result.dungeonRank} → {Main.Instance.DungeonRank}";
             GetTMP(((int)Texts.DungeonLv)).text += "   UP!".SetTextColorTag(Define.TextColor.red).SetTextColorTag(Define.TextColor.Bold);
         }
         else
         {
-            GetTMP(((int)Texts.DungeonLv)).text = $"던전 랭크 : {Main.Instance.DungeonRank}";
+            GetTMP(((int)Texts.DungeonLv)).text = $"{UserData.Instance.GetLocaleText("Rank")} : {Main.Instance.DungeonRank}";
         }
 
 
@@ -100,8 +100,8 @@ public class UI_DayResult : UI_PopUp
         }
 
         GetTMP(((int)Texts.Final)).text =
-            $"마나 : {Result.Origin_Mana} {manaResult_Text} = {Main.Instance.Player_Mana.ToString().SetTextColorTag(Define.TextColor.LightYellow)}\n" +
-            $"골드 : {Result.Origin_Gold} {goldResult_Text} = {Main.Instance.Player_Gold.ToString().SetTextColorTag(Define.TextColor.LightYellow)}";
+            $"{UserData.Instance.GetLocaleText("Mana")} : {Result.Origin_Mana} {manaResult_Text} = {Main.Instance.Player_Mana.ToString().SetTextColorTag(Define.TextColor.LightYellow)}\n" +
+            $"{UserData.Instance.GetLocaleText("Gold")} : {Result.Origin_Gold} {goldResult_Text} = {Main.Instance.Player_Gold.ToString().SetTextColorTag(Define.TextColor.LightYellow)}";
     }
 
 

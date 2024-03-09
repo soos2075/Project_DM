@@ -117,7 +117,7 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
     protected IEnumerator FacilityEvent(NPC npc, float durationTime, string text, int ap = 0, int mp = 0, int hp = 0)
     {
-        UI_EventBox.AddEventText($"●{npc.Name_Color} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 {text}");
+        UI_EventBox.AddEventText($"●{npc.Name_Color} {text}");
 
         PlacementState = PlacementState.Busy;
 

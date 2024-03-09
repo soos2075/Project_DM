@@ -87,7 +87,7 @@ public class UI_QuestBoard : UI_PopUp, IDialogue
 
 
     #region IDialogue /  OptionBox
-    public SO_DialogueData Data { get; set; }
+    public DialogueData Data { get; set; }
     public float TextDelay { get; set; }
 
 

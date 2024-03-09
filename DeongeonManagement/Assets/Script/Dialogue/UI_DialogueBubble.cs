@@ -126,7 +126,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
 
     public Transform bubble_Position;
     [field: SerializeField]
-    public SO_DialogueData Data { get; set; }
+    public DialogueData Data { get; set; }
     public float TextDelay { get; set; }
 
     int textCount;
@@ -159,7 +159,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
     }
 
 
-    IEnumerator ContentsRoofWithType(SO_DialogueData textData)
+    IEnumerator ContentsRoofWithType(DialogueData textData)
     {
         yield return new WaitForEndOfFrame();
 

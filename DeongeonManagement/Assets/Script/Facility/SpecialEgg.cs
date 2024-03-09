@@ -20,7 +20,7 @@ public class SpecialEgg : Facility
         if (InteractionOfTimes > 0)
         {
             InteractionOfTimes--;
-            Cor_Facility = StartCoroutine(FacilityEvent(npc, 3, "알 조사중...", ap: 1, mp: 5, hp: 0));
+            Cor_Facility = StartCoroutine(FacilityEvent(npc, 3, UserData.Instance.GetLocaleText("Event_Egg"), ap: 0, mp: 0, hp: 0));
 
             Managers.UI.ClearAndShowPopUp<UI_GameOver>();
             return Cor_Facility;

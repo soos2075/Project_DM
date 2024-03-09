@@ -48,7 +48,7 @@ public class UI_Placement_TypeSelect : UI_PopUp, IWorldSpaceUI
 
         });
 
-        GetObject((int)Objects.Place).GetComponent<TextMeshProUGUI>().text = Main.Instance.CurrentFloor.Name_KR;
+        GetObject((int)Objects.Place).GetComponent<TextMeshProUGUI>().text = Main.Instance.CurrentFloor.LabelName;
     }
 
 

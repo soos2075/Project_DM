@@ -104,20 +104,20 @@ public class Interaction_Guild : MonoBehaviour
             InstanceQuestList.RemoveAt(0);
             //return $"Guild_{Original_Index + questIndex}";
 
-            Managers.Dialogue.ShowDialogueUI($"Guild_{Original_Index + questIndex}", transform);
+            Managers.Dialogue.ShowDialogueUI(Original_Index + questIndex, transform);
             return;
         }
 
         if (OptionList.Count > 0)
         {
             //return $"Guild_{Original_Index + 1}";
-            Managers.Dialogue.ShowDialogueUI($"Guild_{Original_Index + 1}", transform);
+            Managers.Dialogue.ShowDialogueUI(Original_Index + 1, transform);
             return;
         }
 
 
         //return $"Guild_{Original_Index}";
-        Managers.Dialogue.ShowDialogueUI($"Guild_{Original_Index}", transform);
+        Managers.Dialogue.ShowDialogueUI(Original_Index, transform);
     }
 
 

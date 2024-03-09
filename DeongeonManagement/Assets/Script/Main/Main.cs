@@ -116,7 +116,7 @@ public class Main : MonoBehaviour
         //Debug.Log("디버그용 Start");
         //NewGame_Init();
         //Default_Init();
-        Test_Init();
+        //Test_Init();
     }
     [Obsolete]
     public void Test_Init()
@@ -226,8 +226,7 @@ public class Main : MonoBehaviour
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => Time.timeScale > 0);
         var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
-        message.Message = "던전에 다양한 시설과 몬스터들을 배치하여 모험가들에게 마나를 얻으세요!\n\n" +
-            "마나는 기본적으로 모험가들이 던전에서 행하는 대부분의 행동에서 얻을 수 있어요.";
+        message.Message = UserData.Instance.GetLocaleText("Message_First");
 
     }
     void Instantiate_DayOne()
@@ -237,7 +236,7 @@ public class Main : MonoBehaviour
         Init_Statue();
         Init_EggEntrance();
 
-        Managers.Dialogue.ShowDialogueUI("Prologue", GameObject.Find("Player").transform);
+        Managers.Dialogue.ShowDialogueUI(DialogueName.Prologue, GameObject.Find("Player").transform);
     }
 
 
@@ -732,7 +731,7 @@ public class Main : MonoBehaviour
 
     public void TurnStartEvent()
     {
-        UI_EventBox.AddEventText($"※{Turn}일차 시작※");
+        UI_EventBox.AddEventText($"※{Turn}{UserData.Instance.GetLocaleText("Event_DayStart")}※");
 
 
         switch (Turn)
@@ -778,7 +777,7 @@ public class Main : MonoBehaviour
     }
     public void TurnOverEvent()
     {
-        UI_EventBox.AddEventText($"※{Turn}일차 종료※");
+        UI_EventBox.AddEventText($"※{Turn}{UserData.Instance.GetLocaleText("Event_DayOver")}※");
 
 
         switch (Turn)
@@ -786,14 +785,14 @@ public class Main : MonoBehaviour
 
             case 1:
                 Debug.Log("1일차 종료 이벤트 - 시설배치");
-                Managers.Dialogue.ShowDialogueUI("Facility", GameObject.Find("Player").transform);
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Facility, GameObject.Find("Player").transform);
                 UI_Main.Active_Button(UI_Management.ButtonEvent._1_Facility);
                 UI_Main.Active_Floor();
                 break;
 
             case 2:
                 Debug.Log("2일차 종료 이벤트 - 몬스터");
-                Managers.Dialogue.ShowDialogueUI("Monster", GameObject.Find("Player").transform);
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Monster, GameObject.Find("Player").transform);
                 UI_Main.Active_Button(UI_Management.ButtonEvent._2_Summon);
                 UI_Main.Active_Button(UI_Management.ButtonEvent._3_Management);
                 break;
@@ -801,17 +800,17 @@ public class Main : MonoBehaviour
             case 3:
                 Debug.Log("3일차 종료 이벤트 - 테크니컬");
                 Technical_Expansion();
-                Managers.Dialogue.ShowDialogueUI("Technical", GameObject.Find("Player").transform);
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Technical, GameObject.Find("Player").transform);
                 break;
 
             case 4:
                 Debug.Log("4일차 종료 이벤트 - 비밀방");
-                Managers.Dialogue.ShowDialogueUI("EggAppear", GameObject.Find("Player").transform);
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Egg, GameObject.Find("Player").transform);
                 break;
 
             case 5:
                 Debug.Log("5일차 종료 이벤트 - 길드");
-                Managers.Dialogue.ShowDialogueUI("Guild", GameObject.Find("Player").transform);
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Guild, GameObject.Find("Player").transform);
                 UI_Main.Active_Button(UI_Management.ButtonEvent._4_Guild);
                 break;
 
@@ -820,7 +819,7 @@ public class Main : MonoBehaviour
 
             case 15:
                 Debug.Log("임시로 15일 게임클리어");
-                Managers.Dialogue.ShowDialogueUI("Ending", GameObject.Find("Player").transform);
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Ending_Demo, GameObject.Find("Player").transform);
                 break;
 
             case 30:
@@ -951,6 +950,17 @@ public class Main : MonoBehaviour
         {
             Floor[i].FloorIndex = i;
             Floor[i].Init_Floor();
+
+
+            if (i == 3)
+            {
+                Floor[i].LabelName = $"{UserData.Instance.GetLocaleText("숨겨진곳")}";
+            }
+            else
+            {
+                Floor[i].LabelName = $"{UserData.Instance.GetLocaleText("지하")} {i} {UserData.Instance.GetLocaleText("층")}";
+            }
+
 
             //Floor[i].gameObject.SetActive(false);
         }

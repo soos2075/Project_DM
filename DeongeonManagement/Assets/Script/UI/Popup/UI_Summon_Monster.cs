@@ -70,7 +70,7 @@ public class UI_Summon_Monster : UI_PopUp
     }
     void Init_Texts() //? 추후에 행동력이나 기타등등 필요하면 다시 추가
     {
-        GetTMP((int)Info.CurrentMana).text = $"마나\t{Main.Instance.Player_Mana}";
+        GetTMP((int)Info.CurrentMana).text = $"{UserData.Instance.GetLocaleText("Mana")}\t{Main.Instance.Player_Mana}";
     }
 
     void Init_Contents()
@@ -179,7 +179,7 @@ public class UI_Summon_Monster : UI_PopUp
         else
         {
             var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = "몬스터 슬롯이 부족합니다";
+            msg.Message = UserData.Instance.GetLocaleText("Message_No_Slot");
         }
     }
 
@@ -198,7 +198,7 @@ public class UI_Summon_Monster : UI_PopUp
         Init_Texts();
 
         var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-        msg.Message = $"{data.labelName} 소환 성공!";
+        msg.Message = $"{data.labelName} {UserData.Instance.GetLocaleText("Message_Summon")}";
     }
 
 
@@ -207,25 +207,25 @@ public class UI_Summon_Monster : UI_PopUp
         if (Main.Instance.Player_Mana < mana)
         {
             var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = "마나가 부족합니다";
+            msg.Message = UserData.Instance.GetLocaleText("Message_No_Mana");
             return false;
         }
         if (Main.Instance.Player_Gold < gold)
         {
             var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = "골드가 부족합니다";
+            msg.Message = UserData.Instance.GetLocaleText("Message_No_Gold");
             return false;
         }
         if (Main.Instance.DungeonRank < lv)
         {
             var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = "던전 등급이 부족합니다";
+            msg.Message = UserData.Instance.GetLocaleText("Message_No_Rank");
             return false;
         }
         if (Main.Instance.Player_AP < ap)
         {
             var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = "행동력이 부족합니다";
+            msg.Message = UserData.Instance.GetLocaleText("Message_No_AP");
             return false;
         }
 

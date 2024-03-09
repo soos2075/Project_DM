@@ -28,8 +28,8 @@ public class UI_SystemMessage : UI_PopUp
         PrintMessage();
     }
 
-    [TextArea(2,10)]
-    public string Message;
+    //[TextArea(2,10)]
+    public string Message { get; set; }
     void PrintMessage()
     {
         if (string.IsNullOrEmpty(Message))

@@ -299,7 +299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a384d4346690844491d30674b13f1ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Original_Index: 4000
+  Original_Index: 3000
   InstanceQuestList: 0a000000
   OptionList: 
 --- !u!114 &158067428
@@ -509,7 +509,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Original_Index: 2000
   InstanceQuestList: 
-  OptionList: 64000000c8000000
+  OptionList: 6400000065000000
 --- !u!114 &285262126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26464,7 +26464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a384d4346690844491d30674b13f1ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Original_Index: 3000
+  Original_Index: 4000
   InstanceQuestList: 0a000000
   OptionList: 
 --- !u!114 &1945474077

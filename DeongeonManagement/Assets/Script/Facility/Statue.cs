@@ -31,7 +31,7 @@ public class Statue : Facility
         if (Main.Instance.Player_AP <= 0)
         {
             var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = "행동력이 부족합니다";
+            msg.Message = UserData.Instance.GetLocaleText("Message_No_AP");
             return;
         }
 
@@ -40,12 +40,12 @@ public class Statue : Facility
         switch (statueType)
         {
             case StatueType.Gold:
-                ui.SetText("금빛 천사상에게 기도할까요?");
+                ui.SetText(UserData.Instance.GetLocaleText("Confirm_GoldStatue"));
                 StartCoroutine(WaitForAnswer_Gold(ui));
                 break;
 
             case StatueType.Mana:
-                ui.SetText("은빛 천사상에게 기도할까요?");
+                ui.SetText(UserData.Instance.GetLocaleText("Confirm_ManaStatue"));
                 StartCoroutine(WaitForAnswer_Mana(ui));
                 break;
         }
@@ -63,7 +63,7 @@ public class Statue : Facility
 
             Managers.UI.ClosePopupPick(confirm);
             var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
-            msg.Message = $"여신상에 기도를 올려 {gold} 골드를 얻었습니다.";
+            msg.Message = $"{gold} {UserData.Instance.GetLocaleText("Message_Get_Gold")}";
         }
     }
     IEnumerator WaitForAnswer_Mana(UI_Confirm confirm)
@@ -78,7 +78,7 @@ public class Statue : Facility
 
             Managers.UI.ClosePopupPick(confirm);
             var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
-            msg.Message = $"여신상에 기도를 올려 {mana} 마나를 얻었습니다.";
+            msg.Message = $"{mana} {UserData.Instance.GetLocaleText("Message_Get_Mana")}";
         }
     }
 

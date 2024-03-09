@@ -247,13 +247,13 @@ public class UI_Management : UI_Base
         if (Main.Instance.Player_AP <= 0)
         {
             var ui = Managers.UI.ShowPopUp<UI_SystemMessage>();
-            ui.Message = "최소 1 행동력이 필요합니다.";
+            ui.Message = UserData.Instance.GetLocaleText("Message_No_AP");
             Debug.Log("훈련횟수 없음");
         }
         else
         {
             var ui = Managers.UI.ClearAndShowPopUp<UI_Confirm>();
-            ui.SetText($"길드에 방문할까요?\n(남은 행동력이 모두 소모됩니다)");
+            ui.SetText($"{UserData.Instance.GetLocaleText("Confirm_Guild")}\n({UserData.Instance.GetLocaleText("Confirm_AP")})");
             StartCoroutine(WaitForAnswer(ui));
         }
 

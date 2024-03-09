@@ -166,7 +166,7 @@ public class PlayerController : MonoBehaviour
         if (collision.CompareTag("Guild_Exit"))
         {
             var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
-            ui.SetText("던전으로 돌아갈까요?");
+            ui.SetText(UserData.Instance.GetLocaleText("Confirm_Return"));
             StartCoroutine(WaitForAnswer(ui));
             return;
         }

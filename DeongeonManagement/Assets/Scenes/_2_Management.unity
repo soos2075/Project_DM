@@ -170,7 +170,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Hidden: 0
-  Name_KR: "\uC9C0\uD558 4\uCE35"
   MaxMonsterSize: 5
   npcList: []
   monsterList: []
@@ -25561,7 +25560,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Hidden: 0
-  Name_KR: "\uC9C0\uD558 1\uCE35"
   MaxMonsterSize: 3
   npcList: []
   monsterList: []
@@ -36814,7 +36812,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Hidden: 0
-  Name_KR: "\uC9C0\uD558 2\uCE35"
   MaxMonsterSize: 2
   npcList: []
   monsterList: []
@@ -39945,7 +39942,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Hidden: 0
-  Name_KR: "\uC9C0\uD558 3\uCE35"
   MaxMonsterSize: 4
   npcList: []
   monsterList: []
@@ -55567,7 +55563,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Hidden: 1
-  Name_KR: "\uB358\uC804\uC758 \uC228\uACA8\uC9C4\uACF3"
   MaxMonsterSize: 1
   npcList: []
   monsterList: []

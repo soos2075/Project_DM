@@ -72,9 +72,9 @@ public class UI_Placement_Technical : UI_PopUp
     }
     void Init_Texts()
     {
-        GetTMP((int)Info.CurrentMana).text = $"마나\t{Main.Instance.Player_Mana}";
-        GetTMP((int)Info.CurrentMana).text += $"\n골드\t{Main.Instance.Player_Gold}";
-        GetTMP((int)Info.CurrentMana).text += $"\n행동력\t{Main.Instance.Player_AP}";
+        GetTMP((int)Info.CurrentMana).text = $"{UserData.Instance.GetLocaleText("Mana")}\t{Main.Instance.Player_Mana}";
+        GetTMP((int)Info.CurrentMana).text += $"\n{UserData.Instance.GetLocaleText("Gold")}\t{Main.Instance.Player_Gold}";
+        GetTMP((int)Info.CurrentMana).text += $"\nAP\t{Main.Instance.Player_AP}";
     }
 
     void Clear_NeedText()
@@ -169,25 +169,25 @@ public class UI_Placement_Technical : UI_PopUp
         if (Main.Instance.Player_Mana < mana)
         {
             var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = "마나가 부족합니다";
+            msg.Message = UserData.Instance.GetLocaleText("Message_No_Mana");
             return false;
         }
         if (Main.Instance.Player_Gold < gold)
         {
             var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = "골드가 부족합니다";
+            msg.Message = UserData.Instance.GetLocaleText("Message_No_Gold");
             return false;
         }
         if (Main.Instance.DungeonRank < lv)
         {
             var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = "던전 등급이 부족합니다";
+            msg.Message = UserData.Instance.GetLocaleText("Message_No_Rank");
             return false;
         }
         if (Main.Instance.Player_AP < ap)
         {
             var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = "행동력이 부족합니다";
+            msg.Message = UserData.Instance.GetLocaleText("Message_No_AP");
             return false;
         }
 

@@ -100,8 +100,8 @@ public class UI_Monster_Management : UI_PopUp
         if (Type == UI_Type.Placement)
         {
             GetImage(((int)Panels.FloorPanel)).gameObject.SetActive(true);
-            GetTMP((int)Texts.DetailInfo).text = $"{Main.Instance.CurrentFloor.Name_KR}\n배치된 몬스터 : {Main.Instance.CurrentFloor.monsterList.Count}\n" +
-                $"추가 배치가능 몬스터 : {Main.Instance.CurrentFloor.MaxMonsterSize}";
+            GetTMP((int)Texts.DetailInfo).text = $"{Main.Instance.CurrentFloor.LabelName}\n{UserData.Instance.GetLocaleText("배치된 몬스터")} : {Main.Instance.CurrentFloor.monsterList.Count}\n" +
+                $"{UserData.Instance.GetLocaleText("배치가능 몬스터")} : {Main.Instance.CurrentFloor.MaxMonsterSize}";
         }
         else
         {
@@ -171,7 +171,7 @@ public class UI_Monster_Management : UI_PopUp
     void AddFloorInfo()
     {
         GetImage(((int)Panels.FloorPanel)).gameObject.SetActive(true);
-        GetTMP((int)Texts.DetailInfo).text = $"남은 행동력 : {Main.Instance.Player_AP}";
+        GetTMP((int)Texts.DetailInfo).text = $"AP : {Main.Instance.Player_AP}";
     }
 
     #endregion
@@ -283,7 +283,7 @@ public class UI_Monster_Management : UI_PopUp
     {
         yield return new WaitForEndOfFrame();
         Debug.Log("창 새로고침");
-        GetTMP((int)Texts.DetailInfo).text = $"남은 행동력 : {Main.Instance.Player_AP}";
+        GetTMP((int)Texts.DetailInfo).text = $"AP : {Main.Instance.Player_AP}";
 
         ShowDetail(Current);
         for (int i = 0; i < childList.Count; i++)
@@ -315,7 +315,7 @@ public class UI_Monster_Management : UI_PopUp
                 GetButton(((int)Buttons.Release)).gameObject.
                     AddUIEvent((data) => GameManager.Monster.ReleaseMonster(Current.monster.MonsterID));
 
-                GetTMP((int)Texts.DetailInfo).text = $"대기중\n남은 행동력 : {Main.Instance.Player_AP}";
+                GetTMP((int)Texts.DetailInfo).text = $"{UserData.Instance.GetLocaleText("대기중")}\nAP : {Main.Instance.Player_AP}";
                 break;
 
 
@@ -331,7 +331,7 @@ public class UI_Monster_Management : UI_PopUp
                 GetButton(((int)Buttons.Training)).gameObject.
                     AddUIEvent((data) => Current.monster.Training());
 
-                GetTMP((int)Texts.DetailInfo).text = $"배치중 : {Current.monster.PlacementInfo.Place_Floor.Name_KR}\n남은 행동력 : {Main.Instance.Player_AP}";
+                GetTMP((int)Texts.DetailInfo).text = $"{UserData.Instance.GetLocaleText("배치중")} : {Current.monster.PlacementInfo.Place_Floor.LabelName}\nAP : {Main.Instance.Player_AP}";
                 break;
 
 
@@ -347,10 +347,10 @@ public class UI_Monster_Management : UI_PopUp
                 int RecoverCost = (int)(((Current.monster.LV * 0.15f) + 0.15f) * Current.monster.Data.manaCost);
                 GetButton(((int)Buttons.Recover)).gameObject.
                     AddUIEvent((data) => Current.monster.Recover(RecoverCost));
-                GetButton(((int)Buttons.Recover)).GetComponentInChildren<TextMeshProUGUI>().text = $"회복({RecoverCost})";
+                GetButton(((int)Buttons.Recover)).GetComponentInChildren<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("회복")}({RecoverCost})";
 
 
-                GetTMP((int)Texts.DetailInfo).text = $"부상 회복 필요 마나 : {RecoverCost}";
+                GetTMP((int)Texts.DetailInfo).text = $"{UserData.Instance.GetLocaleText("회복")} {UserData.Instance.GetLocaleText("Mana")} : {RecoverCost}";
                 break;
         }
     }
@@ -458,7 +458,7 @@ public class UI_Monster_Management : UI_PopUp
 
     void CreateOver()
     {
-        Debug.Log($"{Current.monster.Name_Color}(이)가 {Main.Instance.CurrentTile.floor.Name_KR}에 배치되었습니다");
+        Debug.Log($"{Current.monster.Name_Color}(이)가 {Main.Instance.CurrentTile.floor.LabelName}에 배치되었습니다");
         ResetAction();
     }
     void ResetAction()

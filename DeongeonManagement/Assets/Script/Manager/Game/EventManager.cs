@@ -140,7 +140,7 @@ public class EventManager : MonoBehaviour
 
             int ranPop = UnityEngine.Random.Range(10, 20);
             var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
-            msg.Message = $"던전의 인기도가 {ranPop} 올랐습니다.";
+            msg.Message = $"{ranPop} {UserData.Instance.GetLocaleText("Message_Get_Pop")}";
             FindAnyObjectByType<GuildManager>().AddBackAction(() =>
             {
                 Main.Instance.CurrentDay.AddPop(ranPop);
@@ -193,7 +193,7 @@ public class EventManager : MonoBehaviour
             //Managers.UI.ClosePopUp();
             //Managers.Dialogue.currentDialogue = null;
             var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
-            message.Message = "숨겨진 방으로 향하는 통로가 생겼습니다.\n\n이후로 이 방에 누군가 침입해 알이 발견당하면 게임오버가 됩니다.";
+            message.Message = UserData.Instance.GetLocaleText("Message_Egg");
         });
 
 

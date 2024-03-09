@@ -22,15 +22,19 @@ public class DataManager
 
     void Init_Object_CSV()
     {
-        CSV_File_Parsing("Object/Object_KR", ObjectsLabel_KR);
-        CSV_File_Parsing("Object/Object_EN", ObjectsLabel_EN);
+        CSV_File_Parsing_Object("Object/Object_KR", ObjectsLabel_KR);
+        CSV_File_Parsing_Object("Object/Object_EN", ObjectsLabel_EN);
+
+        CSV_File_Parsing_Dialogue("Dialogue/Dialogue_KR", Dialogue_KR);
+        CSV_File_Parsing_Dialogue("Dialogue/Dialogue_EN", Dialogue_EN);
+        CSV_File_Parsing_Dialogue("Dialogue/Dialogue_JP", Dialogue_JP);
     }
 
 
 
 
     // 0 x / 1 : id / 2 : Label / 3 : Detail / 4 : Option1 / 5 : Option2 / 6: Option3
-    void CSV_File_Parsing(string _filePath, Dictionary<int, string[]> _dict) 
+    void CSV_File_Parsing_Object(string _filePath, Dictionary<int, string[]> _dict) 
     {
         var obj_kr = FileOperation(FileMode.Open, $"{Application.dataPath}/Data/{_filePath}.csv");
         var spl_n = obj_kr.Split('\n');
@@ -60,6 +64,66 @@ public class DataManager
         }
     }
 
+
+    public Dictionary<DialogueName, DialogueData> Dialogue_KR = new Dictionary<DialogueName, DialogueData>();
+    public Dictionary<DialogueName, DialogueData> Dialogue_EN = new Dictionary<DialogueName, DialogueData>();
+    public Dictionary<DialogueName, DialogueData> Dialogue_JP = new Dictionary<DialogueName, DialogueData>();
+
+    void CSV_File_Parsing_Dialogue(string _filePath, Dictionary<DialogueName, DialogueData> _dict)
+    {
+        var obj_kr = FileOperation(FileMode.Open, $"{Application.dataPath}/Data/{_filePath}.csv");
+        var spl_n = obj_kr.Split('\n');
+
+        for (int i = 6; i < spl_n.Length; i++)
+        {
+            var spl_comma = spl_n[i].Split(',');
+
+            if (spl_comma.Length < 2 || string.IsNullOrEmpty(spl_comma[1]))
+            {
+                continue;
+            }
+
+
+            int id = int.Parse(spl_comma[1]);
+            //DialogueName keyName = (DialogueName)Enum.Parse(typeof(DialogueName), spl_comma[2]);
+
+            var dialogue = new DialogueData();
+            dialogue.id = id;
+            dialogue.Type = (DialogueData.DialogueType)Enum.Parse(typeof(DialogueData.DialogueType), spl_comma[3]);
+            dialogue.dialogueName = spl_comma[4];
+
+            while (string.IsNullOrEmpty(spl_comma[6]) == false)
+            {
+                int index = int.Parse(spl_comma[6]);
+                string optionString = spl_comma[7];
+                string mainText = spl_comma[8];
+
+                if (mainText.Contains('\\'))
+                {
+                    var split = mainText.Split('\\');
+                    mainText = string.Join("\n", split);
+                }
+                if (mainText.Contains('-'))
+                {
+                    var split = mainText.Split('-');
+                    mainText = string.Join(',', split);
+                }
+
+                var textData = new DialogueData.TextData(optionString, mainText);
+                dialogue.TextDataList.Add(textData);
+                //Debug.Log(mainText);
+
+                i++;
+                spl_comma = spl_n[i].Split(',');
+                if (spl_comma.Length < 2)
+                {
+                    break;
+                }
+            }
+
+            _dict.Add((DialogueName)id, dialogue);
+        }
+    }
 
 
 
@@ -295,7 +359,7 @@ public class DataManager
     {
         //? 파일로 저장
         string jsonData = JsonConvert.SerializeObject(data);
-        var result = FileOperation(FileMode.Create, $"{Application.dataPath}/{fileName}.json", jsonData);
+        var result = FileOperation(FileMode.Create, $"{Application.dataPath}/Data/Savefile/{fileName}.json", jsonData);
         Debug.Log($"Save Sucess : {fileName}");
     }
 
@@ -303,7 +367,7 @@ public class DataManager
     SaveData LoadToStorage(string fileName)
     {
         //? 저장된 파일 읽어옴
-        var _fileData = FileOperation(FileMode.Open, $"{Application.dataPath}/{fileName}.json");
+        var _fileData = FileOperation(FileMode.Open, $"{Application.dataPath}/Data/Savefile/{fileName}.json");
         SaveData loadData = JsonConvert.DeserializeObject<SaveData>(_fileData);
 
         return loadData;
@@ -371,7 +435,7 @@ public class DataManager
         string searchName;
         FileInfo fileInfo;
 
-        searchName = $"{Application.dataPath}/{searchFileName}.json";
+        searchName = $"{Application.dataPath}/Data/Savefile/{searchFileName}.json";
         fileInfo = new FileInfo(searchName);
         return fileInfo.Exists;
     }
@@ -381,7 +445,7 @@ public class DataManager
     {
         if (SaveFileSearch(targetFile))
         {
-            File.Delete($"{Application.dataPath}/{targetFile}.json");
+            File.Delete($"{Application.dataPath}/Data/Savefile/{targetFile}.json");
             Debug.Log(targetFile + " Delete Complete");
         }
         else

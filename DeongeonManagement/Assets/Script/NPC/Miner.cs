@@ -86,7 +86,7 @@ public class Miner : NPC
     }
     protected override void NPC_Captive()
     {
-        UI_EventBox.AddEventText($"¢Â{Name_Color} ¿¡°Ô º¸¼®±ÝÀ» ¶â¾î³¿");
+        UI_EventBox.AddEventText($"¢Â{Name_Color} {UserData.Instance.GetLocaleText("Event_Prison")}");
         Main.Instance.CurrentDay.AddPrisoner(1);
 
         Main.Instance.CurrentDay.AddGold(KillGold * 2);
@@ -108,7 +108,7 @@ public class Miner : NPC
             }
         }
 
-        UI_EventBox.AddEventText($"¢Â{Name_Color} (ÀÌ)°¡ ¾²·¯Áü");
+        UI_EventBox.AddEventText($"¢Â{Name_Color} {UserData.Instance.GetLocaleText("Event_Defeat")}");
         Main.Instance.CurrentDay.AddKill(1);
         Main.Instance.CurrentDay.AddGold(KillGold);
         Main.Instance.CurrentDay.AddDanger(5 + Data.Rank);

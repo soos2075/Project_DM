@@ -18,7 +18,7 @@ public class QuestHunter : NPC
     {
         yield return new WaitForSeconds(5);
 
-        Managers.Dialogue.ShowDialogueUI($"Quest_{Hunter.ToString()}", transform);
+        Managers.Dialogue.ShowDialogueUI($"Hunter_{Hunter.ToString()}", transform);
     }
     protected override void Start_Setting()
     {
@@ -98,7 +98,7 @@ public class QuestHunter : NPC
     protected override void NPC_Die()
     {
         Main.Instance.CurrentDay.AddKill(1);
-        UI_EventBox.AddEventText($"◈{Name_Color} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 쓰러짐");
+        UI_EventBox.AddEventText($"◈{Name_Color} {UserData.Instance.GetLocaleText("Event_Defeat")}");
         GameManager.NPC.InactiveNPC(this);
 
         //EventManager.Instance.RemoveQuestAction((int)Hunter);

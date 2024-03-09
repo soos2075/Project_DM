@@ -81,7 +81,7 @@ public class UI_Technical : UI_Scene, IWorldSpaceUI
     void Demolition_Technical()
     {
         var ui = Managers.UI.ShowPopUp<UI_Confirm>();
-        ui.SetText($"{Parent.Current.Data.labelName}(을)를 철거할까요?");
+        ui.SetText($"[{Parent.Current.Data.labelName}] {UserData.Instance.GetLocaleText("Confirm_Remove")}");
         StartCoroutine(WaitForAnswer(ui));
     }
 

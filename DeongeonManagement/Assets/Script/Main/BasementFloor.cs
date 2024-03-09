@@ -30,7 +30,8 @@ public class BasementFloor : MonoBehaviour
 
     public bool Hidden = false;
 
-    public string Name_KR;
+    public string LabelName { get; set; }
+
     public int MaxMonsterSize = 3;
 
     public List<NPC> npcList;

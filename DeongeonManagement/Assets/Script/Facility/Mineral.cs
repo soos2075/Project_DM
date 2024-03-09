@@ -54,7 +54,8 @@ public class Mineral : Facility
             }
 
             InteractionOfTimes--;
-            Cor_Facility = StartCoroutine(FacilityEvent(npc, durationTime, "±¤¼® Ã¤±¼Áß...", ap: ap_value, mp: changeMP, hp: hp_value));
+            Cor_Facility = StartCoroutine(FacilityEvent(npc, durationTime, UserData.Instance.GetLocaleText("Event_Mineral"), 
+                ap: ap_value, mp: changeMP, hp: hp_value));
             return Cor_Facility;
         }
         else
@@ -71,7 +72,7 @@ public class Mineral : Facility
         if (Main.Instance.Management == false) return;
 
         var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
-        ui.SetText($"[{Name}] Ã¶°ÅÇÒ±î¿ä? ");
+        ui.SetText($"[{Name}] {UserData.Instance.GetLocaleText("Confirm_Remove")}");
         StartCoroutine(WaitForAnswer(ui));
     }
 

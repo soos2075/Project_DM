@@ -59,7 +59,7 @@ public class UI_Expansion_Floor : UI_Base, IWorldSpaceUI
         if (NeedGold <= Main.Instance.Player_Gold && NeedMana <= Main.Instance.Player_Mana && NeedLv <= Main.Instance.DungeonRank && Main.Instance.Player_AP > 0)
         {
             var ui = Managers.UI.ShowPopUp<UI_Confirm>();
-            ui.SetText($"던전을 확장할까요?");
+            ui.SetText(UserData.Instance.GetLocaleText("Confirm_Expansion"));
             StartCoroutine(WaitForAnswer(ui));
         }
     }

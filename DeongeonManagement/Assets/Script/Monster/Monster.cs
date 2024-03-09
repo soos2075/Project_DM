@@ -378,9 +378,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         npc.Mana -= battleMP;
 
 
-        UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 전투발생 : " +
-            $"{npc.Name_Color} vs " +
-            $"{Name_Color}");
+        UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.LabelName} - " +
+            $"{npc.Name_Color} vs {Name_Color} {UserData.Instance.GetLocaleText("Battle_Start")}");
 
         BattleField.BattleResult result = 0;
         yield return BattleManager.Instance.ShowBattleField(npc, this, out result);
@@ -389,17 +388,18 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         switch (result)
         {
             case BattleField.BattleResult.Nothing:
-                UI_EventBox.AddEventText($"★{Name_Color} vs {npc.Name_Color} 의 전투가 종료되었습니다.");
+                UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.LabelName} - " +
+                    $"{npc.Name_Color} vs {Name_Color} {UserData.Instance.GetLocaleText("Battle_End")}");
                 GetBattlePoint(npc.Rank);
                 break;
 
             case BattleField.BattleResult.Monster_Die:
-                UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 {Name_Color} (이)가 전투에서 패배했습니다..");
+                UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.LabelName} - {Name_Color} {UserData.Instance.GetLocaleText("Battle_Lose")}");
                 MonsterOutFloor();
                 break;
 
             case BattleField.BattleResult.NPC_Die:
-                UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 {Name_Color} (이)가 {npc.Name_Color} 에게 승리하였습니다!");
+                UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.LabelName} - {Name_Color} {UserData.Instance.GetLocaleText("Battle_Win")}");
                 GetBattlePoint(npc.Rank * 2);
                 break;
         }
@@ -582,7 +582,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         else
         {
             var ui = Managers.UI.ShowPopUp<UI_SystemMessage>();
-            ui.Message = "마나가 부족합니다";
+            ui.Message = UserData.Instance.GetLocaleText("Message_No_Mana");
             //Debug.Log("마나부족");
         }
     }
@@ -592,13 +592,13 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         if (Main.Instance.Player_AP <= 0)
         {
             var ui = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            ui.Message = "행동력이 부족합니다.";
+            ui.Message = UserData.Instance.GetLocaleText("Message_No_AP");
             return;
         }
         if (Data.maxLv <= LV)
         {
             var ui = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            ui.Message = "최대레벨에 도달했습니다.";
+            ui.Message = UserData.Instance.GetLocaleText("Message_MaxLv");
             return;
         }
 

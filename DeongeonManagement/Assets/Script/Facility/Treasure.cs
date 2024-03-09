@@ -50,7 +50,7 @@ public class Treasure : Facility
 
     protected IEnumerator TreasureEvent(NPC npc)
     {
-        UI_EventBox.AddEventText($"●{npc.Name_Color} (이)가 {PlacementInfo.Place_Floor.Name_KR}에서 {"보물 탐색중..."}");
+        UI_EventBox.AddEventText($"●{npc.Name_Color} {UserData.Instance.GetLocaleText("Event_Treasure")}");
         PlacementState = PlacementState.Busy;
 
         bool isLastInteraction = false;

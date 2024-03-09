@@ -46,7 +46,7 @@ public enum PlacementType
 
 public interface IDialogue
 {
-    public SO_DialogueData Data { get; set; }
+    public DialogueData Data { get; set; }
     public float TextDelay { get; set; }
 
     public void AddOption(GameObject button);

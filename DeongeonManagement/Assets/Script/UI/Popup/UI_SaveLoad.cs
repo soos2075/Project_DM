@@ -51,7 +51,7 @@ public class UI_SaveLoad : UI_PopUp
             GetButton(((int)Buttons.Save)).gameObject.SetActive(false);
             //GetButton(((int)Buttons.Load)).gameObject.SetActive(false);
             GetButton(((int)Buttons.Load)).GetComponent<Image>().sprite = button_Down;
-            GetButton(((int)Buttons.Load)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 12, 0, 0);
+            GetButton(((int)Buttons.Load)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 18, 0, 0);
 
         }
         if (State == Buttons.Save)
@@ -84,7 +84,7 @@ public class UI_SaveLoad : UI_PopUp
     {
         State = Buttons.Save;
         GetButton(((int)Buttons.Save)).GetComponent<Image>().sprite = button_Down;
-        GetButton(((int)Buttons.Save)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 12, 0, 0);
+        GetButton(((int)Buttons.Save)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 18, 0, 0);
 
         GetButton(((int)Buttons.Load)).GetComponent<Image>().sprite = button_Up;
         GetButton(((int)Buttons.Load)).GetComponentInChildren<TextMeshProUGUI>().margin = Vector4.zero;
@@ -93,7 +93,7 @@ public class UI_SaveLoad : UI_PopUp
     {
         State = Buttons.Load;
         GetButton(((int)Buttons.Load)).GetComponent<Image>().sprite = button_Down;
-        GetButton(((int)Buttons.Load)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 12, 0, 0);
+        GetButton(((int)Buttons.Load)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 18, 0, 0);
 
         GetButton(((int)Buttons.Save)).GetComponent<Image>().sprite = button_Up;
         GetButton(((int)Buttons.Save)).GetComponentInChildren<TextMeshProUGUI>().margin = Vector4.zero;
@@ -114,7 +114,7 @@ public class UI_SaveLoad : UI_PopUp
                 ShowDataInfo();
                 SoundManager.Instance.PlaySound("SFX/Save");
                 var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
-                msg.Message = "저장되었습니다.";
+                msg.Message = UserData.Instance.GetLocaleText("Message_Saved"); 
                 break;
 
             case Buttons.Load:
@@ -153,16 +153,16 @@ public class UI_SaveLoad : UI_PopUp
 
             if (data != null)
             {
-                GetImage(i - 1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{i}번 슬롯";
+                GetImage(i - 1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("Slot")} {i}";
                 GetImage(i - 1).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{data.dateTime}";
                 GetImage(i - 1).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = 
                     $"{data.turn}일차\n인기도 : {data.FameOfDungeon} / 위험도 : {data.DangerOfDungeon}";
             }
             else
             {
-                GetImage(i - 1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{i}번 슬롯";
+                GetImage(i - 1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("Slot")} {i}";
                 GetImage(i - 1).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"";
-                GetImage(i - 1).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"데이터 없음";
+                GetImage(i - 1).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("No Data")}";
             }
         }
         ShowAutoInfo();
@@ -172,16 +172,16 @@ public class UI_SaveLoad : UI_PopUp
         var autodata = Managers.Data.GetData($"AutoSave");
         if (autodata != null)
         {
-            GetImage(((int)Slot.AutoSave)).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"자동저장";
+            GetImage(((int)Slot.AutoSave)).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("AutoSave")}";
             GetImage(((int)Slot.AutoSave)).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{autodata.dateTime}";
             GetImage(((int)Slot.AutoSave)).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text =
                 $"{autodata.turn}일차\n인기도 : {autodata.FameOfDungeon} / 위험도 : {autodata.DangerOfDungeon}";
         }
         else
         {
-            GetImage(((int)Slot.AutoSave)).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"자동저장";
+            GetImage(((int)Slot.AutoSave)).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("AutoSave")}";
             GetImage(((int)Slot.AutoSave)).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"";
-            GetImage(((int)Slot.AutoSave)).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"데이터 없음";
+            GetImage(((int)Slot.AutoSave)).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("No Data")}";
         }
 
     }

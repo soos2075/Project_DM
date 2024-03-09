@@ -57,7 +57,7 @@ public class UI_MonsterBox : UI_Base
                 break;
 
             case Monster.MonsterState.Placement:
-                GetObject(((int)Contents.State)).GetComponent<TextMeshProUGUI>().text = $"{monster.PlacementInfo.Place_Floor.Name_KR}".SetTextColorTag(Define.TextColor.blue);
+                GetObject(((int)Contents.State)).GetComponent<TextMeshProUGUI>().text = $"{monster.PlacementInfo.Place_Floor.LabelName}".SetTextColorTag(Define.TextColor.blue);
                 break;
 
             case Monster.MonsterState.Injury:

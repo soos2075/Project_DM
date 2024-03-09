@@ -10,7 +10,7 @@ public class Define
     {
         EN = 0,
         KR = 1,
-
+        JP = 2,
     }
 
 

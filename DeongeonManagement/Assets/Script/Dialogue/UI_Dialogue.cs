@@ -143,7 +143,7 @@ public class UI_Dialogue : UI_PopUp, IDialogue
     }
 
     [field:SerializeField]
-    public SO_DialogueData Data { get; set; }
+    public DialogueData Data { get; set; }
     public float TextDelay { get; set; }
 
     int textCount;
@@ -177,7 +177,7 @@ public class UI_Dialogue : UI_PopUp, IDialogue
     }
 
 
-    IEnumerator ContentsRoofWithType(SO_DialogueData textData)
+    IEnumerator ContentsRoofWithType(DialogueData textData)
     {
         yield return new WaitForEndOfFrame();
 

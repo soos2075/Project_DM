@@ -1,0 +1,422 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: UI Table_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 2859aa48df27995428dd19d8eacd2693, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 152226181120
+    m_Localized: New Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 270962733056
+    m_Localized: Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3420889231360
+    m_Localized: Continue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3731783626752
+    m_Localized: Exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24562949632000
+    m_Localized: Save
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24691995783168
+    m_Localized: Load
+    m_Metadata:
+      m_Items: []
+  - m_Id: 25882351841280
+    m_Localized: Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43068810276864
+    m_Localized: Would you like to change the language?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 46133038755840
+    m_Localized: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 46674334658560
+    m_Localized: No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72518562164736
+    m_Localized: Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 73622129684480
+    m_Localized: BGM Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74082697818112
+    m_Localized: Effect Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74301883756544
+    m_Localized: Dialogue Speed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74658194075648
+    m_Localized: Resolution
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74938692349952
+    m_Localized: Full Window
+    m_Metadata:
+      m_Items: []
+  - m_Id: 79304371417088
+    m_Localized: Day
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80545784737792
+    m_Localized: 'Mana
+
+      Gold
+
+      Popularity
+
+      Danger
+
+      Rank'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98926592208898
+    m_Localized: Monster Summon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98926592208899
+    m_Localized: Facility Placement
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98926592208900
+    m_Localized: Quest
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98926592208901
+    m_Localized: End Turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98926592208897
+    m_Localized: Monster Management
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98926592208896
+    m_Localized: Visit Guild
+    m_Metadata:
+      m_Items: []
+  - m_Id: 90107598286848
+    m_Localized: Close
+    m_Metadata:
+      m_Items: []
+  - m_Id: 91502007234560
+    m_Localized: Slot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 91880098574336
+    m_Localized: No Data
+    m_Metadata:
+      m_Items: []
+  - m_Id: 92207111680000
+    m_Localized: AutoSave
+    m_Metadata:
+      m_Items: []
+  - m_Id: 92874266062848
+    m_Localized: Successfully saved
+    m_Metadata:
+      m_Items: []
+  - m_Id: 109139399487490
+    m_Localized: Gold
+    m_Metadata:
+      m_Items: []
+  - m_Id: 109139399487493
+    m_Localized: Rank
+    m_Metadata:
+      m_Items: []
+  - m_Id: 109139399487492
+    m_Localized: Danger
+    m_Metadata:
+      m_Items: []
+  - m_Id: 109139399487491
+    m_Localized: Popularity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 109139399487489
+    m_Localized: Mana
+    m_Metadata:
+      m_Items: []
+  - m_Id: 109139399487488
+    m_Localized: Do you want to quit the game?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 125754467889152
+    m_Localized: All AP will be consumed.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 125754476277760
+    m_Localized: Do you want to expand the dungeon?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 125754476277761
+    m_Localized: Pray to the golden angel statue?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 125754476277762
+    m_Localized: Are we going to visit the guild?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 125754476277763
+    m_Localized: Pray to the sliver angel statue?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 125754476277764
+    m_Localized: Do you want to watch the opening?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 125754476277765
+    m_Localized: Remove?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 125754476277766
+    m_Localized: Are we going back to the dungeon?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 125754480472064
+    m_Localized: "A passage leading to a hidden room has appeared. \r\n\r\nIf anyone
+      intrudes on this room and the egg is discovered, it will be game over."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 125754480472065
+    m_Localized: "Place various facilities and monsters in the dungeon to let adventurers
+      obtain mana! \r\n\r\nMana can be obtained from most actions that adventurers
+      take in the dungeon."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 125754480472066
+    m_Localized: Get Danger
+    m_Metadata:
+      m_Items: []
+  - m_Id: 125754480472067
+    m_Localized: Get Gold
+    m_Metadata:
+      m_Items: []
+  - m_Id: 125754480472068
+    m_Localized: Get Mana
+    m_Metadata:
+      m_Items: []
+  - m_Id: 125754480472069
+    m_Localized: Get Popularity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 125754480472070
+    m_Localized: Maximum level
+    m_Metadata:
+      m_Items: []
+  - m_Id: 125754480472071
+    m_Localized: Not enough AP.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 125754480472072
+    m_Localized: Not enough Gold.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 125754480472073
+    m_Localized: Not enough Mana.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 125754480472074
+    m_Localized: Not enough Rank.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 125754480472075
+    m_Localized: Not enough Monster Slot.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 125754480472076
+    m_Localized: Summon successful!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921879764992
+    m_Localized: Day Start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125120
+    m_Localized: Day End
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125121
+    m_Localized: is defeated
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125122
+    m_Localized: has been robbed of bail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125123
+    m_Localized: "is gathering herbs\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125124
+    m_Localized: "is mining ores\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125125
+    m_Localized: "is resting\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125126
+    m_Localized: "is searching for treasure\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125127
+    m_Localized: "is investigating the egg\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125128
+    m_Localized: "is falling into a trap\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125129
+    m_Localized: enter the dungeon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125130
+    m_Localized: move
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125131
+    m_Localized: is go back with nothing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125132
+    m_Localized: is narrowly escape
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125133
+    m_Localized: is go back satisfied
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125134
+    m_Localized: Battle start!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125135
+    m_Localized: Battle over!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125136
+    m_Localized: Victory!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125137
+    m_Localized: Defeat..
+    m_Metadata:
+      m_Items: []
+  - m_Id: 150946351099904
+    m_Localized: Basement
+    m_Metadata:
+      m_Items: []
+  - m_Id: 150951682060288
+    m_Localized: Floor
+    m_Metadata:
+      m_Items: []
+  - m_Id: 150971533701120
+    m_Localized: Hidden space
+    m_Metadata:
+      m_Items: []
+  - m_Id: 157632633712640
+    m_Localized: Adventurer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 157629924192256
+    m_Localized: Prisoner
+    m_Metadata:
+      m_Items: []
+  - m_Id: 158760859545600
+    m_Localized: Monster
+    m_Metadata:
+      m_Items: []
+  - m_Id: 160107470204928
+    m_Localized: Daily debrief
+    m_Metadata:
+      m_Items: []
+  - m_Id: 161527464407040
+    m_Localized: Technical Facility
+    m_Metadata:
+      m_Items: []
+  - m_Id: 164339216756736
+    m_Localized: Facility
+    m_Metadata:
+      m_Items: []
+  - m_Id: 168031743586304
+    m_Localized: Placed Monster
+    m_Metadata:
+      m_Items: []
+  - m_Id: 168484929744896
+    m_Localized: Placeable Monster
+    m_Metadata:
+      m_Items: []
+  - m_Id: 169001751883776
+    m_Localized: Waiting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 169230790242304
+    m_Localized: Placed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 170442621136896
+    m_Localized: Recovery
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171229451595776
+    m_Localized: Management
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171473325207552
+    m_Localized: Placement
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171552027127808
+    m_Localized: Recall
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171941044629504
+    m_Localized: Training
+    m_Metadata:
+      m_Items: []
+  - m_Id: 172114852392960
+    m_Localized: Release
+    m_Metadata:
+      m_Items: []
+  - m_Id: 172489575706624
+    m_Localized: Command
+    m_Metadata:
+      m_Items: []
+  - m_Id: 172736603435008
+    m_Localized: Fix
+    m_Metadata:
+      m_Items: []
+  - m_Id: 172850453622784
+    m_Localized: Wander
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

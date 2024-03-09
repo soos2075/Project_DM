@@ -453,7 +453,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             yield return null;
         }
 
-        UI_EventBox.AddEventText($"◆{Name_Color} (이)가 던전에 입장");
+        UI_EventBox.AddEventText($"◆{Name_Color} {UserData.Instance.GetLocaleText("Event_Enter")}");
         if (GameManager.Technical.Donation != null)
         {
             Main.Instance.CurrentDay.AddGold(5);
@@ -623,7 +623,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         //? 랜덤위치로 소환
         //var info = Managers.Placement.GetRandomPlacement(this, Main.Instance.Floor[FloorLevel]); 
 
-        UI_EventBox.AddEventText($"●{Name_Color} (이)가 {Main.Instance.Floor[FloorLevel].Exit.PlacementInfo.Place_Floor.Name_KR}으로 이동");
+        UI_EventBox.AddEventText($"●{Name_Color} - {Main.Instance.Floor[FloorLevel].Exit.PlacementInfo.Place_Floor.LabelName} " +
+            $"{UserData.Instance.GetLocaleText("Event_Next")}");
         //? 입구에서 소환
         var info_Entrance = new PlacementInfo(Main.Instance.Floor[FloorLevel], Main.Instance.Floor[FloorLevel].Exit.PlacementInfo.Place_Tile);
         GameManager.Placement.PlacementConfirm(this, info_Entrance);
@@ -684,7 +685,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
     public void FloorPortal(int hiddenFloor) //? 특정층으로 순간이동
     {
-        UI_EventBox.AddEventText($"●{Name_Color} (이)가 {Main.Instance.Floor[hiddenFloor].Exit.PlacementInfo.Place_Floor.Name_KR}으로 이동");
+        UI_EventBox.AddEventText($"●{Name_Color} - {Main.Instance.Floor[hiddenFloor].Exit.PlacementInfo.Place_Floor.LabelName}" +
+            $"{UserData.Instance.GetLocaleText("Event_Next")}");
 
         GameManager.Placement.PlacementClear(this);
         //? 입구에서 소환
@@ -724,17 +726,17 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         switch (State)
         {
             case NPCState.Runaway:
-                UI_EventBox.AddEventText($"◆{Name_Color} (이)가 가까스로 도망침");
+                UI_EventBox.AddEventText($"◆{Name_Color} {UserData.Instance.GetLocaleText("Event_Exit_Runaway")}");
                 NPC_Runaway();
                 break;
 
             case NPCState.Return_Empty:
-                UI_EventBox.AddEventText($"◆{Name_Color} (이)가 빈손으로 돌아감");
+                UI_EventBox.AddEventText($"◆{Name_Color} {UserData.Instance.GetLocaleText("Event_Exit_Empty")}");
                 NPC_Return_Empty();
                 break;
 
             case NPCState.Return_Satisfaction:
-                UI_EventBox.AddEventText($"◆{Name_Color} (이)가 만족하고 돌아감");
+                UI_EventBox.AddEventText($"◆{Name_Color} {UserData.Instance.GetLocaleText("Event_Exit_Satisfaction")}");
                 NPC_Return_Satisfaction();
                 break;
         }

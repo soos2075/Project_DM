@@ -76,7 +76,7 @@ public class UI_StartMenu : UI_Scene
         yield return new WaitForSecondsRealtime(2);
 
         var openingConfirm = Managers.UI.ShowPopUp<UI_Confirm>();
-        openingConfirm.SetText("오프닝을 볼까요?");
+        openingConfirm.SetText(UserData.Instance.GetLocaleText("Confirm_Opening"));
         StartCoroutine(WaitForAnswer(openingConfirm));
     }
 

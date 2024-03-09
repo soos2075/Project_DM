@@ -52,7 +52,8 @@ public class Herb : Facility
 
 
             InteractionOfTimes--;
-            Cor_Facility = StartCoroutine(FacilityEvent(npc, durationTime, "약초 채집중...", ap: ap_value, mp: changeMP, hp: hp_value));
+            Cor_Facility = StartCoroutine(FacilityEvent(npc, durationTime, UserData.Instance.GetLocaleText("Event_Herb"), 
+                ap: ap_value, mp: changeMP, hp: hp_value));
             return Cor_Facility;
         }
         else
@@ -68,7 +69,7 @@ public class Herb : Facility
         if (Main.Instance.Management == false) return;
 
         var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
-        ui.SetText($"[{Name}] 철거할까요? ");
+        ui.SetText($"[{Name}] {UserData.Instance.GetLocaleText("Confirm_Remove")}");
         StartCoroutine(WaitForAnswer(ui));
     }
 

@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
+//[CreateAssetMenu]
+[System.Obsolete]
 public class SO_DialogueData : ScriptableObject
 {
     public enum DialogueType

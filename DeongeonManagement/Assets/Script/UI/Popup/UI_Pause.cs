@@ -26,9 +26,10 @@ public class UI_Pause : UI_PopUp
     enum Buttons
     {
         Close,
-        Load,
+        //Load,
         StartScene,
         Quit,
+        Language,
     }
 
     void Init_Button()
@@ -36,9 +37,10 @@ public class UI_Pause : UI_PopUp
         Bind<Button>(typeof(Buttons));
 
         GetButton(((int)Buttons.Close)).gameObject.AddUIEvent((data) => ClosePopUp());
-        GetButton(((int)Buttons.Load)).gameObject.AddUIEvent((data) => ShowLoadUI());
+        //GetButton(((int)Buttons.Load)).gameObject.AddUIEvent((data) => ShowLoadUI());
         GetButton(((int)Buttons.StartScene)).gameObject.AddUIEvent((data) => GotoStartScene());
         GetButton(((int)Buttons.Quit)).gameObject.AddUIEvent((data) => QuitConfirm());
+        GetButton(((int)Buttons.Language)).gameObject.AddUIEvent((data) => SetLanguage());
     }
 
 
@@ -56,9 +58,15 @@ public class UI_Pause : UI_PopUp
     void QuitConfirm()
     {
         var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
-        ui.SetText("게임을 종료할까요?");
+        ui.SetText(UserData.Instance.GetLocaleText("Confirm_Quit"));
         StartCoroutine(WaitForAnswer(ui));
     }
+    void SetLanguage()
+    {
+        var ui = Managers.UI.ShowPopUpAlone<UI_Language>();
+
+    }
+
 
     IEnumerator WaitForAnswer(UI_Confirm confirm)
     {
@@ -66,7 +74,7 @@ public class UI_Pause : UI_PopUp
 
         if (confirm.GetAnswer() == UI_Confirm.State.Yes)
         {
-            Debug.Log("게임종료");
+            //Debug.Log("게임종료");
             Application.Quit();
         }
     }
