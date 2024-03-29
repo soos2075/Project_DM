@@ -12,13 +12,31 @@ public class QuestHunter : NPC
     {
         base.Departure(startPoint, endPoint);
 
-        StartCoroutine(EventCor());
+        switch (Hunter)
+        {
+            case HunterType.Slime:
+                if (UserData.Instance.FileConfig.firstAppear_Hunter_Slime == false)
+                {
+                    UserData.Instance.FileConfig.firstAppear_Hunter_Slime = true;
+                    StartCoroutine(EventCor($"Hunter_{Hunter.ToString()}"));
+                }
+                break;
+
+            case HunterType.EarthGolem:
+                if (UserData.Instance.FileConfig.firstAppear_Hunter_EarthGolem == false)
+                {
+                    UserData.Instance.FileConfig.firstAppear_Hunter_EarthGolem = true;
+                    StartCoroutine(EventCor($"Hunter_{Hunter.ToString()}"));
+                }
+                break;
+        }
+        //StartCoroutine(EventCor());
     }
-    IEnumerator EventCor()
+    IEnumerator EventCor(string dialogueName)
     {
         yield return new WaitForSeconds(5);
 
-        Managers.Dialogue.ShowDialogueUI($"Hunter_{Hunter.ToString()}", transform);
+        Managers.Dialogue.ShowDialogueUI(dialogueName, transform);
     }
     protected override void Start_Setting()
     {
@@ -100,20 +118,6 @@ public class QuestHunter : NPC
         Main.Instance.CurrentDay.AddKill(1);
         UI_EventBox.AddEventText($"◈{Name_Color} {UserData.Instance.GetLocaleText("Event_Defeat")}");
         GameManager.NPC.InactiveNPC(this);
-
-        //EventManager.Instance.RemoveQuestAction((int)Hunter);
-        //switch (Hunter)
-        //{
-        //    case HunterType.Slime:
-        //        //? 몬스터 진화
-        //        Debug.Log("슬라임 진~~화 실제 액션 진행하면댐");
-        //        break;
-
-        //    case HunterType.EarthGolem:
-        //        //? 몬스터 진화
-        //        Debug.Log("스켈레톤 진~~화");
-        //        break;
-        //}
     }
     protected override void NPC_Captive()
     {

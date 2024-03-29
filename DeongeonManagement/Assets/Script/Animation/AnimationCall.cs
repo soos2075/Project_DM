@@ -12,11 +12,26 @@ public class AnimationCall : MonoBehaviour
         GetComponentInParent<BattleField>().Call_Mash();
     }
 
+    public void Projectile_Jab()
+    {
+        //Debug.Log("anim_Cilp_Call");
+        SoundManager.Instance.PlaySound("SFX/Battle_npc");
+        GetComponentInParent<BattleField>().Projectile_Launch();
+    }
+    public void Projectile_Shot()
+    {
+        //Debug.Log("anim_Cilp_Call");
+        SoundManager.Instance.PlaySound("SFX/Battle_npc");
+        GetComponentInParent<BattleField>().Projectile_Launch();
+    }
+
 
     public void Monster_Call()
     {
         SoundManager.Instance.PlaySound("SFX/Battle_monster");
         GetComponentInParent<BattleField>().Call_Mash();
     }
+
+
 
 }

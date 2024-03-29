@@ -87,7 +87,7 @@ public class UI_SaveLoad : UI_PopUp
         GetButton(((int)Buttons.Save)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 18, 0, 0);
 
         GetButton(((int)Buttons.Load)).GetComponent<Image>().sprite = button_Up;
-        GetButton(((int)Buttons.Load)).GetComponentInChildren<TextMeshProUGUI>().margin = Vector4.zero;
+        GetButton(((int)Buttons.Load)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 5, 0, 0);
     }
     void LoadButton()
     {
@@ -96,7 +96,7 @@ public class UI_SaveLoad : UI_PopUp
         GetButton(((int)Buttons.Load)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 18, 0, 0);
 
         GetButton(((int)Buttons.Save)).GetComponent<Image>().sprite = button_Up;
-        GetButton(((int)Buttons.Save)).GetComponentInChildren<TextMeshProUGUI>().margin = Vector4.zero;
+        GetButton(((int)Buttons.Save)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 5, 0, 0);
     }
 
 

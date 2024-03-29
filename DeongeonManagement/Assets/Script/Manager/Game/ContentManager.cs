@@ -8,17 +8,19 @@ public class ContentManager
 {
     public void Init()
     {
-        Init_SO();
+        Init_LocalData();
         //AddContents();
     }
 
 
     #region SO Data
-    Dictionary<string, SO_Contents> Contents_Dictionary { get; set; } = new Dictionary<string, SO_Contents>();
+    Dictionary<string, SO_Contents> Contents_Dictionary { get; set; }
     SO_Contents[] so_data;
 
-    void Init_SO()
+    public void Init_LocalData()
     {
+        Contents_Dictionary = new Dictionary<string, SO_Contents>();
+
         so_data = Resources.LoadAll<SO_Contents>("Data/Contents");
         foreach (var item in so_data)
         {
@@ -31,6 +33,10 @@ public class ContentManager
 
                 case Define.Language.KR:
                     Managers.Data.ObjectsLabel_KR.TryGetValue(item.id, out datas);
+                    break;
+
+                case Define.Language.JP:
+                    Managers.Data.ObjectsLabel_JP.TryGetValue(item.id, out datas);
                     break;
             }
 

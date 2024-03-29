@@ -14,10 +14,11 @@ public class TechnicalManager
 
     #region SO_Data
     SO_Technical[] so_data;
-    Dictionary<string, SO_Technical> Technical_Dictionary { get; set; } = new Dictionary<string, SO_Technical>();
+    Dictionary<string, SO_Technical> Technical_Dictionary { get; set; }
 
-    void Init_LocalData()
+    public void Init_LocalData()
     {
+        Technical_Dictionary = new Dictionary<string, SO_Technical>();
         so_data = Resources.LoadAll<SO_Technical>("Data/Technical");
         foreach (var item in so_data)
         {
@@ -140,6 +141,7 @@ public class TechnicalManager
         for (int i = 0; i < Floor_Technical.Length; i++)
         {
             Floor_Technical[i].FloorIndex = i;
+            Floor_Technical[i].FloorName = $"{UserData.Instance.GetLocaleText("특별구역")} {Define.AtoZ[i]}";
 
             GameObject go = Managers.Resource.Instantiate($"UI/PopUp/Technical/UI_Technical", Floor_Technical[i].transform);
             var ui = go.GetComponent<UI_Technical>();

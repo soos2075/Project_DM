@@ -2,17 +2,17 @@ EN,\' = '\n',"-' = ','",,,,,,
 ,ID,keyName,"Type(Bubble,Quest)",dialogueName,,index,optionString,mainText
 0~499 Day Event,,,,,,,,
 500~999 Story,,,,,,,,
-1000~1999 ÌÄòÏä§Ìä∏Î≥¥Îìú,,,,,,,,
-2000~9999 NPCÏù¥Î≤§Ìä∏,,,,,,,,
+1000~1999 ƒ˘Ω∫∆Æ∫∏µÂ,,,,,,,,
+2000~9999 NPC¿Ã∫•∆Æ,,,,,,,,
 ,,,,,,,,
 ,,,,,,,,
-,501,Opening_1,Bubble,,,0,,‚Ä¶‚Ä¶‚Ä¶‚Ä¶‚Ä¶
+,501,Opening_1,Bubble,,,0,,°¶°¶°¶°¶°¶
 ,,,,,,1,,Ah- I want to have a real adventure too.
 ,,,,,,2,,How long do I have to stay in this Novice Dungeon?
 ,,,,,,3,,Everyone else gets to go to popular Dungeons \or Dungeons overflowing with resources...
 ,,,,,,4,,...Well- it's nobody's fault but my own lack of skill.
 ,,,,,,5,,But at least this Dungeon is familiar. \...It's almost like a second home- isn't it?
-,,,,,,6,,‚Ä¶‚Ä¶‚Ä¶‚Ä¶‚Ä¶‚Ä¶‚Ä¶‚Ä¶‚Ä¶‚Ä¶
+,,,,,,6,,°¶°¶°¶°¶°¶°¶°¶°¶°¶°¶
 ,,,,,,7,,Enough idle chatter- let's pack up and head back.
 ,,,,,,,,
 ,502,Opening_2,Bubble,,,0,,Huh?
@@ -21,7 +21,7 @@ EN,\' = '\n',"-' = ','",,,,,,
 ,,,,,,3,,There are places in this Dungeon I don't know about...
 ,,,,,,4,,I'm curious- should I take a look?
 ,,,,,,,,
-,503,Opening_3,Bubble,,,0,,‚Ä¶‚Ä¶‚Ä¶‚Ä¶‚Ä¶
+,503,Opening_3,Bubble,,,0,,°¶°¶°¶°¶°¶
 ,,,,,,1,,Something feels off about this place.
 ,,,,,,2,,Could I have warped to a different Dungeon?
 ,,,,,,3,,I've heard there are warp gates like that sometimes...
@@ -29,17 +29,17 @@ EN,\' = '\n',"-' = ','",,,,,,
 ,,,,,,5,,Hmm... There's something written up ahead.
 ,,,,,,,,
 ,,,,,,,,
-,504,Opening_4,Bubble,,,0,@Target::Notice::Target,‚òÖ‚òÜExtremely Rare Chance‚òÜ‚òÖ
+,504,Opening_4,Bubble,,,0,@Target::Notice::Target,°⁄°ŸExtremely Rare Chance°Ÿ°⁄
 ,,,,,,1,,You who have mastered this Dungeon!!
 ,,,,,,2,,For you- a once in a lifetime opportunity!!
 ,,,,,,3,,If you raise the Dungeon's rank by 5 levels- no less than!!
 ,,,,,,4,,The ownership of this Dungeon will be granted to you!!\An absolute 'once in a lifetime' chance!!
-,,,,,,5,,Will you accept the contract??\<size=10>‚ÄªRefusal leads to forced contract
+,,,,,,5,,Will you accept the contract??\<size=10>°ÿRefusal leads to forced contract
 ,,,,,,6,@Target::Player::Target,...What is this scam- like description?
 ,,,,,,7,,A master in a Novice Dungeon that anyone can clear?
 ,,,,,,8,,And since when do Dungeons have ownership?
 ,,,,,,9,,Well... I've heard of Dungeons that charge entry fees...
-,,,,,,10,,‚Ä¶‚Ä¶‚Ä¶It seems foolish to take this seriously.
+,,,,,,10,,°¶°¶°¶It seems foolish to take this seriously.
 ,,,,,,11,,Is someone playing a prank?
 ,,,,,,12,,But I've never seen a space like this \in this Dungeon before...
 ,,,,,,13,,If someone came and pulled a prank- \I would have known about it...
@@ -63,7 +63,7 @@ EN,\' = '\n',"-' = ','",,,,,,
 ,,,,,,,,
 ,,,,,,,,
 ,0,Prologue,Bubble,,,0,@Camera::Player::Camera,Okay- so what should I do?
-,,,,,,1,,‚Ä¶‚Ä¶‚Ä¶‚Ä¶‚Ä¶
+,,,,,,1,,°¶°¶°¶°¶°¶
 ,,,,,,2,,After learning all sorts of things...
 ,,,,,,3,,The gist is that I can manipulate the Dungeon...
 ,,,,,,4,,And if I get more people to come and \grow the Dungeon- it'll work out- right?
@@ -76,7 +76,7 @@ EN,\' = '\n',"-' = ','",,,,,,
 ,,,,,,1,,Well- what did I expect?
 ,,,,,,2,,Actually- I know this Dungeon best \since I've been here all the time...
 ,,,,,,3,,There's not much reason to come here...
-,,,,,,4,,‚Ä¶‚Ä¶‚Ä¶‚Ä¶‚Ä¶
+,,,,,,4,,°¶°¶°¶°¶°¶
 ,,,,,,5,,But from now on- I'll just have to create reasons!
 ,,,,,,6,,Let's start by creating herbs and minerals.
 ,,,,,,7,,At least a few people come for those.
@@ -128,7 +128,7 @@ EN,\' = '\n',"-' = ','",,,,,,
 ,84,Day8_Event_Die,Bubble,,,0,@Camera::EventNPC::Camera,What is this Dungeon?
 ,,,,,,1,,It's way more dangerous than I heard?
 ,,,,,,2,,Something's off... I need to get out of here first.
-,,,,,,3, @Camera::Player::Camera@Target::Player::Target,‚Ä¶‚Ä¶‚Ä¶‚Ä¶‚Ä¶
+,,,,,,3, @Camera::Player::Camera@Target::Player::Target,°¶°¶°¶°¶°¶
 ,,,,,,4,,Did I...make it out?
 ,,,,,,5,,That was a pretty dangerous monster for a novice.
 ,,,,,,6,,I hope nothing bad happens... Better not go back there...
@@ -183,12 +183,12 @@ EN,\' = '\n',"-' = ','",,,,,,
 ,,,,,,2,,But it wouldn't hurt to check if there are any\related to our Dungeon.
 ,,,,,,,,
 ,,,,,,,,
-,1100,Quest_100,Quest,Slime in Novice Dungeons,,0,@Action::1100::Action,‚ÄªUrgent Extermination Quest\\Target: Mutated Slime of the Novice Dungeon
+,1100,Quest_100,Quest,Slime in Novice Dungeons,,0,@Action::1100::Action,°ÿUrgent Extermination Quest\\Target: Mutated Slime of the Novice Dungeon
 ,,,,,,1,,Rumors have been circulating about an abnormally powerful slime appearing in the Novice Dungeon.
 ,,,,,,2,,We initially dismissed it as a trivial rumor- but with actual cases of harm being reported- we are urgently issuing an extermination quest.
 ,,,,,,3,,Location: Novice Dungeon\Notes: Looks like a normal slime- but is said to be abnormally powerful.\Caution is advised.
 ,,,,,,,,
-,1101,Quest_101,Quest,Earth Golem's Core,,0,@Action::1101::Action,‚ÄªRare Monster Information\\Subject: Earth Golem
+,1101,Quest_101,Quest,Earth Golem's Core,,0,@Action::1101::Action,°ÿRare Monster Information\\Subject: Earth Golem
 ,,,,,,1,,A mature Earth Golem has been sighted in the Novice Dungeon.
 ,,,,,,2,,The Golem's core is a material essential for elemental mages- and alchemists have trouble obtaining it.
 ,,,,,,3,,Due to overharvesting of Golems- the Golem's core is in short supply and trades at a high price currently.\\The guild is also buying them at a premium- so please visit if you manage to acquire one.
@@ -205,7 +205,7 @@ EN,\' = '\n',"-' = ','",,,,,,
 ,,,,,,3,@Action::2100::Action,
 ,,,,,,,,
 ,2101,Staff_A_101,Bubble,Ask for news,,0, @Target::Player::Target @Pos::Down::Pos,Do you happen to have any useful information lately?
-,,,,,,1, @Target::GuildStaff::Target@Pos::Up::Pos,Hmm‚Ä¶ Nothing in particular right now.
+,,,,,,1, @Target::GuildStaff::Target@Pos::Up::Pos,Hmm°¶ Nothing in particular right now.
 ,,,,,,2,,You may want to check the bulletin board on the left as well.
 ,,,,,,,,
 ,,,,,,,,
@@ -213,7 +213,7 @@ EN,\' = '\n',"-' = ','",,,,,,
 ,,,,,,,,
 ,3010,Staff_B_10,Bubble,,,0,,Hello there. The guild provides things that may be\helpful for adventurers.
 ,,,,,,,,
-,4000,Heroine_0,Bubble,,,0,,‚Ä¶‚Ä¶‚Ä¶
+,4000,Heroine_0,Bubble,,,0,,°¶°¶°¶
 ,,,,,,,,
 ,,,,,,,,
 ,4010,Heroine_10,Bubble,,,0,,What? If you have no business here- <size=40>scram.

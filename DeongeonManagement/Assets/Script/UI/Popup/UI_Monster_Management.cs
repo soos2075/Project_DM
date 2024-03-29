@@ -25,8 +25,9 @@ public class UI_Monster_Management : UI_PopUp
         FloorPanel,
 
         CommandPanel,
-        def,
+        fix,
         wan,
+        atk,
     }
 
     enum Texts
@@ -52,9 +53,9 @@ public class UI_Monster_Management : UI_PopUp
         Retrieve,
 
         //? Command
-        //Command_Attack,
-        Command_Defend,
+        Command_Fixed,
         Command_Wander,
+        Command_Attack,
     }
 
     public override void Init()
@@ -67,7 +68,6 @@ public class UI_Monster_Management : UI_PopUp
         Bind<Button>(typeof(Buttons));
 
         Init_Panels();
-
         CreateMonsterBox();
         Init_CommandButton();
         PanelClear();
@@ -224,9 +224,9 @@ public class UI_Monster_Management : UI_PopUp
     #region CommandPanel
     void Init_CommandButton()
     {
-        //GetButton(((int)Buttons.Command_Attack)).gameObject.AddUIEvent(data => ChangeMoveMode(Monster.MoveType.Move_Hunting));
-        GetButton(((int)Buttons.Command_Defend)).gameObject.AddUIEvent(data => ChangeMoveMode(Monster.MoveType.Fixed));
-        GetButton(((int)Buttons.Command_Wander)).gameObject.AddUIEvent(data => ChangeMoveMode(Monster.MoveType.Moving));
+        GetButton(((int)Buttons.Command_Fixed)).gameObject.AddUIEvent(data => ChangeMoveMode(Monster.MoveType.Fixed));
+        GetButton(((int)Buttons.Command_Wander)).gameObject.AddUIEvent(data => ChangeMoveMode(Monster.MoveType.Wander));
+        GetButton(((int)Buttons.Command_Attack)).gameObject.AddUIEvent(data => ChangeMoveMode(Monster.MoveType.Attack));
     }
 
     void ChangeMoveMode(Monster.MoveType _mode)
@@ -250,20 +250,22 @@ public class UI_Monster_Management : UI_PopUp
         switch (Current.monster.Mode)
         {
             case Monster.MoveType.Fixed:
-                GetImage(((int)Panels.def)).color = Color.white;
+                GetImage(((int)Panels.fix)).color = Color.white;
                 GetImage(((int)Panels.wan)).color = Color.clear;
+                GetImage(((int)Panels.atk)).color = Color.clear;
                 break;
 
-            case Monster.MoveType.Moving:
-                GetImage(((int)Panels.def)).color = Color.clear;
+            case Monster.MoveType.Wander:
+                GetImage(((int)Panels.fix)).color = Color.clear;
                 GetImage(((int)Panels.wan)).color = Color.white;
+                GetImage(((int)Panels.atk)).color = Color.clear;
                 break;
 
-            //case Monster.MoveType.Move_Hunting:
-            //    GetImage(((int)Panels.atk)).color = Color.white;
-            //    GetImage(((int)Panels.def)).color = Color.clear;
-            //    GetImage(((int)Panels.wan)).color = Color.clear;
-            //    break;
+            case Monster.MoveType.Attack:
+                GetImage(((int)Panels.fix)).color = Color.clear;
+                GetImage(((int)Panels.wan)).color = Color.clear;
+                GetImage(((int)Panels.atk)).color = Color.white;
+                break;
         }
     }
     #endregion
@@ -311,6 +313,7 @@ public class UI_Monster_Management : UI_PopUp
 
                 GetButton(((int)Buttons.Training)).gameObject.
                     AddUIEvent((data) => Current.monster.Training());
+                GetButton(((int)Buttons.Training)).GetComponentInChildren<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("ÈÆ·Ã")}(1)";
 
                 GetButton(((int)Buttons.Release)).gameObject.
                     AddUIEvent((data) => GameManager.Monster.ReleaseMonster(Current.monster.MonsterID));
@@ -330,6 +333,7 @@ public class UI_Monster_Management : UI_PopUp
 
                 GetButton(((int)Buttons.Training)).gameObject.
                     AddUIEvent((data) => Current.monster.Training());
+                GetButton(((int)Buttons.Training)).GetComponentInChildren<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("ÈÆ·Ã")}(1)";
 
                 GetTMP((int)Texts.DetailInfo).text = $"{UserData.Instance.GetLocaleText("¹èÄ¡Áß")} : {Current.monster.PlacementInfo.Place_Floor.LabelName}\nAP : {Main.Instance.Player_AP}";
                 break;

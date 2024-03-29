@@ -101,6 +101,12 @@ public class CameraControl : MonoBehaviour
         //Debug.Log(startMousePos);
         if (Input.GetMouseButtonDown(0))
         {
+            if (currentCor != null)
+            {
+                StopCoroutine(currentCor);
+                currentCor = null;
+            }
+
             startMousePos = mainCam.ScreenToViewportPoint(Input.mousePosition);
             startCameraPos = transform.position;
         }
@@ -211,31 +217,10 @@ public class CameraControl : MonoBehaviour
         currentCor = StartCoroutine(ChasingLerp(target, duration));
     }
 
-    IEnumerator Chasing(Transform target, float duration)
-    {
-        var startPos = transform.position;
-        var targetPos = target.position;
-
-        var direction = targetPos - transform.position;
-
-        float timer = 0;
-        while (timer < duration)
-        {
-            yield return null;
-            timer += Time.unscaledDeltaTime;
-
-            var movePos = direction * (Time.unscaledDeltaTime / duration);
-            transform.position += new Vector3(movePos.x, movePos.y, 0);
-        }
-
-        transform.position = new Vector3(targetPos.x, targetPos.y, transform.position.z);
-        currentCor = null;
-    }
-
     IEnumerator ChasingLerp(Transform target, float duration)
     {
         var targetPos = target.position;
-        var direction = targetPos - transform.position;
+        //var direction = targetPos - transform.position;
         var startPos = transform.position;
 
         float timer = 0;

@@ -8,15 +8,16 @@ public class FacilityManager
     public void Init()
     {
         Init_LocalData();
-
     }
 
     #region SO_Data
     SO_Facility[] so_data;
-    Dictionary<string, SO_Facility> Facility_Dictionary { get; set; } = new Dictionary<string, SO_Facility>();
+    Dictionary<string, SO_Facility> Facility_Dictionary { get; set; }
 
-    void Init_LocalData()
+    public void Init_LocalData()
     {
+        Facility_Dictionary = new Dictionary<string, SO_Facility>();
+
         so_data = Resources.LoadAll<SO_Facility>("Data/Facility");
         foreach (var item in so_data)
         {
@@ -29,6 +30,10 @@ public class FacilityManager
 
                 case Define.Language.KR:
                     Managers.Data.ObjectsLabel_KR.TryGetValue(item.id, out datas);
+                    break;
+
+                case Define.Language.JP:
+                    Managers.Data.ObjectsLabel_JP.TryGetValue(item.id, out datas);
                     break;
             }
             if (datas == null)
@@ -193,6 +198,8 @@ public class Save_FacilityData
     public string keyName;
     public string prefabPath;
 
+    public bool isInit;
+
     public int interactionTimes;
     //public int OptionIndex;
 
@@ -207,6 +214,8 @@ public class Save_FacilityData
     {
         keyName = facility.Data.keyName;
         prefabPath = facility.name;
+
+        isInit = facility.isInit;
 
         interactionTimes = facility.InteractionOfTimes;
         //OptionIndex = facility.OptionIndex;

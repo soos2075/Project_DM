@@ -73,7 +73,7 @@ public class UI_DayResult : UI_PopUp
         }
         else
         {
-            GetTMP(((int)Texts.DungeonLv)).text = $"{UserData.Instance.GetLocaleText("Rank")} : {Main.Instance.DungeonRank}";
+            GetTMP(((int)Texts.DungeonLv)).text = $"{UserData.Instance.GetLocaleText("Rank")} : <b>{Main.Instance.DungeonRank}</b>";
         }
 
 
@@ -100,8 +100,8 @@ public class UI_DayResult : UI_PopUp
         }
 
         GetTMP(((int)Texts.Final)).text =
-            $"{UserData.Instance.GetLocaleText("Mana")} : {Result.Origin_Mana} {manaResult_Text} = {Main.Instance.Player_Mana.ToString().SetTextColorTag(Define.TextColor.LightYellow)}\n" +
-            $"{UserData.Instance.GetLocaleText("Gold")} : {Result.Origin_Gold} {goldResult_Text} = {Main.Instance.Player_Gold.ToString().SetTextColorTag(Define.TextColor.LightYellow)}";
+            $"{UserData.Instance.GetLocaleText("Mana")} : <b>{Result.Origin_Mana} {manaResult_Text} = {Main.Instance.Player_Mana.ToString().SetTextColorTag(Define.TextColor.LightYellow)}</b>\n" +
+            $"{UserData.Instance.GetLocaleText("Gold")} : <b>{Result.Origin_Gold} {goldResult_Text} = {Main.Instance.Player_Gold.ToString().SetTextColorTag(Define.TextColor.LightYellow)}</b>";
     }
 
 

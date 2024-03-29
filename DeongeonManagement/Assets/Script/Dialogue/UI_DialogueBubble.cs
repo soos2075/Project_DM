@@ -82,7 +82,18 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
 
     void ShowText(string _text)
     {
-        mainText.text = _text;
+        if (_text.Length <= 1)
+        {
+            //Debug.Log("1±ÛÀÚÀÓ" + _text.Length);
+            //Debug.Log(string.IsNullOrEmpty(_text));
+            //Debug.Break();
+            mainText.text = string.Empty;
+        }
+        else
+        {
+            mainText.text = _text;
+            SoundManager.Instance.PlaySound("SFX/Speech1");
+        }
     }
 
     void Init_BubblePosition()
@@ -274,7 +285,6 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
             ShowText(nowText);
             yield return seconds;
             charIndexer += charCount;
-            SoundManager.Instance.PlaySound("SFX/Speech1");
         }
         isTyping = false;
         isSkip = false;

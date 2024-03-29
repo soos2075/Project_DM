@@ -32,7 +32,7 @@ public class SO_Facility : ScriptableObject
     public int pop_value;
     public int danger_value;
 
-    [Header("Target(TypeClassName")]
+    [Header("Target(TypeClassName)")]
     public string main;
 
     public string sub;

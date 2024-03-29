@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using DamageNumbersPro;
+using UnityEngine.U2D.Animation;
 
 public class BattleField : MonoBehaviour
 {
@@ -121,7 +122,7 @@ public class BattleField : MonoBehaviour
             {
                 AddFlashWhite(obj_Right.GetComponentInChildren<SpriteRenderer>());
                 AddHPBar(0, roundList[i].damage);
-                ani_npc.CrossFade(Define.ANIM_Attack, 0.1f);
+                NPC_AttackAnim();
                 yield return new WaitForSeconds(0.1f); //? crossFade 시간 동안은 hash값이 바뀌지 않으므로 그만큼은 기다려줘야함
 
                 if (roundList[i].roundResult == BattleResult.Monster_Die)
@@ -155,6 +156,62 @@ public class BattleField : MonoBehaviour
     }
 
     #region ForAnimationVoid
+
+    void NPC_AttackAnim()
+    {
+        Type npcType = npc.GetType();
+        if (npcType == typeof(Elf))
+        {
+            ani_npc.CrossFade(Define.ANIM_Shot, 0.1f);
+        }
+        else if(npcType == typeof(Wizard))
+        {
+            ani_npc.CrossFade(Define.ANIM_Jab, 0.1f);
+        }
+        else
+        {
+            ani_npc.CrossFade(Define.ANIM_Attack, 0.1f);
+        }
+    }
+
+    public void Projectile_Launch()
+    {
+        var projectile = Managers.Resource.Instantiate("Battle/Projectile", pos_Left);
+        projectile.transform.position = pos_Left.transform.position;
+        projectile.GetComponentInChildren<SpriteRenderer>().sortingOrder = sort + 2;
+
+        Type npcType = npc.GetType();
+        if (npcType == typeof(Elf))
+        {
+            projectile.GetComponentInChildren<SpriteResolver>().SetCategoryAndLabel("Elf", "ElfA");
+        }
+        else if (npcType == typeof(Wizard))
+        {
+            projectile.GetComponentInChildren<SpriteResolver>().SetCategoryAndLabel("Wizard", "WizardA");
+        }
+
+        StartCoroutine(Shotting(projectile));
+    }
+    IEnumerator Shotting(GameObject _projectile)
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            float interval = 0.05f;
+            _projectile.transform.position += Vector3.right * interval * 4;
+            yield return new WaitForSeconds(interval);
+        }
+        //float timer = 0;
+        //while (timer < 0.5f)
+        //{
+        //    yield return null;
+        //    timer += Time.deltaTime;
+
+        //    _projectile.transform.Translate(Vector3.right * Time.deltaTime * 4);
+        //}
+        _projectile.SetActive(false);
+        Call_Mash();
+    }
+
 
     public void Call_Mash()
     {

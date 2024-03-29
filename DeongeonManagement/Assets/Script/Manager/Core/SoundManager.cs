@@ -55,21 +55,32 @@ public class SoundManager : MonoBehaviour
     }
 
     AudioSource[] audioSources = new AudioSource[2];
+    AudioSource[] AudioSources
+    {
+        get
+        {
+            if (audioSources[0] == null)
+            {
+                for (int i = 0; i < Sound_Root.transform.childCount; i++)
+                {
+                    audioSources[i] = Sound_Root.transform.GetChild(i).GetComponent<AudioSource>();
+                }
+            }
+            return audioSources;
+        }
+        set { audioSources = value; }
+    }
 
     Dictionary<string, AudioClip> clipCaching = new Dictionary<string, AudioClip>();
 
     [SerializeField]
     List<AudioClip> audioList = new List<AudioClip>(); //? 0.1초 안에 플레이요청들어온 clip목록. 동일clip은 2개까지만 허용함 -> 허용안함
 
+
     private void Start()
     {
-        for (int i = 0; i < Sound_Root.transform.childCount; i++)
-        {
-            audioSources[i] = Sound_Root.transform.GetChild(i).GetComponent<AudioSource>();
-        }
-
-        audioSources[(int)Define.AudioType.BGM].volume = UserData.Instance.GetDataFloat(PrefsKey.Volume_BGM, 0.7f);
-        audioSources[(int)Define.AudioType.Effect].volume = UserData.Instance.GetDataFloat(PrefsKey.Volume_Effect, 0.7f);
+        AudioSources[(int)Define.AudioType.BGM].volume = UserData.Instance.GetDataFloat(PrefsKey.Volume_BGM, 0.7f);
+        AudioSources[(int)Define.AudioType.Effect].volume = UserData.Instance.GetDataFloat(PrefsKey.Volume_Effect, 0.7f);
 
         PlaySound("BGM/StartScene", Define.AudioType.BGM);
     }
@@ -87,7 +98,7 @@ public class SoundManager : MonoBehaviour
 
     public void SetVolume(Define.AudioType type, float value)
     {
-        audioSources[(int)type].volume = value;
+        AudioSources[(int)type].volume = value;
 
 
         switch (type)
@@ -104,7 +115,7 @@ public class SoundManager : MonoBehaviour
 
     public float GetVolume(Define.AudioType type)
     {
-        return audioSources[(int)type].volume;
+        return AudioSources[(int)type].volume;
     }
 
 
@@ -131,13 +142,13 @@ public class SoundManager : MonoBehaviour
             }
 
             audioList.Add(clip);
-            audioSources[(int)type].PlayOneShot(clip); //? 볼륨 입력값 따로 받을거면 스위치로 아예 나누는게 맞을듯
+            AudioSources[(int)type].PlayOneShot(clip); //? 볼륨 입력값 따로 받을거면 스위치로 아예 나누는게 맞을듯
         }
         else if (type == Define.AudioType.BGM)
         {
-            audioSources[(int)type].loop = true;
-            audioSources[(int)type].clip = clip;
-            audioSources[(int)type].Play();
+            AudioSources[(int)type].loop = true;
+            AudioSources[(int)type].clip = clip;
+            AudioSources[(int)type].Play();
         }
     }
 
@@ -167,7 +178,7 @@ public class SoundManager : MonoBehaviour
 
     public void StopMusic(Define.AudioType type = Define.AudioType.BGM)
     {
-        audioSources[(int)type].Stop();
+        AudioSources[(int)type].Stop();
     }
 
 

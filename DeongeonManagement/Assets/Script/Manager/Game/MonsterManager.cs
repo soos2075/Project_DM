@@ -8,7 +8,7 @@ public class MonsterManager
 {
     public void Init()
     {
-        Init_SO();
+        Init_LocalData();
         Init_SLA();
         Init_MonsterSlot();
 
@@ -18,7 +18,7 @@ public class MonsterManager
     #region SO_Data
     SO_Monster[] so_data;
 
-    void Init_SO()
+    public void Init_LocalData()
     {
         so_data = Resources.LoadAll<SO_Monster>("Data/Monster");
         foreach (var item in so_data)
@@ -32,6 +32,10 @@ public class MonsterManager
 
                 case Define.Language.KR:
                     Managers.Data.ObjectsLabel_KR.TryGetValue(item.id, out datas);
+                    break;
+
+                case Define.Language.JP:
+                    Managers.Data.ObjectsLabel_JP.TryGetValue(item.id, out datas);
                     break;
             }
 
@@ -217,7 +221,7 @@ public class MonsterManager
 
     public void Load_MonsterData(Save_MonsterData[] data)
     {
-        for (int i = 0; i < Monsters.Length; i++)
+        for (int i = 0; i < data.Length; i++)
         {
             if (data[i] != null)
             {

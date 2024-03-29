@@ -288,6 +288,9 @@ public enum DialogueName
     Tutorial_Egg = 4,
     Tutorial_Guild = 5,
 
+
+    Day3_Event = 33,
+
     Day8_Event = 83,
     Day8_Event_Die = 84,
 
@@ -295,6 +298,13 @@ public enum DialogueName
     Day15_Event_Die = 154,
 
     Day30_Over = 302,
+
+    Herbalist0_Appear = 400,
+    Miner0_Appear = 401,
+
+    Elf_Appear = 410,
+    Wizard_Appear = 420,
+
 
     // Main Event = 500~999
     Opening_1 = 501,

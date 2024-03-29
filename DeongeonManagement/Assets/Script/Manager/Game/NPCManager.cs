@@ -13,10 +13,11 @@ public class NPCManager
 
     #region SO_Data
     SO_NPC[] so_data;
-    Dictionary<string, SO_NPC> NPC_Dictionary { get; set; } = new Dictionary<string, SO_NPC>();
+    Dictionary<string, SO_NPC> NPC_Dictionary { get; set; }
 
-    void Init_LocalData()
+    public void Init_LocalData()
     {
+        NPC_Dictionary = new Dictionary<string, SO_NPC>();
         so_data = Resources.LoadAll<SO_NPC>("Data/NPC");
         foreach (var item in so_data)
         {
@@ -188,23 +189,39 @@ public class NPCManager
     public enum NPCType
     {
         //? 가중치 랜덤으로 뽑을 NPC들 / rankWeightedList가 enum의 순서
+
+        // 1사이클
         Herbalist0_1 = 0,
         Miner0_1 = 1,
         Adventurer0_1 = 2,
 
+        // 2사이클
         Herbalist0_2,
         Miner0_2,
         Adventurer0_2,
+        Elf_1 = 6,
+        Wizard_1 = 7,
 
+        // 3사이클
+        Herbalist0_3,
+        Miner0_3,
+        Adventurer0_3,
+        Elf_2,
+        Wizard_2,
 
+        // 4사이클
         Herbalist1_1,
         Miner1_1,
         Adventurer1_1,
 
+        // 5사이클
         Herbalist1_2,
         Miner1_2,
         Adventurer1_2,
 
+
+        DarkElf_1,
+        DarkWizard_1,
 
 
         //? 이벤트 NPC들.  순서는 자유, rankWeightedList와 관련없음. index는 고유 타입의 enum 값과 같아야함.
@@ -219,6 +236,72 @@ public class NPCManager
         Event_Day30,
 
     }
+
+
+    #region Calculation
+    void Calculation_MaxNPC()
+    {
+        int ofFame = Main.Instance.PopularityOfDungeon / 10;
+
+        Max_NPC_Value = Mathf.Clamp(Main.Instance.Turn + ofFame, 5, 5 + (Main.Instance.Turn * 2));
+
+        //Debug.Log("테스트모드!!!!!!!!!!!!!빌드전수정필");
+    }
+
+
+    //? 랭크 -> 1랭크 약초꾼, 광부, 모험가, Elf, Wizard 순서 -> 2랭크 약초꾼, 광부, 모험가, DarkElf, DarkWizard 순서
+    int[] rankWeightedList = new int[] {
+        15, 15, 10,             // 1랭크 약초꾼, 광부, 모험가
+        20, 20, 15, 10, 10,     // 1랭크 약초꾼, 광부, 모험가, Elf, Wizard
+        15, 15, 15, 20, 20,      // 1랭크 약초꾼, 광부, 모험가, Elf, Wizard
+        15, 15, 10,             // 2랭크 약초꾼, 광부, 모험가
+        25, 25, 20 };           // 2랭크 약초꾼, 광부, 모험가
+    List<int> rankList;
+
+
+    void Calculation_Rank() //? 위험도에 따라 나올 수 있는 적들이 달라짐. 아무리 위험도가 높아도 약한 적이 나오기는 함. 다만 점점 줄어들뿐.
+    {
+        rankList = new List<int>();
+
+        int _danger = Mathf.Clamp(Main.Instance.DangerOfDungeon, 15 + (Main.Instance.Turn * 5), Main.Instance.DangerOfDungeon);
+
+        for (int i = 0; i < rankWeightedList.Length; i++)
+        {
+            _danger -= rankWeightedList[i];
+            rankList.Add(rankWeightedList[i]);
+            if (_danger <= 0)
+            {
+                rankList[i] += _danger;
+                break;
+            }
+        }
+    }
+
+    int WeightRandomPicker() //? 0~1의 랜덤값에 전체 가중치의 합을 곱해줌. 그리고 그값으로 픽하면 됨. 반환값은 랭크 단계
+    {
+        int weightMax = 0;
+        foreach (var item in rankList)
+        {
+            weightMax += item;
+        }
+
+        float randomValue = Random.value * weightMax;
+        int currentWeight = 0;
+
+
+        for (int i = 0; i < rankList.Count; i++)
+        {
+            currentWeight += rankList[i];
+            if (currentWeight > randomValue)
+            {
+                return i;
+            }
+        }
+        Debug.Log("잘못된 랭크");
+        return 0;
+    }
+    #endregion
+
 
     bool[] NameIndex { get; set; } = new bool[100];
 
@@ -248,11 +331,13 @@ public class NPCManager
         if (NPC_Dictionary.TryGetValue(Dict_Key, out data))
         {
             var obj = GameManager.Placement.CreatePlacementObject(data.prefabPath, null, PlacementType.NPC);
+            obj.GetObject().name = Dict_Key;
+
             NPC _npc = obj as NPC;
             _npc.SetData(data, RandomPicker());
 
             int _value = data.Rank;
-            Debug.Log($"{_value}랭크 생성");
+            //Debug.Log($"{_value}랭크 생성");
             Current_Value += _value;
             Instance_NPC_List.Add(_npc);
             return _npc;
@@ -272,7 +357,6 @@ public class NPCManager
             NPC _npc = obj as NPC;
             _npc.SetData(data, -1);
             _npc.EventID = (int)_name;
-            //Instance_NPC_List.Add(_npc);
             Instance_EventNPC_List.Add(_npc);
             return _npc;
         }
@@ -317,68 +401,6 @@ public class NPCManager
     }
 
 
-
-
-    #region Calculation
-    void Calculation_MaxNPC()
-    {
-        int ofFame = Main.Instance.PopularityOfDungeon / 10;
-
-        Max_NPC_Value = Mathf.Clamp(Main.Instance.Turn + ofFame, 5, 5 + (Main.Instance.Turn * 2));
-
-        //Debug.Log("테스트모드!!!!!!!!!!!!!빌드전수정필");
-    }
-
-
-    // 1,2,3, 4,5,6 = 랭크 1 // 10부터 랭크2
-    int[] rankWeightedList = new int[] { 
-        15, 15, 20, 25, 25, 30,  // 1랭크
-        15, 15, 20, 25, 25, 30 }; // 2랭크
-    List<int> rankList;
-
-
-    void Calculation_Rank() //? 위험도에 따라 나올 수 있는 적들이 달라짐. 아무리 위험도가 높아도 약한 적이 나오기는 함. 다만 점점 줄어들뿐.
-    {
-        rankList = new List<int>();
-
-        int _danger = Mathf.Clamp(Main.Instance.DangerOfDungeon, 15 + (Main.Instance.Turn * 5), Main.Instance.DangerOfDungeon);
-
-        for (int i = 0; i < rankWeightedList.Length; i++)
-        {
-            _danger -= rankWeightedList[i];
-            rankList.Add(rankWeightedList[i]);
-            if (_danger <= 0)
-            {
-                rankList[i] += _danger;
-                break;
-            }
-        }
-    } 
-
-    int WeightRandomPicker() //? 0~1의 랜덤값에 전체 가중치의 합을 곱해줌. 그리고 그값으로 픽하면 됨. 반환값은 랭크 단계
-    {
-        int weightMax = 0;
-        foreach (var item in rankList)
-        {
-            weightMax += item;
-        }
-
-        float randomValue = Random.value * weightMax;
-        int currentWeight = 0;
-
-
-        for (int i = 0; i < rankList.Count; i++)
-        {
-            currentWeight += rankList[i];
-            if (currentWeight > randomValue)
-            {
-                return i;
-            }
-        }
-        Debug.Log("잘못된 랭크");
-        return 0;
-    }
-    #endregion
 
 
 }

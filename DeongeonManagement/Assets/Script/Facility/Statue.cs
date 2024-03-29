@@ -6,7 +6,7 @@ public class Statue : Facility
 {
     public override void Init_Personal()
     {
-        statueType = (StatueType)OptionIndex;
+        statueType = (StatueType)CategoryIndex;
     }
 
     public enum StatueType

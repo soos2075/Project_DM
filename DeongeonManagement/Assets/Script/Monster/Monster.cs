@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Monster : MonoBehaviour, IPlacementable
@@ -193,7 +194,9 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     {
         Fixed,
 
-        Moving,
+        Wander,
+
+        Attack,
     }
 
     public MoveType Mode { get; set; } = MoveType.Fixed;
@@ -205,6 +208,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
     protected IEnumerator MoveCor()
     {
+        yield return new WaitForSeconds(2);
+
         while (Main.Instance.Management == false && State == MonsterState.Placement)
         {
             float ranDelay = Random.Range(1.5f, 2.5f);
@@ -213,8 +218,12 @@ public abstract class Monster : MonoBehaviour, IPlacementable
                 case MoveType.Fixed:
                     break;
 
-                case MoveType.Moving:
+                case MoveType.Wander:
                     Moving(ranDelay);
+                    break;
+
+                case MoveType.Attack:
+                    Moving_Attack(ranDelay);
                     break;
             }
             yield return new WaitForSeconds(ranDelay);
@@ -257,6 +266,69 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         BasementTile tile = GetRandomTile();
         if (tile != null)
         {
+            var eventType = tile.TryPlacement(this);
+
+            switch (eventType)
+            {
+                case Define.PlaceEvent.Placement:
+                    if (Cor_moveAnimation != null)
+                    {
+                        StopCoroutine(Cor_moveAnimation);
+                    }
+                    Cor_moveAnimation = StartCoroutine(MoveUpdate_Monster(tile, _delay));
+                    GameManager.Placement.PlacementMove(this, new PlacementInfo(PlacementInfo.Place_Floor, tile));
+                    break;
+
+                case Define.PlaceEvent.Battle:
+                    var npc = tile.Original as NPC;
+                    if (npc.Cor_Encounter == null)
+                    {
+                        npc.Cor_Encounter = StartCoroutine(npc.Encounter_ByMonster(this));
+                        Debug.Log($"몬스터 선빵때리기");
+                    }
+                    break;
+
+                default:
+                    Debug.Log($"{eventType.ToString()} : 아무이벤트 없음");
+                    break;
+            }
+        }
+    }
+
+    protected void Moving_Attack(float _delay)
+    {
+        BasementTile tile = null;
+        float prev_dist = 1000;
+        
+        // Floor에게 전체 npc를 받아와서 가장 가까운 npc를 찾아서 tile을 해당 npc의 tile로 갱신
+        var npcList = PlacementInfo.Place_Floor.GetFloorObjectList(Define.TileType.NPC);
+        if (npcList.Count == 0)
+        {
+            Debug.Log("층에 npc가 없으므로 이동하지 않음");
+            return;
+        }
+
+        foreach (var item in npcList)
+        {
+            float current_dist = (item.worldPosition - PlacementInfo.Place_Tile.worldPosition).magnitude;
+            if (current_dist < prev_dist )
+            {
+                tile = item;
+                prev_dist = current_dist;
+            }
+        }
+
+        // 찾은 타일과의 패스파인딩. npc가 있었다면 가장 가까운 npc가 타겟 / 빈공간 or npc tile로만 길찾기 함
+        bool pathFind = false;
+        List<BasementTile> path = PlacementInfo.Place_Floor.PathFinding_Monster(PlacementInfo.Place_Tile, tile, out pathFind);
+
+        if (pathFind)
+        {
+            //Debug.Log("길찾기 성공 and 이동");
+            //Debug.Log("몬스터 위치 : " + PlacementInfo.Place_Tile.worldPosition);
+            //Debug.Log("이동할 위치 : " + path[1].worldPosition);
+            tile = path[1];
+
             var eventType = tile.TryPlacement(this);
 
             switch (eventType)
@@ -373,8 +445,20 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         }
         LookAtTarget(npc.PlacementInfo.Place_Tile);
 
+        var npcType = npc.GetType();
         npc.ActionPoint -= Data.battleAp;
-        int battleMP = npc.Rank * 10;
+        int battleMP = npc.Rank * 4;
+
+        if (npcType == typeof(Adventurer) || npcType == typeof(Elf) || npcType == typeof(Wizard))
+        {
+            battleMP = npc.Rank * 10;
+        }
+
+        if (npcType == typeof(QuestHunter) || npcType == typeof(EventNPC))
+        {
+            battleMP = npc.Rank * 1;
+        }
+
         npc.Mana -= battleMP;
 
 

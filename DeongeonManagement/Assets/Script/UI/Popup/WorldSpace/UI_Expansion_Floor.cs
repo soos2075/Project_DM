@@ -28,7 +28,9 @@ public class UI_Expansion_Floor : UI_Base, IWorldSpaceUI
 
         Bind<TextMeshProUGUI>(typeof(Contents));
 
-        GetTMP(((int)Contents.Content)).text = $"필요 마나 : {NeedMana}\n필요 골드 : {NeedGold}\n필요 레벨 : {NeedLv}";
+        GetTMP(((int)Contents.Content)).text = $"{UserData.Instance.GetLocaleText("필요")} {UserData.Instance.GetLocaleText("Mana")} : {NeedMana}\n" +
+            $"{UserData.Instance.GetLocaleText("필요")} {UserData.Instance.GetLocaleText("Gold")} : {NeedGold}\n" +
+            $"{UserData.Instance.GetLocaleText("필요")} {UserData.Instance.GetLocaleText("Rank")} : {NeedLv}";
 
         gameObject.AddUIEvent((data) => ExpansionCheck());
     }

@@ -47,6 +47,23 @@ public class Herbalist : NPC
         characterBuilder.Rebuild();
     }
 
+    public override void Departure(Vector3 startPoint, Vector3 endPoint)
+    {
+        base.Departure(startPoint, endPoint);
+
+        if (UserData.Instance.FileConfig.firstAppear_Herbalist == false)
+        {
+            UserData.Instance.FileConfig.firstAppear_Herbalist = true;
+            StartCoroutine(EventCor());
+        }
+    }
+    IEnumerator EventCor()
+    {
+        yield return new WaitForSeconds(3);
+        Managers.Dialogue.ShowDialogueUI(DialogueName.Herbalist0_Appear, transform);
+    }
+
+
 
     protected override void SetPriorityList()
     {

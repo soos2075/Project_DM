@@ -199,6 +199,8 @@ public class UI_Summon_Monster : UI_PopUp
 
         var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
         msg.Message = $"{data.labelName} {UserData.Instance.GetLocaleText("Message_Summon")}";
+
+        SoundManager.Instance.PlaySound("SFX/Action_Summon");
     }
 
 

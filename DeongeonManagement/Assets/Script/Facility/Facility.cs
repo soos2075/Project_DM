@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,6 +43,7 @@ public abstract class Facility : MonoBehaviour, IPlacementable
     {
         InteractionOfTimes = _data.interactionTimes;
         //OptionIndex = _data.OptionIndex;
+        isInit = _data.isInit;
     }
 
     #endregion
@@ -54,7 +56,7 @@ public abstract class Facility : MonoBehaviour, IPlacementable
     {
         if (Data == null) return;
 
-        Type = Data.Type;
+        EventType = Data.Type;
         Name = Data.labelName;
         Detail_KR = Data.detail;
         InteractionOfTimes = Data.interactionOfTimes;
@@ -67,7 +69,7 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         pop_value = Data.pop_value;
         danger_value = Data.danger_value;
 
-        OptionIndex = Data.id;
+        CategoryIndex = Data.id;
 
         isOnlyOne = Data.isOnlyOne;
         isClearable = Data.isClearable;
@@ -85,7 +87,12 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
     //? 하나의 클래스에 여러타입을 가져야하는 경우(조각상 / 함정 / 이후로 추가할 퍼실리티들.
     //? 최종적으로는 아래 FacilityType이 클래스가 되야함. 허브는 허브로 통합, 광물은 광물로 통합 이런식으로.
-    public int OptionIndex { get; set; }
+    public int CategoryIndex { get; set; }
+    public int LabelIndex { get; set; }
+
+    public bool isInit { get; set; }
+
+
     public bool isOnlyOne { get; set; } = false;
     public bool isClearable { get; set; } = true;
 
@@ -104,7 +111,7 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
         Non_Interaction, //? 아무랑도 상호작용하지않지만 타일은 차지해야함. 이거 나중에 타일ui자체도 없애는것도 방법일듯.
     }
-    public FacilityEventType Type { get; set; }
+    public FacilityEventType EventType { get; set; }
     public int InteractionOfTimes { get; set; }
     public string Name { get; set; }
 
@@ -157,8 +164,82 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         }
     }
 
+    protected enum Target
+    {
+        Nothing,
+        Main,
+        Sub,
+        Weak,
+        Invalid,
+    }
+    string[] GetTargetTypeString(Target target)
+    {
+        if (Data == null) return null;
 
+        string[] types = null;
 
+        switch (target)
+        {
+            case Target.Main:
+                types = Data.main?.Split(',');
+                break;
+
+            case Target.Sub:
+                types = Data.sub?.Split(',');
+                break;
+
+            case Target.Weak:
+                types = Data.weak?.Split(',');
+                break;
+
+            case Target.Invalid:
+                types = Data.invalid?.Split(',');
+                break;
+        }
+
+        return types;
+    }
+
+    protected Type[] GetTargetType(Target target)
+    {
+        string[] names = GetTargetTypeString(target);
+        if (names == null) 
+        {
+            Debug.Log("Target Type Not Exist");
+            return null;
+        }
+
+        Type[] types = new Type[names.Length];
+
+        for (int i = 0; i < names.Length; i++)
+        {
+            Type type = Type.GetType(names[i]);
+            types[i] = type;
+        }
+
+        return types;
+    }
+    protected Target GetTarget(NPC npc)
+    {
+        Type npcType = npc.GetType();
+
+        for (int i = 1; i < Enum.GetNames(typeof(Target)).Length; i++)
+        {
+            Type[] types = GetTargetType((Target)i);
+            // 타겟 리스트가 없으면 넘기기
+            if (types == null) continue;
+
+            foreach (var item in types)
+            {
+                if (npcType == item)
+                {
+                    return (Target)i;
+                }
+            }
+        }
+
+        return Target.Nothing;
+    }
 
 
 

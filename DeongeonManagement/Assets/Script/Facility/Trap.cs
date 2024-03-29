@@ -8,7 +8,7 @@ public class Trap : Facility
 
     public override void Init_Personal()
     {
-        trapType = (TrapType)OptionIndex;
+        trapType = (TrapType)CategoryIndex;
 
         trap_Anim = GetComponentInChildren<Animator>();
         TrapInit();

@@ -6,7 +6,7 @@ public class Campfire : Facility
 {
     public override void Init_Personal()
     {
-        Type = FacilityEventType.NPC_Interaction;
+        EventType = FacilityEventType.NPC_Interaction;
         Name = "모닥불";
         Detail_KR = "모험가들이 쉬어가며 체력과 기력을 회복할 수 있습니다.";
 

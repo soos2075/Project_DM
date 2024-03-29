@@ -7,7 +7,7 @@ public class Herb : Facility
 {
     public override void Init_Personal()
     {
-        herbType = (HerbType)OptionIndex;
+        herbType = (HerbType)CategoryIndex;
         Init_Herb();
     }
 
@@ -33,21 +33,27 @@ public class Herb : Facility
         {
             int changeMP = mp_value;
 
-            if (npc.GetType() == typeof(Herbalist))
+            switch (GetTarget(npc))
             {
-                changeMP = mp_value;
-            }
-            else if(npc.GetType() == typeof(Miner))
-            {
-                changeMP = (int)(mp_value * 0.5f);
-            }
-            else if (npc.GetType() == typeof(Adventurer))
-            {
-                changeMP = (int)(mp_value * 0.3f);
-            }
-            else
-            {
-                changeMP = (int)(mp_value * 0.3f);
+                case Target.Main:
+                    changeMP = mp_value;
+                    break;
+
+                case Target.Sub:
+                    changeMP = (int)(mp_value * 0.6f);
+                    break;
+
+                case Target.Weak:
+                    changeMP = (int)(mp_value * 0.2f);
+                    break;
+
+                case Target.Invalid:
+                    changeMP = 0;
+                    break;
+
+                case Target.Nothing:
+                    changeMP = 0;
+                    break;
             }
 
 

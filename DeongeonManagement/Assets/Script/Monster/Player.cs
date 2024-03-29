@@ -10,6 +10,8 @@ public class Player : Monster
         PlacementType = PlacementType.Monster;
 
         Data = GameManager.Monster.GetData("Player_lv1");
+        Initialize_Status();
+        LV = 1;
     }
 
     public override void TurnStart()
@@ -40,6 +42,8 @@ public class Player : Monster
                 Data = GameManager.Monster.GetData("Player_lv3");
                 break;
         }
+        Initialize_Status();
+        LV = dungeonLV;
     }
 
 }

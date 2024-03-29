@@ -346,7 +346,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         for (int i = 0; i < allList.Count; i++)
         {
             var facil = allList[i].Original as Facility;
-            if (facil != null && facil.Type == facilityType)
+            if (facil != null && facil.EventType == facilityType)
             {
                 newList.Add(allList[i]);
             }
@@ -975,7 +975,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
             case Define.PlaceEvent.Avoid:
                 avoidCount++;
-                if (avoidCount > 10)
+                if (avoidCount > 3)
                 {
                     StopCoroutine(Cor_Move);
                     Cor_Move = StartCoroutine(Wandering());

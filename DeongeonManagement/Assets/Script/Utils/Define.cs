@@ -124,6 +124,9 @@ public class Define
 
     #region Animation
     public static readonly int ANIM_Attack = Animator.StringToHash("Attack");
+    public static readonly int ANIM_Shot = Animator.StringToHash("Shot");
+    public static readonly int ANIM_Jab = Animator.StringToHash("Jab");
+
     public static readonly int ANIM_Idle = Animator.StringToHash("Idle");
     public static readonly int ANIM_Dead = Animator.StringToHash("Dead");
     public static readonly int ANIM_Interaction = Animator.StringToHash("Interaction");
@@ -295,6 +298,8 @@ public class Define
     #endregion
 
 
+
+    public static readonly string AtoZ = "ABCDEFGHIJKLNMOPQRSTUVWXYZ";
 
 }
 

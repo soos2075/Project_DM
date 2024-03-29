@@ -19,7 +19,8 @@ public class PixelHeroManager
 
 
 
-
+    public readonly string[] Armor_Elf = new string[]
+    { "ArcherTunic","ElfTunic"};
 
 
 

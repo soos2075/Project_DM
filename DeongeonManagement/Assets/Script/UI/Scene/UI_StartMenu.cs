@@ -101,7 +101,7 @@ public class UI_StartMenu : UI_Scene
     {
         Debug.Log($"새 게임 시작");
         Main.Instance.NewGame_Init();
-
+        UserData.Instance.FileConfig = new UserData.SavefileConfig();
 
         //Main.Instance.Test_Init();
     }

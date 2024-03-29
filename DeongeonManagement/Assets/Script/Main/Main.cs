@@ -116,39 +116,39 @@ public class Main : MonoBehaviour
         //Debug.Log("µð¹ö±×¿ë Start");
         //NewGame_Init();
         //Default_Init();
-        //Test_Init();
+        Test_Init();
     }
     [Obsolete]
     public void Test_Init()
     {
-        ActiveFloor_Basement = 5;
-        ActiveFloor_Technical = 2;
-        DungeonRank = 3;
+        //ActiveFloor_Basement = 5;
+        //ActiveFloor_Technical = 2;
+        //DungeonRank = 3;
+        //EventManager.Instance.RankUpEvent();
 
-        //DangerOfDungeon = 100;
-        //PopularityOfDungeon = 200;
+        DangerOfDungeon = 190;
+        PopularityOfDungeon = 200;
 
         Player_Mana = 30000;
         Player_Gold = 30000;
-        Player_AP = 50;
-        AP_MAX = 50;
+        Player_AP = 20;
+        AP_MAX = 20;
 
-        Init_BasementFloor();
-        Init_Animation();
-        UI_Main.Start_Main();
-        UI_Main.ButtonAllActive();
+        //Init_BasementFloor();
+        //Init_Animation();
+        //UI_Main.Start_Main();
+        //UI_Main.ButtonAllActive();
 
-        Init_DayResult();
-        ExpansionConfirm();
-        GameManager.Technical.Expantion_Technical();
+        //Init_DayResult();
+        //ExpansionConfirm();
+        //GameManager.Technical.Expantion_Technical();
 
-        Init_Secret();
-        Init_Basic();
-        Init_Statue();
+        //Init_Secret();
+        //Init_Basic();
+        //Init_Statue();
 
-        EventManager.Instance.RankUpEvent();
+        //EventManager.Instance.RankUpEvent();
 
-        //StartCoroutine(waitA());
     }
     IEnumerator waitA()
     {
@@ -958,7 +958,7 @@ public class Main : MonoBehaviour
             }
             else
             {
-                Floor[i].LabelName = $"{UserData.Instance.GetLocaleText("ÁöÇÏ")} {i} {UserData.Instance.GetLocaleText("Ãþ")}";
+                Floor[i].LabelName = $"{UserData.Instance.GetLocaleText("ÁöÇÏ")} {i + 1} {UserData.Instance.GetLocaleText("Ãþ")}";
             }
 
 

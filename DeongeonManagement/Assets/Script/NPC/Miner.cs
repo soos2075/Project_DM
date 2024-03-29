@@ -46,6 +46,22 @@ public class Miner : NPC
         characterBuilder.Rebuild();
     }
 
+    public override void Departure(Vector3 startPoint, Vector3 endPoint)
+    {
+        base.Departure(startPoint, endPoint);
+
+        if (UserData.Instance.FileConfig.firstAppear_Miner == false)
+        {
+            UserData.Instance.FileConfig.firstAppear_Miner = true;
+            StartCoroutine(EventCor());
+        }
+    }
+    IEnumerator EventCor()
+    {
+        yield return new WaitForSeconds(3);
+        Managers.Dialogue.ShowDialogueUI(DialogueName.Miner0_Appear, transform);
+    }
+
     protected override void SetPriorityList()
     {
         if (PriorityList != null) PriorityList.Clear();

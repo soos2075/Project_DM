@@ -99,11 +99,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 98926592208898
-    m_Localized: Monster Summon
+    m_Localized: Summon Monster
     m_Metadata:
       m_Items: []
   - m_Id: 98926592208899
-    m_Localized: Facility Placement
+    m_Localized: Facility
     m_Metadata:
       m_Items: []
   - m_Id: 98926592208900
@@ -115,7 +115,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 98926592208897
-    m_Localized: Monster Management
+    m_Localized: Manage Monster
     m_Metadata:
       m_Items: []
   - m_Id: 98926592208896
@@ -415,6 +415,26 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 172850453622784
     m_Localized: Wander
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3244338631094272
+    m_Localized: Attack
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3722974710673408
+    m_Localized: Technical Zone
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3732394823856128
+    m_Localized: Expanding Dungeon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3733178995126272
+    m_Localized: Required
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5308809088282624
+    m_Localized: Evolution
     m_Metadata:
       m_Items: []
   references:

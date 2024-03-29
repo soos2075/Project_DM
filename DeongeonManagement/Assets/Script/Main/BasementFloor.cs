@@ -159,7 +159,7 @@ public class BasementFloor : MonoBehaviour
                         if (type == Define.TileType.Facility)
                         {
                             var facil = value.Original as Facility;
-                            if (facil.Type == Facility.FacilityEventType.NPC_Interaction)
+                            if (facil.EventType == Facility.FacilityEventType.NPC_Interaction)
                             {
                                 avoid = true;
                                 break;
@@ -291,6 +291,90 @@ public class BasementFloor : MonoBehaviour
         isFind = true;
         return moveList;
     }
+
+
+    // 몬스터버전 패스파인딩
+    public List<BasementTile> PathFinding_Monster(BasementTile startPoint, BasementTile targetPoint, out bool isFind)
+    {
+        //? 순서는 위 아래 왼쪽 오른쪽 순서
+        int[] deltaX = new int[4] { 0, 0, -1, 1 };
+        int[] deltaY = new int[4] { 1, -1, 0, 0 };
+
+        bool[,] closed = new bool[tilemap.cellBounds.size.x, tilemap.cellBounds.size.y];
+
+        PriorityQueue<PQNode> priorityQueue = new PriorityQueue<PQNode>();
+        Vector2Int[,] pathTile = new Vector2Int[tilemap.cellBounds.size.x, tilemap.cellBounds.size.y];
+
+
+        priorityQueue.Push(new PQNode()
+        {
+            F = Vector3.Distance(startPoint.worldPosition, targetPoint.worldPosition),
+            posX = startPoint.index.x,
+            posY = startPoint.index.y
+        });
+
+        pathTile[startPoint.index.x, startPoint.index.y] = new Vector2Int(startPoint.index.x, startPoint.index.y);
+        pathTile[targetPoint.index.x, targetPoint.index.y] = new Vector2Int(targetPoint.index.x, targetPoint.index.y);
+
+        while (priorityQueue.Count > 0)
+        {
+            PQNode node = priorityQueue.Pop();
+
+            //? 이미 방문한곳이면 스킵
+            if (closed[node.posX, node.posY])
+                continue;
+
+            closed[node.posX, node.posY] = true;
+
+            //? 도착이면 스킵
+            if (node.posX == targetPoint.index.x && node.posY == targetPoint.index.y)
+                break;
+
+
+            for (int i = 0; i < deltaX.Length; i++)
+            {
+                int nextX = node.posX + deltaX[i];
+                int nextY = node.posY + deltaY[i];
+
+                if (nextX == tilemap.cellBounds.size.x || nextX < 0 || nextY == tilemap.cellBounds.size.y || nextY < 0)
+                {
+                    continue;
+                }
+                if (closed[nextX, nextY])
+                    continue;
+
+                BasementTile value = null;
+                if (TileMap.TryGetValue(new Vector2Int(nextX, nextY), out value) == false)
+                {
+                    continue;
+                }
+
+
+                if (value.Original != null && value.Original.PlacementState == PlacementState.Busy)
+                {
+                    continue;
+                }
+
+                //? 몬스터 회피 조건 - 퍼실리티, 몬스터
+
+                if (value.tileType_Original != Define.TileType.Empty && value.tileType_Original != Define.TileType.NPC)
+                {
+                    continue;
+                }
+
+                priorityQueue.Push(new PQNode()
+                {
+                    F = Vector3.Distance(value.worldPosition, targetPoint.worldPosition),
+                    posX = nextX,
+                    posY = nextY
+                });
+                pathTile[nextX, nextY] = new Vector2Int(node.posX, node.posY);
+            }
+        }
+        return (MoveList(pathTile, targetPoint, out isFind));
+    }
+
+
 
 
 
@@ -716,11 +800,11 @@ public class BasementTile
                     if (Original.PlacementState == PlacementState.Standby)
                     {
                         var facil = Original as Facility;
-                        if (facil.Type == Facility.FacilityEventType.NPC_Interaction)
+                        if (facil.EventType == Facility.FacilityEventType.NPC_Interaction)
                         {
                             return Define.PlaceEvent.Interaction;
                         }
-                        else if (facil.Type == Facility.FacilityEventType.NPC_Event)
+                        else if (facil.EventType == Facility.FacilityEventType.NPC_Event)
                         {
                             return Define.PlaceEvent.Event;
                         }

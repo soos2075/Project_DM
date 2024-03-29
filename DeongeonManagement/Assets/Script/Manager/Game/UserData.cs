@@ -89,8 +89,15 @@ public class UserData : MonoBehaviour
         Language = (Define.Language)index;
         SetData(PrefsKey.Language, (int)Language);
 
-        //Managers.Scene.LoadSceneAsync(SceneName._1_Start);
         Managers.Dialogue.Init_GetLocalizationData();
+        if (Managers.Scene.GetCurrentScene() == SceneName._2_Management)
+        {
+            GameManager.Content.Init_LocalData();
+            GameManager.Facility.Init_LocalData();
+            GameManager.Monster.Init_LocalData();
+            GameManager.NPC.Init_LocalData();
+            GameManager.Technical.Init_LocalData();
+        }
     }
 
 
@@ -242,6 +249,49 @@ public class UserData : MonoBehaviour
 
 
     #endregion
+
+
+    #region SavefileConfig
+
+    public class SavefileConfig
+    {
+        // 몇회차인지에 대한 정보
+        public int PlayTimes;
+
+        // 첫 등장 이벤트 확인용 Bool
+        public bool firstAppear_Herbalist;
+        public bool firstAppear_Miner;
+        public bool firstAppear_Adventurer;
+        public bool firstAppear_Elf;
+        public bool firstAppear_Wizard;
+
+        public bool firstAppear_Hunter_Slime;
+        public bool firstAppear_Hunter_EarthGolem;
+
+
+        public SavefileConfig Clone()
+        {
+            SavefileConfig newConfig = new SavefileConfig();
+
+            newConfig.PlayTimes = PlayTimes;
+
+            newConfig.firstAppear_Herbalist = firstAppear_Herbalist;
+            newConfig.firstAppear_Miner = firstAppear_Miner;
+            newConfig.firstAppear_Adventurer = firstAppear_Adventurer;
+            newConfig.firstAppear_Elf = firstAppear_Elf;
+            newConfig.firstAppear_Wizard = firstAppear_Wizard;
+
+            newConfig.firstAppear_Hunter_Slime = firstAppear_Hunter_Slime;
+            newConfig.firstAppear_Hunter_EarthGolem = firstAppear_Hunter_EarthGolem;
+
+            return newConfig;
+        }
+    }
+
+    public SavefileConfig FileConfig { get; set; }
+
+    #endregion
+
 
 
 
