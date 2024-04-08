@@ -19,6 +19,8 @@ public class BattleField : MonoBehaviour
 
         hpBar_npc.sortingOrder = sort + 1;
         hpBar_monster.sortingOrder = sort + 1;
+
+        GetComponentInChildren<SpriteMask>().frontSortingOrder = sort;
     }
 
 

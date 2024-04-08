@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D.Animation;
 using UnityEngine.UI;
 
 public class Main : MonoBehaviour
@@ -116,7 +117,7 @@ public class Main : MonoBehaviour
         //Debug.Log("디버그용 Start");
         //NewGame_Init();
         //Default_Init();
-        Test_Init();
+        //Test_Init();
     }
     [Obsolete]
     public void Test_Init()
@@ -658,7 +659,7 @@ public class Main : MonoBehaviour
 
     public TechnicalFloor CurrentTechnical { get; set; }
 
-    void DayEvent ()
+    void DayEvent()
     {
         for (int i = 0; i < DayActions.Count; i++)
         {
@@ -831,6 +832,8 @@ public class Main : MonoBehaviour
                 break;
         }
 
+
+        ChangeEggState();
         StartCoroutine(AutoSave());
     }
 
@@ -882,13 +885,13 @@ public class Main : MonoBehaviour
 
 
 
-   
 
 
 
 
 
-   
+
+
 
 
 
@@ -909,7 +912,7 @@ public class Main : MonoBehaviour
     }
 
 
-    public void DayChangeAnimation() 
+    public void DayChangeAnimation()
     {
         layout.enabled = false;
 
@@ -1019,6 +1022,64 @@ public class Main : MonoBehaviour
 
     #endregion
 
+
+
+
+
+    #region
+    public enum EggState
+    {
+        Default_Level_1,
+        Default_Level_2,
+        Default_Level_3,
+
+        Normal,
+        Happy,
+        Bad,
+    }
+
+    public EggState Egg_State { get; set; }
+
+    GameObject eggObj;
+    SpriteResolver EggSprite
+    {
+        get
+        {
+            if (eggObj == null)
+            {
+                eggObj = GameObject.Find("Special_MagicEgg");
+            }
+            return eggObj.GetComponentInChildren<SpriteResolver>(); }
+        set { } 
+    }
+
+    void ChangeEggState()
+    {
+        if (Turn < 10)
+        {
+            Egg_State = EggState.Default_Level_1;
+            EggSprite.SetCategoryAndLabel("Egg_Normal", "EggA");
+        }
+        if (Turn < 15 && Turn >= 10)
+        {
+            Egg_State = EggState.Default_Level_2;
+            EggSprite.SetCategoryAndLabel("Egg_Normal", "EggB");
+        }
+        if (Turn < 20 && Turn >= 15)
+        {
+            Egg_State = EggState.Default_Level_3;
+            EggSprite.SetCategoryAndLabel("Egg_Normal", "EggC");
+        }
+
+        if (Turn >= 20)
+        {
+            //여기서 상세조건에 따라 알 생긴거 변화하면 됨 위험도나 인기도, 혹은 이벤트에 따라
+        }
+    }
+
+
+
+    #endregion
 }
 public class Save_DayResult
 {

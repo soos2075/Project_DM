@@ -44,17 +44,16 @@ public class BattleManager : MonoBehaviour
 
     public Coroutine ShowBattleField(NPC _npc, Monster _monster, out BattleField.BattleResult result)
     {
-        Vector3 bfPos = _monster.PlacementInfo.Place_Floor.transform.position;
+        // 배틀필드 위치 중복되지 않게 정하는 부분
+        Vector3 bfPos = SetPosition(_monster);
 
-        float direction = _monster.PlacementInfo.Place_Tile.worldPosition.x - bfPos.x;
-        if (direction >= 0)
+        int whileCount = 0;
+        while (FieldOverlapCheck(bfPos) == false && whileCount < 20)
         {
-            bfPos += new Vector3(Mathf.Clamp(Random.Range(3f, 8f) + direction, 5.0f, 8.0f) , Random.Range(-2.0f, 2.0f), 0);
+            bfPos = SetPosition(_monster);
+            whileCount++;
         }
-        else
-        {
-            bfPos += new Vector3(Mathf.Clamp(Random.Range(-3f, -8f) + direction, -5.0f, -8.0f), Random.Range(-2.0f, 2.0f), 0);
-        }
+
 
         var bf = Managers.Resource.Instantiate("Battle/BattleField").GetComponent<BattleField>();
         bf.sort = BattleCount;
@@ -89,5 +88,58 @@ public class BattleManager : MonoBehaviour
     public void RemoveCor(BattleField _field)
     {
         BattleList.Remove(_field);
+    }
+
+
+
+
+    Vector3 SetPosition(Monster _monster)
+    {
+        Vector3 bfPos = _monster.PlacementInfo.Place_Floor.transform.position;
+
+        float direction = _monster.PlacementInfo.Place_Tile.worldPosition.x - bfPos.x;
+        if (direction >= 0)
+        {
+            bfPos += new Vector3(Mathf.Clamp(Random.Range(3f, 10f) + direction, 5.0f, 12.0f), Random.Range(-2.0f, 2.0f), 0);
+        }
+        else
+        {
+            bfPos += new Vector3(Mathf.Clamp(Random.Range(-3f, -10f) + direction, -5.0f, -12.0f), Random.Range(-2.0f, 2.0f), 0);
+        }
+
+        return bfPos;
+    }
+
+
+
+    bool FieldOverlapCheck(Vector3 _field)
+    {
+        Vector3[] vectors = new Vector3[BattleList.Count];
+
+        for (int i = 0; i < vectors.Length; i++)
+        {
+            vectors[i] = BattleList[i].transform.position;
+        }
+
+        foreach (var item in vectors)
+        {
+            float minX = item.x - 2.75f;
+            float maxX = item.x + 2.75f;
+
+            float minY = item.y - 1.5f;
+            float maxY = item.y + 1.5f;
+
+            if (minX < _field.x && _field.x < maxX)
+            {
+                if (minY < _field.y && _field.y < maxY)
+                {
+                    // 위치가 겹침(x,y 가 1by1안에 안에 들어옴)
+                    Debug.Log(_field + "@@@겹침");
+
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

@@ -16,12 +16,6 @@ public class UI_SaveLoad : UI_PopUp
 
     enum Slot
     {
-        SaveSlot_1,
-        SaveSlot_2,
-        SaveSlot_3,
-        SaveSlot_4,
-        SaveSlot_5,
-        SaveSlot_6,
         AutoSave,
     }
 
@@ -37,6 +31,15 @@ public class UI_SaveLoad : UI_PopUp
     public Sprite button_Down;
     public Sprite button_Up;
 
+    public Sprite slot_Active;
+    public Sprite slot_Inactive;
+
+    enum GameObjects
+    {
+        IndexBox,
+        MainPanel,
+    }
+
 
     public override void Init()
     {
@@ -45,6 +48,7 @@ public class UI_SaveLoad : UI_PopUp
 
         Bind<Image>(typeof(Slot));
         Bind<Button>(typeof(Buttons));
+        Bind<GameObject>(typeof(GameObjects));
 
         if (State == Buttons.Load)
         {
@@ -60,18 +64,21 @@ public class UI_SaveLoad : UI_PopUp
         }
 
         GetButton(((int)Buttons.Close)).gameObject.AddUIEvent((data) => ClosePopUp());
-
         GetButton(((int)Buttons.Save)).gameObject.AddUIEvent((data) => SaveButton());
         GetButton(((int)Buttons.Load)).gameObject.AddUIEvent((data) => LoadButton());
 
 
+        Init_SaveSlot();
 
-        for (int i = 0; i < Enum.GetNames(typeof(Slot)).Length; i++)
-        {
-            GetImage(i).gameObject.AddUIEvent((data) => SlotClickEvent(data.pointerCurrentRaycast.gameObject.transform.GetSiblingIndex()));
-        }
+        GetImage((int)Slot.AutoSave).gameObject.AddUIEvent((data) => SlotClickEvent(0));
 
-        ShowDataInfo();
+        //for (int i = 0; i < Enum.GetNames(typeof(Slot)).Length; i++)
+        //{
+        //    GetImage(i).gameObject.AddUIEvent((data) => SlotClickEvent(data.pointerCurrentRaycast.gameObject.transform.GetSiblingIndex()));
+        //}
+
+        //ShowDataInfo();
+        ShowAutoInfo();
     }
 
     public void SetMode(Buttons saveMode)
@@ -102,23 +109,25 @@ public class UI_SaveLoad : UI_PopUp
 
     void SlotClickEvent(int index)
     {
-        index += 1;
+        //index += 1;
         switch (State)
         {
             case Buttons.Save:
-                if (index == 7)
+                if (index == 0)
                 {
                     return;
                 }
                 Managers.Data.SaveToJson($"DM_Save_{index}", index);
-                ShowDataInfo();
+
+                ShowDataInfo(index);
+
                 SoundManager.Instance.PlaySound("SFX/Save");
                 var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
                 msg.Message = UserData.Instance.GetLocaleText("Message_Saved"); 
                 break;
 
             case Buttons.Load:
-                if (index == 7)
+                if (index == 0)
                 {
                     if (Managers.Data.GetData($"AutoSave") == null)
                     {
@@ -145,27 +154,51 @@ public class UI_SaveLoad : UI_PopUp
     }
 
 
-    void ShowDataInfo()
+    void ShowDataInfo(int _index)
     {
-        for (int i = 1; i <= 6; i++)
-        {
-            var data = Managers.Data.GetData($"DM_Save_{i}");
+        var data = Managers.Data.GetData($"DM_Save_{_index}");
 
-            if (data != null)
-            {
-                GetImage(i - 1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("Slot")} {i}";
-                GetImage(i - 1).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{data.dateTime}";
-                GetImage(i - 1).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = 
-                    $"{data.turn}일차\n인기도 : {data.FameOfDungeon} / 위험도 : {data.DangerOfDungeon}";
-            }
-            else
-            {
-                GetImage(i - 1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("Slot")} {i}";
-                GetImage(i - 1).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"";
-                GetImage(i - 1).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("No Data")}";
-            }
+        if (data != null)
+        {
+            SaveSlotList[_index - 1].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("Slot")} {_index}";
+            SaveSlotList[_index - 1].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{data.dateTime}";
+            SaveSlotList[_index - 1].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text =
+                $"{data.turn}{UserData.Instance.GetLocaleText("Day")}\n" +
+                $"{UserData.Instance.GetLocaleText("Popularity")} : {data.FameOfDungeon} / " +
+                $"{UserData.Instance.GetLocaleText("Danger")} : {data.DangerOfDungeon}";
         }
-        ShowAutoInfo();
+        else
+        {
+            SaveSlotList[_index - 1].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("Slot")} {_index}";
+            SaveSlotList[_index - 1].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"";
+            SaveSlotList[_index - 1].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("No Data")}";
+        }
+
+
+        //for (int i = 1; i <= 6; i++)
+        //{
+        //    var data = Managers.Data.GetData($"DM_Save_{_index}");
+
+        //    if (data != null)
+        //    {
+        //        GetImage(i - 1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("Slot")} {i}";
+        //        GetImage(i - 1).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{data.dateTime}";
+        //        //GetImage(i - 1).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = 
+        //        //    $"{data.turn}일차\n인기도 : {data.FameOfDungeon} / 위험도 : {data.DangerOfDungeon}";
+                
+        //        GetImage(i - 1).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text =
+        //            $"{data.turn}{UserData.Instance.GetLocaleText("Day")}\n" +
+        //            $"{UserData.Instance.GetLocaleText("Popularity")} : {data.FameOfDungeon} / " +
+        //            $"{UserData.Instance.GetLocaleText("Danger")} : {data.DangerOfDungeon}";
+        //    }
+        //    else
+        //    {
+        //        GetImage(i - 1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("Slot")} {i}";
+        //        GetImage(i - 1).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"";
+        //        GetImage(i - 1).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("No Data")}";
+        //    }
+        //}
+        //ShowAutoInfo();
     }
     void ShowAutoInfo()
     {
@@ -174,8 +207,13 @@ public class UI_SaveLoad : UI_PopUp
         {
             GetImage(((int)Slot.AutoSave)).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("AutoSave")}";
             GetImage(((int)Slot.AutoSave)).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{autodata.dateTime}";
+            //GetImage(((int)Slot.AutoSave)).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text =
+            //    $"{autodata.turn}일차\n인기도 : {autodata.FameOfDungeon} / 위험도 : {autodata.DangerOfDungeon}";
+
             GetImage(((int)Slot.AutoSave)).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text =
-                $"{autodata.turn}일차\n인기도 : {autodata.FameOfDungeon} / 위험도 : {autodata.DangerOfDungeon}";
+                $"{autodata.turn}{UserData.Instance.GetLocaleText("Day")}\n" +
+                $"{UserData.Instance.GetLocaleText("Popularity")} : {autodata.FameOfDungeon} / " +
+                $"{UserData.Instance.GetLocaleText("Danger")} : {autodata.DangerOfDungeon}";
         }
         else
         {
@@ -192,4 +230,70 @@ public class UI_SaveLoad : UI_PopUp
         Main.Instance.Default_Init();
         Managers.Data.LoadGame($"DM_Save_{index}");
     }
+
+
+
+    #region SaveSlot
+
+    List<Button> SaveSlotButtonList = new List<Button>();
+    List<GameObject> SaveSlotBoxList = new List<GameObject>();
+    List<GameObject> SaveSlotList = new List<GameObject>();
+    void Init_SaveSlot()
+    {
+        var box = GetObject((int)GameObjects.IndexBox).transform;
+
+        for (int i = 0; i < box.childCount; i++)
+        {
+            var button = box.GetChild(i).gameObject.GetComponent<Button>();
+            button.gameObject.AddUIEvent((data) => SelectSlotBox(data.pointerCurrentRaycast.gameObject.transform.GetSiblingIndex()));
+            SaveSlotButtonList.Add(button);
+
+            var slot = Managers.Resource.Instantiate("UI/PopUp/Element/SaveSlot", GetObject((int)GameObjects.MainPanel).transform);
+            SaveSlotBoxList.Add(slot);
+
+            for (int j = 0; j < slot.transform.childCount; j++)
+            {
+                GameObject obj = slot.transform.GetChild(j).gameObject;
+                obj.name = $"SaveSlot_{(i * 6) + (j + 1)}";
+
+                obj.AddUIEvent((data) =>
+                {
+                    var str = data.pointerCurrentRaycast.gameObject.name.Substring(data.pointerCurrentRaycast.gameObject.name.IndexOf("_") + 1);
+                    //Debug.Log(str);
+                    SlotClickEvent(int.Parse(str));
+                });
+                SaveSlotList.Add(obj);
+            }
+        }
+
+        SelectSlotBox(0);
+    }
+
+    void SelectSlotBox(int index)
+    {
+        ButtonColor(index);
+
+        for (int i = 0; i < SaveSlotBoxList.Count; i++)
+        {
+            SaveSlotBoxList[i].gameObject.SetActive(false);
+        }
+        SaveSlotBoxList[index].gameObject.SetActive(true);
+
+        for (int i = 0; i < SaveSlotBoxList[index].transform.childCount; i++)
+        {
+            ShowDataInfo((index * 6) + i + 1);
+        }
+    }
+
+    void ButtonColor(int index)
+    {
+        for (int i = 0; i < SaveSlotButtonList.Count; i++)
+        {
+            SaveSlotButtonList[i].gameObject.GetComponent<Image>().sprite = slot_Inactive;
+        }
+        SaveSlotButtonList[index].gameObject.GetComponent<Image>().sprite = slot_Active;
+    }
+
+
+    #endregion
 }
