@@ -31,7 +31,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 3731783626752
-    m_Localized: Exit
+    m_Localized: Quit
     m_Metadata:
       m_Items: []
   - m_Id: 24562949632000
@@ -435,6 +435,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 5308809088282624
     m_Localized: Evolution
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11935326576783360
+    m_Localized: Encyclopedia
     m_Metadata:
       m_Items: []
   references:

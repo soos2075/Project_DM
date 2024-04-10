@@ -428,6 +428,8 @@ public class Main : MonoBehaviour
         //    object value = field.GetValue(CurrentDay);
         //    Debug.Log($"{field.Name}: {value}");
         //}
+
+        ChangeEggState();
     }
     #endregion
 
@@ -1058,21 +1060,23 @@ public class Main : MonoBehaviour
         if (Turn < 10)
         {
             Egg_State = EggState.Default_Level_1;
-            EggSprite.SetCategoryAndLabel("Egg_Normal", "EggA");
+            EggSprite.SetCategoryAndLabel("Egg", "Level_1");
         }
         if (Turn < 15 && Turn >= 10)
         {
             Egg_State = EggState.Default_Level_2;
-            EggSprite.SetCategoryAndLabel("Egg_Normal", "EggB");
+            EggSprite.SetCategoryAndLabel("Egg", "Level_2");
         }
         if (Turn < 20 && Turn >= 15)
         {
             Egg_State = EggState.Default_Level_3;
-            EggSprite.SetCategoryAndLabel("Egg_Normal", "EggC");
+            EggSprite.SetCategoryAndLabel("Egg", "Level_3");
         }
 
         if (Turn >= 20)
         {
+            Egg_State = EggState.Default_Level_3;
+            EggSprite.SetCategoryAndLabel("Egg", "Level_3");
             //여기서 상세조건에 따라 알 생긴거 변화하면 됨 위험도나 인기도, 혹은 이벤트에 따라
         }
     }

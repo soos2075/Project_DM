@@ -255,7 +255,7 @@ public class DataManager
 
     void Scan_File()
     {
-        for (int i = 1; i <= 6; i++)
+        for (int i = 1; i <= 6 * 5; i++)
         {
             if (Managers.Data.SaveFileSearch($"DM_Save_{i}"))
             {
@@ -416,6 +416,9 @@ public class DataManager
         string jsonData = JsonConvert.SerializeObject(data);
         var result = FileOperation(FileMode.Create, $"{Application.persistentDataPath}/Savefile/{fileName}.json", jsonData);
         Debug.Log($"Save Sucess : {fileName}");
+
+        // 저장할 때 마다 도감 상황도 업데이트 되어야함.
+        SaveCollectionData();
     }
 
 
@@ -448,6 +451,37 @@ public class DataManager
     }
 
     #endregion
+
+
+
+    #region SaveCollectionData
+
+    public void SaveCollectionData()
+    {
+        string jsonData = JsonConvert.SerializeObject(CollectionManager.Instance.SaveCollectionData());
+        var result = FileOperation(FileMode.Create, $"{Application.persistentDataPath}/Savefile/CollectionData.json", jsonData);
+    }
+
+    public bool LoadCollectionData()
+    {
+        //? 저장된 파일 읽어옴
+        if (SaveFileSearch("CollectionData"))
+        {
+            var _fileData = FileOperation(FileMode.Open, $"{Application.persistentDataPath}/Savefile/CollectionData.json");
+            var loadData = JsonConvert.DeserializeObject<Dictionary<int, bool>>(_fileData);
+            CollectionManager.Instance.LoadCollectionData(loadData);
+            return true;
+        }
+        else
+        {
+            Debug.Log("CollectionData Not Exsit");
+            return false;
+        }
+    }
+
+    #endregion
+
+
 
 
 

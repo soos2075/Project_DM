@@ -1,0 +1,183 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CollectionManager : MonoBehaviour
+{
+    #region Singleton
+    private static CollectionManager _instance;
+    public static CollectionManager Instance { get { Initialize(); return _instance; } }
+
+    private static void Initialize()
+    {
+        if (_instance == null)
+        {
+            _instance = FindObjectOfType<CollectionManager>();
+            if (_instance == null)
+            {
+                GameObject go = new GameObject { name = "@CollectionManager" };
+                _instance = go.AddComponent<CollectionManager>();
+            }
+            DontDestroyOnLoad(_instance);
+        }
+    }
+
+    private void Awake()
+    {
+        Initialize();
+        if (_instance != null)
+        {
+            if (_instance != this)
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        Init_Data();
+    }
+    #endregion
+
+
+
+    void Start()
+    {
+        Init_Data();
+        Init_Register();
+
+        Managers.Data.LoadCollectionData();
+
+        //Register_Monster[0].isRegist = true;
+        //Register_Monster[1].isRegist = true;
+        //Register_Monster[2].isRegist = true;
+    }
+
+
+
+    public SO_Facility[] FacilityData { get; private set; }
+    public SO_Monster[] MonsterData { get; private set; }
+    public SO_NPC[] NpcData { get; private set; }
+    public SO_Technical[] TechnicalData { get; private set; }
+
+
+    void Init_Data()
+    {
+        FacilityData = Resources.LoadAll<SO_Facility>("Data/Facility");
+        MonsterData = Resources.LoadAll<SO_Monster>("Data/Monster");
+        NpcData = Resources.LoadAll<SO_NPC>("Data/NPC");
+        TechnicalData = Resources.LoadAll<SO_Technical>("Data/Technical");
+    }
+
+
+    public List<CollectionUnitRegist<SO_Monster>> Register_Monster;
+    public List<CollectionUnitRegist<SO_Facility>> Register_Facility;
+    public List<CollectionUnitRegist<SO_NPC>> Register_NPC;
+    public List<CollectionUnitRegist<SO_Technical>> Register_Technical;
+
+
+    void Init_Register()
+    {
+        Register_Monster = new List<CollectionUnitRegist<SO_Monster>>();
+        for (int i = 0; i < MonsterData.Length; i++)
+        {
+            Register_Monster.Add(new CollectionUnitRegist<SO_Monster>(MonsterData[i], false));
+        }
+
+        Register_Facility = new List<CollectionUnitRegist<SO_Facility>>();
+        for (int i = 0; i < FacilityData.Length; i++)
+        {
+            Register_Facility.Add(new CollectionUnitRegist<SO_Facility>(FacilityData[i], false));
+        }
+
+        Register_NPC = new List<CollectionUnitRegist<SO_NPC>>();
+        for (int i = 0; i < NpcData.Length; i++)
+        {
+            Register_NPC.Add(new CollectionUnitRegist<SO_NPC>(NpcData[i], false));
+        }
+
+        Register_Technical = new List<CollectionUnitRegist<SO_Technical>>();
+        for (int i = 0; i < TechnicalData.Length; i++)
+        {
+            Register_Technical.Add(new CollectionUnitRegist<SO_Technical>(TechnicalData[i], false));
+        }
+    }
+
+
+
+
+    public void LoadCollectionData(Dictionary<int, bool> data)
+    {
+        foreach (var item in Register_Monster)
+        {
+            bool isRegist = false;
+            if (data.TryGetValue(item.unit.id, out isRegist))
+            {
+                item.isRegist = isRegist;
+            }
+        }
+        foreach (var item in Register_Facility)
+        {
+            bool isRegist = false;
+            if (data.TryGetValue(item.unit.id, out isRegist))
+            {
+                item.isRegist = isRegist;
+            }
+        }
+        foreach (var item in Register_NPC)
+        {
+            bool isRegist = false;
+            if (data.TryGetValue(item.unit.id, out isRegist))
+            {
+                item.isRegist = isRegist;
+            }
+        }
+        foreach (var item in Register_Technical)
+        {
+            bool isRegist = false;
+            if (data.TryGetValue(item.unit.id, out isRegist))
+            {
+                item.isRegist = isRegist;
+            }
+        }
+    }
+
+    public Dictionary<int, bool> SaveCollectionData()
+    {
+        var Register = new Dictionary<int, bool>();
+        for (int i = 0; i < Register_Facility.Count; i++)
+        {
+            Register.Add(Register_Facility[i].unit.id, Register_Facility[i].isRegist);
+        }
+        for (int i = 0; i < Register_Monster.Count; i++)
+        {
+            Register.Add(Register_Monster[i].unit.id, Register_Monster[i].isRegist);
+        }
+        for (int i = 0; i < Register_NPC.Count; i++)
+        {
+            Register.Add(Register_NPC[i].unit.id, Register_NPC[i].isRegist);
+        }
+        for (int i = 0; i < Register_Technical.Count; i++)
+        {
+            Register.Add(Register_Technical[i].unit.id, Register_Technical[i].isRegist);
+        }
+
+        return Register;
+    }
+
+
+    public class CollectionUnitRegist<T> where T : ScriptableObject
+    {
+        public T unit;
+        public bool isRegist;
+        //? 세부정보가 필요하면 여기 추가하면됨(진화조건, 최대스탯, 기타등등)
+
+        public CollectionUnitRegist(T _so_Data, bool _regist)
+        {
+            unit = _so_Data;
+            isRegist = _regist;
+        }
+    }
+
+
+}
+
+

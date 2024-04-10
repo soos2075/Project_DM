@@ -15,6 +15,7 @@ public class UI_StartMenu : UI_Scene
         Load,
         Quit,
         Pause,
+        Collection,
     }
 
     public override void Init()
@@ -33,14 +34,38 @@ public class UI_StartMenu : UI_Scene
         GetButton((int)Buttons.Pause).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_Pause>());
 
         LoadButtonActive();
+
+
+        Init_CollectionButton();
     }
+
+
+    void Init_CollectionButton()
+    {
+        //? 조건 1 = 한번이라도 클리어했는지 -> UserData.Instance.GetDataInt(PrefsKey.FirstClear, 0) == 1
+        //? 조건 2 = 걍 세이브 데이터가 있는지
+
+        if (UserData.Instance.GetDataInt(PrefsKey.FirstClear, 1) == 1)
+        {
+            GetButton((int)Buttons.Collection).gameObject.SetActive(true);
+            GetButton((int)Buttons.Collection).gameObject.AddUIEvent(data => Managers.UI.ShowPopUp<UI_Collection>());
+        }
+        else
+        {
+            GetButton((int)Buttons.Collection).gameObject.SetActive(false);
+        }
+    }
+
 
 
     void Button_Quit()
     {
+        //Managers.Data.SaveCollectionData();
+
         Debug.Log("게임종료");
         Application.Quit();
     }
+
 
 
     void LoadButtonActive()
