@@ -35,10 +35,18 @@ public class UI_MonsterBox : UI_Base
 
         ShowContents();
 
-        gameObject.AddUIEvent((data) => parent.ShowDetail(this));
+        gameObject.AddUIEvent((data) => ParentUpdate());
     }
 
     
+    void ParentUpdate()
+    {
+        if (parent != null)
+        {
+            parent.ShowDetail(this);
+        }
+    }
+
    
     public void ShowContents()
     {

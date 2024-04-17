@@ -197,21 +197,36 @@ public class EventManager : MonoBehaviour
         });
 
 
+        //EventAction.Add("Ending", () =>
+        //{
+        //    StartCoroutine(WaitEnding(1));
+        //});
+
         EventAction.Add("Ending", () =>
         {
-            StartCoroutine(WaitEnding(1));
+            StartCoroutine(NewEnding());
         });
-
     }
     IEnumerator WaitEnding(float _time)
     {
         var fade = Managers.UI.ClearAndShowPopUp<UI_Fade>();
         fade.SetFadeOption(UI_Fade.FadeMode.WhiteOut, 1);
-        UserData.Instance.GameClear();
 
+        UserData.Instance.GameClear();
         yield return new WaitForSecondsRealtime(_time);
         Managers.Scene.LoadSceneAsync(SceneName._5_Ending, false);
     }
+
+    IEnumerator NewEnding()
+    {
+        var fade = Managers.UI.ClearAndShowPopUp<UI_Fade>();
+        fade.SetFadeOption(UI_Fade.FadeMode.WhiteOut, 1);
+
+        yield return new WaitForSecondsRealtime(1);
+        Managers.Scene.LoadSceneAsync(SceneName._7_NewEnding, false);
+    }
+
+
 
     public void AddCustomAction(string _name, Action _action)
     {

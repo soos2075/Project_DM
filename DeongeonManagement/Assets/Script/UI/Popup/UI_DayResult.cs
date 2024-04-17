@@ -56,8 +56,8 @@ public class UI_DayResult : UI_PopUp
         GetTMP(((int)Texts.Use_Mana)).text = $"- {UserData.Instance.GetLocaleText("Mana")} : {Result.Use_Mana.ToString().SetTextColorTag(Define.TextColor.npc_red).SetTextColorTag(Define.TextColor.Bold)}";
         GetTMP(((int)Texts.Use_Gold)).text = $"- {UserData.Instance.GetLocaleText("Gold")} : {Result.Use_Gold.ToString().SetTextColorTag(Define.TextColor.npc_red).SetTextColorTag(Define.TextColor.Bold)}";
 
-        GetTMP(((int)Texts.Monster_LvUp)).text = $"UP {UserData.Instance.GetLocaleText("몬스터")} : {Util.SetTextColorTag(GameManager.Monster.LevelUpList.Count.ToString(), Define.TextColor.Bold)}";
-        GetTMP(((int)Texts.Monster_Injury)).text = $"Weak {UserData.Instance.GetLocaleText("몬스터")} : {Util.SetTextColorTag(GameManager.Monster.InjuryMonster.ToString(), Define.TextColor.Bold)}";
+        GetTMP(((int)Texts.Monster_LvUp)).text = $"{UserData.Instance.GetLocaleText("Up")} {UserData.Instance.GetLocaleText("몬스터")} : {Util.SetTextColorTag(GameManager.Monster.LevelUpList.Count.ToString(), Define.TextColor.Bold)}";
+        GetTMP(((int)Texts.Monster_Injury)).text = $"{UserData.Instance.GetLocaleText("Weak")} {UserData.Instance.GetLocaleText("몬스터")} : {Util.SetTextColorTag(GameManager.Monster.InjuryMonster.ToString(), Define.TextColor.Bold)}";
 
         GetTMP(((int)Texts.Fame)).text = $"{UserData.Instance.GetLocaleText("Popularity")} : {Util.SetTextColorTag(Result.fame_perv.ToString(), Define.TextColor.Bold)} → " +
             $"{Util.SetTextColorTag(Main.Instance.PopularityOfDungeon.ToString(), Define.TextColor.Bold)}";

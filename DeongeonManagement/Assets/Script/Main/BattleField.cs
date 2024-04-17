@@ -23,7 +23,12 @@ public class BattleField : MonoBehaviour
         GetComponentInChildren<SpriteMask>().frontSortingOrder = sort;
     }
 
+    [Header("Field Sprite")]
+    public Sprite field_1;
+    public Sprite field_2;
+    public Sprite field_3;
 
+    [Space(10)]
 
 
     public SpriteRenderer sprite_BG;

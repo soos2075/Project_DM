@@ -441,6 +441,14 @@ MonoBehaviour:
     m_Localized: Encyclopedia
     m_Metadata:
       m_Items: []
+  - m_Id: 12475459579359232
+    m_Localized: LevelUp
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12476189237260288
+    m_Localized: Injured
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

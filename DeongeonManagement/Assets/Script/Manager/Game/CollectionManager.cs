@@ -49,6 +49,8 @@ public class CollectionManager : MonoBehaviour
         //Register_Monster[0].isRegist = true;
         //Register_Monster[1].isRegist = true;
         //Register_Monster[2].isRegist = true;
+
+        Managers.Data.LoadClearData();
     }
 
 
@@ -176,6 +178,91 @@ public class CollectionManager : MonoBehaviour
             isRegist = _regist;
         }
     }
+
+
+
+
+
+    #region Multi Play
+    public MultiplayData PlayData { get; set; }
+
+
+    public class MultiplayData
+    {
+        public int multiplayCount;
+
+
+        public Save_MonsterData[] MonsterList;
+
+        //public Save_MonsterData multiSavedMonster1;
+        //public Save_MonsterData multiSavedMonster2;
+        //public Save_MonsterData multiSavedMonster3;
+
+
+        public string[] BonusList;
+
+        //public string Bonus_Monster1;
+        //public string Bonus_Monster2;
+        //public string Bonus_Monster3;
+
+
+        int monsterCount;
+        int bonusCount;
+
+        public MultiplayData()
+        {
+            MonsterList = new Save_MonsterData[3];
+            BonusList = new string[3];
+
+            monsterCount = 0;
+            bonusCount = 0;
+        }
+
+
+        public void Init_Count(int multiCount)
+        {
+            multiplayCount = multiCount;
+        }
+        public void Init_Monster(Save_MonsterData monster)
+        {
+            MonsterList[monsterCount] = monster;
+
+            // 딱히 필요없는 과정일수도 있음 그냥 불러올 때 초기화 해주면 되는 부분이라
+            monster.State = Monster.MonsterState.Standby;
+            monster.FloorIndex = -1;
+            monster.PosIndex = Vector2Int.zero;
+
+            monsterCount++;
+        }
+        public void Init_Bonus(string monsterDataName)
+        {
+            BonusList[bonusCount] = monsterDataName;
+
+            bonusCount++;
+        }
+    }
+
+
+
+    public MultiplayData SaveMultiData()
+    {
+        if (PlayData != null)
+        {
+            return PlayData;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public void LoadMultiData(MultiplayData Data)
+    {
+        PlayData = Data;
+    }
+
+
+    #endregion
 
 
 }

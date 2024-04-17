@@ -38,6 +38,19 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
     }
 
 
+    
+
+
+    public Endings EndingState;
+
+    public void SelectEnding(Endings ending)
+    {
+        EndingState = ending;
+    }
+
+
+
+
 
 
     [field: SerializeField]

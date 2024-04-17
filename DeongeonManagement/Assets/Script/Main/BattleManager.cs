@@ -64,6 +64,8 @@ public class BattleManager : MonoBehaviour
         line.SetPosition(0, _monster.transform.position);
         line.SetPosition(1, bfPos);
 
+        SetFieldColor(bf, line, _monster, _npc);
+
         bf.SetHPBar(_npc.HP, _npc.HP_MAX, _monster.HP, _monster.HP_Max);
 
 
@@ -72,9 +74,76 @@ public class BattleManager : MonoBehaviour
         return StartCoroutine(Battle(bf, line));
     }
 
+    void SetFieldColor(BattleField field, LineRenderer line, Monster monster, NPC npc)
+    {
+        var floor = monster.PlacementInfo.Place_Floor.FloorIndex;
+        Debug.Log(floor + "@@");
+        switch (floor)
+        {
+            case 0:
+            case 3:
+            case 6:
+                field.sprite_BG.sprite = field.field_1;
+                break;
+
+            case 1:
+            case 4:
+            case 7:
+                field.sprite_BG.sprite = field.field_2;
+                break;
+
+            case 2:
+            case 5:
+            case 8:
+                field.sprite_BG.sprite = field.field_3;
+                break;
+
+            default:
+                field.sprite_BG.sprite = field.field_1;
+                break;
+        }
+
+        var npcType = npc.GetType();
+
+        if (npcType == typeof(Herbalist) || npcType == typeof(Miner))
+        {
+            Color color = new Color32(243, 185, 211, 255);
+
+            line.startColor = color;
+            line.endColor = color;
+            field.sprite_border.color = color;
+        }
+        else if (npcType == typeof(Adventurer) || npcType == typeof(Elf) || npcType == typeof(Wizard))
+        {
+            Color color = new Color32(0, 120, 60, 255);
+
+            line.startColor = color;
+            line.endColor = color;
+            field.sprite_border.color = color;
+        }
+        else if (npcType == typeof(QuestHunter))
+        {
+            Color color = new Color32(0, 134, 209, 255);
+
+            line.startColor = color;
+            line.endColor = color;
+            field.sprite_border.color = color;
+        }
+        else if (npcType == typeof(EventNPC))
+        {
+            Color color = new Color32(255, 242, 93, 255);
+
+            line.startColor = color;
+            line.endColor = color;
+            field.sprite_border.color = color;
+        }
+        // 이거보다 더 위험한 타입은 red쓰면 될듯
+    }
+
+
+
     IEnumerator Battle(BattleField _field, LineRenderer _line)
     {
-
         //Time.timeScale = 0;
         yield return _field.BattlePlay();
         RemoveCor(_field);
@@ -104,7 +173,7 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            bfPos += new Vector3(Mathf.Clamp(Random.Range(-3f, -10f) + direction, -5.0f, -12.0f), Random.Range(-2.0f, 2.0f), 0);
+            bfPos += new Vector3(Mathf.Clamp(Random.Range(-3f, -10f) + direction, -12.0f, -5.0f), Random.Range(-2.0f, 2.0f), 0);
         }
 
         return bfPos;

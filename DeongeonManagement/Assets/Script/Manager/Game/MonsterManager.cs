@@ -325,6 +325,12 @@ public class Save_MonsterData
     public int FloorIndex { get; set; }
     public Vector2Int PosIndex { get; set; }
 
+
+    //? GameManager가 아닌 세이브파일만으로 데이터를 받아와야 할 경우에 사용할거
+    public string savedName;
+    public string spritePath;
+
+
     public void SetData(Monster monster)
     {
         PrefabPath = monster.Data.prefabPath;
@@ -358,6 +364,10 @@ public class Save_MonsterData
         {
             FloorIndex = -1;
         }
+
+
+        savedName = monster.Data.labelName;
+        spritePath = monster.Data.spritePath;
     }
 }
 

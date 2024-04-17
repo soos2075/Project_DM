@@ -188,11 +188,18 @@ public class SceneManagerEx
             case "_3_Guild":
                 return SceneName._3_Guild;
 
-            case "_6_NewOpening":
-                return SceneName._6_NewOpening;
+
 
             case "_5_Ending":
                 return SceneName._5_Ending;
+
+
+
+            case "_6_NewOpening":
+                return SceneName._6_NewOpening;
+
+            case "_7_NewEnding":
+                return SceneName._7_NewEnding;
 
             default:
                 return SceneName._1_Start;
@@ -209,4 +216,5 @@ public enum SceneName
     //_4_Direction = 4,
     _5_Ending = 5,
     _6_NewOpening = 6,
+    _7_NewEnding = 7,
 }

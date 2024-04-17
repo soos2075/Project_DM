@@ -2383,6 +2383,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CursorImage: {fileID: 2800000, guid: 0e5c1d7277473924c9086360ebb4afc0, type: 3}
+  isClear: 0
+  EndingState: 0
 --- !u!4 &1806591814
 Transform:
   m_ObjectHideFlags: 0

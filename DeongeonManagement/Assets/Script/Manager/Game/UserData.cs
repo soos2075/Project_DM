@@ -236,15 +236,70 @@ public class UserData : MonoBehaviour
 
 
     #region GameClear
+    //? 이건 사실 UI_EndingCanvas에 있어야되는거긴함. 지금은 테스트해야되서
+    public DataManager.SaveData CurrentSaveData { get; set; }
 
-    public void GameClear()
+    public bool isClear;
+    public Endings EndingState;
+    public Save_MonsterData SelectedMonster { get; set; }
+    public void GameClear(DataManager.SaveData data = null)
     {
         //? 1. Main에서 CurrentDayList를 가져와서 이것저것 수치를 뽑는다.
         //? 2. 데이터를 이것저것 Set 해준다
         //? 3. UI를 띄우든지 씬을 옮기든지 해서 스토리 진행 (이거 전에 1,2번은 해놔야함. 그래야 씬옮겨도 문제없고)
         //? 4. 다끝났으면 메인으로 가기. 그리고 앞으론 뉴게임할 때 회차데이터 쓸껀지랑 이것저것 물어보면 됨.
+
+
+        //? 세이브 로드창을 불러온다
+        //? 세이브창을 닫으면 몬스터를 선택한다.
+        //? 세이브항목을 확인하면 30일차 혹은 엔딩 이름이 나온다.
+
+        Debug.Log("세이브 완료 후 여기로 옴 && 클리어 후 저장된 파일을 부르면 여기로 옴");
+
+
+        Save_MonsterData[] monsterDAta;
+        if (data != null)
+        {
+            monsterDAta = data.monsterList;
+        }
+        else
+        {
+            monsterDAta = CurrentSaveData.monsterList;
+        }
+
+        StartCoroutine(Init_MultiData(monsterDAta));
     }
 
+    IEnumerator Init_MultiData(Save_MonsterData[] data)
+    {
+        var fade = Managers.UI.ShowPopUp<UI_Fade>();
+        fade.SetFadeOption(UI_Fade.FadeMode.BlackOut, 2, false);
+
+        yield return new WaitForSecondsRealtime(2);
+
+
+        SelectedMonster = null;
+
+        var monster = Managers.UI.ShowPopUp<UI_Ending_Monster>("Monster/UI_Ending_Monster");
+        monster.datas = data;
+
+
+        yield return new WaitUntil(() => SelectedMonster != null);
+
+        //Debug.Break();
+        var ClearSaveData = new CollectionManager.MultiplayData();
+        ClearSaveData.Init_Count(UserData.Instance.GetDataInt(PrefsKey.ClearTimes, 0) + 1);
+        ClearSaveData.Init_Bonus("SuperBonus");
+        ClearSaveData.Init_Monster(SelectedMonster);
+
+        CollectionManager.Instance.PlayData = ClearSaveData;
+
+        Managers.Data.SaveClearData();
+
+        yield return null;
+
+        Managers.Scene.LoadSceneAsync(SceneName._1_Start);
+    }
 
 
 
@@ -366,4 +421,12 @@ public enum PrefsKey
 
     Ending_Normal,
     Ending_Hidden,
+}
+
+public enum Endings
+{
+    // 딱히 결정된게 없으면 노말 혹은 배드
+    Normal,
+    Bad,
+    Happy,
 }

@@ -214,7 +214,21 @@ public class Main : MonoBehaviour
         StartCoroutine(NextStart());
 
         _DefaultSetting = true;
+
+        UserData.Instance.isClear = false;
+
+        NewGame_GetClearBonus();
     }
+
+    void NewGame_GetClearBonus()
+    {
+        if (CollectionManager.Instance.PlayData != null)
+        {
+            Debug.Log("있음");
+            GameManager.Monster.Load_MonsterData(CollectionManager.Instance.PlayData.MonsterList);
+        }
+    }
+
 
 
 
@@ -739,12 +753,9 @@ public class Main : MonoBehaviour
 
         switch (Turn)
         {
-            case 0:
-                break;
 
-            case 1:
-                //Debug.Log("1일차 테스트");
-                break;
+            //case 1:
+            //    break;
 
             case 3:
                 Debug.Log("3일차 시작 이벤트 - 모험가 한명 무조건 소환");
@@ -778,6 +789,14 @@ public class Main : MonoBehaviour
                 break;
         }
     }
+
+
+    [Obsolete]
+    void TestEnding()
+    {
+        var ending = Managers.UI.ShowPopUp<UI_Ending>();
+    }
+
     public void TurnOverEvent()
     {
         UI_EventBox.AddEventText($"※{Turn}{UserData.Instance.GetLocaleText("Event_DayOver")}※");
@@ -785,6 +804,10 @@ public class Main : MonoBehaviour
 
         switch (Turn)
         {
+            //case 0:
+            //    Debug.Log("0일차, 각종 테스트");
+            //    var ending = Managers.UI.ShowPopUp<UI_Ending>();
+            //    break;
 
             case 1:
                 Debug.Log("1일차 종료 이벤트 - 시설배치");
@@ -801,6 +824,8 @@ public class Main : MonoBehaviour
                 break;
 
             case 3:
+                //TestEnding();
+
                 Debug.Log("3일차 종료 이벤트 - 테크니컬");
                 Technical_Expansion();
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Technical, GameObject.Find("Player").transform);
@@ -822,11 +847,15 @@ public class Main : MonoBehaviour
 
             case 15:
                 Debug.Log("임시로 15일 게임클리어");
-                Managers.Dialogue.ShowDialogueUI(DialogueName.Ending_Demo, GameObject.Find("Player").transform);
+                //Managers.Dialogue.ShowDialogueUI(DialogueName.Ending_Demo, GameObject.Find("Player").transform);
+
+                // 임시
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Day30_Over, GameObject.Find("Player").transform);
                 break;
 
             case 30:
                 Debug.Log("게임클리어");
+                //Managers.Dialogue.ShowDialogueUI(DialogueName.Day30_Over, GameObject.Find("Player").transform);
                 break;
 
 
@@ -1062,18 +1091,17 @@ public class Main : MonoBehaviour
             Egg_State = EggState.Default_Level_1;
             EggSprite.SetCategoryAndLabel("Egg", "Level_1");
         }
-        if (Turn < 15 && Turn >= 10)
+        else if (Turn < 15 && Turn >= 10)
         {
             Egg_State = EggState.Default_Level_2;
             EggSprite.SetCategoryAndLabel("Egg", "Level_2");
         }
-        if (Turn < 20 && Turn >= 15)
+        else if(Turn < 20 && Turn >= 15)
         {
             Egg_State = EggState.Default_Level_3;
             EggSprite.SetCategoryAndLabel("Egg", "Level_3");
         }
-
-        if (Turn >= 20)
+        else if(Turn >= 20)
         {
             Egg_State = EggState.Default_Level_3;
             EggSprite.SetCategoryAndLabel("Egg", "Level_3");

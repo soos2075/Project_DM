@@ -121,12 +121,43 @@ public class UI_Ending : UI_PopUp
         yield return StartCoroutine(TextFadeOut(clear, 1));
 
 
-        //yield return StartCoroutine(RecordText());
+        yield return StartCoroutine(SaveClearData());
 
-
-        Managers.Scene.LoadSceneAsync(SceneName._1_Start);
+        //Managers.Scene.LoadSceneAsync(SceneName._1_Start);
     }
 
+
+
+
+
+    IEnumerator SaveClearData()
+    {
+        UserData.Instance.isClear = true;
+
+        var save = Managers.UI.ShowPopUp<UI_SaveLoad>();
+        //? 여긴 Load버튼을 없애야함. save UI 도 바꿔야할지도?
+
+        yield return new WaitUntil(() => save == null);
+
+        // 오토세이브에 저장
+        Managers.Data.SaveToJson("AutoSave", 0);
+        var autosaveData = Managers.Data.GetData($"AutoSave");
+
+
+        //var monster = Managers.UI.ShowPopUp<UI_Ending_Monster>("Monster/UI_Ending_Monster");
+        //monster.datas = autosaveData.monsterList;
+
+        //yield return new WaitUntil(() => mon_data != null);
+
+        ////Debug.Break();
+        //var ClearSaveData = new CollectionManager.MultiplayData();
+        //ClearSaveData.Init_Count(UserData.Instance.GetDataInt(PrefsKey.ClearTimes, 0) + 1);
+        //ClearSaveData.Init_Bonus("SuperBonus");
+        //ClearSaveData.Init_Monster(mon_data);
+
+
+        UserData.Instance.GameClear(autosaveData);
+    }
 
 
 

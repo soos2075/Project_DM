@@ -188,8 +188,12 @@ public class DataManager
 
 
     #region SaveClass
+
     public class SaveData
     {
+        public bool isClear;
+        public Endings endgins;
+
         // 세이브 슬롯 정보
         public int saveIndex;
         public string dateTime;
@@ -292,6 +296,8 @@ public class DataManager
         SaveData data = null;
         if (SaveFileList.TryGetValue(fileKey, out data))
         {
+            UserData.Instance.CurrentSaveData = data;
+            UserData.Instance.isClear = data.isClear;
             LoadFileApply(data);
             LoadGuildData(data);
             Debug.Log($"Load Success : {fileKey}");
@@ -337,9 +343,9 @@ public class DataManager
             return;
         }
 
+
         //? 저장할 정보를 몽땅 기록
         SaveData saveData = new SaveData();
-
 
         saveData.saveIndex = index;
         saveData.dateTime = System.DateTime.Now.ToString("F");
@@ -404,6 +410,13 @@ public class DataManager
         //saveData.savefileConfig = UserData.Instance.FileConfig;
         saveData.savefileConfig = UserData.Instance.FileConfig.Clone();
 
+
+
+
+        saveData.isClear = UserData.Instance.isClear;
+        saveData.endgins = UserData.Instance.EndingState;
+
+
         Add_File(saveData, $"{fileName}");
     }
 
@@ -427,7 +440,6 @@ public class DataManager
         //? 저장된 파일 읽어옴
         var _fileData = FileOperation(FileMode.Open, $"{Application.persistentDataPath}/Savefile/{fileName}.json");
         SaveData loadData = JsonConvert.DeserializeObject<SaveData>(_fileData);
-
         return loadData;
     }
 
@@ -451,6 +463,7 @@ public class DataManager
     }
 
     #endregion
+
 
 
 
@@ -478,6 +491,30 @@ public class DataManager
             return false;
         }
     }
+
+
+    public void SaveClearData()
+    {
+        string jsonData = JsonConvert.SerializeObject(CollectionManager.Instance.SaveMultiData());
+        var result = FileOperation(FileMode.Create, $"{Application.persistentDataPath}/Savefile/ClearData.json", jsonData);
+    }
+    public bool LoadClearData()
+    {
+        if (SaveFileSearch("ClearData"))
+        {
+            var _fileData = FileOperation(FileMode.Open, $"{Application.persistentDataPath}/Savefile/ClearData.json");
+            var loadData = JsonConvert.DeserializeObject<CollectionManager.MultiplayData>(_fileData);
+            CollectionManager.Instance.LoadMultiData(loadData);
+            return true;
+        }
+        else
+        {
+            Debug.Log("ClearData Not Exsit");
+            return false;
+        }
+    }
+
+
 
     #endregion
 
