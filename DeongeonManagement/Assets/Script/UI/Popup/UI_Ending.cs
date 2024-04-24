@@ -134,26 +134,32 @@ public class UI_Ending : UI_PopUp
     {
         UserData.Instance.isClear = true;
 
+        //? 여기서 클리어한 데이터를 몽땅 보여주거나 나한테 보내거니 아무튼 처리하면 될듯
+        // 만약 아래 게임클리어에서 해도 되긴하는데 음..
+
+
         var save = Managers.UI.ShowPopUp<UI_SaveLoad>();
-        //? 여긴 Load버튼을 없애야함. save UI 도 바꿔야할지도?
+        save.SetMode(UI_SaveLoad.Buttons.Save);
 
         yield return new WaitUntil(() => save == null);
 
         // 오토세이브에 저장
-        Managers.Data.SaveToJson("AutoSave", 0);
+        Managers.Data.SaveAndAddFile(EventManager.Instance.Temp_saveData, "AutoSave", 0);
         var autosaveData = Managers.Data.GetData($"AutoSave");
 
 
-        //var monster = Managers.UI.ShowPopUp<UI_Ending_Monster>("Monster/UI_Ending_Monster");
-        //monster.datas = autosaveData.monsterList;
+        EventManager.Instance.Temp_saveData = null;
 
-        //yield return new WaitUntil(() => mon_data != null);
+        switch (UserData.Instance.EndingState)
+        {
+            case Endings.Dog:
+                UserData.Instance.SetData(PrefsKey.Clear_Dog, 1);
+                break;
 
-        ////Debug.Break();
-        //var ClearSaveData = new CollectionManager.MultiplayData();
-        //ClearSaveData.Init_Count(UserData.Instance.GetDataInt(PrefsKey.ClearTimes, 0) + 1);
-        //ClearSaveData.Init_Bonus("SuperBonus");
-        //ClearSaveData.Init_Monster(mon_data);
+            case Endings.Dragon:
+                UserData.Instance.SetData(PrefsKey.Clear_Dragon, 1);
+                break;
+        }
 
 
         UserData.Instance.GameClear(autosaveData);

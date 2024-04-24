@@ -163,6 +163,11 @@ public class UI_Floor_Tile : UI_Base
                 BasementTile tile = null;
                 if (Main.Instance.Floor[parent.FloorID].TileMap.TryGetValue(delta, out tile))
                 {
+                    if (tile.NonInteract_TileCheck())
+                    {
+                        continue;
+                    }
+
                     var content = parent.TileList[delta.x, delta.y];
                     content.GetComponent<Image>().color = Define.Color_Red;
                 }

@@ -22,13 +22,8 @@ public class UI_TileView_Tile : UI_Base
         Bind<GameObject>(typeof(Contents));
         parent = GetComponentInParent<UI_TileView_Floor>();
 
-
-        //gameObject.AddUIEvent((data) => MouseMoveEvent(), Define.UIEvent.Move);
-
-        gameObject.AddUIEvent((data) => parent.ChildMoveEvent(Tile, data), Define.UIEvent.Move);
-        gameObject.AddUIEvent((data) => parent.ChildExitEvent(), Define.UIEvent.Exit);
-
-
+        gameObject.AddUIEvent((data) => TileMoveEvent(data), Define.UIEvent.Move);
+        gameObject.AddUIEvent((data) => TileExitEvent(data), Define.UIEvent.Exit);
         gameObject.AddUIEvent((data) => TileClickEvent(data), Define.UIEvent.LeftClick);
     }
 
@@ -44,6 +39,25 @@ public class UI_TileView_Tile : UI_Base
         {
             parent.ChildExitEvent();
             Tile.Original.MouseClickEvent();
+        }
+    }
+
+    void TileMoveEvent(PointerEventData _data)
+    {
+        parent.ChildMoveEvent(Tile, _data);
+
+        if (Tile.Original != null)
+        {
+            Tile.Original.MouseMoveEvent();
+        }
+    }
+    void TileExitEvent(PointerEventData _data)
+    {
+        parent.ChildExitEvent();
+
+        if (Tile.Original != null)
+        {
+            Tile.Original.MouseExitEvent();
         }
     }
 

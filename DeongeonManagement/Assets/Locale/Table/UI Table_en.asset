@@ -449,6 +449,10 @@ MonoBehaviour:
     m_Localized: Injured
     m_Metadata:
       m_Items: []
+  - m_Id: 16969982615433216
+    m_Localized: Data Reset
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

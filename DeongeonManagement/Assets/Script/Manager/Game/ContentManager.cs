@@ -53,8 +53,16 @@ public class ContentManager
 
             if (item.Options.Count == 1)
             {
-                Vector2Int[] boundary = Util.GetBoundary(item.Boundary_All);
-                item.action = () => SetBoundary(boundary, () => CreateAll(item.Options[0].FacilityKeyName));
+                if (item.isOnlyOne)
+                {
+                    Vector2Int[] boundary = Util.GetBoundary(item.Boundary_All);
+                    item.action = () => SetBoundary(boundary, () => CreateOnlyOne(item.Options[0].FacilityKeyName));
+                }
+                else
+                {
+                    Vector2Int[] boundary = Util.GetBoundary(item.Boundary_All);
+                    item.action = () => SetBoundary(boundary, () => CreateAll(item.Options[0].FacilityKeyName));
+                }
             }
             else
             {

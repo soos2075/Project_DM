@@ -298,6 +298,14 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     {
         
     }
+    public virtual void MouseMoveEvent()
+    {
+        //if (Main.Instance.Management == false) return;
+    }
+    public virtual void MouseExitEvent()
+    {
+
+    }
     #endregion
 
 

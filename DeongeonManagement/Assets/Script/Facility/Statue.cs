@@ -13,6 +13,8 @@ public class Statue : Facility
     {
         Gold = 3900,
         Mana = 3901,
+        Dog = 3902,
+        
     }
     public StatueType statueType { get; set; }
 
@@ -22,6 +24,46 @@ public class Statue : Facility
     public override Coroutine NPC_Interaction(NPC npc)
     {
         throw new System.NotImplementedException();
+    }
+
+
+    public override void MouseMoveEvent()
+    {
+        if (Main.Instance.Management == false) return;
+
+        switch (statueType)
+        {
+            case StatueType.Gold:
+                SLA_ObjectManager.Instance.SetLabel("Statue_Gold", "Gold", "Interaction");
+                break;
+
+            case StatueType.Mana:
+                SLA_ObjectManager.Instance.SetLabel("Statue_Mana", "Mana", "Interaction");
+                break;
+
+            case StatueType.Dog:
+                SLA_ObjectManager.Instance.SetLabel("Statue_Dog", "Dog", "Interaction");
+                break;
+        }
+    }
+    public override void MouseExitEvent()
+    {
+        if (Main.Instance.Management == false) return;
+
+        switch (statueType)
+        {
+            case StatueType.Gold:
+                SLA_ObjectManager.Instance.SetLabel("Statue_Gold", "Gold", "Entry");
+                break;
+
+            case StatueType.Mana:
+                SLA_ObjectManager.Instance.SetLabel("Statue_Mana", "Mana", "Entry");
+                break;
+
+            case StatueType.Dog:
+                SLA_ObjectManager.Instance.SetLabel("Statue_Dog", "Dog", "Entry");
+                break;
+        }
     }
 
     public override void MouseClickEvent()
@@ -82,5 +124,19 @@ public class Statue : Facility
         }
     }
 
+    IEnumerator WaitForAnswer_Dog(UI_Confirm confirm)
+    {
+        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
+
+        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
+        {
+            Main.Instance.Player_AP--;
+            //? 행동력 이벤트는 추후에 기획에 따라
+
+            Managers.UI.ClosePopupPick(confirm);
+            var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
+
+        }
+    }
 
 }

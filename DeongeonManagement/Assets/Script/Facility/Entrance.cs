@@ -31,8 +31,11 @@ public class Entrance : Facility
         if (npc.State == NPC.NPCState.Next)
         {
             yield return new WaitForSeconds(npc.ActionDelay);
-            Main.Instance.CurrentDay.AddMana(npc.Rank + 2);
-            Main.Instance.ShowDM(npc.Rank + 2, Main.TextType.mana, transform);
+
+            int applyMana = Mathf.Clamp((npc.PlacementInfo.Place_Floor.FloorIndex * 2) + 1, 1, npc.Mana);
+
+            Main.Instance.CurrentDay.AddMana(applyMana);
+            Main.Instance.ShowDM(applyMana, Main.TextType.mana, transform);
 
             npc.FloorNext();
         }

@@ -58,6 +58,12 @@ public class UI_Floor : UI_Base
                 BasementTile tile = null;
                 if (Main.Instance.Floor[FloorID].TileMap.TryGetValue(new Vector2Int(i, k), out tile))
                 {
+                    // 240423 추가한 부분
+                    if (NonInteract_TileCheck(tile))
+                    {
+                        continue;
+                    }
+
                     var content = Managers.Resource.Instantiate("UI/PopUp/Element/Floor_Tile", transform);
                     content.GetComponent<RectTransform>().position = tile.worldPosition;
 
@@ -91,6 +97,12 @@ public class UI_Floor : UI_Base
                 BasementTile tile = null;
                 if (Main.Instance.Floor[FloorID].TileMap.TryGetValue(new Vector2Int(i, k), out tile))
                 {
+                    // 240423 추가한 부분
+                    if (NonInteract_TileCheck(tile))
+                    {
+                        continue;
+                    }
+
                     var content = TileList[i, k];
                     if (tile.tileType_Original == Define.TileType.Empty)
                     {
@@ -110,5 +122,34 @@ public class UI_Floor : UI_Base
     }
 
 
+
+    public bool NonInteract_TileCheck(BasementTile Tile)
+    {
+        if (Tile.tileType_Original == Define.TileType.Non_Interaction || Tile.tileType_Original == Define.TileType.Player)
+        {
+            return true;
+        }
+
+        if (Tile.tileType_Original == Define.TileType.Facility)
+        {
+            var fa = Tile.Original as Facility;
+            switch (fa.EventType)
+            {
+                case Facility.FacilityEventType.NPC_Interaction:
+                    return false;
+
+                case Facility.FacilityEventType.NPC_Event:
+                    return false;
+
+                case Facility.FacilityEventType.Player_Event:
+                    return true;
+
+                case Facility.FacilityEventType.Non_Interaction:
+                    return true;
+            }
+        }
+
+        return false;
+    }
 
 }

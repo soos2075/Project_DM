@@ -26,6 +26,8 @@ public class UI_Confirm : UI_PopUp
     public override void Init()
     {
         Managers.UI.SetCanvas(gameObject);
+        CloseFloorUI();
+
 
         Bind<GameObject>(typeof(Contents));
 
@@ -78,6 +80,16 @@ public class UI_Confirm : UI_PopUp
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
         ClosePopUp();
+    }
+
+    void CloseFloorUI()
+    {
+        var typeUI = FindAnyObjectByType<UI_Placement_TypeSelect>();
+        if (typeUI)
+        {
+            Managers.UI.ClosePopupPick(typeUI);
+            FindObjectOfType<UI_Management>().FloorPanelClear();
+        }
     }
 
 

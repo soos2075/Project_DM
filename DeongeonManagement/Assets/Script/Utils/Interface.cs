@@ -30,6 +30,8 @@ public interface IPlacementable
 
     //? 마우스 클릭했을 때 뜨게 할 이벤트
     void MouseClickEvent();
+    void MouseMoveEvent();
+    void MouseExitEvent();
 }
 public enum PlacementState
 {

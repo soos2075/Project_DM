@@ -79,7 +79,7 @@ public class SpriteManager
                 sprite = GetSprite_SLA(path);
                 if (sprite == null)
                 {
-                    Debug.Log($"Sprite Not Exist : Sprite/{path}");
+                    Debug.Log($"Sprite/{path} : Sprite Not Exist");
                     return clear;
                 }
             }

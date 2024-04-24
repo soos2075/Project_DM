@@ -5,16 +5,24 @@ using UnityEngine;
 public class PlacementManager
 {
     public Transform Placement_Root { get { return Init(); } }
-
+    private Transform root;
 
     public Transform Init()
     {
-        GameObject obj = GameObject.Find("@Placement_Root");
-        if (obj == null)
+        if (root != null)
         {
-            obj = new GameObject { name = "@Placement_Root" };
+            return root;
         }
-        return obj.transform;
+        else
+        {
+            GameObject obj = GameObject.Find("@Placement_Root");
+            if (obj == null)
+            {
+                obj = new GameObject { name = "@Placement_Root" };
+            }
+            root = obj.transform;
+            return root;
+        }
     }
 
 
@@ -27,7 +35,7 @@ public class PlacementManager
         {
             if (newObj.GetType() == item.Original.GetType())
             {
-                //? 퍼실리티가 아닌 유일하게 존재해야하는게 있다면 오류
+                //? 퍼실리티가 아닌 유일하게 존재해야하는게 있다면 오류 / 유일하게 존재해야하는 몬스터같은게 있으면 나중에 수정해야함
                 GameManager.Facility.RemoveFacility(item.Original as Facility); 
                 //PlacementClear_Completely(item.placementable);
             }

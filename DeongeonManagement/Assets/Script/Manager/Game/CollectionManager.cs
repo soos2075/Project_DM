@@ -46,9 +46,11 @@ public class CollectionManager : MonoBehaviour
 
         Managers.Data.LoadCollectionData();
 
-        //Register_Monster[0].isRegist = true;
-        //Register_Monster[1].isRegist = true;
-        //Register_Monster[2].isRegist = true;
+
+        //Register_Monster[3].isRegist = true;
+        //Register_Facility[1].isRegist = true;
+        //Register_NPC[1].isRegist = true;
+        //Register_Technical[1].isRegist = true;
 
         Managers.Data.LoadClearData();
     }
@@ -189,6 +191,8 @@ public class CollectionManager : MonoBehaviour
 
     public class MultiplayData
     {
+        public bool dataApply;
+
         public int multiplayCount;
 
 

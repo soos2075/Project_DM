@@ -435,6 +435,10 @@ MonoBehaviour:
     m_Key: Weak
     m_Metadata:
       m_Items: []
+  - m_Id: 16969982615433216
+    m_Key: Data Reset
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

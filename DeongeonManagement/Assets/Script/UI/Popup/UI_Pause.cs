@@ -30,6 +30,7 @@ public class UI_Pause : UI_PopUp
         StartScene,
         Quit,
         Language,
+        DataReset,
     }
 
     void Init_Button()
@@ -41,8 +42,39 @@ public class UI_Pause : UI_PopUp
         GetButton(((int)Buttons.StartScene)).gameObject.AddUIEvent((data) => GotoStartScene());
         GetButton(((int)Buttons.Quit)).gameObject.AddUIEvent((data) => QuitConfirm());
         GetButton(((int)Buttons.Language)).gameObject.AddUIEvent((data) => SetLanguage());
+        GetButton(((int)Buttons.DataReset)).gameObject.AddUIEvent((data) => DataReset());
     }
 
+
+    void DataReset()
+    {
+        var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
+        ui.SetText("모든 데이터를 초기화 할까요?(복구 불가능)");
+        StartCoroutine(WaitForAnswer_Data(ui));
+    }
+    IEnumerator WaitForAnswer_Data(UI_Confirm confirm)
+    {
+        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
+
+        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
+        {
+            // 플레이어 데이터 삭제
+            PlayerPrefs.DeleteAll();
+
+            // 클리어 데이터 삭제
+            CollectionManager.Instance.PlayData = null;
+            Managers.Data.DeleteSaveFile("ClearData");
+
+            // 컬렉션 데이터 삭제
+
+            Managers.Data.DeleteSaveFile("CollectionData");
+
+            // 세이브 데이터 삭제
+
+
+            GotoStartScene();
+        }
+    }
 
 
     void ShowLoadUI()

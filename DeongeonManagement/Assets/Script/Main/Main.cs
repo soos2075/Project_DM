@@ -180,7 +180,6 @@ public class Main : MonoBehaviour
             return;
         }
 
-
         Init_BasementFloor();
         Init_Animation();
         UI_Main.Start_Main();
@@ -224,12 +223,13 @@ public class Main : MonoBehaviour
     {
         if (CollectionManager.Instance.PlayData != null)
         {
-            Debug.Log("있음");
-            GameManager.Monster.Load_MonsterData(CollectionManager.Instance.PlayData.MonsterList);
+            if (CollectionManager.Instance.PlayData.dataApply)
+            {
+                Debug.Log("클리어 데이터 적용");
+                GameManager.Monster.Load_MonsterData(CollectionManager.Instance.PlayData.MonsterList);
+            }
         }
     }
-
-
 
 
 
@@ -313,7 +313,7 @@ public class Main : MonoBehaviour
             Main.Instance.Floor[3].TileMap.TryGetValue(new Vector2Int(12, 3), out tile);
             PlacementInfo info = new PlacementInfo(Main.Instance.Floor[3], tile);
 
-            var obj = GameManager.Facility.CreateFacility_OnlyOne("Obstacle", info);
+            var obj = GameManager.Facility.CreateFacility("Obstacle", info);
         }
 
         {
@@ -321,64 +321,254 @@ public class Main : MonoBehaviour
             Main.Instance.Floor[2].TileMap.TryGetValue(new Vector2Int(0, 0), out tile);
             PlacementInfo info = new PlacementInfo(Main.Instance.Floor[2], tile);
 
-            var obj = GameManager.Facility.CreateFacility_OnlyOne("Obstacle", info);
+            var obj = GameManager.Facility.CreateFacility("Obstacle", info);
         }
     }
 
     void Init_Statue()
     {
-        //? 마나 스태츄
-        {
-            BasementTile tile = null;
-            Floor[3].TileMap.TryGetValue(new Vector2Int(7, 0), out tile);
-            PlacementInfo info = new PlacementInfo(Floor[3], tile);
-            var obj = GameManager.Facility.CreateFacility($"Statue_Mana", info);
-        }
-        {
-            BasementTile tile = null;
-            Floor[3].TileMap.TryGetValue(new Vector2Int(7, 1), out tile);
-            PlacementInfo info = new PlacementInfo(Floor[3], tile);
-            var obj = GameManager.Facility.CreateFacility($"Statue_Mana", info);
-        }
-        {
-            BasementTile tile = null;
-            Floor[3].TileMap.TryGetValue(new Vector2Int(8, 0), out tile);
-            PlacementInfo info = new PlacementInfo(Floor[3], tile);
-            var obj = GameManager.Facility.CreateFacility($"Statue_Mana", info);
-        }
-        {
-            BasementTile tile = null;
-            Floor[3].TileMap.TryGetValue(new Vector2Int(8, 1), out tile);
-            PlacementInfo info = new PlacementInfo(Floor[3], tile);
-            var obj = GameManager.Facility.CreateFacility($"Statue_Mana", info);
-        }
-
         //? 골드 스태츄
         {
             BasementTile tile = null;
-            Floor[3].TileMap.TryGetValue(new Vector2Int(7, 4), out tile);
+            Floor[3].TileMap.TryGetValue(new Vector2Int(10, 4), out tile);
             PlacementInfo info = new PlacementInfo(Floor[3], tile);
             var obj = GameManager.Facility.CreateFacility($"Statue_Gold", info);
         }
         {
             BasementTile tile = null;
-            Floor[3].TileMap.TryGetValue(new Vector2Int(7, 5), out tile);
+            Floor[3].TileMap.TryGetValue(new Vector2Int(10, 5), out tile);
             PlacementInfo info = new PlacementInfo(Floor[3], tile);
             var obj = GameManager.Facility.CreateFacility($"Statue_Gold", info);
         }
         {
             BasementTile tile = null;
-            Floor[3].TileMap.TryGetValue(new Vector2Int(8, 4), out tile);
+            Floor[3].TileMap.TryGetValue(new Vector2Int(11, 4), out tile);
             PlacementInfo info = new PlacementInfo(Floor[3], tile);
             var obj = GameManager.Facility.CreateFacility($"Statue_Gold", info);
         }
         {
             BasementTile tile = null;
-            Floor[3].TileMap.TryGetValue(new Vector2Int(8, 5), out tile);
+            Floor[3].TileMap.TryGetValue(new Vector2Int(11, 5), out tile);
             PlacementInfo info = new PlacementInfo(Floor[3], tile);
             var obj = GameManager.Facility.CreateFacility($"Statue_Gold", info);
         }
 
+        //? 마나 스태츄
+        {
+            BasementTile tile = null;
+            Floor[3].TileMap.TryGetValue(new Vector2Int(10, 0), out tile);
+            PlacementInfo info = new PlacementInfo(Floor[3], tile);
+            var obj = GameManager.Facility.CreateFacility($"Statue_Mana", info);
+        }
+        {
+            BasementTile tile = null;
+            Floor[3].TileMap.TryGetValue(new Vector2Int(10, 1), out tile);
+            PlacementInfo info = new PlacementInfo(Floor[3], tile);
+            var obj = GameManager.Facility.CreateFacility($"Statue_Mana", info);
+        }
+        {
+            BasementTile tile = null;
+            Floor[3].TileMap.TryGetValue(new Vector2Int(11, 0), out tile);
+            PlacementInfo info = new PlacementInfo(Floor[3], tile);
+            var obj = GameManager.Facility.CreateFacility($"Statue_Mana", info);
+        }
+        {
+            BasementTile tile = null;
+            Floor[3].TileMap.TryGetValue(new Vector2Int(11, 1), out tile);
+            PlacementInfo info = new PlacementInfo(Floor[3], tile);
+            var obj = GameManager.Facility.CreateFacility($"Statue_Mana", info);
+        }
+
+
+        //? 개 스태츄
+        if (UserData.Instance.FileConfig.Statue_Dog)
+        {
+            {
+                BasementTile tile = null;
+                Floor[3].TileMap.TryGetValue(new Vector2Int(7, 4), out tile);
+                PlacementInfo info = new PlacementInfo(Floor[3], tile);
+                var obj = GameManager.Facility.CreateFacility($"Statue_Dog", info);
+            }
+            {
+                BasementTile tile = null;
+                Floor[3].TileMap.TryGetValue(new Vector2Int(7, 5), out tile);
+                PlacementInfo info = new PlacementInfo(Floor[3], tile);
+                var obj = GameManager.Facility.CreateFacility($"Statue_Dog", info);
+            }
+            {
+                BasementTile tile = null;
+                Floor[3].TileMap.TryGetValue(new Vector2Int(8, 4), out tile);
+                PlacementInfo info = new PlacementInfo(Floor[3], tile);
+                var obj = GameManager.Facility.CreateFacility($"Statue_Dog", info);
+            }
+            {
+                BasementTile tile = null;
+                Floor[3].TileMap.TryGetValue(new Vector2Int(8, 5), out tile);
+                PlacementInfo info = new PlacementInfo(Floor[3], tile);
+                var obj = GameManager.Facility.CreateFacility($"Statue_Dog", info);
+            }
+        }
+        else
+        {
+            {
+                BasementTile tile = null;
+                Floor[3].TileMap.TryGetValue(new Vector2Int(7, 4), out tile);
+                PlacementInfo info = new PlacementInfo(Floor[3], tile);
+                var obj = GameManager.Facility.CreateFacility($"Obstacle", info);
+            }
+            {
+                BasementTile tile = null;
+                Floor[3].TileMap.TryGetValue(new Vector2Int(7, 5), out tile);
+                PlacementInfo info = new PlacementInfo(Floor[3], tile);
+                var obj = GameManager.Facility.CreateFacility($"Obstacle", info);
+            }
+            {
+                BasementTile tile = null;
+                Floor[3].TileMap.TryGetValue(new Vector2Int(8, 4), out tile);
+                PlacementInfo info = new PlacementInfo(Floor[3], tile);
+                var obj = GameManager.Facility.CreateFacility($"Obstacle", info);
+            }
+            {
+                BasementTile tile = null;
+                Floor[3].TileMap.TryGetValue(new Vector2Int(8, 5), out tile);
+                PlacementInfo info = new PlacementInfo(Floor[3], tile);
+                var obj = GameManager.Facility.CreateFacility($"Obstacle", info);
+            }
+        }
+
+        //? 드래곤 스태츄
+        if (UserData.Instance.FileConfig.Statue_Dragon)
+        {
+            {
+                BasementTile tile = null;
+                Floor[3].TileMap.TryGetValue(new Vector2Int(7, 0), out tile);
+                PlacementInfo info = new PlacementInfo(Floor[3], tile);
+                var obj = GameManager.Facility.CreateFacility($"Statue_Dragon", info);
+            }
+            {
+                BasementTile tile = null;
+                Floor[3].TileMap.TryGetValue(new Vector2Int(7, 1), out tile);
+                PlacementInfo info = new PlacementInfo(Floor[3], tile);
+                var obj = GameManager.Facility.CreateFacility($"Statue_Dragon", info);
+            }
+            {
+                BasementTile tile = null;
+                Floor[3].TileMap.TryGetValue(new Vector2Int(8, 0), out tile);
+                PlacementInfo info = new PlacementInfo(Floor[3], tile);
+                var obj = GameManager.Facility.CreateFacility($"Statue_Dragon", info);
+            }
+            {
+                BasementTile tile = null;
+                Floor[3].TileMap.TryGetValue(new Vector2Int(8, 1), out tile);
+                PlacementInfo info = new PlacementInfo(Floor[3], tile);
+                var obj = GameManager.Facility.CreateFacility($"Statue_Dragon", info);
+            }
+        }
+        else
+        {
+            {
+                BasementTile tile = null;
+                Floor[3].TileMap.TryGetValue(new Vector2Int(7, 0), out tile);
+                PlacementInfo info = new PlacementInfo(Floor[3], tile);
+                var obj = GameManager.Facility.CreateFacility($"Obstacle", info);
+            }
+            {
+                BasementTile tile = null;
+                Floor[3].TileMap.TryGetValue(new Vector2Int(7, 1), out tile);
+                PlacementInfo info = new PlacementInfo(Floor[3], tile);
+                var obj = GameManager.Facility.CreateFacility($"Obstacle", info);
+            }
+            {
+                BasementTile tile = null;
+                Floor[3].TileMap.TryGetValue(new Vector2Int(8, 0), out tile);
+                PlacementInfo info = new PlacementInfo(Floor[3], tile);
+                var obj = GameManager.Facility.CreateFacility($"Obstacle", info);
+            }
+            {
+                BasementTile tile = null;
+                Floor[3].TileMap.TryGetValue(new Vector2Int(8, 1), out tile);
+                PlacementInfo info = new PlacementInfo(Floor[3], tile);
+                var obj = GameManager.Facility.CreateFacility($"Obstacle", info);
+            }
+        }
+
+        //? 3번째 조각상 자리
+        {
+            BasementTile tile = null;
+            Floor[3].TileMap.TryGetValue(new Vector2Int(4, 0), out tile);
+            PlacementInfo info = new PlacementInfo(Floor[3], tile);
+            var obj = GameManager.Facility.CreateFacility($"Obstacle", info);
+        }
+        {
+            BasementTile tile = null;
+            Floor[3].TileMap.TryGetValue(new Vector2Int(4, 1), out tile);
+            PlacementInfo info = new PlacementInfo(Floor[3], tile);
+            var obj = GameManager.Facility.CreateFacility($"Obstacle", info);
+        }
+        {
+            BasementTile tile = null;
+            Floor[3].TileMap.TryGetValue(new Vector2Int(5, 0), out tile);
+            PlacementInfo info = new PlacementInfo(Floor[3], tile);
+            var obj = GameManager.Facility.CreateFacility($"Obstacle", info);
+        }
+        {
+            BasementTile tile = null;
+            Floor[3].TileMap.TryGetValue(new Vector2Int(5, 1), out tile);
+            PlacementInfo info = new PlacementInfo(Floor[3], tile);
+            var obj = GameManager.Facility.CreateFacility($"Obstacle", info);
+        }
+
+        //? 4번째 조각상 자리
+        {
+            BasementTile tile = null;
+            Floor[3].TileMap.TryGetValue(new Vector2Int(4, 4), out tile);
+            PlacementInfo info = new PlacementInfo(Floor[3], tile);
+            var obj = GameManager.Facility.CreateFacility($"Obstacle", info);
+        }
+        {
+            BasementTile tile = null;
+            Floor[3].TileMap.TryGetValue(new Vector2Int(4, 5), out tile);
+            PlacementInfo info = new PlacementInfo(Floor[3], tile);
+            var obj = GameManager.Facility.CreateFacility($"Obstacle", info);
+        }
+        {
+            BasementTile tile = null;
+            Floor[3].TileMap.TryGetValue(new Vector2Int(5, 4), out tile);
+            PlacementInfo info = new PlacementInfo(Floor[3], tile);
+            var obj = GameManager.Facility.CreateFacility($"Obstacle", info);
+        }
+        {
+            BasementTile tile = null;
+            Floor[3].TileMap.TryGetValue(new Vector2Int(5, 5), out tile);
+            PlacementInfo info = new PlacementInfo(Floor[3], tile);
+            var obj = GameManager.Facility.CreateFacility($"Obstacle", info);
+        }
+
+
+        Init_Statue_Sprite();
+    }
+
+
+    void Init_Statue_Sprite()
+    {
+        SLA_ObjectManager.Instance.CreateObject("Statue_Mana", new Vector3(-3.5f, -15f, 0));
+        SLA_ObjectManager.Instance.SetLabel("Statue_Mana", "Mana", "Entry");
+
+        SLA_ObjectManager.Instance.CreateObject("Statue_Gold", new Vector3(-3.5f, -13f, 0));
+        SLA_ObjectManager.Instance.SetLabel("Statue_Gold", "Gold", "Entry");
+
+
+        if (UserData.Instance.FileConfig.Statue_Dog)
+        {
+            SLA_ObjectManager.Instance.CreateObject("Statue_Dog", new Vector3(-5f, -13f, 0));
+            SLA_ObjectManager.Instance.SetLabel("Statue_Dog", "Dog", "Entry");
+        }
+
+        if (UserData.Instance.FileConfig.Statue_Dragon)
+        {
+            SLA_ObjectManager.Instance.CreateObject("Statue_Dragon", new Vector3(-5f, -15f, 0));
+            SLA_ObjectManager.Instance.SetLabel("Statue_Dragon", "Dragon", "Entry");
+        }
     }
 
 
@@ -442,7 +632,7 @@ public class Main : MonoBehaviour
         //    object value = field.GetValue(CurrentDay);
         //    Debug.Log($"{field.Name}: {value}");
         //}
-
+        Init_Statue_Sprite();
         ChangeEggState();
     }
     #endregion
@@ -794,7 +984,13 @@ public class Main : MonoBehaviour
     [Obsolete]
     void TestEnding()
     {
-        var ending = Managers.UI.ShowPopUp<UI_Ending>();
+        Debug.Log("엔딩 테스트");
+
+        //? 이건 30일 됐을 때 뜨는거
+        Managers.Dialogue.ShowDialogueUI(DialogueName.Day30_Over, GameObject.Find("Player").transform);
+
+        //? 이건 바로 엔딩씬 스킵하고 회차설정으로 넘어가는 부분
+        //var ending = Managers.UI.ShowPopUp<UI_Ending>();
     }
 
     public void TurnOverEvent()
@@ -843,12 +1039,12 @@ public class Main : MonoBehaviour
                 break;
 
             case 6:
+                //TestEnding();
                 break;
 
             case 15:
                 Debug.Log("임시로 15일 게임클리어");
                 //Managers.Dialogue.ShowDialogueUI(DialogueName.Ending_Demo, GameObject.Find("Player").transform);
-
                 // 임시
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Day30_Over, GameObject.Find("Player").transform);
                 break;
@@ -875,7 +1071,7 @@ public class Main : MonoBehaviour
 
         yield return new WaitUntil(() => Time.timeScale > 0 && Managers.UI._reservationQueue.Count == 0 && Managers.UI._popupStack.Count == 0);
         Debug.Log($"자동저장 : {Turn}일차");
-        Managers.Data.SaveToJson("AutoSave", 0);
+        Managers.Data.SaveAndAddFile("AutoSave", 0);
     }
 
 
@@ -1106,6 +1302,7 @@ public class Main : MonoBehaviour
             Egg_State = EggState.Default_Level_3;
             EggSprite.SetCategoryAndLabel("Egg", "Level_3");
             //여기서 상세조건에 따라 알 생긴거 변화하면 됨 위험도나 인기도, 혹은 이벤트에 따라
+            // 아님 마나를 보유하고 있게할까? 근데 그러려면 힌트를 줘야함. 글고 정상적으로 클리어시에 마나를 얼마정도 모았는지에 대한 로그도 필요하고.
         }
     }
 

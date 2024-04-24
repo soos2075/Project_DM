@@ -658,6 +658,35 @@ public class BasementTile
         tileType_Current = _type;
     }
 
+    public bool NonInteract_TileCheck() //? 240423 추가 / 빌드시, 플로어 선택시 타일을 숨기게 하는 역할
+    {
+        if (tileType_Original == Define.TileType.Non_Interaction || tileType_Original == Define.TileType.Player)
+        {
+            return true;
+        }
+
+        if (tileType_Original == Define.TileType.Facility)
+        {
+            var fa = Original as Facility;
+            switch (fa.EventType)
+            {
+                case Facility.FacilityEventType.NPC_Interaction:
+                    return false;
+
+                case Facility.FacilityEventType.NPC_Event:
+                    return false;
+
+                case Facility.FacilityEventType.Player_Event:
+                    return true;
+
+                case Facility.FacilityEventType.Non_Interaction:
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
     public void SetPlacement_Facility(IPlacementable _placementable)
     {
         Current = _placementable;
@@ -720,7 +749,6 @@ public class BasementTile
             {
                 ClearAbsolute();
             }
-
         }
         else if (placementable == Current)
         {

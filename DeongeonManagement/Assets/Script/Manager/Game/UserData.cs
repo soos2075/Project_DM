@@ -240,7 +240,7 @@ public class UserData : MonoBehaviour
     public DataManager.SaveData CurrentSaveData { get; set; }
 
     public bool isClear;
-    public Endings EndingState;
+    public Endings EndingState { get; set; }
     public Save_MonsterData SelectedMonster { get; set; }
     public void GameClear(DataManager.SaveData data = null)
     {
@@ -312,6 +312,11 @@ public class UserData : MonoBehaviour
     {
         // 몇회차인지에 대한 정보
         public int PlayTimes;
+
+        // 어떤 엔딩을 봤는지에 대한 정보(클리어 특전 = 조각상 인터렉션)
+        public bool Statue_Dog;
+        public bool Statue_Dragon;
+
 
         // 첫 등장 이벤트 확인용 Bool
         public bool firstAppear_Herbalist;
@@ -396,15 +401,21 @@ public class UserData : MonoBehaviour
 
 public enum PrefsKey
 {
+    //? 시스템 관련
     Language,
 
     Volume_BGM,
     Volume_Effect,
 
+    LastSaveSlotIndex,
+
     TextSpeed,
 
     User_Resolution,
     Full_Screen,
+
+
+
 
     FirstStart,
     FirstClear,
@@ -419,14 +430,15 @@ public enum PrefsKey
     PlayTime,
 
 
-    Ending_Normal,
-    Ending_Hidden,
+    Clear_Dog,
+    Clear_Dragon,
+    //Clear_Slime,
 }
 
 public enum Endings
 {
     // 딱히 결정된게 없으면 노말 혹은 배드
-    Normal,
-    Bad,
-    Happy,
+    Dog,
+    Dragon,
+    Slime,
 }

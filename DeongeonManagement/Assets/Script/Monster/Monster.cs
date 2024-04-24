@@ -42,6 +42,15 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         StartCoroutine(ShowMonsterManagement());
     }
 
+    public virtual void MouseMoveEvent()
+    {
+        //if (Main.Instance.Management == false) return;
+    }
+    public virtual void MouseExitEvent()
+    {
+
+    }
+
     IEnumerator ShowMonsterManagement()
     {
         var ui = Managers.UI.ClearAndShowPopUp<UI_Monster_Management>("Monster/UI_Monster_Management");

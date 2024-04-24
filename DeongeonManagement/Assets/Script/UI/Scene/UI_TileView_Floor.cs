@@ -108,6 +108,11 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
     {
         for (int i = 0; i < childList.Count; i++)
         {
+            if (childList[i].Tile.NonInteract_TileCheck())
+            {
+                continue;
+            }
+
             childList[i].GetComponent<Image>().color = color32;
         }
     }

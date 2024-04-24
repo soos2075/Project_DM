@@ -100,6 +100,15 @@ public class UI_StartMenu : UI_Scene
 
         yield return new WaitForSecondsRealtime(2);
 
+        if (CollectionManager.Instance.PlayData != null)
+        {
+            var dataConfirm = Managers.UI.ShowPopUp<UI_Confirm>();
+            Debug.Log("로컬라이즈 해야댐 : 클리어 데이터");
+            dataConfirm.SetText("클리어 데이터를 인계할까요?");// UserData.Instance.GetLocaleText("Confirm_Opening"));
+            yield return StartCoroutine(WaitForAnswer_ClearData(dataConfirm));
+        }
+
+
         var openingConfirm = Managers.UI.ShowPopUp<UI_Confirm>();
         openingConfirm.SetText(UserData.Instance.GetLocaleText("Confirm_Opening"));
         StartCoroutine(WaitForAnswer(openingConfirm));
@@ -122,11 +131,39 @@ public class UI_StartMenu : UI_Scene
     }
 
 
+    IEnumerator WaitForAnswer_ClearData(UI_Confirm confirm)
+    {
+        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
+
+        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
+        {
+            CollectionManager.Instance.PlayData.dataApply = true;
+            confirm.ClosePopUp();
+        }
+        else if (confirm.GetAnswer() == UI_Confirm.State.No)
+        {
+            CollectionManager.Instance.PlayData.dataApply = false;
+            confirm.ClosePopUp();
+        }
+    }
+
+
+
+
     void NewGame_Action()
     {
         Debug.Log($"새 게임 시작");
         Main.Instance.NewGame_Init();
         UserData.Instance.FileConfig = new UserData.SavefileConfig();
+
+        if (UserData.Instance.GetDataInt(PrefsKey.Clear_Dog) == 1)
+        {
+            UserData.Instance.FileConfig.Statue_Dog = true;
+        }
+        if (UserData.Instance.GetDataInt(PrefsKey.Clear_Dragon) == 1)
+        {
+            UserData.Instance.FileConfig.Statue_Dragon = true;
+        }
 
         //Main.Instance.Test_Init();
     }

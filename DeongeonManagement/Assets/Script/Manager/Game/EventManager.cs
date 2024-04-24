@@ -212,7 +212,7 @@ public class EventManager : MonoBehaviour
         var fade = Managers.UI.ClearAndShowPopUp<UI_Fade>();
         fade.SetFadeOption(UI_Fade.FadeMode.WhiteOut, 1);
 
-        UserData.Instance.GameClear();
+        //UserData.Instance.GameClear();
         yield return new WaitForSecondsRealtime(_time);
         Managers.Scene.LoadSceneAsync(SceneName._5_Ending, false);
     }
@@ -222,10 +222,17 @@ public class EventManager : MonoBehaviour
         var fade = Managers.UI.ClearAndShowPopUp<UI_Fade>();
         fade.SetFadeOption(UI_Fade.FadeMode.WhiteOut, 1);
 
+
+        // 여기서 저장할 데이터를 미리 들고있어야함. 삭제는 7NewEnding에서 GameClear로 넘어가기전에 삭제함
+        Temp_saveData = Managers.Data.SaveCurrentData("Clear_Temp");
+
         yield return new WaitForSecondsRealtime(1);
         Managers.Scene.LoadSceneAsync(SceneName._7_NewEnding, false);
     }
 
+
+    //? 클리어시에만 임시로 사용함. 이게 있을 땐 SaveLoad에서도 얘로 대신해서 저장함. (인덱스는 클릭한 인덱스로). 클리어 처리 후엔 삭제됨
+    public DataManager.SaveData Temp_saveData { get; set; }
 
 
     public void AddCustomAction(string _name, Action _action)

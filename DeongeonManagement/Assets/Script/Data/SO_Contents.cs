@@ -19,6 +19,10 @@ public class SO_Contents : ScriptableObject
     public int Ap;
 
 
+    [Header("Unique")]
+    public bool isOnlyOne;
+
+
     [Header("Contents")]
     //public UI_Floor.BuildMode mode;
     public Facility_Priority priority;

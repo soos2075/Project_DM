@@ -52,15 +52,17 @@ public class UI_SaveLoad : UI_PopUp
 
         if (State == Buttons.Load)
         {
+            LoadButton();
             GetButton(((int)Buttons.Save)).gameObject.SetActive(false);
             //GetButton(((int)Buttons.Load)).gameObject.SetActive(false);
-            GetButton(((int)Buttons.Load)).GetComponent<Image>().sprite = button_Down;
-            GetButton(((int)Buttons.Load)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 18, 0, 0);
+            //GetButton(((int)Buttons.Load)).GetComponent<Image>().sprite = button_Down;
+            //GetButton(((int)Buttons.Load)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 18, 0, 0);
 
         }
         if (State == Buttons.Save)
         {
             SaveButton();
+            GetButton(((int)Buttons.Load)).gameObject.SetActive(false);
         }
 
         GetButton(((int)Buttons.Close)).gameObject.AddUIEvent((data) => ClosePopUp());
@@ -117,13 +119,23 @@ public class UI_SaveLoad : UI_PopUp
                 {
                     return;
                 }
-                Managers.Data.SaveToJson($"DM_Save_{index}", index);
+                if (EventManager.Instance.Temp_saveData != null)
+                {
+                    Managers.Data.SaveAndAddFile(EventManager.Instance.Temp_saveData, $"DM_Save_{index}", index);
+                }
+                else
+                {
+                    Managers.Data.SaveAndAddFile($"DM_Save_{index}", index);
+                }
 
                 ShowDataInfo(index);
 
                 SoundManager.Instance.PlaySound("SFX/Save");
                 var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
-                msg.Message = UserData.Instance.GetLocaleText("Message_Saved"); 
+                msg.Message = UserData.Instance.GetLocaleText("Message_Saved");
+
+                // 마지막 세이브 슬롯의 인덱스
+                UserData.Instance.SetData(PrefsKey.LastSaveSlotIndex, (index - 1) / 6);
                 break;
 
             case Buttons.Load:
@@ -280,7 +292,7 @@ public class UI_SaveLoad : UI_PopUp
             }
         }
 
-        SelectSlotBox(0);
+        SelectSlotBox(UserData.Instance.GetDataInt(PrefsKey.LastSaveSlotIndex, 0));
     }
 
     void SelectSlotBox(int index)
@@ -307,6 +319,8 @@ public class UI_SaveLoad : UI_PopUp
         }
         SaveSlotButtonList[index].gameObject.GetComponent<Image>().sprite = slot_Active;
     }
+
+
 
 
     #endregion

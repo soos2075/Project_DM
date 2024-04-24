@@ -335,14 +335,13 @@ public class DataManager
 
 
 
-    public void SaveToJson(string fileName, int index)
+    public SaveData SaveCurrentData(string fileName, int index = -1)
     {
         if (Main.Instance.Management == false)
         {
             Debug.Log("낮동안은 저장불가");
-            return;
+            return null;
         }
-
 
         //? 저장할 정보를 몽땅 기록
         SaveData saveData = new SaveData();
@@ -410,14 +409,22 @@ public class DataManager
         //saveData.savefileConfig = UserData.Instance.FileConfig;
         saveData.savefileConfig = UserData.Instance.FileConfig.Clone();
 
-
-
-
         saveData.isClear = UserData.Instance.isClear;
         saveData.endgins = UserData.Instance.EndingState;
 
+        return saveData;
+    }
+
+
+    public void SaveAndAddFile(string fileName, int index)
+    {
+        var saveData = SaveCurrentData(fileName, index);
 
         Add_File(saveData, $"{fileName}");
+    }
+    public void SaveAndAddFile(SaveData data, string fileName, int index)
+    {
+        Add_File(data, $"{fileName}");
     }
 
 
@@ -445,12 +452,13 @@ public class DataManager
 
     void LoadFileApply(SaveData loadData)
     {
+        UserData.Instance.FileConfig = loadData.savefileConfig.Clone();
+
         Main.Instance.SetLoadData(loadData);
 
         GameManager.Monster.Load_MonsterData(loadData.monsterList);
         GameManager.Technical.Load_TechnicalData(loadData.tachnicalList);
         GameManager.Facility.Load_FacilityData(loadData.facilityList);
-        UserData.Instance.FileConfig = loadData.savefileConfig.Clone();
     }
     void LoadGuildData(SaveData loadData)
     {
@@ -573,7 +581,7 @@ public class DataManager
     }
 
 
-    void DeleteSaveFile(string targetFile)
+    public void DeleteSaveFile(string targetFile)
     {
         if (SaveFileSearch(targetFile))
         {
