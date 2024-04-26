@@ -569,6 +569,11 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         Speed_Ground = speed;
         ActionDelay = delay;
 
+        if (GetType() == typeof(EventNPC))
+        {
+            Speed_Ground = data.groundSpeed;
+        }
+
         KillGold = Data.Rank * Random.Range(15, 31);
     }
 

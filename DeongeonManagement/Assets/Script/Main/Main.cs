@@ -944,8 +944,28 @@ public class Main : MonoBehaviour
         switch (Turn)
         {
 
-            //case 1:
-            //    break;
+            case 1:
+                //GameManager.NPC.AddEventNPC(NPCManager.NPCType.Captine_A, 10f);
+                //for (int i = 0; i < 7; i++)
+                //{
+                //    GameManager.NPC.AddEventNPC(NPCManager.NPCType.Event_Soldier1, 11 + (0.2f * i));
+                //}
+
+                //GameManager.NPC.AddEventNPC(NPCManager.NPCType.Captine_B, 13f);
+                //for (int i = 0; i < 7; i++)
+                //{
+                //    GameManager.NPC.AddEventNPC(NPCManager.NPCType.Event_Soldier2, 14 + (0.2f * i));
+                //}
+
+
+                GameManager.NPC.AddEventNPC(NPCManager.NPCType.Captine_C, 10f);
+                GameManager.NPC.AddEventNPC(NPCManager.NPCType.B_Tanker, 11f);
+                GameManager.NPC.AddEventNPC(NPCManager.NPCType.B_Warrior, 11.5f);
+                GameManager.NPC.AddEventNPC(NPCManager.NPCType.B_Wizard, 12f);
+                GameManager.NPC.AddEventNPC(NPCManager.NPCType.B_Elf, 12.5f);
+
+
+                break;
 
             case 3:
                 Debug.Log("3일차 시작 이벤트 - 모험가 한명 무조건 소환");
@@ -964,13 +984,21 @@ public class Main : MonoBehaviour
                 //GameManager.NPC.AddEventNPC(NPCManager.NPCType.Adventurer_0, 9);
                 break;
 
-            case 23:
-                Debug.Log("8일차 시작 이벤트 - 패배 트리거 이벤트 모험가 소환");
+            case 20:
+                Debug.Log("20일차 시작 이벤트 - 붉은 모험단 소환");
+                GameManager.NPC.AddEventNPC(NPCManager.NPCType.A_Tanker, 10f);
+                GameManager.NPC.AddEventNPC(NPCManager.NPCType.A_Warrior, 10.5f);
+                GameManager.NPC.AddEventNPC(NPCManager.NPCType.A_Wizard, 11f);
+                GameManager.NPC.AddEventNPC(NPCManager.NPCType.A_Elf, 11.5f);
+                break;
+
+            case 25:
+                Debug.Log("25일차 시작 이벤트 - 길드 토벌단 1");
                 //GameManager.NPC.AddEventNPC(NPCManager.NPCType.Adventurer_0, 9);
                 break;
 
             case 30:
-                Debug.Log("8일차 시작 이벤트 - 패배 트리거 이벤트 모험가 소환");
+                Debug.Log("8일차 시작 이벤트 - 길드 토벌단 2 + 붉은 모험단");
                 //GameManager.NPC.AddEventNPC(NPCManager.NPCType.Adventurer_0, 9);
                 break;
 
@@ -1043,15 +1071,19 @@ public class Main : MonoBehaviour
                 break;
 
             case 15:
-                Debug.Log("임시로 15일 게임클리어");
+                //Debug.Log("임시로 15일 게임클리어");
                 //Managers.Dialogue.ShowDialogueUI(DialogueName.Ending_Demo, GameObject.Find("Player").transform);
                 // 임시
-                Managers.Dialogue.ShowDialogueUI(DialogueName.Day30_Over, GameObject.Find("Player").transform);
+                //Managers.Dialogue.ShowDialogueUI(DialogueName.Day30_Over, GameObject.Find("Player").transform);
+                break;
+
+            case 20:
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Day20_Over, GameObject.Find("Player").transform);
                 break;
 
             case 30:
                 Debug.Log("게임클리어");
-                //Managers.Dialogue.ShowDialogueUI(DialogueName.Day30_Over, GameObject.Find("Player").transform);
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Day30_Over, GameObject.Find("Player").transform);
                 break;
 
 

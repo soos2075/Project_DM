@@ -26,7 +26,7 @@ public class CameraControl : MonoBehaviour
         mainCam = GetComponent<Camera>();
         pixelCam = GetComponent<PixelPerfectCamera>();
         Move = true;
-
+        doubleDelay = 0.3f;
     }
 
 
@@ -48,6 +48,9 @@ public class CameraControl : MonoBehaviour
         ClickAction();
         PixelPerfection_Zoom();
         KeyboardMove();
+
+        // 더블클릭
+        FirstClickEvent();
     }
 
 
@@ -56,6 +59,66 @@ public class CameraControl : MonoBehaviour
         limit_down = Main.Instance.Floor[Main.Instance.ActiveFloor_Basement - 1].transform.position.y - 5;
     }
 
+
+    #region DoubleClick
+    // 짧은 딜레이 시간 / 일정범위 안에 2개의 클릭이 들어오는 경우를 더블클릭으로 인식(근데 범위는 솔직히 별 의미없는게 그렇게 멀리가기가 쉽지가 않음. 소모값만 더들고)
+    float doubleDelay = 0.3f;
+    Coroutine firstClick;
+
+    void FirstClickEvent()
+    {
+        if (firstClick != null)
+        {
+            return;
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            firstClick = StartCoroutine(SecondClickCheck(Camera.main.ScreenToWorldPoint(Input.mousePosition)));
+        }
+    }
+
+    IEnumerator SecondClickCheck(Vector3 firstPos)
+    {
+        float count = 0;
+        while (count < doubleDelay)
+        {
+            yield return null;
+            count += Time.deltaTime;
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                var secondPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+                if ((firstPos - secondPos).magnitude < 3)
+                {
+                    DoubleClickEvent(secondPos);
+                }
+                break;
+            }
+        }
+
+        yield return new WaitForEndOfFrame();
+        firstClick = null;
+    }
+
+    void DoubleClickEvent(Vector3 pos)
+    {
+        Debug.Log("더블클릭 이벤트");
+
+        transform.position = new Vector3(pos.x, pos.y, transform.position.z);
+
+        if (pixelCam.assetsPPU < 16)
+        {
+            pixelCam.assetsPPU = 25;
+        }
+        else if (pixelCam.assetsPPU >= 16)
+        {
+            pixelCam.assetsPPU = 10;
+        }
+        MouseLimit();
+    }
+    #endregion
 
 
     #region InputAction
@@ -219,6 +282,8 @@ public class CameraControl : MonoBehaviour
 
     IEnumerator ChasingLerp(Transform target, float duration)
     {
+        pixelCam.assetsPPU = 20;
+
         var targetPos = target.position;
         //var direction = targetPos - transform.position;
         var startPos = transform.position;

@@ -297,6 +297,13 @@ public enum DialogueName
     Day15_Event = 153,
     Day15_Event_Die = 154,
 
+    Day20_Event = 200,
+    Day20_Over = 201,
+
+    Day25_Event = 250,
+    Day30_Event = 300,
+
+
     Day30_Over = 302,
 
     Herbalist0_Appear = 400,

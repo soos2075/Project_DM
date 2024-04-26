@@ -19,7 +19,37 @@ public class EventNPC : NPC
     {
         yield return new WaitForSeconds(5);
 
-        Managers.Dialogue.ShowDialogueUI($"Day{Main.Instance.Turn}_Event", transform);
+        switch (EventDay)
+        {
+            case EventNPCType.Event_Day3:
+                Managers.Dialogue.ShowDialogueUI($"Day3_Event", transform);
+                break;
+            case EventNPCType.Event_Day8:
+                Managers.Dialogue.ShowDialogueUI($"Day8_Event", transform);
+                break;
+            case EventNPCType.Event_Day15:
+                Managers.Dialogue.ShowDialogueUI($"Day15_Event", transform);
+                break;
+            case EventNPCType.A_Warrior:
+                Managers.Dialogue.ShowDialogueUI($"Day20_Event", transform);
+                break;
+            //case EventNPCType.B_Warrior:
+            //    Managers.Dialogue.ShowDialogueUI($"Day{Main.Instance.Turn}_Event", transform);
+            //    break;
+
+
+            case EventNPCType.Captine_A:
+                Managers.Dialogue.ShowDialogueUI($"Day25_Event", transform);
+                break;
+            case EventNPCType.Captine_B:
+                break;
+            case EventNPCType.Captine_C:
+                Managers.Dialogue.ShowDialogueUI($"Day30_Event", transform);
+                break;
+
+
+    
+        }
     }
 
     public enum EventNPCType
@@ -27,14 +57,32 @@ public class EventNPC : NPC
         Event_Day3 = 2000,
         Event_Day8,
         Event_Day15,
-        Event_Day23,
-        Event_Day30,
+
+
+        A_Warrior,
+        A_Tanker,
+        A_Wizard,
+        A_Elf,
+
+        B_Warrior,
+        B_Tanker,
+        B_Wizard,
+        B_Elf,
+
+        Captine_A,
+        Captine_B,
+        Captine_C,
+
+        Event_Soldier1,
+        Event_Soldier2,
     }
     public EventNPCType EventDay { get { return (EventNPCType)EventID; } }
 
     protected override void SetRandomClothes()
     {
         var collection = characterBuilder.SpriteCollection;
+
+        name = EventDay.ToString();
 
         switch (EventDay)
         {
@@ -63,12 +111,76 @@ public class EventNPC : NPC
                 characterBuilder.Shield = "KnightShield";
                 break;
 
-            case EventNPCType.Event_Day23:
+
+
+
+                //? 여기부터 killgold같은거 추가로 설정해야함
+
+            case EventNPCType.A_Warrior:
+            case EventNPCType.B_Warrior:
+                characterBuilder.Hair = "Hair15#C42430/0:0:0";
+                characterBuilder.Armor = "DemigodArmour#FFFFFF/0:0:0";
+                characterBuilder.Weapon = "RedKatana#FFFFFF/0:0:0";
+                characterBuilder.Cape = "Cape#FFFFFF/0:0:0";
                 break;
 
-            case EventNPCType.Event_Day30:
+            case EventNPCType.A_Tanker:
+            case EventNPCType.B_Tanker:
+                characterBuilder.Head = "Demon#FFFFFF/0:0:0";
+                characterBuilder.Ears = "Demon#FFFFFF/0:0:0";
+                characterBuilder.Eyes = "Demon#FFFFFF/0:0:0";
+                characterBuilder.Body = "Demon#FFFFFF/0:0:0";
+
+                characterBuilder.Hair = "";
+
+                characterBuilder.Armor = "GuardianTunic#FFFFFF/0:0:0";
+                characterBuilder.Weapon = "Lance#FFFFFF/0:0:0";
+                characterBuilder.Shield = "Dreadnought#FFFFFF/0:0:0";
+                break;
+
+            case EventNPCType.A_Wizard:
+            case EventNPCType.B_Wizard:
+                characterBuilder.Helmet = "BlueWizzardHat#FFFFFF/128:0:0";
+                characterBuilder.Armor = "FireWizardRobe#FFFFFF/0:0:0";
+                characterBuilder.Weapon = "ElderStaff#FFFFFF/0:0:0";
+                break;
+
+            case EventNPCType.A_Elf:
+            case EventNPCType.B_Elf:
+                characterBuilder.Head = "Elf#FFFFFF/0:0:0";
+                characterBuilder.Ears = "Elf#FFFFFF/0:0:0";
+                characterBuilder.Eyes = "Elf#FFFFFF/0:0:0";
+                characterBuilder.Body = "Elf#FFFFFF/0:0:0";
+
+                characterBuilder.Hair = "Hair9#C42430/0:0:0";
+                characterBuilder.Armor = "FemaleSwimmingSuit#FFFFFF/0:0:0";
+                characterBuilder.Weapon = "CurvedBow#FFFFFF/0:0:0";
+                break;
+
+
+
+            case EventNPCType.Captine_A:
+            case EventNPCType.Captine_B:
+            case EventNPCType.Captine_C:
+                characterBuilder.Helmet = "HeavyKnightHelmet#FFFFFF/0:0:0";
+                characterBuilder.Armor = "IronKnight#FFFFFF/0:0:0";
+                characterBuilder.Weapon = "RoyalLongsword#FFFFFF/0:0:0";
+                break;
+
+            case EventNPCType.Event_Soldier1:
+                characterBuilder.Helmet = "MilitiamanHelmet#FFFFFF/0:0:0";
+                characterBuilder.Armor = "HornsKnight#FFFFFF/0:0:0";
+                characterBuilder.Weapon = "IronSword#FFFFFF/0:0:0";
+                characterBuilder.Shield = "IronBuckler#FFFFFF/0:0:0";
+                break;
+
+            case EventNPCType.Event_Soldier2:
+                characterBuilder.Helmet = "CaptainHelmet#FFFFFF/0:0:0";
+                characterBuilder.Armor = "HeavyKnightArmor#FFFFFF/0:0:0";
+                characterBuilder.Weapon = "Epee#FFFFFF/0:0:0";
                 break;
         }
+
 
         characterBuilder.Rebuild();
     }
@@ -124,18 +236,41 @@ public class EventNPC : NPC
                 Main.Instance.CurrentDay.AddPop(50);
                 break;
 
-            case EventNPCType.Event_Day23:
+
+
+            case EventNPCType.A_Warrior:
                 break;
 
-            case EventNPCType.Event_Day30:
+            case EventNPCType.A_Tanker:
+                break;
+
+            case EventNPCType.A_Wizard:
+                break;
+
+            case EventNPCType.A_Elf:
+                break;
+
+
+
+            case EventNPCType.Captine_A:
+                break;
+
+            case EventNPCType.Event_Soldier1:
+                break;
+
+            case EventNPCType.Event_Soldier2:
                 break;
         }
+
         Debug.Log(EventDay + "eventDay");
         Debug.Log(Main.Instance.Turn + "Turn");
         Main.Instance.CurrentDay.AddKill(1);
         Main.Instance.CurrentDay.AddGold(KillGold);
         GameManager.NPC.InactiveNPC(this);
     }
+
+
+
 
     protected override void NPC_Captive()
     {

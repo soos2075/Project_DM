@@ -232,9 +232,24 @@ public class NPCManager
         Event_Day3 = 2000,
         Event_Day8,
         Event_Day15,
-        Event_Day23,
-        Event_Day30,
 
+
+        A_Warrior,
+        A_Tanker,
+        A_Wizard,
+        A_Elf,
+
+        B_Warrior,
+        B_Tanker,
+        B_Wizard,
+        B_Elf,
+
+        Captine_A,
+        Captine_B,
+        Captine_C,
+
+        Event_Soldier1,
+        Event_Soldier2,
     }
 
 
