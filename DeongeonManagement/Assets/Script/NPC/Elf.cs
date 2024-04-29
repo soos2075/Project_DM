@@ -48,14 +48,10 @@ public class Elf : NPC
         if (UserData.Instance.FileConfig.firstAppear_Elf == false)
         {
             UserData.Instance.FileConfig.firstAppear_Elf = true;
-            StartCoroutine(EventCor());
+            StartCoroutine(EventCor(DialogueName.Elf_Appear));
         }
     }
-    IEnumerator EventCor()
-    {
-        yield return new WaitForSeconds(3);
-        Managers.Dialogue.ShowDialogueUI(DialogueName.Elf_Appear, transform);
-    }
+
 
     protected override void SetPriorityList()
     {

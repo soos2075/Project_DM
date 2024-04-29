@@ -54,14 +54,10 @@ public class Herbalist : NPC
         if (UserData.Instance.FileConfig.firstAppear_Herbalist == false)
         {
             UserData.Instance.FileConfig.firstAppear_Herbalist = true;
-            StartCoroutine(EventCor());
+            StartCoroutine(EventCor(DialogueName.Herbalist0_Appear));
         }
     }
-    IEnumerator EventCor()
-    {
-        yield return new WaitForSeconds(3);
-        Managers.Dialogue.ShowDialogueUI(DialogueName.Herbalist0_Appear, transform);
-    }
+
 
 
 

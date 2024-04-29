@@ -133,12 +133,29 @@ public class UI_Management : UI_Base
 
         GetButton((int)ButtonEvent.Pause).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_Pause>());
 
-        GetButton((int)ButtonEvent.Speed2x).gameObject.AddUIEvent((data) => Time.timeScale = 1f);
-        GetButton((int)ButtonEvent.Speed3x).gameObject.AddUIEvent((data) => Time.timeScale = 2f);
-
+        GetButton((int)ButtonEvent.Speed2x).gameObject.AddUIEvent((data) => GameSpeedUp(1));
+        GetButton((int)ButtonEvent.Speed3x).gameObject.AddUIEvent((data) => GameSpeedUp(2));
 
         //GetButton((int)ButtonEvent.DayChange_Temp).gameObject.AddUIEvent((data) => DayChange_Temp());
     }
+
+    void GameSpeedUp(int speed = 1)
+    {
+        if (speed == 2)
+        {
+            UserData.Instance.GameSpeed = 2;
+            Time.timeScale = 2;
+        }
+        else if (speed == 1)
+        {
+            UserData.Instance.GameSpeed = 1;
+            Time.timeScale = 1;
+        }
+
+    }
+
+
+
 
     [System.Obsolete]
     public void ButtonAllActive()

@@ -43,14 +43,11 @@ public class Wizard : NPC
         if (UserData.Instance.FileConfig.firstAppear_Wizard == false)
         {
             UserData.Instance.FileConfig.firstAppear_Wizard = true;
-            StartCoroutine(EventCor());
+            StartCoroutine(EventCor(DialogueName.Wizard_Appear));
         }
     }
-    IEnumerator EventCor()
-    {
-        yield return new WaitForSeconds(3);
-        Managers.Dialogue.ShowDialogueUI(DialogueName.Wizard_Appear, transform);
-    }
+
+
 
     protected override void SetPriorityList()
     {

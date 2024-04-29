@@ -235,6 +235,74 @@ public class UserData : MonoBehaviour
 
 
 
+
+
+    #region GameMode
+    private Define.GameMode _gameMode;
+    public Define.GameMode GameMode
+    {
+        get
+        {
+            return _gameMode;
+        } 
+        set
+        {
+            _gameMode = value;
+
+            switch (_gameMode)
+            {
+                case Define.GameMode.Normal:
+                    GamePlay();
+                    break;
+                case Define.GameMode.Stop:
+                    GameStop();
+                    break;
+            }
+        }
+    }
+
+    public int GameSpeed { get; set; } = 1;
+
+
+    public WaitUntil Wait_GamePlay;
+
+    void GameStop()
+    {
+        // 연출중인 캐릭터들을 제외한 모든 npc, monster의 움직임 제어
+        // 돌고있는 모든 코루틴 일시정지
+        // 카메라 연출
+        // 버튼 입출력 제어(이건 캔버스를 사라지게 만들어서 괜찮을듯?)
+
+        Time.timeScale = 1;
+        Wait_GamePlay = new WaitUntil(() => GameMode != Define.GameMode.Stop);
+    }
+
+    void GamePlay(int speed = 1)
+    {
+        Time.timeScale = GameSpeed;
+        //GameSpeed = speed;
+    }
+
+    //bool IsPlaying()
+    //{
+    //    if (GameMode == Define.GameMode.Stop)
+    //    {
+    //        return false;
+    //    }
+    //    else
+    //    {
+    //        return true;
+    //    }
+    //}
+
+
+    #endregion
+
+
+
+
+
+
     #region GameClear
     //? 이건 사실 UI_EndingCanvas에 있어야되는거긴함. 지금은 테스트해야되서
     public DataManager.SaveData CurrentSaveData { get; set; }
@@ -346,9 +414,26 @@ public class UserData : MonoBehaviour
 
             return newConfig;
         }
+
     }
 
     public SavefileConfig FileConfig { get; set; }
+
+
+    public void NewGameConfig()
+    {
+        var config = new SavefileConfig();
+
+        if (GetDataInt(PrefsKey.Clear_Dog) == 1)
+        {
+            config.Statue_Dog = true;
+        }
+        if (GetDataInt(PrefsKey.Clear_Dragon) == 1)
+        {
+            config.Statue_Dragon = true;
+        }
+        FileConfig = config;
+    }
 
     #endregion
 

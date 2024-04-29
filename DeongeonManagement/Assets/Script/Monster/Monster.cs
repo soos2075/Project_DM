@@ -235,6 +235,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
                     Moving_Attack(ranDelay);
                     break;
             }
+            yield return UserData.Instance.Wait_GamePlay;
             yield return new WaitForSeconds(ranDelay);
         }
     }
@@ -383,7 +384,9 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         anim.Play(Define.ANIM_Running);
         while (timer < (duration * 0.95f))
         {
-            yield return null;
+            //yield return null;
+            yield return UserData.Instance.Wait_GamePlay;
+
             timer += Time.deltaTime;
             transform.position += dir.normalized * moveValue * Time.deltaTime;
         }
@@ -517,6 +520,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     IEnumerator BattleStateBusy()
     {
         PlacementState = PlacementState.Busy;
+        yield return UserData.Instance.Wait_GamePlay;
         yield return new WaitForSeconds(Data.battleInterval);
         PlacementState = PlacementState.Standby;
         BattleStateCor = null;

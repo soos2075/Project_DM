@@ -31,7 +31,11 @@ public class Main : MonoBehaviour
     //{
 
     //}
-    #region TextMesh
+
+
+
+    #region Transform & GameObject
+
     Transform guild;
     public Transform Guild
     {
@@ -59,6 +63,28 @@ public class Main : MonoBehaviour
         set { dungeon = value; }
     }
 
+    private GameObject _player;
+    public Transform Player
+    {
+        get
+        {
+            if (_player == null || _player.activeInHierarchy == false)
+            {
+                _player = GameManager.Placement.Find_Placement("Player").gameObject;
+                if (_player == null)
+                {
+                    Init_Player();
+                }
+            }
+            return _player.transform;
+        }
+    }
+
+    #endregion
+
+
+
+    #region TextMesh
     public DamageNumber dm_large; // 1
     public DamageNumber dm_small; // 0
 
@@ -251,7 +277,7 @@ public class Main : MonoBehaviour
         Init_Statue();
         Init_EggEntrance();
 
-        Managers.Dialogue.ShowDialogueUI(DialogueName.Prologue, GameObject.Find("Player").transform);
+        Managers.Dialogue.ShowDialogueUI(DialogueName.Prologue, Player);
     }
 
 
@@ -270,6 +296,7 @@ public class Main : MonoBehaviour
     {
         if (GameObject.Find("Player") != null)
         {
+            _player = GameObject.Find("Player");
             return;
         }
 
@@ -282,6 +309,8 @@ public class Main : MonoBehaviour
         component.Level_Stat(DungeonRank);
         component.State = Monster.MonsterState.Placement;
         GameManager.Placement.PlacementConfirm(player, info2);
+
+        _player = player.GetObject();
     }
 
     void Init_Basic()
@@ -850,6 +879,42 @@ public class Main : MonoBehaviour
         Init_DayResult();
     }
 
+
+
+
+    public int GetTotalMana()
+    {
+        int mana = Player_Mana;
+
+        foreach (var item in DayList)
+        {
+            mana += item.Use_Mana;
+        }
+        if (CurrentDay != null)
+        {
+            mana += CurrentDay.Use_Mana;
+        }
+
+        return mana;
+    }
+
+    public int GetTotalGold()
+    {
+        int gold = Player_Gold;
+
+        foreach (var item in DayList)
+        {
+            gold += item.Use_Gold;
+        }
+        if (CurrentDay != null)
+        {
+            gold += CurrentDay.Use_Gold;
+        }
+
+        return gold;
+    }
+
+
     #endregion
 
 
@@ -945,26 +1010,7 @@ public class Main : MonoBehaviour
         {
 
             case 1:
-                //GameManager.NPC.AddEventNPC(NPCManager.NPCType.Captine_A, 10f);
-                //for (int i = 0; i < 7; i++)
-                //{
-                //    GameManager.NPC.AddEventNPC(NPCManager.NPCType.Event_Soldier1, 11 + (0.2f * i));
-                //}
-
-                //GameManager.NPC.AddEventNPC(NPCManager.NPCType.Captine_B, 13f);
-                //for (int i = 0; i < 7; i++)
-                //{
-                //    GameManager.NPC.AddEventNPC(NPCManager.NPCType.Event_Soldier2, 14 + (0.2f * i));
-                //}
-
-
-                GameManager.NPC.AddEventNPC(NPCManager.NPCType.Captine_C, 10f);
-                GameManager.NPC.AddEventNPC(NPCManager.NPCType.B_Tanker, 11f);
-                GameManager.NPC.AddEventNPC(NPCManager.NPCType.B_Warrior, 11.5f);
-                GameManager.NPC.AddEventNPC(NPCManager.NPCType.B_Wizard, 12f);
-                GameManager.NPC.AddEventNPC(NPCManager.NPCType.B_Elf, 12.5f);
-
-
+                Day30Event_Direction();
                 break;
 
             case 3:
@@ -994,19 +1040,202 @@ public class Main : MonoBehaviour
 
             case 25:
                 Debug.Log("25일차 시작 이벤트 - 길드 토벌단 1");
-                //GameManager.NPC.AddEventNPC(NPCManager.NPCType.Adventurer_0, 9);
+                Day25Event_Direction();
                 break;
 
             case 30:
-                Debug.Log("8일차 시작 이벤트 - 길드 토벌단 2 + 붉은 모험단");
-                //GameManager.NPC.AddEventNPC(NPCManager.NPCType.Adventurer_0, 9);
-                break;
-
-
-            default:
+                Debug.Log("30일차 시작 이벤트 - 길드 토벌단2 + 붉은 모험단");
+                Day30Event_Direction();
                 break;
         }
     }
+
+
+    void Day25Event_Direction()
+    {
+        GameManager.NPC.CustomStage = true;
+        UserData.Instance.GameMode = Define.GameMode.Stop;
+
+        var fade = Managers.UI.ShowPopUp<UI_Fade>();
+        fade.SetFadeOption(UI_Fade.FadeMode.WhiteIn, 1, true);
+
+
+        List<NPC> sol1List = new List<NPC>();
+        List<NPC> sol2List = new List<NPC>();
+
+        var cap_A = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.Captine_A);
+        cap_A.transform.position = Dungeon.transform.position + (Vector3.right * 1.5f);
+        GameManager.Placement.Visible(cap_A);
+
+        for (int i = 0; i < 7; i++)
+        {
+            var sol_1 = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.Event_Soldier1);
+            sol_1.transform.position = Dungeon.transform.position + (Vector3.right * 0.5f * i) + Vector3.right * 2.5f;
+            sol_1.Anim_State = NPC.animState.left;
+            sol_1.Anim_State = NPC.animState.Ready;
+
+            GameManager.Placement.Visible(sol_1);
+            sol1List.Add(sol_1);
+        }
+
+        var cap_B = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.Captine_B);
+        cap_B.transform.position = Dungeon.transform.position + (Vector3.right * -1.5f);
+        cap_B.Anim_State = NPC.animState.left;
+        cap_B.Anim_State = NPC.animState.Idle;
+        GameManager.Placement.Visible(cap_B);
+
+        for (int i = 0; i < 7; i++)
+        {
+            var sol_1 = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.Event_Soldier2);
+            sol_1.transform.position = Dungeon.transform.position + (Vector3.right * -0.5f * i) + Vector3.right * -2.5f;
+            sol_1.Anim_State = NPC.animState.Ready;
+
+            GameManager.Placement.Visible(sol_1);
+            sol2List.Add(sol_1);
+        }
+
+        Managers.Dialogue.ShowDialogueUI($"Day25_Event", cap_A.transform);
+        StartCoroutine(Wait_Day25_Dialogue(cap_A, cap_B, sol1List, sol2List));
+    }
+
+
+    IEnumerator Wait_Day25_Dialogue(NPC cap_A, NPC cap_B, List<NPC> sol1, List<NPC> sol2)
+    {
+        yield return null;
+        yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
+
+        cap_A.Departure(cap_A.transform.position, Dungeon.position);
+        foreach (var item in sol1)
+        {
+            item.Departure(item.transform.position, Dungeon.position);
+        }
+
+        yield return new WaitForSeconds(6);
+
+        cap_B.Departure(cap_B.transform.position, Dungeon.position);
+        foreach (var item in sol2)
+        {
+            item.Departure(item.transform.position, Dungeon.position);
+        }
+    }
+
+
+
+    void Day30Event_Direction()
+    {
+        GameManager.NPC.CustomStage = true;
+        UserData.Instance.GameMode = Define.GameMode.Stop;
+
+        var fade = Managers.UI.ShowPopUp<UI_Fade>();
+        fade.SetFadeOption(UI_Fade.FadeMode.WhiteIn, 1, true);
+
+
+        List<NPC> bloodSong = new List<NPC>();
+        //? 피의노래 파티원 생성
+        {
+            var party = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.B_Tanker);
+            party.transform.position = Dungeon.transform.position + (Vector3.left * 6.5f);
+            GameManager.Placement.Visible(party);
+            bloodSong.Add(party);
+        }
+        {
+            var party = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.B_Warrior);
+            party.transform.position = Dungeon.transform.position + (Vector3.left * 7);
+            GameManager.Placement.Visible(party);
+            bloodSong.Add(party);
+        }
+        {
+            var party = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.B_Wizard);
+            party.transform.position = Dungeon.transform.position + (Vector3.left * 7.5f);
+            GameManager.Placement.Visible(party);
+            bloodSong.Add(party);
+        }
+        {
+            var party = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.B_Elf);
+            party.transform.position = Dungeon.transform.position + (Vector3.left * 8);
+            GameManager.Placement.Visible(party);
+            bloodSong.Add(party);
+        }
+
+        //? 대장급 생성
+        var Cap_A = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.Captine_A);
+        Cap_A.transform.position = Dungeon.transform.position + (Vector3.right * 1);
+        Cap_A.Anim_State = NPC.animState.right;
+        Cap_A.Anim_State = NPC.animState.Ready;
+        GameManager.Placement.Visible(Cap_A);
+
+        var Cap_B = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.Captine_B);
+        Cap_B.transform.position = Dungeon.transform.position + (Vector3.right * 5);
+        Cap_B.Anim_State = NPC.animState.right;
+        Cap_B.Anim_State = NPC.animState.Ready;
+        GameManager.Placement.Visible(Cap_B);
+
+        var Captine_C = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.Captine_C);
+        Captine_C.transform.position = Dungeon.transform.position + (Vector3.left * 1.5f);
+        GameManager.Placement.Visible(Captine_C);
+
+
+        List<NPC> sol1List = new List<NPC>();
+        List<NPC> sol2List = new List<NPC>();
+        List<NPC> sol3List = new List<NPC>();
+
+        for (int i = 0; i < 5; i++)
+        {
+            var sol = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.Event_Soldier1);
+            sol.transform.position = Dungeon.transform.position + (Vector3.right * 0.5f * i) + Vector3.right * 2.0f;
+            sol.Anim_State = NPC.animState.left;
+            sol.Anim_State = NPC.animState.Ready;
+
+            GameManager.Placement.Visible(sol);
+            sol1List.Add(sol);
+        }
+        for (int i = 0; i < 5; i++)
+        {
+            var sol = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.Event_Soldier2);
+            sol.transform.position = Dungeon.transform.position + (Vector3.right * 0.5f * i) + Vector3.right * 6.0f;
+            sol.Anim_State = NPC.animState.left;
+            sol.Anim_State = NPC.animState.Ready;
+
+            GameManager.Placement.Visible(sol);
+            sol2List.Add(sol);
+        }
+        for (int i = 0; i < 5; i++)
+        {
+            var sol = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.Event_Soldier3);
+            sol.transform.position = Dungeon.transform.position + (Vector3.left * 0.5f * i) + Vector3.left * 2.5f;
+            sol.Anim_State = NPC.animState.right;
+            sol.Anim_State = NPC.animState.Ready;
+
+            GameManager.Placement.Visible(sol);
+            sol3List.Add(sol);
+        }
+
+
+
+        Managers.Dialogue.ShowDialogueUI($"Day30_Event", Captine_C.transform);
+        StartCoroutine(Wait_Day30_Dialogue(Cap_A, Cap_B, Captine_C, sol1List, sol2List, sol3List, bloodSong));
+    }
+
+    IEnumerator Wait_Day30_Dialogue(NPC cap_A, NPC cap_B, NPC cap_C, List<NPC> sol1, List<NPC> sol2, List<NPC> sol3, List<NPC> bloodSong)
+    {
+        yield return null;
+        yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
+
+        cap_A.Departure(cap_A.transform.position, Dungeon.position);
+        foreach (var item in sol1)
+        {
+            item.Departure(item.transform.position, Dungeon.position);
+        }
+
+        yield return new WaitForSeconds(6);
+
+        cap_B.Departure(cap_B.transform.position, Dungeon.position);
+        foreach (var item in sol2)
+        {
+            item.Departure(item.transform.position, Dungeon.position);
+        }
+    }
+
 
 
     [Obsolete]
@@ -1015,7 +1244,7 @@ public class Main : MonoBehaviour
         Debug.Log("엔딩 테스트");
 
         //? 이건 30일 됐을 때 뜨는거
-        Managers.Dialogue.ShowDialogueUI(DialogueName.Day30_Over, GameObject.Find("Player").transform);
+        Managers.Dialogue.ShowDialogueUI(DialogueName.Day30_Over, Player);
 
         //? 이건 바로 엔딩씬 스킵하고 회차설정으로 넘어가는 부분
         //var ending = Managers.UI.ShowPopUp<UI_Ending>();
@@ -1024,7 +1253,7 @@ public class Main : MonoBehaviour
     public void TurnOverEvent()
     {
         UI_EventBox.AddEventText($"※{Turn}{UserData.Instance.GetLocaleText("Event_DayOver")}※");
-
+        ChangeEggState();
 
         switch (Turn)
         {
@@ -1035,14 +1264,14 @@ public class Main : MonoBehaviour
 
             case 1:
                 Debug.Log("1일차 종료 이벤트 - 시설배치");
-                Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Facility, GameObject.Find("Player").transform);
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Facility, Player);
                 UI_Main.Active_Button(UI_Management.ButtonEvent._1_Facility);
                 UI_Main.Active_Floor();
                 break;
 
             case 2:
                 Debug.Log("2일차 종료 이벤트 - 몬스터");
-                Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Monster, GameObject.Find("Player").transform);
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Monster, Player);
                 UI_Main.Active_Button(UI_Management.ButtonEvent._2_Summon);
                 UI_Main.Active_Button(UI_Management.ButtonEvent._3_Management);
                 break;
@@ -1052,17 +1281,17 @@ public class Main : MonoBehaviour
 
                 Debug.Log("3일차 종료 이벤트 - 테크니컬");
                 Technical_Expansion();
-                Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Technical, GameObject.Find("Player").transform);
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Technical, Player);
                 break;
 
             case 4:
                 Debug.Log("4일차 종료 이벤트 - 비밀방");
-                Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Egg, GameObject.Find("Player").transform);
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Egg, Player);
                 break;
 
             case 5:
                 Debug.Log("5일차 종료 이벤트 - 길드");
-                Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Guild, GameObject.Find("Player").transform);
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Guild, Player);
                 UI_Main.Active_Button(UI_Management.ButtonEvent._4_Guild);
                 break;
 
@@ -1078,12 +1307,12 @@ public class Main : MonoBehaviour
                 break;
 
             case 20:
-                Managers.Dialogue.ShowDialogueUI(DialogueName.Day20_Over, GameObject.Find("Player").transform);
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Day20_Over, Player);
                 break;
 
             case 30:
                 Debug.Log("게임클리어");
-                Managers.Dialogue.ShowDialogueUI(DialogueName.Day30_Over, GameObject.Find("Player").transform);
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Day30_Over, Player);
                 break;
 
 
@@ -1092,7 +1321,6 @@ public class Main : MonoBehaviour
         }
 
 
-        ChangeEggState();
         StartCoroutine(AutoSave());
     }
 
@@ -1286,18 +1514,8 @@ public class Main : MonoBehaviour
 
 
     #region
-    public enum EggState
-    {
-        Default_Level_1,
-        Default_Level_2,
-        Default_Level_3,
 
-        Normal,
-        Happy,
-        Bad,
-    }
-
-    public EggState Egg_State { get; set; }
+    public Endings CurrentEndingState { get; set; }
 
     GameObject eggObj;
     SpriteResolver EggSprite
@@ -1306,7 +1524,8 @@ public class Main : MonoBehaviour
         {
             if (eggObj == null)
             {
-                eggObj = GameObject.Find("Special_MagicEgg");
+                //eggObj = GameObject.Find("Special_MagicEgg");
+                eggObj = GameManager.Placement.Find_Placement("Special_MagicEgg").gameObject;
             }
             return eggObj.GetComponentInChildren<SpriteResolver>(); }
         set { } 
@@ -1314,27 +1533,51 @@ public class Main : MonoBehaviour
 
     void ChangeEggState()
     {
+        Debug.Log($"{Turn}일차 종료");
+        Debug.Log($"Total Mana : {GetTotalMana()}");
+        Debug.Log($"Total Gold : {GetTotalGold()}");
+
+
+
         if (Turn < 10)
         {
-            Egg_State = EggState.Default_Level_1;
+            CurrentEndingState = Endings.Dog;
             EggSprite.SetCategoryAndLabel("Egg", "Level_1");
         }
         else if (Turn < 15 && Turn >= 10)
         {
-            Egg_State = EggState.Default_Level_2;
+            CurrentEndingState = Endings.Dog;
             EggSprite.SetCategoryAndLabel("Egg", "Level_2");
         }
         else if(Turn < 20 && Turn >= 15)
         {
-            Egg_State = EggState.Default_Level_3;
+            CurrentEndingState = Endings.Dog;
             EggSprite.SetCategoryAndLabel("Egg", "Level_3");
         }
         else if(Turn >= 20)
         {
-            Egg_State = EggState.Default_Level_3;
-            EggSprite.SetCategoryAndLabel("Egg", "Level_3");
-            //여기서 상세조건에 따라 알 생긴거 변화하면 됨 위험도나 인기도, 혹은 이벤트에 따라
-            // 아님 마나를 보유하고 있게할까? 근데 그러려면 힌트를 줘야함. 글고 정상적으로 클리어시에 마나를 얼마정도 모았는지에 대한 로그도 필요하고.
+            SelectEnding();
+        }
+    }
+
+    // 각 조건을 독립되게 할지, 아님 state하나로만 할지는 고민중. 독립되게 한다면 여러 조건을 달성했을 때, 선택지를 줄 수 있음.
+    // 아니면 조건에 선행 엔딩을 보게 만들면 또 억제가 되기도 하고.. 뭐 암튼 데모는 dog엔딩으로 픽스하자.
+    void SelectEnding()
+    {
+        CurrentEndingState = Endings.Dog;
+        EggSprite.SetCategoryAndLabel("Egg", "Dog");
+
+
+        if (DangerOfDungeon > 500)
+        {
+            CurrentEndingState = Endings.Dragon;
+            EggSprite.SetCategoryAndLabel("Egg", "Dragon");
+        }
+
+        if (GetTotalMana() >= 10000)
+        {
+            CurrentEndingState = Endings.Slime;
+            EggSprite.SetCategoryAndLabel("Egg", "Slime");
         }
     }
 

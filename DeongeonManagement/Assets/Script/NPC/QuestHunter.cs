@@ -30,14 +30,15 @@ public class QuestHunter : NPC
                 }
                 break;
         }
-        //StartCoroutine(EventCor());
     }
-    IEnumerator EventCor(string dialogueName)
-    {
-        yield return new WaitForSeconds(5);
 
-        Managers.Dialogue.ShowDialogueUI(dialogueName, transform);
-    }
+    //IEnumerator EventCor(string dialogueName)
+    //{
+    //    yield return new WaitUntil(() => Vector3.Distance(transform.position, Main.Instance.Dungeon.position) < 2);
+
+    //    Managers.Dialogue.ShowDialogueUI(dialogueName, transform);
+    //}
+
     protected override void Start_Setting()
     {
         gameObject.name = $"Hunter_{Hunter.ToString()}";

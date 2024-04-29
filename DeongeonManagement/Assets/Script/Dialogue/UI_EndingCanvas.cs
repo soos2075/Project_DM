@@ -75,30 +75,40 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
         Image mainImage = GetImage((int)Images.MainImage);
         var mainText = GetTMP((int)Texts.MainText);
 
-
         string main_1 = GetTMP((int)Texts.MainText).text;
         mainText.text = "";
 
-
-        float timer = 0;
-        float durationTime = 2;
-
-
+        //? Image 1
         //GetTMP((int)Texts.TempText).text = "Image 1 (공통)";
-        Color color = Color.clear;
+        yield return StartCoroutine(SceneFadeOnce(mainImage, mainText, main_1));
 
-        while (timer < durationTime)
-        {
-            color.a += (Time.deltaTime / durationTime);
-            color.r += (Time.deltaTime / durationTime);
-            color.g += (Time.deltaTime / durationTime);
-            color.b += (Time.deltaTime / durationTime);
 
-            mainImage.color = color;
-            yield return null;
-            timer += Time.deltaTime;
-        }
-        mainImage.color = Color.white;
+        GetTMP((int)Texts.MainText).text = "";
+        mainText.color = Color.white;
+
+        yield return new WaitForSeconds(1);
+
+        //? Image 2
+        //GetTMP((int)Texts.TempText).text = "Image 2 (엔딩별 이미지)";
+        yield return StartCoroutine(SceneFadeOnce(mainImage, mainText, "그곳에서 깨어난 것은 ---- 였다.\n\n그리고 나는 123123 그래서 asdfasdf\n\n그렇게 모험은 끝이 났다."));
+
+
+        GetTMP((int)Texts.MainText).text = "";
+        mainText.color = Color.white;
+        yield return new WaitForSeconds(1);
+
+        //? Image 3
+        //GetTMP((int)Texts.TempText).text = "End (여긴 이미지 넣을지 말지 고민중)";
+
+
+        //? ending
+        var ui = Managers.UI.ShowPopUp<UI_Ending>();
+    }
+
+
+    IEnumerator SceneFadeOnce(Image targetImage, TextMeshProUGUI targetText, string main_1)
+    {
+        yield return StartCoroutine(Fade(FadeMode.ToAlpha, 2, targetImage));
 
         //Conversation(main_1);
         Data = new DialogueData();
@@ -106,71 +116,88 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
         yield return StartCoroutine(ContentsRoofWithType(Data));
 
         yield return new WaitForSeconds(1);
-        timer = 0;
-        while (timer < durationTime)
-        {
-            color.a -= (Time.deltaTime / durationTime);
-            color.r -= (Time.deltaTime / durationTime);
-            color.g -= (Time.deltaTime / durationTime);
-            color.b -= (Time.deltaTime / durationTime);
 
-            mainImage.color = color;
-            mainText.color = color;
-            yield return null;
-            timer += Time.deltaTime;
-        }
-        mainImage.color = Color.clear;
-        mainText.color = Color.white;
-
-        //GetTMP((int)Texts.TempText).text = "Image 2 (엔딩별 이미지)";
-        GetTMP((int)Texts.MainText).text = "";
-
-        yield return new WaitForSeconds(1);
-        timer = 0;
-        while (timer < durationTime)
-        {
-            color.a += (Time.deltaTime / durationTime);
-            color.r += (Time.deltaTime / durationTime);
-            color.g += (Time.deltaTime / durationTime);
-            color.b += (Time.deltaTime / durationTime);
-
-            mainImage.color = color;
-            yield return null;
-            timer += Time.deltaTime;
-        }
-        mainImage.color = Color.white;
-
-
-
-        Data = new DialogueData();
-        Data.TextDataList.Add(new DialogueData.TextData("", "그곳에서 깨어난 것은 ---- 였다.\n\n그리고 나는 123123 그래서 asdfasdf\n\n그렇게 모험은 끝이 났다."));
-        yield return StartCoroutine(ContentsRoofWithType(Data));
-
-
-        yield return new WaitForSeconds(1);
-        timer = 0;
-        while (timer < durationTime)
-        {
-            color.a -= (Time.deltaTime / durationTime);
-            color.r -= (Time.deltaTime / durationTime);
-            color.g -= (Time.deltaTime / durationTime);
-            color.b -= (Time.deltaTime / durationTime);
-
-            mainImage.color = color;
-            mainText.color = color;
-            yield return null;
-            timer += Time.deltaTime;
-        }
-        mainImage.color = Color.clear;
-        mainText.color = Color.white;
-
-
-        //GetTMP((int)Texts.TempText).text = "End (여긴 이미지 넣을지 말지 고민중)";
-        GetTMP((int)Texts.MainText).text = "";
-
-        yield return new WaitForSeconds(1);
-        var ui = Managers.UI.ShowPopUp<UI_Ending>();
+        yield return StartCoroutine(Fade(FadeMode.ToClear, 2, targetImage, targetText));
     }
+
+
+    enum FadeMode
+    {
+        ToClear,
+        ToAlpha,
+        ToWhite,
+        ToBlack,
+    }
+
+
+    IEnumerator Fade(FadeMode mode, float durationTime, Image targetImage, TextMeshProUGUI targetText = null)
+    {
+        float timer = 0;
+        Color color;
+
+        switch (mode)
+        {
+            case FadeMode.ToClear:
+                color = Color.white;
+                while (timer < durationTime)
+                {
+                    color.a -= (Time.deltaTime / durationTime);
+                    color.r -= (Time.deltaTime / durationTime);
+                    color.g -= (Time.deltaTime / durationTime);
+                    color.b -= (Time.deltaTime / durationTime);
+
+                    targetImage.color = color;
+                    if (targetText != null)
+                    {
+                        targetText.color = color;
+                    }
+                    yield return null;
+                    timer += Time.deltaTime;
+                }
+                targetImage.color = Color.clear;
+                if (targetText != null)
+                {
+                    targetText.color = Color.clear;
+                }
+                break;
+
+
+            case FadeMode.ToAlpha:
+                color = Color.clear;
+                while (timer < durationTime)
+                {
+                    color.a += (Time.deltaTime / durationTime);
+                    color.r += (Time.deltaTime / durationTime);
+                    color.g += (Time.deltaTime / durationTime);
+                    color.b += (Time.deltaTime / durationTime);
+
+                    targetImage.color = color;
+                    if (targetText != null)
+                    {
+                        targetText.color = color;
+                    }
+
+                    yield return null;
+                    timer += Time.deltaTime;
+                }
+                targetImage.color = Color.white;
+                if (targetText != null)
+                {
+                    targetText.color = Color.white;
+                }
+                break;
+
+
+            case FadeMode.ToWhite:
+                break;
+
+
+            case FadeMode.ToBlack:
+                break;
+        }
+    }
+
+
 
 
 

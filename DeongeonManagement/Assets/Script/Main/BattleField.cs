@@ -93,6 +93,8 @@ public class BattleField : MonoBehaviour
 
         for (int i = 0; i < roundList.Count; i++)
         {
+            yield return UserData.Instance.Wait_GamePlay;
+
             if (roundList[i].attacker == PlacementType.Monster)
             {
                 AddFlashWhite(obj_Left.GetComponentInChildren<SpriteRenderer>());
@@ -159,6 +161,7 @@ public class BattleField : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.5f);
+        yield return UserData.Instance.Wait_GamePlay;
         Debug.Log("재생종료");
     }
 

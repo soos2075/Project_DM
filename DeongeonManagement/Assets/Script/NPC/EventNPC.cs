@@ -13,42 +13,24 @@ public class EventNPC : NPC
     {
         base.Departure(startPoint, endPoint);
 
-        StartCoroutine(EventCor());
-    }
-    IEnumerator EventCor()
-    {
-        yield return new WaitForSeconds(5);
+
 
         switch (EventDay)
         {
             case EventNPCType.Event_Day3:
-                Managers.Dialogue.ShowDialogueUI($"Day3_Event", transform);
+                StartCoroutine(EventCor($"Day3_Event"));
                 break;
+
             case EventNPCType.Event_Day8:
-                Managers.Dialogue.ShowDialogueUI($"Day8_Event", transform);
+                StartCoroutine(EventCor($"Day8_Event"));
                 break;
             case EventNPCType.Event_Day15:
-                Managers.Dialogue.ShowDialogueUI($"Day15_Event", transform);
+                StartCoroutine(EventCor($"Day15_Event"));
                 break;
+
             case EventNPCType.A_Warrior:
-                Managers.Dialogue.ShowDialogueUI($"Day20_Event", transform);
+                StartCoroutine(EventCor($"Day20_Event"));
                 break;
-            //case EventNPCType.B_Warrior:
-            //    Managers.Dialogue.ShowDialogueUI($"Day{Main.Instance.Turn}_Event", transform);
-            //    break;
-
-
-            case EventNPCType.Captine_A:
-                Managers.Dialogue.ShowDialogueUI($"Day25_Event", transform);
-                break;
-            case EventNPCType.Captine_B:
-                break;
-            case EventNPCType.Captine_C:
-                Managers.Dialogue.ShowDialogueUI($"Day30_Event", transform);
-                break;
-
-
-    
         }
     }
 
@@ -75,6 +57,7 @@ public class EventNPC : NPC
 
         Event_Soldier1,
         Event_Soldier2,
+        Event_Soldier3,
     }
     public EventNPCType EventDay { get { return (EventNPCType)EventID; } }
 
@@ -161,10 +144,16 @@ public class EventNPC : NPC
 
             case EventNPCType.Captine_A:
             case EventNPCType.Captine_B:
-            case EventNPCType.Captine_C:
                 characterBuilder.Helmet = "HeavyKnightHelmet#FFFFFF/0:0:0";
                 characterBuilder.Armor = "IronKnight#FFFFFF/0:0:0";
                 characterBuilder.Weapon = "RoyalLongsword#FFFFFF/0:0:0";
+                break;
+
+            case EventNPCType.Captine_C:
+                characterBuilder.Helmet = "BlueKnightHelmet#FFFFFF/0:0:0";
+                characterBuilder.Armor = "BlueKnight#FFFFFF/0:0:0";
+                characterBuilder.Weapon = "MasterGreataxe#FFFFFF/0:0:0";
+                characterBuilder.Cape = "Cape#FFFFFF/0:0:0";
                 break;
 
             case EventNPCType.Event_Soldier1:
@@ -178,6 +167,13 @@ public class EventNPC : NPC
                 characterBuilder.Helmet = "CaptainHelmet#FFFFFF/0:0:0";
                 characterBuilder.Armor = "HeavyKnightArmor#FFFFFF/0:0:0";
                 characterBuilder.Weapon = "Epee#FFFFFF/0:0:0";
+                break;
+
+            case EventNPCType.Event_Soldier3:
+                characterBuilder.Helmet = "LegionaryHelmet#FFFFFF/0:0:0";
+                characterBuilder.Armor = "LegionaryArmor#FFFFFF/0:0:0";
+                characterBuilder.Weapon = "GuardianHalberd#FFFFFF/0:0:0";
+                characterBuilder.Shield = "RoyalGreatShield#FFFFFF/0:0:0";
                 break;
         }
 

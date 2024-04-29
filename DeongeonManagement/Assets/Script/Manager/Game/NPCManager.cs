@@ -84,6 +84,14 @@ public class NPCManager
 
     public void TurnStart()
     {
+        if (CustomStage)
+        {
+            CustomStage = false;
+            Debug.Log("이벤트 스테이지");
+            return;
+        }
+
+
         if (EventNPCAction != null)
         {
             EventNPCAction.Invoke();
@@ -184,6 +192,10 @@ public class NPCManager
     }
 
 
+    public bool CustomStage { get; set; }
+
+
+
 
 
     public enum NPCType
@@ -250,6 +262,7 @@ public class NPCManager
 
         Event_Soldier1,
         Event_Soldier2,
+        Event_Soldier3,
     }
 
 
@@ -363,7 +376,7 @@ public class NPCManager
             return null;
         }
     }
-    NPC InstantiateNPC_Event(NPCType _name)
+    public NPC InstantiateNPC_Event(NPCType _name)
     {
         SO_NPC data = null;
         if (NPC_Dictionary.TryGetValue(_name.ToString(), out data))

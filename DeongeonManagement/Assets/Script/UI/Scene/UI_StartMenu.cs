@@ -154,16 +154,7 @@ public class UI_StartMenu : UI_Scene
     {
         Debug.Log($"새 게임 시작");
         Main.Instance.NewGame_Init();
-        UserData.Instance.FileConfig = new UserData.SavefileConfig();
-
-        if (UserData.Instance.GetDataInt(PrefsKey.Clear_Dog) == 1)
-        {
-            UserData.Instance.FileConfig.Statue_Dog = true;
-        }
-        if (UserData.Instance.GetDataInt(PrefsKey.Clear_Dragon) == 1)
-        {
-            UserData.Instance.FileConfig.Statue_Dragon = true;
-        }
+        UserData.Instance.NewGameConfig();
 
         //Main.Instance.Test_Init();
     }
@@ -171,7 +162,6 @@ public class UI_StartMenu : UI_Scene
     {
         Debug.Log($"오프닝 재생");
         //Director_Story.Instance.StartScene_1();
-
     }
 
 

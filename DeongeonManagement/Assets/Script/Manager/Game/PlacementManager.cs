@@ -26,6 +26,21 @@ public class PlacementManager
     }
 
 
+    public Transform Find_Placement(string objectName)
+    {
+        for (int i = 0; i < Placement_Root.childCount; i++)
+        {
+            if (Placement_Root.GetChild(i).name == objectName)
+            {
+                return Placement_Root.GetChild(i);
+            }
+        }
+        return null;
+    }
+
+
+
+
     public IPlacementable CreateOnlyOne(string path, PlacementInfo info, PlacementType type)
     {
         var newObj = CreatePlacementObject(path, info, type);

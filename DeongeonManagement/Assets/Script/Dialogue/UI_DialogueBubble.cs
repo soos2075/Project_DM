@@ -8,7 +8,8 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
 {
     void Start()
     {
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
+        UserData.Instance.GameMode = Define.GameMode.Stop;
         Init();
     }
     private void Update()
@@ -79,6 +80,13 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
         }
     }
 
+    void BubbleReset()
+    {
+        textTransform.sizeDelta = Vector2.zero;
+        bubbleImage.sizeDelta = Vector2.zero;
+        //bubbleImage.GetComponent<Image>().enabled = false;
+        GetObject(((int)Contents.Bubble)).SetActive(false);
+    }
 
     void ShowText(string _text)
     {
@@ -93,6 +101,10 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
         {
             mainText.text = _text;
             SoundManager.Instance.PlaySound("SFX/Speech1");
+            if (GetObject(((int)Contents.Bubble)).activeSelf == false)
+            {
+                GetObject(((int)Contents.Bubble)).SetActive(true);
+            }
         }
     }
 
@@ -129,6 +141,8 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
         //textTransform.localRotation = Quaternion.Euler(0, 0, 0);
         //textTransform.localPosition = new Vector3(0, textTransform.sizeDelta.y / 2, 0);
     }
+
+
 
 
 
@@ -193,8 +207,19 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
             if (option.Contains("@Target"))
             {
                 string targetPos = option.Substring(option.IndexOf("@Target::") + 9, option.IndexOf("::Target") - (option.IndexOf("@Target::") + 9));
-                Transform pos = GameObject.Find(targetPos).transform;
+                Transform pos;
+                if (Managers.Scene.GetCurrentScene() == SceneName._2_Management)
+                {
+                    pos = GameManager.Placement.Find_Placement(targetPos);
+                }
+                else
+                {
+                    pos = GameObject.Find(targetPos).transform;
+                }
+
+                BubbleReset();
                 transform.position = pos.position;
+                yield return null;
             }
 
             if (option.Contains("@Pos"))
@@ -251,7 +276,8 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
             textCount++;
         }
 
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
+        UserData.Instance.GameMode = Define.GameMode.Normal;
         Managers.UI.ClosePopupPick(this);
         Managers.Dialogue.currentDialogue = null;
         Debug.Log("대화 종료");

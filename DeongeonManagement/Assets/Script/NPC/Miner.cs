@@ -53,14 +53,10 @@ public class Miner : NPC
         if (UserData.Instance.FileConfig.firstAppear_Miner == false)
         {
             UserData.Instance.FileConfig.firstAppear_Miner = true;
-            StartCoroutine(EventCor());
+            StartCoroutine(EventCor(DialogueName.Miner0_Appear));
         }
     }
-    IEnumerator EventCor()
-    {
-        yield return new WaitForSeconds(3);
-        Managers.Dialogue.ShowDialogueUI(DialogueName.Miner0_Appear, transform);
-    }
+
 
     protected override void SetPriorityList()
     {

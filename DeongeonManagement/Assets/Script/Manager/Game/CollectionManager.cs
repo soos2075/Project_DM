@@ -41,8 +41,9 @@ public class CollectionManager : MonoBehaviour
 
     void Start()
     {
-        Init_Data();
+        //Init_Data();
         Init_Register();
+        Init_EndingData();
 
         Managers.Data.LoadCollectionData();
 
@@ -61,6 +62,7 @@ public class CollectionManager : MonoBehaviour
     public SO_Monster[] MonsterData { get; private set; }
     public SO_NPC[] NpcData { get; private set; }
     public SO_Technical[] TechnicalData { get; private set; }
+    public SO_Ending[] EndingData { get; private set; }
 
 
     void Init_Data()
@@ -69,6 +71,7 @@ public class CollectionManager : MonoBehaviour
         MonsterData = Resources.LoadAll<SO_Monster>("Data/Monster");
         NpcData = Resources.LoadAll<SO_NPC>("Data/NPC");
         TechnicalData = Resources.LoadAll<SO_Technical>("Data/Technical");
+        EndingData = Resources.LoadAll<SO_Ending>("Data/Ending");
     }
 
 
@@ -76,7 +79,7 @@ public class CollectionManager : MonoBehaviour
     public List<CollectionUnitRegist<SO_Facility>> Register_Facility;
     public List<CollectionUnitRegist<SO_NPC>> Register_NPC;
     public List<CollectionUnitRegist<SO_Technical>> Register_Technical;
-
+    public List<CollectionUnitRegist<SO_Ending>> Register_Ending;
 
     void Init_Register()
     {
@@ -102,6 +105,12 @@ public class CollectionManager : MonoBehaviour
         for (int i = 0; i < TechnicalData.Length; i++)
         {
             Register_Technical.Add(new CollectionUnitRegist<SO_Technical>(TechnicalData[i], false));
+        }
+
+        Register_Ending = new List<CollectionUnitRegist<SO_Ending>>();
+        for (int i = 0; i < EndingData.Length; i++)
+        {
+            Register_Ending.Add(new CollectionUnitRegist<SO_Ending>(EndingData[i], false));
         }
     }
 
@@ -142,6 +151,14 @@ public class CollectionManager : MonoBehaviour
                 item.isRegist = isRegist;
             }
         }
+        foreach (var item in Register_Ending)
+        {
+            bool isRegist = false;
+            if (data.TryGetValue(item.unit.id, out isRegist))
+            {
+                item.isRegist = isRegist;
+            }
+        }
     }
 
     public Dictionary<int, bool> SaveCollectionData()
@@ -163,6 +180,10 @@ public class CollectionManager : MonoBehaviour
         {
             Register.Add(Register_Technical[i].unit.id, Register_Technical[i].isRegist);
         }
+        for (int i = 0; i < Register_Ending.Count; i++)
+        {
+            Register.Add(Register_Ending[i].unit.id, Register_Ending[i].isRegist);
+        }
 
         return Register;
     }
@@ -183,6 +204,32 @@ public class CollectionManager : MonoBehaviour
 
 
 
+    #region SO_Ending
+
+    Dictionary<string, SO_Ending> Ending_Dictionary;
+    public void Init_EndingData()
+    {
+        Ending_Dictionary = new Dictionary<string, SO_Ending>();
+
+        foreach (var item in EndingData)
+        {
+            Ending_Dictionary.Add(item.keyName, item);
+        }
+    }
+
+    public SO_Ending GetData(string _keyName)
+    {
+        SO_Ending content = null;
+        if (Ending_Dictionary.TryGetValue(_keyName, out content))
+        {
+            return content;
+        }
+
+        Debug.Log($"{_keyName}: Data Not Exist");
+        return null;
+    }
+
+    #endregion
 
 
     #region Multi Play

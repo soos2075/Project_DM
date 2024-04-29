@@ -13,6 +13,15 @@ public class Define
         JP = 2,
     }
 
+    public enum GameMode
+    {
+        Normal,
+        Stop,
+        //X2,
+        //X3,
+    }
+
+
 
     public enum AudioType
     {
@@ -127,13 +136,14 @@ public class Define
     public static readonly int ANIM_Shot = Animator.StringToHash("Shot");
     public static readonly int ANIM_Jab = Animator.StringToHash("Jab");
 
-    public static readonly int ANIM_Idle = Animator.StringToHash("Idle");
+
     public static readonly int ANIM_Dead = Animator.StringToHash("Dead");
     public static readonly int ANIM_Interaction = Animator.StringToHash("Interaction");
     //public static readonly int ANIM_run = Animator.StringToHash("run");
     //public static readonly int ANIM_walk = Animator.StringToHash("walk");
     public static readonly int ANIM_Running = Animator.StringToHash("Running");
     public static readonly int ANIM_Ready = Animator.StringToHash("Ready");
+    public static readonly int ANIM_Idle = Animator.StringToHash("Idle");
 
     #endregion
 

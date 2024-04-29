@@ -38,6 +38,7 @@ public class CameraControl : MonoBehaviour
         }
 
         if (Time.timeScale == 0) return;
+        if (UserData.Instance.GameMode == Define.GameMode.Stop) return;
 
 
 

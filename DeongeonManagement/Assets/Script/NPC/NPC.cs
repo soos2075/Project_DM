@@ -65,6 +65,9 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         // resting
         Resting,
+
+        Idle,
+        Ready,
     }
     private animState _animState;
     public animState Anim_State { get { return _animState; } 
@@ -78,7 +81,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     {
         if (anim == null)
         {
-            return;
+            anim = GetComponent<Animator>();
+            if (anim == null) return;
         }
 
         switch (state)
@@ -117,6 +121,16 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             case animState.right_Battle:
                 transform.localScale = Vector3.one * 0.5f;
                 anim.Play("Ready");
+                break;
+
+
+            case animState.Idle:
+                anim.SetTrigger("Idle");
+                //anim.Play(Define.ANIM_Idle);
+                break;
+
+            case animState.Ready:
+                anim.Play(Define.ANIM_Ready);
                 break;
         }
     }
@@ -209,7 +223,9 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         while (timer < duration)// && dis > 0.05f)
         {
-            yield return null;
+            //yield return null;
+            yield return UserData.Instance.Wait_GamePlay;
+
             timer += Time.deltaTime;
             transform.position += dir.normalized * moveValue * Time.deltaTime;
             //dis = Vector3.Distance(npc.transform.position, endPos.worldPosition);
@@ -446,7 +462,16 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         //Managers.Resource.Instantiate("UI/UI_StateBar", transform);
 
         StartCoroutine(MoveToPoint(endPoint));
-        Anim_State = animState.right;
+
+        var dir = endPoint.x - startPoint.x;
+        if (dir > 0)
+        {
+            Anim_State = animState.right;
+        }
+        else
+        {
+            Anim_State = animState.left;
+        }
     }
 
     IEnumerator MoveToPoint(Vector3 point)
@@ -458,7 +483,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         {
             transform.Translate(dir.normalized * Time.deltaTime * Speed_Ground);
             dis = Vector3.Distance(transform.position, point);
-            yield return null;
+            //yield return null;
+            yield return UserData.Instance.Wait_GamePlay;
         }
 
         UI_EventBox.AddEventText($"¡ß{Name_Color} {UserData.Instance.GetLocaleText("Event_Enter")}");
@@ -492,17 +518,48 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         {
             transform.Translate(dir.normalized * Time.deltaTime * Speed_Ground);
             dis = Vector3.Distance(transform.position, point);
-            yield return null;
+            //yield return null;
+            yield return UserData.Instance.Wait_GamePlay;
         }
         GameManager.NPC.InactiveNPC(this);
     }
     #endregion Ground
 
 
+    #region DialogueEvent
+
+    protected IEnumerator EventCor(DialogueName dialogueName, float dis = 1.5f)
+    {
+        yield return new WaitUntil(() => Vector3.Distance(transform.position, Main.Instance.Dungeon.position) < dis);
+        Managers.Dialogue.ShowDialogueUI(dialogueName, transform);
+
+        anim.Play(Define.ANIM_Idle);
+
+        yield return null;
+        yield return UserData.Instance.Wait_GamePlay;
+
+        Anim_State = Anim_State;
+    }
+
+    protected IEnumerator EventCor(string dialogueName, float dis = 1.5f)
+    {
+        yield return new WaitUntil(() => Vector3.Distance(transform.position, Main.Instance.Dungeon.position) < dis);
+        Managers.Dialogue.ShowDialogueUI(dialogueName, transform);
+
+        anim.Play(Define.ANIM_Idle);
+
+        yield return null;
+        yield return UserData.Instance.Wait_GamePlay;
+
+        Anim_State = Anim_State;
+    }
 
 
 
-    
+    #endregion
+
+
+
 
     #region Npc Status Property
     public SO_NPC Data { get; private set; }
@@ -931,6 +988,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         for (int i = 1; i < path.Count; i++)
         {
             //Debug.Log(ActionDelay + Name_KR);
+            yield return UserData.Instance.Wait_GamePlay;
             yield return new WaitForSeconds(ActionDelay);
 
             var encount = path[i].TryPlacement(this, overlap);
