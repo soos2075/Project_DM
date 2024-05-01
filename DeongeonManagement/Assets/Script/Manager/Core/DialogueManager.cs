@@ -322,6 +322,16 @@ public enum DialogueName
     Ending_Demo = 600,
 
 
+    // Ending = 700~
+    Ending_Common = 700,
+
+    Dog_1 = 711,
+    Dog_2 = 712,
+    Dog_3 = 713,
+    Dog_4 = 714,
+
+
+
     // QuestBoard ID = 1000
     Quest_0 = 1000,
     Quest_1 = 1001,

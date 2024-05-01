@@ -40,11 +40,11 @@ public class Herb : Facility
                     break;
 
                 case Target.Sub:
-                    changeMP = (int)(mp_value * 0.6f);
+                    changeMP = (int)(mp_value * 0.7f);
                     break;
 
                 case Target.Weak:
-                    changeMP = (int)(mp_value * 0.2f);
+                    changeMP = (int)(mp_value * 0.3f);
                     break;
 
                 case Target.Invalid:
@@ -52,7 +52,7 @@ public class Herb : Facility
                     break;
 
                 case Target.Nothing:
-                    changeMP = 0;
+                    changeMP = (int)(mp_value * 0.5f);
                     break;
             }
 

@@ -43,7 +43,7 @@ public class Mineral : Facility
                     break;
 
                 case Target.Sub:
-                    changeMP = (int)(mp_value * 0.6f);
+                    changeMP = (int)(mp_value * 0.7f);
                     break;
 
                 case Target.Weak:
@@ -55,7 +55,7 @@ public class Mineral : Facility
                     break;
 
                 case Target.Nothing:
-                    changeMP = (int)(mp_value * 0.1f);
+                    changeMP = (int)(mp_value * 0.5f);
                     break;
             }
 

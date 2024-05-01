@@ -34,6 +34,8 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
 
 
         //gameObject.AddUIEvent(data => SkipText(), Define.UIEvent.LeftClick);
+
+        SelectEnding();
         Init_Conversation();
     }
 
@@ -41,11 +43,13 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
     
 
 
-    public Endings EndingState;
+    //public Endings EndingState;
 
-    public void SelectEnding(Endings ending)
+    SO_Ending EndingData;
+
+    public void SelectEnding()
     {
-        EndingState = ending;
+        EndingData = CollectionManager.Instance.GetData(UserData.Instance.EndingState.ToString());
     }
 
 
@@ -64,58 +68,104 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
     void Init_Conversation()
     {
         seconds = new WaitForSeconds(0.06f);
-        StartCoroutine(Ending());
+
+        if (EndingData == null)
+        {
+            Debug.Log("SO_Ending Data Not Exist");
+            return;
+        }
+        else
+        {
+            StartCoroutine(Ending(EndingData));
+        }
     }
 
 
-
-
-    IEnumerator Ending()
+    IEnumerator Ending(SO_Ending data)
     {
         Image mainImage = GetImage((int)Images.MainImage);
         var mainText = GetTMP((int)Texts.MainText);
-
-        string main_1 = GetTMP((int)Texts.MainText).text;
         mainText.text = "";
 
-        //? Image 1
-        //GetTMP((int)Texts.TempText).text = "Image 1 (공통)";
-        yield return StartCoroutine(SceneFadeOnce(mainImage, mainText, main_1));
+        for (int i = 0; i < data.cutSceneList.Count; i++)
+        {
+            mainImage.sprite = data.cutSceneList[i].sprite;
 
+            var textData = Managers.Dialogue.GetDialogue(data.cutSceneList[i].dialogueName);
+            yield return StartCoroutine(SceneFadeAndShowText(mainImage, mainText, textData));
 
-        GetTMP((int)Texts.MainText).text = "";
-        mainText.color = Color.white;
+            GetTMP((int)Texts.MainText).text = "";
+            mainText.color = Color.white;
 
-        yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(1);
+        }
 
-        //? Image 2
-        //GetTMP((int)Texts.TempText).text = "Image 2 (엔딩별 이미지)";
-        yield return StartCoroutine(SceneFadeOnce(mainImage, mainText, "그곳에서 깨어난 것은 ---- 였다.\n\n그리고 나는 123123 그래서 asdfasdf\n\n그렇게 모험은 끝이 났다."));
-
-
-        GetTMP((int)Texts.MainText).text = "";
-        mainText.color = Color.white;
-        yield return new WaitForSeconds(1);
-
-        //? Image 3
-        //GetTMP((int)Texts.TempText).text = "End (여긴 이미지 넣을지 말지 고민중)";
-
-
-        //? ending
         var ui = Managers.UI.ShowPopUp<UI_Ending>();
     }
 
 
-    IEnumerator SceneFadeOnce(Image targetImage, TextMeshProUGUI targetText, string main_1)
+
+
+    //IEnumerator Ending()
+    //{
+    //    Image mainImage = GetImage((int)Images.MainImage);
+    //    var mainText = GetTMP((int)Texts.MainText);
+
+    //    string main_1 = GetTMP((int)Texts.MainText).text;
+    //    mainText.text = "";
+
+    //    //? Image 1
+    //    //GetTMP((int)Texts.TempText).text = "Image 1 (공통)";
+    //    yield return StartCoroutine(SceneFadeOnce(mainImage, mainText, main_1));
+
+
+    //    GetTMP((int)Texts.MainText).text = "";
+    //    mainText.color = Color.white;
+
+    //    yield return new WaitForSeconds(1);
+
+    //    //? Image 2
+    //    //GetTMP((int)Texts.TempText).text = "Image 2 (엔딩별 이미지)";
+    //    yield return StartCoroutine(SceneFadeOnce(mainImage, mainText, "그곳에서 깨어난 것은 ---- 였다.\n\n그리고 나는 123123 그래서 asdfasdf\n\n그렇게 모험은 끝이 났다."));
+
+
+    //    GetTMP((int)Texts.MainText).text = "";
+    //    mainText.color = Color.white;
+    //    yield return new WaitForSeconds(1);
+
+    //    //? Image 3
+    //    //GetTMP((int)Texts.TempText).text = "End (여긴 이미지 넣을지 말지 고민중)";
+
+
+    //    //? ending
+    //    var ui = Managers.UI.ShowPopUp<UI_Ending>();
+    //}
+
+
+    //IEnumerator SceneFadeOnce(Image targetImage, TextMeshProUGUI targetText, string main_1)
+    //{
+    //    yield return StartCoroutine(Fade(FadeMode.ToAlpha, 2, targetImage));
+
+    //    //Conversation(main_1);
+    //    Data = new DialogueData();
+    //    Data.TextDataList.Add(new DialogueData.TextData("", main_1));
+    //    yield return StartCoroutine(ContentsRoofWithType(Data));
+
+    //    yield return new WaitForSeconds(1);
+
+    //    yield return StartCoroutine(Fade(FadeMode.ToClear, 2, targetImage, targetText));
+    //}
+
+    IEnumerator SceneFadeAndShowText(Image targetImage, TextMeshProUGUI targetText, DialogueData dialogueData)
     {
         yield return StartCoroutine(Fade(FadeMode.ToAlpha, 2, targetImage));
 
-        //Conversation(main_1);
-        Data = new DialogueData();
-        Data.TextDataList.Add(new DialogueData.TextData("", main_1));
+        Data = dialogueData;
         yield return StartCoroutine(ContentsRoofWithType(Data));
 
         yield return new WaitForSeconds(1);
+        var startTime = Time.time;
+        yield return new WaitUntil(() => Input.anyKeyDown || Input.GetMouseButtonDown(0) || Time.time >= startTime + 5f);
 
         yield return StartCoroutine(Fade(FadeMode.ToClear, 2, targetImage, targetText));
     }
@@ -205,10 +255,6 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
 
     void Conversation(string _mainText)
     {
-        //if (Data == null)
-        //{
-        //    return;
-        //}
         Data = new DialogueData();
         Data.TextDataList.Add(new DialogueData.TextData("", _mainText));
         StartCoroutine(ContentsRoofWithType(Data));
@@ -220,9 +266,19 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
         textCount = 0;
         yield return new WaitForEndOfFrame();
 
+        string TextAddText = "";
+        int prevCharCount = 0;
+
         while (textCount < textData.TextDataList.Count)
         {
-            yield return StartCoroutine(TypingEffect(Data.TextDataList[textCount].mainText));
+            if (!string.IsNullOrEmpty(TextAddText))
+            {
+                TextAddText += "\n\n";
+                prevCharCount = TextAddText.Length;
+            }
+            TextAddText += Data.TextDataList[textCount].mainText;
+
+            yield return StartCoroutine(TypingEffect(TextAddText, prevCharCount));
             textCount++;
         }
         Debug.Log("출력 끝");
@@ -231,9 +287,9 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
 
     bool isSkip = false;
     bool isTyping = false;
-    IEnumerator TypingEffect(string contents)
+    IEnumerator TypingEffect(string contents, int prevCount)
     {
-        int charIndexer = 0;
+        int charIndexer = prevCount;
 
         while (!isSkip && contents.Length >= charIndexer)
         {
@@ -249,9 +305,6 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
 
         SpeakSomething(contents);
 
-
-        Debug.Log("마우스 클릭 대기중");
-        //yield return new WaitUntil(() => isTyping == true);
         yield return new WaitForEndOfFrame();
     }
 

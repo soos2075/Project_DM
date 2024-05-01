@@ -1010,7 +1010,7 @@ public class Main : MonoBehaviour
         {
 
             case 1:
-                Day30Event_Direction();
+                //Day30Event_Direction();
                 break;
 
             case 3:
@@ -1558,6 +1558,9 @@ public class Main : MonoBehaviour
         {
             SelectEnding();
         }
+
+
+        UserData.Instance.EndingState = CurrentEndingState;
     }
 
     // 각 조건을 독립되게 할지, 아님 state하나로만 할지는 고민중. 독립되게 한다면 여러 조건을 달성했을 때, 선택지를 줄 수 있음.
@@ -1567,6 +1570,10 @@ public class Main : MonoBehaviour
         CurrentEndingState = Endings.Dog;
         EggSprite.SetCategoryAndLabel("Egg", "Dog");
 
+#if DEMO_BUILD
+        // 데모버전이면 무조건 Dog엔딩
+        return;
+#endif
 
         if (DangerOfDungeon > 500)
         {
@@ -1583,7 +1590,7 @@ public class Main : MonoBehaviour
 
 
 
-    #endregion
+#endregion
 }
 public class Save_DayResult
 {

@@ -207,15 +207,15 @@ public class EventManager : MonoBehaviour
             StartCoroutine(NewEnding());
         });
     }
-    IEnumerator WaitEnding(float _time)
-    {
-        var fade = Managers.UI.ClearAndShowPopUp<UI_Fade>();
-        fade.SetFadeOption(UI_Fade.FadeMode.WhiteOut, 1);
+    //IEnumerator WaitEnding(float _time)
+    //{
+    //    var fade = Managers.UI.ClearAndShowPopUp<UI_Fade>();
+    //    fade.SetFadeOption(UI_Fade.FadeMode.WhiteOut, 1);
 
-        //UserData.Instance.GameClear();
-        yield return new WaitForSecondsRealtime(_time);
-        Managers.Scene.LoadSceneAsync(SceneName._5_Ending, false);
-    }
+    //    //UserData.Instance.GameClear();
+    //    yield return new WaitForSecondsRealtime(_time);
+    //    Managers.Scene.LoadSceneAsync(SceneName._5_Ending, false);
+    //}
 
     IEnumerator NewEnding()
     {

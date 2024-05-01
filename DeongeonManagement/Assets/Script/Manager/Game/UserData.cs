@@ -42,6 +42,11 @@ public class UserData : MonoBehaviour
         Init_Resolution();
         Init_Cursor();
         Init_Language();
+
+
+        //TempEndingTest();
+
+
     }
 
 
@@ -304,7 +309,6 @@ public class UserData : MonoBehaviour
 
 
     #region GameClear
-    //? 이건 사실 UI_EndingCanvas에 있어야되는거긴함. 지금은 테스트해야되서
     public DataManager.SaveData CurrentSaveData { get; set; }
 
     public bool isClear;
@@ -312,17 +316,13 @@ public class UserData : MonoBehaviour
     public Save_MonsterData SelectedMonster { get; set; }
     public void GameClear(DataManager.SaveData data = null)
     {
-        //? 1. Main에서 CurrentDayList를 가져와서 이것저것 수치를 뽑는다.
-        //? 2. 데이터를 이것저것 Set 해준다
-        //? 3. UI를 띄우든지 씬을 옮기든지 해서 스토리 진행 (이거 전에 1,2번은 해놔야함. 그래야 씬옮겨도 문제없고)
-        //? 4. 다끝났으면 메인으로 가기. 그리고 앞으론 뉴게임할 때 회차데이터 쓸껀지랑 이것저것 물어보면 됨.
+        //? 데모판은 이 함수를 호출하지 않음. 
+        //? 이 함수는 각 엔딩이 끝나고 난 뒤에 공통적으로 호출됨(엔딩 종류와 관계없음)
 
+        //todo 추후에 이 함수는 무한모드 or 업적작으로 사용될 수 있음
+        //todo (클리어 후 저장한 파일을 불러왔을 때, 이 함수가 호출되는데 여기서 분기로 무한모드로 빠지게 만들면 됨)
 
-        //? 세이브 로드창을 불러온다
-        //? 세이브창을 닫으면 몬스터를 선택한다.
-        //? 세이브항목을 확인하면 30일차 혹은 엔딩 이름이 나온다.
-
-        Debug.Log("세이브 완료 후 여기로 옴 && 클리어 후 저장된 파일을 부르면 여기로 옴");
+        Debug.Log("Regular Game Clear");
 
 
         Save_MonsterData[] monsterDAta;
@@ -369,9 +369,20 @@ public class UserData : MonoBehaviour
         Managers.Scene.LoadSceneAsync(SceneName._1_Start);
     }
 
-
-
     #endregion
+
+
+    [System.Obsolete]
+    void TempEndingTest()
+    {
+        Managers.UI.ShowPopUp<UI_Ending>();
+        return;
+
+        EndingState = Endings.Dog;
+        Managers.Scene.LoadSceneAsync(SceneName._7_NewEnding, false);
+    }
+    
+
 
 
     #region SavefileConfig

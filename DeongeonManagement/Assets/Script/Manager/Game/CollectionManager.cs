@@ -34,6 +34,7 @@ public class CollectionManager : MonoBehaviour
         }
 
         Init_Data();
+        Init_EndingData();
     }
     #endregion
 
@@ -43,7 +44,7 @@ public class CollectionManager : MonoBehaviour
     {
         //Init_Data();
         Init_Register();
-        Init_EndingData();
+
 
         Managers.Data.LoadCollectionData();
 

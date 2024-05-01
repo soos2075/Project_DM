@@ -298,6 +298,7 @@ public class DataManager
         {
             UserData.Instance.CurrentSaveData = data;
             UserData.Instance.isClear = data.isClear;
+            UserData.Instance.EndingState = data.endgins;
             LoadFileApply(data);
             LoadGuildData(data);
             Debug.Log($"Load Success : {fileKey}");

@@ -15,7 +15,7 @@ public class UI_Ending : UI_PopUp
     {
         if (Input.anyKey)
         {
-            Time.timeScale = 1.5f;
+            Time.timeScale = 2.0f;
         }
         else
         {
@@ -90,20 +90,62 @@ public class UI_Ending : UI_PopUp
         }
         bg.color = color;
 
-        StartCoroutine(ClearText());
 
+
+
+
+        //#if DEMO_BUILD
+        //        // 데모 빌드 전용 코드
+        //        StartCoroutine(Clear_Demo());
+        //#else
+        //        // 일반 빌드 전용 코드
+        //        StartCoroutine(ClearText());
+        //#endif
+
+        StartCoroutine(Clear_Demo());
     }
+
+
+    IEnumerator Clear_Demo()
+    {
+        clear.text = "Demo Clear";
+        yield return StartCoroutine(TextFadeIn(clear, 1));
+        yield return new WaitForSeconds(2);
+        yield return StartCoroutine(TextFadeOut(clear, 1));
+
+        clear.text = "Thanks for playing";
+        yield return StartCoroutine(TextFadeIn(clear, 1));
+        yield return new WaitForSeconds(2);
+        yield return StartCoroutine(TextFadeOut(clear, 1));
+
+
+        clear.text = "Made by LazyCnD";
+        yield return StartCoroutine(TextFadeIn(clear, 1));
+        yield return new WaitForSeconds(2);
+        yield return StartCoroutine(TextFadeOut(clear, 1));
+
+        clear.text = "Novice Dungeon Master";
+        yield return StartCoroutine(TextFadeIn(clear, 1));
+        yield return new WaitForSeconds(2);
+        yield return StartCoroutine(TextFadeOut(clear, 1));
+
+
+        Managers.Scene.LoadSceneAsync(SceneName._1_Start);
+        Managers.Scene.AddLoadAction_OneTime(() => DemoClearUI());
+    }
+
+
+    void DemoClearUI()
+    {
+        var ui = Managers.UI.ShowPopUp<UI_SystemMessage>();
+        ui.Message = $"데모 클리어입니다.\n\n재밌게 즐겨주셨다면 스팀 위시리스트도 추가해주세요!";
+    }
+
 
 
 
     IEnumerator ClearText()
     {
-
-        clear.text = "Ending(Demo)";
-        yield return StartCoroutine(TextFadeIn(clear, 1));
-        yield return new WaitForSeconds(2);
-        yield return StartCoroutine(TextFadeOut(clear, 1));
-
         clear.text = "Thanks for playing";
         yield return StartCoroutine(TextFadeIn(clear, 1));
         yield return new WaitForSeconds(2);
