@@ -50,19 +50,36 @@ public class UI_SaveLoad : UI_PopUp
         Bind<Button>(typeof(Buttons));
         Bind<GameObject>(typeof(GameObjects));
 
-        if (State == Buttons.Load)
-        {
-            LoadButton();
-            GetButton(((int)Buttons.Save)).gameObject.SetActive(false);
-            //GetButton(((int)Buttons.Load)).gameObject.SetActive(false);
-            //GetButton(((int)Buttons.Load)).GetComponent<Image>().sprite = button_Down;
-            //GetButton(((int)Buttons.Load)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 18, 0, 0);
+        //if (State == Buttons.Load)
+        //{
+        //    LoadButton();
+        //    GetButton(((int)Buttons.Save)).gameObject.SetActive(false);
+        //    //GetButton(((int)Buttons.Load)).gameObject.SetActive(false);
+        //    //GetButton(((int)Buttons.Load)).GetComponent<Image>().sprite = button_Down;
+        //    //GetButton(((int)Buttons.Load)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 18, 0, 0);
 
-        }
-        if (State == Buttons.Save)
+        //}
+        //if (State == Buttons.Save)
+        //{
+        //    SaveButton();
+        //    GetButton(((int)Buttons.Load)).gameObject.SetActive(false);
+        //}
+
+        switch (State)
         {
-            SaveButton();
-            GetButton(((int)Buttons.Load)).gameObject.SetActive(false);
+            case Buttons.Close:
+                SaveButton();
+                break;
+
+            case Buttons.Save:
+                SaveButton();
+                GetButton(((int)Buttons.Load)).gameObject.SetActive(false);
+                break;
+
+            case Buttons.Load:
+                LoadButton();
+                GetButton(((int)Buttons.Save)).gameObject.SetActive(false);
+                break;
         }
 
         GetButton(((int)Buttons.Close)).gameObject.AddUIEvent((data) => ClosePopUp());

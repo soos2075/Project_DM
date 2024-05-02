@@ -7,9 +7,7 @@ public class DemoManager : MonoBehaviour
 
     public bool isDemoVersion;
 
-
-
-
+    public bool isEndingTest;
 
 
     void Start()
@@ -30,6 +28,10 @@ public class DemoManager : MonoBehaviour
 
 #endif
 
+
+
+
+        StartCoroutine(EndingTestCor());
     }
 
 
@@ -40,4 +42,27 @@ public class DemoManager : MonoBehaviour
         Application.OpenURL(webpageURL);
     }
 
+
+
+
+    IEnumerator EndingTestCor()
+    {
+        yield return null;
+
+        if (Managers.UI._popupStack.Count == 0 && isEndingTest)
+        {
+            TempEndingTest();
+        }
+    }
+
+
+    [System.Obsolete]
+    void TempEndingTest()
+    {
+        //Managers.UI.ShowPopUp<UI_Ending>();
+        //return;
+
+        UserData.Instance.EndingState = Endings.Dog;
+        Managers.Scene.LoadSceneAsync(SceneName._7_NewEnding, false);
+    }
 }

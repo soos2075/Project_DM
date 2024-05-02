@@ -85,7 +85,7 @@ public class CameraControl : MonoBehaviour
         while (count < doubleDelay)
         {
             yield return null;
-            count += Time.deltaTime;
+            count += Time.unscaledDeltaTime;
 
             if (Input.GetMouseButtonDown(0))
             {

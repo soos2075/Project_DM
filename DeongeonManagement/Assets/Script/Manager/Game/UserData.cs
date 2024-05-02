@@ -42,11 +42,6 @@ public class UserData : MonoBehaviour
         Init_Resolution();
         Init_Cursor();
         Init_Language();
-
-
-        //TempEndingTest();
-
-
     }
 
 
@@ -372,15 +367,7 @@ public class UserData : MonoBehaviour
     #endregion
 
 
-    [System.Obsolete]
-    void TempEndingTest()
-    {
-        Managers.UI.ShowPopUp<UI_Ending>();
-        return;
 
-        EndingState = Endings.Dog;
-        Managers.Scene.LoadSceneAsync(SceneName._7_NewEnding, false);
-    }
     
 
 

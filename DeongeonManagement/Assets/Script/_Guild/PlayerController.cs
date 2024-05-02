@@ -231,6 +231,8 @@ public class PlayerController : MonoBehaviour
             Managers.Scene.AddLoadAction_OneTime(() => Debug.Log("유명도 오르는거 실행하는 순서인데 잘 하고 있냐?"));
 
             Managers.Scene.LoadSceneAsync(SceneName._2_Management);
+
+            Time.timeScale = 1;
         }
     }
 }
