@@ -30,6 +30,7 @@ public class Statue : Facility
     public override void MouseMoveEvent()
     {
         if (Main.Instance.Management == false) return;
+        if (Main.Instance.CurrentAction != null) return;
 
         switch (statueType)
         {
@@ -69,6 +70,7 @@ public class Statue : Facility
     public override void MouseClickEvent()
     {
         if (Main.Instance.Management == false) return;
+        if (Main.Instance.CurrentAction != null) return;
 
         if (Main.Instance.Player_AP <= 0)
         {

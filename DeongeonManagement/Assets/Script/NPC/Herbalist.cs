@@ -6,7 +6,7 @@ public class Herbalist : NPC
 {
     [field: SerializeField]
     public override List<BasementTile> PriorityList { get; set; }
-    protected override Define.TileType[] AvoidTileType { get { return AvoidTile(); } }
+    protected override Define.TileType[] AvoidTileType { get { return AvoidTile(); } set { } }
 
     Define.TileType[] AvoidTile()
     {

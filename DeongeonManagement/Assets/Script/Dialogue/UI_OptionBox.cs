@@ -29,7 +29,9 @@ public class UI_OptionBox : UI_PopUp
     {
         Managers.UI.CloseAll();
         Managers.Dialogue.currentDialogue = null;
-        Time.timeScale = 1;
+
+        //Time.timeScale = 1;
+        UserData.Instance.GamePlay();
     }
 
 

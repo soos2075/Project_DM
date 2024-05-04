@@ -75,21 +75,10 @@ public class UI_StartMenu : UI_Scene
 
     void LoadButtonActive()
     {
-        for (int i = 0; i < 6; i++)
+        if (Managers.Data.SaveFileExistCheck() == false)
         {
-            if (Managers.Data.GetData($"DM_Save_{i}") != null)
-            {
-                Debug.Log($"Data exist : DM_Save_{i}");
-                return;
-            }
+            GetButton(((int)Buttons.Load)).gameObject.SetActive(false);
         }
-        if (Managers.Data.GetData($"AutoSave") != null)
-        {
-            Debug.Log($"Data exist : AutoSave");
-            return;
-        }
-
-        GetButton(((int)Buttons.Load)).gameObject.SetActive(false);
     }
 
 

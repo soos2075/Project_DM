@@ -54,8 +54,9 @@ public class GuildManager : MonoBehaviour
 
         GuildEnter();
 
-        Time.timeScale = 1;
-        UserData.Instance.GameSpeed = 1;
+        //Time.timeScale = 1;
+        //UserData.Instance.GameSpeed = 1;
+        UserData.Instance.GamePlay_Normal();
     }
 
 

@@ -13,7 +13,7 @@ public class SceneManagerEx
         AddLoadAction_Usual((scene, mode) => Managers.UI.SceneChange());
         AddLoadAction_Usual((scene, mode) => FadeIn());
         AddLoadAction_Usual((scene, mode) => BGM_Change(GetSceneEnum(scene.name)));
-        AddLoadAction_Usual((scene, mode) => Time.timeScale = 1);
+        AddLoadAction_Usual((scene, mode) => UserData.Instance.GamePlay_Normal());
 
     }
 

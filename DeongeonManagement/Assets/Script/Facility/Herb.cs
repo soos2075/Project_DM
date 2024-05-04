@@ -7,22 +7,23 @@ public class Herb : Facility
 {
     public override void Init_Personal()
     {
-        herbType = (HerbType)CategoryIndex;
+        //herbType = (HerbType)CategoryIndex;
         Init_Herb();
     }
 
-    public enum HerbType
-    {
-        Low = 2000,
-        High = 2001,
-        Pumpkin = 2002,
-    }
-    public HerbType herbType { get; set; } = HerbType.Low;
+    //public enum HerbType
+    //{
+    //    Low = 2000,
+    //    High = 2001,
+    //    Pumpkin = 2002,
+    //}
+    //public HerbType herbType { get; set; } = HerbType.Low;
 
     void Init_Herb()
     {
         var SLA = GetComponentInChildren<SpriteResolver>();
-        SLA.SetCategoryAndLabel(herbType.ToString(), "Entry");
+        //SLA.SetCategoryAndLabel(herbType.ToString(), "Entry");
+        SLA.SetCategoryAndLabel(Data.SLA_category, Data.SLA_label);
     }
 
 

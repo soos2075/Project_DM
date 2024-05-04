@@ -49,21 +49,20 @@ public class UI_Technical : UI_Scene, IWorldSpaceUI
     {
         if (view)
         {
-            Managers.UI.ClosePopUp(view);
+            Managers.UI.ClosePopupPick(view);
         }
     }
 
     void LeftClickEvent(PointerEventData data)
     {
-        if (!Main.Instance.Management)
-        {
-            return;
-        }
+        if (!Main.Instance.Management) return;
+        if (Main.Instance.CurrentAction != null) return;
 
 
         if (Parent.Current != null)
         {
             Demolition_Technical();
+            CloseView();
         }
         else
         {

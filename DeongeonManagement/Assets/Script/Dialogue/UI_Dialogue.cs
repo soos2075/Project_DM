@@ -10,7 +10,8 @@ public class UI_Dialogue : UI_PopUp, IDialogue
     void Start()
     {
         Init();
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
+        UserData.Instance.GameMode = Define.GameMode.Stop;
     }
     private void Update()
     {
@@ -44,7 +45,9 @@ public class UI_Dialogue : UI_PopUp, IDialogue
             {
                 Managers.UI.ClosePopUp();
                 Managers.Dialogue.currentDialogue = null;
-                Time.timeScale = 1;
+
+                UserData.Instance.GameMode = Define.GameMode.Normal;
+
             }, Define.UIEvent.RightClick);
         }
     }
@@ -251,7 +254,8 @@ public class UI_Dialogue : UI_PopUp, IDialogue
             yield return StartCoroutine(TypingEffect(Data.TextDataList[textCount].mainText, optionAction));
             textCount++;
         }
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
+        UserData.Instance.GameMode = Define.GameMode.Normal;
 
         Managers.UI.ClosePopUp(this);
         Managers.Dialogue.currentDialogue = null;

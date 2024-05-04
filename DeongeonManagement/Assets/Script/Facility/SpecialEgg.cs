@@ -1,9 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpecialEgg : Facility
 {
+
+    public enum EggType
+    {
+        Lv_1 = 2901,
+        Lv_2 = 2902,
+        Lv_3 = 2903,
+
+        Dog = 2910,
+        Dragon = 2911,
+        Slime = 2912,
+    }
+
+
+    public EggType Egg { get; set; }
+
+    public void SetEggData(SO_Facility SO_data)
+    {
+        //EventType = SO_data.Type;
+        Name = SO_data.labelName.SetTextColorTag(Define.TextColor.SkyBlue);
+        Detail_KR = SO_data.detail;
+
+        Egg = (EggType)SO_data.id;
+    }
+
+
+
     public override void Init_Personal()
     {
 
@@ -13,6 +37,10 @@ public class SpecialEgg : Facility
         isOnlyOne = true;
         isClearable = false;
     }
+
+
+
+
 
 
     public override Coroutine NPC_Interaction(NPC npc)

@@ -277,11 +277,22 @@ public class UserData : MonoBehaviour
         Wait_GamePlay = new WaitUntil(() => GameMode != Define.GameMode.Stop);
     }
 
-    void GamePlay(int speed = 1)
+    public void GamePlay()
     {
         Time.timeScale = GameSpeed;
         //GameSpeed = speed;
+        if (Managers.Scene.GetCurrentScene() == SceneName._2_Management)
+        {
+            FindAnyObjectByType<UI_Management>()?.SpeedButtonImage();
+        }
     }
+
+    public void GamePlay_Normal()
+    {
+        GameSpeed = 1;
+        Time.timeScale = 1;
+    }
+
 
     //bool IsPlaying()
     //{

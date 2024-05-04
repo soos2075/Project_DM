@@ -216,6 +216,6 @@ public class UI_Placement_Facility : UI_PopUp
     //}
     private void OnDestroy()
     {
-        Time.timeScale = 1;
+        UserData.Instance.GamePlay();
     }
 }

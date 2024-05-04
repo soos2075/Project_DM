@@ -60,7 +60,7 @@ public class Define
 
         Facility,
 
-        Player,
+        Player_Interaction,
 
         Non_Interaction,
 

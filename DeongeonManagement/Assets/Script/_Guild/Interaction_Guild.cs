@@ -23,14 +23,20 @@ public class Interaction_Guild : MonoBehaviour
 
     private void Update()
     {
-        if (InstanceQuestList.Count > 0 && eventKey == null)
+        if (InstanceQuestList.Count > 0 || OptionList.Count > 0)
         {
-            eventKey = Managers.Resource.Instantiate("Guild/Event", transform);
+            if (eventKey == null)
+            {
+                eventKey = Managers.Resource.Instantiate("Guild/Event", transform);
+            }
         }
-        else if(InstanceQuestList.Count == 0 && eventKey != null)
+        else if(InstanceQuestList.Count == 0 && OptionList.Count == 0)
         {
-            Managers.Resource.Destroy(eventKey);
-            eventKey = null;
+            if (eventKey != null)
+            {
+                Managers.Resource.Destroy(eventKey);
+                eventKey = null;
+            }
         }
     }
 

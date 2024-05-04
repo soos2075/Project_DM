@@ -5,7 +5,7 @@ using UnityEngine;
 public class QuestHunter : NPC
 {
     public override List<BasementTile> PriorityList { get; set; }
-    protected override Define.TileType[] AvoidTileType { get; } = new Define.TileType[] { Define.TileType.NPC, Define.TileType.Facility };
+    protected override Define.TileType[] AvoidTileType { get; set; } = new Define.TileType[] { Define.TileType.NPC, Define.TileType.Facility };
     public override int RunawayHpRatio { get; set; } = 999;
 
     public override void Departure(Vector3 startPoint, Vector3 endPoint)

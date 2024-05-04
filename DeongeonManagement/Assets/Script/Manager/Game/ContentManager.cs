@@ -547,7 +547,7 @@ public class ContentManager
     void SetBoundary(Vector2Int[] vector2Ints, Action action, UI_Floor.BuildMode buildMode = UI_Floor.BuildMode.Build)
     {
         Managers.UI.PausePopUp();
-        Time.timeScale = 1;
+        UserData.Instance.GamePlay();
 
         GameManager.Instance.StartCoroutine(ShowAllFloor(vector2Ints, action, buildMode));
     }

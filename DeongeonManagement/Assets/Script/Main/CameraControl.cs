@@ -42,6 +42,8 @@ public class CameraControl : MonoBehaviour
 
 
 
+
+
         limit_left = -150 / (mainCam.orthographicSize * mainCam.orthographicSize);
         limit_right = 150 / (mainCam.orthographicSize * mainCam.orthographicSize);
 
@@ -49,6 +51,10 @@ public class CameraControl : MonoBehaviour
         ClickAction();
         PixelPerfection_Zoom();
         KeyboardMove();
+
+
+        // 팝업 ui 있을땐 더블클릭 안되게
+        if (Managers.UI._popupStack.Count > 0) return;
 
         // 더블클릭
         FirstClickEvent();

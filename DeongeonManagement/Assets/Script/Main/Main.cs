@@ -226,8 +226,9 @@ public class Main : MonoBehaviour
 
         Player_Mana = 300;
         Player_Gold = 200;
-        Player_AP = 2;
         AP_MAX = 2;
+        Player_AP = 0;
+
 
         Init_BasementFloor();
         Init_Animation();
@@ -236,7 +237,7 @@ public class Main : MonoBehaviour
         ExpansionConfirm();
         GameManager.Technical.Expantion_Technical();
 
-        StartCoroutine(NextStart());
+        StartCoroutine(NewGameInitAndMessage());
 
         _DefaultSetting = true;
 
@@ -259,16 +260,16 @@ public class Main : MonoBehaviour
 
 
 
-    IEnumerator NextStart()
+    IEnumerator NewGameInitAndMessage()
     {
         yield return null;
         yield return new WaitForEndOfFrame();
         Instantiate_DayOne();
         yield return new WaitForEndOfFrame();
-        yield return new WaitUntil(() => Time.timeScale > 0);
+        yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
+
         var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
         message.Message = UserData.Instance.GetLocaleText("Message_First");
-
     }
     void Instantiate_DayOne()
     {
@@ -284,12 +285,34 @@ public class Main : MonoBehaviour
     void Init_Secret()
     {
         BasementTile tile = null;
-        Floor[3].TileMap.TryGetValue(new Vector2Int(0, 3), out tile);
+        Floor[3].TileMap.TryGetValue(new Vector2Int(0, 2), out tile);
         PlacementInfo info = new PlacementInfo(Floor[3], tile);
         var egg = GameManager.Placement.CreateOnlyOne($"Facility/Special_MagicEgg", info, PlacementType.Facility);
         GameManager.Placement.PlacementConfirm(egg, info, true);
-        //GameManager.Facility.CreateFacility_OnlyOne("Special_MagicEgg", info, true);
+
+        eggObj = egg.GetObject();
+
         Init_Player();
+        Init_Obstacle();
+    }
+
+    void Init_Obstacle()
+    {
+        // 플레이어와 알 사이에 2칸도 그냥 설치불가능 지역으로 만들기
+        {
+            var tile = Main.Instance.Floor[3].GetRandomTile();
+            Main.Instance.Floor[3].TileMap.TryGetValue(new Vector2Int(1, 2), out tile);
+            PlacementInfo info = new PlacementInfo(Main.Instance.Floor[3], tile);
+
+            var obj = GameManager.Facility.CreateFacility("Obstacle", info);
+        }
+        {
+            var tile = Main.Instance.Floor[3].GetRandomTile();
+            Main.Instance.Floor[3].TileMap.TryGetValue(new Vector2Int(2, 2), out tile);
+            PlacementInfo info = new PlacementInfo(Main.Instance.Floor[3], tile);
+
+            var obj = GameManager.Facility.CreateFacility("Obstacle", info);
+        }
     }
 
     public void Init_Player()
@@ -301,7 +324,7 @@ public class Main : MonoBehaviour
         }
 
         BasementTile tile2 = null;
-        Floor[3].TileMap.TryGetValue(new Vector2Int(3, 3), out tile2);
+        Floor[3].TileMap.TryGetValue(new Vector2Int(3, 2), out tile2);
         PlacementInfo info2 = new PlacementInfo(Floor[3], tile2);
         var player = GameManager.Placement.CreatePlacementObject("Player", info2, PlacementType.Monster);
         var component = player as Player;
@@ -339,7 +362,7 @@ public class Main : MonoBehaviour
     {
         {
             var tile = Main.Instance.Floor[3].GetRandomTile();
-            Main.Instance.Floor[3].TileMap.TryGetValue(new Vector2Int(12, 3), out tile);
+            Main.Instance.Floor[3].TileMap.TryGetValue(new Vector2Int(12, 2), out tile);
             PlacementInfo info = new PlacementInfo(Main.Instance.Floor[3], tile);
 
             var obj = GameManager.Facility.CreateFacility("Obstacle", info);
@@ -1538,27 +1561,28 @@ public class Main : MonoBehaviour
         Debug.Log($"Total Gold : {GetTotalGold()}");
 
 
-
         if (Turn < 10)
         {
             CurrentEndingState = Endings.Dog;
             EggSprite.SetCategoryAndLabel("Egg", "Level_1");
+            eggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Lv1"));
         }
         else if (Turn < 15 && Turn >= 10)
         {
             CurrentEndingState = Endings.Dog;
             EggSprite.SetCategoryAndLabel("Egg", "Level_2");
+            eggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Lv2"));
         }
         else if(Turn < 20 && Turn >= 15)
         {
             CurrentEndingState = Endings.Dog;
             EggSprite.SetCategoryAndLabel("Egg", "Level_3");
+            eggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Lv3"));
         }
         else if(Turn >= 20)
         {
             SelectEnding();
         }
-
 
         UserData.Instance.EndingState = CurrentEndingState;
     }
@@ -1569,6 +1593,7 @@ public class Main : MonoBehaviour
     {
         CurrentEndingState = Endings.Dog;
         EggSprite.SetCategoryAndLabel("Egg", "Dog");
+        eggObj.GetComponent<Facility>().Data = GameManager.Facility.GetData("Egg_Dog");
 
 #if DEMO_BUILD
         // 데모버전이면 무조건 Dog엔딩
@@ -1579,12 +1604,14 @@ public class Main : MonoBehaviour
         {
             CurrentEndingState = Endings.Dragon;
             EggSprite.SetCategoryAndLabel("Egg", "Dragon");
+            eggObj.GetComponent<Facility>().Data = GameManager.Facility.GetData("Egg_Dragon");
         }
 
         if (GetTotalMana() >= 10000)
         {
             CurrentEndingState = Endings.Slime;
             EggSprite.SetCategoryAndLabel("Egg", "Slime");
+            eggObj.GetComponent<Facility>().Data = GameManager.Facility.GetData("Egg_Slime");
         }
     }
 

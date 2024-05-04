@@ -12,7 +12,10 @@ public class UI_TileView : UI_PopUp, IWorldSpaceUI
     }
     void Start()
     {
-        
+        if (Main.Instance.CurrentAction != null)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public void SetCanvasWorldSpace()

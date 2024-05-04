@@ -104,7 +104,7 @@ public class UI_Fade : UI_PopUp
             timer += Time.unscaledDeltaTime;
         }
 
-        Debug.Log($"其捞靛 场 {Mode}");
+        //Debug.Log($"其捞靛 场 {Mode}");
         isFade = false;
 
         yield return new WaitForEndOfFrame();

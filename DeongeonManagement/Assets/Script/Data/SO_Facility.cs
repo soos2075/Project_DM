@@ -11,6 +11,9 @@ public class SO_Facility : ScriptableObject
     public string prefabPath;
     public string spritePath;
 
+    public string SLA_category;
+    public string SLA_label;
+
 
 
 

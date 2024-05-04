@@ -401,7 +401,8 @@ public class UI_Monster_Management : UI_PopUp
         yield return new WaitForEndOfFrame();
         PanelDisable();
 
-        Time.timeScale = 1;
+        UserData.Instance.GamePlay();
+
         Main.Instance.CurrentBoundary = vector2Ints;
         Main.Instance.CurrentAction = action;
         for (int i = 0; i < Main.Instance.ActiveFloor_Basement; i++)
@@ -500,6 +501,7 @@ public class UI_Monster_Management : UI_PopUp
     }
     private void OnDestroy()
     {
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
+        UserData.Instance.GamePlay();
     }
 }

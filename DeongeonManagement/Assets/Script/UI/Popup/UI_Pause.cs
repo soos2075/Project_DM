@@ -61,17 +61,21 @@ public class UI_Pause : UI_PopUp
             // 플레이어 데이터 삭제
             PlayerPrefs.DeleteAll();
 
+
             // 클리어 데이터 삭제
             CollectionManager.Instance.PlayData = null;
             Managers.Data.DeleteSaveFile("ClearData");
 
-            // 컬렉션 데이터 삭제
 
+            // 컬렉션 데이터 삭제
             Managers.Data.DeleteSaveFile("CollectionData");
 
+
             // 세이브 데이터 삭제
+            Managers.Data.DeleteSaveFileAll();
 
 
+            // 씬 리로드
             GotoStartScene();
         }
     }
@@ -182,6 +186,6 @@ public class UI_Pause : UI_PopUp
     }
     private void OnDestroy()
     {
-        Time.timeScale = 1;
+        UserData.Instance.GamePlay();
     }
 }

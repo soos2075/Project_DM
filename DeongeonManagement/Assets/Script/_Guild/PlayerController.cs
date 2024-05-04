@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
    
     void Update()
     {
-        if (Time.timeScale == 0 || Managers.UI._popupStack.Count > 0)
+        if (Time.timeScale == 0 || Managers.UI._popupStack.Count > 0 || UserData.Instance.GameMode == Define.GameMode.Stop)
         {
             return;
         }
@@ -71,6 +71,8 @@ public class PlayerController : MonoBehaviour
                 StopCoroutine(moveCor);
             }
             current_NPC.StartDialogue();
+            rig.velocity = Vector2.zero;
+            return;
         }
 
         h = Input.GetAxisRaw("Horizontal");
@@ -204,11 +206,11 @@ public class PlayerController : MonoBehaviour
 
         if (confirm.GetAnswer() == UI_Confirm.State.Yes)
         {
-            Debug.Log("각종 데이터 처리");
+            //Debug.Log("각종 데이터 처리");
             Managers.Scene.AddLoadAction_OneTime(() => Main.Instance.Default_Init());
             Managers.Scene.AddLoadAction_OneTime(() => Managers.Data.LoadGame_ToGuild("AutoSave"));
             Managers.Scene.AddLoadAction_OneTime(() => Main.Instance.Player_AP = 0);
-            Managers.Scene.AddLoadAction_OneTime(() => Debug.Log("저장한거 먼저 불러오고나서"));
+            //Managers.Scene.AddLoadAction_OneTime(() => Debug.Log("저장한거 먼저 불러오고나서"));
 
             //for (int i = 0; i < GuildManager.Instance.DungeonBackAction.Count; i++)
             //{
@@ -228,11 +230,12 @@ public class PlayerController : MonoBehaviour
 
             
             Managers.Scene.AddLoadAction_OneTime(() => FindObjectOfType<UI_Management>().Texts_Refresh());
-            Managers.Scene.AddLoadAction_OneTime(() => Debug.Log("유명도 오르는거 실행하는 순서인데 잘 하고 있냐?"));
+            //Managers.Scene.AddLoadAction_OneTime(() => Debug.Log("유명도 오르는거 실행하는 순서인데 잘 하고 있냐?"));
 
             Managers.Scene.LoadSceneAsync(SceneName._2_Management);
 
-            Time.timeScale = 1;
+            //Time.timeScale = 1;
+            UserData.Instance.GamePlay_Normal();
         }
     }
 }

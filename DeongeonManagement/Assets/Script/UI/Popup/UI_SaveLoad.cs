@@ -38,6 +38,8 @@ public class UI_SaveLoad : UI_PopUp
     {
         IndexBox,
         MainPanel,
+
+        NoTouch,
     }
 
 
@@ -57,7 +59,6 @@ public class UI_SaveLoad : UI_PopUp
         //    //GetButton(((int)Buttons.Load)).gameObject.SetActive(false);
         //    //GetButton(((int)Buttons.Load)).GetComponent<Image>().sprite = button_Down;
         //    //GetButton(((int)Buttons.Load)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 18, 0, 0);
-
         //}
         //if (State == Buttons.Save)
         //{
@@ -85,6 +86,10 @@ public class UI_SaveLoad : UI_PopUp
         GetButton(((int)Buttons.Close)).gameObject.AddUIEvent((data) => ClosePopUp());
         GetButton(((int)Buttons.Save)).gameObject.AddUIEvent((data) => SaveButton());
         GetButton(((int)Buttons.Load)).gameObject.AddUIEvent((data) => LoadButton());
+
+
+        GetObject((int)GameObjects.MainPanel).AddUIEvent((data) => ClosePopUp(), Define.UIEvent.RightClick);
+        GetObject((int)GameObjects.NoTouch).AddUIEvent((data) => ClosePopUp(), Define.UIEvent.RightClick);
 
 
         Init_SaveSlot();

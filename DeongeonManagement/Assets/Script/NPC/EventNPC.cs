@@ -5,7 +5,7 @@ using UnityEngine;
 public class EventNPC : NPC
 {
     public override List<BasementTile> PriorityList { get; set; }
-    protected override Define.TileType[] AvoidTileType { get; } = new Define.TileType[] { Define.TileType.NPC, Define.TileType.Facility };
+    protected override Define.TileType[] AvoidTileType { get; set; } = new Define.TileType[] { Define.TileType.NPC, Define.TileType.Facility };
 
     public override int RunawayHpRatio { get; set; } = 999;
 
@@ -184,20 +184,117 @@ public class EventNPC : NPC
     {
         if (PriorityList != null) PriorityList.Clear();
 
-        var list1 = GetFloorObjectsAll(Define.TileType.Monster);
-        AddList(list1);
-
         {
-            var add_egg = GetPriorityPick(typeof(SpecialEgg));
-            AddList(add_egg);
+            var list1 = GetFloorObjectsAll(Define.TileType.Monster);
+            AddList(list1);
         }
 
+
+        switch (EventDay)
         {
-            var add_secret = GetPriorityPick(typeof(Entrance_Egg));
-            AddList(add_secret);
+            case EventNPCType.Event_Day3:
+            case EventNPCType.Event_Day8:
+            case EventNPCType.Event_Day15:
+            case EventNPCType.Captine_A:
+            case EventNPCType.Captine_B:
+            case EventNPCType.Captine_C:
+                {
+                    var add_egg = GetPriorityPick(typeof(SpecialEgg));
+                    AddList(add_egg);
+                }
+                {
+                    var add_secret = GetPriorityPick(typeof(Entrance_Egg));
+                    AddList(add_secret);
+                }
+                break;
+
+
+
+            case EventNPCType.A_Warrior:
+            case EventNPCType.B_Warrior:
+                {
+                    var add_egg = GetPriorityPick(typeof(SpecialEgg));
+                    AddList(add_egg);
+                }
+                {
+                    var add_secret = GetPriorityPick(typeof(Entrance_Egg));
+                    AddList(add_secret);
+                }
+                break;
+
+            case EventNPCType.A_Tanker:
+            case EventNPCType.B_Tanker:
+                {
+                    var add_egg = GetPriorityPick(typeof(SpecialEgg));
+                    AddList(add_egg);
+                }
+                {
+                    var add_secret = GetPriorityPick(typeof(Entrance_Egg));
+                    AddList(add_secret);
+                }
+                break;
+
+            case EventNPCType.A_Wizard:
+            case EventNPCType.B_Wizard:
+                {
+                    var add_egg = GetPriorityPick(typeof(SpecialEgg));
+                    AddList(add_egg);
+                }
+                {
+                    var add_secret = GetPriorityPick(typeof(Entrance_Egg));
+                    AddList(add_secret);
+                }
+                break;
+
+            case EventNPCType.A_Elf:
+            case EventNPCType.B_Elf:
+                {
+                    var add_egg = GetPriorityPick(typeof(SpecialEgg));
+                    AddList(add_egg);
+                }
+                {
+                    var add_secret = GetPriorityPick(typeof(Entrance_Egg));
+                    AddList(add_secret);
+                }
+                break;
+
+
+            case EventNPCType.Event_Soldier1:
+            case EventNPCType.Event_Soldier2:
+            case EventNPCType.Event_Soldier3:
+                break;
+
+            default:
+                break;
         }
     }
 
+
+    protected override void Start_Setting()
+    {
+        OverrideAvoidType();
+    }
+
+
+    void OverrideAvoidType()
+    {
+        switch (EventDay)
+        {
+            case EventNPCType.Event_Day3:
+            case EventNPCType.Event_Day8:
+            case EventNPCType.Event_Day15:
+            case EventNPCType.Captine_A:
+            case EventNPCType.Captine_B:
+            case EventNPCType.Captine_C:
+                AvoidTileType = new Define.TileType[] { Define.TileType.NPC, Define.TileType.Facility };
+                break;
+
+
+            default:
+                AvoidTileType = new Define.TileType[] { Define.TileType.NPC };
+                break;
+        }
+    }
 
 
 

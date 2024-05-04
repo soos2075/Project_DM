@@ -100,7 +100,7 @@ public class UI_Confirm : UI_PopUp
     }
     private void OnDestroy()
     {
-        Time.timeScale = 1;
+        UserData.Instance.GamePlay();
     }
 }
 

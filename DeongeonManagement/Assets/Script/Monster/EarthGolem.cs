@@ -15,7 +15,7 @@ public class EarthGolem : Monster
     IEnumerator Init_Evolution()
     {
         yield return new WaitForEndOfFrame();
-        Debug.Log(EvolutionState);
+        //Debug.Log(EvolutionState);
         //EvolutionState = Evolution.Ready;
         //Debug.Log("임시조정");
         if (EvolutionState == Evolution.None)

@@ -660,13 +660,27 @@ public class BasementTile
 
     public bool NonInteract_TileCheck() //? 240423 추가 / 빌드시, 플로어 선택시 타일을 숨기게 하는 역할
     {
-        if (tileType_Original == Define.TileType.Non_Interaction || tileType_Original == Define.TileType.Player)
+        if (tileType_Original == Define.TileType.Non_Interaction || tileType_Original == Define.TileType.Player_Interaction)
         {
             return true;
         }
 
+        if (tileType_Original == Define.TileType.Monster)
+        {
+            if (Original.GetType() == typeof(Player)) // 플레이어는 예외처리
+            {
+                return true;
+            }
+        }
+
+
         if (tileType_Original == Define.TileType.Facility)
         {
+            if (Original.GetType() == typeof(SpecialEgg)) // 에그는 예외처리
+            {
+                return true;
+            }
+
             var fa = Original as Facility;
             switch (fa.EventType)
             {
@@ -694,8 +708,8 @@ public class BasementTile
 
         if (_placementable.GetType() == typeof(Statue))
         {
-            tileType_Current = Define.TileType.Player;
-            tileType_Original = Define.TileType.Player;
+            tileType_Current = Define.TileType.Player_Interaction;
+            tileType_Original = Define.TileType.Player_Interaction;
         }
         else if (_placementable.GetType() == typeof(Obstacle))
         {
@@ -858,7 +872,7 @@ public class BasementTile
 
 
 
-            case Define.TileType.Player:
+            case Define.TileType.Player_Interaction:
                 return Define.PlaceEvent.Nothing;
 
             case Define.TileType.Non_Interaction:

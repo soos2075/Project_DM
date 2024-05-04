@@ -256,6 +256,15 @@ public class DataManager
 
     Dictionary<string, SaveData> SaveFileList = new Dictionary<string, SaveData>();
 
+    public void DeleteSaveFileAll()
+    {
+        foreach (var savefile in SaveFileList)
+        {
+            DeleteSaveFile(savefile.Key);
+        }
+
+        SaveFileList = new Dictionary<string, SaveData>();
+    }
 
     void Scan_File()
     {
@@ -331,6 +340,10 @@ public class DataManager
             return data;
         }
         return null;
+    }
+    public bool SaveFileExistCheck()
+    {
+        return SaveFileList.Count > 0 ? true : false;
     }
 
 

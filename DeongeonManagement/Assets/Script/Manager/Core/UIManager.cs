@@ -272,7 +272,7 @@ public class UIManager
 
         if (Time.timeScale == 0)
         {
-            Time.timeScale = 1;
+            UserData.Instance.GamePlay();
         }
     }
 

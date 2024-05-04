@@ -134,7 +134,8 @@ public class EventManager : MonoBehaviour
     {
         GuildNPCAction.Add(2100, () =>
         {
-            Time.timeScale = 1;
+            UserData.Instance.GameMode = Define.GameMode.Normal;
+            //Time.timeScale = 1;
             Managers.UI.ClosePopUp();
             Managers.Dialogue.currentDialogue = null;
 
@@ -167,7 +168,7 @@ public class EventManager : MonoBehaviour
     {
         EventAction.Add("EggAppear", () => {
             var tile = Main.Instance.Floor[3].GetRandomTile();
-            Main.Instance.Floor[3].TileMap.TryGetValue(new Vector2Int(12, 3), out tile);
+            Main.Instance.Floor[3].TileMap.TryGetValue(new Vector2Int(12, 2), out tile);
 
             GameManager.Facility.RemoveFacility(tile.Original as Facility);
 

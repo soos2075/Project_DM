@@ -328,7 +328,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
 
     #region PriorityList
-    protected abstract Define.TileType[] AvoidTileType { get;}
+    protected abstract Define.TileType[] AvoidTileType { get; set; }
+
 
     public abstract List<BasementTile> PriorityList { get; set; }
     protected abstract void SetPriorityList();

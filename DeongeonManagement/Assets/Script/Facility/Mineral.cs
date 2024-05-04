@@ -7,26 +7,27 @@ public class Mineral : Facility
 {
     public override void Init_Personal()
     {
-        mineralType = (MineralCategory)CategoryIndex;
+        //mineralType = (MineralCategory)CategoryIndex;
         Init_Mineral();
     }
 
-    public enum MineralCategory
-    {
-        Rock = 2100,
-        Sand = 2101,
-        Stone = 2102,
-        Iron = 2103,
-        Coal = 2104,
-        Diamond = 2105,
-    }
-    public MineralCategory mineralType { get; set; } = MineralCategory.Rock;
+    //public enum MineralCategory
+    //{
+    //    Rock = 2100,
+    //    Sand = 2101,
+    //    Stone = 2102,
+    //    Iron = 2103,
+    //    Coal = 2104,
+    //    Diamond = 2105,
+    //}
+    //public MineralCategory mineralType { get; set; } = MineralCategory.Rock;
 
 
     void Init_Mineral()
     {
         var SLA = GetComponentInChildren<SpriteResolver>();
-        SLA.SetCategoryAndLabel(mineralType.ToString(), "Entry");
+        //SLA.SetCategoryAndLabel(mineralType.ToString(), "Entry");
+        SLA.SetCategoryAndLabel(Data.SLA_category, Data.SLA_label);
     }
 
 

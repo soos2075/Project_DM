@@ -46,6 +46,8 @@ public class UI_Management : UI_Base
         Save,
         Pause,
 
+
+        Speed1x,
         Speed2x,
         Speed3x,
         
@@ -86,6 +88,8 @@ public class UI_Management : UI_Base
         Init_Button();
         StartCoroutine(DayInit());
         AP_Refresh();
+
+        SpeedButtonImage();
     }
 
     public void AP_Refresh()
@@ -133,25 +137,43 @@ public class UI_Management : UI_Base
 
         GetButton((int)ButtonEvent.Pause).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_Pause>());
 
-        GetButton((int)ButtonEvent.Speed2x).gameObject.AddUIEvent((data) => GameSpeedUp(1));
-        GetButton((int)ButtonEvent.Speed3x).gameObject.AddUIEvent((data) => GameSpeedUp(2));
+
+        GetButton((int)ButtonEvent.Speed1x).gameObject.AddUIEvent((data) => GameSpeedUp(1));
+        GetButton((int)ButtonEvent.Speed2x).gameObject.AddUIEvent((data) => GameSpeedUp(2));
+        GetButton((int)ButtonEvent.Speed3x).gameObject.AddUIEvent((data) => GameSpeedUp(3));
 
         //GetButton((int)ButtonEvent.DayChange_Temp).gameObject.AddUIEvent((data) => DayChange_Temp());
     }
 
     void GameSpeedUp(int speed = 1)
     {
-        if (speed == 2)
-        {
-            UserData.Instance.GameSpeed = 2;
-            Time.timeScale = 2;
-        }
-        else if (speed == 1)
-        {
-            UserData.Instance.GameSpeed = 1;
-            Time.timeScale = 1;
-        }
+        UserData.Instance.GameSpeed = speed;
+        Time.timeScale = speed;
+        SpeedButtonImage();
+    }
 
+    public void SpeedButtonImage()
+    {
+        switch (UserData.Instance.GameSpeed)
+        {
+            case 1:
+                GetButton((int)ButtonEvent.Speed1x).GetComponent<Image>().enabled = true;
+                GetButton((int)ButtonEvent.Speed2x).GetComponent<Image>().enabled = false;
+                GetButton((int)ButtonEvent.Speed3x).GetComponent<Image>().enabled = false;
+                break;
+
+            case 2:
+                GetButton((int)ButtonEvent.Speed1x).GetComponent<Image>().enabled = false;
+                GetButton((int)ButtonEvent.Speed2x).GetComponent<Image>().enabled = true;
+                GetButton((int)ButtonEvent.Speed3x).GetComponent<Image>().enabled = false;
+                break;
+
+            case 3:
+                GetButton((int)ButtonEvent.Speed1x).GetComponent<Image>().enabled = false;
+                GetButton((int)ButtonEvent.Speed2x).GetComponent<Image>().enabled = false;
+                GetButton((int)ButtonEvent.Speed3x).GetComponent<Image>().enabled = true;
+                break;
+        }
     }
 
 

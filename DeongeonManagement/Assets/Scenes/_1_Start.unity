@@ -683,7 +683,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDemoVersion: 0
-  isEndingTest: 1
+  isEndingTest: 0
   webpageURL: https://store.steampowered.com/app/2886090/Novice_Dungeon_Master/
 --- !u!4 &201329367
 Transform:
@@ -2747,7 +2747,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 11
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!224 &1782974913
 RectTransform:
