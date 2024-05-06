@@ -55,6 +55,12 @@ public class CameraControl : MonoBehaviour
 
         // 팝업 ui 있을땐 더블클릭 안되게
         if (Managers.UI._popupStack.Count > 0) return;
+        if (EventSystem.current.currentSelectedGameObject) // 선택된 ui가 있을경우 리턴 - 이경우엔 버튼같은거 클릭을 의미함
+        {
+            //Debug.Log(EventSystem.current.currentSelectedGameObject);
+            //Debug.Log(EventSystem.current.currentSelectedGameObject.name + "@@name");
+            return;
+        }
 
         // 더블클릭
         FirstClickEvent();

@@ -31,7 +31,8 @@ public class UI_OptionBox : UI_PopUp
         Managers.Dialogue.currentDialogue = null;
 
         //Time.timeScale = 1;
-        UserData.Instance.GamePlay();
+        //UserData.Instance.GamePlay();
+        UserData.Instance.GameMode = Define.GameMode.Normal;
     }
 
 

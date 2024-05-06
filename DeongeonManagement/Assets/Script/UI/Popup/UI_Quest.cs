@@ -44,8 +44,10 @@ public class UI_Quest : UI_PopUp
 
             int id = EventManager.Instance.CurrentQuestEvent_ForSave[i];
 
-            string title = Managers.Dialogue.GetDialogue($"Guild_{id}").dialogueName;
-            string detail = Managers.Dialogue.GetDialogue($"Guild_{id}").TextDataList[0].mainText;
+            //Debug.Log($"Quest ID : {id}");
+
+            string title = Managers.Dialogue.GetDialogue((DialogueName)id).dialogueName;
+            string detail = Managers.Dialogue.GetDialogue((DialogueName)id).TextDataList[0].mainText;
 
             content.SetText(title, detail);
         }

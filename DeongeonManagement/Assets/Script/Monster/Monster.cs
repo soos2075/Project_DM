@@ -189,7 +189,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     }
     public virtual void MoveSelf()
     {
-        Debug.Log("몬스터 무브애니메이션 다시 시작");
+        //Debug.Log("몬스터 무브애니메이션 다시 시작");
         Cor_Moving = StartCoroutine(MoveCor());
     }
 
@@ -291,15 +291,15 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
                 case Define.PlaceEvent.Battle:
                     var npc = tile.Original as NPC;
-                    if (npc.Cor_Encounter == null)
+                    if (npc.Cor_Encounter == null && npc.HP > 0)
                     {
                         npc.Cor_Encounter = StartCoroutine(npc.Encounter_ByMonster(this));
-                        Debug.Log($"몬스터 선빵때리기");
+                        //Debug.Log($"몬스터 선빵때리기");
                     }
                     break;
 
                 default:
-                    Debug.Log($"{eventType.ToString()} : 아무이벤트 없음");
+                    //Debug.Log($"{eventType.ToString()} : 아무이벤트 없음");
                     break;
             }
         }
@@ -314,7 +314,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         var npcList = PlacementInfo.Place_Floor.GetFloorObjectList(Define.TileType.NPC);
         if (npcList.Count == 0)
         {
-            Debug.Log("층에 npc가 없으므로 이동하지 않음");
+            //Debug.Log("층에 npc가 없으므로 이동하지 않음");
             return;
         }
 
@@ -354,15 +354,15 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
                 case Define.PlaceEvent.Battle:
                     var npc = tile.Original as NPC;
-                    if (npc.Cor_Encounter == null)
+                    if (npc.Cor_Encounter == null && npc.HP > 0)
                     {
                         npc.Cor_Encounter = StartCoroutine(npc.Encounter_ByMonster(this));
-                        Debug.Log($"몬스터 선빵때리기");
+                        //Debug.Log($"몬스터 선빵때리기");
                     }
                     break;
 
                 default:
-                    Debug.Log($"{eventType.ToString()} : 아무이벤트 없음");
+                    //Debug.Log($"{eventType.ToString()} : 아무이벤트 없음");
                     break;
             }
         }
@@ -501,7 +501,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         }
 
         BattleCount--;
-        if (BattleCount == 0)
+        if (BattleCount == 0 && this.HP > 0)
         {
             MoveSelf();
         }
@@ -557,44 +557,6 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     }
 
 
-
-
-
-    //protected IEnumerator SetBattleConfigure(NPC npc)
-    //{
-    //    UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 전투발생 : " +
-    //        $"{npc.Name_KR} vs " +
-    //        $"{Name_KR}");
-    //    while (true)
-    //    {
-    //        yield return new WaitForSeconds(1f);
-    //        GiveAndTakeOnce(this, npc);
-
-    //        if (this.HP <= 0)
-    //        {
-    //            this.HP = 0;
-    //            UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 {Name_KR} (이)가 전투에서 패배했습니다..");
-    //            Debug.Log("몬스터 패배");
-    //            MonsterOutFloor();
-    //            break;
-    //        }
-
-    //        if (npc.HP <= 0)
-    //        {
-    //            UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.Name_KR}에서 {Name_KR} (이)가 {npc.Name_KR} {npc.Name_Index} 에게 승리하였습니다!");
-    //            Debug.Log("NPC 패배");
-    //            break;
-    //        }
-    //    }
-    //}
-
-    //private void GiveAndTakeOnce(Monster monster, NPC npc)
-    //{
-    //    monster.HP -= Mathf.Clamp((npc.ATK - monster.DEF), 1, monster.HP);
-
-    //    npc.HP -= Mathf.Clamp((monster.ATK - npc.DEF), 1, npc.HP);
-    //    //Debug.Log($"배틀 상세 : {monster.name}의 남은 체력 : {monster.HP} / {npc.name}의 남은 체력 : {npc.HP}");
-    //}
 
 
     #region Battle

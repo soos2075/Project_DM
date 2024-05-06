@@ -56,7 +56,7 @@ public class EventManager : MonoBehaviour
     }
 
 
-    public int CurrentTurn { get; set; }
+    public int CurrentTurn;// { get; set; }
 
 
     //? 길드정보 저장용(길드에서 변화된 npc들의 퀘스트 정보들이 들어있음)
@@ -293,13 +293,13 @@ public class EventManager : MonoBehaviour
     }
 
 
-    public void Reset_Singleton()
-    {
-        CurrentGuildData?.Clear();
-        GuildQuestAdd?.Clear();
-        CurrentQuestEvent = null;
-        CurrentQuestEvent_ForSave?.Clear();
-        CurrentTurn = 0;
-    }
+    //public void Reset_Singleton()
+    //{
+    //    CurrentGuildData?.Clear();
+    //    GuildQuestAdd?.Clear();
+    //    CurrentQuestEvent = null;
+    //    CurrentQuestEvent_ForSave?.Clear();
+    //    CurrentTurn = 0;
+    //}
 }
 

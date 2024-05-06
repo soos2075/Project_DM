@@ -94,12 +94,35 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
                     break;
             }
             view.ViewContents(_title, _detail);
+
+
+            switch (CurrentTile.Original.PlacementType)
+            {
+                case PlacementType.Facility:
+                    var facil = CurrentTile.Original as Facility;
+                    if (facil.EventType == Facility.FacilityEventType.NPC_Interaction)
+                    {
+                        view.ViewDetail($"{facil.InteractionOfTimes}/{facil.Data.interactionOfTimes}".SetTextColorTag(Define.TextColor.LightYellow));
+                    }
+                    break;
+
+                case PlacementType.Monster:
+                    var monster = CurrentTile.Original as Monster;
+                    view.ViewDetail($"{monster.HP}/{monster.HP_Max}".SetTextColorTag(Define.TextColor.LightGreen));
+                    break;
+
+                case PlacementType.NPC:
+                    var npc = CurrentTile.Original as NPC;
+                    view.ViewDetail($"{npc.HP}/{npc.HP_MAX}".SetTextColorTag(Define.TextColor.npc_red));
+                    break;
+            }
         }
     }
     public void ChildExitEvent()
     {
         CurrentTile = null;
     }
+
 
 
 

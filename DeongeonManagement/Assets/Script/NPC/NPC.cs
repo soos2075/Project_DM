@@ -506,6 +506,12 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         inDungeon = false;
         transform.position = Main.Instance.Dungeon.position;
         GameManager.Placement.Visible(this);
+
+        if (Cor_Move != null)
+        {
+            StopCoroutine(Cor_Move);
+        }
+
         StartCoroutine(MoveToHome(Main.Instance.Guild.position));
         Anim_State = animState.left;
     }
@@ -683,7 +689,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         if (FloorLevel == Main.Instance.ActiveFloor_Basement)
         {
             FloorLevel--;
-            Debug.Log($"{name}(이)가 {FloorLevel}층에서 더이상 올라갈 수 없음");
+            //Debug.Log($"{name}(이)가 {FloorLevel}층에서 더이상 올라갈 수 없음");
             State = NPCState.Return_Empty;
             isReturn = true;
             return;
@@ -826,7 +832,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     protected abstract void NPC_Return_Empty();
     protected abstract void NPC_Return_Satisfaction();
 
-    public int KillGold { get; set; }
+    public virtual int KillGold { get; set; }
     protected abstract void NPC_Die();
     protected abstract void NPC_Captive();
 
@@ -1122,8 +1128,12 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
     public IEnumerator Encounter_ByMonster(Monster monster)
     {
-        StopCoroutine(Cor_Move);
+        if (Cor_Move != null)
+        {
+            StopCoroutine(Cor_Move);
+        }
         Cor_Move = null;
+
         //State = NPCState.Battle;
 
         //Debug.Log("배틀 시작");

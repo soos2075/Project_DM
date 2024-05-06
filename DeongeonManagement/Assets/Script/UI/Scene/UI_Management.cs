@@ -207,6 +207,11 @@ public class UI_Management : UI_Base
     }
 
 
+    public void EventBoxClose()
+    {
+        eventBox.BoxActive(false);
+    }
+
 
     void DayStart()
     {

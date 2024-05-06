@@ -476,11 +476,25 @@ public class DataManager
     }
     void LoadGuildData(SaveData loadData)
     {
-        EventManager.Instance.Reset_Singleton();
+        //EventManager.Instance.Reset_Singleton();
 
         EventManager.Instance.CurrentTurn = loadData.turn;
-        EventManager.Instance.CurrentGuildData = loadData.guildNPCList;
-        EventManager.Instance.GuildQuestAdd = loadData.guildQuestList;
+
+        EventManager.Instance.CurrentGuildData = new List<GuildNPC_Data>();
+        if (loadData.guildNPCList != null)
+        {
+            EventManager.Instance.CurrentGuildData.AddRange(loadData.guildNPCList);
+            //EventManager.Instance.CurrentGuildData = loadData.guildNPCList;
+        }
+
+
+        EventManager.Instance.GuildQuestAdd = new List<int>();
+        if (loadData.guildQuestList != null)
+        {
+            EventManager.Instance.GuildQuestAdd.AddRange(loadData.guildQuestList);
+            //EventManager.Instance.GuildQuestAdd = loadData.guildQuestList;
+        }
+
         EventManager.Instance.Load_QuestEvent(loadData.currentQuestList);
     }
 

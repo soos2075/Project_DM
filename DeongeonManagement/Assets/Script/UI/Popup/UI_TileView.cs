@@ -29,11 +29,12 @@ public class UI_TileView : UI_PopUp, IWorldSpaceUI
         Panel,
         Name,
         Contents,
+        Detail,
     }
 
     TextMeshProUGUI text_Name;
     TextMeshProUGUI text_Contents;
-
+    TextMeshProUGUI text_Detail;
 
 
     public override void Init()
@@ -42,6 +43,9 @@ public class UI_TileView : UI_PopUp, IWorldSpaceUI
 
         text_Name = GetObject((int)Contents.Name).GetComponent<TextMeshProUGUI>();
         text_Contents = GetObject((int)Contents.Contents).GetComponent<TextMeshProUGUI>();
+        text_Detail = GetObject((int)Contents.Detail).GetComponent<TextMeshProUGUI>();
+
+        text_Detail.text = "";
     }
 
 
@@ -52,5 +56,10 @@ public class UI_TileView : UI_PopUp, IWorldSpaceUI
         text_Contents.text = contents;
     }
 
+
+    public void ViewDetail(string addContents)
+    {
+        text_Detail.text = addContents;
+    }
 
 }

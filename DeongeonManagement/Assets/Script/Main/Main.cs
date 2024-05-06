@@ -752,7 +752,7 @@ public class Main : MonoBehaviour
     public int Prisoner { get; set; }
 
 
-    public List<DayResult> DayList { get; private set; } = new List<DayResult>();
+    public List<DayResult> DayList { get; set; } = new List<DayResult>();
 
     public DayResult CurrentDay { get; set; }
 
@@ -1257,6 +1257,22 @@ public class Main : MonoBehaviour
         {
             item.Departure(item.transform.position, Dungeon.position);
         }
+
+        yield return new WaitForSeconds(10);
+
+        cap_C.Departure(cap_C.transform.position, Dungeon.position);
+        foreach (var item in sol3)
+        {
+            item.Departure(item.transform.position, Dungeon.position);
+        }
+
+        yield return new WaitForSeconds(8);
+
+        foreach (var item in bloodSong)
+        {
+            item.Departure(item.transform.position, Dungeon.position);
+        }
+
     }
 
 
@@ -1345,6 +1361,7 @@ public class Main : MonoBehaviour
 
 
         StartCoroutine(AutoSave());
+        UI_Main.EventBoxClose();
     }
 
 

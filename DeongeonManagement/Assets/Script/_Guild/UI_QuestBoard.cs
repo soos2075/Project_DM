@@ -63,6 +63,8 @@ public class UI_QuestBoard : UI_PopUp, IDialogue
 
 
         Managers.UI.ClosePopupPick(this);
+        Managers.Dialogue.currentDialogue = null;
+        UserData.Instance.GameMode = Define.GameMode.Normal;
     }
 
 
@@ -105,6 +107,8 @@ public class UI_QuestBoard : UI_PopUp, IDialogue
     {
         Managers.UI.ClosePopUp(optionBox);
         optionBox = null;
+        Managers.Dialogue.currentDialogue = null;
+        UserData.Instance.GameMode = Define.GameMode.Normal;
     }
 
 

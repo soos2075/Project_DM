@@ -5,9 +5,86 @@ using UnityEngine;
 public class EventNPC : NPC
 {
     public override List<BasementTile> PriorityList { get; set; }
-    protected override Define.TileType[] AvoidTileType { get; set; } = new Define.TileType[] { Define.TileType.NPC, Define.TileType.Facility };
+    protected override Define.TileType[] AvoidTileType { get { return AvoidTile(); } set { } }
 
-    public override int RunawayHpRatio { get; set; } = 999;
+    Define.TileType[] AvoidTile()
+    {
+        switch (State)
+        {
+            case NPCState.Runaway:
+            case NPCState.Return_Empty:
+            case NPCState.Return_Satisfaction:
+            case NPCState.Die:
+                return new Define.TileType[] { Define.TileType.Facility, Define.TileType.Monster };
+
+            default:
+                return new Define.TileType[] { Define.TileType.NPC };
+        }
+    }
+
+
+    public override int RunawayHpRatio { get { return RunawayRatio(); } set { } }
+
+    int RunawayRatio()
+    {
+        switch (EventDay)
+        {
+            case EventNPCType.Event_Day3:
+            case EventNPCType.Event_Day8:
+            case EventNPCType.Event_Day15:
+            case EventNPCType.Captine_A:
+            case EventNPCType.Captine_B:
+            case EventNPCType.Captine_C:
+                return 999;
+
+            case EventNPCType.A_Warrior:
+            case EventNPCType.B_Warrior:
+            case EventNPCType.A_Tanker:
+            case EventNPCType.B_Tanker:
+            case EventNPCType.A_Wizard:
+            case EventNPCType.B_Wizard:
+            case EventNPCType.A_Elf:
+            case EventNPCType.B_Elf:
+                return 2;
+
+            default:
+                return 4;
+        }
+    }
+
+    public override int KillGold { get { return SetKillGold(); } set { } }
+
+    int SetKillGold()
+    {
+        switch (EventDay)
+        {
+            case EventNPCType.Event_Day3:
+                return 50;
+            case EventNPCType.Event_Day8:
+                return 200;
+            case EventNPCType.Event_Day15:
+                return 500;
+            case EventNPCType.Captine_A:
+            case EventNPCType.Captine_B:
+            case EventNPCType.Captine_C:
+                return 500;
+
+            case EventNPCType.A_Warrior:
+            case EventNPCType.B_Warrior:
+            case EventNPCType.A_Tanker:
+            case EventNPCType.B_Tanker:
+            case EventNPCType.A_Wizard:
+            case EventNPCType.B_Wizard:
+            case EventNPCType.A_Elf:
+            case EventNPCType.B_Elf:
+                return Random.Range(500, 1000);
+
+            default:
+                return 100;
+        }
+    }
+
+
 
     public override void Departure(Vector3 startPoint, Vector3 endPoint)
     {
@@ -188,6 +265,10 @@ public class EventNPC : NPC
             var list1 = GetFloorObjectsAll(Define.TileType.Monster);
             AddList(list1);
         }
+        //{
+        //    var treasure = GetPriorityPick(typeof(Treasure));
+        //    AddList(treasure);
+        //}
 
 
         switch (EventDay)
@@ -204,7 +285,11 @@ public class EventNPC : NPC
                 }
                 {
                     var add_secret = GetPriorityPick(typeof(Entrance_Egg));
-                    AddList(add_secret);
+                    AddList(add_secret, AddPos.Back);
+                }
+                {
+                    var treasure = GetPriorityPick(typeof(Treasure));
+                    AddList(treasure, AddPos.Front);
                 }
                 break;
 
@@ -218,7 +303,11 @@ public class EventNPC : NPC
                 }
                 {
                     var add_secret = GetPriorityPick(typeof(Entrance_Egg));
-                    AddList(add_secret);
+                    AddList(add_secret, AddPos.Back);
+                }
+                {
+                    var treasure = GetPriorityPick(typeof(Treasure));
+                    AddList(treasure, AddPos.Front);
                 }
                 break;
 
@@ -230,7 +319,11 @@ public class EventNPC : NPC
                 }
                 {
                     var add_secret = GetPriorityPick(typeof(Entrance_Egg));
-                    AddList(add_secret);
+                    AddList(add_secret, AddPos.Back);
+                }
+                {
+                    var treasure = GetPriorityPick(typeof(Treasure));
+                    AddList(treasure, AddPos.Front);
                 }
                 break;
 
@@ -242,7 +335,11 @@ public class EventNPC : NPC
                 }
                 {
                     var add_secret = GetPriorityPick(typeof(Entrance_Egg));
-                    AddList(add_secret);
+                    AddList(add_secret, AddPos.Back);
+                }
+                {
+                    var mineral = GetPriorityPick(typeof(Mineral));
+                    AddList(mineral, AddPos.Front);
                 }
                 break;
 
@@ -256,12 +353,24 @@ public class EventNPC : NPC
                     var add_secret = GetPriorityPick(typeof(Entrance_Egg));
                     AddList(add_secret);
                 }
+                {
+                    var herb = GetPriorityPick(typeof(Herb));
+                    AddList(herb, AddPos.Front);
+                }
                 break;
 
 
             case EventNPCType.Event_Soldier1:
             case EventNPCType.Event_Soldier2:
             case EventNPCType.Event_Soldier3:
+                {
+                    var herb = GetPriorityPick(typeof(Herb));
+                    AddList(herb, AddPos.Front);
+                }
+                {
+                    var mineral = GetPriorityPick(typeof(Mineral));
+                    AddList(mineral, AddPos.Front);
+                }
                 break;
 
             default:
@@ -269,32 +378,6 @@ public class EventNPC : NPC
         }
     }
 
-
-    protected override void Start_Setting()
-    {
-        OverrideAvoidType();
-    }
-
-
-    void OverrideAvoidType()
-    {
-        switch (EventDay)
-        {
-            case EventNPCType.Event_Day3:
-            case EventNPCType.Event_Day8:
-            case EventNPCType.Event_Day15:
-            case EventNPCType.Captine_A:
-            case EventNPCType.Captine_B:
-            case EventNPCType.Captine_C:
-                AvoidTileType = new Define.TileType[] { Define.TileType.NPC, Define.TileType.Facility };
-                break;
-
-
-            default:
-                AvoidTileType = new Define.TileType[] { Define.TileType.NPC };
-                break;
-        }
-    }
 
 
 
@@ -330,33 +413,37 @@ public class EventNPC : NPC
                 break;
 
 
-
             case EventNPCType.A_Warrior:
-                break;
-
+            case EventNPCType.B_Warrior:
             case EventNPCType.A_Tanker:
-                break;
-
+            case EventNPCType.B_Tanker:
             case EventNPCType.A_Wizard:
-                break;
-
+            case EventNPCType.B_Wizard:
             case EventNPCType.A_Elf:
+            case EventNPCType.B_Elf:
+                Main.Instance.CurrentDay.AddDanger(10);
+                Main.Instance.CurrentDay.AddPop(50);
                 break;
-
 
 
             case EventNPCType.Captine_A:
+            case EventNPCType.Captine_B:
+            case EventNPCType.Captine_C:
+                Main.Instance.CurrentDay.AddDanger(50);
+                Main.Instance.CurrentDay.AddPop(10);
                 break;
+
 
             case EventNPCType.Event_Soldier1:
-                break;
-
             case EventNPCType.Event_Soldier2:
+            case EventNPCType.Event_Soldier3:
+                Main.Instance.CurrentDay.AddDanger(20);
+                Main.Instance.CurrentDay.AddPop(10);
                 break;
         }
 
-        Debug.Log(EventDay + "eventDay");
-        Debug.Log(Main.Instance.Turn + "Turn");
+        //Debug.Log(EventDay + "eventDay");
+        //Debug.Log(Main.Instance.Turn + "Turn");
         Main.Instance.CurrentDay.AddKill(1);
         Main.Instance.CurrentDay.AddGold(KillGold);
         GameManager.NPC.InactiveNPC(this);

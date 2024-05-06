@@ -99,7 +99,7 @@ public class OpeningDirector : MonoBehaviour
 
     readonly Vector3 Scene_2_Cam_Pos = new Vector3(-19, 0, -10);
     readonly int Scene_2_PPU = 16;
-    readonly Vector3 Scene_2_Player_Pos = new Vector3(-11.5f, -0.5f, 0);
+    readonly Vector3 Scene_2_Player_Pos = new Vector3(-11.5f, -1f, 0);
 
     void StartScene_2()
     {
@@ -137,7 +137,7 @@ public class OpeningDirector : MonoBehaviour
         playerAnim.Play(Define.ANIM_Running);
         player.transform.localScale = new Vector3(-1, 1, 1);
 
-        while (timer < 5.0f)
+        while (timer < 4.5f)
         {
             yield return null;
             timer += Time.unscaledDeltaTime;

@@ -77,7 +77,7 @@ public class BattleManager : MonoBehaviour
     void SetFieldColor(BattleField field, LineRenderer line, Monster monster, NPC npc)
     {
         var floor = monster.PlacementInfo.Place_Floor.FloorIndex;
-        Debug.Log(floor + "@@");
+        //Debug.Log(floor + "@@");
         switch (floor)
         {
             case 0:
@@ -203,7 +203,7 @@ public class BattleManager : MonoBehaviour
                 if (minY < _field.y && _field.y < maxY)
                 {
                     // À§Ä¡°¡ °ãÄ§(x,y °¡ 1by1¾È¿¡ ¾È¿¡ µé¾î¿È)
-                    Debug.Log(_field + "@@@°ãÄ§");
+                    //Debug.Log(_field + "@@@°ãÄ§");
 
                     return false;
                 }

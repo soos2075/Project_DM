@@ -4,10 +4,47 @@ using UnityEngine;
 
 public class DemoManager : MonoBehaviour
 {
+    #region Singleton
+    private static DemoManager _instance;
+    public static DemoManager Instance { get { Initialize(); return _instance; } }
+
+    private static void Initialize()
+    {
+        if (_instance == null)
+        {
+            _instance = FindObjectOfType<DemoManager>();
+            if (_instance == null)
+            {
+                GameObject go = new GameObject { name = "@DemoManager" };
+                _instance = go.AddComponent<DemoManager>();
+            }
+            DontDestroyOnLoad(_instance);
+        }
+    }
+
+
+    private void Awake()
+    {
+        Initialize();
+        if (_instance != null)
+        {
+            if (_instance != this)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
+    #endregion
+
+
+
 
     public bool isDemoVersion;
 
     public bool isEndingTest;
+
+
+    public bool isManagementTest;
 
 
     void Start()
@@ -64,5 +101,58 @@ public class DemoManager : MonoBehaviour
 
         UserData.Instance.EndingState = Endings.Dog;
         Managers.Scene.LoadSceneAsync(SceneName._7_NewEnding, false);
+    }
+
+
+
+    private void Update()
+    {
+        SetManagementValue();
+    }
+
+
+    public GameObject UI_Cheat;
+
+    public bool ui_Off;
+
+    Canvas[] current_Canvas;
+
+    void SetManagementValue()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (UI_Cheat.activeInHierarchy)
+            {
+                UI_Cheat.SetActive(false);
+            }
+            else
+            {
+                UI_Cheat.SetActive(true);
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            if (ui_Off)
+            {
+                ui_Off = false;
+                if (current_Canvas == null) return;
+
+
+                foreach (var item in current_Canvas)
+                {
+                    item.enabled = true;
+                }
+            }
+            else
+            {
+                ui_Off = true;
+                current_Canvas = GameObject.FindObjectsOfType<Canvas>();
+                foreach (var item in current_Canvas)
+                {
+                    item.enabled = false;
+                }
+            }
+        }
     }
 }
