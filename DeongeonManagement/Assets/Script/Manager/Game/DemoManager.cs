@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DemoManager : MonoBehaviour
 {
+    #if CHEAT_BUILD
+
     #region Singleton
     private static DemoManager _instance;
     public static DemoManager Instance { get { Initialize(); return _instance; } }
@@ -34,8 +36,9 @@ public class DemoManager : MonoBehaviour
             }
         }
     }
-    #endregion
+#endregion
 
+#endif
 
 
 
@@ -103,8 +106,7 @@ public class DemoManager : MonoBehaviour
         Managers.Scene.LoadSceneAsync(SceneName._7_NewEnding, false);
     }
 
-
-
+#if CHEAT_BUILD
     private void Update()
     {
         SetManagementValue();
@@ -155,4 +157,5 @@ public class DemoManager : MonoBehaviour
             }
         }
     }
+#endif
 }

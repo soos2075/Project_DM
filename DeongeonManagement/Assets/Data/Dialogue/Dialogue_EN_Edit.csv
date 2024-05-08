@@ -2,8 +2,8 @@ EN,\' = '\n',"-' = ','",,,,,,
 ,ID,keyName,"Type(Bubble,Quest)",dialogueName,,index,optionString,mainText
 0~499 Day Event,,,,,,,,
 500~999 Story,,,,,,,,
-1000~1999 퀘스트보드,,,,,,,,
-2000~9999 NPC이벤트,,,,,,,,
+1000~1999 questBoard,,,,,,,,
+2000~9999 NPC event,,,,,,,,
 ,,,,,,,,
 ,,,,,,,,
 ,501,Opening_1,Bubble,,,0,,……………
@@ -34,7 +34,7 @@ EN,\' = '\n',"-' = ','",,,,,,
 ,,,,,,2,,For you- a once in a lifetime opportunity!!
 ,,,,,,3,,If you raise the Dungeon's rank by 5 levels- no less than!!
 ,,,,,,4,,The ownership of this Dungeon will be granted to you!!\An absolute 'once in a lifetime' chance!!
-,,,,,,5,,Will you accept the contract??\<size=10>※Refusal leads to forced contract
+,,,,,,5,,Will you accept the contract??\ <size=10>※Refusal leads to forced contract
 ,,,,,,6,@Target::Player::Target,...What is this scam- like description?
 ,,,,,,7,,A master in a Novice Dungeon that anyone can clear?
 ,,,,,,8,,And since when do Dungeons have ownership?
@@ -229,3 +229,96 @@ EN,\' = '\n',"-' = ','",,,,,,
 ,,,,,,,,
 ,9001,Hunter_EarthGolem,Bubble,,,0,@Camera::Hunter_EarthGolem::Camera,Is this it? The place where an \Earth Golem was reportedly sighted.
 ,,,,,,1,,They say the price is calling... \I should find it first and get my share.
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+,200,Day20_Event,Bubble,,,0, @Camera::A_Warrior::Camera,We've arrived. This is the quest location.
+,,,,,,1, @Target::A_Elf::Target,What? Really?\This boring and uninteresting dungeon?
+,,,,,,2, @Target::A_Warrior::Target,The location seems to be right- but...\It's a dungeon called the [Novice Dungeon].
+,,,,,,3, @Target::A_Elf::Target,What's a dungeon called the [Novice Dungeon]?\It's just the Novice Dungeon itself!
+,,,,,,4, @Target::A_Wizard::Target,Hmm. From what I know- it was supposed to be an insignificant dungeon-
+,,,,,,5,,But for a high-grade quest to come from such a place is quite interesting.
+,,,,,,6, @Target::A_Tanker::Target,The quest involves an overall investigation of the dungeon and a reassessment of its danger level.
+,,,,,,7,,Since we don't know much- we need to be careful.
+,,,,,,8, @Target::A_Elf::Target,You be careful! You can just take the hits in the front!
+,,,,,,9, @Target::A_Tanker::Target,........
+,,,,,,10, @Target::A_Warrior::Target,Calm down.
+,,,,,,11,,The guild wouldn't have just posted a high-grade quest.\There must be something.
+,,,,,,12, @Target::A_Wizard::Target,I think so too.\Something seems like it's going to happen.
+,,,,,,13, @Target::A_Elf::Target,...Well- it's not like I didn't want to go in because it was boring!...
+,,,,,,14,,Let's just go in! Let's go!
+,,,,,,15, @Target::A_Warrior::Target,Right. Everyone be prepared.
+,,,,,,16,,We're going in!
+,,,,,,,,
+,,,,,,,,
+,201,Day20_Over,Bubble,,,0, @Camera::Player::Camera,Dangerous.\They must have been the famous four-man party from the guild.
+,,,,,,1,,Did the guild issue this quest?
+,,,,,,2,,To have taken them down- there's bound to be a huge uproar.
+,,,,,,3,,There's not much time left in the contract period-\so we need to be fully prepared for whatever may happen before then.
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+,250,Day25_Event,Bubble,,,0,  @Camera::Captine_A::Camera,Everyone- attention! \We will now commence the dungeon investigation and subjugation operation.
+,,,,,,1,,Actions will be carried out by squad units.
+,,,,,,2,,The first squad will enter with me first-\and the next squad will follow after.
+,,,,,,3,,All monsters encountered are targets for subjugation-\report any treasures or artifacts found.
+,,,,,,4, @Target::Event_Soldier1::Target, <size=50>Yes!
+,,,,,,5, @Target::Captine_B::Target,Did everyone hear that? \We'll wait for the front squad to enter- then enter after.
+,,,,,,6,,Everyone- inspect and wait.
+,,,,,,7, @Target::Event_Soldier2::Target, <size=50>Yes!
+,,,,,,8, @Target::Captine_A::Target,Then- enter!
+,,,,,,,,
+,,,,,,,,
+,300,Day30_Event,Bubble,,,0,  @Camera::Captine_C::Camera,Form up!
+,,,,,,1,,Following the failure of the last subjugation-\the guild suffered an unprecedented great loss.
+,,,,,,2,,To make up for that- this subjugation force was reassembled.
+,,,,,,3,,That is to say- failure will absolutely not\be tolerated this time.
+,,,,,,4,,Everyone- put in your full effort to thoroughly investigate\every monster- every blade of grass in the dungeon.
+,,,,,,5,,Report immediately if any strange locations or dangerous beings are found.
+,,,,,,6, @Camera::Captine_A::Camera@Target::Captine_A::Target, <size=50>Yes!
+,,,,,,7, @Camera::Captine_B::Camera@Target::Captine_B::Target, <size=50>Yes!
+,,,,,,8, @Camera::B_Warrior::Camera@Target::B_Warrior::Target,........
+,,,,,,9, @Target::B_Elf::Target,Heh- you think you can subjugate this dungeon by doing that?
+,,,,,,10,,Not a chance?
+,,,,,,11, @Target::B_Warrior::Target,You've become much more humble than last time.\You didn't have to come if you were scared.
+,,,,,,12, @Target::B_Elf::Target,I'm not scared!\It's just more dangerous than I thought- that's all.
+,,,,,,13,,And the guild said I absolutely have to come as a reference-\that there'll be disadvantages if I don't- so what can I do! I have to come.
+,,,,,,14, @Target::B_Warrior::Target,Well- if it comes to that I can just go to a different guild...
+,,,,,,15,,How about the rest of you?
+,,,,,,16, @Target::B_Wizard::Target,I want revenge for last time.
+,,,,,,17,,There may also be even more interesting things hidden here.
+,,,,,,18, @Target::B_Tanker::Target,I'll keep a close watch on the party this time.
+,,,,,,19, @Target::B_Elf::Target,Sheesh- you're all just idiots itching for a fight.
+,,,,,,20,,Right- let's go- go.
+,,,,,,21,,But this time the guild swordmen will take the lead-\so let's just take what we can from behind.
+,,,,,,22,,We'll run away right away if it gets dangerous!
+,,,,,,23, @Target::B_Warrior::Target,Okay.\Everyone knows the danger of this dungeon-\so let's go carefully.
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+,700,Ending_Common,Bubble,,,0,,Finally- the 30 day contract period has passed.
+,,,,,,1,,A large flow of mana occurred in the dungeon and began gathering into the egg in the room.
+,,,,,,2,,Soon- the egg started shaking and something awoke from it...
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+,711,Dog_1,Bubble,,,0,,What awoke from the egg was a life form that somehow felt familiar.
+,,,,,,1,,It explained that it was a being born from the dungeon's mana.
+,,,,,,2,,It said it would help me from now on.
+,,,,,,,,
+,712,Dog_2,Bubble,,,0,,30 days have passed and the contract has ended- but the original contract terms were not fulfilled.
+,,,,,,1,,However- the soul retrieval written on the signboard did not occur.
+,,,,,,2,,Could it be that there was no contract or anything from the beginning?
+,,,,,,,,
+,713,Dog_3,Bubble,,,0,,But it was true that I was able to manage the dungeon for those 30 days.
+,,,,,,1,,I lost the ability to manage the dungeon- and the dungeon returned to being a normal dungeon.
+,,,,,,2,,As time passed- it gradually became an ordinary Novice Dungeon again-\and when there were almost no more visitors- I too left the dungeon.
+,,,,,,,,
+,714,Dog_4,Bubble,,,0,,But I'm not lonely. Because I'm no longer alone like before.
+,,,,,,1,,By my side now is my closest friend- my companion- my trustworthy colleague.
+,,,,,,2,,Today too- I take a step towards the adventure I've dreamed of. Forever and ever...

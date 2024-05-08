@@ -82,7 +82,7 @@ public class SoundManager : MonoBehaviour
         AudioSources[(int)Define.AudioType.BGM].volume = UserData.Instance.GetDataFloat(PrefsKey.Volume_BGM, 0.7f);
         AudioSources[(int)Define.AudioType.Effect].volume = UserData.Instance.GetDataFloat(PrefsKey.Volume_Effect, 0.7f);
 
-        PlaySound("BGM/StartScene", Define.AudioType.BGM);
+        PlaySound("BGM/_Title_Arcade", Define.AudioType.BGM);
     }
 
     float timeCount;

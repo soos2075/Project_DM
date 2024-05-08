@@ -12,7 +12,7 @@ public class Treasure : Facility
 
         if (isInit)
         {
-            CategorySelect(Data.spritePath);
+            CategorySelect(Data.SLA_label);
         }
         else
         {
@@ -23,6 +23,7 @@ public class Treasure : Facility
     public void First_Instantiate()
     {
         var SLA = GetComponentInChildren<SpriteLibrary>().spriteLibraryAsset;
+
         var labels = SLA.GetCategoryLabelNames(treasureType.ToString());
         List<string> labelString = new List<string>();
         foreach (var item in labels)
@@ -36,7 +37,34 @@ public class Treasure : Facility
         SetData();
         isInit = true;
 
-        CategorySelect(dataKeyName);
+
+        //switch (treasureType)
+        //{
+        //    case TreasureCategory.Swords:
+        //        break;
+
+        //    case TreasureCategory.Rings:
+        //        break;
+
+        //    case TreasureCategory.Hats:
+        //        break;
+
+        //    case TreasureCategory.Scrolls:
+        //        break;
+
+        //    case TreasureCategory.Artifacts:
+        //        break;
+
+        //    case TreasureCategory.Crowns:
+        //        break;
+
+        //    case TreasureCategory.Chests:
+        //        break;
+        //}
+
+
+
+        CategorySelect(Data.SLA_label);
     }
 
 
@@ -48,6 +76,7 @@ public class Treasure : Facility
         Scrolls = 2230,
         Artifacts = 2240,
         Crowns = 2250,
+        Chests = 2260,
     }
     public TreasureCategory treasureType;
 

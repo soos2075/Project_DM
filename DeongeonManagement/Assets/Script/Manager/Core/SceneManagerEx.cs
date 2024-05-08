@@ -80,19 +80,19 @@ public class SceneManagerEx
         switch (_scene)
         {
             case SceneName._1_Start:
-                SoundManager.Instance.PlaySound("BGM/StartScene", Define.AudioType.BGM);
+                SoundManager.Instance.PlaySound("BGM/_Title_Arcade", Define.AudioType.BGM);
                 break;
 
             case SceneName._2_Management:
-                SoundManager.Instance.PlaySound("BGM/MainThema", Define.AudioType.BGM);
+                SoundManager.Instance.PlaySound("BGM/_Main_GameCenter", Define.AudioType.BGM);
                 break;
 
             case SceneName._3_Guild:
-                SoundManager.Instance.PlaySound("BGM/Guild", Define.AudioType.BGM);
+                SoundManager.Instance.PlaySound("BGM/_Guild_TimeLeft", Define.AudioType.BGM);
                 break;
 
             case SceneName._6_NewOpening:
-                SoundManager.Instance.PlaySound("BGM/NewOpening", Define.AudioType.BGM);
+                SoundManager.Instance.PlaySound("BGM/_Openning_Grassland", Define.AudioType.BGM);
                 break;
 
             case SceneName._5_Ending:
@@ -100,7 +100,7 @@ public class SceneManagerEx
                 break;
 
             case SceneName._7_NewEnding:
-                SoundManager.Instance.StopMusic();
+                SoundManager.Instance.PlaySound("BGM/_Ending_LazyMidnight", Define.AudioType.BGM);
                 break;
 
             default:

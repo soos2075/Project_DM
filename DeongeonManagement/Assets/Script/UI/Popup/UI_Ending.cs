@@ -118,7 +118,7 @@ public class UI_Ending : UI_PopUp
         yield return new WaitForSeconds(2);
         yield return StartCoroutine(TextFadeOut(clear, 1));
 
-        clear.text = "Made by LazyCnD & yupi";
+        clear.text = "Made by LazyCnD & Special thanks to yupi";
         yield return StartCoroutine(TextFadeIn(clear, 1));
         yield return new WaitForSeconds(2);
         yield return StartCoroutine(TextFadeOut(clear, 1));
