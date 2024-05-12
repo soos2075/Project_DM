@@ -256,6 +256,11 @@ public class DataManager
 
     Dictionary<string, SaveData> SaveFileList = new Dictionary<string, SaveData>();
 
+    public int SaveFileCount()
+    {
+        return SaveFileList.Count;
+    }
+
     public void DeleteSaveFileAll()
     {
         foreach (var savefile in SaveFileList)
@@ -295,6 +300,8 @@ public class DataManager
 
         SaveFileList.Add(fileKey, newData);
         SaveToStorage(newData, fileKey);
+
+        UserData.Instance.SavePlayTime();
     }
 
 
@@ -311,6 +318,7 @@ public class DataManager
             LoadFileApply(data);
             LoadGuildData(data);
             Debug.Log($"Load Success : {fileKey}");
+            UserData.Instance.SetData(PrefsKey.LoadTimes, UserData.Instance.GetDataInt(PrefsKey.LoadTimes) + 1);
         }
         else
         {
@@ -421,10 +429,14 @@ public class DataManager
         }
 
         //saveData.savefileConfig = UserData.Instance.FileConfig;
+        UserData.Instance.FileConfig.PlayTimeApply();
         saveData.savefileConfig = UserData.Instance.FileConfig.Clone();
 
         saveData.isClear = UserData.Instance.isClear;
         saveData.endgins = UserData.Instance.EndingState;
+
+        int highTurn = Mathf.Max(saveData.turn, UserData.Instance.GetDataInt(PrefsKey.High_Turn, 0));
+        UserData.Instance.SetData(PrefsKey.High_Turn, highTurn);
 
         return saveData;
     }
@@ -467,6 +479,7 @@ public class DataManager
     void LoadFileApply(SaveData loadData)
     {
         UserData.Instance.FileConfig = loadData.savefileConfig.Clone();
+        UserData.Instance.FileConfig.Init_CurrentPlayTime();
 
         Main.Instance.SetLoadData(loadData);
 
@@ -476,23 +489,20 @@ public class DataManager
     }
     void LoadGuildData(SaveData loadData)
     {
-        //EventManager.Instance.Reset_Singleton();
+        EventManager.Instance.QuestDataReset();
+
 
         EventManager.Instance.CurrentTurn = loadData.turn;
 
-        EventManager.Instance.CurrentGuildData = new List<GuildNPC_Data>();
+        //EventManager.Instance.CurrentGuildData = new List<GuildNPC_Data>();
         if (loadData.guildNPCList != null)
         {
             EventManager.Instance.CurrentGuildData.AddRange(loadData.guildNPCList);
-            //EventManager.Instance.CurrentGuildData = loadData.guildNPCList;
         }
-
-
-        EventManager.Instance.GuildQuestAdd = new List<int>();
+        //EventManager.Instance.GuildQuestAdd = new List<int>();
         if (loadData.guildQuestList != null)
         {
             EventManager.Instance.GuildQuestAdd.AddRange(loadData.guildQuestList);
-            //EventManager.Instance.GuildQuestAdd = loadData.guildQuestList;
         }
 
         EventManager.Instance.Load_QuestEvent(loadData.currentQuestList);
@@ -539,7 +549,7 @@ public class DataManager
         if (SaveFileSearch("ClearData"))
         {
             var _fileData = FileOperation(FileMode.Open, $"{Application.persistentDataPath}/Savefile/ClearData.json");
-            var loadData = JsonConvert.DeserializeObject<CollectionManager.MultiplayData>(_fileData);
+            var loadData = JsonConvert.DeserializeObject<CollectionManager.RoundData>(_fileData);
             CollectionManager.Instance.LoadMultiData(loadData);
             return true;
         }

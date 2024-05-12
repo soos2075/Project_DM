@@ -22,7 +22,7 @@ public class Entrance_Egg : Facility
     }
 
 
-    IEnumerator Portal(NPC npc) //? 지하층으로 내려가는 입구에 도착했을 때 호출
+    IEnumerator Portal(NPC npc)
     {
         yield return new WaitForSeconds(npc.ActionDelay);
 

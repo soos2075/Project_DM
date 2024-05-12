@@ -223,6 +223,7 @@ public class PlacementManager
 public class PlacementInfo
 {
     public BasementFloor Place_Floor { get; set; }
+    [field: SerializeField]
     public BasementTile Place_Tile { get; set; }
 
 

@@ -15,9 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/_3_Guild.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/_5_Ending.unity
-    guid: bd0a13406e567314d9bf8201a20ed0b1
-  - enabled: 1
     path: Assets/Scenes/_6_NewOpening.unity
     guid: ea61110a9bfcd4449b3dd533b6b30f5d
   - enabled: 1

@@ -361,12 +361,12 @@ public class UserData : MonoBehaviour
         yield return new WaitUntil(() => SelectedMonster != null);
 
         //Debug.Break();
-        var ClearSaveData = new CollectionManager.MultiplayData();
+        var ClearSaveData = new CollectionManager.RoundData();
         ClearSaveData.Init_Count(UserData.Instance.GetDataInt(PrefsKey.ClearTimes, 0) + 1);
         ClearSaveData.Init_Bonus("SuperBonus");
         ClearSaveData.Init_Monster(SelectedMonster);
 
-        CollectionManager.Instance.PlayData = ClearSaveData;
+        CollectionManager.Instance.RoundClearData = ClearSaveData;
 
         Managers.Data.SaveClearData();
 
@@ -375,11 +375,33 @@ public class UserData : MonoBehaviour
         Managers.Scene.LoadSceneAsync(SceneName._1_Start);
     }
 
+
+
+
+
     #endregion
 
 
 
-    
+    #region PlayTime Managed
+
+    float currentTime;
+    public void SavePlayTime()
+    {
+        var saveTime = GetDataFloat(PrefsKey.PlayTime) + (Time.unscaledTime - currentTime);
+        //Debug.Log($"누적 플레이 시간 : {GetDataFloat(PrefsKey.PlayTime)} + {Time.unscaledTime - currentTime}");
+        SetData(PrefsKey.PlayTime, saveTime);
+        currentTime = Time.unscaledTime;
+    }
+
+    private void OnApplicationQuit()
+    {
+        //? 종료전에 저장할 거 있으면 여기서 하면 됨. 코루틴을 돌려도 되긴하는데 안하는게 나은듯. 그냥 윈도우 세팅같은거나 볼륨같은거나 저장하자.
+        SavePlayTime();
+        Debug.Log($"정상적으로 OnApplicationQuit 가 호출됨");
+    }
+
+    #endregion
 
 
 
@@ -388,7 +410,13 @@ public class UserData : MonoBehaviour
     public class SavefileConfig
     {
         // 몇회차인지에 대한 정보
-        public int PlayTimes;
+        public int PlayRounds;
+
+        // 이번 회차의 플레이시간 - 누적
+        public float PlayTimes;
+
+        // 새시작 or 세이브파일을 로드했을 때의 시간 = Time.unscaledTime을 받음 - 저장할 때 가져온 현재시간에서 이 값을 빼기 위함
+        float PlayTime_Current;
 
         // 어떤 엔딩을 봤는지에 대한 정보(클리어 특전 = 조각상 인터렉션)
         public bool Statue_Dog;
@@ -410,7 +438,11 @@ public class UserData : MonoBehaviour
         {
             SavefileConfig newConfig = new SavefileConfig();
 
+            newConfig.PlayRounds = PlayRounds;
             newConfig.PlayTimes = PlayTimes;
+
+            newConfig.Statue_Dog = Statue_Dog;
+            newConfig.Statue_Dragon = Statue_Dragon;
 
             newConfig.firstAppear_Herbalist = firstAppear_Herbalist;
             newConfig.firstAppear_Miner = firstAppear_Miner;
@@ -424,6 +456,17 @@ public class UserData : MonoBehaviour
             return newConfig;
         }
 
+
+
+        public void PlayTimeApply()
+        {
+            PlayTimes += (Time.unscaledTime - PlayTime_Current);
+            PlayTime_Current = Time.unscaledTime;
+        }
+        public void Init_CurrentPlayTime()
+        {
+            PlayTime_Current = Time.unscaledTime;
+        }
     }
 
     public SavefileConfig FileConfig { get; set; }
@@ -479,10 +522,7 @@ public class UserData : MonoBehaviour
 
 
 
-    private void OnApplicationQuit()
-    {
-        //? 종료전에 저장할 거 있으면 여기서 하면 됨. 코루틴을 돌려도 되긴하는데 안하는게 나은듯. 그냥 윈도우 세팅같은거나 볼륨같은거나 저장하자.
-    }
+
 
 
 
@@ -515,13 +555,20 @@ public enum PrefsKey
     FirstClear,
 
     High_Scroe,
+
+    // 최대 진행한 턴(클리어라면 30, 줄어들지는 않음)
     High_Turn,
     //? 기타 랭크나 던전확장, 머니, 골드, 몬스터 등등 추가할만한건 많은데 어차피 업적관련이라 지금은 의미없음.
 
 
+    PlayTime,
     ClearTimes,
 
-    PlayTime,
+    NewGameTimes,
+    GameOverTimes,
+
+    SaveTimes,
+    LoadTimes,
 
 
     Clear_Dog,

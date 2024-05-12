@@ -55,13 +55,7 @@ public class UI_Floor_Tile : UI_Base
 
     void ActionReturnEvent()
     {
-        Main.Instance.CurrentBoundary = null;
-        Main.Instance.CurrentAction = null;
-        Main.Instance.CurrentTile = null;
-        Main.Instance.PurchaseAction = null;
-        Managers.UI.ClosePopupPick(GameObject.FindAnyObjectByType<UI_DungeonPlacement>());
-        Managers.UI.PauseOpen();
-        Time.timeScale = 0;
+        Main.Instance.ResetCurrentAction();
     }
 
 

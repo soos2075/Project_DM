@@ -220,6 +220,11 @@ public class Main : MonoBehaviour
             return;
         }
 
+        UserData.Instance.SetData(PrefsKey.NewGameTimes, UserData.Instance.GetDataInt(PrefsKey.NewGameTimes) + 1);
+        UserData.Instance.NewGameConfig();
+        EventManager.Instance.QuestDataReset();
+
+
         ActiveFloor_Basement = 4;
         ActiveFloor_Technical = 0;
         DungeonRank = 1;
@@ -248,12 +253,12 @@ public class Main : MonoBehaviour
 
     void NewGame_GetClearBonus()
     {
-        if (CollectionManager.Instance.PlayData != null)
+        if (CollectionManager.Instance.RoundClearData != null)
         {
-            if (CollectionManager.Instance.PlayData.dataApply)
+            if (CollectionManager.Instance.RoundClearData.dataApply)
             {
                 Debug.Log("클리어 데이터 적용");
-                GameManager.Monster.Load_MonsterData(CollectionManager.Instance.PlayData.MonsterList);
+                GameManager.Monster.Load_MonsterData(CollectionManager.Instance.RoundClearData.MonsterList);
             }
         }
     }
@@ -269,6 +274,7 @@ public class Main : MonoBehaviour
         yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
 
         var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
+        message.DelayTime = 2;
         message.Message = UserData.Instance.GetLocaleText("Message_First");
     }
     void Instantiate_DayOne()
@@ -363,7 +369,7 @@ public class Main : MonoBehaviour
         {
             var tile = Main.Instance.Floor[3].GetRandomTile();
             Main.Instance.Floor[3].TileMap.TryGetValue(new Vector2Int(12, 2), out tile);
-            PlacementInfo info = new PlacementInfo(Main.Instance.Floor[3], tile);
+            PlacementInfo info = new PlacementInfo(Floor[3], tile);
 
             var obj = GameManager.Facility.CreateFacility("Obstacle", info);
         }
@@ -371,7 +377,15 @@ public class Main : MonoBehaviour
         {
             var tile = Main.Instance.Floor[2].GetRandomTile();
             Main.Instance.Floor[2].TileMap.TryGetValue(new Vector2Int(0, 0), out tile);
-            PlacementInfo info = new PlacementInfo(Main.Instance.Floor[2], tile);
+            PlacementInfo info = new PlacementInfo(Floor[2], tile);
+
+            var obj = GameManager.Facility.CreateFacility("Obstacle", info);
+        }
+
+        {
+            var tile = Floor[4].GetRandomTile();
+            Floor[4].TileMap.TryGetValue(new Vector2Int(1, 15), out tile);
+            PlacementInfo info = new PlacementInfo(Floor[4], tile);
 
             var obj = GameManager.Facility.CreateFacility("Obstacle", info);
         }
@@ -721,6 +735,8 @@ public class Main : MonoBehaviour
 
     void AddScore(DayResult day)
     {
+        //? 점수시스템은 리뉴얼이 필요. 킬점수와 비슷하게 만족시켜서 돌아간 점수도 줘야함. 빈손으로 돌아가면 -는 아니고 0점이여도 만족은 점수를 높게
+
         int score = day.Get_Mana;
         score += day.Get_Gold;
         score += day.Get_Prisoner * 50;
@@ -777,8 +793,8 @@ public class Main : MonoBehaviour
 
         public int Use_Mana;
         public int Use_Gold;
-        public int Use_Prisoner;
-        public int Use_Kill;
+        //public int Use_Prisoner;
+        //public int Use_Kill;
 
         public void AddMana(int value)
         {
@@ -811,14 +827,14 @@ public class Main : MonoBehaviour
             Use_Gold += value;
             Instance.Player_Gold -= value;
         }
-        public void SubtractPrisoner(int value)
-        {
-            Use_Prisoner += value;
-        }
-        public void SubtractKill(int value)
-        {
-            Use_Kill += value;
-        }
+        //public void SubtractPrisoner(int value)
+        //{
+        //    Use_Prisoner += value;
+        //}
+        //public void SubtractKill(int value)
+        //{
+        //    Use_Kill += value;
+        //}
 
         public int GetPopularity;
         public int GetDanger;
@@ -854,8 +870,8 @@ public class Main : MonoBehaviour
 
             Use_Mana = result.Use_Mana;
             Use_Gold = result.Use_Gold;
-            Use_Prisoner = result.Use_Prisoner;
-            Use_Kill = result.Use_Kill;
+            //Use_Prisoner = result.Use_Prisoner;
+            //Use_Kill = result.Use_Kill;
 
             GetPopularity = result.GetPopularity;
             GetDanger = result.GetDanger;
@@ -936,6 +952,21 @@ public class Main : MonoBehaviour
 
         return gold;
     }
+
+    public int GetTotalKill()
+    {
+        int kill = 0;
+        foreach (var item in DayList)
+        {
+            kill += item.Get_Kill;
+        }
+        if (CurrentDay != null)
+        {
+            kill += CurrentDay.Get_Kill;
+        }
+        return kill;
+    }
+
 
 
     #endregion
@@ -1350,7 +1381,34 @@ public class Main : MonoBehaviour
                 break;
 
             case 30:
-                Debug.Log("게임클리어");
+#if DEMO_BUILD
+                Debug.Log("데모클리어");
+                var clear = new CollectionManager.ClearDataLog();
+                clear.mana = GetTotalMana();
+                clear.gold = GetTotalGold();
+                clear.kill = GetTotalKill();
+                clear.pop = PopularityOfDungeon;
+                clear.danger = DangerOfDungeon;
+                clear.rank = DungeonRank;
+                UserData.Instance.FileConfig.PlayTimeApply();
+                clear.clearTime = UserData.Instance.FileConfig.PlayTimes;
+                clear.monsterCount = GameManager.Monster.GetCurrentMonster();
+                int highestLv = 0;
+                string highestMonster = "";
+                foreach (var mon in GameManager.Monster.Monsters)
+                {
+                    if (mon != null && mon.LV > highestLv)
+                    {
+                        highestMonster = mon.Name;
+                        highestLv = mon.LV;
+                    }
+                }
+                clear.highestMonster = highestMonster;
+                clear.highestMonsterLv = highestLv;
+
+                DemoManager.Instance.DemoClearData(clear);
+#endif
+
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Day30_Over, Player);
                 break;
 
@@ -1486,9 +1544,13 @@ public class Main : MonoBehaviour
             {
                 Floor[i].LabelName = $"{UserData.Instance.GetLocaleText("숨겨진곳")}";
             }
-            else
+            else if (i < 3)
             {
                 Floor[i].LabelName = $"{UserData.Instance.GetLocaleText("지하")} {i + 1} {UserData.Instance.GetLocaleText("층")}";
+            }
+            else
+            {
+                Floor[i].LabelName = $"{UserData.Instance.GetLocaleText("지하")} {i} {UserData.Instance.GetLocaleText("층")}";
             }
 
 
@@ -1541,11 +1603,27 @@ public class Main : MonoBehaviour
             }
 
             var ui = Managers.Resource.Instantiate("UI/PopUp/Element/UI_Expansion_Floor");
-            ui.transform.position = Floor[ActiveFloor_Basement].transform.position;
+            ui.transform.position = Floor[ActiveFloor_Basement].transform.position + new Vector3(0, 3, 0);
 
             ui.GetComponent<UI_Expansion_Floor>().SetContents(ActiveFloor_Basement, 200, 200, 2);
         }
     }
+
+
+
+    public void ResetCurrentAction()
+    {
+        Main.Instance.CurrentBoundary = null;
+        Main.Instance.CurrentAction = null;
+        Main.Instance.CurrentTile = null;
+        Main.Instance.PurchaseAction = null;
+        Managers.UI.ClosePopupPick(FindAnyObjectByType<UI_DungeonPlacement>());
+        Managers.UI.PauseOpen();
+        Time.timeScale = 0;
+
+        FindAnyObjectByType<UI_Management>().Show_MainCanvas();
+    }
+
 
     #endregion
 
@@ -1677,8 +1755,8 @@ public class Save_DayResult
 
         Use_Mana = result.Use_Mana;
         Use_Gold = result.Use_Gold;
-        Use_Prisoner = result.Use_Prisoner;
-        Use_Kill = result.Use_Kill;
+        //Use_Prisoner = result.Use_Prisoner;
+        //Use_Kill = result.Use_Kill;
 
         GetPopularity = result.GetPopularity;
         GetDanger = result.GetDanger;

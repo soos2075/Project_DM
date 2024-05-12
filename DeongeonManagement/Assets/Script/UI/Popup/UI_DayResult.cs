@@ -35,6 +35,7 @@ public class UI_DayResult : UI_PopUp
     enum Panel
     {
         Panel,
+        ClosePanel,
     }
 
     public override void Init()
@@ -42,7 +43,10 @@ public class UI_DayResult : UI_PopUp
         base.Init();
         Bind<Image>(typeof(Panel));
 
-        GetImage(((int)Panel.Panel)).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.LeftClick);
+
+        StartCoroutine(CloseActionDelay());
+        //GetImage(((int)Panel.Panel)).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.LeftClick);
+        //GetImage(((int)Panel.ClosePanel)).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.LeftClick);
 
 
         Bind<TextMeshProUGUI>(typeof(Texts));
@@ -113,6 +117,14 @@ public class UI_DayResult : UI_PopUp
         Result = data;
     }
 
+
+
+    IEnumerator CloseActionDelay() //? 1초정도 딜레이 있다가 꺼지도록(바로꺼지는거 방지)
+    {
+        yield return new WaitForSecondsRealtime(1);
+        GetImage(((int)Panel.Panel)).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.LeftClick);
+        GetImage(((int)Panel.ClosePanel)).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.LeftClick);
+    }
 
 
 }

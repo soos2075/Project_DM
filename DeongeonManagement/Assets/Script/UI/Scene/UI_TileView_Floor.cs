@@ -102,6 +102,10 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
                     var facil = CurrentTile.Original as Facility;
                     if (facil.EventType == Facility.FacilityEventType.NPC_Interaction)
                     {
+                        if (facil.Data == null)
+                        {
+                            return;
+                        }
                         view.ViewDetail($"{facil.InteractionOfTimes}/{facil.Data.interactionOfTimes}".SetTextColorTag(Define.TextColor.LightYellow));
                     }
                     break;

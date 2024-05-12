@@ -15,10 +15,15 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         SetRandomClothes();
         Start_Setting();
     }
-    //void Update()
-    //{
 
-    //}
+
+    // 인스펙터 확인용
+    public List<BasementTile> prioList;
+    [System.Obsolete]
+    void Update()
+    {
+        prioList = PriorityList;
+    }
 
 
     protected virtual void Start_Setting()
@@ -297,6 +302,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
 
     #region IPlacementable
+    [field:SerializeField]
     public PlacementInfo PlacementInfo { get; set; }
     public PlacementType PlacementType { get; set; }
     public PlacementState PlacementState { get; set; }
@@ -333,6 +339,11 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
     public abstract List<BasementTile> PriorityList { get; set; }
     protected abstract void SetPriorityList();
+
+    public void SetPriorityListForPublic()
+    {
+        SetPriorityList();
+    }
 
 
     protected List<BasementTile> GetFloorObjectsAll(Define.TileType searchType = Define.TileType.Empty) //? 타입 전체 가져오는 리스트
@@ -482,6 +493,12 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         while (dis > 0.1f)
         {
+            var changeDir = point - transform.position;
+            if (Mathf.Sign(dir.x) != Mathf.Sign(changeDir.x))
+            {
+                break;
+            }
+
             transform.Translate(dir.normalized * Time.deltaTime * Speed_Ground);
             dis = Vector3.Distance(transform.position, point);
             //yield return null;
@@ -523,6 +540,12 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         while (dis > 0.1f)
         {
+            var changeDir = point - transform.position;
+            if (Mathf.Sign(dir.x) != Mathf.Sign(changeDir.x))
+            {
+                break;
+            }
+
             transform.Translate(dir.normalized * Time.deltaTime * Speed_Ground);
             dis = Vector3.Distance(transform.position, point);
             //yield return null;
@@ -695,6 +718,12 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             return;
         }
 
+        // 층 이동을 했을 땐 일단 코루틴부터 멈춰야함
+        if (Cor_Move != null)
+        {
+            StopCoroutine(Cor_Move);
+        }
+
         GameManager.Placement.PlacementClear(this);
 
         //? 랜덤위치로 소환
@@ -735,6 +764,14 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             FloorEscape();
             return;
         }
+
+
+        // 층 이동을 했을 땐 일단 코루틴부터 멈춰야함
+        if (Cor_Move != null)
+        {
+            StopCoroutine(Cor_Move);
+        }
+
 
         GameManager.Placement.PlacementClear(this);
 
@@ -833,7 +870,10 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     protected abstract void NPC_Return_Satisfaction();
 
     public virtual int KillGold { get; set; }
-    protected abstract void NPC_Die();
+    protected virtual void NPC_Die()
+    {
+        Main.Instance.CurrentDay.AddKill(1);
+    }
     protected abstract void NPC_Captive();
 
     public virtual int RunawayHpRatio { get; set; } = 4;
@@ -864,6 +904,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
 
         PriorityList.RemoveAll(r => r.tileType_Original == Define.TileType.Empty || r.Original.PlacementState == PlacementState.Busy);
+        PriorityList.RemoveAll(r => r.tileType_Original == Define.TileType.NPC);
 
 
         if (PriorityList.Count == 0)
@@ -880,6 +921,23 @@ public abstract class NPC : MonoBehaviour, IPlacementable
                 return NPCState.Priority;
             }
         }
+
+
+        //if (PriorityList[0].Original.GetType() == typeof(Entrance_Egg))
+        //{
+        //    Debug.Log("혹시 에그방 말고 다른거 있나 한번 더 확인");
+        //    SetPriorityList();
+        //    PriorityList.RemoveAll(r => r.tileType_Original == Define.TileType.Empty || r.Original.PlacementState == PlacementState.Busy);
+        //    return NPCState.Priority;
+        //}
+
+        //if (PriorityList.Count == 1)
+        //{
+        //    if (PriorityList[0].GetType() == typeof(NPC))
+        //    {
+        //        SetPriorityList();
+        //    }
+        //}
 
 
 
@@ -954,9 +1012,34 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     public Coroutine Cor_Encounter { get; set; }
     Coroutine Cor_Move;
 
+    void Cor_Move_Reset()
+    {
+        if (Cor_Move != null)
+        {
+            StopCoroutine(Cor_Move);
+        }
+        Cor_Move = null;
+    }
 
     public void MoveToTargetTile(BasementTile target)
     {
+        // 만약 목표지점이 내가 있는 타일이라면 여기서 바로 상호작용을 한다음 리턴시켜버리기
+        if (target == PlacementInfo.Place_Tile)
+        {
+            if (target.tileType_Original == Define.TileType.Empty || target.tileType_Original == Define.TileType.NPC)
+            {
+                State = StateRefresh();
+            }
+            else
+            {
+                var encount = target.TryPlacement(this, true);
+                EncountOver(encount, target);
+            }
+            return;
+        }
+
+
+
         bool pathFind = false;
         bool pathRefind = false;
         List<BasementTile> path = PlacementInfo.Place_Floor.PathFinding(PlacementInfo.Place_Tile, target, AvoidTileType, out pathFind);
@@ -998,10 +1081,11 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             yield return UserData.Instance.Wait_GamePlay;
             yield return new WaitForSeconds(ActionDelay);
 
-            var encount = path[i].TryPlacement(this, overlap);
+
             //Debug.Log($"{name} 좌표 : {PlacementInfo.Place_Floor.Floor} / {PlacementInfo.Place_Tile.index} / 상태 : {State} / \n" +
             //    $"다음타일타입 : {path[i].tileType} /좌표 : {path[i].floor.Floor} / {path[i].index} / 이벤트타입 : {encount}\n" +
             //    $"현재 리스트 수 :{PriorityList.Count} / 0번 타일 : {PriorityList[0]} / 입구 타일 {PlacementInfo.Place_Floor.Entrance}");
+            var encount = path[i].TryPlacement(this, overlap);
             if (EncountOver(encount, path[i]))
             {
                 yield return new WaitForEndOfFrame();
@@ -1026,16 +1110,14 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         switch (encount)
         {
             case Define.PlaceEvent.Battle:
-                StopCoroutine(Cor_Move);
-                Cor_Move = null;
+                Cor_Move_Reset();
                 PlacementState = PlacementState.Busy;
                 LookBattle(next.Place_Tile);
                 Cor_Encounter = StartCoroutine(Encounter_Monster(tile));
                 return true;
 
             case Define.PlaceEvent.Interaction:
-                StopCoroutine(Cor_Move);
-                Cor_Move = null;
+                Cor_Move_Reset();
                 PlacementState = PlacementState.Busy;
                 LookInteraction(next.Place_Tile);
                 Cor_Encounter = StartCoroutine(Encounter_Interaction(tile));
@@ -1043,9 +1125,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
 
             case Define.PlaceEvent.Event:
+                Cor_Move_Reset();
                 PlacementMove_NPC(this, next, ActionDelay);
-                StopCoroutine(Cor_Move);
-                Cor_Move = null;
                 PlacementState = PlacementState.Busy;
                 Cor_Encounter = StartCoroutine(Encounter_Event(tile));
                 return true;
@@ -1055,7 +1136,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
                 avoidCount++;
                 if (avoidCount > 3)
                 {
-                    StopCoroutine(Cor_Move);
+                    Cor_Move_Reset();
                     Cor_Move = StartCoroutine(Wandering());
                     avoidCount = 0;
                     return true;

@@ -14,8 +14,10 @@ public class UI_GameOver : UI_PopUp
         Managers.UI.SetCanvas(gameObject);
 
         StartCoroutine(GameOver());
-        SoundManager.Instance.PlaySound("SFX/GameOver");
         SoundManager.Instance.StopMusic();
+        SoundManager.Instance.PlaySound("SFX/GameOver");
+
+        UserData.Instance.SetData(PrefsKey.GameOverTimes, UserData.Instance.GetDataInt(PrefsKey.GameOverTimes) + 1);
     }
 
 
@@ -23,11 +25,7 @@ public class UI_GameOver : UI_PopUp
     IEnumerator GameOver()
     {
         Time.timeScale = 0;
-
         yield return new WaitForSecondsRealtime(3);
-
         Managers.Scene.LoadSceneAsync(SceneName._1_Start);
-        //Time.timeScale = 1;
-
     }
 }

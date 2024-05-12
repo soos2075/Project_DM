@@ -291,7 +291,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
                 case Define.PlaceEvent.Battle:
                     var npc = tile.Original as NPC;
-                    if (npc.Cor_Encounter == null && npc.HP > 0)
+                    if (npc.Cor_Encounter == null && npc.HP > 0 && this.HP > 0)
                     {
                         npc.Cor_Encounter = StartCoroutine(npc.Encounter_ByMonster(this));
                         //Debug.Log($"몬스터 선빵때리기");
@@ -354,7 +354,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
                 case Define.PlaceEvent.Battle:
                     var npc = tile.Original as NPC;
-                    if (npc.Cor_Encounter == null && npc.HP > 0)
+                    if (npc.Cor_Encounter == null && npc.HP > 0 && this.HP > 0)
                     {
                         npc.Cor_Encounter = StartCoroutine(npc.Encounter_ByMonster(this));
                         //Debug.Log($"몬스터 선빵때리기");
@@ -433,7 +433,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
     public Coroutine Battle(NPC npc)
     {
-        if (this.HP > 0)
+        if (this.HP > 0 && npc.HP > 0)
         {
             Cor_Battle = StartCoroutine(BattleWait(npc));
             return Cor_Battle;
@@ -447,6 +447,10 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
     IEnumerator BattleWait(NPC npc)
     {
+        //if (BattleStateCor != null) // 전투가 진행중에 새 전투가 들어오면 초기화...인데 애초에 busy상태에서 전투가 시작되는거부터가 에러임
+        //{
+        //    StopCoroutine(BattleStateCor);
+        //}
         BattleStateCor = StartCoroutine(BattleStateBusy());
 
         BattleCount++;
@@ -459,23 +463,34 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
         var npcType = npc.GetType();
         npc.ActionPoint -= Data.battleAp;
-        int battleMP = npc.Rank * 4;
+
+        int battleMP = npc.Rank * 3;
 
         if (npcType == typeof(Adventurer) || npcType == typeof(Elf) || npcType == typeof(Wizard))
         {
-            battleMP = npc.Rank * 10;
+            battleMP = npc.Rank * 9;
         }
 
-        if (npcType == typeof(QuestHunter) || npcType == typeof(EventNPC))
+        if (npcType == typeof(EventNPC))
+        {
+            battleMP = npc.Rank * 6;
+        }
+
+        if (npcType == typeof(QuestHunter))
         {
             battleMP = npc.Rank * 1;
         }
 
-        npc.Mana -= battleMP;
+        int manaClamp = Mathf.Clamp(battleMP, npc.Mana, battleMP);
+        npc.Mana -= manaClamp;
+
+        //? 전투가 동시에 일어날 때, 죽고 사는 전투가 이전의 Nothing 공방보다 먼저 끝나는 경우가 존재함. 이 때 PlaceInfo가 사라지거나 하는 문제떄문에 먼저 저장
+        string floorName = PlacementInfo.Place_Floor.LabelName;
 
 
-        UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.LabelName} - " +
+        UI_EventBox.AddEventText($"★{floorName} - " +
             $"{npc.Name_Color} vs {Name_Color} {UserData.Instance.GetLocaleText("Battle_Start")}");
+
 
         BattleField.BattleResult result = 0;
         yield return BattleManager.Instance.ShowBattleField(npc, this, out result);
@@ -484,18 +499,18 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         switch (result)
         {
             case BattleField.BattleResult.Nothing:
-                UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.LabelName} - " +
+                UI_EventBox.AddEventText($"★{floorName} - " +
                     $"{npc.Name_Color} vs {Name_Color} {UserData.Instance.GetLocaleText("Battle_End")}");
                 GetBattlePoint(npc.Rank);
                 break;
 
             case BattleField.BattleResult.Monster_Die:
-                UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.LabelName} - {Name_Color} {UserData.Instance.GetLocaleText("Battle_Lose")}");
+                UI_EventBox.AddEventText($"★{floorName} - {Name_Color} {UserData.Instance.GetLocaleText("Battle_Lose")}");
                 MonsterOutFloor();
                 break;
 
             case BattleField.BattleResult.NPC_Die:
-                UI_EventBox.AddEventText($"★{PlacementInfo.Place_Floor.LabelName} - {Name_Color} {UserData.Instance.GetLocaleText("Battle_Win")}");
+                UI_EventBox.AddEventText($"★{floorName} - {Name_Color} {UserData.Instance.GetLocaleText("Battle_Win")}");
                 GetBattlePoint(npc.Rank * 2);
                 break;
         }
@@ -506,9 +521,14 @@ public abstract class Monster : MonoBehaviour, IPlacementable
             MoveSelf();
         }
 
-        Main.Instance.ShowDM(battleMP, Main.TextType.mana, transform);
+        if (manaClamp > 0)
+        {
+            Main.Instance.CurrentDay.AddMana(manaClamp);
+            Main.Instance.ShowDM(manaClamp, Main.TextType.mana, transform);
+        }
+        
 
-        if (BattleStateCor != null) //? 만약 전투가 Interval보다 빨리 끝났을 경우.(바로 죽는다든지 인터벌이 ㅈㄴ길다든지)
+        if (BattleStateCor != null && BattleCount == 0) //? 만약 전투가 Interval보다 빨리 끝나고 그게 마지막 전투였을 경우 빠르게 Standby
         {
             StopCoroutine(BattleStateCor);
             PlacementState = PlacementState.Standby;
@@ -531,8 +551,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         if (Cor_moveAnimation != null)
         {
             StopCoroutine(Cor_moveAnimation);
-            transform.position = PlacementInfo.Place_Tile.worldPosition;
         }
+        transform.position = PlacementInfo.Place_Tile.worldPosition;
 
         var startPos = PlacementInfo.Place_Tile;
         Vector3 dir = _target.worldPosition - startPos.worldPosition;

@@ -182,6 +182,7 @@ public class UI_Placement_Facility : UI_PopUp
         }
 
 
+        FindAnyObjectByType<UI_Management>().Hide_MainCanvas();
 
         Main.Instance.PurchaseAction = () => SubAction(mana, gold);
         action.Invoke();

@@ -7,6 +7,7 @@ public class UI_Pause : UI_PopUp
 {
     void Start()
     {
+        UserData.Instance.SavePlayTime();
         Init();
     }
 
@@ -63,7 +64,7 @@ public class UI_Pause : UI_PopUp
 
 
             // 클리어 데이터 삭제
-            CollectionManager.Instance.PlayData = null;
+            CollectionManager.Instance.RoundClearData = null;
             Managers.Data.DeleteSaveFile("ClearData");
 
 

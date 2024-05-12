@@ -77,7 +77,7 @@ public class UI_Confirm : UI_PopUp
 
     IEnumerator WaitAndClose()
     {
-        yield return new WaitForEndOfFrame();
+        //yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
         ClosePopUp();
     }

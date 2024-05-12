@@ -330,6 +330,9 @@ public enum DialogueName
     Dog_3 = 713,
     Dog_4 = 714,
 
+    // Dungeon Expension
+    Expansion_4 = 990,
+
 
 
     // QuestBoard ID = 1000

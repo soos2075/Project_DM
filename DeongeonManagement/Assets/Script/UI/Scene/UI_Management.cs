@@ -103,9 +103,20 @@ public class UI_Management : UI_Base
             Destroy(pos.GetChild(i).gameObject);
         }
 
+
         for (int i = 0; i < Main.Instance.Player_AP; i++)
         {
             Managers.Resource.Instantiate("UI/PopUp/Element/behaviour", pos);
+        }
+
+        if (Main.Instance.Player_AP <= 2)
+        {
+            GetObject(((int)ActionPoint.AP)).GetComponent<ContentSizeFitter>().enabled = false;
+            GetObject(((int)ActionPoint.AP)).GetComponent<RectTransform>().sizeDelta = new Vector2(130, 90);
+        }
+        else
+        {
+            GetObject(((int)ActionPoint.AP)).GetComponent<ContentSizeFitter>().enabled = true;
         }
     }
 
@@ -122,11 +133,11 @@ public class UI_Management : UI_Base
 
     void Init_Button()
     {
-        GetButton((int)ButtonEvent._1_Facility).gameObject.AddUIEvent((data) => FacilityButton());
-        GetButton((int)ButtonEvent._2_Summon).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Summon_Monster>("Monster/UI_Summon_Monster"));
-        GetButton((int)ButtonEvent._3_Management).gameObject.AddUIEvent((data) => Managers.UI.ClearAndShowPopUp<UI_Monster_Management>("Monster/UI_Monster_Management"));
+        GetButton((int)ButtonEvent._1_Facility).gameObject.AddUIEvent((data) => Button_Facility());
+        GetButton((int)ButtonEvent._2_Summon).gameObject.AddUIEvent((data) => Button_Summon());
+        GetButton((int)ButtonEvent._3_Management).gameObject.AddUIEvent((data) => Button_MonsterManage());
         GetButton((int)ButtonEvent._4_Guild).gameObject.AddUIEvent((data) => Visit_Guild());
-        GetButton((int)ButtonEvent._5_Quest).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUpAlone<UI_Quest>());
+        GetButton((int)ButtonEvent._5_Quest).gameObject.AddUIEvent((data) => Button_Quest());
 
         GetButton((int)ButtonEvent.DayChange).gameObject.AddUIEvent((data) => DayStart());
 
@@ -144,6 +155,83 @@ public class UI_Management : UI_Base
 
         //GetButton((int)ButtonEvent.DayChange_Temp).gameObject.AddUIEvent((data) => DayChange_Temp());
     }
+
+
+
+    public void Hide_MainCanvas()
+    {
+        GetComponent<Canvas>().enabled = false;
+    }
+    public void Show_MainCanvas()
+    {
+        GetComponent<Canvas>().enabled = true;
+    }
+
+
+
+
+
+    #region UI_ButtonEvent
+
+    public void Button_Facility()
+    {
+        //if (Managers.UI._popupStack.Count > 0) return;
+
+        var facility = Managers.UI.ShowPopUpAlone<UI_Placement_Facility>("Facility/UI_Placement_Facility");
+        FloorPanelClear();
+    }
+
+    void Button_Summon()
+    {
+        //if (Managers.UI._popupStack.Count > 0) return;
+
+        Managers.UI.ClearAndShowPopUp<UI_Summon_Monster>("Monster/UI_Summon_Monster");
+    }
+    void Button_MonsterManage()
+    {
+        //if (Managers.UI._popupStack.Count > 0) return;
+
+        Managers.UI.ClearAndShowPopUp<UI_Monster_Management>("Monster/UI_Monster_Management");
+    }
+    void Button_Quest()
+    {
+        //if (Managers.UI._popupStack.Count > 0) return;
+
+        Managers.UI.ShowPopUpAlone<UI_Quest>();
+    }
+
+    void Visit_Guild()
+    {
+        //if (Managers.UI._popupStack.Count > 0) return;
+
+        if (Main.Instance.Player_AP <= 0)
+        {
+            var ui = Managers.UI.ShowPopUp<UI_SystemMessage>();
+            ui.Message = UserData.Instance.GetLocaleText("Message_No_AP");
+            Debug.Log("훈련횟수 없음");
+        }
+        else
+        {
+            var ui = Managers.UI.ClearAndShowPopUp<UI_Confirm>();
+            ui.SetText($"{UserData.Instance.GetLocaleText("Confirm_Guild")}\n({UserData.Instance.GetLocaleText("Confirm_AP")})");
+            StartCoroutine(WaitForAnswer(ui));
+        }
+    }
+
+
+    IEnumerator WaitForAnswer(UI_Confirm confirm)
+    {
+        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
+
+        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
+        {
+            Managers.Data.SaveAndAddFile("AutoSave", 0);
+            Managers.Scene.LoadSceneAsync(SceneName._3_Guild);
+        }
+    }
+
+    #endregion
+
 
     void GameSpeedUp(int speed = 1)
     {
@@ -215,7 +303,16 @@ public class UI_Management : UI_Base
 
     void DayStart()
     {
-        if (Main.Instance.Management)
+        if (!Main.Instance.Management) return;
+
+
+        if (Main.Instance.Player_AP > 0)
+        {
+            var ui = Managers.UI.ShowPopUp<UI_Confirm>();
+            ui.SetText($"행동력을 쓰지않고 턴을 종료할까요?");
+            StartCoroutine(WaitForAnswer_TurnOver(ui));
+        }
+        else
         {
             eventBox.BoxActive(true);
             eventBox.TextClear();
@@ -225,6 +322,21 @@ public class UI_Management : UI_Base
             SoundManager.Instance.PlaySound("SFX/TurnChange");
         }
     }
+    IEnumerator WaitForAnswer_TurnOver(UI_Confirm confirm)
+    {
+        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
+
+        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
+        {
+            eventBox.BoxActive(true);
+            eventBox.TextClear();
+
+            Main.Instance.DayChange();
+            Texts_Refresh();
+            SoundManager.Instance.PlaySound("SFX/TurnChange");
+        }
+    }
+
 
     void DayZero()
     {
@@ -286,34 +398,9 @@ public class UI_Management : UI_Base
 
 
 
-    void Visit_Guild()
-    {
-        if (Main.Instance.Player_AP <= 0)
-        {
-            var ui = Managers.UI.ShowPopUp<UI_SystemMessage>();
-            ui.Message = UserData.Instance.GetLocaleText("Message_No_AP");
-            Debug.Log("훈련횟수 없음");
-        }
-        else
-        {
-            var ui = Managers.UI.ClearAndShowPopUp<UI_Confirm>();
-            ui.SetText($"{UserData.Instance.GetLocaleText("Confirm_Guild")}\n({UserData.Instance.GetLocaleText("Confirm_AP")})");
-            StartCoroutine(WaitForAnswer(ui));
-        }
-
-    }
+    
 
 
-    IEnumerator WaitForAnswer(UI_Confirm confirm)
-    {
-        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
-
-        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
-        {
-            Managers.Data.SaveAndAddFile("AutoSave", 0);
-            Managers.Scene.LoadSceneAsync(SceneName._3_Guild);
-        }
-    }
 
 
 
@@ -359,9 +446,6 @@ public class UI_Management : UI_Base
 
 
 
-    public void FacilityButton()
-    {
-        var facility = Managers.UI.ShowPopUpAlone<UI_Placement_Facility>("Facility/UI_Placement_Facility");
-        FloorPanelClear();
-    }
+
+
 }

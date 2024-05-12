@@ -8,6 +8,12 @@ public class Treasure : Facility
     public override void Init_Personal()
     {
         int category = (CategoryIndex / 10) * 10;
+        if (category == 2270)
+        {
+            category = 2260;
+        }
+
+        //int category = CategoryIndex;
         treasureType = (TreasureCategory)category;
 
         if (isInit)
@@ -162,5 +168,28 @@ public class Treasure : Facility
         Main.Instance.CurrentDay.AddDanger(danger_value);
 
         OverCor(npc, isLastInteraction);
+    }
+
+
+
+
+    public override void MouseClickEvent()
+    {
+        if (Main.Instance.Management == false) return;
+
+        var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
+        ui.SetText($"[{Name}] {UserData.Instance.GetLocaleText("Confirm_Remove")}");
+        StartCoroutine(WaitForAnswer(ui));
+    }
+
+
+    IEnumerator WaitForAnswer(UI_Confirm confirm)
+    {
+        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
+
+        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
+        {
+            GameManager.Facility.RemoveFacility(this);
+        }
     }
 }

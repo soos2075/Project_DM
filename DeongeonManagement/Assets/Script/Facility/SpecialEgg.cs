@@ -24,6 +24,7 @@ public class SpecialEgg : Facility
         Detail_KR = SO_data.detail;
 
         Egg = (EggType)SO_data.id;
+        InteractionOfTimes = SO_data.interactionOfTimes;
     }
 
 

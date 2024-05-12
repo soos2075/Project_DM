@@ -80,6 +80,11 @@ public class PlayerController : MonoBehaviour
 
         Vector2 move = new Vector2(h, v).normalized;
         rig.velocity = move * speed;
+
+        if (move.magnitude > 0 && moveCor != null)
+        {
+            StopCoroutine(moveCor);
+        }
     }
 
 
@@ -108,23 +113,27 @@ public class PlayerController : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
             if (hit.collider != null && hit.collider.gameObject == current_NPC.gameObject)
             {
+                if (moveCor != null)
+                {
+                    StopCoroutine(moveCor);
+                }
                 Debug.Log("충돌한 객체: " + hit.collider.gameObject.name);
                 current_NPC.StartDialogue();
                 return;
             }
         }
 
-        Vector3Int cellPosition = tile_borderline.WorldToCell(worldPosition);
-        TileBase tile = tile_borderline.GetTile(cellPosition);
-        if (tile != null)
-        {
-            Debug.Log("충돌한 타일: " + tile.name);
-            if (moveCor != null)
-            {
-                StopCoroutine(moveCor);
-            }
-            return;
-        }
+        //Vector3Int cellPosition = tile_borderline.WorldToCell(worldPosition);
+        //TileBase tile = tile_borderline.GetTile(cellPosition);
+        //if (tile != null)
+        //{
+        //    Debug.Log("충돌한 타일: " + tile.name);
+        //    if (moveCor != null)
+        //    {
+        //        StopCoroutine(moveCor);
+        //    }
+        //    return;
+        //}
 
         if (moveCor != null)
         {
@@ -139,8 +148,13 @@ public class PlayerController : MonoBehaviour
         Vector2 move = new Vector2(direction.x, direction.y).normalized;
 
         float distance = Vector3.Distance(transform.position, _movePoint);
+        if (distance < 0.5f)
+        {
+            StopCoroutine(moveCor);
+            moveCor = null;
+        }
         float timer = 0;
-        while (timer < 0.2f)
+        while (timer < 0.1f)
         {
             yield return null;
             timer += Time.deltaTime;

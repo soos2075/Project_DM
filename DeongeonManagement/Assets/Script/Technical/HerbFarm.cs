@@ -54,7 +54,12 @@ public class HerbFarm : Technical
             {
                 ranValue = UnityEngine.Random.value;
 
-                var tile = Main.Instance.Floor[i].GetRandomTile();
+                bool isFind;
+                var tile = Main.Instance.Floor[i].GetRandomTile(out isFind);
+                //? 100번 돌동안 빈공간 못찾았으면 그냥 스킵
+                if (isFind == false) continue;
+
+
                 var info = new PlacementInfo(Main.Instance.Floor[i], tile);
 
                 if (ranValue > 0.9f)
@@ -63,7 +68,7 @@ public class HerbFarm : Technical
                 }
                 else if (ranValue > 0.6f)
                 {
-                    GameManager.Facility.CreateFacility("Herb_Pumpkin", info);
+                    GameManager.Facility.CreateFacility("Herb_Radish", info);
                 }
                 else
                 {

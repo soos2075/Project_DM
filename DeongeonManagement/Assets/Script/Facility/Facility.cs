@@ -23,6 +23,7 @@ public abstract class Facility : MonoBehaviour, IPlacementable
     #region IPlacementable
     public PlacementType PlacementType { get; set; }
     public PlacementState PlacementState { get; set; }
+    [field: SerializeField]
     public PlacementInfo PlacementInfo { get; set; }
     public GameObject GetObject()
     {
@@ -170,6 +171,7 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         if (isRemove)
         {
             GameManager.Facility.RemoveFacility(this);
+            npc.SetPriorityListForPublic();
         }
     }
 

@@ -58,7 +58,7 @@ public class UI_Expansion_Floor : UI_Base, IWorldSpaceUI
             return;
         }
 
-        if (NeedGold <= Main.Instance.Player_Gold && NeedMana <= Main.Instance.Player_Mana && NeedLv <= Main.Instance.DungeonRank && Main.Instance.Player_AP > 0)
+        if (NeedGold <= Main.Instance.Player_Gold && NeedMana <= Main.Instance.Player_Mana && NeedLv <= Main.Instance.DungeonRank)
         {
             var ui = Managers.UI.ShowPopUp<UI_Confirm>();
             ui.SetText(UserData.Instance.GetLocaleText("Confirm_Expansion"));
@@ -75,15 +75,23 @@ public class UI_Expansion_Floor : UI_Base, IWorldSpaceUI
         {
             Main.Instance.CurrentDay.SubtractGold(NeedGold);
             Main.Instance.CurrentDay.SubtractMana(NeedMana);
-            Main.Instance.Player_AP--;
+            //Main.Instance.Player_AP--;
 
             Main.Instance.Basement_Expansion();
             FindObjectOfType<UI_Management>().DungeonExpansion();
-            Managers.Resource.Destroy(gameObject);
-        }
-        //else if (confirm.GetAnswer() == UI_Confirm.State.No)
-        //{
 
-        //}
+            //Managers.UI.ClosePopUp(confirm);
+
+            yield return null;
+            yield return null;
+
+            //? 4층 확장시 4층으로 전이진이 옮겨지는 이벤트
+            Managers.Dialogue.ShowDialogueUI(DialogueName.Expansion_4, Main.Instance.Player);
+            //Managers.UI.ClosePopUp(confirm);
+            Managers.Resource.Destroy(gameObject);
+            //yield return null;
+            //yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
+            
+        }
     }
 }

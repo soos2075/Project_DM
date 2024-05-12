@@ -169,11 +169,11 @@ public class BattleManager : MonoBehaviour
         float direction = _monster.PlacementInfo.Place_Tile.worldPosition.x - bfPos.x;
         if (direction >= 0)
         {
-            bfPos += new Vector3(Mathf.Clamp(Random.Range(3f, 10f) + direction, 5.0f, 12.0f), Random.Range(-2.0f, 2.0f), 0);
+            bfPos += new Vector3(Mathf.Clamp(Random.Range(3f, 10f) + direction, 5.0f, 11.0f), Random.Range(-2.0f, 2.0f), 0);
         }
         else
         {
-            bfPos += new Vector3(Mathf.Clamp(Random.Range(-3f, -10f) + direction, -12.0f, -5.0f), Random.Range(-2.0f, 2.0f), 0);
+            bfPos += new Vector3(Mathf.Clamp(Random.Range(-3f, -10f) + direction, -11.0f, -5.0f), Random.Range(-2.0f, 2.0f), 0);
         }
 
         return bfPos;

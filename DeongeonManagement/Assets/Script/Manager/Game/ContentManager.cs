@@ -435,7 +435,7 @@ public class ContentManager
         Debug.Log($"{Main.Instance.CurrentTile.index} 타일 삭제");
         //Managers.UI.PauseClose();
         //Managers.UI.ClosePopUp();
-        ResetAction();
+        Main.Instance.ResetCurrentAction();
         Managers.UI.CloseAll();
     }
 
@@ -535,8 +535,7 @@ public class ContentManager
     void CreateOver()
     {
         Main.Instance.PurchaseAction.Invoke();
-
-        ResetAction();
+        Main.Instance.ResetCurrentAction();
     }
 
     #endregion
@@ -565,17 +564,6 @@ public class ContentManager
             Main.Instance.Floor[i].UI_Floor.ShowTile();
             Main.Instance.Floor[i].UI_Floor.Mode = buildMode;
         }
-    }
-
-    void ResetAction()
-    {
-        Main.Instance.CurrentBoundary = null;
-        Main.Instance.CurrentAction = null;
-        Main.Instance.CurrentTile = null;
-        Main.Instance.PurchaseAction = null;
-        Managers.UI.ClosePopupPick(GameObject.FindAnyObjectByType<UI_DungeonPlacement>());
-        Managers.UI.PauseOpen();
-        Time.timeScale = 0;
     }
 
     #endregion

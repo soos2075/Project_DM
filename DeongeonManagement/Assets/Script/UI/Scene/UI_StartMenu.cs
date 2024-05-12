@@ -94,7 +94,7 @@ public class UI_StartMenu : UI_Scene
 
         yield return new WaitForSecondsRealtime(2);
 
-        if (CollectionManager.Instance.PlayData != null)
+        if (CollectionManager.Instance.RoundClearData != null)
         {
             var dataConfirm = Managers.UI.ShowPopUp<UI_Confirm>();
             Debug.Log("로컬라이즈 해야댐 : 클리어 데이터");
@@ -131,12 +131,12 @@ public class UI_StartMenu : UI_Scene
 
         if (confirm.GetAnswer() == UI_Confirm.State.Yes)
         {
-            CollectionManager.Instance.PlayData.dataApply = true;
+            CollectionManager.Instance.RoundClearData.dataApply = true;
             confirm.ClosePopUp();
         }
         else if (confirm.GetAnswer() == UI_Confirm.State.No)
         {
-            CollectionManager.Instance.PlayData.dataApply = false;
+            CollectionManager.Instance.RoundClearData.dataApply = false;
             confirm.ClosePopUp();
         }
     }
@@ -148,7 +148,7 @@ public class UI_StartMenu : UI_Scene
     {
         Debug.Log($"새 게임 시작");
         Main.Instance.NewGame_Init();
-        UserData.Instance.NewGameConfig();
+
 
         //Main.Instance.Test_Init();
     }

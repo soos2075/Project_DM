@@ -15,7 +15,7 @@ public class EventNPC : NPC
             case NPCState.Return_Empty:
             case NPCState.Return_Satisfaction:
             case NPCState.Die:
-                return new Define.TileType[] { Define.TileType.Facility, Define.TileType.Monster };
+                return new Define.TileType[] { Define.TileType.NPC, Define.TileType.Facility, Define.TileType.Monster };
 
             default:
                 return new Define.TileType[] { Define.TileType.NPC };
@@ -280,16 +280,16 @@ public class EventNPC : NPC
             case EventNPCType.Captine_B:
             case EventNPCType.Captine_C:
                 {
-                    var add_egg = GetPriorityPick(typeof(SpecialEgg));
-                    AddList(add_egg);
+                    var treasure = GetPriorityPick(typeof(Treasure));
+                    AddList(treasure, AddPos.Back);
                 }
                 {
                     var add_secret = GetPriorityPick(typeof(Entrance_Egg));
                     AddList(add_secret, AddPos.Back);
                 }
                 {
-                    var treasure = GetPriorityPick(typeof(Treasure));
-                    AddList(treasure, AddPos.Front);
+                    var add_egg = GetPriorityPick(typeof(SpecialEgg));
+                    AddList(add_egg, AddPos.Back);
                 }
                 break;
 
@@ -383,6 +383,7 @@ public class EventNPC : NPC
 
     protected override void NPC_Die()
     {
+        base.NPC_Die();
         //Managers.Dialogue.ShowDialogueUI($"Day{8}_Event_Die", transform);
         StartCoroutine(DieEvent());
     }
@@ -444,7 +445,6 @@ public class EventNPC : NPC
 
         //Debug.Log(EventDay + "eventDay");
         //Debug.Log(Main.Instance.Turn + "Turn");
-        Main.Instance.CurrentDay.AddKill(1);
         Main.Instance.CurrentDay.AddGold(KillGold);
         GameManager.NPC.InactiveNPC(this);
     }

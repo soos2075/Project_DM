@@ -155,7 +155,7 @@ public class OpeningDirector : MonoBehaviour
     {
         Managers.Scene.LoadSceneAsync(SceneName._2_Management);
         Managers.Scene.AddLoadAction_OneTime(() => Main.Instance.NewGame_Init());
-        UserData.Instance.NewGameConfig();
+        //UserData.Instance.NewGameConfig();
     }
 
 

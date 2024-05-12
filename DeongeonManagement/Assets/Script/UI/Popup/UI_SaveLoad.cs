@@ -148,6 +148,7 @@ public class UI_SaveLoad : UI_PopUp
                 else
                 {
                     Managers.Data.SaveAndAddFile($"DM_Save_{index}", index);
+                    UserData.Instance.SetData(PrefsKey.SaveTimes, UserData.Instance.GetDataInt(PrefsKey.SaveTimes) + 1);
                 }
 
                 ShowDataInfo(index);

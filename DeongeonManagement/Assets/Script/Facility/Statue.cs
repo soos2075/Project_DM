@@ -101,7 +101,7 @@ public class Statue : Facility
 
         if (confirm.GetAnswer() == UI_Confirm.State.Yes)
         {
-            int gold = Random.Range(25, 100);
+            int gold = Random.Range(50, 100);
             Main.Instance.Player_AP--;
             Main.Instance.CurrentDay.AddGold(gold);
 
@@ -116,7 +116,7 @@ public class Statue : Facility
 
         if (confirm.GetAnswer() == UI_Confirm.State.Yes)
         {
-            int mana = Random.Range(50, 200);
+            int mana = Random.Range(75, 150);
             Main.Instance.Player_AP--;
             Main.Instance.CurrentDay.AddMana(mana);
 

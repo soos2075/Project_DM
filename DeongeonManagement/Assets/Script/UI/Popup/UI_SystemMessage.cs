@@ -17,6 +17,10 @@ public class UI_SystemMessage : UI_PopUp
         Message,
     }
 
+
+    public float DelayTime { get; set; } = 0.5f;
+
+
     public override void Init()
     {
         Managers.UI.SetCanvas(gameObject);
@@ -24,7 +28,7 @@ public class UI_SystemMessage : UI_PopUp
 
         PrintMessage();
 
-        StartCoroutine(CloseDelay());
+        StartCoroutine(CloseDelay(DelayTime));
     }
 
     //[TextArea(2,10)]
@@ -49,9 +53,9 @@ public class UI_SystemMessage : UI_PopUp
         GetObject(((int)Contents.BG)).GetComponent<RectTransform>().sizeDelta = size + new Vector2(60, 40);
     }
 
-    IEnumerator CloseDelay()
+    IEnumerator CloseDelay(float timer)
     {
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitForSecondsRealtime(timer);
         GetObject(((int)Contents.Panel)).AddUIEvent((data) => ClosePopUp(), Define.UIEvent.LeftClick);
     }
 

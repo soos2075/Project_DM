@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DemoManager : MonoBehaviour
 {
-    #if CHEAT_BUILD
+#if DEMO_BUILD
 
     #region Singleton
     private static DemoManager _instance;
@@ -41,11 +41,9 @@ public class DemoManager : MonoBehaviour
 #endif
 
 
-
     public bool isDemoVersion;
 
     public bool isEndingTest;
-
 
     public bool isManagementTest;
 
@@ -69,17 +67,7 @@ public class DemoManager : MonoBehaviour
 #endif
 
 
-
-
         StartCoroutine(EndingTestCor());
-    }
-
-
-    public string webpageURL = "https://store.steampowered.com/app/2886090/Novice_Dungeon_Master/";
-
-    public void OpenWebPageButton()
-    {
-        Application.OpenURL(webpageURL);
     }
 
 
@@ -123,6 +111,11 @@ public class DemoManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
+            if (UI_Cheat == null)
+            {
+                UI_Cheat = transform.GetChild(0).gameObject;
+            }
+
             if (UI_Cheat.activeInHierarchy)
             {
                 UI_Cheat.SetActive(false);
@@ -158,4 +151,16 @@ public class DemoManager : MonoBehaviour
         }
     }
 #endif
+
+
+    public void DemoClearData(CollectionManager.ClearDataLog datalog)
+    {
+        var ClearSaveData = new CollectionManager.RoundData();
+        ClearSaveData.dataLog = datalog;
+
+        CollectionManager.Instance.RoundClearData = ClearSaveData;
+
+        Managers.Data.SaveClearData();
+    }
+
 }

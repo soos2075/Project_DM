@@ -59,6 +59,16 @@ public class BasementFloor : MonoBehaviour
 
         X_Size = tilemap.cellBounds.size.x;
         Y_Size = tilemap.cellBounds.size.y;
+
+
+        //? 타일위치 알고싶을 떄 쓰는 디버그용
+        //if (FloorIndex == 4)
+        //{
+        //    foreach (var item in TileMap)
+        //    {
+        //        Debug.Log(item.Value.index + "//" + item.Value.worldPosition);
+        //    }
+        //}
     }
 
     public BasementTile GetRandomTile()
@@ -68,7 +78,7 @@ public class BasementFloor : MonoBehaviour
 
         BasementTile emptyTile = null;
         BasementTile tempTile = null;
-        while (emptyTile == null && whileCount < 50)
+        while (whileCount < 100 && emptyTile == null)
         {
             whileCount++;
             randomTile = new Vector2Int(UnityEngine.Random.Range(0, tilemap.cellBounds.size.x), UnityEngine.Random.Range(0, tilemap.cellBounds.size.y));
@@ -80,12 +90,38 @@ public class BasementFloor : MonoBehaviour
                 }
             }
         }
+
         if (emptyTile == null)
         {
             emptyTile = tempTile;
         }
 
         return emptyTile;
+    }
+
+    public BasementTile GetRandomTile(out bool findEmpty)
+    {
+        int whileCount = 0; //? 무한루프 방지용
+        Vector2Int randomTile;
+
+        BasementTile tempTile = null;
+        while (whileCount < 100)
+        {
+            whileCount++;
+            randomTile = new Vector2Int(UnityEngine.Random.Range(0, tilemap.cellBounds.size.x), UnityEngine.Random.Range(0, tilemap.cellBounds.size.y));
+            if (TileMap.TryGetValue(randomTile, out tempTile))
+            {
+                if (tempTile.Original == null)
+                {
+                    findEmpty = true;
+                    return tempTile;
+                }
+            }
+        }
+
+        Debug.Log("빈 공간을 못찾음");
+        findEmpty = false;
+        return tempTile;
     }
 
 
@@ -642,12 +678,31 @@ public class BasementTile
     public Vector2Int index;
     public Vector3 worldPosition;
 
-    Define.TileType tileType_Current;
+    public Define.TileType tileType_Current;
     public Define.TileType tileType_Original;
 
-    IPlacementable Current { get; set; }
-    public IPlacementable Original { get; set; }
+    IPlacementable _current;
+    IPlacementable Current { get { return _current; } set { _current = value; GetObj_IPlacement(); } }
 
+    IPlacementable _original;
+    public IPlacementable Original { get { return _original; } set { _original = value; GetObj_IPlacement(); } }
+
+
+    #region For Inspector Debug
+    public GameObject Original_Obj;
+    public GameObject Current_Obj;
+    public void GetObj_IPlacement()
+    {
+        if (Current != null)
+        {
+            Current_Obj = Current.GetObject();
+        }
+        if (Original != null)
+        {
+            Original_Obj = Original.GetObject();
+        }
+    }
+    #endregion
 
     public BasementTile(Vector2Int _index, Vector3 _worldPosition, Define.TileType _type, BasementFloor _floor)
     {
@@ -876,7 +931,12 @@ public class BasementTile
                 return Define.PlaceEvent.Nothing;
 
             case Define.TileType.Non_Interaction:
-                return Define.PlaceEvent.Nothing;
+                //return Define.PlaceEvent.Nothing;
+                if (_placementable.PlacementType == PlacementType.Monster)
+                {
+                    return Define.PlaceEvent.Nothing;
+                }
+                return Define.PlaceEvent.Placement;
 
 
             default:

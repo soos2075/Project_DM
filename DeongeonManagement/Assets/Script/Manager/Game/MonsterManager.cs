@@ -150,6 +150,19 @@ public class MonsterManager
     public int TrainingCount { get; set; } = 2;
 
 
+    public int GetCurrentMonster()
+    {
+        int count = 0;
+        foreach (var monster in Monsters)
+        {
+            if (monster != null)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+
     public bool MaximumCheck()
     {
         foreach (var monster in Monsters)

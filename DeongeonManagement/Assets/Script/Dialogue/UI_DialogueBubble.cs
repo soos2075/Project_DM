@@ -204,6 +204,15 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
                 Camera.main.GetComponent<CameraControl>().ChasingTarget(pos, 2);
             }
 
+            if (option.Contains("@Fade"))
+            {
+                string targetPos = option.Substring(option.IndexOf("@Fade::") + 7, option.IndexOf("::Fade") - (option.IndexOf("@Fade::") + 7));
+                int fadeOption = int.Parse(targetPos);
+
+                var fade = Managers.UI.ShowPopUp<UI_Fade>();
+                fade.SetFadeOption((UI_Fade.FadeMode)fadeOption, 1, true);
+            }
+
             if (option.Contains("@Target"))
             {
                 string targetPos = option.Substring(option.IndexOf("@Target::") + 9, option.IndexOf("::Target") - (option.IndexOf("@Target::") + 9));

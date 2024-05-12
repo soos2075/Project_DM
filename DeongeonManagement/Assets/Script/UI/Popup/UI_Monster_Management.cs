@@ -412,6 +412,8 @@ public class UI_Monster_Management : UI_PopUp
                 Main.Instance.Floor[i].UI_Floor.ShowTile();
             }
         }
+
+        FindAnyObjectByType<UI_Management>().Hide_MainCanvas();
     }
     public void PanelDisable()
     {
@@ -468,14 +470,7 @@ public class UI_Monster_Management : UI_PopUp
     }
     void ResetAction()
     {
-        Main.Instance.CurrentBoundary = null;
-        Main.Instance.CurrentAction = null;
-        Main.Instance.CurrentTile = null;
-        Main.Instance.PurchaseAction = null;
-        Managers.UI.ClosePopupPick(GameObject.FindAnyObjectByType<UI_DungeonPlacement>());
-        Managers.UI.PauseOpen();
-        Time.timeScale = 0;
-
+        Main.Instance.ResetCurrentAction();
 
         if (Type == UI_Type.Management)
         {
@@ -488,6 +483,7 @@ public class UI_Monster_Management : UI_PopUp
         //        childList[i].ShowContents();
         //    }
         //}
+
     }
 
 

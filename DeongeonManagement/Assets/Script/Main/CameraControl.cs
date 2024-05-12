@@ -284,7 +284,8 @@ public class CameraControl : MonoBehaviour
 
     Coroutine currentCor;
 
-    public void ChasingTarget(Transform target, float duration)
+
+    public void ChasingTarget(Vector3 target, float duration)
     {
         if (currentCor != null)
         {
@@ -292,12 +293,20 @@ public class CameraControl : MonoBehaviour
         }
         currentCor = StartCoroutine(ChasingLerp(target, duration));
     }
+    public void ChasingTarget(Transform target, float duration)
+    {
+        if (currentCor != null)
+        {
+            StopCoroutine(currentCor);
+        }
+        currentCor = StartCoroutine(ChasingLerp(target.position, duration));
+    }
 
-    IEnumerator ChasingLerp(Transform target, float duration)
+    IEnumerator ChasingLerp(Vector3 targetPos, float duration)
     {
         pixelCam.assetsPPU = 20;
 
-        var targetPos = target.position;
+        //var targetPos = target.position;
         //var direction = targetPos - transform.position;
         var startPos = transform.position;
 

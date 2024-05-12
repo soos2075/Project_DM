@@ -12,7 +12,7 @@ public class Herbalist : NPC
     {
         if (ActionPoint <= 0 || Mana <= 0)
         {
-            return new Define.TileType[] { Define.TileType.NPC, Define.TileType.Facility };
+            return new Define.TileType[] { Define.TileType.NPC, Define.TileType.Facility, Define.TileType.Monster };
         }
         else
         {
@@ -95,6 +95,7 @@ public class Herbalist : NPC
     }
     protected override void NPC_Die()
     {
+        base.NPC_Die();
         Kill();
         GameManager.NPC.InactiveNPC(this);
     }
@@ -123,8 +124,10 @@ public class Herbalist : NPC
         }
 
         UI_EventBox.AddEventText($"¢Â{Name_Color} {UserData.Instance.GetLocaleText("Event_Defeat")}");
-        Main.Instance.CurrentDay.AddKill(1);
+
         Main.Instance.CurrentDay.AddGold(KillGold);
+        Main.Instance.ShowDM(KillGold, Main.TextType.gold, transform);
+
         Main.Instance.CurrentDay.AddDanger(5 + Data.Rank);
         Main.Instance.ShowDM(5 + Data.Rank, Main.TextType.danger, transform);
     }

@@ -55,6 +55,16 @@ public class EventManager : MonoBehaviour
         CurrentQuestEvent?.Invoke();
     }
 
+    public void QuestDataReset()
+    {
+        CurrentTurn = 0;
+        CurrentGuildData = new List<GuildNPC_Data>();
+        GuildQuestAdd = new List<int>();
+        CurrentQuestEvent = null;
+        CurrentQuestEvent_ForSave.Clear();
+    }
+
+
 
     public int CurrentTurn;// { get; set; }
 
@@ -194,8 +204,15 @@ public class EventManager : MonoBehaviour
             //Managers.UI.ClosePopUp();
             //Managers.Dialogue.currentDialogue = null;
             var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
+            message.DelayTime = 2;
             message.Message = UserData.Instance.GetLocaleText("Message_Egg");
         });
+
+        EventAction.Add("Entrance_Move_2to4", () =>
+        {
+            StartCoroutine(EntranceMove_2to4());
+        });
+
 
 
         //EventAction.Add("Ending", () =>
@@ -230,6 +247,43 @@ public class EventManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(1);
         Managers.Scene.LoadSceneAsync(SceneName._7_NewEnding, false);
     }
+
+
+    IEnumerator EntranceMove_2to4()
+    {
+        Camera.main.GetComponent<CameraControl>().ChasingTarget(new Vector3(0, -15, 0), 2);
+        yield return new WaitForSecondsRealtime(2);
+
+        {
+            var tile = Main.Instance.Floor[2].GetRandomTile();
+            Main.Instance.Floor[2].TileMap.TryGetValue(new Vector2Int(0, 0), out tile);
+            GameManager.Facility.RemoveFacility(tile.Original as Facility);
+        }
+        yield return new WaitForSecondsRealtime(2);
+
+        Camera.main.GetComponent<CameraControl>().ChasingTarget(new Vector3(0, -18, 0), 2);
+        yield return new WaitForSecondsRealtime(2);
+
+        {
+            var tile = Main.Instance.Floor[4].GetRandomTile();
+            Main.Instance.Floor[4].TileMap.TryGetValue(new Vector2Int(1, 15), out tile);
+            // 로드파일에서 테스트할 때
+            if (tile.Original != null)
+            {
+                GameManager.Facility.RemoveFacility(tile.Original as Facility);
+            }
+
+            PlacementInfo info = new PlacementInfo(Main.Instance.Floor[4], tile);
+            var obj = GameManager.Facility.CreateFacility_OnlyOne("EggEntrance", info);
+        }
+        yield return new WaitForSecondsRealtime(2);
+
+        Camera.main.GetComponent<CameraControl>().ChasingTarget(Main.Instance.Player, 2);
+        yield return new WaitForSecondsRealtime(2);
+    }
+
+
+
 
 
     //? 클리어시에만 임시로 사용함. 이게 있을 땐 SaveLoad에서도 얘로 대신해서 저장함. (인덱스는 클릭한 인덱스로). 클리어 처리 후엔 삭제됨
@@ -292,14 +346,5 @@ public class EventManager : MonoBehaviour
         }
     }
 
-
-    //public void Reset_Singleton()
-    //{
-    //    CurrentGuildData?.Clear();
-    //    GuildQuestAdd?.Clear();
-    //    CurrentQuestEvent = null;
-    //    CurrentQuestEvent_ForSave?.Clear();
-    //    CurrentTurn = 0;
-    //}
 }
 

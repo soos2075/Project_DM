@@ -234,22 +234,20 @@ public class CollectionManager : MonoBehaviour
 
 
     #region Multi Play
-    public MultiplayData PlayData { get; set; }
+    public RoundData RoundClearData { get; set; }
 
 
-    public class MultiplayData
+    public class RoundData
     {
         public bool dataApply;
 
         public int multiplayCount;
-
 
         public Save_MonsterData[] MonsterList;
 
         //public Save_MonsterData multiSavedMonster1;
         //public Save_MonsterData multiSavedMonster2;
         //public Save_MonsterData multiSavedMonster3;
-
 
         public string[] BonusList;
 
@@ -261,7 +259,7 @@ public class CollectionManager : MonoBehaviour
         int monsterCount;
         int bonusCount;
 
-        public MultiplayData()
+        public RoundData()
         {
             MonsterList = new Save_MonsterData[3];
             BonusList = new string[3];
@@ -270,6 +268,12 @@ public class CollectionManager : MonoBehaviour
             bonusCount = 0;
         }
 
+
+        public ClearDataLog dataLog;
+        public void Init_LogData(DataManager.SaveData saveData)
+        {
+            //? 데모말고 정식버전에서는 저장할 때 받아온 saveData의 DayResult에서 이것저것 수치를 뽑아와서 dataLog에 넣어주면 됨
+        }
 
         public void Init_Count(int multiCount)
         {
@@ -294,13 +298,30 @@ public class CollectionManager : MonoBehaviour
         }
     }
 
-
-
-    public MultiplayData SaveMultiData()
+    public class ClearDataLog
     {
-        if (PlayData != null)
+        public int mana;
+        public int gold;
+        public int kill;
+        //public int prisoner;
+        public int rank;
+        public int pop;
+        public int danger;
+
+        public float clearTime;
+
+        public int monsterCount;
+        public string highestMonster;
+        public int highestMonsterLv;
+    }
+
+
+
+    public RoundData SaveMultiData()
+    {
+        if (RoundClearData != null)
         {
-            return PlayData;
+            return RoundClearData;
         }
         else
         {
@@ -308,9 +329,9 @@ public class CollectionManager : MonoBehaviour
         }
     }
 
-    public void LoadMultiData(MultiplayData Data)
+    public void LoadMultiData(RoundData Data)
     {
-        PlayData = Data;
+        RoundClearData = Data;
     }
 
 
