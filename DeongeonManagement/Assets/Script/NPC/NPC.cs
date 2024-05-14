@@ -342,7 +342,10 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
     public void SetPriorityListForPublic()
     {
-        SetPriorityList();
+        if (State == NPCState.Priority)
+        {
+            SetPriorityList();
+        }
     }
 
 

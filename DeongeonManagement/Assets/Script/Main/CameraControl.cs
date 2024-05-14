@@ -50,6 +50,7 @@ public class CameraControl : MonoBehaviour
 
         ClickAction();
         PixelPerfection_Zoom();
+        PPU_Zoom_Keyboard();
         KeyboardMove();
 
 
@@ -136,6 +137,37 @@ public class CameraControl : MonoBehaviour
 
     #region InputAction
 
+
+    void PPU_Zoom_Keyboard()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (Hide_UI_Cor != null)
+            {
+                Zoom(1);
+                timer = 0;
+            }
+            else
+            {
+                Hide_UI_Cor = StartCoroutine(Zoom_UI_Pixel(1));
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (Hide_UI_Cor != null)
+            {
+                Zoom(-1);
+                timer = 0;
+            }
+            else
+            {
+                Hide_UI_Cor = StartCoroutine(Zoom_UI_Pixel(-1));
+            }
+        }
+    }
+
+
     float scrollValue;
     void PixelPerfection_Zoom()
     {
@@ -152,20 +184,65 @@ public class CameraControl : MonoBehaviour
 
         if (Mathf.Abs(scrollValue) > 1)
         {
-            pixelCam.assetsPPU += (int)scrollValue;
-            scrollValue = 0;
-
-            if (pixelCam.assetsPPU < 10)
+            if (Hide_UI_Cor != null)
             {
-                pixelCam.assetsPPU = 10;
+                Zoom();
+                timer = 0;
             }
-            if (pixelCam.assetsPPU > 25)
+            else
             {
-                pixelCam.assetsPPU = 25;
+                Hide_UI_Cor = StartCoroutine(Zoom_UI_Pixel());
             }
-            MouseLimit();
         }
     }
+
+    Coroutine Hide_UI_Cor;
+    float timer = 0;
+    IEnumerator Zoom_UI_Pixel(int value = 0)
+    {
+        Managers.UI.HideCanvasAll();
+        yield return null;
+
+        Zoom(value);
+
+        yield return null;
+
+        timer = 0;
+        while (timer < 0.5f)
+        {
+            yield return null;
+            timer += Time.deltaTime;
+        }
+
+        Managers.UI.ShowCanvasAll();
+        Hide_UI_Cor = null;
+    }
+
+
+    void Zoom(int value = 0)
+    {
+        if (value == 0)
+        {
+            pixelCam.assetsPPU += (int)scrollValue;
+            scrollValue = 0;
+        }
+        else
+        {
+            pixelCam.assetsPPU += value;
+        }
+
+        if (pixelCam.assetsPPU < 10)
+        {
+            pixelCam.assetsPPU = 10;
+        }
+        if (pixelCam.assetsPPU > 25)
+        {
+            pixelCam.assetsPPU = 25;
+        }
+        MouseLimit();
+    }
+
+
 
 
     Vector3 startMousePos;

@@ -258,6 +258,8 @@ public class MonsterManager
                 Monsters[i].MonsterID = i;
             }
         }
+
+        InjuryMonster = 0;
     }
 
     #endregion

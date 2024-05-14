@@ -342,4 +342,73 @@ public class UIManager
 
 
 
+
+    #region Hide And Show All UI
+
+
+    public List<Canvas> CurrentCanvasList;
+
+    public void HideCanvasAll()
+    {
+        if (CurrentCanvasList != null)
+        {
+            Debug.Log("활성화된 Canvas가 이미 존재함");
+            return;
+        }
+        CurrentCanvasList = new List<Canvas>();
+        CurrentCanvasList.AddRange(GameObject.FindObjectsOfType<Canvas>());
+
+        // 설치하는곳에서 숨기는거랑 겹치는 경우
+        var main_Can = GameObject.FindAnyObjectByType<UI_Management>().GetComponent<Canvas>();
+        if (!main_Can.isActiveAndEnabled)
+        {
+            CurrentCanvasList.Remove(main_Can);
+        }
+
+        foreach (var item in CurrentCanvasList)
+        {
+            item.enabled = false;
+        }
+    }
+
+    public void ShowCanvasAll()
+    {
+        if (CurrentCanvasList == null)
+        {
+            Debug.Log("활성화된 Canvas가 없음");
+            return;
+        }
+
+        if (WaitForShowCanvas_Cor != null)
+        {
+            return;
+        }
+        else
+        {
+            WaitForShowCanvas_Cor = Managers.Instance.StartCoroutine(WaitForShowCanvas());
+        }
+    }
+
+    Coroutine WaitForShowCanvas_Cor;
+
+    IEnumerator WaitForShowCanvas()
+    {
+        yield return null;
+        yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
+
+        foreach (var item in CurrentCanvasList)
+        {
+            if (item != null)
+            {
+                item.enabled = true;
+            }
+        }
+        CurrentCanvasList = null;
+        WaitForShowCanvas_Cor = null;
+    }
+
+
+    #endregion
+
+
 }

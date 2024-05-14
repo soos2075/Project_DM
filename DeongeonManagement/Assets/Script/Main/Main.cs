@@ -276,6 +276,9 @@ public class Main : MonoBehaviour
         var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
         message.DelayTime = 2;
         message.Message = UserData.Instance.GetLocaleText("Message_First");
+
+        yield return new WaitUntil(() => Managers.UI._popupStack.Count == 0);
+        var tutorial = Managers.UI.ShowPopUp<UI_Tutorial>();
     }
     void Instantiate_DayOne()
     {

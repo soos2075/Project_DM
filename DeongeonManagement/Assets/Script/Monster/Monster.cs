@@ -464,16 +464,16 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         var npcType = npc.GetType();
         npc.ActionPoint -= Data.battleAp;
 
-        int battleMP = npc.Rank * 3;
+        int battleMP = npc.Rank * 1;
 
         if (npcType == typeof(Adventurer) || npcType == typeof(Elf) || npcType == typeof(Wizard))
         {
-            battleMP = npc.Rank * 9;
+            battleMP = npc.Rank * 4;
         }
 
         if (npcType == typeof(EventNPC))
         {
-            battleMP = npc.Rank * 6;
+            battleMP = npc.Rank * 2;
         }
 
         if (npcType == typeof(QuestHunter))
@@ -481,7 +481,11 @@ public abstract class Monster : MonoBehaviour, IPlacementable
             battleMP = npc.Rank * 1;
         }
 
-        int manaClamp = Mathf.Clamp(battleMP, npc.Mana, battleMP);
+        int manaClamp = Mathf.Clamp(battleMP, 0, npc.Mana);
+        if (manaClamp < 0)
+        {
+            manaClamp = 0;
+        }
         npc.Mana -= manaClamp;
 
         //? 전투가 동시에 일어날 때, 죽고 사는 전투가 이전의 Nothing 공방보다 먼저 끝나는 경우가 존재함. 이 때 PlaceInfo가 사라지거나 하는 문제떄문에 먼저 저장

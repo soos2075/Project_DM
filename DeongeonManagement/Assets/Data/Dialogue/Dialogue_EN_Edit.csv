@@ -49,7 +49,7 @@ EN,\' = '\n',"-' = ','",,,,,,
 ,,,,,,17,@Target::Notice::Target,The will of the Dungeon Master has been confirmed.
 ,,,,,,18,,The contract will proceed according to \the Dungeon Master's will.
 ,,,,,,19,,The duration is 30 days- and failure will \result in your soul being collected.
-,,,,,,20,,Now- fighting!!
+,,,,,,20,,Now- Good Luck!!
 ,,,,,,21,@Target::Player::Target,What? This is insane. When did I ever agree to this!!
 ,,,,,,22,,No!!!!!!!!!
 ,,,,,,,,
@@ -114,18 +114,18 @@ EN,\' = '\n',"-' = ','",,,,,,
 ,,,,,,,,
 ,,,,,,,,
 ,,,,,,,,
-,33,Day3_Event,Bubble,,,0,@Camera::EventNPC::Camera,Here's the Novice Dungeon.
+,33,Day3_Event,Bubble,,,0, @Camera::Event_Day3::Camera,Here's the Novice Dungeon.
 ,,,,,,1,,I'll be able to become a monster slayer here!
 ,,,,,,2,,I hope there's treasure too... Is there any?
 ,,,,,,,,
 ,,,,,,,,
 ,,,,,,,,
-,83,Day8_Event,Bubble,,,0,@Camera::EventNPC::Camera,Is this the Novice Dungeon?
+,83,Day8_Event,Bubble,,,0, @Camera::Event_Day8::Camera,Is this the Novice Dungeon?
 ,,,,,,1,,Well- for a super rookie like me\this Dungeon is child's play.
 ,,,,,,2,,I'll breeze through and graduate from being a novice adventurer!!
 ,,,,,,,,
 ,,,,,,,,
-,84,Day8_Event_Die,Bubble,,,0,@Camera::EventNPC::Camera,What is this Dungeon?
+,84,Day8_Event_Die,Bubble,,,0, @Camera::Event_Day8::Camera,What is this Dungeon?
 ,,,,,,1,,It's way more dangerous than I heard?
 ,,,,,,2,,Something's off... I need to get out of here first.
 ,,,,,,3, @Camera::Player::Camera@Target::Player::Target,・・・・・
@@ -134,7 +134,7 @@ EN,\' = '\n',"-' = ','",,,,,,
 ,,,,,,6,,I hope nothing bad happens... Better not go back there...
 ,,,,,,,,
 ,,,,,,,,
-,153,Day15_Event,Bubble,,,0,@Camera::EventNPC::Camera,My disciple kept begging to go to a Dungeon- so\I sent them to this safe Novice Dungeon-
+,153,Day15_Event,Bubble,,,0, @Camera::Event_Day15::Camera,My disciple kept begging to go to a Dungeon- so\I sent them to this safe Novice Dungeon-
 ,,,,,,1,,but they came back with quite serious injuries.
 ,,,,,,2,,As far as I remember- it used to be a pretty tame Dungeon...
 ,,,,,,3,,After hearing some strange rumors lately-\about powerful monsters appearing- \or rare items dropping-
@@ -144,7 +144,7 @@ EN,\' = '\n',"-' = ','",,,,,,
 ,,,,,,7,,Shall we take a look?
 ,,,,,,,,
 ,,,,,,,,
-,154,Day15_Event_Die,Bubble,,,0,@Camera::EventNPC::Camera,This is definitely dangerous.
+,154,Day15_Event_Die,Bubble,,,0, @Camera::Event_Day15::Camera,This is definitely dangerous.
 ,,,,,,1,,If even I- a former hero- am struggling this much...
 ,,,,,,2,,I need to report this to the guild.
 ,,,,,,,,
@@ -266,10 +266,10 @@ EN,\' = '\n',"-' = ','",,,,,,
 ,,,,,,1,,Actions will be carried out by squad units.
 ,,,,,,2,,The first squad will enter with me first-\and the next squad will follow after.
 ,,,,,,3,,All monsters encountered are targets for subjugation-\report any treasures or artifacts found.
-,,,,,,4, @Target::Event_Soldier1::Target, <size=50>Yes!
+,,,,,,4, @Target::Event_Soldier1::Target, <size=50>Yes! Sir!
 ,,,,,,5, @Target::Captine_B::Target,Did everyone hear that? \We'll wait for the front squad to enter- then enter after.
 ,,,,,,6,,Everyone- inspect and wait.
-,,,,,,7, @Target::Event_Soldier2::Target, <size=50>Yes!
+,,,,,,7, @Target::Event_Soldier2::Target, <size=50>Yes! Sir!
 ,,,,,,8, @Target::Captine_A::Target,Then- enter!
 ,,,,,,,,
 ,,,,,,,,
@@ -279,8 +279,8 @@ EN,\' = '\n',"-' = ','",,,,,,
 ,,,,,,3,,That is to say- failure will absolutely not\be tolerated this time.
 ,,,,,,4,,Everyone- put in your full effort to thoroughly investigate\every monster- every blade of grass in the dungeon.
 ,,,,,,5,,Report immediately if any strange locations or dangerous beings are found.
-,,,,,,6, @Camera::Captine_A::Camera@Target::Captine_A::Target, <size=50>Yes!
-,,,,,,7, @Camera::Captine_B::Camera@Target::Captine_B::Target, <size=50>Yes!
+,,,,,,6, @Camera::Captine_A::Camera@Target::Captine_A::Target, <size=50>Yes! Sir!
+,,,,,,7, @Camera::Captine_B::Camera@Target::Captine_B::Target, <size=50>Yes! Sir!
 ,,,,,,8, @Camera::B_Warrior::Camera@Target::B_Warrior::Target,........
 ,,,,,,9, @Target::B_Elf::Target,Heh- you think you can subjugate this dungeon by doing that?
 ,,,,,,10,,Not a chance?
@@ -322,3 +322,11 @@ EN,\' = '\n',"-' = ','",,,,,,
 ,714,Dog_4,Bubble,,,0,,But I'm not lonely. Because I'm no longer alone like before.
 ,,,,,,1,,By my side now is my closest friend- my companion- my trustworthy colleague.
 ,,,,,,2,,Today too- I take a step towards the adventure I've dreamed of. Forever and ever...
+,,,,,,,,
+,,,,,,,,
+,990,Expansion_4,Bubble,,,0, @Camera::Player::Camera@Skip::2::Skip@Fade::0::Fade,!!
+,,,,,,1, @Action::Entrance_Move_2to4::Action@Skip::10::Skip,
+,,,,,,2,@Camera::Player::Camera,Has the location of the transitions leading to this room changed?
+,,,,,,3,,I'm guessing it's because the dungeon has been expanded...
+,,,,,,4,,If so- that's pretty good news.
+,,,,,,5,,As we continue to expand the dungeon- \the risk of being spotted in this room will decrease.

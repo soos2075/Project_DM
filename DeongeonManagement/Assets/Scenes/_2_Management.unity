@@ -78100,6 +78100,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1627003629, guid: 53222dd6a9fa7bf48b3b904eea6da234, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210650208326614932, guid: 53222dd6a9fa7bf48b3b904eea6da234, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9022615982053578253, guid: 53222dd6a9fa7bf48b3b904eea6da234, type: 3}
       propertyPath: m_Name
       value: '@MainUI'
@@ -78108,6 +78116,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 2076096951}
+    - target: {fileID: 9022615982053578256, guid: 53222dd6a9fa7bf48b3b904eea6da234, type: 3}
+      propertyPath: m_PixelPerfect
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9022615982053578257, guid: 53222dd6a9fa7bf48b3b904eea6da234, type: 3}
       propertyPath: m_Pivot.x
       value: 0

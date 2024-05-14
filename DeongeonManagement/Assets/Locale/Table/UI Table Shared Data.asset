@@ -439,6 +439,14 @@ MonoBehaviour:
     m_Key: Data Reset
     m_Metadata:
       m_Items: []
+  - m_Id: 23762605694988288
+    m_Key: "\uBD80\uC0C1\uC911"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23824219697786880
+    m_Key: Manual
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

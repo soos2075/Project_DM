@@ -61,7 +61,7 @@ public class UI_MonsterBox : UI_Base
         switch (monster.State)
         {
             case Monster.MonsterState.Standby:
-                GetObject(((int)Contents.State)).GetComponent<TextMeshProUGUI>().text = "대기중".SetTextColorTag(Define.TextColor.green);
+                GetObject(((int)Contents.State)).GetComponent<TextMeshProUGUI>().text = UserData.Instance.GetLocaleText("대기중").SetTextColorTag(Define.TextColor.green);
                 break;
 
             case Monster.MonsterState.Placement:
@@ -69,7 +69,7 @@ public class UI_MonsterBox : UI_Base
                 break;
 
             case Monster.MonsterState.Injury:
-                GetObject(((int)Contents.State)).GetComponent<TextMeshProUGUI>().text = "부상중".SetTextColorTag(Define.TextColor.red);
+                GetObject(((int)Contents.State)).GetComponent<TextMeshProUGUI>().text = UserData.Instance.GetLocaleText("부상중").SetTextColorTag(Define.TextColor.red);
                 break;
         }
 

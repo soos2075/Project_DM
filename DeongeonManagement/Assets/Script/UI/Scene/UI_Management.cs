@@ -123,7 +123,7 @@ public class UI_Management : UI_Base
 
     public void Texts_Refresh()
     {
-        GetTMP(((int)Texts.Day)).text = $"{Main.Instance.Turn}ÀÏÂ÷";
+        GetTMP(((int)Texts.Day)).text = $"{Main.Instance.Turn} {UserData.Instance.GetLocaleText("Day")}";
         GetTMP(((int)Texts.Value)).text = $"{Main.Instance.Player_Mana}";
         GetTMP(((int)Texts.Value)).text += $"\n{Main.Instance.Player_Gold}";
         GetTMP(((int)Texts.Value)).text += $"\n{Main.Instance.PopularityOfDungeon}";
@@ -160,10 +160,34 @@ public class UI_Management : UI_Base
 
     public void Hide_MainCanvas()
     {
+        if (GetComponent<Canvas>().enabled == false)
+        {
+            return;
+        }
+
         GetComponent<Canvas>().enabled = false;
     }
     public void Show_MainCanvas()
     {
+        if (UserData.Instance.GameMode == Define.GameMode.Stop)
+        {
+            return;
+        }
+
+        if (Managers.UI.CurrentCanvasList != null)
+        {
+            Canvas main = GetComponent<Canvas>();
+
+            foreach (var item in Managers.UI.CurrentCanvasList)
+            {
+                if (item == main)
+                {
+                    return;
+                }
+            }
+        }
+
+
         GetComponent<Canvas>().enabled = true;
     }
 
