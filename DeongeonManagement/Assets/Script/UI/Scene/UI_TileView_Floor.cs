@@ -67,8 +67,8 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
 
             var pos = Camera.main.ScreenToWorldPoint(data.position);
             float offset = Camera.main.GetComponent<PixelPerfectCamera>().assetsPPU * 0.04f;
-            //view.transform.localPosition = new Vector3(pos.x + 0.45f + (1 - offset), pos.y - (1 - offset), 0);
-            view.transform.localPosition = new Vector3(pos.x , pos.y, 0);
+
+            //view.transform.localPosition = new Vector3(pos.x , pos.y, 0);
 
             string _title = CurrentTile.Original.Name_Color;
             string _detail = CurrentTile.Original.Detail_KR;

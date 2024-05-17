@@ -72,8 +72,6 @@ public class DemoManager : MonoBehaviour
     }
 
 
-
-
     IEnumerator EndingTestCor()
     {
         yield return null;
@@ -94,6 +92,28 @@ public class DemoManager : MonoBehaviour
         UserData.Instance.EndingState = Endings.Dog;
         Managers.Scene.LoadSceneAsync(SceneName._7_NewEnding, false);
     }
+
+
+
+    //private void Update()
+    //{
+    //    //Vector3 mouse = Camera.main.WorldToViewportPoint(Input.mousePosition);
+
+    //    //Vector3 aaa = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    //    //Debug.Log(Input.mousePosition);
+
+    //    // 화면의 중앙 좌표 계산
+    //    Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
+
+    //    // 화면 중앙 좌표에서 마우스 위치를 뺌
+    //    Vector3 centeredMousePosition = Input.mousePosition - screenCenter;
+
+    //    // 결과 출력
+    //    Debug.Log(centeredMousePosition);
+
+    //}
+
+
 
 #if CHEAT_BUILD
     private void Update()

@@ -1691,7 +1691,8 @@ public class Main : MonoBehaviour
     {
         CurrentEndingState = Endings.Dog;
         EggSprite.SetCategoryAndLabel("Egg", "Dog");
-        eggObj.GetComponent<Facility>().Data = GameManager.Facility.GetData("Egg_Dog");
+        eggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Dog"));
+
 
 #if DEMO_BUILD
         // 데모버전이면 무조건 Dog엔딩
@@ -1702,14 +1703,14 @@ public class Main : MonoBehaviour
         {
             CurrentEndingState = Endings.Dragon;
             EggSprite.SetCategoryAndLabel("Egg", "Dragon");
-            eggObj.GetComponent<Facility>().Data = GameManager.Facility.GetData("Egg_Dragon");
+            eggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Dragon"));
         }
 
         if (GetTotalMana() >= 10000)
         {
             CurrentEndingState = Endings.Slime;
             EggSprite.SetCategoryAndLabel("Egg", "Slime");
-            eggObj.GetComponent<Facility>().Data = GameManager.Facility.GetData("Egg_Slime");
+            eggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Slime"));
         }
     }
 

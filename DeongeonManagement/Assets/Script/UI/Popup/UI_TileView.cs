@@ -20,7 +20,30 @@ public class UI_TileView : UI_PopUp, IWorldSpaceUI
 
     public void SetCanvasWorldSpace()
     {
-        Managers.UI.SetCanvas(gameObject, RenderMode.WorldSpace);
+        //Managers.UI.SetCanvas(gameObject, RenderMode.WorldSpace);
+        GetComponent<Canvas>().worldCamera = Camera.main;
+        panel = transform.GetChild(0).GetComponent<RectTransform>();
+    }
+
+
+    RectTransform panel;
+
+    //private void Update()
+    //{
+    //    Vector3 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    //    panel.position = new Vector3(mouse.x + 50, mouse.y + 50, 0);
+    //}
+    private void LateUpdate()
+    {
+        //Vector3 mouse = Camera.main.WorldToViewportPoint(Input.mousePosition);
+        //panel.localPosition = new Vector3(mouse.x, mouse.y, 0);
+        //Debug.Log(mouse);
+
+        Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
+        Vector3 centeredMousePosition = Input.mousePosition - screenCenter;
+        panel.localPosition = new Vector3(centeredMousePosition.x, centeredMousePosition.y, 0);
+        // 결과 출력
+        //Debug.Log(centeredMousePosition);
     }
 
 

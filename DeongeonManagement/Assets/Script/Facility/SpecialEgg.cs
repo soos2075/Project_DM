@@ -31,7 +31,7 @@ public class SpecialEgg : Facility
 
     public override void Init_Personal()
     {
-
+        //InteractionOfTimes = 10000;
     }
     public override void Init_FacilityEgo()
     {

@@ -19,6 +19,9 @@ public class UI_Tutorial : UI_PopUp
 
     public override void Init()
     {
+        Managers.UI.SetCanvas(gameObject);
+
+
         Bind<Image>(typeof(Images));
 
         StartCoroutine(WaitAddEvent());
@@ -30,6 +33,7 @@ public class UI_Tutorial : UI_PopUp
     {
         yield return new WaitForSecondsRealtime(1);
 
-        GetImage((int)Images.Close).gameObject.AddUIEvent((data) => ClosePopUp());
+        GetImage((int)Images.Close).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.LeftClick);
+        GetImage((int)Images.Close).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.RightClick);
     }
 }

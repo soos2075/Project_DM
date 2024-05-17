@@ -42,7 +42,7 @@ public class UI_Technical : UI_Scene, IWorldSpaceUI
         }
 
         var pos = Camera.main.ScreenToWorldPoint(data.position);
-        view.transform.localPosition = new Vector3(pos.x, pos.y, 0);
+        //view.transform.localPosition = new Vector3(pos.x, pos.y, 0);
         view.ViewContents($"[{Parent.Current.Data.labelName}]", $"{Parent.Current.Data.detail}");
     }
     void CloseView()

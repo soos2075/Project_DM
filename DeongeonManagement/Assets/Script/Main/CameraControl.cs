@@ -37,8 +37,15 @@ public class CameraControl : MonoBehaviour
             return;
         }
 
-        if (Time.timeScale == 0) return;
         if (UserData.Instance.GameMode == Define.GameMode.Stop) return;
+
+        
+
+        if (Time.timeScale == 0) return;
+
+        //? esc키로 액션취소, 팝업 닫기 등을 할 수 있어야함(ui가 있을 땐 타임스케일이 0이니까 어쩔 수 없긴 한데 일단은)
+        //? 그리고 그거 구현하고나면 타임스케일 리턴 위로 위치 옮겨야함. 일단은 pause만 구현
+        Key_Esc();
 
 
 
@@ -46,6 +53,8 @@ public class CameraControl : MonoBehaviour
 
         limit_left = -150 / (mainCam.orthographicSize * mainCam.orthographicSize);
         limit_right = 150 / (mainCam.orthographicSize * mainCam.orthographicSize);
+
+
 
 
         ClickAction();
@@ -211,7 +220,7 @@ public class CameraControl : MonoBehaviour
         while (timer < 0.5f)
         {
             yield return null;
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
         }
 
         Managers.UI.ShowCanvasAll();
@@ -314,45 +323,33 @@ public class CameraControl : MonoBehaviour
 
         if (moveX != 0)
         {
-            transform.position += Vector3.right * moveX * Time.deltaTime * 5;
+            transform.position += Vector3.right * moveX * Time.unscaledDeltaTime * 5;
             MouseLimit();
         }
 
         if (moveY != 0)
         {
-            transform.position += Vector3.up * moveY * Time.deltaTime * 5;
+            transform.position += Vector3.up * moveY * Time.unscaledDeltaTime * 5;
             MouseLimit();
         }
     }
 
 
-
-
-    [System.Obsolete]
-    void SlowMove(float dir)
+    void Key_Esc()
     {
-        transform.Translate(new Vector3(0, dir, 0) * Time.deltaTime * cameraSpeed);
-        MouseLimit();
-    }
-    [System.Obsolete]
-    void CheckCameraMove()
-    {
-        if (Managers.UI._popupStack.Count == 0)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Move = true;
-            return;
-        }
+            if (Managers.UI._popupStack.Count == 0)
+            {
+                Managers.UI.ShowPopUp<UI_Pause>();
+            }
+            //else if(Managers.UI._popupStack.Contains())
+            //{
 
-        var ui = Managers.UI._popupStack.Peek() as IWorldSpaceUI;
-        if (ui == null)
-        {
-            Move = false;
-        }
-        else
-        {
-            Move = true;
+            //}
         }
     }
+
 
     #endregion
 
