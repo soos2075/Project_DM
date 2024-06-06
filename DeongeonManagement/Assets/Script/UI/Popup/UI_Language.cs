@@ -43,7 +43,7 @@ public class UI_Language : UI_PopUp
     {
 
         var confirm = Managers.UI.ShowPopUp<UI_Confirm>();
-        confirm.SetText(UserData.Instance.GetLocaleText("LanguageChange"));
+        confirm.SetText(UserData.Instance.LocaleText("LanguageChange"));
         StartCoroutine(WaitForAnswer(confirm, (int)language));
     }
 
@@ -56,5 +56,12 @@ public class UI_Language : UI_PopUp
             UserData.Instance.ChangeLanguage(index);
             Managers.UI.ClosePopUp(confirm);
         }
+    }
+
+
+
+    public override bool EscapeKeyAction()
+    {
+        return true;
     }
 }

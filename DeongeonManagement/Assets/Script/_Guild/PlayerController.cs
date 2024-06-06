@@ -182,7 +182,7 @@ public class PlayerController : MonoBehaviour
         if (collision.CompareTag("Guild_Exit"))
         {
             var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
-            ui.SetText(UserData.Instance.GetLocaleText("Confirm_Return"));
+            ui.SetText(UserData.Instance.LocaleText("Confirm_Return"));
             StartCoroutine(WaitForAnswer(ui));
             return;
         }
@@ -222,34 +222,29 @@ public class PlayerController : MonoBehaviour
         {
             //Debug.Log("각종 데이터 처리");
             Managers.Scene.AddLoadAction_OneTime(() => Main.Instance.Default_Init());
-            Managers.Scene.AddLoadAction_OneTime(() => Managers.Data.LoadGame_ToGuild("AutoSave"));
-            Managers.Scene.AddLoadAction_OneTime(() => Main.Instance.Player_AP = 0);
-            //Managers.Scene.AddLoadAction_OneTime(() => Debug.Log("저장한거 먼저 불러오고나서"));
+            Managers.Scene.AddLoadAction_OneTime(() => Managers.Data.LoadGame_ToGuild("Temp_GuildSave"));
 
-            //for (int i = 0; i < GuildManager.Instance.DungeonBackAction.Count; i++)
-            //{
-            //    Managers.Scene.AddLoadAction_Once(GuildManager.Instance.DungeonBackAction[i]);
-            //}
-            //for (int i = 0; i < guildManager.DungeonBackAction.Count; i++)
-            //{
-            //    Managers.Scene.AddLoadAction_OneTime(guildManager.DungeonBackAction[i]);
-            //}
-            //guildManager.DungeonBackAction.Clear();
+            //Managers.Scene.AddLoadAction_OneTime(() => Main.Instance.Player_AP -= 1);
+
 
             if (guildManager.DungeonBackAction != null)
             {
                 Managers.Scene.AddLoadAction_OneTime(guildManager.DungeonBackAction);
                 guildManager.DungeonBackAction = null;
             }
-
             
             Managers.Scene.AddLoadAction_OneTime(() => FindObjectOfType<UI_Management>().Texts_Refresh());
             //Managers.Scene.AddLoadAction_OneTime(() => Debug.Log("유명도 오르는거 실행하는 순서인데 잘 하고 있냐?"));
 
+            //? 시간 원래대로 되돌리기
+            Managers.Scene.AddLoadAction_OneTime(() => UserData.Instance.GamePlay(UserData.Instance.GameSpeed_GuildReturn));
+
             Managers.Scene.LoadSceneAsync(SceneName._2_Management);
 
             //Time.timeScale = 1;
-            UserData.Instance.GamePlay_Normal();
+            //UserData.Instance.GamePlay_Normal();
+
+
         }
     }
 }

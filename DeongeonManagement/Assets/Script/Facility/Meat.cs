@@ -16,7 +16,7 @@ public class Meat : Facility
         if (InteractionOfTimes > 0)
         {
             InteractionOfTimes--;
-            Cor_Facility = StartCoroutine(FacilityEvent(npc, 2, UserData.Instance.GetLocaleText("Event_Resting"), ap: 1, mp: 0, hp: -15));
+            Cor_Facility = StartCoroutine(FacilityEvent(npc, 2, UserData.Instance.LocaleText("Event_Resting"), ap: 1, mp: 0, hp: -15));
             return Cor_Facility;
         }
         else

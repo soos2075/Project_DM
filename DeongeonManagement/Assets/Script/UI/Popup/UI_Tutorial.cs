@@ -17,6 +17,8 @@ public class UI_Tutorial : UI_PopUp
     }
 
 
+    Coroutine Wait_Cor;
+
     public override void Init()
     {
         Managers.UI.SetCanvas(gameObject);
@@ -24,7 +26,7 @@ public class UI_Tutorial : UI_PopUp
 
         Bind<Image>(typeof(Images));
 
-        StartCoroutine(WaitAddEvent());
+        Wait_Cor = StartCoroutine(WaitAddEvent());
     }
 
 
@@ -35,5 +37,22 @@ public class UI_Tutorial : UI_PopUp
 
         GetImage((int)Images.Close).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.LeftClick);
         GetImage((int)Images.Close).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.RightClick);
+
+        Wait_Cor = null;
     }
+
+
+    public override bool EscapeKeyAction()
+    {
+        if (Wait_Cor == null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
 }

@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UI_EventHandler : MonoBehaviour, IPointerClickHandler, IDragHandler, IPointerMoveHandler, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IEndDragHandler
+public class UI_EventHandler : MonoBehaviour, IPointerClickHandler, IDragHandler, IPointerMoveHandler, IPointerEnterHandler, IPointerExitHandler, 
+	IBeginDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler
 {
 	public Action<PointerEventData> OnLeftClickHandler = null;
 	public Action<PointerEventData> OnRightClickHandler = null;
@@ -68,7 +69,6 @@ public class UI_EventHandler : MonoBehaviour, IPointerClickHandler, IDragHandler
 		}
 	}
 
-
 	public Action<PointerEventData> OnPointerExitHandler = null;
 	public void OnPointerExit(PointerEventData eventData)
     {
@@ -77,15 +77,38 @@ public class UI_EventHandler : MonoBehaviour, IPointerClickHandler, IDragHandler
 
 
 
+	public Action<PointerEventData> OnPointerDownHandler = null;
+	public Action<PointerEventData> OnPointerUpHandler = null;
+	public void OnPointerDown(PointerEventData eventData)
+	{
+		OnPointerDownHandler?.Invoke(eventData);
+	}
 
+	public void OnPointerUp(PointerEventData eventData)
+	{
+		OnPointerUpHandler?.Invoke(eventData);
+	}
+
+
+
+
+
+	//? 전부 리셋
 	public void ClearAllAction()
 	{
 		OnLeftClickHandler = null;
 		OnRightClickHandler = null;
+
 		OnDragHandler = null;
+		OnBeginDragHandler = null;
+		OnEndDragHandler = null;
+		
 		OnMoveHandler = null;
 		OnPointerEnterHandler = null;
 		OnPointerExitHandler = null;
+
+		OnPointerDownHandler = null;
+		OnPointerUpHandler = null;
 	}
 
 

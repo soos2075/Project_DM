@@ -235,7 +235,6 @@ public class DataManager
         public Save_TechnicalData[] tachnicalList;
 
 
-        //? 값타입으로 싹 바꿔야된다 이거
         // Guild 정보
         public List<GuildNPC_Data> guildNPCList;
 

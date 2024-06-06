@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: UI_Tooltip Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: UI_Tooltip
+  m_TableCollectionNameGuidString: b4ec66f8ef833454e930704e1457ada9
+  m_Entries:
+  - m_Id: 171197018112
+    m_Key: AP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171234766848
+    m_Key: AP_Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171238961152
+    m_Key: AP_Need
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171238961153
+    m_Key: Gold
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171243155456
+    m_Key: Gold_Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171243155457
+    m_Key: Gold_Need
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171243155458
+    m_Key: Mana
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171243155459
+    m_Key: Mana_Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171243155460
+    m_Key: Mana_Need
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171243155461
+    m_Key: Popularity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171243155462
+    m_Key: Pop_Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171243155463
+    m_Key: Danger
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171243155464
+    m_Key: Danger_Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171243155465
+    m_Key: Rank
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171247349760
+    m_Key: Rank_Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171247349761
+    m_Key: Day
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171247349762
+    m_Key: Command_Fixed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171247349763
+    m_Key: Command_Wander
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171247349764
+    m_Key: Command_Attack
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 1393907065110396938
+  references:
+    version: 2
+    RefIds:
+    - rid: 1393907065110396938
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1717499750392

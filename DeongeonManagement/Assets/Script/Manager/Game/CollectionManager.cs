@@ -48,7 +48,7 @@ public class CollectionManager : MonoBehaviour
 
         Managers.Data.LoadCollectionData();
 
-
+        //Register_Monster[2].isRegist = true;
         //Register_Monster[3].isRegist = true;
         //Register_Facility[1].isRegist = true;
         //Register_NPC[1].isRegist = true;
@@ -302,8 +302,15 @@ public class CollectionManager : MonoBehaviour
     {
         public int mana;
         public int gold;
+
+
+        public int visit;
+        public int satisfaction;
+        public int return_Empty;
         public int kill;
         //public int prisoner;
+
+
         public int rank;
         public int pop;
         public int danger;

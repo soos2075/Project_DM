@@ -59,7 +59,7 @@ public class Herb : Facility
 
 
             InteractionOfTimes--;
-            Cor_Facility = StartCoroutine(FacilityEvent(npc, durationTime, UserData.Instance.GetLocaleText("Event_Herb"), 
+            Cor_Facility = StartCoroutine(FacilityEvent(npc, durationTime, UserData.Instance.LocaleText("Event_Herb"), 
                 ap: ap_value, mp: changeMP, hp: hp_value));
             return Cor_Facility;
         }
@@ -76,7 +76,7 @@ public class Herb : Facility
         if (Main.Instance.Management == false) return;
 
         var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
-        ui.SetText($"[{Name}] {UserData.Instance.GetLocaleText("Confirm_Remove")}");
+        ui.SetText($"[{Name}] {UserData.Instance.LocaleText("Confirm_Remove")}");
         StartCoroutine(WaitForAnswer(ui));
     }
 

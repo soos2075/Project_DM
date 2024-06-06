@@ -31,15 +31,15 @@ public class UI_Floor : UI_Base
 
 
 
-    public void OpenPlacementType(PointerEventData data)
-    {
-        Main.Instance.CurrentFloor = Main.Instance.Floor[FloorID];
+    //public void OpenPlacementType(PointerEventData data)
+    //{
+    //    Main.Instance.CurrentFloor = Main.Instance.Floor[FloorID];
 
-        var popup = Managers.UI.ShowPopUpAlone<UI_Placement_TypeSelect>();
-        var pos = Camera.main.ScreenToWorldPoint(data.position);
-        popup.transform.localPosition = new Vector3(pos.x, pos.y, 0);
-        popup.parents = this;
-    }
+    //    var popup = Managers.UI.ShowPopUpAlone<UI_Placement_TypeSelect>();
+    //    var pos = Camera.main.ScreenToWorldPoint(data.position);
+    //    popup.transform.localPosition = new Vector3(pos.x, pos.y, 5);
+    //    popup.parents = this;
+    //}
 
 
 

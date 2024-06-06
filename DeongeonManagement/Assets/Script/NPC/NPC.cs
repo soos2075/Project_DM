@@ -188,9 +188,16 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
 
     #region MoveAnimation
+
+    Coroutine Cor_MoveAnim;
+
     void PlacementMove_NPC(NPC npc, PlacementInfo newPlace, float duration)
     {
-        StartCoroutine(MoveUpdate(newPlace.Place_Tile, duration));
+        if (Cor_MoveAnim != null)
+        {
+            StopCoroutine(Cor_MoveAnim);
+        }
+        Cor_MoveAnim = StartCoroutine(MoveUpdate(newPlace.Place_Tile, duration));
 
         GameManager.Placement.PlacementMove(this, newPlace);
     }
@@ -210,7 +217,11 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             //? 왼쪽
             Anim_State = animState.left;
         }
-        //else if (dir.y > 0)
+        else
+        {
+            anim.Play("Running");
+        }
+        //else if (dir.y > 0) //? 이걸 안쓰는 이유는 우 상 우 상 이동할 때 캐릭터가 우 좌 우 좌 뒤집어지는 문제때문에 쓰면 안댐
         //{
         //    //? 위
         //    Anim_State = animState.back;
@@ -237,6 +248,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         }
 
         transform.position = endPos.worldPosition;
+        Cor_MoveAnim = null;
     }
 
     void LookInteraction(BasementTile endPos)
@@ -325,6 +337,14 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         //if (Main.Instance.Management == false) return;
     }
     public virtual void MouseExitEvent()
+    {
+
+    }
+    public virtual void MouseDownEvent()
+    {
+
+    }
+    public virtual void MouseUpEvent()
     {
 
     }
@@ -492,23 +512,25 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     IEnumerator MoveToPoint(Vector3 point)
     {
         Vector3 dir = point - transform.position;
-        float dis = Vector3.Distance(transform.position, point);
+        //float dis = Vector3.Distance(transform.position, point);
 
-        while (dis > 0.1f)
+        while (true)
         {
             var changeDir = point - transform.position;
             if (Mathf.Sign(dir.x) != Mathf.Sign(changeDir.x))
             {
+                yield return UserData.Instance.Wait_GamePlay;
                 break;
             }
 
             transform.Translate(dir.normalized * Time.deltaTime * Speed_Ground);
-            dis = Vector3.Distance(transform.position, point);
-            //yield return null;
+
+            //dis = Vector3.Distance(transform.position, point);
+            ////yield return null;
             yield return UserData.Instance.Wait_GamePlay;
         }
 
-        UI_EventBox.AddEventText($"◆{Name_Color} {UserData.Instance.GetLocaleText("Event_Enter")}");
+        UI_EventBox.AddEventText($"◆{Name_Color} {UserData.Instance.LocaleText("Event_Enter")}");
         if (GameManager.Technical.Donation != null)
         {
             Main.Instance.CurrentDay.AddGold(5);
@@ -517,6 +539,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
 
         inDungeon = true;
         FloorNext();
+        Main.Instance.CurrentDay.AddVisit(1);
     }
 
 
@@ -531,6 +554,10 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         {
             StopCoroutine(Cor_Move);
         }
+        if (Cor_MoveAnim != null)
+        {
+            StopCoroutine(Cor_MoveAnim);
+        }
 
         StartCoroutine(MoveToHome(Main.Instance.Guild.position));
         Anim_State = animState.left;
@@ -539,19 +566,17 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     IEnumerator MoveToHome(Vector3 point)
     {
         Vector3 dir = point - transform.position;
-        float dis = Vector3.Distance(transform.position, point);
 
-        while (dis > 0.1f)
+        while (true)
         {
             var changeDir = point - transform.position;
             if (Mathf.Sign(dir.x) != Mathf.Sign(changeDir.x))
             {
+                yield return UserData.Instance.Wait_GamePlay;
                 break;
             }
 
             transform.Translate(dir.normalized * Time.deltaTime * Speed_Ground);
-            dis = Vector3.Distance(transform.position, point);
-            //yield return null;
             yield return UserData.Instance.Wait_GamePlay;
         }
         GameManager.NPC.InactiveNPC(this);
@@ -733,7 +758,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         //var info = Managers.Placement.GetRandomPlacement(this, Main.Instance.Floor[FloorLevel]); 
 
         UI_EventBox.AddEventText($"●{Name_Color} - {Main.Instance.Floor[FloorLevel].Exit.PlacementInfo.Place_Floor.LabelName} " +
-            $"{UserData.Instance.GetLocaleText("Event_Next")}");
+            $"{UserData.Instance.LocaleText("Event_Next")}");
         //? 입구에서 소환
         var info_Entrance = new PlacementInfo(Main.Instance.Floor[FloorLevel], Main.Instance.Floor[FloorLevel].Exit.PlacementInfo.Place_Tile);
         GameManager.Placement.PlacementConfirm(this, info_Entrance);
@@ -803,7 +828,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     public void FloorPortal(int hiddenFloor) //? 특정층으로 순간이동
     {
         UI_EventBox.AddEventText($"●{Name_Color} - {Main.Instance.Floor[hiddenFloor].Exit.PlacementInfo.Place_Floor.LabelName}" +
-            $"{UserData.Instance.GetLocaleText("Event_Next")}");
+            $"{UserData.Instance.LocaleText("Event_Next")}");
 
         GameManager.Placement.PlacementClear(this);
         //? 입구에서 소환
@@ -843,18 +868,18 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         switch (State)
         {
             case NPCState.Runaway:
-                UI_EventBox.AddEventText($"◆{Name_Color} {UserData.Instance.GetLocaleText("Event_Exit_Runaway")}");
-                NPC_Runaway();
+                UI_EventBox.AddEventText($"◆{Name_Color} {UserData.Instance.LocaleText("Event_Exit_Runaway")}");
+                Runaway_Base();
                 break;
 
             case NPCState.Return_Empty:
-                UI_EventBox.AddEventText($"◆{Name_Color} {UserData.Instance.GetLocaleText("Event_Exit_Empty")}");
-                NPC_Return_Empty();
+                UI_EventBox.AddEventText($"◆{Name_Color} {UserData.Instance.LocaleText("Event_Exit_Empty")}");
+                Empty_Base();
                 break;
 
             case NPCState.Return_Satisfaction:
-                UI_EventBox.AddEventText($"◆{Name_Color} {UserData.Instance.GetLocaleText("Event_Exit_Satisfaction")}");
-                NPC_Return_Satisfaction();
+                UI_EventBox.AddEventText($"◆{Name_Color} {UserData.Instance.LocaleText("Event_Exit_Satisfaction")}");
+                Satisfaction_Base();
                 break;
         }
     }
@@ -864,19 +889,39 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     {
         if (OneTimeCheck == false)
         {
-            NPC_Die();
+            Die_Base();
             OneTimeCheck = true;
         }
     }
+
+    void Runaway_Base()
+    {
+        Main.Instance.CurrentDay.AddReturn(1);
+        NPC_Runaway();
+    }
+    void Empty_Base()
+    {
+        Main.Instance.CurrentDay.AddReturn(1);
+        NPC_Return_Empty();
+    }
+    void Satisfaction_Base()
+    {
+        Main.Instance.CurrentDay.AddSatisfaction(1);
+        NPC_Return_Satisfaction();
+    }
+    void Die_Base()
+    {
+        Main.Instance.CurrentDay.AddKill(1);
+        NPC_Die();
+    }
+
+
     protected abstract void NPC_Runaway();
     protected abstract void NPC_Return_Empty();
     protected abstract void NPC_Return_Satisfaction();
 
     public virtual int KillGold { get; set; }
-    protected virtual void NPC_Die()
-    {
-        Main.Instance.CurrentDay.AddKill(1);
-    }
+    protected abstract void NPC_Die();
     protected abstract void NPC_Captive();
 
     public virtual int RunawayHpRatio { get; set; } = 4;
@@ -1083,7 +1128,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             //Debug.Log(ActionDelay + Name_KR);
             yield return UserData.Instance.Wait_GamePlay;
             yield return new WaitForSeconds(ActionDelay);
-
+            yield return UserData.Instance.Wait_GamePlay;
 
             //Debug.Log($"{name} 좌표 : {PlacementInfo.Place_Floor.Floor} / {PlacementInfo.Place_Tile.index} / 상태 : {State} / \n" +
             //    $"다음타일타입 : {path[i].tileType} /좌표 : {path[i].floor.Floor} / {path[i].index} / 이벤트타입 : {encount}\n" +

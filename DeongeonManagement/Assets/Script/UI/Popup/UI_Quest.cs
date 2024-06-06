@@ -52,4 +52,18 @@ public class UI_Quest : UI_PopUp
             content.SetText(title, detail);
         }
     }
+
+
+
+    public override bool EscapeKeyAction()
+    {
+        return true;
+    }
+
+
+
+    private void OnDestroy()
+    {
+        PopupUI_OnDestroy();
+    }
 }

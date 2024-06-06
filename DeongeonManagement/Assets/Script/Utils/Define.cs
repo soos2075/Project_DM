@@ -47,6 +47,8 @@ public class Define
         Move,
         Enter,
         Exit,
+        Down,
+        Up,
     }
 
 

@@ -70,7 +70,7 @@ public class UI_Summon_Monster : UI_PopUp
     }
     void Init_Texts() //? 추후에 행동력이나 기타등등 필요하면 다시 추가
     {
-        GetTMP((int)Info.CurrentMana).text = $"{UserData.Instance.GetLocaleText("Mana")}\t{Main.Instance.Player_Mana}";
+        GetTMP((int)Info.CurrentMana).text = $"{UserData.Instance.LocaleText("Mana")}\t{Main.Instance.Player_Mana}";
     }
 
     void Init_Contents()
@@ -144,6 +144,13 @@ public class UI_Summon_Monster : UI_PopUp
 
     public void SelectContent(SO_Monster content)
     {
+        if (Current == content)
+        {
+            Debug.Log($"중복선택됨 - {content.name}");
+            MonsterSummon(content);
+            return;
+        }
+
         Current = content;
         for (int i = 0; i < childList.Count; i++)
         {
@@ -179,7 +186,7 @@ public class UI_Summon_Monster : UI_PopUp
         else
         {
             var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = UserData.Instance.GetLocaleText("Message_No_Slot");
+            msg.Message = UserData.Instance.LocaleText("Message_No_Slot");
         }
     }
 
@@ -198,7 +205,7 @@ public class UI_Summon_Monster : UI_PopUp
         Init_Texts();
 
         var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-        msg.Message = $"{data.labelName} {UserData.Instance.GetLocaleText("Message_Summon")}";
+        msg.Message = $"{data.labelName} {UserData.Instance.LocaleText("Message_Summon")}";
 
         SoundManager.Instance.PlaySound("SFX/Action_Summon");
     }
@@ -209,28 +216,36 @@ public class UI_Summon_Monster : UI_PopUp
         if (Main.Instance.Player_Mana < mana)
         {
             var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = UserData.Instance.GetLocaleText("Message_No_Mana");
+            msg.Message = UserData.Instance.LocaleText("Message_No_Mana");
             return false;
         }
         if (Main.Instance.Player_Gold < gold)
         {
             var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = UserData.Instance.GetLocaleText("Message_No_Gold");
+            msg.Message = UserData.Instance.LocaleText("Message_No_Gold");
             return false;
         }
         if (Main.Instance.DungeonRank < lv)
         {
             var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = UserData.Instance.GetLocaleText("Message_No_Rank");
+            msg.Message = UserData.Instance.LocaleText("Message_No_Rank");
             return false;
         }
         if (Main.Instance.Player_AP < ap)
         {
             var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = UserData.Instance.GetLocaleText("Message_No_AP");
+            msg.Message = UserData.Instance.LocaleText("Message_No_AP");
             return false;
         }
 
+        return true;
+    }
+
+
+
+
+    public override bool EscapeKeyAction()
+    {
         return true;
     }
 
@@ -242,8 +257,7 @@ public class UI_Summon_Monster : UI_PopUp
     }
     private void OnDestroy()
     {
-        //Time.timeScale = 1;
-        UserData.Instance.GamePlay();
+        PopupUI_OnDestroy();
     }
 }
 

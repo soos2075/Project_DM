@@ -17,14 +17,14 @@ public class UI_Management : UI_Base
     }
     void Update()
     {
-        if (Managers.UI._popupStack.Count > 0)
-        {
-            canvas.sortingOrder = 5;
-        }
-        else
-        {
-            canvas.sortingOrder = 9;
-        }
+        //if (Managers.UI._popupStack.Count > 0)
+        //{
+        //    canvas.sortingOrder = 5;
+        //}
+        //else
+        //{
+        //    canvas.sortingOrder = 9;
+        //}
     }
     private void LateUpdate()
     {
@@ -62,9 +62,12 @@ public class UI_Management : UI_Base
         Day,
     }
 
-    enum ActionPoint
+    enum Objects
     {
         AP,
+
+        mana_Tooltip,
+        gold_Tooltip,
     }
 
 
@@ -74,7 +77,7 @@ public class UI_Management : UI_Base
 
     public override void Init()
     {
-        Managers.UI.SetCanvas(gameObject, RenderMode.ScreenSpaceCamera, false);
+        //Managers.UI.SetCanvas(gameObject, RenderMode.ScreenSpaceCamera, false);
         canvas = GetComponent<Canvas>();
         eventBox = Managers.UI.ShowSceneUI<UI_EventBox>("UI_EventBox");
 
@@ -82,8 +85,9 @@ public class UI_Management : UI_Base
 
         Bind<Button>(typeof(ButtonEvent));
         Bind<TextMeshProUGUI>(typeof(Texts));
-        Bind<GameObject>(typeof(ActionPoint));
+        Bind<GameObject>(typeof(Objects));
 
+        Init_Tooltip();
         Texts_Refresh();
         Init_Button();
         StartCoroutine(DayInit());
@@ -92,11 +96,26 @@ public class UI_Management : UI_Base
         SpeedButtonImage();
     }
 
+
+    void Init_Tooltip()
+    {
+        var gold = GetObject((int)Objects.gold_Tooltip).GetOrAddComponent<UI_Tooltip>();
+        gold.SetTooltipContents(UserData.Instance.LocaleText_Tooltip("Gold"), UserData.Instance.LocaleText_Tooltip("Gold_Detail"));
+
+        var mana = GetObject((int)Objects.mana_Tooltip).GetOrAddComponent<UI_Tooltip>();
+        mana.SetTooltipContents(UserData.Instance.LocaleText_Tooltip("Mana"), UserData.Instance.LocaleText_Tooltip("Mana_Detail"));
+
+        var ap = GetObject((int)Objects.AP).GetOrAddComponent<UI_Tooltip>();
+        ap.SetTooltipContents(UserData.Instance.LocaleText_Tooltip("AP"), UserData.Instance.LocaleText_Tooltip("AP_Detail"));
+    }
+
+
+
     public void AP_Refresh()
     {
-        if (GetObject(((int)ActionPoint.AP)) == null) return;
+        if (GetObject(((int)Objects.AP)) == null) return;
 
-        var pos = GetObject(((int)ActionPoint.AP)).transform;
+        var pos = GetObject(((int)Objects.AP)).transform;
 
         for (int i = pos.childCount - 1; i >= 0; i--)
         {
@@ -111,19 +130,19 @@ public class UI_Management : UI_Base
 
         if (Main.Instance.Player_AP <= 2)
         {
-            GetObject(((int)ActionPoint.AP)).GetComponent<ContentSizeFitter>().enabled = false;
-            GetObject(((int)ActionPoint.AP)).GetComponent<RectTransform>().sizeDelta = new Vector2(130, 90);
+            GetObject(((int)Objects.AP)).GetComponent<ContentSizeFitter>().enabled = false;
+            GetObject(((int)Objects.AP)).GetComponent<RectTransform>().sizeDelta = new Vector2(130, 90);
         }
         else
         {
-            GetObject(((int)ActionPoint.AP)).GetComponent<ContentSizeFitter>().enabled = true;
+            GetObject(((int)Objects.AP)).GetComponent<ContentSizeFitter>().enabled = true;
         }
     }
 
 
     public void Texts_Refresh()
     {
-        GetTMP(((int)Texts.Day)).text = $"{Main.Instance.Turn} {UserData.Instance.GetLocaleText("Day")}";
+        GetTMP(((int)Texts.Day)).text = $"{Main.Instance.Turn} {UserData.Instance.LocaleText("Day")}";
         GetTMP(((int)Texts.Value)).text = $"{Main.Instance.Player_Mana}";
         GetTMP(((int)Texts.Value)).text += $"\n{Main.Instance.Player_Gold}";
         GetTMP(((int)Texts.Value)).text += $"\n{Main.Instance.PopularityOfDungeon}";
@@ -201,7 +220,11 @@ public class UI_Management : UI_Base
     {
         //if (Managers.UI._popupStack.Count > 0) return;
 
-        var facility = Managers.UI.ShowPopUpAlone<UI_Placement_Facility>("Facility/UI_Placement_Facility");
+
+        var facility = Managers.UI.ClearAndShowPopUp<UI_Placement_Facility>("Facility/UI_Placement_Facility");
+
+        //var facility = Managers.UI.ShowPopUpAlone<UI_Placement_Facility>("Facility/UI_Placement_Facility");
+
         FloorPanelClear();
     }
 
@@ -224,6 +247,9 @@ public class UI_Management : UI_Base
         Managers.UI.ShowPopUpAlone<UI_Quest>();
     }
 
+
+
+    public int GuildVisit_AP { get; set; } = 1;
     void Visit_Guild()
     {
         //if (Managers.UI._popupStack.Count > 0) return;
@@ -231,13 +257,16 @@ public class UI_Management : UI_Base
         if (Main.Instance.Player_AP <= 0)
         {
             var ui = Managers.UI.ShowPopUp<UI_SystemMessage>();
-            ui.Message = UserData.Instance.GetLocaleText("Message_No_AP");
-            Debug.Log("ÈÆ·ÃÈ½¼ö ¾øÀ½");
+            ui.Message = UserData.Instance.LocaleText("Message_No_AP");
+            //Debug.Log("ÈÆ·ÃÈ½¼ö ¾øÀ½");
         }
         else
         {
             var ui = Managers.UI.ClearAndShowPopUp<UI_Confirm>();
-            ui.SetText($"{UserData.Instance.GetLocaleText("Confirm_Guild")}\n({UserData.Instance.GetLocaleText("Confirm_AP")})");
+            ui.SetText($"{UserData.Instance.LocaleText("Confirm_Guild")}\n" +
+                $"<size=25>({GuildVisit_AP} {UserData.Instance.LocaleText("AP")} {UserData.Instance.LocaleText("ÇÊ¿ä")})");
+
+            //ui.SetText($"{UserData.Instance.GetLocaleText("Confirm_Guild")}\n({UserData.Instance.GetLocaleText("Confirm_AP")})");
             StartCoroutine(WaitForAnswer(ui));
         }
     }
@@ -249,7 +278,13 @@ public class UI_Management : UI_Base
 
         if (confirm.GetAnswer() == UI_Confirm.State.Yes)
         {
-            Managers.Data.SaveAndAddFile("AutoSave", 0);
+            Main.Instance.Player_AP -= GuildVisit_AP;
+            UserData.Instance.GameSpeed_GuildReturn = UserData.Instance.GameSpeed;
+
+            Managers.Data.SaveAndAddFile("Temp_GuildSave", -2);
+            //Managers.Data.SaveAndAddFile("AutoSave", 0);
+
+
             Managers.Scene.LoadSceneAsync(SceneName._3_Guild);
         }
     }
@@ -309,26 +344,28 @@ public class UI_Management : UI_Base
     }
 
 
-    [System.Obsolete]
-    void DayChange_Temp()
-    {
-        eventBox.BoxActive(true);
-        eventBox.TextClear();
-        Main.Instance.DayChange();
-        Texts_Refresh();
-    }
-
-
     public void EventBoxClose()
     {
         eventBox.BoxActive(false);
     }
 
 
-    void DayStart()
+
+    void TurnOverAction()
     {
         if (!Main.Instance.Management) return;
 
+        eventBox.BoxActive(true);
+        eventBox.TextClear();
+        Main.Instance.DayChange_Start();
+        Texts_Refresh();
+        SoundManager.Instance.PlaySound("SFX/TurnChange");
+    }
+
+
+    void DayStart()
+    {
+        if (!Main.Instance.Management) return;
 
         if (Main.Instance.Player_AP > 0)
         {
@@ -338,12 +375,7 @@ public class UI_Management : UI_Base
         }
         else
         {
-            eventBox.BoxActive(true);
-            eventBox.TextClear();
-
-            Main.Instance.DayChange();
-            Texts_Refresh();
-            SoundManager.Instance.PlaySound("SFX/TurnChange");
+            TurnOverAction();
         }
     }
     IEnumerator WaitForAnswer_TurnOver(UI_Confirm confirm)
@@ -352,12 +384,7 @@ public class UI_Management : UI_Base
 
         if (confirm.GetAnswer() == UI_Confirm.State.Yes)
         {
-            eventBox.BoxActive(true);
-            eventBox.TextClear();
-
-            Main.Instance.DayChange();
-            Texts_Refresh();
-            SoundManager.Instance.PlaySound("SFX/TurnChange");
+            TurnOverAction();
         }
     }
 

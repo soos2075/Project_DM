@@ -32,6 +32,10 @@ public interface IPlacementable
     void MouseClickEvent();
     void MouseMoveEvent();
     void MouseExitEvent();
+
+    //? 길게 누르기, 떼기 이벤트
+    void MouseDownEvent();
+    void MouseUpEvent();
 }
 public enum PlacementState
 {

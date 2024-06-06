@@ -57,7 +57,7 @@ public class UI_StartMenu : UI_Scene
 
 
 #if DEMO_BUILD
-            GetButton((int)Buttons.Collection).gameObject.SetActive(false);
+        GetButton((int)Buttons.Collection).gameObject.SetActive(false);
 #endif
     }
 
@@ -104,7 +104,7 @@ public class UI_StartMenu : UI_Scene
 
 
         var openingConfirm = Managers.UI.ShowPopUp<UI_Confirm>();
-        openingConfirm.SetText(UserData.Instance.GetLocaleText("Confirm_Opening"));
+        openingConfirm.SetText(UserData.Instance.LocaleText("Confirm_Opening"));
         StartCoroutine(WaitForAnswer(openingConfirm));
     }
 

@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Guild_Exit
+  - SubCamera
   layers:
   - Default
   - TransparentFX
@@ -14,7 +15,7 @@ TagManager:
   - UI
   - Interaction_Guild
   - Player
-  - 
+  - MainUI
   - 
   - 
   - 

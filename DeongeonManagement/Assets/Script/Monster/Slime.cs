@@ -82,7 +82,7 @@ public class Slime : Monster
     {
         var ui = Managers.UI.ShowPopUp<UI_StatusUp>("Monster/UI_StatusUp");
         ui.TargetMonster(this);
-        ui.StateText = $"{_origin} → {_Evolution} {UserData.Instance.GetLocaleText("진화")}!!";
+        ui.StateText = $"{_origin} → {_Evolution} {UserData.Instance.LocaleText("진화")}!!";
     }
 
 }

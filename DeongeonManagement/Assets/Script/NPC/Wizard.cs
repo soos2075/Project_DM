@@ -98,14 +98,13 @@ public class Wizard : NPC
 
     protected override void NPC_Die()
     {
-        base.NPC_Die();
         Kill();
         GameManager.NPC.InactiveNPC(this);
     }
 
     protected override void NPC_Captive()
     {
-        UI_EventBox.AddEventText($"¢Â{Name_Color} {UserData.Instance.GetLocaleText("Event_Prison")}");
+        UI_EventBox.AddEventText($"¢Â{Name_Color} {UserData.Instance.LocaleText("Event_Prison")}");
         Main.Instance.CurrentDay.AddPrisoner(1);
 
         Main.Instance.CurrentDay.AddGold(KillGold * 2);
@@ -128,7 +127,7 @@ public class Wizard : NPC
             }
         }
 
-        UI_EventBox.AddEventText($"¢Â{Name_Color} {UserData.Instance.GetLocaleText("Event_Defeat")}");
+        UI_EventBox.AddEventText($"¢Â{Name_Color} {UserData.Instance.LocaleText("Event_Defeat")}");
 
         Main.Instance.CurrentDay.AddGold(KillGold);
         Main.Instance.ShowDM(KillGold, Main.TextType.gold, transform);

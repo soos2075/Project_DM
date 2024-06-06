@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: UI_Tooltip_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: b4ec66f8ef833454e930704e1457ada9, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 171197018112
+    m_Localized: AP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171234766848
+    m_Localized: The AP available for use this turn.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171238961152
+    m_Localized: AP is required.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171238961153
+    m_Localized: Gold
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171243155456
+    m_Localized: You can get it by defeating Adventurers.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171243155457
+    m_Localized: Gold is required.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171243155458
+    m_Localized: Mana
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171243155459
+    m_Localized: This happens in most interactions in dungeons.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171243155460
+    m_Localized: Mana is required.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171243155461
+    m_Localized: Popularity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171243155462
+    m_Localized: The more popular it is, the more adventurers come to it.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171243155463
+    m_Localized: Danger
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171243155464
+    m_Localized: The higher the danger, the stronger the adventurer.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171243155465
+    m_Localized: Rank
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171247349760
+    m_Localized: "Your rank in the dungeon. \r\nIt is raised by several numbers."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171247349761
+    m_Localized: Day
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171247349762
+    m_Localized: They don't move from where they are placed.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171247349763
+    m_Localized: Move around randomly.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171247349764
+    m_Localized: When it finds an intruder, it tracks it down and attacks it.
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

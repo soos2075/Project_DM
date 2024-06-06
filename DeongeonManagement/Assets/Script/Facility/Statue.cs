@@ -75,7 +75,7 @@ public class Statue : Facility
         if (Main.Instance.Player_AP <= 0)
         {
             var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = UserData.Instance.GetLocaleText("Message_No_AP");
+            msg.Message = UserData.Instance.LocaleText("Message_No_AP");
             return;
         }
 
@@ -84,12 +84,14 @@ public class Statue : Facility
         switch (statueType)
         {
             case StatueType.Gold:
-                ui.SetText(UserData.Instance.GetLocaleText("Confirm_GoldStatue"));
+                ui.SetText($"{UserData.Instance.LocaleText("Confirm_GoldStatue")}\n" +
+                    $"<size=25>(1{UserData.Instance.LocaleText("AP")} {UserData.Instance.LocaleText("필요")})");
                 StartCoroutine(WaitForAnswer_Gold(ui));
                 break;
 
             case StatueType.Mana:
-                ui.SetText(UserData.Instance.GetLocaleText("Confirm_ManaStatue"));
+                ui.SetText($"{UserData.Instance.LocaleText("Confirm_ManaStatue")}\n" +
+                    $"<size=25>(1{UserData.Instance.LocaleText("AP")} {UserData.Instance.LocaleText("필요")})");
                 StartCoroutine(WaitForAnswer_Mana(ui));
                 break;
         }
@@ -107,7 +109,7 @@ public class Statue : Facility
 
             Managers.UI.ClosePopupPick(confirm);
             var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
-            msg.Message = $"{gold} {UserData.Instance.GetLocaleText("Message_Get_Gold")}";
+            msg.Message = $"{gold} {UserData.Instance.LocaleText("Message_Get_Gold")}";
         }
     }
     IEnumerator WaitForAnswer_Mana(UI_Confirm confirm)
@@ -122,7 +124,7 @@ public class Statue : Facility
 
             Managers.UI.ClosePopupPick(confirm);
             var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
-            msg.Message = $"{mana} {UserData.Instance.GetLocaleText("Message_Get_Mana")}";
+            msg.Message = $"{mana} {UserData.Instance.LocaleText("Message_Get_Mana")}";
         }
     }
 

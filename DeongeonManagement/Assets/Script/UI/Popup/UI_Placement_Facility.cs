@@ -18,6 +18,7 @@ public class UI_Placement_Facility : UI_PopUp
         Preview_Image,
         Preview_Text_Title,
         Preview_Text_Contents,
+        Preview_Area,
     }
 
     enum Buttons
@@ -74,8 +75,8 @@ public class UI_Placement_Facility : UI_PopUp
 
     void Init_Texts()
     {
-        GetTMP((int)Info.CurrentMana).text = $"{UserData.Instance.GetLocaleText("Mana")}\t{Main.Instance.Player_Mana}";
-        GetTMP((int)Info.CurrentMana).text += $"\n{UserData.Instance.GetLocaleText("Gold")}\t{Main.Instance.Player_Gold}";
+        GetTMP((int)Info.CurrentMana).text = $"{UserData.Instance.LocaleText("Mana")}\t{Main.Instance.Player_Mana}";
+        GetTMP((int)Info.CurrentMana).text += $"\n{UserData.Instance.LocaleText("Gold")}\t{Main.Instance.Player_Gold}";
         //GetTMP((int)Info.CurrentMana).text += $"\n행동력\t{Main.Instance.Player_AP}";
     }
     void Clear_NeedText()
@@ -108,6 +109,7 @@ public class UI_Placement_Facility : UI_PopUp
         GetObject((int)Preview.Preview_Image).GetComponent<Image>().sprite = Managers.Sprite.GetClear();
         GetObject((int)Preview.Preview_Text_Title).GetComponent<TextMeshProUGUI>().text = "";
         GetObject((int)Preview.Preview_Text_Contents).GetComponent<TextMeshProUGUI>().text = "";
+        GetObject((int)Preview.Preview_Area).GetComponent<Image>().sprite = Managers.Sprite.Get_Area("");
     }
     void Init_Buttons()
     {
@@ -135,6 +137,14 @@ public class UI_Placement_Facility : UI_PopUp
 
     public void SelectContent(SO_Contents content)
     {
+        if (Current == content)
+        {
+            Debug.Log($"중복선택됨 - {content.name}");
+            ConfirmCheck(content.Mana, content.Gold, content.UnlockRank, content.action);
+            return;
+        }
+
+
         Current = content;
         for (int i = 0; i < childList.Count; i++)
         {
@@ -152,7 +162,10 @@ public class UI_Placement_Facility : UI_PopUp
         GetObject((int)Preview.Preview_Image).GetComponent<Image>().sprite = Managers.Sprite.GetSprite(content.spritePath);
         GetObject((int)Preview.Preview_Text_Title).GetComponent<TextMeshProUGUI>().text = content.labelName;
         GetObject((int)Preview.Preview_Text_Contents).GetComponent<TextMeshProUGUI>().text = content.detail;
-        GetObject((int)Preview.Preview_Text_Contents).GetComponent<TextMeshProUGUI>().text += "\n" + content.boundary;
+
+        //GetObject((int)Preview.Preview_Text_Contents).GetComponent<TextMeshProUGUI>().text += "\n" + content.boundary;
+        GetObject((int)Preview.Preview_Area).GetComponent<Image>().sprite = Managers.Sprite.Get_Area(content.area_name);
+
 
         GetButton((int)Buttons.Confirm).gameObject.RemoveUIEventAll();
         GetButton((int)Buttons.Confirm).gameObject.AddUIEvent((data) => ConfirmCheck(content.Mana, content.Gold, content.UnlockRank,
@@ -165,19 +178,19 @@ public class UI_Placement_Facility : UI_PopUp
         if (Main.Instance.Player_Mana < mana)
         {
             var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = UserData.Instance.GetLocaleText("Message_No_Mana");
+            msg.Message = UserData.Instance.LocaleText("Message_No_Mana");
             return false;
         }
         if (Main.Instance.Player_Gold < gold)
         {
             var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = UserData.Instance.GetLocaleText("Message_No_Gold");
+            msg.Message = UserData.Instance.LocaleText("Message_No_Gold");
             return false;
         }
         if (Main.Instance.DungeonRank < lv)
         {
             var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = UserData.Instance.GetLocaleText("Message_No_Rank");
+            msg.Message = UserData.Instance.LocaleText("Message_No_Rank");
             return false;
         }
 
@@ -207,6 +220,14 @@ public class UI_Placement_Facility : UI_PopUp
 
 
 
+    public override bool EscapeKeyAction()
+    {
+        return true;
+    }
+
+
+
+
     private void OnEnable()
     {
         Time.timeScale = 0;
@@ -217,6 +238,6 @@ public class UI_Placement_Facility : UI_PopUp
     //}
     private void OnDestroy()
     {
-        UserData.Instance.GamePlay();
+        PopupUI_OnDestroy();
     }
 }

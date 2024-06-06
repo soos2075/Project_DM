@@ -94,13 +94,21 @@ public class UI_Confirm : UI_PopUp
 
 
 
+
+
+    public override bool EscapeKeyAction()
+    {
+        return true;
+    }
+
+
     private void OnEnable()
     {
         Time.timeScale = 0;
     }
     private void OnDestroy()
     {
-        UserData.Instance.GamePlay();
+        PopupUI_OnDestroy();
     }
 }
 

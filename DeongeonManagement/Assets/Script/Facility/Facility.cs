@@ -42,6 +42,15 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         if (Main.Instance.Management == false) return;
     }
 
+    public virtual void MouseDownEvent()
+    {
+
+    }
+    public virtual void MouseUpEvent()
+    {
+
+    }
+
     public string Name_Color { get { return Name; } }
 
     public string Detail_KR { get; protected set; }

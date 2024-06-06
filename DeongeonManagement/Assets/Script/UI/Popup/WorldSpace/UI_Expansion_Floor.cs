@@ -28,9 +28,9 @@ public class UI_Expansion_Floor : UI_Base, IWorldSpaceUI
 
         Bind<TextMeshProUGUI>(typeof(Contents));
 
-        GetTMP(((int)Contents.Content)).text = $"{UserData.Instance.GetLocaleText("필요")} {UserData.Instance.GetLocaleText("Mana")} : {NeedMana}\n" +
-            $"{UserData.Instance.GetLocaleText("필요")} {UserData.Instance.GetLocaleText("Gold")} : {NeedGold}\n" +
-            $"{UserData.Instance.GetLocaleText("필요")} {UserData.Instance.GetLocaleText("Rank")} : {NeedLv}";
+        GetTMP(((int)Contents.Content)).text = $"{UserData.Instance.LocaleText("필요")} {UserData.Instance.LocaleText("Mana")} : {NeedMana}\n" +
+            $"{UserData.Instance.LocaleText("필요")} {UserData.Instance.LocaleText("Gold")} : {NeedGold}\n" +
+            $"{UserData.Instance.LocaleText("필요")} {UserData.Instance.LocaleText("Rank")} : {NeedLv}";
 
         gameObject.AddUIEvent((data) => ExpansionCheck());
     }
@@ -61,7 +61,7 @@ public class UI_Expansion_Floor : UI_Base, IWorldSpaceUI
         if (NeedGold <= Main.Instance.Player_Gold && NeedMana <= Main.Instance.Player_Mana && NeedLv <= Main.Instance.DungeonRank)
         {
             var ui = Managers.UI.ShowPopUp<UI_Confirm>();
-            ui.SetText(UserData.Instance.GetLocaleText("Confirm_Expansion"));
+            ui.SetText(UserData.Instance.LocaleText("Confirm_Expansion"));
             StartCoroutine(WaitForAnswer(ui));
         }
     }

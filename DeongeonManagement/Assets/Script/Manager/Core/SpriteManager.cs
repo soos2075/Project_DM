@@ -5,22 +5,17 @@ using UnityEngine.U2D.Animation;
 
 public class SpriteManager
 {
-
-    Sprite[] ui_large_buttons_horizontal;
-    Sprite[] ui_large_buttons_vertical;
-
-    Sprite[] ui_panels;
+    //Sprite[] ui_large_buttons_horizontal;
+    //Sprite[] ui_large_buttons_vertical;
+    //Sprite[] ui_panels;
 
     Sprite[] ui_small_buttons;
-
     Sprite clear;
-
-
     Sprite[] ui_Cursor;
-
-
     SpriteLibraryAsset[] SLA_Array;
+    Sprite[] ui_Area;
 
+    Dictionary<string, Sprite> areaDict = new Dictionary<string, Sprite>();
 
     Dictionary<string, Sprite> spriteDict = new Dictionary<string, Sprite>();
 
@@ -49,6 +44,13 @@ public class SpriteManager
         ui_Cursor = Resources.LoadAll<Sprite>("Sprite/UI/Cursors");
 
         SLA_Array = Resources.LoadAll<SpriteLibraryAsset>("SpriteLabraryAsset");
+
+
+        ui_Area = Resources.LoadAll<Sprite>("Sprite/_UI/Area");
+        for (int i = 0; i < ui_Area.Length; i++)
+        {
+            areaDict.Add(ui_Area[i].name, ui_Area[i]);
+        }
     }
 
 
@@ -112,6 +114,18 @@ public class SpriteManager
 
         Debug.Log($"{_searchName} : Sprite Not Exist from SLA Data");
         return null;
+    }
+
+    public Sprite Get_Area(string area)
+    {
+        Sprite sprite = areaDict["Clean"];
+        if (string.IsNullOrEmpty(area)) //? area가 null이면 바로 리턴
+        {
+            return sprite;
+        }
+
+        areaDict.TryGetValue(area, out sprite);
+        return sprite;
     }
 
     public Sprite GetClear()

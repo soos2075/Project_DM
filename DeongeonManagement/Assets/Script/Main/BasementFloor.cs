@@ -682,7 +682,7 @@ public class BasementTile
     public Define.TileType tileType_Original;
 
     IPlacementable _current;
-    IPlacementable Current { get { return _current; } set { _current = value; GetObj_IPlacement(); } }
+    public IPlacementable Current { get { return _current; } set { _current = value; GetObj_IPlacement(); } }
 
     IPlacementable _original;
     public IPlacementable Original { get { return _original; } set { _original = value; GetObj_IPlacement(); } }

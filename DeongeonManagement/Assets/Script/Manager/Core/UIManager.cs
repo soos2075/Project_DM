@@ -43,6 +43,25 @@ public class UIManager
     }
 
 
+    public void SetCanvas_SubCamera(GameObject go, RenderMode renderMode = RenderMode.ScreenSpaceCamera, bool sort = true)
+    {
+        Canvas canvas = Util.GetOrAddComponent<Canvas>(go);
+        canvas.renderMode = renderMode;
+        canvas.worldCamera = GameObject.FindAnyObjectByType<Camera_SubCam>().GetComponent<Camera>();
+        canvas.overrideSorting = true;
+
+        if (sort)
+        {
+            canvas.sortingOrder = _sortOrder;
+            _sortOrder++;
+        }
+        else
+        {
+            //canvas.sortingOrder = 0;
+        }
+    }
+
+
 
     public void SceneChange()
     {
@@ -255,6 +274,19 @@ public class UIManager
             }
         }
     }
+    public void ClosePopupPickType(Type uiType)
+    {
+        foreach (var item in _popupStack)
+        {
+            if (item.GetType() == uiType)
+            {
+                ClosePopupPick(item);
+                return;
+            }
+        }
+    }
+
+
 
 
     public void CloseAll()
@@ -322,13 +354,13 @@ public class UIManager
     {
         if (_paused == null) return;
 
+        _popupStack.Push(_paused);
         for (int i = 0; i < _paused.transform.childCount; i++)
         {
             _paused.transform.GetChild(i).gameObject.SetActive(true);
             _paused.PauseRefresh();
         }
 
-        _popupStack.Push(_paused);
         _paused = null;
     }
 

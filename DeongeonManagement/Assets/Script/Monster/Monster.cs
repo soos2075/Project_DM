@@ -36,10 +36,12 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     public virtual void MouseClickEvent()
     {
         if (Main.Instance.Management == false) return;
-
         if (Data == null) return;
 
-        StartCoroutine(ShowMonsterManagement());
+        if (FindAnyObjectByType<UI_Monster_Management>() == null)
+        {
+            StartCoroutine(ShowMonsterManagement());
+        }
     }
 
     public virtual void MouseMoveEvent()
@@ -48,8 +50,10 @@ public abstract class Monster : MonoBehaviour, IPlacementable
     }
     public virtual void MouseExitEvent()
     {
-
+        //Cancle_QuickEvent();
     }
+
+
 
     IEnumerator ShowMonsterManagement()
     {
@@ -58,6 +62,64 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
         ui.ShowDetail(this);
     }
+
+
+    public virtual void MouseDownEvent()
+    {
+        if (Main.Instance.Management == false) return;
+        if (Data == null) return;
+
+
+        Cancle_QuickEvent();
+        Main.Instance.QuickPlacement = StartCoroutine(QuickPlacement());
+    }
+    public virtual void MouseUpEvent()
+    {
+        if (Main.Instance.Management == false) return;
+        if (Data == null) return;
+
+
+        Cancle_QuickEvent();
+    }
+
+
+    void Cancle_QuickEvent()
+    {
+        if (Main.Instance.QuickPlacement != null)
+        {
+            StopCoroutine(Main.Instance.QuickPlacement);
+            Main.Instance.QuickPlacement = null;
+            Debug.Log("퀵배치 취소");
+        }
+    }
+
+    IEnumerator QuickPlacement()
+    {
+        yield return new WaitForSeconds(1);
+
+
+        Debug.Log("퀵배치");
+        //var ui = Managers.UI.ClearAndShowPopUp<UI_Monster_Management>("Monster/UI_Monster_Management");
+        //ui.Type = UI_Monster_Management.UI_Type.Placement;
+        //Main.Instance.CurrentFloor = PlacementInfo.Place_Floor;
+
+        //yield return new WaitForEndOfFrame();
+        //yield return new WaitForEndOfFrame();
+        //ui.ShowDetail(this);
+
+
+
+        //ui.Type = UI_Monster_Management.UI_Type.Placement;
+        //yield return null;
+
+        var ui = Managers.UI.ClearAndShowPopUp<UI_Monster_Management>("Monster/UI_Monster_Management");
+        ui.isQuickMode = true;
+        MonsterOutFloor();
+        ui.QuickPlacement(MonsterID);
+
+        Main.Instance.QuickPlacement = null;
+    }
+
 
     #endregion
 
@@ -493,7 +555,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
 
         UI_EventBox.AddEventText($"★{floorName} - " +
-            $"{npc.Name_Color} vs {Name_Color} {UserData.Instance.GetLocaleText("Battle_Start")}");
+            $"{npc.Name_Color} vs {Name_Color} {UserData.Instance.LocaleText("Battle_Start")}");
 
 
         BattleField.BattleResult result = 0;
@@ -504,17 +566,17 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         {
             case BattleField.BattleResult.Nothing:
                 UI_EventBox.AddEventText($"★{floorName} - " +
-                    $"{npc.Name_Color} vs {Name_Color} {UserData.Instance.GetLocaleText("Battle_End")}");
+                    $"{npc.Name_Color} vs {Name_Color} {UserData.Instance.LocaleText("Battle_End")}");
                 GetBattlePoint(npc.Rank);
                 break;
 
             case BattleField.BattleResult.Monster_Die:
-                UI_EventBox.AddEventText($"★{floorName} - {Name_Color} {UserData.Instance.GetLocaleText("Battle_Lose")}");
+                UI_EventBox.AddEventText($"★{floorName} - {Name_Color} {UserData.Instance.LocaleText("Battle_Lose")}");
                 MonsterOutFloor();
                 break;
 
             case BattleField.BattleResult.NPC_Die:
-                UI_EventBox.AddEventText($"★{floorName} - {Name_Color} {UserData.Instance.GetLocaleText("Battle_Win")}");
+                UI_EventBox.AddEventText($"★{floorName} - {Name_Color} {UserData.Instance.LocaleText("Battle_Win")}");
                 GetBattlePoint(npc.Rank * 2);
                 break;
         }
@@ -665,7 +727,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         else
         {
             var ui = Managers.UI.ShowPopUp<UI_SystemMessage>();
-            ui.Message = UserData.Instance.GetLocaleText("Message_No_Mana");
+            ui.Message = UserData.Instance.LocaleText("Message_No_Mana");
             //Debug.Log("마나부족");
         }
     }
@@ -675,13 +737,13 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         if (Main.Instance.Player_AP <= 0)
         {
             var ui = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            ui.Message = UserData.Instance.GetLocaleText("Message_No_AP");
+            ui.Message = UserData.Instance.LocaleText("Message_No_AP");
             return;
         }
         if (Data.maxLv <= LV)
         {
             var ui = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            ui.Message = UserData.Instance.GetLocaleText("Message_MaxLv");
+            ui.Message = UserData.Instance.LocaleText("Message_MaxLv");
             return;
         }
 

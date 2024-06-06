@@ -274,6 +274,7 @@ public class NPCManager
         Max_NPC_Value = Mathf.Clamp(Main.Instance.Turn + ofFame, 5, 5 + (Main.Instance.Turn * 2));
 
         //Debug.Log("테스트모드!!!!!!!!!!!!!빌드전수정필");
+        //Max_NPC_Value = ofFame;
     }
 
 
@@ -415,6 +416,11 @@ public class NPCManager
         {
             yield return new WaitUntil(() => Managers.UI._popupStack.Count == 0); //? 진화창같은거 떠있으면 좀만 기둘려
 
+            if (Main.Instance.Management == true) // 만약 이미 다른코드로 인해 이미 매니지먼트턴이 됐다면 코루틴 브레이크
+            {
+                yield break;
+            }
+
             foreach (var item in Remove_NPC_List)
             {
                 Managers.Resource.Destroy(item.gameObject);
@@ -424,7 +430,7 @@ public class NPCManager
             Instance_EventNPC_List.Clear();
 
             Debug.Log("모든 npc가 비활성화됨");
-            Main.Instance.DayChange();
+            Main.Instance.DayChange_Over();
         }
     }
 

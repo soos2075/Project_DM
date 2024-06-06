@@ -46,6 +46,48 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
     UI_TileView view;
     public BasementTile CurrentTile;
 
+
+
+    public void ChildMoveEvent_CurrentData(IPlacementable current)
+    {
+        if (current as Facility != null)  //? 퍼실리티가 들어오면 바로 리턴
+        {
+            return;
+        }
+
+        CurrentTile = current.PlacementInfo.Place_Tile;
+        if (view == null)
+        {
+            view = Managers.UI.ShowPopUpAlone<UI_TileView>();
+        }
+
+        string _title = current.Name_Color;
+        switch (current.PlacementType)
+        {
+            case PlacementType.Monster:
+                var monster = current as Monster;
+                _title += $" LV.{monster.LV}".SetTextColorTag(Define.TextColor.monster_green);
+                break;
+
+            case PlacementType.NPC:
+                break;
+        }
+        view.ViewContents(_title, current.Detail_KR);
+
+        switch (current.PlacementType)
+        {
+            case PlacementType.Monster:
+                var monster = current as Monster;
+                view.ViewDetail($"{monster.HP}/{monster.HP_Max}".SetTextColorTag(Define.TextColor.LightGreen));
+                break;
+
+            case PlacementType.NPC:
+                var npc = current as NPC;
+                view.ViewDetail($"{npc.HP}/{npc.HP_MAX}".SetTextColorTag(Define.TextColor.npc_red));
+                break;
+        }
+    }
+
     public void ChildMoveEvent(BasementTile child, PointerEventData data)
     {
         CurrentTile = child;
@@ -65,8 +107,8 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
                 view = Managers.UI.ShowPopUpAlone<UI_TileView>();
             }
 
-            var pos = Camera.main.ScreenToWorldPoint(data.position);
-            float offset = Camera.main.GetComponent<PixelPerfectCamera>().assetsPPU * 0.04f;
+            //var pos = Camera.main.ScreenToWorldPoint(data.position);
+            //float offset = Camera.main.GetComponent<PixelPerfectCamera>().assetsPPU * 0.04f;
 
             //view.transform.localPosition = new Vector3(pos.x , pos.y, 0);
 
@@ -93,6 +135,7 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
                     _title = _title.SetTextColorTag(Define.TextColor.white);
                     break;
             }
+
             view.ViewContents(_title, _detail);
 
 
@@ -122,6 +165,12 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
             }
         }
     }
+
+
+    //public void ChildEnterEvent()
+    //{
+    //    //CurrentTile = null;
+    //}
     public void ChildExitEvent()
     {
         CurrentTile = null;
@@ -189,18 +238,34 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
 
     IEnumerator FrameWait(PointerEventData data)
     {
-        var ui = Managers.UI.ClearAndShowPopUp<UI_DungeonPlacement>();
+        //var ui = Managers.UI.ClearAndShowPopUp<UI_DungeonPlacement>();
+
+        OpenPlacementType(data);
 
         yield return new WaitForEndOfFrame();
 
         FindObjectOfType<UI_Management>().FloorPanelActive();
         ChildColorChange(Define.Color_Blue);
-        ui.uI_Floors[FloorID].OpenPlacementType(data);
 
+        //ui.uI_Floors[FloorID].OpenPlacementType(data);
+        
         yield return new WaitForEndOfFrame();
 
         CurrentTile = null;
     }
 
+
+    public void OpenPlacementType(PointerEventData data)
+    {
+        Main.Instance.CurrentFloor = Main.Instance.Floor[FloorID];
+
+        //Debug.Log(Managers.UI._popupStack);
+        //var popup = Managers.UI.ShowPopUpAlone<UI_Placement_TypeSelect>();
+        var popup = Managers.UI.ClearAndShowPopUp<UI_Placement_TypeSelect>();
+
+        var pos = Camera.main.ScreenToWorldPoint(data.position);
+        popup.transform.localPosition = new Vector3(pos.x, pos.y, 5);
+        //popup.parents = this;
+    }
 
 }

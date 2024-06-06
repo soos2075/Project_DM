@@ -72,8 +72,8 @@ public class UI_Placement_Technical : UI_PopUp
     }
     void Init_Texts()
     {
-        GetTMP((int)Info.CurrentMana).text = $"{UserData.Instance.GetLocaleText("Mana")}\t{Main.Instance.Player_Mana}";
-        GetTMP((int)Info.CurrentMana).text += $"\n{UserData.Instance.GetLocaleText("Gold")}\t{Main.Instance.Player_Gold}";
+        GetTMP((int)Info.CurrentMana).text = $"{UserData.Instance.LocaleText("Mana")}\t{Main.Instance.Player_Mana}";
+        GetTMP((int)Info.CurrentMana).text += $"\n{UserData.Instance.LocaleText("Gold")}\t{Main.Instance.Player_Gold}";
         GetTMP((int)Info.CurrentMana).text += $"\nAP\t{Main.Instance.Player_AP}";
     }
 
@@ -169,25 +169,25 @@ public class UI_Placement_Technical : UI_PopUp
         if (Main.Instance.Player_Mana < mana)
         {
             var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = UserData.Instance.GetLocaleText("Message_No_Mana");
+            msg.Message = UserData.Instance.LocaleText("Message_No_Mana");
             return false;
         }
         if (Main.Instance.Player_Gold < gold)
         {
             var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = UserData.Instance.GetLocaleText("Message_No_Gold");
+            msg.Message = UserData.Instance.LocaleText("Message_No_Gold");
             return false;
         }
         if (Main.Instance.DungeonRank < lv)
         {
             var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = UserData.Instance.GetLocaleText("Message_No_Rank");
+            msg.Message = UserData.Instance.LocaleText("Message_No_Rank");
             return false;
         }
         if (Main.Instance.Player_AP < ap)
         {
             var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = UserData.Instance.GetLocaleText("Message_No_AP");
+            msg.Message = UserData.Instance.LocaleText("Message_No_AP");
             return false;
         }
 
@@ -203,7 +203,10 @@ public class UI_Placement_Technical : UI_PopUp
 
 
 
-
+    public override bool EscapeKeyAction()
+    {
+        return true;
+    }
 
 
 
@@ -213,8 +216,7 @@ public class UI_Placement_Technical : UI_PopUp
     }
     private void OnDestroy()
     {
-        //Time.timeScale = 1;
-        UserData.Instance.GamePlay();
+        PopupUI_OnDestroy();
     }
 
 }

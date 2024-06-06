@@ -99,7 +99,7 @@ public class UI_Pause : UI_PopUp
     void QuitConfirm()
     {
         var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
-        ui.SetText(UserData.Instance.GetLocaleText("Confirm_Quit"));
+        ui.SetText(UserData.Instance.LocaleText("Confirm_Quit"));
         StartCoroutine(WaitForAnswer(ui));
     }
     void SetLanguage()
@@ -185,12 +185,19 @@ public class UI_Pause : UI_PopUp
 
 
 
+    public override bool EscapeKeyAction()
+    {
+        return true;
+    }
+
+
+
     private void OnEnable()
     {
         Time.timeScale = 0;
     }
     private void OnDestroy()
     {
-        UserData.Instance.GamePlay();
+        PopupUI_OnDestroy();
     }
 }

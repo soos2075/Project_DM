@@ -20,7 +20,14 @@ public class UI_EventBox : UI_Scene
         if (Current) return;
 
         int prevPage = maxPage;
-        maxPage = (mainText.textInfo.lineCount / pageLine) + 1;
+
+        maxPage = (mainText.textInfo.lineCount / pageLine);
+
+        if (mainText.textInfo.lineCount % pageLine > 0) //? 페이지수로 나누고나서 한줄이 더 추가되면 그 때 페이지 넘기기
+        {
+            maxPage += 1;
+        }
+
 
         if (prevPage != maxPage)
         {
@@ -75,7 +82,9 @@ public class UI_EventBox : UI_Scene
     public override void Init()
     {
         //Managers.UI.SetCanvas(gameObject, true);
-        Managers.UI.SetCanvas(gameObject, RenderMode.ScreenSpaceCamera);
+        //Managers.UI.SetCanvas(gameObject, RenderMode.ScreenSpaceCamera);
+        Managers.UI.SetCanvas_SubCamera(gameObject, RenderMode.ScreenSpaceCamera, false);
+
 
         Bind<GameObject>(typeof(Contents));
 

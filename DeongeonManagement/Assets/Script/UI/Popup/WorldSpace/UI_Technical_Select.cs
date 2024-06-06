@@ -18,7 +18,7 @@ public class UI_Technical_Select : UI_PopUp, IWorldSpaceUI
 
     public void SetCanvasWorldSpace()
     {
-        Managers.UI.SetCanvas(gameObject, RenderMode.WorldSpace);
+        Managers.UI.SetCanvas_SubCamera(gameObject, RenderMode.WorldSpace);
     }
 
     public override void Init()

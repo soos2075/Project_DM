@@ -151,7 +151,7 @@ public class EventManager : MonoBehaviour
 
             int ranPop = UnityEngine.Random.Range(10, 20);
             var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
-            msg.Message = $"{ranPop} {UserData.Instance.GetLocaleText("Message_Get_Pop")}";
+            msg.Message = $"{ranPop} {UserData.Instance.LocaleText("Message_Get_Pop")}";
             FindAnyObjectByType<GuildManager>().AddBackAction(() =>
             {
                 Main.Instance.CurrentDay.AddPop(ranPop);
@@ -205,7 +205,7 @@ public class EventManager : MonoBehaviour
             //Managers.Dialogue.currentDialogue = null;
             var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
             message.DelayTime = 2;
-            message.Message = UserData.Instance.GetLocaleText("Message_Egg");
+            message.Message = UserData.Instance.LocaleText("Message_Egg");
         });
 
         EventAction.Add("Entrance_Move_2to4", () =>

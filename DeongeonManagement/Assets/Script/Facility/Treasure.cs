@@ -113,7 +113,7 @@ public class Treasure : Facility
 
     protected IEnumerator TreasureEvent(NPC npc)
     {
-        UI_EventBox.AddEventText($"¡Ü{npc.Name_Color} {UserData.Instance.GetLocaleText("Event_Treasure")}");
+        UI_EventBox.AddEventText($"¡Ü{npc.Name_Color} {UserData.Instance.LocaleText("Event_Treasure")}");
         PlacementState = PlacementState.Busy;
 
         bool isLastInteraction = false;
@@ -178,7 +178,7 @@ public class Treasure : Facility
         if (Main.Instance.Management == false) return;
 
         var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
-        ui.SetText($"[{Name}] {UserData.Instance.GetLocaleText("Confirm_Remove")}");
+        ui.SetText($"[{Name}] {UserData.Instance.LocaleText("Confirm_Remove")}");
         StartCoroutine(WaitForAnswer(ui));
     }
 

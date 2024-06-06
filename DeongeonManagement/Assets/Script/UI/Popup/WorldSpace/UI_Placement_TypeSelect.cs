@@ -19,10 +19,10 @@ public class UI_Placement_TypeSelect : UI_PopUp, IWorldSpaceUI
 
     public void SetCanvasWorldSpace()
     {
-        Managers.UI.SetCanvas(gameObject, RenderMode.WorldSpace);
+        Managers.UI.SetCanvas_SubCamera(gameObject, RenderMode.WorldSpace);
     }
 
-    public UI_Floor parents;
+    //public UI_Floor parents { get; set; }
 
 
     public override void Init()

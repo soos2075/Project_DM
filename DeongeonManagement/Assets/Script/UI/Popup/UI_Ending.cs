@@ -94,15 +94,22 @@ public class UI_Ending : UI_PopUp
 
 
 
-        //#if DEMO_BUILD
-        //        // 데모 빌드 전용 코드
-        //        StartCoroutine(Clear_Demo());
-        //#else
-        //        // 일반 빌드 전용 코드
-        //        StartCoroutine(ClearText());
-        //#endif
+//#if DEMO_BUILD
+//        // 데모 빌드 전용 코드
+//        StartCoroutine(Clear_Demo());
+//#else
+//                // 일반 빌드 전용 코드
+//                StartCoroutine(ClearText());
+//#endif
 
         StartCoroutine(Clear_Demo());
+
+
+        //? 임시 테스트
+        //StartCoroutine(SaveClearData());
+
+
+        UserData.Instance.SetData(PrefsKey.FirstClear, 1);
     }
 
 

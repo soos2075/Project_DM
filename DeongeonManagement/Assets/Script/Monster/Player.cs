@@ -25,6 +25,28 @@ public class Player : Monster
     }
 
 
+    public override void MouseClickEvent()
+    {
+        
+    }
+    public override void MouseDownEvent()
+    {
+        
+    }
+    public override void MouseExitEvent()
+    {
+        
+    }
+    public override void MouseMoveEvent()
+    {
+        
+    }
+    public override void MouseUpEvent()
+    {
+        
+    }
+
+
 
     public void Level_Stat(int dungeonLV)
     {

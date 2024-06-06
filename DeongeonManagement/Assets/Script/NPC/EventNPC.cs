@@ -148,12 +148,12 @@ public class EventNPC : NPC
         {
             case EventNPCType.Event_Day3:
                 KillGold = 50;
-                int ran = Random.Range(0, collection.Layers[9].Textures.Count);
-                characterBuilder.Hair = collection.Layers[9].Textures[ran].name;
-                string hexColor = Define.HairColors[Random.Range(0, 24)];
-                characterBuilder.Hair += hexColor;
-                characterBuilder.Armor = GameManager.Pixel.GetRandomItem(GameManager.Pixel.Armor_Warrior);
-                characterBuilder.Weapon = GameManager.Pixel.GetRandomItem(GameManager.Pixel.Weapon_BeginnerSword);
+                //int ran = Random.Range(0, collection.Layers[9].Textures.Count);
+                characterBuilder.Hair = "Hair4#0098DC/0:0:0";
+                //string hexColor = Define.HairColors[Random.Range(0, 24)];
+                //characterBuilder.Hair += hexColor;
+                characterBuilder.Armor = "TravelerTunic#FFFFFF/0:0:0";
+                characterBuilder.Weapon = "IronSword#FFFFFF/0:0:0";
                 break;
 
             case EventNPCType.Event_Day8:
@@ -383,7 +383,6 @@ public class EventNPC : NPC
 
     protected override void NPC_Die()
     {
-        base.NPC_Die();
         //Managers.Dialogue.ShowDialogueUI($"Day{8}_Event_Die", transform);
         StartCoroutine(DieEvent());
     }
@@ -394,7 +393,7 @@ public class EventNPC : NPC
         yield return null;
         yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
 
-        UI_EventBox.AddEventText($"¢Â{Name_Color} {UserData.Instance.GetLocaleText("Event_Defeat")}");
+        UI_EventBox.AddEventText($"¢Â{Name_Color} {UserData.Instance.LocaleText("Event_Defeat")}");
 
         switch (EventDay)
         {

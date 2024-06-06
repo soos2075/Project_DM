@@ -88,7 +88,7 @@ public class PlacementManager
 
     public void PlacementClear(IPlacementable obj)
     {
-        if (obj.PlacementInfo == null)
+        if (obj.PlacementInfo == null || obj.PlacementInfo.Place_Floor == null || obj.PlacementInfo.Place_Tile == null)
         {
             return;
         }
@@ -117,6 +117,7 @@ public class PlacementManager
         newPlace.Place_Tile.SetPlacement(obj);
         //obj.GetObject().transform.position = obj.PlacementInfo.Place_Tile.worldPosition;
     }
+
     //public void PlacementMove_NPC(NPC npc, PlacementInfo newPlace, float duration)
     //{
     //    Managers.Instance.StartCoroutine(MoveUpdate(npc, npc.PlacementInfo.Place_Tile, newPlace.Place_Tile, duration));

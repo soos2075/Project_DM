@@ -27,6 +27,8 @@ public class SO_Contents : ScriptableObject
     //public UI_Floor.BuildMode mode;
     public Facility_Priority priority;
     public Define.Boundary Boundary_All;
+    public string area_name;
+
     public List<Option> Options;
 
     public Action action;

@@ -116,8 +116,7 @@ public class QuestHunter : NPC
 
     protected override void NPC_Die()
     {
-        base.NPC_Die();
-        UI_EventBox.AddEventText($"¢Â{Name_Color} {UserData.Instance.GetLocaleText("Event_Defeat")}");
+        UI_EventBox.AddEventText($"¢Â{Name_Color} {UserData.Instance.LocaleText("Event_Defeat")}");
         GameManager.NPC.InactiveNPC(this);
     }
     protected override void NPC_Captive()

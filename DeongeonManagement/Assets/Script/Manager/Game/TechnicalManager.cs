@@ -61,7 +61,7 @@ public class TechnicalManager
         }
 
         list.Sort((a, b) => a.id.CompareTo(b.id));
-        return list;
+        return Get_SingleTechnical(list);
     }
 
     public SO_Technical GetData(string _keyName)
@@ -141,7 +141,7 @@ public class TechnicalManager
         for (int i = 0; i < Floor_Technical.Length; i++)
         {
             Floor_Technical[i].FloorIndex = i;
-            Floor_Technical[i].FloorName = $"{UserData.Instance.GetLocaleText("특별구역")} {Define.AtoZ[i]}";
+            Floor_Technical[i].FloorName = $"{UserData.Instance.LocaleText("특별구역")} {Define.AtoZ[i]}";
 
             GameObject go = Managers.Resource.Instantiate($"UI/PopUp/Technical/UI_Technical", Floor_Technical[i].transform);
             var ui = go.GetComponent<UI_Technical>();
@@ -206,6 +206,34 @@ public class TechnicalManager
         Managers.Resource.Destroy(technical.gameObject);
     }
     #endregion
+
+
+    #region 중복 설치 못하게 하기
+    List<SO_Technical> Get_SingleTechnical(List<SO_Technical> data)
+    {
+        List<SO_Technical> removeList = new List<SO_Technical>();
+
+        for (int i = 0; i < currentTechnicalList.Count; i++)
+        {
+            foreach (var item in data)
+            {
+                if (currentTechnicalList[i].Data == item)
+                {
+                    removeList.Add(item);
+                }
+            }
+        }
+
+        foreach (var item in removeList)
+        {
+            data.Remove(item);
+        }
+
+        return data;
+    }
+    #endregion
+
+
 
 
 

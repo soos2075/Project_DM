@@ -36,7 +36,7 @@ public class Trap : Facility
         if (InteractionOfTimes > 0)
         {
             InteractionOfTimes--;
-            Cor_Facility = StartCoroutine(FacilityEvent(npc, durationTime, UserData.Instance.GetLocaleText("Event_Trap"), 
+            Cor_Facility = StartCoroutine(FacilityEvent(npc, durationTime, UserData.Instance.LocaleText("Event_Trap"), 
                 ap: ap_value, mp: mp_value, hp: hp_value));
             trap_Anim.enabled = true;
             trap_Anim.Play(trapType.ToString());
@@ -55,6 +55,9 @@ public class Trap : Facility
     protected override void OverCor(NPC npc, bool isRemove)
     {
         trap_Anim.enabled = false;
+
+        //npc.GetComponentInChildren<Animator>().Play("Running");
+
         npc.State = npc.StateRefresh();
 
         base.OverCor(npc, isRemove);

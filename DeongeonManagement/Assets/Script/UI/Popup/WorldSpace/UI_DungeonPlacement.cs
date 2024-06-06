@@ -9,6 +9,7 @@ public class UI_DungeonPlacement : UI_PopUp, IWorldSpaceUI
         Init();
     }
 
+
     public void SetCanvasWorldSpace()
     {
         Managers.UI.SetCanvas(gameObject, RenderMode.WorldSpace);
@@ -37,6 +38,24 @@ public class UI_DungeonPlacement : UI_PopUp, IWorldSpaceUI
             uI_Floors.Add(content);
         }
     }
+
+
+
+    
+    public override bool EscapeKeyAction()
+    {
+        //if (FindAnyObjectByType<UI_Monster_Management>().isQuickMode)
+        //{
+        //    Main.Instance.ResetCurrentAction();
+        //    Managers.UI.ClosePopUp();
+        //    return false;
+        //}
+
+
+        Main.Instance.ResetCurrentAction();
+        return false;
+    }
+
 
 
 }

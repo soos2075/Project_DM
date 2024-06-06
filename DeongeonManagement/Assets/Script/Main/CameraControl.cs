@@ -21,8 +21,13 @@ public class CameraControl : MonoBehaviour
     PixelPerfectCamera pixelCam;
     public bool Move { get; set; }
 
+
+    UI_Management UI_Main;
+
     void Start()
     {
+        UI_Main = FindAnyObjectByType<UI_Management>();
+
         mainCam = GetComponent<Camera>();
         pixelCam = GetComponent<PixelPerfectCamera>();
         Move = true;
@@ -39,13 +44,16 @@ public class CameraControl : MonoBehaviour
 
         if (UserData.Instance.GameMode == Define.GameMode.Stop) return;
 
-        
-
-        if (Time.timeScale == 0) return;
 
         //? esc키로 액션취소, 팝업 닫기 등을 할 수 있어야함(ui가 있을 땐 타임스케일이 0이니까 어쩔 수 없긴 한데 일단은)
         //? 그리고 그거 구현하고나면 타임스케일 리턴 위로 위치 옮겨야함. 일단은 pause만 구현
         Key_Esc();
+
+
+
+        if (Time.timeScale == 0) return;
+
+
 
 
 
@@ -113,7 +121,7 @@ public class CameraControl : MonoBehaviour
             {
                 var secondPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-                if ((firstPos - secondPos).magnitude < 3)
+                if ((firstPos - secondPos).magnitude < 0.3f)
                 {
                     DoubleClickEvent(secondPos);
                 }
@@ -146,35 +154,46 @@ public class CameraControl : MonoBehaviour
 
     #region InputAction
 
-
     void PPU_Zoom_Keyboard()
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            if (Hide_UI_Cor != null)
-            {
-                Zoom(1);
-                timer = 0;
-            }
-            else
-            {
-                Hide_UI_Cor = StartCoroutine(Zoom_UI_Pixel(1));
-            }
+            Zoom(1);
         }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (Hide_UI_Cor != null)
-            {
-                Zoom(-1);
-                timer = 0;
-            }
-            else
-            {
-                Hide_UI_Cor = StartCoroutine(Zoom_UI_Pixel(-1));
-            }
+            Zoom(-1);
         }
     }
+    //void PPU_Zoom_Keyboard()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Q))
+    //    {
+    //        if (Hide_UI_Cor != null)
+    //        {
+    //            Zoom(1);
+    //            timer = 0;
+    //        }
+    //        else
+    //        {
+    //            Hide_UI_Cor = StartCoroutine(Zoom_UI_Pixel(1));
+    //        }
+    //    }
+
+    //    if (Input.GetKeyDown(KeyCode.E))
+    //    {
+    //        if (Hide_UI_Cor != null)
+    //        {
+    //            Zoom(-1);
+    //            timer = 0;
+    //        }
+    //        else
+    //        {
+    //            Hide_UI_Cor = StartCoroutine(Zoom_UI_Pixel(-1));
+    //        }
+    //    }
+    //}
 
 
     float scrollValue;
@@ -191,41 +210,48 @@ public class CameraControl : MonoBehaviour
             scrollValue += scroll * 10;
         }
 
-        if (Mathf.Abs(scrollValue) > 1)
+        if (Mathf.Abs(scrollValue) > 0)
         {
-            if (Hide_UI_Cor != null)
-            {
-                Zoom();
-                timer = 0;
-            }
-            else
-            {
-                Hide_UI_Cor = StartCoroutine(Zoom_UI_Pixel());
-            }
+            Zoom();
+
+            //if (Hide_UI_Cor != null)
+            //{
+            //    Zoom();
+            //    timer = 0;
+            //}
+            //else
+            //{
+            //    Hide_UI_Cor = StartCoroutine(Zoom_UI_Pixel());
+            //}
         }
     }
 
-    Coroutine Hide_UI_Cor;
-    float timer = 0;
-    IEnumerator Zoom_UI_Pixel(int value = 0)
-    {
-        Managers.UI.HideCanvasAll();
-        yield return null;
+    //Coroutine Hide_UI_Cor;
+    //float timer = 0;
+    //IEnumerator Zoom_UI_Pixel(int value = 0)
+    //{
+    //    //var mainCanvas = UI_Main.GetComponent<Canvas>();
+    //    ////Managers.UI.HideCanvasAll();
+    //    //mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
 
-        Zoom(value);
+    //    yield return null;
 
-        yield return null;
+    //    Zoom(value);
 
-        timer = 0;
-        while (timer < 0.5f)
-        {
-            yield return null;
-            timer += Time.unscaledDeltaTime;
-        }
+    //    yield return null;
 
-        Managers.UI.ShowCanvasAll();
-        Hide_UI_Cor = null;
-    }
+    //    timer = 0;
+    //    while (timer < 0.5f)
+    //    {
+    //        yield return null;
+    //        timer += Time.unscaledDeltaTime;
+    //    }
+
+    //    //Managers.UI.ShowCanvasAll();
+    //    //mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
+
+    //    Hide_UI_Cor = null;
+    //}
 
 
     void Zoom(int value = 0)
@@ -343,10 +369,10 @@ public class CameraControl : MonoBehaviour
             {
                 Managers.UI.ShowPopUp<UI_Pause>();
             }
-            //else if(Managers.UI._popupStack.Contains())
-            //{
-
-            //}
+            else if (Managers.UI._popupStack.Peek().EscapeKeyAction())
+            {
+                Managers.UI.ClosePopUp();
+            }
         }
     }
 

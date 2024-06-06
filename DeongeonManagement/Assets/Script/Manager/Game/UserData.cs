@@ -103,11 +103,15 @@ public class UserData : MonoBehaviour
 
 
 
-    public string GetLocaleText(string keyString)
+    public string LocaleText(string keyString)
     {
         return LocalizationSettings.StringDatabase.GetLocalizedString("UI Table", keyString, LocalizationSettings.SelectedLocale);
     }
 
+    public string LocaleText_Tooltip(string keyString)
+    {
+        return LocalizationSettings.StringDatabase.GetLocalizedString("UI_Tooltip", keyString, LocalizationSettings.SelectedLocale);
+    }
 
     #endregion
 
@@ -117,10 +121,10 @@ public class UserData : MonoBehaviour
     #region Cursor
 
     public Texture2D CursorImage;
+    //public Texture2D CursorImage_1280;
     void Init_Cursor()
     {
-        Cursor.SetCursor(CursorImage, Vector2.zero, CursorMode.Auto);
-
+        Cursor.SetCursor(CursorImage, Vector2.zero, CursorMode.ForceSoftware);
 
         if (Screen.fullScreen)
         {
@@ -132,6 +136,47 @@ public class UserData : MonoBehaviour
         }
     }
 
+    //void ChangeCursorSize()
+    //{
+    //    //if (CurrentResolution == 0)
+    //    //{
+    //    //    Cursor.SetCursor(CursorImage_1920, Vector2.zero, CursorMode.ForceSoftware);
+    //    //}
+    //    //else if (CurrentResolution == 1)
+    //    //{
+    //    //    Cursor.SetCursor(CursorImage_1280, Vector2.zero, CursorMode.ForceSoftware);
+    //    //}
+
+    //    float current = (float)Screen.width / 1280f;
+    //    Texture2D scaledCursorTexture = ScaleTexture(CursorImage_1920, current * 3);
+    //    Cursor.SetCursor(scaledCursorTexture, Vector2.zero, CursorMode.ForceSoftware);
+    //}
+
+    //Texture2D ScaleTexture(Texture2D source, float scaleFactor) //? gpt´äº¯
+    //{
+    //    int newWidth = Mathf.RoundToInt(source.width * scaleFactor);
+    //    int newHeight = Mathf.RoundToInt(source.height * scaleFactor);
+
+    //    Texture2D result = new Texture2D(newWidth, newHeight, source.format, false);
+    //    Color[] pixels = source.GetPixels();
+    //    Color[] scaledPixels = new Color[newWidth * newHeight];
+
+    //    for (int y = 0; y < newHeight; y++)
+    //    {
+    //        for (int x = 0; x < newWidth; x++)
+    //        {
+    //            float u = x / (float)newWidth;
+    //            float v = y / (float)newHeight;
+    //            int sourceX = Mathf.FloorToInt(u * source.width);
+    //            int sourceY = Mathf.FloorToInt(v * source.height);
+    //            scaledPixels[y * newWidth + x] = pixels[sourceY * source.width + sourceX];
+    //        }
+    //    }
+
+    //    result.SetPixels(scaledPixels);
+    //    result.Apply();
+    //    return result;
+    //}
 
 
     #endregion
@@ -263,8 +308,10 @@ public class UserData : MonoBehaviour
 
     public int GameSpeed { get; set; } = 1;
 
+    public int GameSpeed_GuildReturn { get; set; }
 
-    public WaitUntil Wait_GamePlay;
+
+    public WaitUntil Wait_GamePlay { get; set; }
 
     void GameStop()
     {
@@ -291,6 +338,16 @@ public class UserData : MonoBehaviour
     {
         GameSpeed = 1;
         Time.timeScale = 1;
+    }
+
+    public void GamePlay(int speed)
+    {
+        GameSpeed = speed;
+        Time.timeScale = speed;
+        if (Managers.Scene.GetCurrentScene() == SceneName._2_Management)
+        {
+            FindAnyObjectByType<UI_Management>()?.SpeedButtonImage();
+        }
     }
 
 
@@ -475,6 +532,7 @@ public class UserData : MonoBehaviour
     public void NewGameConfig()
     {
         var config = new SavefileConfig();
+        config.Init_CurrentPlayTime();
 
         if (GetDataInt(PrefsKey.Clear_Dog) == 1)
         {

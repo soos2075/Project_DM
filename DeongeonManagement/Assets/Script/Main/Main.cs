@@ -275,7 +275,7 @@ public class Main : MonoBehaviour
 
         var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
         message.DelayTime = 2;
-        message.Message = UserData.Instance.GetLocaleText("Message_First");
+        message.Message = UserData.Instance.LocaleText("Message_First");
 
         yield return new WaitUntil(() => Managers.UI._popupStack.Count == 0);
         var tutorial = Managers.UI.ShowPopUp<UI_Tutorial>();
@@ -283,9 +283,11 @@ public class Main : MonoBehaviour
     void Instantiate_DayOne()
     {
         Init_Secret();
-        Init_Basic();
+
         Init_Statue();
         Init_EggEntrance();
+
+        Init_Basic();
 
         Managers.Dialogue.ShowDialogueUI(DialogueName.Prologue, Player);
     }
@@ -744,6 +746,7 @@ public class Main : MonoBehaviour
         score += day.Get_Gold;
         score += day.Get_Prisoner * 50;
         score += day.Get_Kill * 100;
+        score += day.Get_Satisfaction * 120;
 
         Final_Score += score;
     }
@@ -791,14 +794,6 @@ public class Main : MonoBehaviour
 
         public int Get_Mana;
         public int Get_Gold;
-        public int Get_Prisoner;
-        public int Get_Kill;
-
-        public int Use_Mana;
-        public int Use_Gold;
-        //public int Use_Prisoner;
-        //public int Use_Kill;
-
         public void AddMana(int value)
         {
             Get_Mana += value;
@@ -809,17 +804,10 @@ public class Main : MonoBehaviour
             Get_Gold += value;
             Instance.Player_Gold += value;
         }
-        public void AddPrisoner(int value)
-        {
-            Get_Prisoner += value;
-        }
-        public void AddKill(int value)
-        {
-            Get_Kill += value;
-        }
 
 
-        //? »ç¿ë
+        public int Use_Mana;
+        public int Use_Gold;
         public void SubtractMana(int value)
         {
             Use_Mana += value;
@@ -830,14 +818,35 @@ public class Main : MonoBehaviour
             Use_Gold += value;
             Instance.Player_Gold -= value;
         }
-        //public void SubtractPrisoner(int value)
-        //{
-        //    Use_Prisoner += value;
-        //}
-        //public void SubtractKill(int value)
-        //{
-        //    Use_Kill += value;
-        //}
+
+        public int Get_Visit;
+        public int Get_Prisoner;
+        public int Get_Kill;
+        public int Get_Satisfaction;
+        public int Get_Return;
+
+
+        public void AddVisit(int value)
+        {
+            Get_Visit += value;
+        }
+        public void AddPrisoner(int value)
+        {
+            Get_Prisoner += value;
+        }
+        public void AddKill(int value)
+        {
+            Get_Kill += value;
+        }
+        public void AddSatisfaction(int value)
+        {
+            Get_Satisfaction += value;
+        }
+        public void AddReturn(int value)
+        {
+            Get_Return += value;
+        }
+
 
         public int GetPopularity;
         public int GetDanger;
@@ -855,7 +864,6 @@ public class Main : MonoBehaviour
         public int danger_perv;
         public int dungeonRank;
 
-
         public DayResult()
         {
 
@@ -868,13 +876,16 @@ public class Main : MonoBehaviour
 
             Get_Mana = result.Get_Mana;
             Get_Gold = result.Get_Gold;
-            Get_Prisoner = result.Get_Prisoner;
-            Get_Kill = result.Get_Kill;
-
             Use_Mana = result.Use_Mana;
             Use_Gold = result.Use_Gold;
-            //Use_Prisoner = result.Use_Prisoner;
-            //Use_Kill = result.Use_Kill;
+
+
+            Get_Visit = result.Get_Visit;
+            Get_Return = result.Get_Return;
+            Get_Satisfaction = result.Get_Satisfaction;
+            Get_Kill = result.Get_Kill;
+            Get_Prisoner = result.Get_Prisoner;
+
 
             GetPopularity = result.GetPopularity;
             GetDanger = result.GetDanger;
@@ -956,6 +967,20 @@ public class Main : MonoBehaviour
         return gold;
     }
 
+    public int GetTotalVisit()
+    {
+        int visit = 0;
+        foreach (var item in DayList)
+        {
+            visit += item.Get_Visit;
+        }
+        if (CurrentDay != null)
+        {
+            visit += CurrentDay.Get_Visit;
+        }
+        return visit;
+    }
+
     public int GetTotalKill()
     {
         int kill = 0;
@@ -968,6 +993,34 @@ public class Main : MonoBehaviour
             kill += CurrentDay.Get_Kill;
         }
         return kill;
+    }
+
+    public int GetTotalSatisfaction()
+    {
+        int npc = 0;
+        foreach (var item in DayList)
+        {
+            npc += item.Get_Satisfaction;
+        }
+        if (CurrentDay != null)
+        {
+            npc += CurrentDay.Get_Satisfaction;
+        }
+        return npc;
+    }
+
+    public int GetTotalReturn()
+    {
+        int npc = 0;
+        foreach (var item in DayList)
+        {
+            npc += item.Get_Return;
+        }
+        if (CurrentDay != null)
+        {
+            npc += CurrentDay.Get_Return;
+        }
+        return npc;
     }
 
 
@@ -1043,24 +1096,36 @@ public class Main : MonoBehaviour
         }
     }
 
+    //public void DayChange()
+    //{
+    //    Managers.UI.CloseAll();
 
-    public void DayChange()
+    //    Management = !Management;
+
+    //    DayChangeAnimation();
+    //}
+
+
+    public void DayChange_Start()
     {
-
         Managers.UI.CloseAll();
+        Management = false;
+        DayChangeAnimation();
+    }
 
-        Management = !Management;
-
+    public void DayChange_Over()
+    {
+        Managers.UI.CloseAll();
+        Management = true;
         DayChangeAnimation();
     }
 
 
 
 
-
     public void TurnStartEvent()
     {
-        UI_EventBox.AddEventText($"¡Ø{Turn}{UserData.Instance.GetLocaleText("Event_DayStart")}¡Ø");
+        UI_EventBox.AddEventText($"¡Ø{Turn}{UserData.Instance.LocaleText("Event_DayStart")}¡Ø");
 
 
         switch (Turn)
@@ -1325,7 +1390,7 @@ public class Main : MonoBehaviour
 
     public void TurnOverEvent()
     {
-        UI_EventBox.AddEventText($"¡Ø{Turn}{UserData.Instance.GetLocaleText("Event_DayOver")}¡Ø");
+        UI_EventBox.AddEventText($"¡Ø{Turn}{UserData.Instance.LocaleText("Event_DayOver")}¡Ø");
         ChangeEggState();
 
         switch (Turn)
@@ -1389,7 +1454,12 @@ public class Main : MonoBehaviour
                 var clear = new CollectionManager.ClearDataLog();
                 clear.mana = GetTotalMana();
                 clear.gold = GetTotalGold();
+
+                clear.visit = GetTotalVisit();
                 clear.kill = GetTotalKill();
+                clear.satisfaction = GetTotalSatisfaction();
+                clear.return_Empty = GetTotalReturn();
+
                 clear.pop = PopularityOfDungeon;
                 clear.danger = DangerOfDungeon;
                 clear.rank = DungeonRank;
@@ -1414,7 +1484,6 @@ public class Main : MonoBehaviour
 
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Day30_Over, Player);
                 break;
-
 
             default:
                 break;
@@ -1520,6 +1589,10 @@ public class Main : MonoBehaviour
 
     #region Floor
 
+
+    public Coroutine QuickPlacement { get; set; }
+
+
     public BasementFloor[] Floor { get; set; }
 
     public BasementFloor CurrentFloor { get; set; }
@@ -1545,15 +1618,15 @@ public class Main : MonoBehaviour
 
             if (i == 3)
             {
-                Floor[i].LabelName = $"{UserData.Instance.GetLocaleText("¼û°ÜÁø°÷")}";
+                Floor[i].LabelName = $"{UserData.Instance.LocaleText("¼û°ÜÁø°÷")}";
             }
             else if (i < 3)
             {
-                Floor[i].LabelName = $"{UserData.Instance.GetLocaleText("ÁöÇÏ")} {i + 1} {UserData.Instance.GetLocaleText("Ãþ")}";
+                Floor[i].LabelName = $"{UserData.Instance.LocaleText("ÁöÇÏ")} {i + 1} {UserData.Instance.LocaleText("Ãþ")}";
             }
             else
             {
-                Floor[i].LabelName = $"{UserData.Instance.GetLocaleText("ÁöÇÏ")} {i} {UserData.Instance.GetLocaleText("Ãþ")}";
+                Floor[i].LabelName = $"{UserData.Instance.LocaleText("ÁöÇÏ")} {i} {UserData.Instance.LocaleText("Ãþ")}";
             }
 
 
@@ -1634,7 +1707,7 @@ public class Main : MonoBehaviour
 
 
 
-    #region
+    #region Ending
 
     public Endings CurrentEndingState { get; set; }
 
@@ -1724,18 +1797,24 @@ public class Save_DayResult
     public int Origin_Gold;
     public int Origin_Prisoner;
 
+
     public int Get_Mana;
     public int Get_Gold;
-    public int Get_Prisoner;
-    public int Get_Kill;
 
     public int Use_Mana;
     public int Use_Gold;
-    public int Use_Prisoner;
-    public int Use_Kill;
+
+
+    public int Get_Visit;
+    public int Get_Satisfaction;
+    public int Get_Return;
+    public int Get_Kill;
+    public int Get_Prisoner;
+
 
     public int GetPopularity;
     public int GetDanger;
+
 
     public int fame_perv;
     public int danger_perv;
@@ -1752,18 +1831,24 @@ public class Save_DayResult
         Origin_Gold = result.Origin_Gold;
         Origin_Prisoner = result.Origin_Prisoner;
 
+
         Get_Mana = result.Get_Mana;
         Get_Gold = result.Get_Gold;
-        Get_Prisoner = result.Get_Prisoner;
-        Get_Kill = result.Get_Kill;
 
         Use_Mana = result.Use_Mana;
         Use_Gold = result.Use_Gold;
-        //Use_Prisoner = result.Use_Prisoner;
-        //Use_Kill = result.Use_Kill;
+
+
+        Get_Visit = result.Get_Visit;
+        Get_Satisfaction = result.Get_Satisfaction;
+        Get_Return = result.Get_Return;
+        Get_Kill = result.Get_Kill;
+        Get_Prisoner = result.Get_Prisoner;
+
 
         GetPopularity = result.GetPopularity;
         GetDanger = result.GetDanger;
+
 
         fame_perv = result.fame_perv;
         danger_perv = result.danger_perv;

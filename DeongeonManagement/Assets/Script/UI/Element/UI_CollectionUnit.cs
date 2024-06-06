@@ -48,7 +48,7 @@ public class UI_CollectionUnit : UI_Base
     {
         if (data.isRegist)
         {
-            GetObject((int)Objects.UnitSprite).GetComponent<Image>().sprite = Managers.Sprite.GetSprite(data.unit.spritePath);
+            GetObject((int)Objects.UnitSprite).GetComponent<Image>().sprite = Managers.Sprite.GetSprite(data.unit.SLA_category);
             GetObject((int)Objects.UnitName).GetComponent<TextMeshProUGUI>().text = data.unit.labelName;
         }
     }

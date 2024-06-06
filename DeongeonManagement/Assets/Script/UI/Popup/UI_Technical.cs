@@ -70,7 +70,7 @@ public class UI_Technical : UI_Scene, IWorldSpaceUI
 
             var popup = Managers.UI.ClearAndShowPopUp<UI_Technical_Select>("Technical/UI_Technical_Select");
             var pos = Camera.main.ScreenToWorldPoint(data.position);
-            popup.transform.localPosition = new Vector3(pos.x, pos.y, 0);
+            popup.transform.localPosition = new Vector3(pos.x, pos.y, 5);
             popup.parents = this;
         }
     }
@@ -80,7 +80,7 @@ public class UI_Technical : UI_Scene, IWorldSpaceUI
     void Demolition_Technical()
     {
         var ui = Managers.UI.ShowPopUp<UI_Confirm>();
-        ui.SetText($"[{Parent.Current.Data.labelName}] {UserData.Instance.GetLocaleText("Confirm_Remove")}");
+        ui.SetText($"[{Parent.Current.Data.labelName}] {UserData.Instance.LocaleText("Confirm_Remove")}");
         StartCoroutine(WaitForAnswer(ui));
     }
 

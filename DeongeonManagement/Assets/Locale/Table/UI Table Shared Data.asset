@@ -15,8 +15,28 @@ MonoBehaviour:
   m_TableCollectionName: UI Table
   m_TableCollectionNameGuidString: 2859aa48df27995428dd19d8eacd2693
   m_Entries:
+  - m_Id: 31010156664008704
+    m_Key: AP
+    m_Metadata:
+      m_Items: []
   - m_Id: 92207111680000
     m_Key: AutoSave
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125135
+    m_Key: Battle_End
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125137
+    m_Key: Battle_Lose
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125134
+    m_Key: Battle_Start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125136
+    m_Key: Battle_Win
     m_Metadata:
       m_Items: []
   - m_Id: 73622129684480
@@ -71,6 +91,10 @@ MonoBehaviour:
     m_Key: Danger
     m_Metadata:
       m_Items: []
+  - m_Id: 16969982615433216
+    m_Key: Data Reset
+    m_Metadata:
+      m_Items: []
   - m_Id: 79304371417088
     m_Key: Day
     m_Metadata:
@@ -81,6 +105,70 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 74082697818112
     m_Key: Effect Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11935326576783360
+    m_Key: Encyclopedia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125120
+    m_Key: Event_DayOver
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921879764992
+    m_Key: Event_DayStart
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125121
+    m_Key: Event_Defeat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125127
+    m_Key: Event_Egg
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125129
+    m_Key: Event_Enter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125131
+    m_Key: Event_Exit_Empty
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125132
+    m_Key: Event_Exit_Runaway
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125133
+    m_Key: Event_Exit_Satisfaction
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125123
+    m_Key: Event_Herb
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125124
+    m_Key: Event_Mineral
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125130
+    m_Key: Event_Next
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125122
+    m_Key: Event_Prison
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125125
+    m_Key: Event_Resting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125128
+    m_Key: Event_Trap
+    m_Metadata:
+      m_Items: []
+  - m_Id: 149921909125126
+    m_Key: Event_Treasure
     m_Metadata:
       m_Items: []
   - m_Id: 74938692349952
@@ -109,6 +197,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 109139399487489
     m_Key: Mana
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23824219697786880
+    m_Key: Manual
     m_Metadata:
       m_Items: []
   - m_Id: 125754480472064
@@ -211,124 +303,40 @@ MonoBehaviour:
     m_Key: TextSpeed
     m_Metadata:
       m_Items: []
+  - m_Id: 12475459579359232
+    m_Key: Up
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12476189237260288
+    m_Key: Weak
+    m_Metadata:
+      m_Items: []
   - m_Id: 46133038755840
     m_Key: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 172736603435008
+    m_Key: "\uACE0\uC815"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3244338631094272
+    m_Key: "\uACF5\uACA9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171229451595776
+    m_Key: "\uAD00\uB9AC"
     m_Metadata:
       m_Items: []
   - m_Id: 98926592208896
     m_Key: "\uAE38\uB4DC \uBC29\uBB38"
     m_Metadata:
       m_Items: []
-  - m_Id: 98926592208897
-    m_Key: "\uBAAC\uC2A4\uD130 \uAD00\uB9AC"
+  - m_Id: 169001751883776
+    m_Key: "\uB300\uAE30\uC911"
     m_Metadata:
       m_Items: []
-  - m_Id: 98926592208898
-    m_Key: "\uBAAC\uC2A4\uD130 \uC18C\uD658"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 98926592208899
-    m_Key: "\uC2DC\uC124 \uBC30\uCE58"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 98926592208900
-    m_Key: "\uD018\uC2A4\uD2B8"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 98926592208901
-    m_Key: "\uD134 \uC885\uB8CC"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 149921879764992
-    m_Key: Event_DayStart
-    m_Metadata:
-      m_Items: []
-  - m_Id: 149921909125120
-    m_Key: Event_DayOver
-    m_Metadata:
-      m_Items: []
-  - m_Id: 149921909125121
-    m_Key: Event_Defeat
-    m_Metadata:
-      m_Items: []
-  - m_Id: 149921909125122
-    m_Key: Event_Prison
-    m_Metadata:
-      m_Items: []
-  - m_Id: 149921909125123
-    m_Key: Event_Herb
-    m_Metadata:
-      m_Items: []
-  - m_Id: 149921909125124
-    m_Key: Event_Mineral
-    m_Metadata:
-      m_Items: []
-  - m_Id: 149921909125125
-    m_Key: Event_Resting
-    m_Metadata:
-      m_Items: []
-  - m_Id: 149921909125126
-    m_Key: Event_Treasure
-    m_Metadata:
-      m_Items: []
-  - m_Id: 149921909125127
-    m_Key: Event_Egg
-    m_Metadata:
-      m_Items: []
-  - m_Id: 149921909125128
-    m_Key: Event_Trap
-    m_Metadata:
-      m_Items: []
-  - m_Id: 149921909125129
-    m_Key: Event_Enter
-    m_Metadata:
-      m_Items: []
-  - m_Id: 149921909125130
-    m_Key: Event_Next
-    m_Metadata:
-      m_Items: []
-  - m_Id: 149921909125131
-    m_Key: Event_Exit_Empty
-    m_Metadata:
-      m_Items: []
-  - m_Id: 149921909125132
-    m_Key: Event_Exit_Runaway
-    m_Metadata:
-      m_Items: []
-  - m_Id: 149921909125133
-    m_Key: Event_Exit_Satisfaction
-    m_Metadata:
-      m_Items: []
-  - m_Id: 149921909125134
-    m_Key: Battle_Start
-    m_Metadata:
-      m_Items: []
-  - m_Id: 149921909125135
-    m_Key: Battle_End
-    m_Metadata:
-      m_Items: []
-  - m_Id: 149921909125136
-    m_Key: Battle_Win
-    m_Metadata:
-      m_Items: []
-  - m_Id: 149921909125137
-    m_Key: Battle_Lose
-    m_Metadata:
-      m_Items: []
-  - m_Id: 150946351099904
-    m_Key: "\uC9C0\uD558"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 150951682060288
-    m_Key: "\uCE35"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 150971533701120
-    m_Key: "\uC228\uACA8\uC9C4\uACF3"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 157629924192256
-    m_Key: "\uD3EC\uB85C"
+  - m_Id: 3732394823856128
+    m_Key: "\uB358\uC804 \uD655\uC7A5"
     m_Metadata:
       m_Items: []
   - m_Id: 157632633712640
@@ -339,44 +347,104 @@ MonoBehaviour:
     m_Key: "\uBAAC\uC2A4\uD130"
     m_Metadata:
       m_Items: []
-  - m_Id: 160107470204928
-    m_Key: "\uD558\uB8E8 \uACB0\uC0B0"
+  - m_Id: 98926592208897
+    m_Key: "\uBAAC\uC2A4\uD130 \uAD00\uB9AC"
     m_Metadata:
       m_Items: []
-  - m_Id: 161527464407040
-    m_Key: "\uD2B9\uC218 \uC2DC\uC124"
+  - m_Id: 98926592208898
+    m_Key: "\uBAAC\uC2A4\uD130 \uC18C\uD658"
     m_Metadata:
       m_Items: []
-  - m_Id: 164339216756736
-    m_Key: "\uC2DC\uC124"
+  - m_Id: 172114852392960
+    m_Key: "\uBC29\uCD9C"
     m_Metadata:
       m_Items: []
-  - m_Id: 168031743586304
-    m_Key: "\uBC30\uCE58\uB41C \uBAAC\uC2A4\uD130"
+  - m_Id: 171473325207552
+    m_Key: "\uBC30\uCE58"
     m_Metadata:
       m_Items: []
   - m_Id: 168484929744896
     m_Key: "\uBC30\uCE58\uAC00\uB2A5 \uBAAC\uC2A4\uD130"
     m_Metadata:
       m_Items: []
-  - m_Id: 169001751883776
-    m_Key: "\uB300\uAE30\uC911"
+  - m_Id: 168031743586304
+    m_Key: "\uBC30\uCE58\uB41C \uBAAC\uC2A4\uD130"
     m_Metadata:
       m_Items: []
   - m_Id: 169230790242304
     m_Key: "\uBC30\uCE58\uC911"
     m_Metadata:
       m_Items: []
+  - m_Id: 172850453622784
+    m_Key: "\uBC30\uD68C"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23762605694988288
+    m_Key: "\uBD80\uC0C1\uC911"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 150971533701120
+    m_Key: "\uC228\uACA8\uC9C4\uACF3"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 164339216756736
+    m_Key: "\uC2DC\uC124"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98926592208899
+    m_Key: "\uC2DC\uC124 \uBC30\uCE58"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31003230341378048
+    m_Key: "\uC801\uC6A9 \uBC94\uC704"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 150946351099904
+    m_Key: "\uC9C0\uD558"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5308809088282624
+    m_Key: "\uC9C4\uD654"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 150951682060288
+    m_Key: "\uCE35"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98926592208900
+    m_Key: "\uD018\uC2A4\uD2B8"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98926592208901
+    m_Key: "\uD134 \uC885\uB8CC"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3722974710673408
+    m_Key: "\uD2B9\uBCC4\uAD6C\uC5ED"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 161527464407040
+    m_Key: "\uD2B9\uC218 \uC2DC\uC124"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 157629924192256
+    m_Key: "\uD3EC\uB85C"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3733178995126272
+    m_Key: "\uD544\uC694"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 160107470204928
+    m_Key: "\uD558\uB8E8 \uACB0\uC0B0"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 172489575706624
+    m_Key: "\uD589\uB3D9\uC9C0\uC2DC"
+    m_Metadata:
+      m_Items: []
   - m_Id: 170442621136896
     m_Key: "\uD68C\uBCF5"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 171229451595776
-    m_Key: "\uAD00\uB9AC"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 171473325207552
-    m_Key: "\uBC30\uCE58"
     m_Metadata:
       m_Items: []
   - m_Id: 171552027127808
@@ -385,66 +453,6 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 171941044629504
     m_Key: "\uD6C8\uB828"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 172114852392960
-    m_Key: "\uBC29\uCD9C"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 172489575706624
-    m_Key: "\uD589\uB3D9\uC9C0\uC2DC"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 172736603435008
-    m_Key: "\uACE0\uC815"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 172850453622784
-    m_Key: "\uBC30\uD68C"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 3244338631094272
-    m_Key: "\uACF5\uACA9"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 3722974710673408
-    m_Key: "\uD2B9\uBCC4\uAD6C\uC5ED"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 3732394823856128
-    m_Key: "\uB358\uC804 \uD655\uC7A5"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 3733178995126272
-    m_Key: "\uD544\uC694"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 5308809088282624
-    m_Key: "\uC9C4\uD654"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 11935326576783360
-    m_Key: Encyclopedia
-    m_Metadata:
-      m_Items: []
-  - m_Id: 12475459579359232
-    m_Key: Up
-    m_Metadata:
-      m_Items: []
-  - m_Id: 12476189237260288
-    m_Key: Weak
-    m_Metadata:
-      m_Items: []
-  - m_Id: 16969982615433216
-    m_Key: Data Reset
-    m_Metadata:
-      m_Items: []
-  - m_Id: 23762605694988288
-    m_Key: "\uBD80\uC0C1\uC911"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 23824219697786880
-    m_Key: Manual
     m_Metadata:
       m_Items: []
   m_Metadata:

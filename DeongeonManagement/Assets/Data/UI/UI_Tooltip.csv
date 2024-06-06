@@ -1,0 +1,23 @@
+Key,English(en),Korean(ko),Japanese(ja)
+AP,AP,행동력,AP
+AP_Detail,The AP available for use this turn.,이번 턴에 사용할 수 있는 행동력입니다.,このターンに使用できるAPです。
+AP_Need,AP is required.,행동력이 필요합니다.,APが必要です。
+Gold,Gold,골드,ゴールド
+Gold_Detail,You can get it by defeating Adventurers.,모험가를 쓰러트리면 얻을 수 있습니다.,冒険者を倒すと入手できます。
+Gold_Need,Gold is required.,골드가 필요합니다.,ゴールドが必要です。
+Mana,Mana,마나,マナ
+Mana_Detail,This happens in most interactions in dungeons.,던전에서 일어나는 대부분의 상호작용에서 발생합니다.,ダンジョンで行われるほとんどのインタラクションで発生します。
+Mana_Need,Mana is required.,마나가 필요합니다.,マナが必要です。
+Popularity,Popularity,인기도,人気度
+Pop_Detail,"The more popular it is, the more adventurers come to it.",인기도가 높을수록 많은 모험가가 찾아옵니다.,人気度が高ければ高いほど、多くの冒険者が訪れます。
+Danger,Danger,위험도,危険度
+Danger_Detail,"The higher the danger, the stronger the adventurer.",위험도가 높을수록 강한 모험가가 찾아옵니다.,危険度が高いほど強い冒険者がやってきます。
+Rank,Rank,랭크,ランク
+Rank_Detail,"Your rank in the dungeon. 
+It is raised by several numbers.","던전의 랭크입니다. 
+여러 수치에 의해 상승합니다.","ダンジョンのランクです。
+複数の数値によって上昇します。"
+Day,Day,일차,日
+Command_Fixed,They don't move from where they are placed.,배치된 위치에서 움직이지 않습니다.,配置された位置から動きません。
+Command_Wander,Move around randomly.,무작위로 주변을 이동합니다.,ランダムに周囲を移動します。
+Command_Attack,"When it finds an intruder, it tracks it down and attacks it.",침입자를 발견하면 추적하여 공격합니다.,侵入者を見つけたら、追跡して攻撃します。

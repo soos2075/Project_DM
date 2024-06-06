@@ -9,9 +9,12 @@ public class UI_Monster_Management : UI_PopUp
 {
     void Start()
     {
+        if (isQuickMode) return;
+
         Init();
     }
 
+    public bool isQuickMode { get; set; }
 
     enum Panels
     {
@@ -67,6 +70,7 @@ public class UI_Monster_Management : UI_PopUp
         Bind<GameObject>(typeof(Etc));
         Bind<Button>(typeof(Buttons));
 
+
         Init_Panels();
         CreateMonsterBox();
         Init_CommandButton();
@@ -100,8 +104,8 @@ public class UI_Monster_Management : UI_PopUp
         if (Type == UI_Type.Placement)
         {
             GetImage(((int)Panels.FloorPanel)).gameObject.SetActive(true);
-            GetTMP((int)Texts.DetailInfo).text = $"{Main.Instance.CurrentFloor.LabelName}\n{UserData.Instance.GetLocaleText("배치된 몬스터")} : {Main.Instance.CurrentFloor.monsterList.Count}\n" +
-                $"{UserData.Instance.GetLocaleText("배치가능 몬스터")} : {Main.Instance.CurrentFloor.MaxMonsterSize}";
+            GetTMP((int)Texts.DetailInfo).text = $"{Main.Instance.CurrentFloor.LabelName}\n{UserData.Instance.LocaleText("배치된 몬스터")} : {Main.Instance.CurrentFloor.monsterList.Count}\n" +
+                $"{UserData.Instance.LocaleText("배치가능 몬스터")} : {Main.Instance.CurrentFloor.MaxMonsterSize}";
         }
         else
         {
@@ -129,6 +133,33 @@ public class UI_Monster_Management : UI_PopUp
 
     public UI_MonsterBox Current { get; private set; }
     List<UI_MonsterBox> childList;
+
+
+    public void MonsterBox_ClickEvent(UI_MonsterBox selected)
+    {
+        if (Current != null && Current == selected && selected.monster != null)
+        {
+            switch (selected.monster.State)
+            {
+                case Monster.MonsterState.Standby:
+                    PlacementEvent(Define.Boundary_1x1, () => CreateAll(Current.monster.MonsterID));
+                    break;
+
+                case Monster.MonsterState.Placement:
+                    selected.monster.MonsterOutFloor();
+                    StartCoroutine(RefreshAll());
+                    break;
+
+                case Monster.MonsterState.Injury:
+                    break;
+            }
+        }
+        else
+        {
+            ShowDetail(selected);
+        }
+    }
+
 
     public void ShowDetail(UI_MonsterBox selected)
     {
@@ -171,7 +202,7 @@ public class UI_Monster_Management : UI_PopUp
     void AddFloorInfo()
     {
         GetImage(((int)Panels.FloorPanel)).gameObject.SetActive(true);
-        GetTMP((int)Texts.DetailInfo).text = $"AP : {Main.Instance.Player_AP}";
+        GetTMP((int)Texts.DetailInfo).text = $"{UserData.Instance.LocaleText("AP")} : {Main.Instance.Player_AP}";
     }
 
     #endregion
@@ -227,6 +258,15 @@ public class UI_Monster_Management : UI_PopUp
         GetButton(((int)Buttons.Command_Fixed)).gameObject.AddUIEvent(data => ChangeMoveMode(Monster.MoveType.Fixed));
         GetButton(((int)Buttons.Command_Wander)).gameObject.AddUIEvent(data => ChangeMoveMode(Monster.MoveType.Wander));
         GetButton(((int)Buttons.Command_Attack)).gameObject.AddUIEvent(data => ChangeMoveMode(Monster.MoveType.Attack));
+
+        var fix = GetButton(((int)Buttons.Command_Fixed)).gameObject.GetOrAddComponent<UI_Tooltip>();
+        fix.SetTooltipContents("", UserData.Instance.LocaleText_Tooltip("Command_Fixed"));
+
+        var wander = GetButton(((int)Buttons.Command_Wander)).gameObject.GetOrAddComponent<UI_Tooltip>();
+        wander.SetTooltipContents("", UserData.Instance.LocaleText_Tooltip("Command_Wander"));
+
+        var attack = GetButton(((int)Buttons.Command_Attack)).gameObject.GetOrAddComponent<UI_Tooltip>();
+        attack.SetTooltipContents("", UserData.Instance.LocaleText_Tooltip("Command_Attack"));
     }
 
     void ChangeMoveMode(Monster.MoveType _mode)
@@ -285,7 +325,7 @@ public class UI_Monster_Management : UI_PopUp
     {
         yield return new WaitForEndOfFrame();
         Debug.Log("창 새로고침");
-        GetTMP((int)Texts.DetailInfo).text = $"AP : {Main.Instance.Player_AP}";
+        GetTMP((int)Texts.DetailInfo).text = $"{UserData.Instance.LocaleText("AP")} : {Main.Instance.Player_AP}";
 
         ShowDetail(Current);
         for (int i = 0; i < childList.Count; i++)
@@ -313,12 +353,14 @@ public class UI_Monster_Management : UI_PopUp
 
                 GetButton(((int)Buttons.Training)).gameObject.
                     AddUIEvent((data) => Current.monster.Training());
-                GetButton(((int)Buttons.Training)).GetComponentInChildren<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("훈련")}(1)";
+                GetButton(((int)Buttons.Training)).GetComponentInChildren<TextMeshProUGUI>().text = 
+                    $"{UserData.Instance.LocaleText("훈련")}(1)";
 
                 GetButton(((int)Buttons.Release)).gameObject.
                     AddUIEvent((data) => GameManager.Monster.ReleaseMonster(Current.monster.MonsterID));
 
-                GetTMP((int)Texts.DetailInfo).text = $"{UserData.Instance.GetLocaleText("대기중")}\nAP : {Main.Instance.Player_AP}";
+                GetTMP((int)Texts.DetailInfo).text = $"{UserData.Instance.LocaleText("대기중")}\n" +
+                    $"{UserData.Instance.LocaleText("AP")} : {Main.Instance.Player_AP}";
                 break;
 
 
@@ -333,9 +375,11 @@ public class UI_Monster_Management : UI_PopUp
 
                 GetButton(((int)Buttons.Training)).gameObject.
                     AddUIEvent((data) => Current.monster.Training());
-                GetButton(((int)Buttons.Training)).GetComponentInChildren<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("훈련")}(1)";
+                GetButton(((int)Buttons.Training)).GetComponentInChildren<TextMeshProUGUI>().text = 
+                    $"{UserData.Instance.LocaleText("훈련")}(1)";
 
-                GetTMP((int)Texts.DetailInfo).text = $"{UserData.Instance.GetLocaleText("배치중")} : {Current.monster.PlacementInfo.Place_Floor.LabelName}\nAP : {Main.Instance.Player_AP}";
+                GetTMP((int)Texts.DetailInfo).text = $"{UserData.Instance.LocaleText("배치중")} : {Current.monster.PlacementInfo.Place_Floor.LabelName}\n" +
+                    $"{UserData.Instance.LocaleText("AP")} : {Main.Instance.Player_AP}";
                 break;
 
 
@@ -348,13 +392,13 @@ public class UI_Monster_Management : UI_PopUp
                 GetButton(((int)Buttons.Release)).gameObject.
                     AddUIEvent((data) => GameManager.Monster.ReleaseMonster(Current.monster.MonsterID));
 
-                int RecoverCost = (int)(((Current.monster.LV * 0.15f) + 0.15f) * Current.monster.Data.manaCost);
+                int RecoverCost = (int)(((Current.monster.LV * 0.08f) + 0.3f) * Current.monster.Data.manaCost);
                 GetButton(((int)Buttons.Recover)).gameObject.
                     AddUIEvent((data) => Current.monster.Recover(RecoverCost));
-                GetButton(((int)Buttons.Recover)).GetComponentInChildren<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("회복")}({RecoverCost})";
+                GetButton(((int)Buttons.Recover)).GetComponentInChildren<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText("회복")}({RecoverCost})";
 
 
-                GetTMP((int)Texts.DetailInfo).text = $"{UserData.Instance.GetLocaleText("회복")} {UserData.Instance.GetLocaleText("Mana")} : {RecoverCost}";
+                GetTMP((int)Texts.DetailInfo).text = $"{UserData.Instance.LocaleText("회복")} {UserData.Instance.LocaleText("Mana")} : {RecoverCost}";
                 break;
         }
     }
@@ -382,6 +426,7 @@ public class UI_Monster_Management : UI_PopUp
     //}
 
 
+
     void PlacementEvent(Vector2Int[] vector2Ints, Action action)
     {
         if (Current == null || Current.monster == null) return;
@@ -399,6 +444,7 @@ public class UI_Monster_Management : UI_PopUp
         Managers.UI.ShowPopUpAlone<UI_DungeonPlacement>();
 
         yield return new WaitForEndOfFrame();
+        yield return null;
         PanelDisable();
 
         UserData.Instance.GamePlay();
@@ -487,8 +533,47 @@ public class UI_Monster_Management : UI_PopUp
     }
 
 
+
+    public void QuickPlacement(int MonsterID)
+    {
+        StartCoroutine(ShowAllFloor(Define.Boundary_1x1, () => CreateQuick(MonsterID)));
+    }
+
+    void CreateQuick(int monsterID)
+    {
+        if (Create(monsterID, Main.Instance.CurrentBoundary))
+        {
+            SoundManager.Instance.PlaySound("SFX/Action_Build");
+            Main.Instance.ResetCurrentAction();
+            Managers.UI.ClosePopUp();
+        }
+        else
+        {
+            Debug.Log("배치할 수 없음");
+            SoundManager.Instance.PlaySound("SFX/Action_Wrong");
+        }
+
+    }
+
+
     #endregion
 
+
+
+    public override void PauseRefresh()
+    {
+        if (isQuickMode)
+        {
+            Managers.UI.ClosePopUp(this);
+        }
+    }
+
+
+
+    public override bool EscapeKeyAction()
+    {
+        return true;
+    }
 
 
     private void OnEnable()
@@ -497,7 +582,6 @@ public class UI_Monster_Management : UI_PopUp
     }
     private void OnDestroy()
     {
-        //Time.timeScale = 1;
-        UserData.Instance.GamePlay();
+        PopupUI_OnDestroy();
     }
 }

@@ -13,6 +13,8 @@ public class UI_SystemMessage : UI_PopUp
     enum Contents
     {
         Panel,
+
+
         BG,
         Message,
     }
@@ -28,7 +30,7 @@ public class UI_SystemMessage : UI_PopUp
 
         PrintMessage();
 
-        StartCoroutine(CloseDelay(DelayTime));
+        Wait_Delay = StartCoroutine(CloseDelay(DelayTime));
     }
 
     //[TextArea(2,10)]
@@ -53,10 +55,15 @@ public class UI_SystemMessage : UI_PopUp
         GetObject(((int)Contents.BG)).GetComponent<RectTransform>().sizeDelta = size + new Vector2(60, 40);
     }
 
+
+    Coroutine Wait_Delay;
+
     IEnumerator CloseDelay(float timer)
     {
         yield return new WaitForSecondsRealtime(timer);
         GetObject(((int)Contents.Panel)).AddUIEvent((data) => ClosePopUp(), Define.UIEvent.LeftClick);
+
+        Wait_Delay = null;
     }
 
 
@@ -68,4 +75,19 @@ public class UI_SystemMessage : UI_PopUp
     //{
     //    Time.timeScale = 1;
     //}
+
+
+    public override bool EscapeKeyAction()
+    {
+        if (Wait_Delay == null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
 }

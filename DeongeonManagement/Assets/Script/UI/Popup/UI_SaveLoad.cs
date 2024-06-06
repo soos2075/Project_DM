@@ -155,7 +155,7 @@ public class UI_SaveLoad : UI_PopUp
 
                 SoundManager.Instance.PlaySound("SFX/Save");
                 var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
-                msg.Message = UserData.Instance.GetLocaleText("Message_Saved");
+                msg.Message = UserData.Instance.LocaleText("Message_Saved");
 
                 // 마지막 세이브 슬롯의 인덱스
                 UserData.Instance.SetData(PrefsKey.LastSaveSlotIndex, (index - 1) / 6);
@@ -216,26 +216,26 @@ public class UI_SaveLoad : UI_PopUp
         {
             if (data.isClear)
             {
-                SaveSlotList[_index - 1].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("Slot")} {_index}";
+                SaveSlotList[_index - 1].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText("Slot")} {_index}";
                 SaveSlotList[_index - 1].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{data.dateTime}";
                 SaveSlotList[_index - 1].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text =
                     $"Clear : " + $"{data.endgins.ToString()}";
             }
             else
             {
-                SaveSlotList[_index - 1].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("Slot")} {_index}";
+                SaveSlotList[_index - 1].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText("Slot")} {_index}";
                 SaveSlotList[_index - 1].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{data.dateTime}";
                 SaveSlotList[_index - 1].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text =
-                    $"{data.turn}{UserData.Instance.GetLocaleText("Day")}\n" +
-                    $"{UserData.Instance.GetLocaleText("Popularity")} : {data.FameOfDungeon} / " +
-                    $"{UserData.Instance.GetLocaleText("Danger")} : {data.DangerOfDungeon}";
+                    $"{data.turn}{UserData.Instance.LocaleText("Day")}\n" +
+                    $"{UserData.Instance.LocaleText("Popularity")} : {data.FameOfDungeon} / " +
+                    $"{UserData.Instance.LocaleText("Danger")} : {data.DangerOfDungeon}";
             }
         }
         else
         {
-            SaveSlotList[_index - 1].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("Slot")} {_index}";
+            SaveSlotList[_index - 1].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText("Slot")} {_index}";
             SaveSlotList[_index - 1].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"";
-            SaveSlotList[_index - 1].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("No Data")}";
+            SaveSlotList[_index - 1].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText("No Data")}";
         }
 
 
@@ -249,26 +249,26 @@ public class UI_SaveLoad : UI_PopUp
         {
             if (autodata.isClear)
             {
-                GetImage(((int)Slot.AutoSave)).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("AutoSave")}";
+                GetImage(((int)Slot.AutoSave)).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText("AutoSave")}";
                 GetImage(((int)Slot.AutoSave)).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{autodata.dateTime}";
                 GetImage(((int)Slot.AutoSave)).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text =
                     $"Clear : " + $"{autodata.endgins.ToString()}";
             }
             else
             {
-                GetImage(((int)Slot.AutoSave)).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("AutoSave")}";
+                GetImage(((int)Slot.AutoSave)).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText("AutoSave")}";
                 GetImage(((int)Slot.AutoSave)).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{autodata.dateTime}";
                 GetImage(((int)Slot.AutoSave)).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text =
-                    $"{autodata.turn}{UserData.Instance.GetLocaleText("Day")}\n" +
-                    $"{UserData.Instance.GetLocaleText("Popularity")} : {autodata.FameOfDungeon} / " +
-                    $"{UserData.Instance.GetLocaleText("Danger")} : {autodata.DangerOfDungeon}";
+                    $"{autodata.turn}{UserData.Instance.LocaleText("Day")}\n" +
+                    $"{UserData.Instance.LocaleText("Popularity")} : {autodata.FameOfDungeon} / " +
+                    $"{UserData.Instance.LocaleText("Danger")} : {autodata.DangerOfDungeon}";
             }
         }
         else
         {
-            GetImage(((int)Slot.AutoSave)).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("AutoSave")}";
+            GetImage(((int)Slot.AutoSave)).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText("AutoSave")}";
             GetImage(((int)Slot.AutoSave)).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"";
-            GetImage(((int)Slot.AutoSave)).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocaleText("No Data")}";
+            GetImage(((int)Slot.AutoSave)).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText("No Data")}";
         }
 
     }
@@ -347,4 +347,21 @@ public class UI_SaveLoad : UI_PopUp
 
 
     #endregion
+
+
+
+    public override bool EscapeKeyAction()
+    {
+        return true;
+    }
+
+
+    private void OnEnable()
+    {
+        Time.timeScale = 0;
+    }
+    private void OnDestroy()
+    {
+        PopupUI_OnDestroy();
+    }
 }

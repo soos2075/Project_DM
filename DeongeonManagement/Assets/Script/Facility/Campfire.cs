@@ -22,7 +22,7 @@ public class Campfire : Facility
         if (InteractionOfTimes > 0)
         {
             InteractionOfTimes--;
-            Cor_Facility = StartCoroutine(FacilityEvent(npc, 5, UserData.Instance.GetLocaleText("Event_Resting"), ap: 1, mp: -10, hp: -5));
+            Cor_Facility = StartCoroutine(FacilityEvent(npc, 5, UserData.Instance.LocaleText("Event_Resting"), ap: 1, mp: -10, hp: -5));
             return Cor_Facility;
         }
         else
