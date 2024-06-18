@@ -343,6 +343,9 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
 
     void SkipText()
     {
+        if (Managers.UI._popupStack.Peek() != this) return;
+
+
         if (isAutoMode)
         {
             return;

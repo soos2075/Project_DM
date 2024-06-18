@@ -52,10 +52,25 @@ public class UI_DayResult : UI_PopUp
         Bind<TextMeshProUGUI>(typeof(Texts));
 
 
-        GetTMP(((int)Texts.Mana)).text = $"+ {UserData.Instance.LocaleText("Mana")} : {Util.SetTextColorTag(Result.Get_Mana.ToString(), Define.TextColor.LightGreen).SetTextColorTag(Define.TextColor.Bold) }";
-        GetTMP(((int)Texts.Gold)).text = $"+ {UserData.Instance.LocaleText("Gold")} : {Result.Get_Gold.ToString().SetTextColorTag(Define.TextColor.LightGreen).SetTextColorTag(Define.TextColor.Bold)}";
-        GetTMP(((int)Texts.Prisoner)).text = $"+ {UserData.Instance.LocaleText("포로")} : {Util.SetTextColorTag(Result.Get_Prisoner.ToString(), Define.TextColor.Bold)}";
-        GetTMP(((int)Texts.Kill)).text = $"+ {UserData.Instance.LocaleText("모험가")} : {Util.SetTextColorTag(Result.Get_Kill.ToString(), Define.TextColor.Bold)}";
+        GetTMP(((int)Texts.Mana)).text = $"+ {UserData.Instance.LocaleText("Mana")} : " +
+            $"{Result.Get_Mana.ToString().SetTextColorTag(Define.TextColor.Bold)}";
+
+        if (GameManager.Buff.CurrentBuff.Orb_blue > 0)
+        {
+            int add = (int)(Result.Get_Mana * 0.2f);
+            
+            GetTMP(((int)Texts.Mana)).text += $" (+{add})".SetTextColorTag(Define.TextColor.SkyBlue);
+            Result.AddMana(add);
+        }
+
+        GetTMP(((int)Texts.Gold)).text = $"+ {UserData.Instance.LocaleText("Gold")} : " +
+            $"{Result.Get_Gold.ToString().SetTextColorTag(Define.TextColor.Bold)}";
+
+
+        //GetTMP(((int)Texts.Kill)).text = $"+ {UserData.Instance.LocaleText("모험가")} : {Util.SetTextColorTag(Result.Get_Kill.ToString(), Define.TextColor.Bold)}";
+        //GetTMP(((int)Texts.Prisoner)).text = $"+ {UserData.Instance.LocaleText("포로")} : {Util.SetTextColorTag(Result.Get_Prisoner.ToString(), Define.TextColor.Bold)}";
+        GetTMP(((int)Texts.Kill)).text = "";
+        GetTMP(((int)Texts.Prisoner)).text = "";
 
         GetTMP(((int)Texts.Use_Mana)).text = $"- {UserData.Instance.LocaleText("Mana")} : {Result.Use_Mana.ToString().SetTextColorTag(Define.TextColor.npc_red).SetTextColorTag(Define.TextColor.Bold)}";
         GetTMP(((int)Texts.Use_Gold)).text = $"- {UserData.Instance.LocaleText("Gold")} : {Result.Use_Gold.ToString().SetTextColorTag(Define.TextColor.npc_red).SetTextColorTag(Define.TextColor.Bold)}";

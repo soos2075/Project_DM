@@ -229,4 +229,22 @@ public class UI_StatusUp : UI_PopUp
             show_luk += $" ¡å{Mathf.Abs(after_luk - before_luk)}".SetTextColorTag(Define.TextColor.yellow);
         }
     }
+
+
+
+    public override bool EscapeKeyAction()
+    {
+        return true;
+    }
+
+
+    private void OnEnable()
+    {
+        Time.timeScale = 0;
+    }
+    private void OnDestroy()
+    {
+        PopupUI_OnDestroy();
+    }
+
 }

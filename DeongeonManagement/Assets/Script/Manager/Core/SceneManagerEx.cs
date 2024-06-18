@@ -62,7 +62,7 @@ public class SceneManagerEx
         CurrentOperation.allowSceneActivation = false;
 
         var fade = Managers.UI.ShowPopUpAlone<UI_Fade>();
-        fade.SetFadeOption(UI_Fade.FadeMode.BlackOut, 2);
+        fade.SetFadeOption(UI_Fade.FadeMode.BlackOut, 2, false);
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => fade.isFade == false);
 

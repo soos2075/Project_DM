@@ -126,7 +126,7 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
 
                 case PlacementType.Facility:
                     var facil = CurrentTile.Original as Facility;
-                    if (facil.GetType() == typeof(Obstacle))
+                    if (facil.GetType() == typeof(Obstacle) || facil.GetType() == typeof(Obstacle_Wall))
                     {
                         Managers.UI.ClosePopupPick(view);
                         return;
@@ -149,7 +149,7 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
                         {
                             return;
                         }
-                        view.ViewDetail($"{facil.InteractionOfTimes}/{facil.Data.interactionOfTimes}".SetTextColorTag(Define.TextColor.LightYellow));
+                        view.ViewDetail($"{facil.InteractionOfTimes + facil.IOT_Temp}/{facil.Data.interactionOfTimes}".SetTextColorTag(Define.TextColor.LightYellow));
                     }
                     break;
 

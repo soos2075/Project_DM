@@ -324,13 +324,14 @@ public class BattleField : MonoBehaviour
         NPC_Die,
     }
 
-    public BattleResult Battle(NPC npc, Monster monster)
+    public BattleResult Battle(NPC npc, Monster monster, Material mat_npc, Material mat_monster)
     {
         obj_Left = Instantiate(npc.gameObject, pos_Left);
         Destroy(obj_Left.GetComponent<NPC>());
         obj_Left.transform.localPosition = Vector3.zero;
         obj_Left.transform.localScale = Vector3.one;
         obj_Left.GetComponentInChildren<SpriteRenderer>().sortingOrder = sort + 1;
+        obj_Left.GetComponentInChildren<SpriteRenderer>().material = mat_npc;
         ani_npc = obj_Left.GetComponent<Animator>();
         this.npc = npc;
 
@@ -340,6 +341,7 @@ public class BattleField : MonoBehaviour
         obj_Right.transform.localPosition = Vector3.zero;
         obj_Right.transform.localScale = new Vector3(-1, 1, 1);
         obj_Right.GetComponentInChildren<SpriteRenderer>().sortingOrder = sort + 1;
+        obj_Right.GetComponentInChildren<SpriteRenderer>().material = mat_monster;
         ani_monster = obj_Right.GetComponent<Animator>();
         this.monster = monster;
 
@@ -364,7 +366,7 @@ public class BattleField : MonoBehaviour
     List<Round> BattleStart()
     {
         roundList = new List<Round>();
-        int agi = npc.AGI - monster.AGI;
+        int agi = npc.AGI - monster.AGI_Final;
 
         if (agi > 5)
         {
@@ -410,14 +412,14 @@ public class BattleField : MonoBehaviour
     bool MonsterAttack()
     {
         int damage = 1;
-        if (TryDodge(monster.LUK, npc.LUK))
+        if (TryDodge(monster.LUK_Final, npc.LUK))
         {
             //Debug.Log("회피함");
             damage = 0;
         }
         else
         {
-            int atkRange = (int)UnityEngine.Random.Range(monster.ATK * 0.8f, monster.ATK * 1.2f);
+            int atkRange = (int)UnityEngine.Random.Range(monster.ATK_Final * 0.8f, monster.ATK_Final * 1.2f);
 
             damage = Mathf.Clamp((atkRange - npc.DEF), 1, atkRange);
         }
@@ -437,7 +439,7 @@ public class BattleField : MonoBehaviour
     bool NPCAttack()
     {
         int damage = 1;
-        if (TryDodge(npc.LUK, monster.LUK))
+        if (TryDodge(npc.LUK, monster.LUK_Final))
         {
             //Debug.Log("회피함");
             damage = 0;
@@ -445,7 +447,7 @@ public class BattleField : MonoBehaviour
         else
         {
             int atkRange = (int)UnityEngine.Random.Range(npc.ATK * 0.8f, npc.ATK * 1.2f);
-            damage = Mathf.Clamp((atkRange - monster.DEF), 1, atkRange);
+            damage = Mathf.Clamp((atkRange - monster.DEF_Final), 1, atkRange);
         }
 
         monster.HP -= damage;

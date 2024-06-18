@@ -16,6 +16,9 @@ public class UI_Floor_Tile : UI_Base
     UI_Floor parent;
 
 
+    public bool isIgnore { get; set; }
+
+
     public override void Init()
     {
         Bind<GameObject>(typeof(Contents));
@@ -40,6 +43,7 @@ public class UI_Floor_Tile : UI_Base
 
     void TileExit()
     {
+        if (isIgnore) return;
         //GetComponent<Image>().color = Define.Color_White;
         parent.TileUpdate();
     }
@@ -49,6 +53,8 @@ public class UI_Floor_Tile : UI_Base
 
     void ActionCheckEvent()
     {
+        if (isIgnore) return;
+
         if (Main.Instance.CurrentAction != null)
             Main.Instance.CurrentAction.Invoke();
     }
@@ -62,6 +68,8 @@ public class UI_Floor_Tile : UI_Base
 
     void TileCheckEvent(Vector2Int[] boundary)
     {
+        if (isIgnore) return;
+
         if (Main.Instance.CurrentAction == null) return;
         if (parent.TileList == null) return;
         if (Tile == null) return;

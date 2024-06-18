@@ -124,8 +124,50 @@ public class BasementFloor : MonoBehaviour
         return tempTile;
     }
 
+    public BasementTile GetRandomTile_Common(out bool findEmpty)
+    {
+        int whileCount = 0; //? 무한루프 방지용
+        Vector2Int randomTile;
 
-    public List<BasementTile> PathFinding(BasementTile startPoint, BasementTile targetPoint, Define.TileType[] avoidType, out bool isFind)
+        BasementTile tempTile = null;
+        while (whileCount < 100)
+        {
+            whileCount++;
+            randomTile = new Vector2Int(UnityEngine.Random.Range(0, tilemap.cellBounds.size.x), UnityEngine.Random.Range(0, tilemap.cellBounds.size.y));
+            if (TileMap.TryGetValue(randomTile, out tempTile))
+            {
+                if (tempTile.Original == null)
+                {
+                    findEmpty = true;
+                    return tempTile;
+                }
+            }
+        }
+
+        Debug.Log("빈 공간 없음 - 약초나 광물 제거");
+        findEmpty = false;
+
+
+        while (true)
+        {
+            randomTile = new Vector2Int(UnityEngine.Random.Range(0, tilemap.cellBounds.size.x), UnityEngine.Random.Range(0, tilemap.cellBounds.size.y));
+            if (TileMap.TryGetValue(randomTile, out tempTile))
+            {
+                if (tempTile.Original.GetType() == typeof(Herb) || tempTile.Original.GetType() == typeof(Mineral))
+                {
+                    return tempTile;
+                }
+            }
+        }
+
+
+        //return tempTile;
+    }
+
+
+
+    public List<BasementTile> PathFinding(BasementTile startPoint, BasementTile targetPoint, Define.TileType[] avoidType, out bool isFind, 
+        PathFindingType findType = PathFindingType.Normal)
     {
         //? 순서는 위 아래 왼쪽 오른쪽 순서
         int[] deltaX = new int[4] { 0, 0, -1, 1 };
@@ -180,11 +222,18 @@ public class BasementFloor : MonoBehaviour
                     continue;
                 }
 
-
+                //? 상대가 바쁜 상태라면 건너뛰기(NPC,Monster,Facility 모두 포함)
                 if (value.Original != null && value.Original.PlacementState == PlacementState.Busy)
                 {
                     continue;
                 }
+
+                //? 갈 수 없는 타일이라면 건너뛰기
+                if (findType == PathFindingType.Normal)
+                {
+                    if (Check_IWall(value)) continue;
+                }
+
 
                 //? 추가한 회피 조건
                 bool avoid = false;
@@ -226,7 +275,7 @@ public class BasementFloor : MonoBehaviour
         }
         return (MoveList(pathTile, targetPoint, out isFind));
     }
-    public List<BasementTile> PathFinding(BasementTile startPoint, BasementTile targetPoint, out bool isFind)
+    public List<BasementTile> PathFinding(BasementTile startPoint, BasementTile targetPoint, out bool isFind, PathFindingType findType = PathFindingType.Normal)
     {
         //? 순서는 위 아래 왼쪽 오른쪽 순서
         int[] deltaX = new int[4] { 0, 0, -1, 1 };
@@ -281,11 +330,11 @@ public class BasementFloor : MonoBehaviour
                     continue;
                 }
 
-
-                //if (value.tileType == Define.TileType.Using)
-                //{
-                //    continue;
-                //}
+                //? 갈 수 없는 타일이라면 건너뛰기
+                if (findType == PathFindingType.Normal)
+                {
+                    if (Check_IWall(value)) continue;
+                }
 
 
                 priorityQueue.Push(new PQNode()
@@ -327,6 +376,27 @@ public class BasementFloor : MonoBehaviour
         isFind = true;
         return moveList;
     }
+
+
+
+    public enum PathFindingType
+    {
+        Normal,
+        Allow_Wall,
+    }
+    bool Check_IWall(BasementTile tile)
+    {
+        if (tile.Original != null && tile.Original as IWall != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
 
 
     // 몬스터버전 패스파인딩
@@ -391,8 +461,7 @@ public class BasementFloor : MonoBehaviour
                     continue;
                 }
 
-                //? 몬스터 회피 조건 - 퍼실리티, 몬스터
-
+                //? 몬스터 회피 조건 - 빈타일과 NPC가 아닌 모든타일 건너뛰기
                 if (value.tileType_Original != Define.TileType.Empty && value.tileType_Original != Define.TileType.NPC)
                 {
                     continue;
@@ -547,13 +616,27 @@ public class BasementFloor : MonoBehaviour
 
         if (PickObjectOfType(typeof(Entrance)) == null)
         {
-            var info = new PlacementInfo(this, GetRandomTile());
+            bool isEmpty;
+            var tile = GetRandomTile_Common(out isEmpty);
+            var info = new PlacementInfo(this, tile);
+            if (isEmpty == false)
+            {
+                GameManager.Facility.RemoveFacility(tile.Original as Facility);
+            }
+
             GameManager.Facility.CreateFacility_OnlyOne("Entrance", info);
         }
 
         if (PickObjectOfType(typeof(Exit)) == null)
         {
-            var info = new PlacementInfo(this, GetRandomTile());
+            bool isEmpty;
+            var tile = GetRandomTile_Common(out isEmpty);
+            var info = new PlacementInfo(this, tile);
+            if (isEmpty == false)
+            {
+                GameManager.Facility.RemoveFacility(tile.Original as Facility);
+            }
+
             GameManager.Facility.CreateFacility_OnlyOne("Exit", info);
         }
     }
@@ -773,7 +856,7 @@ public class BasementTile
         }
         else
         {
-            tileType_Current = Define.TileType.Facility; //? 입구 출구가 아니고 변하지 않는 퍼실리티 = 지나가면 발동하는 설치형 함정 등등
+            tileType_Current = Define.TileType.Facility;
             tileType_Original = Define.TileType.Facility;
         }
     }
@@ -851,7 +934,15 @@ public class BasementTile
                     }
                     else
                     {
-                        return Define.PlaceEvent.Avoid;
+                        if (overlap)
+                        {
+                            return Define.PlaceEvent.Placement;
+                        }
+                        else
+                        {
+                            return Define.PlaceEvent.Avoid;
+                        }
+                        //return Define.PlaceEvent.Avoid;
                     }
                 }
                 else
@@ -936,6 +1027,11 @@ public class BasementTile
                 {
                     return Define.PlaceEvent.Nothing;
                 }
+                if (Original as IWall != null)
+                {
+                    return Define.PlaceEvent.Nothing;
+                }
+                //Debug.Log("논인터렉션");
                 return Define.PlaceEvent.Placement;
 
 

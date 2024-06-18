@@ -245,6 +245,8 @@ public class DataManager
         public List<int> currentQuestList;
 
         public UserData.SavefileConfig savefileConfig;
+
+        public BuffList buffList;
     }
 
     //private SaveData tempData;
@@ -437,6 +439,9 @@ public class DataManager
         int highTurn = Mathf.Max(saveData.turn, UserData.Instance.GetDataInt(PrefsKey.High_Turn, 0));
         UserData.Instance.SetData(PrefsKey.High_Turn, highTurn);
 
+        saveData.buffList = GameManager.Buff.Save_Buff();
+
+
         return saveData;
     }
 
@@ -479,6 +484,8 @@ public class DataManager
     {
         UserData.Instance.FileConfig = loadData.savefileConfig.Clone();
         UserData.Instance.FileConfig.Init_CurrentPlayTime();
+
+        GameManager.Buff.Load_Buff(loadData.buffList);
 
         Main.Instance.SetLoadData(loadData);
 

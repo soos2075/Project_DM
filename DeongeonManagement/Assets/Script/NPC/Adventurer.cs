@@ -81,6 +81,7 @@ public class Adventurer : NPC
         }
 
         PickToProbability(GetPriorityPick(typeof(Entrance_Egg)), (PlacementInfo.Place_Floor.FloorIndex + Rank) * 0.05f);
+        Add_Wells();
     }
 
 

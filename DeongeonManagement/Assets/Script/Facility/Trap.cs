@@ -58,10 +58,56 @@ public class Trap : Facility
 
         //npc.GetComponentInChildren<Animator>().Play("Running");
 
+        Main.Instance.ShowDM(-hp_value, Main.TextType.hp, npc.transform);
         npc.State = npc.StateRefresh();
 
         base.OverCor(npc, isRemove);
     }
 
 
+
+
+
+    #region 퍼실리티 클릭이벤트 (제거)
+    //? 함정 가격 : 40 / 110 / 260
+    int ReturnGold(TrapType _type)
+    {
+        switch (_type)
+        {
+            case TrapType.Fallen_1:
+                return 20;
+
+            case TrapType.Fallen_2:
+                return 55;
+
+            case TrapType.Awl_1:
+                return 130;
+        }
+        return 0;
+    }
+
+
+    public override void MouseClickEvent()
+    {
+        if (Main.Instance.Management == false) return;
+
+        var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
+        ui.SetText($"[{Name}] {UserData.Instance.LocaleText("Confirm_Remove")}" +
+            $"\n(+{ReturnGold(trapType)} {UserData.Instance.LocaleText("Gold")})");
+        StartCoroutine(WaitForAnswer(ui));
+    }
+
+
+    IEnumerator WaitForAnswer(UI_Confirm confirm)
+    {
+        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
+
+        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
+        {
+            Main.Instance.CurrentDay.AddGold(ReturnGold(trapType));
+            GameManager.Facility.RemoveFacility(this);
+        }
+    }
+
+    #endregion
 }

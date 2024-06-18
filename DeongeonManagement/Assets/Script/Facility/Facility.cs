@@ -63,6 +63,8 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         InteractionOfTimes = _data.interactionTimes;
         //OptionIndex = _data.OptionIndex;
         isInit = _data.isInit;
+
+        instanceIndex = _data.instanceIndex;
     }
 
     #endregion
@@ -70,6 +72,9 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
 
     public SO_Facility Data { get; set; }
+
+    public string Data_KeyName { get; set; }
+    public int instanceIndex { get; set; }
 
     public void SetData()
     {
@@ -92,6 +97,8 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
         isOnlyOne = Data.isOnlyOne;
         isClearable = Data.isClearable;
+
+        Data_KeyName = Data.keyName;
     }
 
     protected float durationTime;
@@ -129,9 +136,12 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         Player_Event, //? 플레이어 전용 이벤트(npc는 절대 상호작용 ㄴㄴ)
 
         Non_Interaction, //? 아무랑도 상호작용하지않지만 타일은 차지해야함. 이거 나중에 타일ui자체도 없애는것도 방법일듯.
+
+        //NPC_Interaction_Wall = 4,
     }
     public FacilityEventType EventType { get; set; }
-    public int InteractionOfTimes { get; set; }
+    public virtual int InteractionOfTimes { get; set; }
+    public virtual int IOT_Temp { get; set; } = 0;
     public string Name { get; set; }
 
     public abstract void Init_Personal();
@@ -155,7 +165,7 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
         yield return new WaitForSeconds(durationTime);
 
-        int applyMana = Mathf.Clamp(mp, 0, npc.Mana); //? 높은 마나회수여도 npc가 가진 마나 이상으로 얻진 못함. - 앵벌이 방지용
+        int applyMana = Mathf.Clamp(mp, mp, npc.Mana); //? 높은 마나회수여도 npc가 가진 마나 이상으로 얻진 못함. - 앵벌이 방지용
 
         npc.ActionPoint -= ap;
         npc.Mana -= applyMana;

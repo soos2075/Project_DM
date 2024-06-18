@@ -242,7 +242,9 @@ public class EventManager : MonoBehaviour
 
 
         // 여기서 저장할 데이터를 미리 들고있어야함. 삭제는 7NewEnding에서 GameClear로 넘어가기전에 삭제함
-        Temp_saveData = Managers.Data.SaveCurrentData("Clear_Temp");
+        //? 임시로 저장 해제(데모버전)
+        Debug.Log("클리어 후 임시저장 부분 / 엔딩저장 및 무한모드 활성화할 때 다시 활성화해야함");
+        //Temp_saveData = Managers.Data.SaveCurrentData("Clear_Temp");
 
         yield return new WaitForSecondsRealtime(1);
         Managers.Scene.LoadSceneAsync(SceneName._7_NewEnding, false);

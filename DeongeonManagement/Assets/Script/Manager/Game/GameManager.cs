@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     MonsterManager _monster = new MonsterManager();
     NPCManager _npc = new NPCManager();
     PixelHeroManager _pixel = new PixelHeroManager();
+    BuffManager _buff = new BuffManager();
 
 
 
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
     public static MonsterManager Monster { get { return Instance._monster; } }
     public static NPCManager NPC { get { return Instance._npc; } }
     public static PixelHeroManager Pixel { get { return Instance._pixel; } }
+    public static BuffManager Buff { get { return Instance._buff; } }
 
 
 
@@ -54,6 +56,7 @@ public class GameManager : MonoBehaviour
         _monster.Init();
         _npc.Init();
         _pixel.Init();
+        _buff.Init();
     }
 
     void Start()

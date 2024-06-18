@@ -32,10 +32,13 @@ public class Entrance : Facility
         {
             yield return new WaitForSeconds(npc.ActionDelay);
 
-            int applyMana = Mathf.Clamp((npc.PlacementInfo.Place_Floor.FloorIndex * 2) + 1, 1, npc.Mana);
+            int applyMana = Mathf.Clamp((npc.PlacementInfo.Place_Floor.FloorIndex * 5), 0, npc.Mana);
 
-            Main.Instance.CurrentDay.AddMana(applyMana);
-            Main.Instance.ShowDM(applyMana, Main.TextType.mana, transform);
+            if (applyMana > 0)
+            {
+                Main.Instance.CurrentDay.AddMana(applyMana);
+                Main.Instance.ShowDM(applyMana, Main.TextType.mana, transform);
+            }
 
             npc.FloorNext();
         }

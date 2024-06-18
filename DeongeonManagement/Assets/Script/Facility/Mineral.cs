@@ -23,11 +23,23 @@ public class Mineral : Facility
     //public MineralCategory mineralType { get; set; } = MineralCategory.Rock;
 
 
+
     void Init_Mineral()
     {
         var SLA = GetComponentInChildren<SpriteResolver>();
         //SLA.SetCategoryAndLabel(mineralType.ToString(), "Entry");
         SLA.SetCategoryAndLabel(Data.SLA_category, Data.SLA_label);
+
+        Orb_Bonus();
+    }
+
+
+    public void Orb_Bonus()
+    {
+        if (GameManager.Buff.CurrentBuff.Orb_yellow > 0)
+        {
+            IOT_Temp = 1;
+        }
     }
 
 
@@ -60,7 +72,15 @@ public class Mineral : Facility
                     break;
             }
 
-            InteractionOfTimes--;
+            if (IOT_Temp > 0)
+            {
+                IOT_Temp--;
+            }
+            else
+            {
+                InteractionOfTimes--;
+            }
+
             Cor_Facility = StartCoroutine(FacilityEvent(npc, durationTime, UserData.Instance.LocaleText("Event_Mineral"), 
                 ap: ap_value, mp: changeMP, hp: hp_value));
             return Cor_Facility;

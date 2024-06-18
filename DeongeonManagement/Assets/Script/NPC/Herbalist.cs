@@ -74,6 +74,7 @@ public class Herbalist : NPC
         }
 
         PickToProbability(GetPriorityPick(typeof(Entrance_Egg)), (PlacementInfo.Place_Floor.FloorIndex + Rank) * 0.04f);
+        Add_Wells();
     }
 
 

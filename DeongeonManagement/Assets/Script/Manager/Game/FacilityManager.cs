@@ -21,6 +21,12 @@ public class FacilityManager
         so_data = Resources.LoadAll<SO_Facility>("Data/Facility");
         foreach (var item in so_data)
         {
+            if (item.id == 0)
+            {
+                Facility_Dictionary.Add(item.keyName, item);
+                continue;
+            }
+
             string[] datas = null;
             switch (UserData.Instance.Language)
             {
@@ -79,7 +85,7 @@ public class FacilityManager
         TurnOverAction = null;
     }
 
-
+    #region 실제 인스턴트
 
     public List<Facility> facilityList = new List<Facility>();
 
@@ -94,6 +100,7 @@ public class FacilityManager
             var facil = newObj as Facility;
             facil.Data = data;
             facil.SetData();
+            facil.instanceIndex = RandomInstanceIndex();
 
             facilityList.Add(facil);
             return newObj;
@@ -112,6 +119,7 @@ public class FacilityManager
             var facil = newObj as Facility;
             facil.Data = data;
             facil.SetData();
+            facil.instanceIndex = RandomInstanceIndex();
 
             facilityList.Add(newObj as Facility);
             return newObj;
@@ -138,6 +146,52 @@ public class FacilityManager
         }
         facilityList.Clear();
     }
+
+
+
+    int RandomInstanceIndex()
+    {
+        int ran = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+        while (Check_Index(ran) == false)
+        {
+            ran = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+        }
+
+        return ran;
+    }
+
+    bool Check_Index(int value)
+    {
+        foreach (var item in facilityList)
+        {
+            if (item.instanceIndex == value)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    public Facility GetInstanceOfIndex(int index)
+    {
+        foreach (var item in facilityList)
+        {
+            if (item.instanceIndex == index)
+            {
+                return item;
+            }
+        }
+
+        return null;
+    }
+
+
+    #endregion
+
+
+
+
 
 
 
@@ -210,9 +264,12 @@ public class Save_FacilityData
 
     //public bool isUnchange; //? 필요하면 나중에 쓰자. 타일 형태가 안바뀌는놈. 근데 이동 후 상호작용은 전부 OnlyOne이라서 아직은 필요가없음
 
+    public int instanceIndex;
+
+
     public void SetData(Facility facility)
     {
-        keyName = facility.Data.keyName;
+        keyName = facility.Data_KeyName;
         prefabPath = facility.name;
 
         isInit = facility.isInit;
@@ -224,5 +281,7 @@ public class Save_FacilityData
         posIndex = facility.PlacementInfo.Place_Tile.index;
 
         isOnlyOne = facility.isOnlyOne;
+
+        instanceIndex = facility.instanceIndex;
     }
 }

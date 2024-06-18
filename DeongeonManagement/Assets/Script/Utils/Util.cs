@@ -102,6 +102,9 @@ public class Util
             case Define.Boundary.Boundary_3x3:
                 return Define.Boundary_3x3;
 
+            case Define.Boundary.Boundary_4x4:
+                return Define.Boundary_4x4;
+
             case Define.Boundary.Boundary_5x5:
                 return Define.Boundary_5x5;
 
@@ -128,6 +131,8 @@ public class Util
 
             case Define.Boundary.Boundary_Side_Cross_2:
                 return Define.Boundary_Side_Cross_2;
+
+
         }
         return null;
     }

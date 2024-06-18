@@ -38,6 +38,16 @@ public class PlacementManager
         return null;
     }
 
+    public bool DisableCheck(IPlacementable obj)
+    {
+        SpriteRenderer renderer = obj.GetObject().GetComponentInChildren<SpriteRenderer>();
+        if (renderer)
+        {
+            return renderer.enabled;
+        }
+        return false;
+    }
+
 
 
 

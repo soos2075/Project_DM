@@ -374,7 +374,7 @@ public class UserData : MonoBehaviour
     #region GameClear
     public DataManager.SaveData CurrentSaveData { get; set; }
 
-    public bool isClear;
+    public bool isClear { get; set; }
     public Endings EndingState { get; set; }
     public Save_MonsterData SelectedMonster { get; set; }
     public void GameClear(DataManager.SaveData data = null)

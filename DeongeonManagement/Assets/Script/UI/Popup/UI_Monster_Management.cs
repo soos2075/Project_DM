@@ -104,13 +104,50 @@ public class UI_Monster_Management : UI_PopUp
         if (Type == UI_Type.Placement)
         {
             GetImage(((int)Panels.FloorPanel)).gameObject.SetActive(true);
-            GetTMP((int)Texts.DetailInfo).text = $"{Main.Instance.CurrentFloor.LabelName}\n{UserData.Instance.LocaleText("배치된 몬스터")} : {Main.Instance.CurrentFloor.monsterList.Count}\n" +
-                $"{UserData.Instance.LocaleText("배치가능 몬스터")} : {Main.Instance.CurrentFloor.MaxMonsterSize}";
+            PlacePanelUpdate();
+            //GetTMP((int)Texts.DetailInfo).text = $"{Main.Instance.CurrentFloor.LabelName}\n" +
+            //    $"{UserData.Instance.LocaleText("배치된 몬스터")} : {Main.Instance.CurrentFloor.monsterList.Count}\n" +
+            //    $"{UserData.Instance.LocaleText("배치가능 몬스터")} : {Main.Instance.CurrentFloor.MaxMonsterSize}";
         }
         else
         {
             GetImage(((int)Panels.FloorPanel)).gameObject.SetActive(false);
         }
+    }
+
+    void PlacePanelUpdate()
+    {
+        //? 마지막으로 배치된 몬스터(현재 선택되있는 몬스터)의 층 정보로 갱신하기
+        string floorName = "";
+        int placeMonsters = 0;
+        int ableMonsters = 0;
+
+        if (Current != null && Current.monster != null)
+        {
+            floorName = Current.monster.PlacementInfo.Place_Floor.LabelName;
+            placeMonsters = Current.monster.PlacementInfo.Place_Floor.monsterList.Count;
+            ableMonsters = Current.monster.PlacementInfo.Place_Floor.MaxMonsterSize;
+
+            if (Current.monster.PlacementInfo.Place_Floor.FloorIndex == 3)
+            {
+                placeMonsters--;
+            }
+        }
+        else
+        {
+            floorName = Main.Instance.CurrentFloor.LabelName;
+            placeMonsters = Main.Instance.CurrentFloor.monsterList.Count;
+            ableMonsters = Main.Instance.CurrentFloor.MaxMonsterSize;
+
+            if (Main.Instance.CurrentFloor.FloorIndex == 3)
+            {
+                placeMonsters--;
+            }
+        }
+
+        GetTMP((int)Texts.DetailInfo).text = $"{floorName}\n" +
+            $"{UserData.Instance.LocaleText("배치된 몬스터")} : {placeMonsters}\n" +
+            $"{UserData.Instance.LocaleText("배치가능 몬스터")} : {ableMonsters}";
     }
 
 
@@ -241,8 +278,22 @@ public class UI_Monster_Management : UI_PopUp
         GetTMP(((int)Texts.Name)).text = Current.monster.Name_Color;
 
         GetTMP(((int)Texts.Status)).text = $"HP : {Current.monster.HP} / {Current.monster.HP_Max}\n";
-        GetTMP(((int)Texts.Status)).text += $"ATK : {Current.monster.ATK} \tDEF : {Current.monster.DEF} \n" +
-            $"AGI : {Current.monster.AGI} \tLUK : {Current.monster.LUK}";
+        GetTMP(((int)Texts.Status)).text +=
+            $"ATK : {Current.monster.ATK} {Util.SetTextColorTag($"(+{Current.monster.ATK_Bonus})", Define.TextColor.npc_red)}" +
+            $"\tDEF : {Current.monster.DEF} {Util.SetTextColorTag($"(+{Current.monster.DEF_Bonus})", Define.TextColor.npc_red)}" +
+            $"\nAGI : {Current.monster.AGI} {Util.SetTextColorTag($"(+{Current.monster.AGI_Bonus})", Define.TextColor.npc_red)}" +
+            $"\tLUK : {Current.monster.LUK} {Util.SetTextColorTag($"(+{Current.monster.LUK_Bonus})", Define.TextColor.npc_red)}";
+
+
+        //if (GameManager.Buff.CurrentBuff.Orb_red > 0)
+        //{
+        //    GetTMP(((int)Texts.Status)).text = $"HP : {Current.monster.HP} / {Current.monster.HP_Max}\n";
+        //    GetTMP(((int)Texts.Status)).text += 
+        //        $"ATK : {Current.monster.ATK} {"(+5)".SetTextColorTag(Define.TextColor.npc_red)} " +
+        //        $"\tDEF : {Current.monster.DEF} {"(+5)".SetTextColorTag(Define.TextColor.npc_red)} " +
+        //        $"\nAGI : {Current.monster.AGI} {"(+5)".SetTextColorTag(Define.TextColor.npc_red)} " +
+        //        $"\tLUK : {Current.monster.LUK} {"(+5)".SetTextColorTag(Define.TextColor.npc_red)}";
+        //}
 
 
         GetTMP(((int)Texts.State)).text = $"{Current.monster.Data.evolutionHint}";
@@ -457,6 +508,10 @@ public class UI_Monster_Management : UI_PopUp
             {
                 Main.Instance.Floor[i].UI_Floor.ShowTile();
             }
+            else
+            {
+                Main.Instance.Floor[i].UI_Floor.ShowTile_IgnoreEvent(Define.Color_Red);
+            }
         }
 
         FindAnyObjectByType<UI_Management>().Hide_MainCanvas();
@@ -513,6 +568,11 @@ public class UI_Monster_Management : UI_PopUp
     {
         Debug.Log($"{Current.monster.Name_Color}(이)가 {Main.Instance.CurrentTile.floor.LabelName}에 배치되었습니다");
         ResetAction();
+
+        if (Type == UI_Type.Placement)
+        {
+            PlacePanelUpdate();
+        }
     }
     void ResetAction()
     {

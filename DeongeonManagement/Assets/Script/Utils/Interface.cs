@@ -37,6 +37,15 @@ public interface IPlacementable
     void MouseDownEvent();
     void MouseUpEvent();
 }
+
+
+//? NPC가 지나갈 수 없는 타입. 길찾기에서 무조건적으로 걸러야함. 대신 타겟이 이속성을 가진 타일이라면 약간 다른 방식의 길찾기를 하면 댐
+public interface IWall
+{
+
+}
+
+
 public enum PlacementState
 {
     Standby,

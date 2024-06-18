@@ -10,8 +10,27 @@ public class Slime : Monster
     public override void MonsterInit()
     {
         Data = GameManager.Monster.GetData("Slime");
-        StartCoroutine(Init_Evolution());
+
+
+        if (GameManager.Monster.Check_Evolution("BloodySlime"))
+        {
+            StartCoroutine(Init_Evolution());
+        }
+        else
+        {
+            Debug.Log("이미 등록된 진화몹 있음");
+        }
     }
+
+    public override void MonsterInit_Evolution()
+    {
+        Data = GameManager.Monster.GetData("BloodySlime");
+        GameManager.Monster.ChangeSLA(this, "BloodyJelly");
+
+        GameManager.Monster.Regist_Evolution("Slime");
+    }
+
+
     IEnumerator Init_Evolution()
     {
         yield return new WaitForEndOfFrame();
@@ -19,10 +38,6 @@ public class Slime : Monster
         if (EvolutionState == Evolution.None)
         {
             EvolutionState = Evolution.Ready;
-        }
-        else if (EvolutionState == Evolution.Complete)
-        {
-            EvolutionComplete(false);
         }
     }
 
@@ -60,7 +75,6 @@ public class Slime : Monster
     }
 
 
-
     void EvolutionComplete(bool showUI)
     {
         string slime = Data.labelName;
@@ -76,6 +90,8 @@ public class Slime : Monster
         Initialize_Status();
         GameManager.Monster.ChangeSLA(this, "BloodyJelly");
         //Debug.Log("슬라임 진화완료");
+
+        GameManager.Monster.Regist_Evolution("Slime");
     }
 
     void EvolutionUI(string _origin, string _Evolution)

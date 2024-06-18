@@ -67,14 +67,14 @@ public class UI_SystemMessage : UI_PopUp
     }
 
 
-    //private void OnEnable()
-    //{
-    //    Time.timeScale = 0;
-    //}
-    //private void OnDestroy()
-    //{
-    //    Time.timeScale = 1;
-    //}
+    private void OnEnable()
+    {
+        Time.timeScale = 0;
+    }
+    private void OnDestroy()
+    {
+        PopupUI_OnDestroy();
+    }
 
 
     public override bool EscapeKeyAction()

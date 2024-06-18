@@ -26,6 +26,12 @@ public class SO_Contents : ScriptableObject
     [Header("Contents")]
     //public UI_Floor.BuildMode mode;
     public Facility_Priority priority;
+
+
+    //public Contents_CreateType createType;
+
+
+
     public Define.Boundary Boundary_All;
     public string area_name;
 
@@ -43,9 +49,16 @@ public class SO_Contents : ScriptableObject
     [System.Serializable]
     public class Option
     {
+        public Contents_CreateType createType;
         public Define.Boundary Boundary;
         public string FacilityKeyName;
     }
+}
+
+public enum Contents_CreateType
+{
+    CreateAll,
+    CreateOne,
 }
 
 

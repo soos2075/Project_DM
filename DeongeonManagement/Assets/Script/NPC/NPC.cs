@@ -360,6 +360,19 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     public abstract List<BasementTile> PriorityList { get; set; }
     protected abstract void SetPriorityList();
 
+
+    public bool isWellsCheck { get; set; }
+    protected virtual void Add_Wells()
+    {
+        if (isWellsCheck) return;
+
+        if (Mana <= (Data.MP / 2) || ActionPoint <= (Data.AP / 2) || HP <= (HP_MAX / 2))
+        {
+            var list = GetPriorityPick(typeof(Wells));
+            AddList(list, AddPos.Front);
+        }
+    }
+
     public void SetPriorityListForPublic()
     {
         if (State == NPCState.Priority)
@@ -1087,18 +1100,34 @@ public abstract class NPC : MonoBehaviour, IPlacementable
         }
 
 
-
         bool pathFind = false;
         bool pathRefind = false;
-        List<BasementTile> path = PlacementInfo.Place_Floor.PathFinding(PlacementInfo.Place_Tile, target, AvoidTileType, out pathFind);
+        List<BasementTile> path;
 
-        //Debug.Log($"우선순위 길찾기 결과 : {pathFind}");
-
-        if (!pathFind) //? 길을 못찾았으면 장애물없이 찾을 한번의 기회는 더 줌.
+        //? 길찾기시에 IWall를 상속받은 대상을 포함시킬지 말지에 대한 부분
+        if (target.Original != null && target.Original as IWall != null)
         {
-            path = PlacementInfo.Place_Floor.PathFinding(PlacementInfo.Place_Tile, target, out pathRefind);
-            //Debug.Log($"일반 길찾기 결과 : {pathRefind}");
+            path = PlacementInfo.Place_Floor.PathFinding(PlacementInfo.Place_Tile, target, AvoidTileType, out pathFind, BasementFloor.PathFindingType.Allow_Wall);
+
+            if (!pathFind) //? 길을 못찾았으면 장애물없이 찾을 한번의 기회는 더 줌.
+            {
+                path = PlacementInfo.Place_Floor.PathFinding(PlacementInfo.Place_Tile, target, out pathRefind, BasementFloor.PathFindingType.Allow_Wall);
+            }
         }
+        else
+        {
+            path = PlacementInfo.Place_Floor.PathFinding(PlacementInfo.Place_Tile, target, AvoidTileType, out pathFind);
+
+            //Debug.Log($"우선순위 길찾기 결과 : {pathFind}");
+
+            if (!pathFind) //? 길을 못찾았으면 장애물없이 찾을 한번의 기회는 더 줌.
+            {
+                path = PlacementInfo.Place_Floor.PathFinding(PlacementInfo.Place_Tile, target, out pathRefind);
+                //Debug.Log($"일반 길찾기 결과 : {pathRefind}");
+            }
+        }
+
+
 
         if (Cor_Move != null)
         {

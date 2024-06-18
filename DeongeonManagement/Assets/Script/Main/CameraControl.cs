@@ -44,6 +44,7 @@ public class CameraControl : MonoBehaviour
 
         if (UserData.Instance.GameMode == Define.GameMode.Stop) return;
 
+        if (Cor_CameraChasing != null) return;
 
         //? esc키로 액션취소, 팝업 닫기 등을 할 수 있어야함(ui가 있을 땐 타임스케일이 0이니까 어쩔 수 없긴 한데 일단은)
         //? 그리고 그거 구현하고나면 타임스케일 리턴 위로 위치 옮겨야함. 일단은 pause만 구현
@@ -284,15 +285,23 @@ public class CameraControl : MonoBehaviour
     Vector3 startCameraPos;
     float dis_x;
     float dis_y;
+
+    void ResetMousePos()
+    {
+        startMousePos = mainCam.ScreenToViewportPoint(Input.mousePosition);
+        startCameraPos = transform.position;
+        dis_y = 0;
+        dis_x = 0;
+    }
     void ClickAction()
     {
         //Debug.Log(startMousePos);
         if (Input.GetMouseButtonDown(0))
         {
-            if (currentCor != null)
+            if (Cor_CameraChasing != null)
             {
-                StopCoroutine(currentCor);
-                currentCor = null;
+                StopCoroutine(Cor_CameraChasing);
+                Cor_CameraChasing = null;
             }
 
             startMousePos = mainCam.ScreenToViewportPoint(Input.mousePosition);
@@ -301,9 +310,10 @@ public class CameraControl : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            startMousePos = Vector3.zero;
-            dis_y = 0;
-            dis_x = 0;
+            //startMousePos = Vector3.zero;
+            //dis_y = 0;
+            //dis_x = 0;
+            ResetMousePos();
             return;
         }
 
@@ -315,7 +325,6 @@ public class CameraControl : MonoBehaviour
             MouseLimit();
         }
     }
-
 
 
     void MouseLimit()
@@ -382,24 +391,24 @@ public class CameraControl : MonoBehaviour
 
     #region Direction
 
-    Coroutine currentCor;
+    Coroutine Cor_CameraChasing;
 
 
     public void ChasingTarget(Vector3 target, float duration)
     {
-        if (currentCor != null)
+        if (Cor_CameraChasing != null)
         {
-            StopCoroutine(currentCor);
+            StopCoroutine(Cor_CameraChasing);
         }
-        currentCor = StartCoroutine(ChasingLerp(target, duration));
+        Cor_CameraChasing = StartCoroutine(ChasingLerp(target, duration));
     }
     public void ChasingTarget(Transform target, float duration)
     {
-        if (currentCor != null)
+        if (Cor_CameraChasing != null)
         {
-            StopCoroutine(currentCor);
+            StopCoroutine(Cor_CameraChasing);
         }
-        currentCor = StartCoroutine(ChasingLerp(target.position, duration));
+        Cor_CameraChasing = StartCoroutine(ChasingLerp(target.position, duration));
     }
 
     IEnumerator ChasingLerp(Vector3 targetPos, float duration)
@@ -428,7 +437,10 @@ public class CameraControl : MonoBehaviour
             //}
         }
         transform.position = new Vector3(targetPos.x, targetPos.y, transform.position.z);
-        currentCor = null;
+
+        ResetMousePos();
+
+        Cor_CameraChasing = null;
     }
 
     float Smoothstep(float t)

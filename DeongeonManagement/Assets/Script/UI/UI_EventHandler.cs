@@ -81,12 +81,20 @@ public class UI_EventHandler : MonoBehaviour, IPointerClickHandler, IDragHandler
 	public Action<PointerEventData> OnPointerUpHandler = null;
 	public void OnPointerDown(PointerEventData eventData)
 	{
-		OnPointerDownHandler?.Invoke(eventData);
+		if (OnPointerDownHandler != null && eventData.pointerId == -1)
+		{
+			OnPointerDownHandler.Invoke(eventData);
+			//SoundManager.Instance.ReplaceSound("LeftClick");
+		}
 	}
 
 	public void OnPointerUp(PointerEventData eventData)
 	{
-		OnPointerUpHandler?.Invoke(eventData);
+		if (OnPointerUpHandler != null && eventData.pointerId == -1)
+		{
+			OnPointerUpHandler.Invoke(eventData);
+			//SoundManager.Instance.ReplaceSound("LeftClick");
+		}
 	}
 
 

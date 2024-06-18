@@ -38,6 +38,7 @@ public class SO_Monster : ScriptableObject
 
     [Header("Battle")]
     public int battleAp;
+    public int maxBattleCount;
     public float battleInterval;
 
 

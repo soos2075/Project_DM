@@ -84,6 +84,8 @@ public class NPCManager
 
     public void TurnStart()
     {
+        RandomPickerReset();
+
         if (CustomStage)
         {
             CustomStage = false;
@@ -274,7 +276,13 @@ public class NPCManager
         Max_NPC_Value = Mathf.Clamp(Main.Instance.Turn + ofFame, 5, 5 + (Main.Instance.Turn * 2));
 
         //Debug.Log("테스트모드!!!!!!!!!!!!!빌드전수정필");
-        //Max_NPC_Value = ofFame;
+        //Max_NPC_Value = ofFame * 100;
+
+
+        if (Main.Instance.Turn > 30)
+        {
+            Max_NPC_Value = Main.Instance.PopularityOfDungeon / 10;
+        }
     }
 
 
@@ -284,7 +292,8 @@ public class NPCManager
         17, 18, 10, 10, 10,     // 1랭크 약초꾼, 광부, 모험가, Elf, Wizard
         15, 15, 15, 20, 20,      // 1랭크 약초꾼, 광부, 모험가, Elf, Wizard
         15, 15, 10,             // 2랭크 약초꾼, 광부, 모험가
-        25, 25, 20 };           // 2랭크 약초꾼, 광부, 모험가
+        25, 25, 20 };             // 2랭크 약초꾼, 광부, 모험가 - 여기까지가 총 295
+        //50, 50, 100};           // 2랭크 약초꾼, 광부, 모험가
     List<int> rankList;
 
 
@@ -305,6 +314,7 @@ public class NPCManager
             }
         }
     }
+
 
     int WeightRandomPicker() //? 0~1의 랜덤값에 전체 가중치의 합을 곱해줌. 그리고 그값으로 픽하면 됨. 반환값은 랭크 단계
     {
@@ -348,6 +358,14 @@ public class NPCManager
             }
         }
         return count;
+    }
+
+    void RandomPickerReset()
+    {
+        for (int i = 0; i < NameIndex.Length; i++)
+        {
+            NameIndex[i] = false;
+        }
     }
 
 

@@ -39,6 +39,12 @@ public class UI_TileView_Tile : UI_Base
 
     void TileClickEvent(PointerEventData _data)
     {
+        if (FindAnyObjectByType<UI_Monster_Management>())
+        {
+            Debug.Log("잘못된클릭");
+            return;
+        }
+
         if (Tile.Original == null)
         {
             parent.InsteadOpenFloorEvent(_data);
@@ -53,6 +59,15 @@ public class UI_TileView_Tile : UI_Base
     void TileMoveEvent(PointerEventData _data)
     {
         if (isDownEvent) return;
+
+        if (Main.Instance.QuickPlacement != null)
+        {
+            StopCoroutine(Main.Instance.QuickPlacement);
+            Main.Instance.QuickPlacement = null;
+            Debug.Log("퀵배치 취소");
+            return;
+        }
+
         if (Managers.UI._popupStack.Count > 0) return;
 
         //Debug.Log(Managers.UI._popupStack.Count);
@@ -74,7 +89,7 @@ public class UI_TileView_Tile : UI_Base
             parent.ChildMoveEvent(Tile, _data);
             if (Tile.Current != null)
             {
-                if (Tile.Current.PlacementType == PlacementType.Monster || Tile.Current.PlacementType == PlacementType.NPC)
+                if (Tile.Current.PlacementType == PlacementType.NPC)// || Tile.Current.PlacementType == PlacementType.Monster)
                 {
                     CurrentTempData = Tile.Current;
                     StartCoroutine(TempData());
@@ -116,16 +131,30 @@ public class UI_TileView_Tile : UI_Base
         if (Tile.Original != null)
         {
             Tile.Original.MouseDownEvent();
-            isDownEvent = true;
+            StartCoroutine(WaitCor());
         }
     }
-    void TileUpEvent(PointerEventData _data)
+
+    //? Up은 단독으로 호출될 수 없음. 즉 Down이 호출 된 뒤에 마우스가 움직이더라도 Down이 호출된 타일에서 불림
+    //? 즉 마우스가 어딜가서 클릭을 떼더라도 취소이벤트가 알아서 잘 발생한다는 뜻임.
+    void TileUpEvent(PointerEventData _data) 
     {
         if (Tile.Original != null)
         {
+            //Debug.Log(Tile.Original);
             Tile.Original.MouseUpEvent();
-            isDownEvent = false;
         }
+    }
+
+    IEnumerator WaitCor()
+    {
+        isDownEvent = true;
+
+        yield return null;
+        yield return new WaitForSecondsRealtime(0.6f);
+        yield return new WaitUntil(() => Main.Instance.QuickPlacement == null);
+
+        isDownEvent = false;
     }
 
 }

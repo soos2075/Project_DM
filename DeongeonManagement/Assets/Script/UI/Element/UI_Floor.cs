@@ -45,6 +45,38 @@ public class UI_Floor : UI_Base
 
     public GameObject[,] TileList { get; set; }
 
+
+    public void ShowTile_IgnoreEvent(Color color)
+    {
+        if (TileList != null) return;
+
+        TileList = new GameObject[Main.Instance.Floor[FloorID].X_Size, Main.Instance.Floor[FloorID].Y_Size];
+
+        for (int i = 0; i < TileList.GetLength(0); i++)
+        {
+            for (int k = 0; k < TileList.GetLength(1); k++)
+            {
+                BasementTile tile = null;
+                if (Main.Instance.Floor[FloorID].TileMap.TryGetValue(new Vector2Int(i, k), out tile))
+                {
+                    if (tile.NonInteract_TileCheck())
+                    {
+                        continue;
+                    }
+
+                    var content = Managers.Resource.Instantiate("UI/PopUp/Element/Floor_Tile", transform);
+                    content.GetComponent<RectTransform>().position = tile.worldPosition;
+
+                    content.GetComponent<Image>().color = color;
+
+                    content.GetComponent<UI_Floor_Tile>().Tile = tile;
+                    content.GetComponent<UI_Floor_Tile>().isIgnore = true;
+                    TileList[i, k] = content;
+                }
+            }
+        }
+    }
+
     public void ShowTile()
     {
         if (TileList != null) return;

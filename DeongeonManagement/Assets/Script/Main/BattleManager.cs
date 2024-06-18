@@ -36,6 +36,9 @@ public class BattleManager : MonoBehaviour
         BattleList.Clear();
     }
 
+    public Material flash_Monster;
+    public Material flash_NPC;
+
 
 
     public int BattleCount { get; set; } = 10;
@@ -69,7 +72,7 @@ public class BattleManager : MonoBehaviour
         bf.SetHPBar(_npc.HP, _npc.HP_MAX, _monster.HP, _monster.HP_Max);
 
 
-        result = bf.Battle(_npc, _monster);
+        result = bf.Battle(_npc, _monster, flash_NPC, flash_Monster);
         BattleList.Add(bf);
         return StartCoroutine(Battle(bf, line));
     }
@@ -169,12 +172,14 @@ public class BattleManager : MonoBehaviour
         float direction = _monster.PlacementInfo.Place_Tile.worldPosition.x - bfPos.x;
         if (direction >= 0)
         {
-            bfPos += new Vector3(Mathf.Clamp(Random.Range(3f, 10f) + direction, 5.0f, 11.0f), Random.Range(-2.0f, 2.0f), 0);
+            bfPos += new Vector3(Mathf.Clamp(Random.Range(3f, 10f) + direction, 5.0f, 11.0f), Random.Range(-3f, 3f), 0);
         }
         else
         {
-            bfPos += new Vector3(Mathf.Clamp(Random.Range(-3f, -10f) + direction, -11.0f, -5.0f), Random.Range(-2.0f, 2.0f), 0);
+            bfPos += new Vector3(Mathf.Clamp(Random.Range(-3f, -10f) + direction, -11.0f, -5.0f), Random.Range(-3f, 3f), 0);
         }
+
+        bfPos.x = Mathf.Clamp(bfPos.x, -13, 13);
 
         return bfPos;
     }

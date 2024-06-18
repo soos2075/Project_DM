@@ -23,6 +23,8 @@ public class Define
 
 
 
+
+
     public enum AudioType
     {
         Effect,
@@ -181,31 +183,34 @@ public class Define
 
     public enum Boundary
     {
-        Boundary_1x1,
-        Boundary_1x2,
-        Boundary_1x3,
+        //테스트 = 100,
 
-        Boundary_2x1,
-        Boundary_2x2,
-        Boundary_2x3,
+        Boundary_1x1 = 101,
+        Boundary_1x2 = 102,
+        Boundary_1x3 = 103,
 
-        Boundary_3x1,
-        Boundary_3x2,
-        Boundary_3x3,
+        Boundary_2x1 = 201,
+        Boundary_2x2 = 202,
+        Boundary_2x3 = 203,
 
-        Boundary_5x5,
+        Boundary_3x1 = 301,
+        Boundary_3x2 = 302,
+        Boundary_3x3 = 303,
+        Boundary_4x4 = 404,
+        Boundary_5x5 = 505,
 
-        Boundary_Cross_1,
-        Boundary_Cross_2,
-        Boundary_Cross_3,
+        Boundary_Cross_1 = 1001,
+        Boundary_Cross_2 = 1002,
+        Boundary_Cross_3 = 1003,
 
-        Boundary_X_1,
+        Boundary_X_1 = 2001,
 
-        Boundary_Side_All,
-        Boundary_Side_X,
+        Boundary_Side_All = 3001,
+        Boundary_Side_X = 3002,
 
-        Boundary_Side_Cross,
-        Boundary_Side_Cross_2,
+        Boundary_Side_Cross = 3003,
+        Boundary_Side_Cross_2 = 3004,
+
     }
 
 
@@ -243,6 +248,15 @@ public class Define
         new Vector2Int(0, 0), new Vector2Int(1, 0), new Vector2Int(-1, 0),
         new Vector2Int(0, 1), new Vector2Int(1, 1), new Vector2Int(-1, 1),
         new Vector2Int(0, -1), new Vector2Int(1, -1), new Vector2Int(-1, -1)};
+
+
+    public static readonly Vector2Int[] Boundary_4x4 = {
+        new Vector2Int(0, 0), new Vector2Int(1, 0), new Vector2Int(2, 0), new Vector2Int(-1, 0),
+        new Vector2Int(0, 1), new Vector2Int(1, 1), new Vector2Int(2, 1), new Vector2Int(-1, 1),
+        new Vector2Int(-1, -1), new Vector2Int(0, -1), new Vector2Int(1, -1), new Vector2Int(2, -1),
+        new Vector2Int(-1, 2), new Vector2Int(0, 2), new Vector2Int(1, 2), new Vector2Int(2, 2),
+    };
+
 
 
     public static readonly Vector2Int[] Boundary_5x5 = {

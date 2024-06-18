@@ -181,6 +181,7 @@ public class UI_SaveLoad : UI_PopUp
                         Managers.Scene.AddLoadAction_OneTime(() => Main.Instance.Default_Init());
                         Managers.Scene.AddLoadAction_OneTime(() => Managers.Data.LoadGame($"AutoSave"));
                         Managers.Scene.LoadSceneAsync(SceneName._2_Management);
+                        UserData.Instance.GameMode = Define.GameMode.Normal;
                         return;
                     }
                 }

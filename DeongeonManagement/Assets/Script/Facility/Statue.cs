@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Statue : Facility
+public class Statue : Facility, IWall
 {
     public override void Init_Personal()
     {

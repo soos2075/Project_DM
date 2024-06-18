@@ -94,13 +94,14 @@ public class UI_StartMenu : UI_Scene
 
         yield return new WaitForSecondsRealtime(2);
 
-        if (CollectionManager.Instance.RoundClearData != null)
-        {
-            var dataConfirm = Managers.UI.ShowPopUp<UI_Confirm>();
-            Debug.Log("로컬라이즈 해야댐 : 클리어 데이터");
-            dataConfirm.SetText("클리어 데이터를 인계할까요?");// UserData.Instance.GetLocaleText("Confirm_Opening"));
-            yield return StartCoroutine(WaitForAnswer_ClearData(dataConfirm));
-        }
+        //? 나중에 데모말고 다시 활성화 하면 댐
+        //if (CollectionManager.Instance.RoundClearData != null)
+        //{
+        //    var dataConfirm = Managers.UI.ShowPopUp<UI_Confirm>();
+        //    Debug.Log("로컬라이즈 해야댐 : 클리어 데이터");
+        //    dataConfirm.SetText("클리어 데이터를 인계할까요?");// UserData.Instance.GetLocaleText("Confirm_Opening"));
+        //    yield return StartCoroutine(WaitForAnswer_ClearData(dataConfirm));
+        //}
 
 
         var openingConfirm = Managers.UI.ShowPopUp<UI_Confirm>();

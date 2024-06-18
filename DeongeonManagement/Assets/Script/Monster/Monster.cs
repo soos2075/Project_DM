@@ -95,7 +95,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
     IEnumerator QuickPlacement()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSecondsRealtime(0.6f);
 
 
         Debug.Log("퀵배치");
@@ -216,7 +216,30 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
 
 
+    public int ATK_Final { get { return ATK + ATK_Bonus; } }
+    public int DEF_Final { get { return DEF + DEF_Bonus; } }
+    public int AGI_Final { get { return AGI + AGI_Bonus; } }
+    public int LUK_Final { get { return LUK + LUK_Bonus; } }
+
+
+    public int ATK_Bonus { get { return Orb_Bonus + Floor_Bonus; } }
+    public int DEF_Bonus { get { return Orb_Bonus + Floor_Bonus; } }
+    public int AGI_Bonus { get { return Orb_Bonus + Floor_Bonus; } }
+    public int LUK_Bonus { get { return Orb_Bonus + Floor_Bonus; } }
+
+
+
+    //? 전투의 오브 활성화 보너스
+    public int Orb_Bonus { get { return GameManager.Buff.CurrentBuff.Orb_red > 0 ? 5 : 0; } }
+    //? 깊은 층에 배치할수록 스탯보너스
+    public int Floor_Bonus { get { return PlacementInfo != null ? PlacementInfo.Place_Floor.FloorIndex * 1 : 0; } }
+
+
     public abstract void MonsterInit();
+    public virtual void MonsterInit_Evolution() //? 나중에 abstract로 변경하면 댐
+    { 
+
+    }
     public void Initialize_Status()
     {
         if (Data == null) { Debug.Log($"데이터 없음 : {name}"); return; }
@@ -509,14 +532,10 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
     IEnumerator BattleWait(NPC npc)
     {
-        //if (BattleStateCor != null) // 전투가 진행중에 새 전투가 들어오면 초기화...인데 애초에 busy상태에서 전투가 시작되는거부터가 에러임
-        //{
-        //    StopCoroutine(BattleStateCor);
-        //}
-        BattleStateCor = StartCoroutine(BattleStateBusy());
+        //BattleStateCor = StartCoroutine(BattleStateBusy());
 
         BattleCount++;
-
+        SetState_BattleCount(BattleCount);
         if (Cor_Moving != null)
         {
             StopCoroutine(Cor_Moving);
@@ -582,6 +601,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         }
 
         BattleCount--;
+        SetState_BattleCount(BattleCount);
         if (BattleCount == 0 && this.HP > 0)
         {
             MoveSelf();
@@ -594,23 +614,39 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         }
         
 
-        if (BattleStateCor != null && BattleCount == 0) //? 만약 전투가 Interval보다 빨리 끝나고 그게 마지막 전투였을 경우 빠르게 Standby
+        //if (BattleStateCor != null && BattleCount == 0) //? 만약 전투가 Interval보다 빨리 끝나고 그게 마지막 전투였을 경우 빠르게 Standby
+        //{
+        //    StopCoroutine(BattleStateCor);
+        //    PlacementState = PlacementState.Standby;
+        //    BattleStateCor = null;
+        //}
+    }
+
+    //Coroutine BattleStateCor;
+    //IEnumerator BattleStateBusy()
+    //{
+    //    PlacementState = PlacementState.Busy;
+    //    yield return UserData.Instance.Wait_GamePlay;
+    //    yield return new WaitForSeconds(Data.battleInterval);
+    //    PlacementState = PlacementState.Standby;
+    //    BattleStateCor = null;
+    //}
+
+
+    void SetState_BattleCount(int battleCount)
+    {
+        if (battleCount >= Data.maxBattleCount)
         {
-            StopCoroutine(BattleStateCor);
+            PlacementState = PlacementState.Busy;
+            GetComponentInChildren<SpriteRenderer>().color = new Color(1, 1, 1, 0.25f);
+        }
+        else
+        {
             PlacementState = PlacementState.Standby;
-            BattleStateCor = null;
+            GetComponentInChildren<SpriteRenderer>().color = Color.white;
         }
     }
 
-    Coroutine BattleStateCor;
-    IEnumerator BattleStateBusy()
-    {
-        PlacementState = PlacementState.Busy;
-        yield return UserData.Instance.Wait_GamePlay;
-        yield return new WaitForSeconds(Data.battleInterval);
-        PlacementState = PlacementState.Standby;
-        BattleStateCor = null;
-    }
 
     void LookAtTarget(BasementTile _target)
     {
@@ -632,7 +668,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         var player = this as Player;
         if (player != null)
         {
-            Debug.Log("게임오버");
+            Debug.Log("플레이어 Die");
             GameManager.Placement.PlacementClear(this);
             return;
         }
@@ -667,6 +703,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable
         Ready,
         Progress,
         Complete,
+        Exclude,
     }
     public Evolution EvolutionState { get; set; }
 

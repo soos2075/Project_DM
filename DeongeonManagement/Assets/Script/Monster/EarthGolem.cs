@@ -10,21 +10,30 @@ public class EarthGolem : Monster
     {
         Data = GameManager.Monster.GetData("EarthGolem");
 
-        StartCoroutine(Init_Evolution());
+
+        if (GameManager.Monster.Check_Evolution("FlameGolem"))
+        {
+            StartCoroutine(Init_Evolution());
+        }
+        //else
+        //{
+        //    Debug.Log("이미 등록된 진화몹 있음");
+        //}
+    }
+    public override void MonsterInit_Evolution()
+    {
+        Data = GameManager.Monster.GetData("FlameGolem");
+        GameManager.Monster.ChangeSLA(this, "FlameGolem");
+
+        GameManager.Monster.Regist_Evolution("EarthGolem");
     }
     IEnumerator Init_Evolution()
     {
         yield return new WaitForEndOfFrame();
-        //Debug.Log(EvolutionState);
-        //EvolutionState = Evolution.Ready;
-        //Debug.Log("임시조정");
+
         if (EvolutionState == Evolution.None)
         {
             EvolutionState = Evolution.Ready;
-        }
-        else if (EvolutionState == Evolution.Complete)
-        {
-            EvolutionComplete();
         }
     }
 
@@ -70,6 +79,7 @@ public class EarthGolem : Monster
         Data = GameManager.Monster.GetData("FlameGolem");
         Initialize_Status();
         GameManager.Monster.ChangeSLA(this, "FlameGolem");
-        //Debug.Log("슬라임 진화완료");
+
+        GameManager.Monster.Regist_Evolution("EarthGolem");
     }
 }

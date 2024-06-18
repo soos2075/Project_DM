@@ -143,11 +143,61 @@ public class MonsterManager
         }
     }
 
+    #region 진화 등록 (1마리만 가능하게끔)
 
+
+    //? 아래 함수가 해야할 역할 - 1. 자신을 제외한 모든 같은 종류의 몬스터의 진화 상태를 Exclude로 변경하기
+    public void Regist_Evolution(string monster)
+    {
+        Change_EvolutionState(GetData(monster));
+    }
+
+    //? 몬스터가 새로 생성될 때 이미 같은 타입의 진화형태가 등록된게 있으면 false를 반환
+    public bool Check_Evolution(string evolution)
+    {
+        var data = GetData(evolution);
+        foreach (var mon in Monsters)
+        {
+            if (mon != null && mon.Data == data)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    void Change_EvolutionState(SO_Monster monster)
+    {
+        var sameList = Get_SameMonsterList(monster);
+
+        foreach (var mon in sameList)
+        {
+            mon.EvolutionState = Monster.Evolution.Exclude;
+        }
+    }
+
+
+    List<Monster> Get_SameMonsterList(SO_Monster monster)
+    {
+        List<Monster> sameList = new List<Monster>();
+        foreach (var mon in Monsters)
+        {
+            if (mon != null && mon.Data == monster)
+            {
+                sameList.Add(mon);
+            }
+        }
+
+        return sameList;
+    }
+
+
+    #endregion
 
     #region 실제 인스턴트
     public Monster[] Monsters;
-    public int TrainingCount { get; set; } = 2;
+    //public int TrainingCount { get; set; } = 2;
 
 
     public int GetCurrentMonster()
@@ -203,12 +253,12 @@ public class MonsterManager
 
     public void Resize_MonsterSlot()
     {
-        Array.Resize(ref Monsters, 6 + Main.Instance.DungeonRank);
+        Array.Resize(ref Monsters, 10 + (Main.Instance.DungeonRank - 1) * 2 );
     }
 
     void Init_MonsterSlot()
     {
-        Monsters = new Monster[6 + Main.Instance.DungeonRank];
+        Monsters = new Monster[10 + (Main.Instance.DungeonRank - 1) * 2];
     }
 
     #endregion
@@ -239,7 +289,14 @@ public class MonsterManager
             if (data[i] != null)
             {
                 var mon = GameManager.Placement.CreatePlacementObject($"{data[i].PrefabPath}", null, PlacementType.Monster) as Monster;
-                mon.MonsterInit();
+                if (data[i].Evolution == Monster.Evolution.Complete)
+                {
+                    mon.MonsterInit_Evolution();
+                }
+                else
+                {
+                    mon.MonsterInit();
+                }
                 mon.Initialize_Status();
                 mon.Initialize_Load(data[i]);
 

@@ -12,7 +12,19 @@ public class Player : Monster
         Data = GameManager.Monster.GetData("Player_lv1");
         Initialize_Status();
         LV = 1;
+
     }
+
+
+    //IEnumerator TestDie()
+    //{
+    //    yield return new WaitForSeconds(10);
+
+    //    MonsterOutFloor();
+    //}
+
+
+
 
     public override void TurnStart()
     {

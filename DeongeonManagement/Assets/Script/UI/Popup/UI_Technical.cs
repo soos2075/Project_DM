@@ -23,7 +23,7 @@ public class UI_Technical : UI_Scene, IWorldSpaceUI
         AddUIEvent(gameObject, (data) => CloseView(), Define.UIEvent.Exit);
 
         AddUIEvent(gameObject, (data) => LeftClickEvent(data), Define.UIEvent.LeftClick);
-        AddUIEvent(gameObject, (data) => Managers.UI.CloseAll(), Define.UIEvent.RightClick);
+        AddUIEvent(gameObject, (data) => RightClickEvent(), Define.UIEvent.RightClick);
     }
 
 
@@ -34,6 +34,8 @@ public class UI_Technical : UI_Scene, IWorldSpaceUI
 
     void MoveEvent(PointerEventData data)
     {
+        if (Managers.UI._popupStack.Count > 0) return;
+
         if (Parent.Current == null) return;
 
         if (view == null)
@@ -96,5 +98,20 @@ public class UI_Technical : UI_Scene, IWorldSpaceUI
         //{
 
         //}
+    }
+
+
+
+    void RightClickEvent()
+    {
+        if (Managers.UI._paused != null)
+        {
+            Main.Instance.ResetCurrentAction();
+        }
+        else
+        {
+            Debug.Log("CloseAll");
+            Managers.UI.CloseAll();
+        }
     }
 }

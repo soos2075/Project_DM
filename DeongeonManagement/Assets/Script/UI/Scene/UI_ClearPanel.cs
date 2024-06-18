@@ -49,6 +49,7 @@ public class UI_ClearPanel : UI_Scene
         }
         else
         {
+            Debug.Log("CloseAll");
             Managers.UI.CloseAll();
         }
     }

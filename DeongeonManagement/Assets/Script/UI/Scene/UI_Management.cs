@@ -160,12 +160,9 @@ public class UI_Management : UI_Base
 
         GetButton((int)ButtonEvent.DayChange).gameObject.AddUIEvent((data) => DayStart());
 
-        GetButton((int)ButtonEvent.Save).gameObject.AddUIEvent((data) => { 
-            var save = Managers.UI.ShowPopUp<UI_SaveLoad>();
-            //save.SetMode(UI_SaveLoad.Buttons.Save);
-        });
+        GetButton((int)ButtonEvent.Save).gameObject.AddUIEvent((data) => Button_Save());
 
-        GetButton((int)ButtonEvent.Pause).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_Pause>());
+        GetButton((int)ButtonEvent.Pause).gameObject.AddUIEvent((data) => Button_Pause());
 
 
         GetButton((int)ButtonEvent.Speed1x).gameObject.AddUIEvent((data) => GameSpeedUp(1));
@@ -215,10 +212,30 @@ public class UI_Management : UI_Base
 
 
     #region UI_ButtonEvent
+    void Button_Pedia()
+    {
+        
+
+    }
+    void Button_Pause()
+    {
+        Managers.UI.ShowPopUp<UI_Pause>();
+    }
+    void Button_Save()
+    {
+        if (!Main.Instance.Management) return;
+
+        var save = Managers.UI.ShowPopUp<UI_SaveLoad>();
+    }
+
+
+
+
+
 
     public void Button_Facility()
     {
-        //if (Managers.UI._popupStack.Count > 0) return;
+        if (!Main.Instance.Management) return;
 
 
         var facility = Managers.UI.ClearAndShowPopUp<UI_Placement_Facility>("Facility/UI_Placement_Facility");
@@ -230,19 +247,19 @@ public class UI_Management : UI_Base
 
     void Button_Summon()
     {
-        //if (Managers.UI._popupStack.Count > 0) return;
+        if (!Main.Instance.Management) return;
 
         Managers.UI.ClearAndShowPopUp<UI_Summon_Monster>("Monster/UI_Summon_Monster");
     }
     void Button_MonsterManage()
     {
-        //if (Managers.UI._popupStack.Count > 0) return;
+        if (!Main.Instance.Management) return;
 
         Managers.UI.ClearAndShowPopUp<UI_Monster_Management>("Monster/UI_Monster_Management");
     }
     void Button_Quest()
     {
-        //if (Managers.UI._popupStack.Count > 0) return;
+        if (!Main.Instance.Management) return;
 
         Managers.UI.ShowPopUpAlone<UI_Quest>();
     }
@@ -252,7 +269,7 @@ public class UI_Management : UI_Base
     public int GuildVisit_AP { get; set; } = 1;
     void Visit_Guild()
     {
-        //if (Managers.UI._popupStack.Count > 0) return;
+        if (!Main.Instance.Management) return;
 
         if (Main.Instance.Player_AP <= 0)
         {
