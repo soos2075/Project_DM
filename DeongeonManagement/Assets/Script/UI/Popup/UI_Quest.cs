@@ -38,11 +38,11 @@ public class UI_Quest : UI_PopUp
     {
         var pos = GetComponentInChildren<ContentSizeFitter>().transform;
 
-        for (int i = 0; i < EventManager.Instance.CurrentQuestEvent_ForSave.Count; i++)
+        for (int i = 0; i < EventManager.Instance.CurrentQuestAction_forSave.Count; i++)
         {
             var content = Managers.Resource.Instantiate("UI/PopUp/Element/QuestBox", pos).GetComponent<UI_QuestBox>();
 
-            int id = EventManager.Instance.CurrentQuestEvent_ForSave[i];
+            int id = EventManager.Instance.CurrentQuestAction_forSave[i];
 
             //Debug.Log($"Quest ID : {id}");
 

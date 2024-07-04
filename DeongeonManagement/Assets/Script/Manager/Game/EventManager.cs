@@ -37,6 +37,7 @@ public class EventManager : MonoBehaviour
     }
 
     #endregion
+
     private void Start()
     {
         Init_Event();
@@ -52,61 +53,312 @@ public class EventManager : MonoBehaviour
     public void TurnStart()
     {
         CurrentTurn = Main.Instance.Turn;
-        CurrentQuestEvent?.Invoke();
+        CurrentQuestAction?.Invoke();
     }
+
+    public void TurnOver()
+    {
+        Add_Daily(2100);
+    }
+
 
     public void QuestDataReset()
     {
         CurrentTurn = 0;
         CurrentGuildData = new List<GuildNPC_Data>();
-        GuildQuestAdd = new List<int>();
-        CurrentQuestEvent = null;
-        CurrentQuestEvent_ForSave.Clear();
+        AddQuest_Special = new List<int>();
+        AddQuest_Daily = new List<int>();
+        CurrentQuestAction = null;
+        CurrentQuestAction_forSave.Clear();
+        DayEventList = new List<DayEvent>();
     }
 
 
 
-    public int CurrentTurn;// { get; set; }
+
+    public DataManager.SaveData_EventData Data_SaveEventManager()
+    {
+        DataManager.SaveData_EventData save = new DataManager.SaveData_EventData();
+
+        if (CurrentGuildData != null)
+        {
+            save.CurrentGuildData = new List<GuildNPC_Data>();
+
+            foreach (var item in CurrentGuildData)
+            {
+                //var newData = new GuildNPC_Data();
+                //newData.SetData_Deep(item.Original_Index, new List<int>(item.InstanceQuestList), new List<int>(item.OptionList));
+                //save.CurrentGuildData.Add(newData);
+
+                save.CurrentGuildData.Add(item.DeepCopy());
+            }
+        }
+
+
+
+        if (AddQuest_Special != null)
+        {
+            save.AddQuest_Special = new List<int>(AddQuest_Special);
+        }
+
+        if (AddQuest_Daily != null)
+        {
+            save.AddQuest_Daily = new List<int>(AddQuest_Daily);
+        }
+
+        if (CurrentQuestAction_forSave != null)
+        {
+            save.CurrentQuestAction_forSave = new List<int>(CurrentQuestAction_forSave);
+        }
+
+        if (DayEventList != null)
+        {
+            save.DayEventList = new List<DayEvent>(DayEventList);
+        }
+
+
+        return save;
+    }
+
+    public void Data_LoadEventManager(DataManager.SaveData LoadData)
+    {
+        if (LoadData.eventData == null) return;
+
+        QuestDataReset();
+
+        CurrentTurn = LoadData.turn;
+
+        if (LoadData.eventData.CurrentGuildData != null)
+        {
+            CurrentGuildData.AddRange(LoadData.eventData.CurrentGuildData);
+
+
+
+            //Debug.Log($"/////////");
+
+
+            //var originA = CurrentGuildData[0];
+            //var copyA = CurrentGuildData[0].DeepCopy();
+            //Debug.Log($"originA = {originA.InstanceQuestList.Count}");
+            //Debug.Log($"copyA = {copyA.InstanceQuestList.Count}");
+
+            //originA.InstanceQuestList = new List<int> { 1, 2, 3 };
+
+            //Debug.Log($"originA = {originA.InstanceQuestList.Count}");
+            //Debug.Log($"copyA = {copyA.InstanceQuestList.Count}");
+        }
+
+        if (LoadData.eventData.AddQuest_Special != null)
+        {
+            AddQuest_Special.AddRange(LoadData.eventData.AddQuest_Special);
+        }
+
+        if (LoadData.eventData.AddQuest_Daily != null)
+        {
+            AddQuest_Daily.AddRange(LoadData.eventData.AddQuest_Daily);
+        }
+
+        if (LoadData.eventData.CurrentQuestAction_forSave != null)
+        {
+            foreach (var item in LoadData.eventData.CurrentQuestAction_forSave)
+            {
+                AddQuestAction(item);
+            }
+        }
+
+        if (LoadData.eventData.DayEventList != null)
+        {
+            DayEventList = new List<DayEvent>(LoadData.eventData.DayEventList);
+        }
+    }
+
+
+
+    #region 길드 방문 알림 표시
+    public bool CheckGuildNotice_Wating()
+    {
+        return AddQuest_Special.Count > 0 ? true : false;
+    }
+
+
+    public bool CheckGuildNotice()
+    {
+        var guildData = CurrentGuildData;
+        if (CurrentGuildData == null)
+        {
+            Debug.Log("현재 길드 데이터 없음");
+            return false;
+        }
+
+        foreach (var item in guildData)
+        {
+            if (item.InstanceQuestList.Count > 0)
+            {
+                switch (GameManager.Guild.GetData(item.Original_Index).DayOption)
+                {
+                    case Guild_DayOption.Always:
+                        Debug.Log($"퀘스트 발생 : {item.Original_Index}");
+                        return true;
+
+                    case Guild_DayOption.Odd:
+                        if (CurrentTurn % 2 == 1)
+                        {
+                            Debug.Log($"퀘스트 발생 : {item.Original_Index}");
+                            return true;
+                        }
+                        break;
+
+                    case Guild_DayOption.Even:
+                        if (CurrentTurn % 2 == 0)
+                        {
+                            Debug.Log($"퀘스트 발생 : {item.Original_Index}");
+                            return true;
+                        }
+                        break;
+
+                    case Guild_DayOption.Multiple_3:
+                        if (CurrentTurn % 3 == 0)
+                        {
+                            Debug.Log($"퀘스트 발생 : {item.Original_Index}");
+                            return true;
+                        }
+                        break;
+
+                    case Guild_DayOption.Multiple_4:
+                        if (CurrentTurn % 4 == 0)
+                        {
+                            Debug.Log($"퀘스트 발생 : {item.Original_Index}");
+                            return true;
+                        }
+                        break;
+
+                    case Guild_DayOption.Multiple_5:
+                        if (CurrentTurn % 5 == 0)
+                        {
+                            Debug.Log($"퀘스트 발생 : {item.Original_Index}");
+                            return true;
+                        }
+                        break;
+
+                    case Guild_DayOption.Multiple_7:
+                        if (CurrentTurn % 7 == 0)
+                        {
+                            Debug.Log($"퀘스트 발생 : {item.Original_Index}");
+                            return true;
+                        }
+                        break;
+                }
+            }
+        }
+
+        return false;
+    }
+
+
+
+    #endregion
+
+
+
+
+
+    #region DayEventPriorityQueue
+
+    public class DayEvent
+    {
+        public int EventIndex;
+
+        //? 퀘스트의 우선순위. 숫자가 낮을수록 우선순위가 높음
+        public int Priority;
+
+        public DayEvent()
+        {
+
+        }
+        public DayEvent(int index, int priority)
+        {
+            EventIndex = index;
+            Priority = priority;
+        }
+    }
+
+    public List<DayEvent> DayEventList { get; set; } = new List<DayEvent>();
+
+
+    public DayEvent GetDayEvent()
+    {
+        if (DayEventList.Count == 0)
+        {
+            return null;
+        }
+        else
+        {
+            var temp = DayEventList[0];
+
+            foreach (var item in DayEventList)
+            {
+                if (item.Priority < temp.Priority) //? 만약 우선순위가 더 낮은 급한 퀘스트가 있으면 교체
+                {
+                    temp = item;
+                }
+            }
+
+            DayEventList.Remove(temp);
+            return temp;
+        }
+    }
+
+    public void AddDayEvent(int questIndex, int priority)
+    {
+        DayEventList.Add(new DayEvent(questIndex, priority));
+    }
+
+    #endregion
+
+
+
+
+
+    public int CurrentTurn { get; set; }
 
 
     //? 길드정보 저장용(길드에서 변화된 npc들의 퀘스트 정보들이 들어있음)
     public List<GuildNPC_Data> CurrentGuildData { get; set; }
 
     //? 길드가면 추가시켜야 될 퀘스트 리스트
-    public List<int> GuildQuestAdd { get; set; } = new List<int>();
+    public List<int> AddQuest_Special { get; set; } = new List<int>();
 
+    public void Add_Special(int index)
+    {
+        AddQuest_Special.Add(index);
+        AddQuest_Special = Util.ListDistinct(AddQuest_Special);
+    }
+
+    //? 길드가면 추가시켜야 될 퀘스트 리스트 - 인기도 올리는 것 같이 매일 초기화 되는 항목 (얘는 퀘스트 발생 알림이 없음)
+    public List<int> AddQuest_Daily { get; set; } = new List<int>();
+
+    public void Add_Daily(int index)
+    {
+        AddQuest_Daily.Add(index);
+        AddQuest_Daily = Util.ListDistinct(AddQuest_Daily);
+    }
 
     //? 현재 진행중인 퀘스트 목록 - 실제 매턴 실행될 Action
-    public Action CurrentQuestEvent { get; private set; }
+    public Action CurrentQuestAction { get; private set; }
 
     //? 현재 진행중인 퀘스트 목록(dataManager에서 저장용으로만 사용)
-    public List<int> CurrentQuestEvent_ForSave { get; set; } = new List<int>();
+    public List<int> CurrentQuestAction_forSave { get; set; } = new List<int>();
 
-
-    public void Load_QuestEvent(List<int> _loadData)
-    {
-        CurrentQuestEvent = null;
-        CurrentQuestEvent_ForSave.Clear();
-
-        if (_loadData == null)
-        {
-            return;
-        }
-        foreach (var item in _loadData)
-        {
-            AddQuestAction(item);
-        }
-    }
 
     public void AddQuestAction(int _index)
     {
-        CurrentQuestEvent += GetQuestAction(_index);
-        CurrentQuestEvent_ForSave.Add(_index);
+        CurrentQuestAction += GetQuestAction(_index);
+        CurrentQuestAction_forSave.Add(_index);
     }
     public void RemoveQuestAction(int _index)
     {
-        CurrentQuestEvent -= GetQuestAction(_index);
-        CurrentQuestEvent_ForSave.Remove(_index);
+        CurrentQuestAction -= GetQuestAction(_index);
+        CurrentQuestAction_forSave.Remove(_index);
     }
 
 
@@ -149,7 +401,7 @@ public class EventManager : MonoBehaviour
             Managers.UI.ClosePopUp();
             Managers.Dialogue.currentDialogue = null;
 
-            int ranPop = UnityEngine.Random.Range(10, 20);
+            int ranPop = UnityEngine.Random.Range(10, 20 + CurrentTurn);
             var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
             msg.Message = $"{ranPop} {UserData.Instance.LocaleText("Message_Get_Pop")}";
             FindAnyObjectByType<GuildManager>().AddBackAction(() =>
@@ -349,4 +601,7 @@ public class EventManager : MonoBehaviour
     }
 
 }
+
+
+
 

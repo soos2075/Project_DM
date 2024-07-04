@@ -32,7 +32,6 @@ public class UI_Management : UI_Base
     }
 
 
-
     public enum ButtonEvent
     {
         _1_Facility,
@@ -68,6 +67,8 @@ public class UI_Management : UI_Base
 
         mana_Tooltip,
         gold_Tooltip,
+
+        GuildNotice,
     }
 
 
@@ -94,6 +95,8 @@ public class UI_Management : UI_Base
         AP_Refresh();
 
         SpeedButtonImage();
+
+        StartCoroutine(WaitAndUpdate_GuildButton());
     }
 
 
@@ -149,6 +152,27 @@ public class UI_Management : UI_Base
         GetTMP(((int)Texts.Value)).text += $"\n{Main.Instance.DangerOfDungeon}";
         GetTMP(((int)Texts.Value)).text += $"\n{Main.Instance.DungeonRank}";
     }
+
+    public void GuildButtonNotice()
+    {
+        if (EventManager.Instance.CheckGuildNotice_Wating() || EventManager.Instance.CheckGuildNotice())
+        {
+            Debug.Log("길드 알림!!");
+            GetObject((int)Objects.GuildNotice).SetActive(true);
+        }
+        else
+        {
+            Debug.Log("길드 알림 없음!!");
+            GetObject((int)Objects.GuildNotice).SetActive(false);
+        }
+    }
+    IEnumerator WaitAndUpdate_GuildButton()
+    {
+        yield return null;
+        GuildButtonNotice();
+    }
+
+
 
     void Init_Button()
     {

@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     NPCManager _npc = new NPCManager();
     PixelHeroManager _pixel = new PixelHeroManager();
     BuffManager _buff = new BuffManager();
+    GuildManager_SOData _guild = new GuildManager_SOData();
 
 
 
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
     public static NPCManager NPC { get { return Instance._npc; } }
     public static PixelHeroManager Pixel { get { return Instance._pixel; } }
     public static BuffManager Buff { get { return Instance._buff; } }
+    public static GuildManager_SOData Guild { get { return Instance._guild; } }
 
 
 
@@ -57,6 +59,7 @@ public class GameManager : MonoBehaviour
         _npc.Init();
         _pixel.Init();
         _buff.Init();
+        _guild.Init();
     }
 
     void Start()

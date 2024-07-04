@@ -43,7 +43,7 @@ public class EarthGolem : Monster
         {
             EvolutionState = Evolution.Progress;
             Debug.Log("Äù½ºÆ® Ãß°¡");
-            EventManager.Instance.GuildQuestAdd.Add(1101);
+            EventManager.Instance.Add_Special(1101);
         }
     }
 

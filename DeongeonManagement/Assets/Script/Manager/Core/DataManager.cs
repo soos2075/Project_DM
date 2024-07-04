@@ -235,20 +235,42 @@ public class DataManager
         public Save_TechnicalData[] tachnicalList;
 
 
-        // Guild 정보
-        public List<GuildNPC_Data> guildNPCList;
+        //// Guild 정보
+        //public List<GuildNPC_Data> guildNPCList;
 
-        // 조건채운 퀘스트 목록(길드에 추가되기전)
-        public List<int> guildQuestList;
+        //// 조건채운 퀘스트 목록(길드에 추가되기전)
+        //public List<int> guildQuestList;
 
-        // 현재 진행중인 퀘스트 목록
-        public List<int> currentQuestList;
+        //// 현재 진행중인 퀘스트 목록
+        //public List<int> currentQuestList;
 
         public UserData.SavefileConfig savefileConfig;
 
         public BuffList buffList;
+
+
+        public SaveData_EventData eventData;
     }
 
+
+
+    public class SaveData_EventData
+    {
+        // 길드 현재상황 데이터 저장용
+        public List<GuildNPC_Data> CurrentGuildData;
+
+        // 추가해야할 퀘스트 목록
+        public List<int> AddQuest_Special;
+
+        // 추가해야할 퀘스트 목록 - 매턴 갱신(알림 X)
+        public List<int> AddQuest_Daily;
+
+        // 현재 진행중인 퀘스트 목록
+        public List<int> CurrentQuestAction_forSave;
+
+        // 대기중인 턴 이벤트
+        public List<EventManager.DayEvent> DayEventList;
+    }
     //private SaveData tempData;
     #endregion
 
@@ -305,8 +327,34 @@ public class DataManager
         UserData.Instance.SavePlayTime();
     }
 
+    //? 자꾸 SaveFile이 덧씌워져서 강제로 파일에서 읽어오기
+    //public void LoadGame_ToFile(int index)
+    //{
+    //    if (Managers.Data.SaveFileSearch($"DM_Save_{index}"))
+    //    {
+    //        var data = LoadToStorage($"DM_Save_{index}");
+
+    //        UserData.Instance.CurrentSaveData = data;
+    //        UserData.Instance.isClear = data.isClear;
+    //        UserData.Instance.EndingState = data.endgins;
+    //        LoadFileApply(data);
+    //        LoadGuildData(data);
+    //        Debug.Log($"Load Success : Slot_{index}");
+    //        UserData.Instance.SetData(PrefsKey.LoadTimes, UserData.Instance.GetDataInt(PrefsKey.LoadTimes) + 1);
+    //    }
+    //    else
+    //    {
+    //        Debug.Log($"Load Fail : Slot_{index}");
+    //    }
+    //}
 
 
+    //public SaveData TestLoadFile(string fileKey)
+    //{
+    //    SaveData data = null;
+    //    SaveFileList.TryGetValue(fileKey, out data);
+    //    return data;
+    //}
 
     public void LoadGame(string fileKey)
     {
@@ -410,24 +458,7 @@ public class DataManager
         saveData.facilityList = GameManager.Facility.GetSaveData_Facility();
 
 
-        if (EventManager.Instance.GuildQuestAdd != null)
-        {
-            saveData.guildQuestList = new List<int>(EventManager.Instance.GuildQuestAdd);
-        }
-        if (EventManager.Instance.CurrentQuestEvent_ForSave != null)
-        {
-            saveData.currentQuestList = new List<int>(EventManager.Instance.CurrentQuestEvent_ForSave);
-        }
-        if (EventManager.Instance.CurrentGuildData != null)
-        {
-            saveData.guildNPCList = new List<GuildNPC_Data>();
-            foreach (var item in EventManager.Instance.CurrentGuildData)
-            {
-                var newData = new GuildNPC_Data();
-                newData.SetData(item.Original_Index, new List<int>(item.InstanceQuestList), new List<int>(item.OptionList));
-                saveData.guildNPCList.Add(newData);
-            }
-        }
+        saveData.eventData = EventManager.Instance.Data_SaveEventManager();
 
         //saveData.savefileConfig = UserData.Instance.FileConfig;
         UserData.Instance.FileConfig.PlayTimeApply();
@@ -495,23 +526,7 @@ public class DataManager
     }
     void LoadGuildData(SaveData loadData)
     {
-        EventManager.Instance.QuestDataReset();
-
-
-        EventManager.Instance.CurrentTurn = loadData.turn;
-
-        //EventManager.Instance.CurrentGuildData = new List<GuildNPC_Data>();
-        if (loadData.guildNPCList != null)
-        {
-            EventManager.Instance.CurrentGuildData.AddRange(loadData.guildNPCList);
-        }
-        //EventManager.Instance.GuildQuestAdd = new List<int>();
-        if (loadData.guildQuestList != null)
-        {
-            EventManager.Instance.GuildQuestAdd.AddRange(loadData.guildQuestList);
-        }
-
-        EventManager.Instance.Load_QuestEvent(loadData.currentQuestList);
+        EventManager.Instance.Data_LoadEventManager(loadData);
     }
 
     #endregion

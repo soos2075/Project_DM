@@ -48,6 +48,11 @@ public class GuildManager : MonoBehaviour
 
 
 
+
+
+
+
+
     void Start()
     {
         SetActive_NPC();
@@ -101,14 +106,26 @@ public class GuildManager : MonoBehaviour
 
         Guild_In_GetGuildData();
         Guild_In_GetAddQuest();
+        Guild_In_DailyQuest();
 
         AddBackAction(() => Guild_Out_SaveGuildData());
 
-        
-        if (NPC_Dict[2000].OptionList.Contains(100) == false)
-        {
-            NPC_Dict[2000].OptionList.Add(100);
-        }
+
+        //if (NPC_Dict[2000].OptionList.Contains(100) == false)
+        //{
+        //    NPC_Dict[2000].OptionList.Add(100);
+        //}
+
+        //Debug.Log("특별 퀘스트 : " + EventManager.Instance.AddQuest_Special.Count);
+        //foreach (var item in EventManager.Instance.AddQuest_Special)
+        //{
+        //    Debug.Log("특별 퀘스트 : " + item);
+        //}
+        //Debug.Log("데일리 퀘스트 : " + EventManager.Instance.AddQuest_Daily.Count);
+        //foreach (var item in EventManager.Instance.AddQuest_Daily)
+        //{
+        //    Debug.Log("데일리 퀘스트 : " + item);
+        //}
     }
 
 
@@ -152,22 +169,24 @@ public class GuildManager : MonoBehaviour
 
     void Guild_In_GetGuildData()
     {
-        SaveGuildData = EventManager.Instance.CurrentGuildData;
+        //SaveGuildData = EventManager.Instance.CurrentGuildData;
+        SaveGuildData = new List<GuildNPC_Data>();
 
-        if (SaveGuildData == null)
+        if (EventManager.Instance.CurrentGuildData != null)
         {
-            SaveGuildData = new List<GuildNPC_Data>();
-        }
-        else
-        {
-            foreach (var _saveNPC in SaveGuildData)
+            foreach (var item in EventManager.Instance.CurrentGuildData)
             {
-                var currentNPC = GetInteraction(_saveNPC.Original_Index);
-                if (currentNPC != null)
-                {
-                    currentNPC.InstanceQuestList = _saveNPC.InstanceQuestList;
-                    currentNPC.OptionList = _saveNPC.OptionList;
-                }
+                SaveGuildData.Add(item.DeepCopy());
+            }
+        }
+
+        foreach (var _saveNPC in SaveGuildData)
+        {
+            var currentNPC = GetInteraction(_saveNPC.Original_Index);
+            if (currentNPC != null)
+            {
+                currentNPC.InstanceQuestList = _saveNPC.InstanceQuestList;
+                currentNPC.OptionList = _saveNPC.OptionList;
             }
         }
     }
@@ -175,7 +194,7 @@ public class GuildManager : MonoBehaviour
     {
         var removeList = new List<int>();
 
-        foreach (var newQuest in EventManager.Instance.GuildQuestAdd)
+        foreach (var newQuest in EventManager.Instance.AddQuest_Special)
         {
             int id = (newQuest / 1000) * 1000;
             int questIndex = newQuest - id;
@@ -190,9 +209,36 @@ public class GuildManager : MonoBehaviour
 
         foreach (var item in removeList)
         {
-            EventManager.Instance.GuildQuestAdd.Remove(item);
+            EventManager.Instance.AddQuest_Special.Remove(item);
         }
     }
+
+    void Guild_In_DailyQuest()
+    {
+        var removeList = new List<int>();
+
+        foreach (var dailyQuest in EventManager.Instance.AddQuest_Daily)
+        {
+            int id = (dailyQuest / 1000) * 1000;
+            int questIndex = dailyQuest - id;
+
+            var interaction = GetInteraction(id);
+            if (interaction != null)
+            {
+                if (interaction.OptionList.Contains(questIndex) == false)
+                {
+                    interaction.OptionList.Add(questIndex);
+                    removeList.Add(dailyQuest);
+                }
+            }
+        }
+
+
+        EventManager.Instance.AddQuest_Daily.Clear();
+    }
+
+
+
 
     void Guild_Out_SaveGuildData()
     {
@@ -235,8 +281,9 @@ public class GuildManager : MonoBehaviour
             newList.Add(data);
         }
 
-
+        //var data1 = Managers.Data.TestLoadFile($"DM_Save_{24}").eventData;
         EventManager.Instance.CurrentGuildData = newList;
+        //var data2 = Managers.Data.TestLoadFile($"DM_Save_{24}").eventData;
     }
 }
 
@@ -245,6 +292,7 @@ public class GuildNPC_Data
 {
     // id
     public int Original_Index;
+
     // 우선순위 퀘스트 리스트
     public List<int> InstanceQuestList;
     // 선택지 옵션 리스트
@@ -257,4 +305,41 @@ public class GuildNPC_Data
         InstanceQuestList = new List<int>(_questList);
         OptionList = new List<int>(_optionList);
     }
+
+
+    public GuildNPC_Data DeepCopy()
+    {
+        GuildNPC_Data newData = new GuildNPC_Data();
+
+        newData.Original_Index = Original_Index;
+
+        List<int> tempA = new List<int>();
+        foreach (var item in InstanceQuestList)
+        {
+            tempA.Add(item);
+        }
+
+        List<int> tempB = new List<int>();
+        foreach (var item in OptionList)
+        {
+            tempB.Add(item);
+        }
+
+        newData.InstanceQuestList = tempA;
+        newData.OptionList = tempB;
+
+        return newData;
+    }
+}
+
+public enum Guild_DayOption
+{
+    Always = 0,
+    Odd = 1,
+    Even = 2,
+    Multiple_3 = 30,
+    Multiple_4 = 40,
+    Multiple_5 = 50,
+    //Multiple_6 = 60,
+    Multiple_7 = 70,
 }

@@ -217,6 +217,8 @@ public class Main : MonoBehaviour
         Init_DayResult();
         ExpansionConfirm();
         GameManager.Technical.Expantion_Technical();
+        EventManager.Instance.Add_Special(1010);
+
 
         StartCoroutine(NewGameInitAndMessage());
 
@@ -766,7 +768,9 @@ public class Main : MonoBehaviour
                 NightEvent();
                 DayMonsterEvent();
                 GameManager.Facility.TurnOverEvent();
+                EventManager.Instance.TurnOver();
                 UI_Main.Texts_Refresh();
+                UI_Main.GuildButtonNotice();
             }
         }
     }

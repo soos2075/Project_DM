@@ -46,7 +46,7 @@ public class Slime : Monster
         if (EvolutionState == Evolution.Ready && LV + 1 >= Data.maxLv)
         {
             EvolutionState = Evolution.Progress;
-            EventManager.Instance.GuildQuestAdd.Add(1100);
+            EventManager.Instance.Add_Special(1100);
         }
     }
 

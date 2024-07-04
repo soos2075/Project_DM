@@ -69,6 +69,14 @@ public class Util
         return _list;
     }
 
+    public static List<T> ListDistinct<T>(List<T> _list)
+    {
+        HashSet<T> uniqueSet = new HashSet<T>(_list);
+        return new List<T>(uniqueSet);
+    }
+
+
+
 
 
     public static Vector2Int[] GetBoundary(Define.Boundary _boundary)
@@ -119,6 +127,9 @@ public class Util
 
             case Define.Boundary.Boundary_X_1:
                 return Define.Boundary_X_1;
+
+            case Define.Boundary.Boundary_V_1:
+                return Define.Boundary_V_1;
 
             case Define.Boundary.Boundary_Side_All:
                 return Define.Boundary_Side_All;

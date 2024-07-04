@@ -117,7 +117,7 @@ public class PlayerController : MonoBehaviour
                 {
                     StopCoroutine(moveCor);
                 }
-                Debug.Log("面倒茄 按眉: " + hit.collider.gameObject.name);
+                //Debug.Log("面倒茄 按眉: " + hit.collider.gameObject.name);
                 current_NPC.StartDialogue();
                 return;
             }
@@ -178,7 +178,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log($"Enter : {collision.name}");
+        //Debug.Log($"Enter : {collision.name}");
         if (collision.CompareTag("Guild_Exit"))
         {
             var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
@@ -193,7 +193,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log($"Exit : {collision.name}");
+        //Debug.Log($"Exit : {collision.name}");
         Interaction_Guild interact;
         if (collision.TryGetComponent(out interact))
         {

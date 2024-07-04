@@ -181,7 +181,7 @@ public class Define
 
     #region Boundary
 
-    public enum Boundary
+    public enum Boundary //? Util의 GetBoundary에도 추가해줘야함
     {
         //테스트 = 100,
 
@@ -204,6 +204,8 @@ public class Define
         Boundary_Cross_3 = 1003,
 
         Boundary_X_1 = 2001,
+
+        Boundary_V_1 = 2501,
 
         Boundary_Side_All = 3001,
         Boundary_Side_X = 3002,
@@ -290,6 +292,12 @@ public class Define
     public static readonly Vector2Int[] Boundary_X_1 = {
         new Vector2Int(0, 0),
         new Vector2Int(1, 1), new Vector2Int(1, -1), new Vector2Int(-1, 1), new Vector2Int(-1, -1)};
+
+
+    public static readonly Vector2Int[] Boundary_V_1 = {
+        new Vector2Int(0, -1),
+        new Vector2Int(1, 0), new Vector2Int(-1, 0), 
+        new Vector2Int(2, 1), new Vector2Int(-2, 1)};
 
 
 
