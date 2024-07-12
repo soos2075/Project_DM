@@ -233,6 +233,16 @@ public class BasementFloor : MonoBehaviour
                 {
                     if (Check_IWall(value)) continue;
                 }
+                else if (findType == PathFindingType.Allow_Wall)
+                {
+                    if (value.Original != null)
+                    {
+                        if (value.Original.GetType() == typeof(Obstacle_Wall))
+                        {
+                            continue;
+                        }
+                    }
+                }
 
 
                 //? 추가한 회피 조건
@@ -334,6 +344,16 @@ public class BasementFloor : MonoBehaviour
                 if (findType == PathFindingType.Normal)
                 {
                     if (Check_IWall(value)) continue;
+                }
+                else if (findType == PathFindingType.Allow_Wall)
+                {
+                    if (value.Original != null)
+                    {
+                        if (value.Original.GetType() == typeof(Obstacle_Wall))
+                        {
+                            continue;
+                        }
+                    }
                 }
 
 

@@ -78,19 +78,19 @@ public class Miner : NPC
 
     protected override void NPC_Return_Empty()
     {
-        Main.Instance.CurrentDay.AddPop(-3);
-        Main.Instance.ShowDM(-3, Main.TextType.pop, transform, 1);
+        Main.Instance.CurrentDay.AddPop(-Data.Rank);
+        Main.Instance.ShowDM(-Data.Rank, Main.TextType.pop, transform, 1);
     }
     protected override void NPC_Return_Satisfaction()
     {
-        Main.Instance.CurrentDay.AddPop(Data.Rank + 1);
-        Main.Instance.ShowDM(Data.Rank + 1, Main.TextType.pop, transform, 1);
+        Main.Instance.CurrentDay.AddPop(Data.Rank);
+        Main.Instance.ShowDM(Data.Rank, Main.TextType.pop, transform, 1);
     }
     protected override void NPC_Runaway()
     {
-        Main.Instance.CurrentDay.AddDanger(Data.Rank + 2);
+        Main.Instance.CurrentDay.AddDanger(Data.Rank * 2);
 
-        Main.Instance.ShowDM(Data.Rank + 2, Main.TextType.danger, transform, 1);
+        Main.Instance.ShowDM(Data.Rank * 2, Main.TextType.danger, transform, 1);
     }
     protected override void NPC_Die()
     {

@@ -61,28 +61,28 @@ public class UI_Collection : UI_PopUp
     void Create_CollectionUnit()
     {
         var monster = GetObject((int)Objects.MonsterBox).GetComponentInChildren<GridLayoutGroup>().transform;
-        for (int i = 0; i < CollectionManager.Instance.MonsterData.Length; i++)
+        for (int i = 0; i < CollectionManager.Instance.Register_Monster.Count; i++)
         {
             var unit = Managers.Resource.Instantiate("UI/PopUp/Element/CollectionUnit", monster);
             unit.GetComponent<UI_CollectionUnit>().SetUnit_Monster(CollectionManager.Instance.Register_Monster[i]);
         }
 
         var npc = GetObject((int)Objects.NPCBox).GetComponentInChildren<GridLayoutGroup>().transform;
-        for (int i = 0; i < CollectionManager.Instance.NpcData.Length; i++)
+        for (int i = 0; i < CollectionManager.Instance.Register_NPC.Count; i++)
         {
             var unit = Managers.Resource.Instantiate("UI/PopUp/Element/CollectionUnit", npc);
             unit.GetComponent<UI_CollectionUnit>().SetUnit_NPC(CollectionManager.Instance.Register_NPC[i]);
         }
 
         var facility = GetObject((int)Objects.FacilityBox).GetComponentInChildren<GridLayoutGroup>().transform;
-        for (int i = 0; i < CollectionManager.Instance.FacilityData.Length; i++)
+        for (int i = 0; i < CollectionManager.Instance.Register_Facility.Count; i++)
         {
             var unit = Managers.Resource.Instantiate("UI/PopUp/Element/CollectionUnit", facility);
             unit.GetComponent<UI_CollectionUnit>().SetUnit_Facility(CollectionManager.Instance.Register_Facility[i]);
         }
 
         var tech = GetObject((int)Objects.TechnicalBox).GetComponentInChildren<GridLayoutGroup>().transform;
-        for (int i = 0; i < CollectionManager.Instance.TechnicalData.Length; i++)
+        for (int i = 0; i < CollectionManager.Instance.Register_Technical.Count; i++)
         {
             var unit = Managers.Resource.Instantiate("UI/PopUp/Element/CollectionUnit", tech);
             unit.GetComponent<UI_CollectionUnit>().SetUnit_Technical(CollectionManager.Instance.Register_Technical[i]);
@@ -144,4 +144,25 @@ public class UI_Collection : UI_PopUp
         GetObject((int)Objects.TechnicalBox).SetActive(false);
         GetObject((int)Objects.EndingBox).SetActive(false);
     }
+
+
+
+
+    #region UI Pop 기본 열기/닫기 함수
+    public override bool EscapeKeyAction()
+    {
+        return true;
+    }
+
+    private void OnEnable()
+    {
+        Time.timeScale = 0;
+    }
+    private void OnDestroy()
+    {
+        PopupUI_OnDestroy();
+    }
+
+    #endregion
+
 }

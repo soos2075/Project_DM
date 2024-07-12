@@ -4,7 +4,27 @@ using UnityEngine;
 
 public class Clone_Facility : Facility, IWall
 {
-    public Facility OriginalTarget;
+    Facility _original;
+    public Facility OriginalTarget { 
+        get { return _original; } 
+        set 
+        {
+            if (_original != null && _original.isActiveAndEnabled)
+            {
+                Debug.Log("이미 오리지널이 존재함");
+                return;
+            }
+            _original = value;
+            _original.OnRemoveEvent += RemoveSelf_Clone;
+        } }
+
+
+
+    void RemoveSelf_Clone()
+    {
+        Debug.Log("클론삭제");
+        GameManager.Facility.RemoveFacility(this);
+    }
 
 
     public override int InteractionOfTimes { get => OriginalTarget.InteractionOfTimes; }
@@ -50,5 +70,14 @@ public class Clone_Facility : Facility, IWall
         OriginalTarget.MouseClickEvent();
     }
 
+    public override void MouseMoveEvent()
+    {
+        OriginalTarget.MouseMoveEvent();
+    }
+
+    public override void MouseExitEvent()
+    {
+        OriginalTarget.MouseExitEvent();
+    }
 
 }

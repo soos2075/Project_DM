@@ -14,6 +14,22 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         Init_FacilityEgo();
         Init_Personal();
     }
+
+    public event Action OnRemoveEvent;
+    public void FacilityRemoveEvent()
+    {
+        if (OnRemoveEvent != null)
+        {
+            OnRemoveEvent();
+            OnRemoveEvent = null;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        
+    }
+
     //protected void Update()
     //{
 
@@ -111,8 +127,6 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
 
 
-    //? 하나의 클래스에 여러타입을 가져야하는 경우(조각상 / 함정 / 이후로 추가할 퍼실리티들.
-    //? 최종적으로는 아래 FacilityType이 클래스가 되야함. 허브는 허브로 통합, 광물은 광물로 통합 이런식으로.
     public int CategoryIndex { get; set; }
     public int LabelIndex { get; set; }
 

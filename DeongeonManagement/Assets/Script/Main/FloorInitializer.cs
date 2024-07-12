@@ -136,45 +136,92 @@ public class FloorInitializer : MonoBehaviour
 
     }
 
+
+
+
     void Init_3Floor()
     {
-        //? 왼쪽 상단
-        CreateObj(2, new Vector2Int(0, 7), "Obstacle_Wall", CreateOption.Return);
-        CreateObj(2, new Vector2Int(1, 7), "Obstacle_Wall", CreateOption.Return);
-        CreateObj(2, new Vector2Int(2, 7), "Obstacle_Wall", CreateOption.Return);
+        {        
+            //? 1번 - 왼쪽 상단
+            var main = CreateObj(2, new Vector2Int(0, 7), "RemoveableObstacle", CreateOption.Return) as RemoveableObstacle;
+            var sub1 = CreateObj(2, new Vector2Int(1, 7), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+            var sub2 = CreateObj(2, new Vector2Int(2, 7), "Clone_Facility", CreateOption.Return) as Clone_Facility;
 
-        //? 중앙
-        CreateObj(2, new Vector2Int(4, 2), "Obstacle_Wall", CreateOption.Return);
-        CreateObj(2, new Vector2Int(4, 3), "Obstacle_Wall", CreateOption.Return);
-        CreateObj(2, new Vector2Int(5, 2), "Obstacle_Wall", CreateOption.Return);
-        CreateObj(2, new Vector2Int(5, 3), "Obstacle_Wall", CreateOption.Return);
+            main.Set_ObstacleType(RemoveableObstacle.Obj_Label.RO_F3_01);
+            sub1.OriginalTarget = main;
+            sub2.OriginalTarget = main;
+        }
 
-        //? 하단 중앙
-        CreateObj(2, new Vector2Int(9, 0), "Obstacle_Wall", CreateOption.Return);
-        CreateObj(2, new Vector2Int(9, 1), "Obstacle_Wall", CreateOption.Return);
+        {
+            //? 2번 - 중앙
+            var main = CreateObj(2, new Vector2Int(4, 2), "RemoveableObstacle", CreateOption.Return) as RemoveableObstacle;
+            var sub1 = CreateObj(2, new Vector2Int(4, 3), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+            var sub2 = CreateObj(2, new Vector2Int(5, 2), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+            var sub3 = CreateObj(2, new Vector2Int(5, 3), "Clone_Facility", CreateOption.Return) as Clone_Facility;
 
-        //? 오른쪽위
-        CreateObj(2, new Vector2Int(12, 11), "Obstacle_Wall", CreateOption.Return);
-        CreateObj(2, new Vector2Int(13, 11), "Obstacle_Wall", CreateOption.Return);
-        CreateObj(2, new Vector2Int(12, 12), "Obstacle_Wall", CreateOption.Return);
-        CreateObj(2, new Vector2Int(13, 12), "Obstacle_Wall", CreateOption.Return);
+            main.Set_ObstacleType(RemoveableObstacle.Obj_Label.RO_F3_02);
+            sub1.OriginalTarget = main;
+            sub2.OriginalTarget = main;
+            sub3.OriginalTarget = main;
+        }
 
-        //? 오른쪽중앙
-        CreateObj(2, new Vector2Int(12, 4), "Obstacle_Wall", CreateOption.Return);
-        CreateObj(2, new Vector2Int(13, 4), "Obstacle_Wall", CreateOption.Return);
-        CreateObj(2, new Vector2Int(12, 5), "Obstacle_Wall", CreateOption.Return);
-        CreateObj(2, new Vector2Int(13, 5), "Obstacle_Wall", CreateOption.Return);
+        {
+            //? 3번 - 하단 중앙
+            var main = CreateObj(2, new Vector2Int(9, 0), "RemoveableObstacle", CreateOption.Return) as RemoveableObstacle;
+            var sub1 = CreateObj(2, new Vector2Int(9, 1), "Clone_Facility", CreateOption.Return) as Clone_Facility;
 
-        //? 야자수
-        CreateObj(2, new Vector2Int(14, 0), "Obstacle_Wall", CreateOption.Return);
-        CreateObj(2, new Vector2Int(14, 1), "Obstacle_Wall", CreateOption.Return);
-        CreateObj(2, new Vector2Int(14, 2), "Obstacle_Wall", CreateOption.Return);
-        CreateObj(2, new Vector2Int(15, 0), "Obstacle_Wall", CreateOption.Return);
-        CreateObj(2, new Vector2Int(15, 1), "Obstacle_Wall", CreateOption.Return);
-        CreateObj(2, new Vector2Int(15, 2), "Obstacle_Wall", CreateOption.Return);
-        CreateObj(2, new Vector2Int(16, 0), "Obstacle_Wall", CreateOption.Return);
-        CreateObj(2, new Vector2Int(16, 1), "Obstacle_Wall", CreateOption.Return);
-        CreateObj(2, new Vector2Int(16, 2), "Obstacle_Wall", CreateOption.Return);
+            main.Set_ObstacleType(RemoveableObstacle.Obj_Label.RO_F3_03);
+            sub1.OriginalTarget = main;
+        }
+
+        {
+            //? 4번 - 오른쪽위
+            var main = CreateObj(2, new Vector2Int(12, 11), "RemoveableObstacle", CreateOption.Return) as RemoveableObstacle;
+            var sub1 = CreateObj(2, new Vector2Int(13, 11), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+            var sub2 = CreateObj(2, new Vector2Int(12, 12), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+            var sub3 = CreateObj(2, new Vector2Int(13, 12), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+
+            main.Set_ObstacleType(RemoveableObstacle.Obj_Label.RO_F3_04);
+            sub1.OriginalTarget = main;
+            sub2.OriginalTarget = main;
+            sub3.OriginalTarget = main;
+        }
+
+        {
+            //? 5번 - 오른쪽중앙
+            var main = CreateObj(2, new Vector2Int(12, 4), "RemoveableObstacle", CreateOption.Return) as RemoveableObstacle;
+            var sub1 = CreateObj(2, new Vector2Int(13, 4), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+            var sub2 = CreateObj(2, new Vector2Int(12, 5), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+            var sub3 = CreateObj(2, new Vector2Int(13, 5), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+
+            main.Set_ObstacleType(RemoveableObstacle.Obj_Label.RO_F3_05);
+            sub1.OriginalTarget = main;
+            sub2.OriginalTarget = main;
+            sub3.OriginalTarget = main;
+        }
+
+        {
+            //? 6번 - 오른쪽하단 야자수
+            var main = CreateObj(2, new Vector2Int(14, 0), "RemoveableObstacle", CreateOption.Return) as RemoveableObstacle;
+            var sub1 = CreateObj(2, new Vector2Int(14, 1), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+            var sub2 = CreateObj(2, new Vector2Int(14, 2), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+            var sub3 = CreateObj(2, new Vector2Int(15, 0), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+            var sub4 = CreateObj(2, new Vector2Int(15, 1), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+            var sub5 = CreateObj(2, new Vector2Int(15, 2), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+            var sub6 = CreateObj(2, new Vector2Int(16, 0), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+            var sub7 = CreateObj(2, new Vector2Int(16, 1), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+            var sub8 = CreateObj(2, new Vector2Int(16, 2), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+
+            main.Set_ObstacleType(RemoveableObstacle.Obj_Label.RO_F3_06);
+            sub1.OriginalTarget = main;
+            sub2.OriginalTarget = main;
+            sub3.OriginalTarget = main;
+            sub4.OriginalTarget = main;
+            sub5.OriginalTarget = main;
+            sub6.OriginalTarget = main;
+            sub7.OriginalTarget = main;
+            sub8.OriginalTarget = main;
+        }
     }
 
     void Init_4Floor()

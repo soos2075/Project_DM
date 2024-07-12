@@ -351,12 +351,11 @@ public class UI_SaveLoad : UI_PopUp
     #endregion
 
 
-
+    #region UI Pop 기본 열기/닫기 함수
     public override bool EscapeKeyAction()
     {
         return true;
     }
-
 
     private void OnEnable()
     {
@@ -366,4 +365,6 @@ public class UI_SaveLoad : UI_PopUp
     {
         PopupUI_OnDestroy();
     }
+
+    #endregion
 }

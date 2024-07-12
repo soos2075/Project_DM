@@ -548,7 +548,7 @@ public class DataManager
         if (SaveFileSearch("CollectionData"))
         {
             var _fileData = FileOperation(FileMode.Open, $"{Application.persistentDataPath}/Savefile/CollectionData.json");
-            var loadData = JsonConvert.DeserializeObject<Dictionary<int, bool>>(_fileData);
+            var loadData = JsonConvert.DeserializeObject<Dictionary<int, Regist_Info>>(_fileData);
             CollectionManager.Instance.LoadCollectionData(loadData);
             return true;
         }

@@ -246,7 +246,7 @@ public class UI_Dialogue : UI_PopUp, IDialogue
             if (option.Contains("@Option")) //? 옵션 타입은 두가지. 하나는 아이디를 받는거 / 하나는 Dia번호를 받는거. 두개 이름만 다르게하면됨
             {
                 string npcID = option.Substring(option.IndexOf("@Option::") + 9, option.IndexOf("::Option") - (option.IndexOf("@Option::") + 9));
-                var npc = FindAnyObjectByType<GuildManager>().GetInteraction(int.Parse(npcID));
+                var npc = GuildManager.Instance.GetInteraction(int.Parse(npcID));
                 //var optionList = Managers.Dialogue.ShowOption(npcID);
                 optionAction = () => npc.OneTimeOptionButton();
             }

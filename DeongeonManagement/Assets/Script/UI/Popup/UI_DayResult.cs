@@ -87,12 +87,12 @@ public class UI_DayResult : UI_PopUp
 
         if (Result.dungeonRank != Main.Instance.DungeonRank)
         {
-            GetTMP(((int)Texts.DungeonLv)).text = $"{UserData.Instance.LocaleText("Rank")} : {Result.dungeonRank} ¡æ {Main.Instance.DungeonRank}";
+            GetTMP(((int)Texts.DungeonLv)).text = $"{UserData.Instance.LocaleText("Rank")} : {(Define.DungeonRank)Result.dungeonRank} ¡æ {(Define.DungeonRank)Main.Instance.DungeonRank}";
             GetTMP(((int)Texts.DungeonLv)).text += "   UP!".SetTextColorTag(Define.TextColor.red).SetTextColorTag(Define.TextColor.Bold);
         }
         else
         {
-            GetTMP(((int)Texts.DungeonLv)).text = $"{UserData.Instance.LocaleText("Rank")} : <b>{Main.Instance.DungeonRank}</b>";
+            GetTMP(((int)Texts.DungeonLv)).text = $"{UserData.Instance.LocaleText("Rank")} : <b>{(Define.DungeonRank)Main.Instance.DungeonRank}</b>";
         }
 
 

@@ -5,103 +5,118 @@ using UnityEngine;
 
 public class GuildManager : MonoBehaviour
 {
-    #region singleton
-    //private static GuildManager _instance;
-    //public static GuildManager Instance { get { Initialize(); return _instance; } }
+    #region Singleton
+    private static GuildManager _instance;
+    public static GuildManager Instance { get { Initialize(); return _instance; } }
 
-    //private static void Initialize()
-    //{
-    //    if (_instance == null)
-    //    {
-    //        _instance = FindObjectOfType<GuildManager>();
-    //    }
-    //}
+    private static void Initialize()
+    {
+        if (_instance == null)
+        {
+            _instance = FindObjectOfType<GuildManager>();
+            if (_instance == null)
+            {
+                GameObject go = new GameObject { name = "@GuildManager" };
+                _instance = go.AddComponent<GuildManager>();
+            }
+            DontDestroyOnLoad(_instance);
+        }
+    }
 
-    //private void Awake()
-    //{
-    //    Initialize();
-    //    if (_instance != null)
-    //    {
-    //        if (_instance != this)
-    //        {
-    //            Destroy(gameObject);
-    //        }
-    //        else
-    //        {
-    //            DontDestroyOnLoad(gameObject);
-    //        }
-    //    }
-    //}
+
+    private void Awake()
+    {
+        Initialize();
+        if (_instance != null)
+        {
+            if (_instance != this)
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        Init_LocalData();
+    }
+
     #endregion
-    // 항상 있는애들
-    public GameObject Always;
-    // 홀수날
-    public GameObject DayOdd;
-    // 짝수날
-    public GameObject DayEven;
-    // 3의 배수
-    public GameObject Triple;
-    // 4의 배수
-    public GameObject Quadruple;
-    // 5의 배수
-    public GameObject Quintuple;
-
-
-
-
 
 
 
 
     void Start()
     {
-        SetActive_NPC();
+        //Init_LocalData();
+    }
 
-        GuildEnter();
 
-        //Time.timeScale = 1;
-        //UserData.Instance.GameSpeed = 1;
+    #region SO_Data
+
+    SO_Guild_NPC[] so_data;
+    Dictionary<int, SO_Guild_NPC> Guild_Dictionary { get; set; }
+    public void Init_LocalData()
+    {
+        Guild_Dictionary = new Dictionary<int, SO_Guild_NPC>();
+        so_data = Resources.LoadAll<SO_Guild_NPC>("Data/Guild");
+
+        foreach (var item in so_data)
+        {
+            Guild_Dictionary.Add(item.Original_Index, item);
+        }
+    }
+
+
+
+
+    public SO_Guild_NPC GetData(int _id)
+    {
+        SO_Guild_NPC npc = null;
+        if (Guild_Dictionary.TryGetValue(_id, out npc))
+        {
+            return npc;
+        }
+
+        Debug.Log($"{_id}: Data Not Exist");
+        return null;
+    }
+
+
+    public SO_Guild_NPC[] GetDataAll()
+    {
+        return so_data;
+    }
+
+
+    //public void Update_SO_GuildNPC()
+    //{
+    //    var currentData = EventManager.Instance.CurrentGuildData;
+    //    if (currentData == null) return;
+
+
+    //    SO_Guild_NPC tempData;
+    //    foreach (var item in currentData)
+    //    {
+    //        if (Guild_Dictionary.TryGetValue(item.Original_Index, out tempData))
+    //        {
+    //            tempData.InstanceQuestList = item.InstanceQuestList;
+    //            tempData.OptionList = item.OptionList;
+    //        }
+    //    }
+    //}
+
+
+    #endregion
+
+
+
+    #region Guild Scene
+
+    bool isFirstEnter = false;
+
+
+    public void GuildEnter()
+    {
         UserData.Instance.GamePlay_Normal();
-    }
 
-
-    void SetActive_NPC()
-    {
-        int turn = EventManager.Instance.CurrentTurn;
-        Debug.Log(turn + "일차");
-
-        Always.SetActive(true);
-
-        if (turn % 2 == 0)
-        {
-            DayEven.SetActive(true);
-        }
-
-        if (turn % 2 == 1)
-        {
-            DayOdd.SetActive(true);
-        }
-
-        if (turn % 3 == 0)
-        {
-            Triple.SetActive(true);
-        }
-
-        if (turn % 4 == 0)
-        {
-            Quadruple.SetActive(true);
-        }
-
-        if (turn % 5 == 0)
-        {
-            Quintuple.SetActive(true);
-        }
-    }
-
-
-
-    public void GuildEnter() 
-    {
         Init_Dictionary();
 
         Guild_In_GetGuildData();
@@ -129,18 +144,49 @@ public class GuildManager : MonoBehaviour
     }
 
 
-    Dictionary<int, Interaction_Guild> NPC_Dict = new Dictionary<int, Interaction_Guild>();
+    Dictionary<int, Interaction_Guild> NPC_Active_Dict;
 
 
     void Init_Dictionary()
     {
+        int turn = EventManager.Instance.CurrentTurn;
+
         var npc = FindObjectsOfType<Interaction_Guild>();
+
+        NPC_Active_Dict = new Dictionary<int, Interaction_Guild>();
 
         foreach (var item in npc)
         {
-            if (item.isActiveAndEnabled)
+            NPC_Active_Dict.Add(item.Original_Index, item);
+
+            switch (GetData(item.Original_Index).DayOption)
             {
-                NPC_Dict.Add(item.Original_Index, item);
+                case Guild_DayOption.Always:
+                    break;
+
+                case Guild_DayOption.Odd:
+                    if (turn % 2 != 1) item.gameObject.SetActive(false);
+                    break;
+
+                case Guild_DayOption.Even:
+                    if (turn % 2 != 0) item.gameObject.SetActive(false);
+                    break;
+
+                case Guild_DayOption.Multiple_3:
+                    if (turn % 3 != 0) item.gameObject.SetActive(false);
+                    break;
+
+                case Guild_DayOption.Multiple_4:
+                    if (turn % 4 != 0) item.gameObject.SetActive(false);
+                    break;
+
+                case Guild_DayOption.Multiple_5:
+                    if (turn % 5 != 0) item.gameObject.SetActive(false);
+                    break;
+
+                case Guild_DayOption.Multiple_7:
+                    if (turn % 7 != 0) item.gameObject.SetActive(false);
+                    break;
             }
         }
     }
@@ -149,7 +195,7 @@ public class GuildManager : MonoBehaviour
     {
         Interaction_Guild target = null;
 
-        if (NPC_Dict.TryGetValue(id, out target))
+        if (NPC_Active_Dict.TryGetValue(id, out target))
         {
             return target;
         }
@@ -249,10 +295,10 @@ public class GuildManager : MonoBehaviour
         //? 기존의 저장 데이터와 새로 저장할 데이터의 index가 같으면 갱신, 없으면 추가
         foreach (var oldData in SaveGuildData)
         {
-            if (NPC_Dict.ContainsKey(oldData.Original_Index))
+            if (NPC_Active_Dict.ContainsKey(oldData.Original_Index))
             {
                 var newData = new GuildNPC_Data();
-                newData.SetData(oldData.Original_Index, NPC_Dict[oldData.Original_Index].InstanceQuestList, NPC_Dict[oldData.Original_Index].OptionList);
+                newData.SetData(oldData.Original_Index, NPC_Active_Dict[oldData.Original_Index].InstanceQuestList, NPC_Active_Dict[oldData.Original_Index].OptionList);
                 newList.Add(newData);
 
                 //? 삭제는 foreach문이 끝난다음 해야댐
@@ -267,13 +313,13 @@ public class GuildManager : MonoBehaviour
         foreach (var item in removeList)
         {
             SaveGuildData.Remove(item);
-            NPC_Dict.Remove(item.Original_Index);
+            NPC_Active_Dict.Remove(item.Original_Index);
         }
 
-        
+
 
         //? 기존의 저장데이터에 없는 새로 추가된 npc의 데이터
-        foreach (var npc in NPC_Dict)
+        foreach (var npc in NPC_Active_Dict)
         {
             var data = new GuildNPC_Data();
             data.SetData(npc.Value.Original_Index, npc.Value.InstanceQuestList, npc.Value.OptionList);
@@ -285,8 +331,11 @@ public class GuildManager : MonoBehaviour
         EventManager.Instance.CurrentGuildData = newList;
         //var data2 = Managers.Data.TestLoadFile($"DM_Save_{24}").eventData;
     }
-}
 
+    #endregion
+
+
+}
 
 public class GuildNPC_Data
 {

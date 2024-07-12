@@ -75,11 +75,13 @@ public class Wizard : NPC
 
     protected override void NPC_Return_Empty()
     {
-        Main.Instance.CurrentDay.AddPop(-1);
-        Main.Instance.ShowDM(-1, Main.TextType.pop, transform, 1);
+        int value = (Data.Rank / 2);
 
-        //Main.Instance.CurrentDay.AddDanger(-1);
-        //Main.Instance.ShowDM(-1, Main.TextType.danger, transform, 1);
+        Main.Instance.CurrentDay.AddPop(-value);
+        Main.Instance.ShowDM(-value, Main.TextType.pop, transform, 1);
+
+        Main.Instance.CurrentDay.AddDanger(-value);
+        Main.Instance.ShowDM(-value, Main.TextType.danger, transform, 1);
     }
 
     protected override void NPC_Return_Satisfaction()
@@ -87,14 +89,14 @@ public class Wizard : NPC
         Main.Instance.CurrentDay.AddPop(Data.Rank);
         Main.Instance.ShowDM(Data.Rank, Main.TextType.pop, transform, 1);
 
-        Main.Instance.CurrentDay.AddDanger(Data.Rank - 1);
-        Main.Instance.ShowDM(Data.Rank - 1, Main.TextType.danger, transform, 1);
+        Main.Instance.CurrentDay.AddDanger(Data.Rank / 2);
+        Main.Instance.ShowDM(Data.Rank / 2, Main.TextType.danger, transform, 1);
     }
 
     protected override void NPC_Runaway()
     {
-        Main.Instance.CurrentDay.AddDanger(Data.Rank + 1);
-        Main.Instance.ShowDM(Data.Rank + 1, Main.TextType.danger, transform, 1);
+        Main.Instance.CurrentDay.AddDanger(Data.Rank);
+        Main.Instance.ShowDM(Data.Rank, Main.TextType.danger, transform, 1);
     }
 
     protected override void NPC_Die()

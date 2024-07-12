@@ -126,10 +126,21 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
 
                 case PlacementType.Facility:
                     var facil = CurrentTile.Original as Facility;
-                    if (facil.GetType() == typeof(Obstacle) || facil.GetType() == typeof(Obstacle_Wall))
+                    if (facil.GetType() == typeof(Obstacle) || facil.GetType() == typeof(Obstacle_Wall) || facil.GetType() == typeof(RemoveableObstacle))
                     {
                         Managers.UI.ClosePopupPick(view);
                         return;
+                    }
+
+                    if (facil.GetType() == typeof(Clone_Facility)) //? 만약 클론이면 오리지널 데이터에 따라결정
+                    {
+                        var clone = facil as Clone_Facility;
+                        if (clone.OriginalTarget.GetType() == typeof(Obstacle) || clone.OriginalTarget.GetType() == typeof(Obstacle_Wall) 
+                            || clone.OriginalTarget.GetType() == typeof(RemoveableObstacle))
+                        {
+                            Managers.UI.ClosePopupPick(view);
+                            return;
+                        }
                     }
 
                     _title = _title.SetTextColorTag(Define.TextColor.white);

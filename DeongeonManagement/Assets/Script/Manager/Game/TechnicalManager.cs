@@ -146,6 +146,7 @@ public class TechnicalManager
             GameObject go = Managers.Resource.Instantiate($"UI/PopUp/Technical/UI_Technical", Floor_Technical[i].transform);
             var ui = go.GetComponent<UI_Technical>();
             ui.Parent = Floor_Technical[i];
+            ui.Parent.UI_Floor = ui;
             ui.Init();
 
             Floor_Technical[i].gameObject.SetActive(false);
@@ -184,6 +185,8 @@ public class TechnicalManager
         Main.Instance.CurrentTechnical.Current = tech;
         tech.parent = Main.Instance.CurrentTechnical;
 
+        tech.parent.UI_Floor.NoticeImageUpdate();
+
         Managers.UI.CloseAll();
     }
 
@@ -202,7 +205,10 @@ public class TechnicalManager
         technical.RemoveTechnical();
         currentTechnicalList.Remove(technical);
 
+
         technical.parent.Current = null;
+        technical.parent.UI_Floor.NoticeImageUpdate();
+
         Managers.Resource.Destroy(technical.gameObject);
     }
     #endregion
@@ -264,6 +270,8 @@ public class TechnicalManager
 
             Floor_Technical[data[i].LocationIndex].Current = tech;
             tech.parent = Floor_Technical[data[i].LocationIndex];
+
+            Floor_Technical[data[i].LocationIndex].UI_Floor.NoticeImageUpdate();
 
             tech.InstanceDate = data[i].InstanceDate;
         }

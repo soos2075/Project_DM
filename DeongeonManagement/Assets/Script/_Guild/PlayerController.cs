@@ -13,16 +13,20 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rig;
     Animator anim;
 
-    GuildManager guildManager;
-    Tilemap tile_borderline;
+    //GuildManager guildManager;
+    //Tilemap tile_borderline;
 
     float playerSize;
     void Start()
     {
+        GuildManager.Instance.GuildEnter();
+
+
+
         rig = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
-        guildManager = FindAnyObjectByType<GuildManager>();
-        tile_borderline = FindAnyObjectByType<TilemapCollider2D>().GetComponent<Tilemap>();
+        //guildManager = FindAnyObjectByType<GuildManager>();
+        //tile_borderline = FindAnyObjectByType<TilemapCollider2D>().GetComponent<Tilemap>();
 
         playerSize = transform.localScale.y;
     }
@@ -227,10 +231,14 @@ public class PlayerController : MonoBehaviour
             //Managers.Scene.AddLoadAction_OneTime(() => Main.Instance.Player_AP -= 1);
 
 
-            if (guildManager.DungeonBackAction != null)
+            if (GuildManager.Instance.DungeonBackAction != null)
             {
-                Managers.Scene.AddLoadAction_OneTime(guildManager.DungeonBackAction);
-                guildManager.DungeonBackAction = null;
+                Managers.Scene.AddLoadAction_OneTime(GuildManager.Instance.DungeonBackAction);
+
+                //? 이건 위에 넣은게 참조타입이라 null이라 실행을 안할 것 같은데? 여태 버그가 안난거부터가 신기하네
+                //GuildManager.Instance.DungeonBackAction = null;
+
+                Managers.Scene.AddLoadAction_OneTime(() => { GuildManager.Instance.DungeonBackAction = null; });
             }
             
             Managers.Scene.AddLoadAction_OneTime(() => FindObjectOfType<UI_Management>().Texts_Refresh());

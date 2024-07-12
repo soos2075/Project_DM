@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class UI_Technical : UI_Scene, IWorldSpaceUI
 {
@@ -11,12 +12,16 @@ public class UI_Technical : UI_Scene, IWorldSpaceUI
     }
 
 
+
+
     public void SetCanvasWorldSpace()
     {
         Managers.UI.SetCanvas(gameObject, RenderMode.WorldSpace, false);
     }
     public override void Init()
     {
+        Bind<Image>(typeof(Images));
+
         SetCanvasWorldSpace();
 
         AddUIEvent(gameObject, (data) => MoveEvent(data), Define.UIEvent.Move);
@@ -24,7 +29,32 @@ public class UI_Technical : UI_Scene, IWorldSpaceUI
 
         AddUIEvent(gameObject, (data) => LeftClickEvent(data), Define.UIEvent.LeftClick);
         AddUIEvent(gameObject, (data) => RightClickEvent(), Define.UIEvent.RightClick);
+
+
+        NoticeImageUpdate();
     }
+
+
+
+    enum Images
+    {
+        Notice,
+    }
+
+    public void NoticeImageUpdate()
+    {
+        if (Parent.Current != null)
+        {
+            GetImage((int)Images.Notice).enabled = false;
+        }
+        else
+        {
+            GetImage((int)Images.Notice).enabled = true;
+        }
+    }
+
+
+
 
 
     public TechnicalFloor Parent { get; set; }

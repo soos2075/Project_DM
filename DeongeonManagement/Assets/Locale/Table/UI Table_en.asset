@@ -204,9 +204,16 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 125754480472065
-    m_Localized: "Place various facilities and monsters in the dungeon to let adventurers
-      obtain mana! \r\n\r\nMana can be obtained from most actions that adventurers
-      take in the dungeon."
+    m_Localized: 'Place various facilities and monsters in your dungeon to give your
+      adventurers mana!
+
+
+      Mana is basically earned from most of the actions
+      your adventurers take in the dungeon.
+
+
+      Once you''re done managing your
+      dungeon, you can end your day by hitting End Turn in the top left corner.'
     m_Metadata:
       m_Items: []
   - m_Id: 125754480472066
@@ -467,6 +474,30 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 31010156664008704
     m_Localized: AP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43749063683944448
+    m_Localized: 'AP is restored to full each turn.
+
+
+      AP is used to train monsters,
+      visit guilds, interact with statues, and more.
+
+
+      For now, click on the
+      statues!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44085068026818560
+    m_Localized: Refill your usage?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44086198580490240
+    m_Localized: Remove obstacles?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45596384977694720
+    m_Localized: is resting in the well...
     m_Metadata:
       m_Items: []
   references:

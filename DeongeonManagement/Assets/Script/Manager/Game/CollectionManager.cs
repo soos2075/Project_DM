@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,6 +32,10 @@ public class CollectionManager : MonoBehaviour
             {
                 Destroy(gameObject);
             }
+            else
+            {
+                DontDestroyOnLoad(_instance);
+            }
         }
 
         Init_Data();
@@ -59,11 +64,11 @@ public class CollectionManager : MonoBehaviour
 
 
 
-    public SO_Facility[] FacilityData { get; private set; }
-    public SO_Monster[] MonsterData { get; private set; }
-    public SO_NPC[] NpcData { get; private set; }
-    public SO_Technical[] TechnicalData { get; private set; }
-    public SO_Ending[] EndingData { get; private set; }
+    SO_Facility[] FacilityData;
+    SO_Monster[] MonsterData;
+    SO_NPC[] NpcData;
+    SO_Technical[] TechnicalData;
+    SO_Ending[] EndingData;
 
 
     void Init_Data()
@@ -73,117 +78,265 @@ public class CollectionManager : MonoBehaviour
         NpcData = Resources.LoadAll<SO_NPC>("Data/NPC");
         TechnicalData = Resources.LoadAll<SO_Technical>("Data/Technical");
         EndingData = Resources.LoadAll<SO_Ending>("Data/Ending");
+
+
+        Array.Sort(FacilityData, (a, b) => a.id.CompareTo(b.id));
+        Array.Sort(MonsterData, (a, b) => a.id.CompareTo(b.id));
+        Array.Sort(NpcData, (a, b) => a.id.CompareTo(b.id));
+        Array.Sort(TechnicalData, (a, b) => a.id.CompareTo(b.id));
+        Array.Sort(EndingData, (a, b) => a.id.CompareTo(b.id));
     }
 
 
-    public List<CollectionUnitRegist<SO_Monster>> Register_Monster;
-    public List<CollectionUnitRegist<SO_Facility>> Register_Facility;
-    public List<CollectionUnitRegist<SO_NPC>> Register_NPC;
-    public List<CollectionUnitRegist<SO_Technical>> Register_Technical;
-    public List<CollectionUnitRegist<SO_Ending>> Register_Ending;
+
+    public List<CollectionUnitRegist<SO_Monster>> Register_Monster { get; private set; }
+    public List<CollectionUnitRegist<SO_Facility>> Register_Facility { get; private set; }
+    public List<CollectionUnitRegist<SO_NPC>> Register_NPC { get; private set; }
+    public List<CollectionUnitRegist<SO_Technical>> Register_Technical { get; private set; }
+    public List<CollectionUnitRegist<SO_Ending>> Register_Ending { get; private set; }
 
     void Init_Register()
     {
         Register_Monster = new List<CollectionUnitRegist<SO_Monster>>();
         for (int i = 0; i < MonsterData.Length; i++)
         {
-            Register_Monster.Add(new CollectionUnitRegist<SO_Monster>(MonsterData[i], false));
+            Register_Monster.Add(new CollectionUnitRegist<SO_Monster>(MonsterData[i], new Regist_Info()));
         }
 
         Register_Facility = new List<CollectionUnitRegist<SO_Facility>>();
         for (int i = 0; i < FacilityData.Length; i++)
         {
-            Register_Facility.Add(new CollectionUnitRegist<SO_Facility>(FacilityData[i], false));
+            if (FacilityData[i].id < 0) continue;
+            Register_Facility.Add(new CollectionUnitRegist<SO_Facility>(FacilityData[i], new Regist_Info()));
         }
 
         Register_NPC = new List<CollectionUnitRegist<SO_NPC>>();
         for (int i = 0; i < NpcData.Length; i++)
         {
-            Register_NPC.Add(new CollectionUnitRegist<SO_NPC>(NpcData[i], false));
+            Register_NPC.Add(new CollectionUnitRegist<SO_NPC>(NpcData[i], new Regist_Info()));
         }
 
         Register_Technical = new List<CollectionUnitRegist<SO_Technical>>();
         for (int i = 0; i < TechnicalData.Length; i++)
         {
-            Register_Technical.Add(new CollectionUnitRegist<SO_Technical>(TechnicalData[i], false));
+            Register_Technical.Add(new CollectionUnitRegist<SO_Technical>(TechnicalData[i], new Regist_Info()));
         }
 
         Register_Ending = new List<CollectionUnitRegist<SO_Ending>>();
         for (int i = 0; i < EndingData.Length; i++)
         {
-            Register_Ending.Add(new CollectionUnitRegist<SO_Ending>(EndingData[i], false));
+            Register_Ending.Add(new CollectionUnitRegist<SO_Ending>(EndingData[i], new Regist_Info()));
         }
     }
 
 
 
-
-    public void LoadCollectionData(Dictionary<int, bool> data)
+    public CollectionUnitRegist<T> Get_Collection<T>(T SO_Data) where T : ScriptableObject
     {
         foreach (var item in Register_Monster)
         {
-            bool isRegist = false;
+            if (item.unit == SO_Data) return item as CollectionUnitRegist<T>;
+        }
+        foreach (var item in Register_Facility)
+        {
+            if (item.unit == SO_Data) return item as CollectionUnitRegist<T>;
+        }
+        foreach (var item in Register_NPC)
+        {
+            if (item.unit == SO_Data) return item as CollectionUnitRegist<T>;
+        }
+        foreach (var item in Register_Technical)
+        {
+            if (item.unit == SO_Data) return item as CollectionUnitRegist<T>;
+        }
+        foreach (var item in Register_Ending)
+        {
+            if (item.unit == SO_Data) return item as CollectionUnitRegist<T>;
+        }
+
+        return null;
+    }
+
+    //public void Change_Collection<T>(CollectionUnitRegist<T> collection) where T : ScriptableObject
+    //{
+
+    //}
+
+
+    //public void Add_Collection<T>(T SO_Data) where T : ScriptableObject
+    //{
+    //    foreach (var item in Register_Monster)
+    //    {
+    //        if (item.unit == SO_Data)
+    //        {
+    //            item.isRegist = true;
+    //            return;
+    //        }
+    //    }
+    //    foreach (var item in Register_Facility)
+    //    {
+    //        if (item.unit == SO_Data)
+    //        {
+    //            item.isRegist = true;
+    //            return;
+    //        }
+    //    }
+    //    foreach (var item in Register_NPC)
+    //    {
+    //        if (item.unit == SO_Data)
+    //        {
+    //            item.isRegist = true;
+    //            return;
+    //        }
+    //    }
+    //    foreach (var item in Register_Technical)
+    //    {
+    //        if (item.unit == SO_Data)
+    //        {
+    //            item.isRegist = true;
+    //            return;
+    //        }
+    //    }
+    //    foreach (var item in Register_Ending)
+    //    {
+    //        if (item.unit == SO_Data)
+    //        {
+    //            item.isRegist = true;
+    //            return;
+    //        }
+    //    }
+    //}
+
+    //public void Add_Collection(string label_Name)
+    //{
+    //    foreach (var item in Register_Monster)
+    //    {
+    //        if (item.unit.labelName == label_Name)
+    //        {
+    //            item.isRegist = true;
+    //            return;
+    //        }
+    //    }
+
+    //}
+    //public void Add_Collection(int dataIndex)
+    //{
+    //    foreach (var item in Register_Monster)
+    //    {
+    //        if (item.unit.id == dataIndex)
+    //        {
+    //            item.isRegist = true;
+    //            return;
+    //        }
+    //    }
+    //}
+
+
+
+
+
+
+    public void LoadCollectionData(Dictionary<int, Regist_Info> data)
+    {
+        foreach (var item in Register_Monster)
+        {
+            Regist_Info isRegist;
             if (data.TryGetValue(item.unit.id, out isRegist))
             {
-                item.isRegist = isRegist;
+                item.Apply_Info(isRegist);
             }
         }
         foreach (var item in Register_Facility)
         {
-            bool isRegist = false;
+            Regist_Info isRegist;
             if (data.TryGetValue(item.unit.id, out isRegist))
             {
-                item.isRegist = isRegist;
+                item.Apply_Info(isRegist);
             }
         }
         foreach (var item in Register_NPC)
         {
-            bool isRegist = false;
+            Regist_Info isRegist;
             if (data.TryGetValue(item.unit.id, out isRegist))
             {
-                item.isRegist = isRegist;
+                item.Apply_Info(isRegist);
             }
         }
         foreach (var item in Register_Technical)
         {
-            bool isRegist = false;
+            Regist_Info isRegist;
             if (data.TryGetValue(item.unit.id, out isRegist))
             {
-                item.isRegist = isRegist;
+                item.Apply_Info(isRegist);
             }
         }
         foreach (var item in Register_Ending)
         {
-            bool isRegist = false;
+            Regist_Info isRegist;
             if (data.TryGetValue(item.unit.id, out isRegist))
             {
-                item.isRegist = isRegist;
+                item.Apply_Info(isRegist);
             }
         }
     }
 
-    public Dictionary<int, bool> SaveCollectionData()
+    public Dictionary<int, Regist_Info> SaveCollectionData()
     {
-        var Register = new Dictionary<int, bool>();
+        var Register = new Dictionary<int, Regist_Info>();
         for (int i = 0; i < Register_Facility.Count; i++)
         {
-            Register.Add(Register_Facility[i].unit.id, Register_Facility[i].isRegist);
+            Register.Add(Register_Facility[i].unit.id, new Regist_Info(
+                Register_Facility[i].info.isRegist,
+                Register_Facility[i].info.UnlockPoint,
+                Register_Facility[i].info.level_1_Unlock,
+                Register_Facility[i].info.level_2_Unlock,
+                Register_Facility[i].info.level_3_Unlock,
+                Register_Facility[i].info.level_4_Unlock,
+                Register_Facility[i].info.level_5_Unlock));
         }
         for (int i = 0; i < Register_Monster.Count; i++)
         {
-            Register.Add(Register_Monster[i].unit.id, Register_Monster[i].isRegist);
+            Register.Add(Register_Monster[i].unit.id, new Regist_Info(
+                Register_Monster[i].info.isRegist,
+                Register_Monster[i].info.UnlockPoint,
+                Register_Monster[i].info.level_1_Unlock,
+                Register_Monster[i].info.level_2_Unlock,
+                Register_Monster[i].info.level_3_Unlock,
+                Register_Monster[i].info.level_4_Unlock,
+                Register_Monster[i].info.level_5_Unlock));
         }
         for (int i = 0; i < Register_NPC.Count; i++)
         {
-            Register.Add(Register_NPC[i].unit.id, Register_NPC[i].isRegist);
+            Register.Add(Register_NPC[i].unit.id, new Regist_Info(
+                Register_NPC[i].info.isRegist,
+                Register_NPC[i].info.UnlockPoint,
+                Register_NPC[i].info.level_1_Unlock,
+                Register_NPC[i].info.level_2_Unlock,
+                Register_NPC[i].info.level_3_Unlock,
+                Register_NPC[i].info.level_4_Unlock,
+                Register_NPC[i].info.level_5_Unlock));
         }
         for (int i = 0; i < Register_Technical.Count; i++)
         {
-            Register.Add(Register_Technical[i].unit.id, Register_Technical[i].isRegist);
+            Register.Add(Register_Technical[i].unit.id, new Regist_Info(
+                Register_Technical[i].info.isRegist,
+                Register_Technical[i].info.UnlockPoint,
+                Register_Technical[i].info.level_1_Unlock,
+                Register_Technical[i].info.level_2_Unlock,
+                Register_Technical[i].info.level_3_Unlock,
+                Register_Technical[i].info.level_4_Unlock,
+                Register_Technical[i].info.level_5_Unlock));
         }
         for (int i = 0; i < Register_Ending.Count; i++)
         {
-            Register.Add(Register_Ending[i].unit.id, Register_Ending[i].isRegist);
+            Register.Add(Register_Ending[i].unit.id, new Regist_Info(
+                Register_Ending[i].info.isRegist,
+                Register_Ending[i].info.UnlockPoint,
+                Register_Ending[i].info.level_1_Unlock,
+                Register_Ending[i].info.level_2_Unlock,
+                Register_Ending[i].info.level_3_Unlock,
+                Register_Ending[i].info.level_4_Unlock,
+                Register_Ending[i].info.level_5_Unlock));
         }
 
         return Register;
@@ -193,13 +346,25 @@ public class CollectionManager : MonoBehaviour
     public class CollectionUnitRegist<T> where T : ScriptableObject
     {
         public T unit;
-        public bool isRegist;
-        //? 세부정보가 필요하면 여기 추가하면됨(진화조건, 최대스탯, 기타등등)
 
-        public CollectionUnitRegist(T _so_Data, bool _regist)
+        public Regist_Info info;
+
+
+        public CollectionUnitRegist(T _so_Data, Regist_Info _regist)
         {
             unit = _so_Data;
-            isRegist = _regist;
+            info = _regist;
+        }
+
+        public void Apply_Info(Regist_Info infoData)
+        {
+            info = infoData;
+        }
+
+        public void AddPoint(int value = 1)
+        {
+            info.UnlockPoint += value;
+            info.Unlocking();
         }
     }
 
@@ -347,4 +512,62 @@ public class CollectionManager : MonoBehaviour
 
 }
 
+public class Regist_Info
+{
+    public bool isRegist;
 
+    public bool level_1_Unlock;
+    public bool level_2_Unlock;
+    public bool level_3_Unlock;
+    public bool level_4_Unlock;
+    public bool level_5_Unlock;
+
+    //? 이 횟수에 따라 위에 레벨들을 하나씩 true로 하면 될듯. 이 unlock카운트 또한 따로 저장되어야함
+    public int UnlockPoint;
+
+
+    public Regist_Info()
+    {
+
+    }
+    public Regist_Info(bool regist, int count, bool level1, bool level2, bool level3, bool level4, bool level5)
+    {
+        UnlockPoint = count;
+
+        isRegist = regist;
+
+        level_1_Unlock = level1;
+        level_2_Unlock = level2;
+        level_3_Unlock = level3;
+        level_4_Unlock = level4;
+        level_5_Unlock = level5;
+    }
+
+    public void Unlocking()
+    {
+        if (UnlockPoint > 0)
+        {
+            isRegist = true;
+        }
+        else if (UnlockPoint > 5)
+        {
+            level_1_Unlock = true;
+        }
+        else if (UnlockPoint > 15)
+        {
+            level_2_Unlock = true;
+        }
+        else if (UnlockPoint > 30)
+        {
+            level_3_Unlock = true;
+        }
+        else if (UnlockPoint > 50)
+        {
+            level_4_Unlock = true;
+        }
+        else if (UnlockPoint > 100)
+        {
+            level_5_Unlock = true;
+        }
+    }
+}

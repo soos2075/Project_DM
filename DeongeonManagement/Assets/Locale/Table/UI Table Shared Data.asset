@@ -259,6 +259,46 @@ MonoBehaviour:
     m_Key: Message_Summon
     m_Metadata:
       m_Items: []
+  - m_Id: 43749063683944448
+    m_Key: Message_Tutorial_AP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44084623183130624
+    m_Key: New Entry
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44084645798817792
+    m_Key: New Entry 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44084681517510656
+    m_Key: New Entry 2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44084722424557568
+    m_Key: New Entry 3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44084740200017920
+    m_Key: New Entry 4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44084751960846336
+    m_Key: New Entry 5
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44084759355404288
+    m_Key: New Entry 6
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44084872907796480
+    m_Key: New Entry 7
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44084899168333824
+    m_Key: New Entry 8
+    m_Metadata:
+      m_Items: []
   - m_Id: 152226181120
     m_Key: NewGame
     m_Metadata:
@@ -453,6 +493,18 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 171941044629504
     m_Key: "\uD6C8\uB828"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44085068026818560
+    m_Key: Confirm_Refill
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44086198580490240
+    m_Key: Confirm_RemoveObstacle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45596384977694720
+    m_Key: Event_Wells
     m_Metadata:
       m_Items: []
   m_Metadata:

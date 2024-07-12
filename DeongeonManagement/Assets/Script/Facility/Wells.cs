@@ -56,7 +56,7 @@ public class Wells : Facility, IWall
             Debug.Log("우물이벤트 발생");
 
             InteractionOfTimes--;
-            Cor_Facility = StartCoroutine(FacilityEvent_Wells(npc, durationTime, UserData.Instance.LocaleText("Event_Mineral"),
+            Cor_Facility = StartCoroutine(FacilityEvent_Wells(npc, durationTime, UserData.Instance.LocaleText("Event_Wells"),
                 ap: ap_value, mp: mp_value, hp: hp_value));
 
 
@@ -99,6 +99,7 @@ public class Wells : Facility, IWall
         //PlacementState = PlacementState.Standby;
         if (npc.gameObject.activeInHierarchy)
         {
+            //npc.OverWell_Interaction();
             npc.SetPriorityListForPublic();
         }
     }
@@ -114,7 +115,7 @@ public class Wells : Facility, IWall
 
 
         var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
-        ui.SetText($"[{Name}] {"사용횟수를 보충할까요?"}");
+        ui.SetText($"[{Name}] {UserData.Instance.LocaleText("Confirm_Refill")}");
         StartCoroutine(WaitForAnswer(ui));
     }
 

@@ -194,7 +194,7 @@ public class EventManager : MonoBehaviour
         {
             if (item.InstanceQuestList.Count > 0)
             {
-                switch (GameManager.Guild.GetData(item.Original_Index).DayOption)
+                switch (GuildManager.Instance.GetData(item.Original_Index).DayOption)
                 {
                     case Guild_DayOption.Always:
                         Debug.Log($"퀘스트 발생 : {item.Original_Index}");
@@ -404,7 +404,7 @@ public class EventManager : MonoBehaviour
             int ranPop = UnityEngine.Random.Range(10, 20 + CurrentTurn);
             var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
             msg.Message = $"{ranPop} {UserData.Instance.LocaleText("Message_Get_Pop")}";
-            FindAnyObjectByType<GuildManager>().AddBackAction(() =>
+            GuildManager.Instance.AddBackAction(() =>
             {
                 Main.Instance.CurrentDay.AddPop(ranPop);
                 //Debug.Log($"던전의 인기도가 {ranPop} 올랐습니다.");
@@ -428,6 +428,15 @@ public class EventManager : MonoBehaviour
     }
     void AddEventAction()
     {
+        //EventAction.Add("Message_Tutorial_AP", () => 
+        //{
+        //    var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
+        //    message.DelayTime = 2;
+        //    message.Message = UserData.Instance.LocaleText("Message_Tutorial_AP");
+        //});
+
+
+
         EventAction.Add("EggAppear", () => {
             var tile = Main.Instance.Floor[3].GetRandomTile();
             Main.Instance.Floor[3].TileMap.TryGetValue(new Vector2Int(12, 2), out tile);

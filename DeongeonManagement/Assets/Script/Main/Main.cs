@@ -16,12 +16,14 @@ public class Main : MonoBehaviour
     {
         if (_instance == null)
         {
-            _instance = FindObjectOfType<Main>();
+            _instance = FindAnyObjectByType<Main>();
             if (_instance == null)
             {
+                Debug.Log("!!!!Main이 없음");
+
                 var go = new GameObject(name: "@Main");
                 _instance = go.AddComponent<Main>();
-                DontDestroyOnLoad(go);
+                //DontDestroyOnLoad(go);
             }
         }
     }
@@ -167,7 +169,7 @@ public class Main : MonoBehaviour
         {
             if (_floorInitializer == null)
             {
-                _floorInitializer = GetComponent<FloorInitializer>();
+                _floorInitializer = FindAnyObjectByType<FloorInitializer>();
             }
             return _floorInitializer;
         }
@@ -351,7 +353,6 @@ public class Main : MonoBehaviour
 
         //? 스프라이트 에셋
         Floor_Initializer.Init_Statue_Sprite();
-        //Init_Secret();
 
         //? 레벨 적용
         EventManager.Instance.RankUpEvent();
@@ -432,7 +433,10 @@ public class Main : MonoBehaviour
     int danger;
     public int DangerOfDungeon { get { return danger; } private set { danger = Mathf.Clamp(value, 0, value); } }
 
+
+    //private int _dungeonRank;
     public int DungeonRank { get; private set; }
+    //public string DungeonRank_Alphabet { get { return ((Define.DungeonRank)_dungeonRank).ToString(); } }
     public void Dungeon_RankUP()
     {
         DungeonRank++;
@@ -1084,6 +1088,8 @@ public class Main : MonoBehaviour
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Facility, Player);
                 UI_Main.Active_Button(UI_Management.ButtonEvent._1_Facility);
                 UI_Main.Active_Floor();
+
+                StartCoroutine(Wait_AP_Tutorial());
                 break;
 
             case 2:
@@ -1191,6 +1197,24 @@ public class Main : MonoBehaviour
 
 
 
+    IEnumerator Wait_AP_Tutorial()
+    {
+        yield return new WaitForEndOfFrame();
+        yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
+
+        yield return new WaitUntil(() => Managers.UI._popupStack.Count == 0);
+
+        var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
+        message.DelayTime = 2;
+        message.Message = UserData.Instance.LocaleText("Message_Tutorial_AP");
+    }
+
+
+
+
+
+
+
     void DayMonsterEvent()
     {
         StartCoroutine(WaitForResultUI());
@@ -1243,14 +1267,14 @@ public class Main : MonoBehaviour
 
     #region Animation
     Animator ani_MainUI;
-    public Animator ani_Sky;
-    public VerticalLayoutGroup layout;
+    Animator ani_Sky;
+    VerticalLayoutGroup layout;
 
     void Init_Animation()
     {
         ani_MainUI = UI_Main.GetComponent<Animator>();
-        //ani_Sky = GameObject.Find("SkyBackground").GetComponent<Animator>();
-        //layout = UI_Main.GetComponentInChildren<VerticalLayoutGroup>();
+        ani_Sky = GameObject.Find("SkyBackground").GetComponent<Animator>();
+        layout = UI_Main.GetComponentInChildren<VerticalLayoutGroup>();
     }
 
 
@@ -1457,19 +1481,19 @@ public class Main : MonoBehaviour
         return;
 #endif
 
-        if (DangerOfDungeon > 500)
-        {
-            CurrentEndingState = Endings.Dragon;
-            EggSprite.SetCategoryAndLabel("Egg", "Dragon");
-            eggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Dragon"));
-        }
+        //if (DangerOfDungeon > 500)
+        //{
+        //    CurrentEndingState = Endings.Dragon;
+        //    EggSprite.SetCategoryAndLabel("Egg", "Dragon");
+        //    eggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Dragon"));
+        //}
 
-        if (GetTotalMana() >= 10000)
-        {
-            CurrentEndingState = Endings.Slime;
-            EggSprite.SetCategoryAndLabel("Egg", "Slime");
-            eggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Slime"));
-        }
+        //if (GetTotalMana() >= 10000)
+        //{
+        //    CurrentEndingState = Endings.Slime;
+        //    EggSprite.SetCategoryAndLabel("Egg", "Slime");
+        //    eggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Slime"));
+        //}
     }
 
 

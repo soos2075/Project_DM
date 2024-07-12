@@ -44,6 +44,7 @@ public class UI_Management : UI_Base
 
         Save,
         Pause,
+        Pedia,
 
 
         Speed1x,
@@ -67,6 +68,11 @@ public class UI_Management : UI_Base
 
         mana_Tooltip,
         gold_Tooltip,
+        pop_Tooltip,
+        danger_Tooltip,
+        rank_Tooltip,
+
+
 
         GuildNotice,
     }
@@ -110,6 +116,16 @@ public class UI_Management : UI_Base
 
         var ap = GetObject((int)Objects.AP).GetOrAddComponent<UI_Tooltip>();
         ap.SetTooltipContents(UserData.Instance.LocaleText_Tooltip("AP"), UserData.Instance.LocaleText_Tooltip("AP_Detail"));
+
+
+        var pop = GetObject((int)Objects.pop_Tooltip).GetOrAddComponent<UI_Tooltip>();
+        pop.SetTooltipContents(UserData.Instance.LocaleText_Tooltip("Popularity"), UserData.Instance.LocaleText_Tooltip("Pop_Detail"));
+
+        var danger = GetObject((int)Objects.danger_Tooltip).GetOrAddComponent<UI_Tooltip>();
+        danger.SetTooltipContents(UserData.Instance.LocaleText_Tooltip("Danger"), UserData.Instance.LocaleText_Tooltip("Danger_Detail"));
+
+        var rank = GetObject((int)Objects.rank_Tooltip).GetOrAddComponent<UI_Tooltip>();
+        rank.SetTooltipContents(UserData.Instance.LocaleText_Tooltip("Rank"), UserData.Instance.LocaleText_Tooltip("Rank_Detail"));
     }
 
 
@@ -150,7 +166,7 @@ public class UI_Management : UI_Base
         GetTMP(((int)Texts.Value)).text += $"\n{Main.Instance.Player_Gold}";
         GetTMP(((int)Texts.Value)).text += $"\n{Main.Instance.PopularityOfDungeon}";
         GetTMP(((int)Texts.Value)).text += $"\n{Main.Instance.DangerOfDungeon}";
-        GetTMP(((int)Texts.Value)).text += $"\n{Main.Instance.DungeonRank}";
+        GetTMP(((int)Texts.Value)).text += $"\n{(Define.DungeonRank)Main.Instance.DungeonRank}";
     }
 
     public void GuildButtonNotice()
@@ -185,8 +201,9 @@ public class UI_Management : UI_Base
         GetButton((int)ButtonEvent.DayChange).gameObject.AddUIEvent((data) => DayStart());
 
         GetButton((int)ButtonEvent.Save).gameObject.AddUIEvent((data) => Button_Save());
-
         GetButton((int)ButtonEvent.Pause).gameObject.AddUIEvent((data) => Button_Pause());
+
+        //GetButton((int)ButtonEvent.Pedia).gameObject.AddUIEvent((data) => Button_Pedia());
 
 
         GetButton((int)ButtonEvent.Speed1x).gameObject.AddUIEvent((data) => GameSpeedUp(1));
@@ -238,8 +255,7 @@ public class UI_Management : UI_Base
     #region UI_ButtonEvent
     void Button_Pedia()
     {
-        
-
+        Managers.UI.ShowPopUp<UI_Collection>();
     }
     void Button_Pause()
     {

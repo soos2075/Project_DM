@@ -115,6 +115,22 @@ public class SpriteManager
         Debug.Log($"{_searchName} : Sprite Not Exist from SLA Data");
         return null;
     }
+    public Sprite GetSprite_SLA(string category, string label)
+    {
+        foreach (var item in SLA_Array)
+        {
+            foreach (var _category in item.GetCategoryNames())
+            {
+                if (category == _category)
+                {
+                    return item.GetSprite(_category, label);
+                }
+            }
+        }
+
+        Debug.Log($"{category}-{label} : Sprite Not Exist from SLA Data");
+        return null;
+    }
 
     public Sprite Get_Area(string area)
     {

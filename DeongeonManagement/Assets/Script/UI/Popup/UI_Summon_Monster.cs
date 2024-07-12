@@ -197,6 +197,8 @@ public class UI_Summon_Monster : UI_PopUp
         mon.MonsterInit();
         mon.Initialize_Status();
 
+        mon.AddCollectionPoint();
+
         GameManager.Monster.AddMonster(mon);
 
         //Debug.Log($"{data.ManaCost}마나를 사용하여 {data.Name_KR}을 소환");

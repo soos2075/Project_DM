@@ -75,7 +75,10 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 171247349760
-    m_Localized: "Your rank in the dungeon. \r\nIt is raised by several numbers."
+    m_Localized: 'Indicates the rank of the dungeon.
+
+      You are promoted when
+      you meet certain conditions.'
     m_Metadata:
       m_Items: []
   - m_Id: 171247349761

@@ -21,7 +21,7 @@ public class FacilityManager
         so_data = Resources.LoadAll<SO_Facility>("Data/Facility");
         foreach (var item in so_data)
         {
-            if (item.id == 0)
+            if (item.id < 0)
             {
                 Facility_Dictionary.Add(item.keyName, item);
                 continue;
@@ -133,6 +133,8 @@ public class FacilityManager
     public void RemoveFacility(Facility facility)
     {
         GameManager.Placement.PlacementClear_Completely(facility);
+
+        facility.FacilityRemoveEvent();
 
         facilityList.Remove(facility);
     }

@@ -197,6 +197,22 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
 
 
+    #region Collection
+
+    public void AddCollectionPoint()
+    {
+        var collection = CollectionManager.Instance.Get_Collection(Data);
+        if (collection != null)
+        {
+            collection.AddPoint();
+        }
+    }
+
+    #endregion
+
+
+
+
     #region Monster Status
     public string Name { get; protected set; }
     public int LV { get; protected set; }

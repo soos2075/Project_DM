@@ -74,7 +74,7 @@ public class UI_Placement_Technical : UI_PopUp
     {
         GetTMP((int)Info.CurrentMana).text = $"{UserData.Instance.LocaleText("Mana")}\t{Main.Instance.Player_Mana}";
         GetTMP((int)Info.CurrentMana).text += $"\n{UserData.Instance.LocaleText("Gold")}\t{Main.Instance.Player_Gold}";
-        GetTMP((int)Info.CurrentMana).text += $"\nAP\t{Main.Instance.Player_AP}";
+        GetTMP((int)Info.CurrentMana).text += $"\n{UserData.Instance.LocaleText("AP")}\t{Main.Instance.Player_AP}";
     }
 
     void Clear_NeedText()

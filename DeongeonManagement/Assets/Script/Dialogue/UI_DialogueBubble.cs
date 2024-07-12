@@ -272,7 +272,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
             if (option.Contains("@Option")) //? ID를 받아서 퀘스트만큼의 선택지를 제공
             {
                 string npcID = option.Substring(option.IndexOf("@Option::") + 9, option.IndexOf("::Option") - (option.IndexOf("@Option::") + 9));
-                var npc = FindAnyObjectByType<GuildManager>().GetInteraction(int.Parse(npcID));
+                var npc = GuildManager.Instance.GetInteraction(int.Parse(npcID));
                 optionAction = () => npc.OneTimeOptionButton();
             }
 

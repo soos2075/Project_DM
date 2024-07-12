@@ -380,6 +380,13 @@ public abstract class NPC : MonoBehaviour, IPlacementable
             SetPriorityList();
         }
     }
+    
+    //public void OverWell_Interaction()
+    //{
+    //    SetPriorityList();
+    //    State = StateRefresh();
+    //}
+
 
 
     protected List<BasementTile> GetFloorObjectsAll(Define.TileType searchType = Define.TileType.Empty) //? 타입 전체 가져오는 리스트
@@ -869,6 +876,20 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     }
     void SearchPreviousFloor()
     {
+        ////? 만약 우물을 발견한적이 없고 현재층에 우물이 있으며 우물 사용횟수도 0보다 크다면 우물로 향하도록. 이외에는 무조건 기존과 동일
+        //if (isWellsCheck == false && PlacementInfo.Place_Floor.PickObjectOfType(typeof(Wells)) != null)
+        //{
+        //    var wells = PlacementInfo.Place_Floor.PickObjectOfType(typeof(Wells)) as Wells;
+        //    if (wells != null && wells.InteractionOfTimes > 0)
+        //    {
+        //        PriorityList.Clear();
+        //        PriorityList.Add(wells.PlacementInfo.Place_Tile);
+        //        MoveToTargetTile(PriorityList[0]);
+        //        return;
+        //    }
+        //}
+
+
         PriorityList.Clear();
         PriorityList.Add(PlacementInfo.Place_Floor.Exit.PlacementInfo.Place_Tile);
         MoveToTargetTile(PriorityList[0]);
@@ -919,6 +940,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     }
     void Satisfaction_Base()
     {
+        AddCollectionPoint();
         Main.Instance.CurrentDay.AddSatisfaction(1);
         NPC_Return_Satisfaction();
     }
@@ -926,6 +948,15 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     {
         Main.Instance.CurrentDay.AddKill(1);
         NPC_Die();
+    }
+
+    public void AddCollectionPoint()
+    {
+        var collection = CollectionManager.Instance.Get_Collection(Data);
+        if (collection != null)
+        {
+            collection.AddPoint();
+        }
     }
 
 
