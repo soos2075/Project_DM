@@ -79,7 +79,7 @@ public class UserData : MonoBehaviour
 
     public void ChangeLanguage(int index)
     {
-        StartCoroutine(ChangeCor(index));
+        Cor_Operation_ChangeLanguage = StartCoroutine(ChangeCor(index));
     }
 
     IEnumerator ChangeCor(int index)
@@ -98,18 +98,34 @@ public class UserData : MonoBehaviour
             GameManager.NPC.Init_LocalData();
             GameManager.Technical.Init_LocalData();
         }
+
+        Cor_Operation_ChangeLanguage = null;
+
     }
 
-
+    Coroutine Cor_Operation_ChangeLanguage;
 
 
     public string LocaleText(string keyString)
     {
+        //Debug.Log(LocalizationSettings.InitializationOperation.Status);
+        if (LocalizationSettings.InitializationOperation.Status != UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+        {
+            Debug.Log("작업중");
+            return null;
+        }
+
         return LocalizationSettings.StringDatabase.GetLocalizedString("UI Table", keyString, LocalizationSettings.SelectedLocale);
     }
 
     public string LocaleText_Tooltip(string keyString)
     {
+        if (LocalizationSettings.InitializationOperation.Status != UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+        {
+            Debug.Log("작업중");
+            return null;
+        }
+
         return LocalizationSettings.StringDatabase.GetLocalizedString("UI_Tooltip", keyString, LocalizationSettings.SelectedLocale);
     }
 

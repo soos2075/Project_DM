@@ -1,98 +1,43 @@
-EN,\' = '\n',"-' = ','",,,,,,
+KR,\' = '\n',"-' = ','",,,,,,
 ,ID,keyName,"Type(Bubble,Quest)",dialogueName,,index,optionString,mainText
 0~499 Day Event,,,,,,,,
 500~999 Story,,,,,,,,
-1000~1999 questBoard,,,,,,,,
-2000~9999 NPC event,,,,,,,,
+1000~1999 Quest,,,,,,,,
+2000~9999 NPC Event,,,,,,,,
+,,,,,,,,
+,0,Prologue,Bubble,,,0,@Camera::Player::Camera,Well- what should I do now?
+,,,,,,1,,・・・・
+,,,,,,2,,I've learned a lot since then but...
+,,,,,,3,,Anyway- the key is that I can control the dungeon and...
+,,,,,,4,,I just need to attract more people to grow the dungeon- right?
+,,,,,,5,,The more people come- the more mana gathers and the more I can do...
+,,,,,,6,,I wonder who would come to a dungeon like this but...
+,,,,,,7,,Well- should I observe for a day or so?
+,,,,,,8,,First- I need to know who's coming to prepare.
 ,,,,,,,,
 ,,,,,,,,
-,501,Opening_1,Bubble,,,0,,・・・・・
-,,,,,,1,,Ah- I want to have a real adventure too.
-,,,,,,2,,How long do I have to stay in this Novice Dungeon?
-,,,,,,3,,Everyone else gets to go to popular Dungeons \or Dungeons overflowing with resources...
-,,,,,,4,,...Well- it's nobody's fault but my own lack of skill.
-,,,,,,5,,But at least this Dungeon is familiar. \...It's almost like a second home- isn't it?
-,,,,,,6,,・・・・・・・・・・
-,,,,,,7,,Enough idle chatter- let's pack up and head back.
-,,,,,,,,
-,502,Opening_2,Bubble,,,0,,Huh?
-,,,,,,1,,Why is there a warp gate over there...
-,,,,,,2,,In all the years I've been in this Novice Dungeon- \I've never seen that before.
-,,,,,,3,,There are places in this Dungeon I don't know about...
-,,,,,,4,,I'm curious- should I take a look?
-,,,,,,,,
-,503,Opening_3,Bubble,,,0,,・・・・・
-,,,,,,1,,Something feels off about this place.
-,,,,,,2,,Could I have warped to a different Dungeon?
-,,,,,,3,,I've heard there are warp gates like that sometimes...
-,,,,,,4,,No- but how could that be in a Novice Dungeon?
-,,,,,,5,,Hmm... There's something written up ahead.
-,,,,,,,,
-,,,,,,,,
-,504,Opening_4,Bubble,,,0,@Target::Notice::Target,【』Extremely Rare Chance』【
-,,,,,,1,,You who have mastered this Dungeon!!
-,,,,,,2,,For you- a once in a lifetime opportunity!!
-,,,,,,3,,If you raise the Dungeon's rank by 5 levels- no less than!!
-,,,,,,4,,The ownership of this Dungeon will be granted to you!!\An absolute 'once in a lifetime' chance!!
-,,,,,,5,,Will you accept the contract??\ <size=10>『Refusal leads to forced contract
-,,,,,,6,@Target::Player::Target,...What is this scam- like description?
-,,,,,,7,,A master in a Novice Dungeon that anyone can clear?
-,,,,,,8,,And since when do Dungeons have ownership?
-,,,,,,9,,Well... I've heard of Dungeons that charge entry fees...
-,,,,,,10,,・・・It seems foolish to take this seriously.
-,,,,,,11,,Is someone playing a prank?
-,,,,,,12,,But I've never seen a space like this \in this Dungeon before...
-,,,,,,13,,If someone came and pulled a prank- \I would have known about it...
-,,,,,,14,,And what is that egg in the back?\What does 'Dungeon rank' even mean?
-,,,,,,15,,How can I raise the Dungeon's rank in the first place?
-,,,,,,16,,If there was a way- I would have made \this Dungeon more prosperous long ago...
-,,,,,,17,@Target::Notice::Target,The will of the Dungeon Master has been confirmed.
-,,,,,,18,,The contract will proceed according to \the Dungeon Master's will.
-,,,,,,19,,The duration is 30 days- and failure will \result in your soul being collected.
-,,,,,,20,,Now- Good Luck!!
-,,,,,,21,@Target::Player::Target,What? This is insane. When did I ever agree to this!!
-,,,,,,22,,No!!!!!!!!!
-,,,,,,,,
-,,,,,,,,
-,600,Ending_Demo,Bubble,,,0, @Camera::Player::Camera @Skip::2::Skip,!!
-,,,,,,1,@Skip::2::Skip,!!!!!!!!!
-,,,,,,2,@Skip::2::Skip,!!!!!!!!!!!!!!!
-,,,,,,3,@Action::Ending::Action,
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,0,Prologue,Bubble,,,0,@Camera::Player::Camera,Okay- so what should I do?
-,,,,,,1,,・・・・・
-,,,,,,2,,After learning all sorts of things...
-,,,,,,3,,The gist is that I can manipulate the Dungeon...
-,,,,,,4,,And if I get more people to come and \grow the Dungeon- it'll work out- right?
-,,,,,,5,,The more people- the more mana will gather- \and I'll be able to do more...
-,,,,,,6,,I wonder who would come to a Dungeon like this...
-,,,,,,7,,Well- I'll keep an eye on it for a day or so first?
-,,,,,,8,,I need to know who's coming so I can prepare.
-,,,,,,,,
-,1,Tutorial_Facility,Bubble,,,0,@Camera::Player::Camera,As expected- it's just a few herb gatherers and miners.
-,,,,,,1,,Well- what did I expect?
-,,,,,,2,,Actually- I know this Dungeon best \since I've been here all the time...
-,,,,,,3,,There's not much reason to come here...
-,,,,,,4,,・・・・・
-,,,,,,5,,But from now on- I'll just have to create reasons!
+,1,Tutorial_Facility,Bubble,,,0,@Camera::Player::Camera,As expected- only a few herbalists and miners are coming.
+,,,,,,1,,Of course. What was I expecting?
+,,,,,,2,,Actually- I who used to come here every day know best-
+,,,,,,3,,That there's not much reason to come to this dungeon...
+,,,,,,4,,・・・・・・
+,,,,,,5,,But from now on- I can create reasons!
 ,,,,,,6,,Let's start by creating herbs and minerals.
-,,,,,,7,,At least a few people come for those.
+,,,,,,7,,At least some people are coming anyway.
 ,,,,,,8,,Is there anything else I can do?
-,,,,,,9,,If I have time- I should check out the statues too.
+,,,,,,9,,If I have time- I should examine the statues.
 ,,,,,,,,
-,2,Tutorial_Monster,Bubble,,,0,@Camera::Player::Camera,But adventurers will come too- even if it's just a few...
-,,,,,,1,,I mean- there are novice adventurers sometimes.
-,,,,,,2,,I can't just turn away adventurers whose goal is\exploration or treasure- or monsters.
-,,,,,,3,,I might need monsters too.
-,,,,,,4,,Let me try summoning one using the Dungeon's mana.
+,,,,,,,,
+,2,Tutorial_Monster,Bubble,,,0,@Camera::Player::Camera,But even though they're few- adventurers will come too...
+,,,,,,1,,There are occasionally- you know. Apprentice adventurers.
+,,,,,,2,,I can't turn away adventurers looking for exploration- treasure- or monsters\with just herbs and minerals.
+,,,,,,3,,I might need monsters after all.
+,,,,,,4,,Let's try summoning one using the dungeon's mana.
 ,,,,,,,,
 ,,,,,,,,
 ,3,Tutorial_Technical,Bubble,,,0,@Camera::Technical_A::Camera,
-,,,,,,1,@Camera::Player::Camera,Did the Dungeon always have a space like this?
-,,,,,,2,,It seems like I can build useful facilities here.
+,,,,,,1,@Camera::Player::Camera,Was there such a space in the dungeon?
+,,,,,,2,,Looks like I could build some useful facilities here.
 ,,,,,,,,
 ,,,,,,,,
 ,4,Tutorial_Egg,Bubble,,,0,@Camera::Player::Camera,!!
@@ -100,233 +45,289 @@ EN,\' = '\n',"-' = ','",,,,,,
 ,,,,,,2, @Action::EggEntrance::Action@Skip::2::Skip,
 ,,,,,,3, @Camera::BasementFloor_Egg::Camera@Skip::2::Skip,
 ,,,,,,4, @Action::EggAppear::Action@Skip::2::Skip,
-,,,,,,5,@Camera::Player::Camera,The warp gate has been reactivated.
-,,,,,,6,,It would have been better if it stayed hidden...
-,,,,,,7,,Anyway- I need to be careful not to let \this space be discovered.
-,,,,,,8,,People would find it strange- \and the guild might investigate.
-,,,,,,9,,It would be dangerous for me \if I can't complete the contract...
+,,,,,,5,@Camera::Player::Camera,The teleportation circle is active again.
+,,,,,,6,,It would've been nice if it stayed hidden but...
+,,,,,,7,,Anyway- I need to be careful not to let this space be discovered.
+,,,,,,8,,They'll find it strange and the guild might send an investigation.
+,,,,,,9,,One way or another- if I don't finish this contract- I'll be in hot water...
 ,,,,,,10,@Action::EggMessage::Action,
 ,,,,,,,,
-,5,Tutorial_Guild,Bubble,,,0,@Camera::Player::Camera,Should I go to the guild?
+,,,,,,,,
+,5,Tutorial_Guild,Bubble,,,0,@Camera::Player::Camera,Should I visit the guild?
 ,,,,,,1,,I might be able to get some helpful information.
-,,,,,,2,,But I need to be careful to avoid any trouble.
-,,,,,,3,,Someone might get suspicious.
+,,,,,,2,,But I should be careful not to cause any trouble.
+,,,,,,3,,There might be someone who finds me suspicious.
 ,,,,,,,,
 ,,,,,,,,
-,,,,,,,,
-,33,Day3_Event,Bubble,,,0, @Camera::Event_Day3::Camera,Here's the Novice Dungeon.
-,,,,,,1,,I'll be able to become a monster slayer here!
-,,,,,,2,,I hope there's treasure too... Is there any?
-,,,,,,,,
+,33,Day3_Event,Bubble,,,0, @Camera::Event_Day3::Camera,So this is the Novice dungeon- huh?
+,,,,,,1,,I bet I could become a monster slayer here!
+,,,,,,2,,It'd be nice if there were treasures too... I wonder if there are any?
 ,,,,,,,,
 ,,,,,,,,
 ,83,Day8_Event,Bubble,,,0, @Camera::Event_Day8::Camera,Is this the Novice Dungeon?
-,,,,,,1,,Well- for a super rookie like me\this Dungeon is child's play.
-,,,,,,2,,I'll breeze through and graduate from being a novice adventurer!!
+,,,,,,1,,Well- for a super rookie like me-\this level of dungeon is a piece of cake.
+,,,,,,2,,I'll quickly clear it and graduate from being an apprentice adventurer!!
 ,,,,,,,,
 ,,,,,,,,
-,84,Day8_Event_Die,Bubble,,,0, @Camera::Event_Day8::Camera,What is this Dungeon?
-,,,,,,1,,It's way more dangerous than I heard?
-,,,,,,2,,Something's off... I need to get out of here first.
+,84,Day8_Event_Die,Bubble,,,0, @Camera::Event_Day8::Camera,What's with this dungeon?
+,,,,,,1,,It's way more dangerous than I heard!
+,,,,,,2,,Something's not right... I need to escape for now.
 ,,,,,,3, @Camera::Player::Camera@Target::Player::Target,・・・・・
-,,,,,,4,,Did I...make it out?
-,,,,,,5,,That was a pretty dangerous monster for a novice.
-,,,,,,6,,I hope nothing bad happens... Better not go back there...
+,,,,,,4,,Did they go back...?
+,,,,,,5,,That was quite a dangerous one for an apprentice.
+,,,,,,6,,I hope nothing bad happened? It'd be nice if they don't come back...
 ,,,,,,,,
 ,,,,,,,,
-,153,Day15_Event,Bubble,,,0, @Camera::Event_Day15::Camera,My disciple kept begging to go to a Dungeon- so\I sent them to this safe Novice Dungeon-
-,,,,,,1,,but they came back with quite serious injuries.
-,,,,,,2,,As far as I remember- it used to be a pretty tame Dungeon...
-,,,,,,3,,After hearing some strange rumors lately-\about powerful monsters appearing- \or rare items dropping-
-,,,,,,4,,I decided to come investigate myself.
-,,,,,,5,,Well- I may have retired as an adventurer- \but this should be a breeze.
-,,,,,,6,,I was even called a hero in the past- after all.
-,,,,,,7,,Shall we take a look?
+,153,Day15_Event,Bubble,,,0, @Camera::Event_Day15::Camera,My apprentice kept begging to go to the dungeon-\so I sent them to this safe Novice Dungeon
+,,,,,,1,,But they came back with quite severe injuries.
+,,,,,,2,,I'm sure I remember it being an unremarkable dungeon...
+,,,,,,3,,It seemed strange so I investigated-\and there were rumors that recently-\strong monsters have appeared or rare items have been found.
+,,,,,,4,,I wanted to check it out myself- so I came.
+,,,,,,5,,Well- although I'm retired as an adventurer- this much should be fine.
+,,,,,,6,,After all- I was once called a hero.
+,,,,,,7,,Shall we go then?
 ,,,,,,,,
 ,,,,,,,,
 ,154,Day15_Event_Die,Bubble,,,0, @Camera::Event_Day15::Camera,This is definitely dangerous.
-,,,,,,1,,If even I- a former hero- am struggling this much...
-,,,,,,2,,I need to report this to the guild.
-,,,,,,,,
-,,,,,,,,
-,302,Day30_Over,Bubble,,,0, @Camera::Player::Camera@Skip::3::Skip,!!
-,,,,,,1,@Skip::3::Skip,Already 30 days...
-,,,,,,2,@Skip::3::Skip,I wonder what will happen then...
-,,,,,,3,@Action::Ending::Action,
-,,,,,,,,
-,,,,,,,,
-,400,Herbalist0_Appear,Bubble,,,0, @Camera::Herbalist0::Camera,I'll go gather some herbs?
-,,,,,,1,,It's nothing special- but at least it's safe here.
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,401,Miner0_Appear,Bubble,,,0, @Camera::Miner0::Camera,I hope I can find some good ore today.
-,,,,,,1,,It'll probably just be common rocks- though.
-,,,,,,,,
-,410,Elf_Appear,Bubble,,,0, @Camera::Elf::Camera,For an elf like me to come to such a meager Dungeon.
-,,,,,,1,,There were definitely rumors of rare herbs here?
-,,,,,,2,,If those were just lies- you won't get away with it!
-,,,,,,,,
-,420,Wizard_Appear,Bubble,,,0, @Camera::Wizard::Camera,I hope this dungeon has good research subjects.
-,,,,,,1,,If it's too boring- it's not worth it.
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,1000,Quest_0,Bubble,,,0, @Target::Player::Target@Pos::Down::Pos,There are no quests with useful information right now.
-,,,,,,,,
-,,,,,,,,
-,1001,Quest_1,Bubble,,,0, @Target::Player::Target @Pos::Down::Pos@Option::1000::Option,It looks like there's a quest about our Dungeon.
-,,,,,,,,
-,,,,,,,,
-,1010,Quest_10,Bubble,,,0, @Target::Player::Target @Pos::Down::Pos,I should be able to check for quests here.
-,,,,,,1,,Quests are meaningless to me as an adventurer now.
-,,,,,,2,,But it wouldn't hurt to check if there are any\related to our Dungeon.
-,,,,,,,,
-,,,,,,,,
-,1100,Quest_100,Quest,Slime in Novice Dungeons,,0,@Action::1100::Action,『Urgent Extermination Quest\\Target: Mutated Slime of the Novice Dungeon
-,,,,,,1,,Rumors have been circulating about an abnormally powerful slime appearing in the Novice Dungeon.
-,,,,,,2,,We initially dismissed it as a trivial rumor- but with actual cases of harm being reported- we are urgently issuing an extermination quest.
-,,,,,,3,,Location: Novice Dungeon\Notes: Looks like a normal slime- but is said to be abnormally powerful.\Caution is advised.
-,,,,,,,,
-,1101,Quest_101,Quest,Earth Golem's Core,,0,@Action::1101::Action,『Rare Monster Information\\Subject: Earth Golem
-,,,,,,1,,A mature Earth Golem has been sighted in the Novice Dungeon.
-,,,,,,2,,The Golem's core is a material essential for elemental mages- and alchemists have trouble obtaining it.
-,,,,,,3,,Due to overharvesting of Golems- the Golem's core is in short supply and trades at a high price currently.\\The guild is also buying them at a premium- so please visit if you manage to acquire one.
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,2000,Staff_A_0,Bubble,,,0,,Hello there. What brings you to the guild?
-,,,,,,,,
-,2001,Staff_A_1,Bubble,,,0,@Option::2000::Option,Hello there. What brings you to the guild?
-,,,,,,,,
-,2100,Staff_A_100,Bubble,Promoting Dungeons,,0, @Target::Player::Target @Pos::Down::Pos,There have been rumors of good herbs in the Novice Dungeon recently......
-,,,,,,1,,There are quite powerful monsters- so it's been troublesome......
-,,,,,,2, @Target::GuildStaff::Target @Pos::Up::Pos,Thank you for the information. I'll pass it along.
-,,,,,,3,@Action::2100::Action,
-,,,,,,,,
-,2101,Staff_A_101,Bubble,Ask for news,,0, @Target::Player::Target @Pos::Down::Pos,Do you happen to have any useful information lately?
-,,,,,,1, @Target::GuildStaff::Target@Pos::Up::Pos,Hmm・ Nothing in particular right now.
-,,,,,,2,,You may want to check the bulletin board on the left as well.
-,,,,,,,,
-,,,,,,,,
-,3000,Staff_B_0,Bubble,,,0,,If you have any business- please see the staff on the right.
-,,,,,,,,
-,3010,Staff_B_10,Bubble,,,0,,Hello there. The guild provides things that may be\helpful for adventurers.
-,,,,,,,,
-,4000,Heroine_0,Bubble,,,0,,・・・
-,,,,,,,,
-,,,,,,,,
-,4010,Heroine_10,Bubble,,,0,,What? If you have no business here- <size=40>scram.
-,,,,,,,,
-,5000,Odd_0,Bubble,,,0,,Oh- hello there.
-,,,,,,,,
-,6000,Even_0,Bubble,,,0,,Even without quests- the guild is also a place to rest.
-,,,,,,,,
-,,,,,,,,
-,9000,Hunter_Slime,Bubble,,,0,@Camera::Hunter_Slime::Camera,Hmm. The extermination target is...a slime?
-,,,,,,1,,A bounty on slimes? How absurd.
-,,,,,,2,,I'll quickly take care of it and then go drink.
-,,,,,,,,
-,9001,Hunter_EarthGolem,Bubble,,,0,@Camera::Hunter_EarthGolem::Camera,Is this it? The place where an \Earth Golem was reportedly sighted.
-,,,,,,1,,They say the price is calling... \I should find it first and get my share.
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
+,,,,,,1,,Even for a retired pro like me to struggle this much・
+,,,,,,2,,This needs to be reported to the guild.
 ,,,,,,,,
 ,,,,,,,,
 ,200,Day20_Event,Bubble,,,0, @Camera::A_Warrior::Camera,We've arrived. This is the quest location.
-,,,,,,1, @Target::A_Elf::Target,What? Really?\This boring and uninteresting dungeon?
-,,,,,,2, @Target::A_Warrior::Target,The location seems to be right- but...\It's a dungeon called the [Novice Dungeon].
-,,,,,,3, @Target::A_Elf::Target,What's a dungeon called the [Novice Dungeon]?\It's just the Novice Dungeon itself!
-,,,,,,4, @Target::A_Wizard::Target,Hmm. From what I know- it was supposed to be an insignificant dungeon-
-,,,,,,5,,But for a high-grade quest to come from such a place is quite interesting.
-,,,,,,6, @Target::A_Tanker::Target,The quest involves an overall investigation of the dungeon and a reassessment of its danger level.
-,,,,,,7,,Since we don't know much- we need to be careful.
-,,,,,,8, @Target::A_Elf::Target,You be careful! You can just take the hits in the front!
-,,,,,,9, @Target::A_Tanker::Target,........
-,,,,,,10, @Target::A_Warrior::Target,Calm down.
-,,,,,,11,,The guild wouldn't have just posted a high-grade quest.\There must be something.
-,,,,,,12, @Target::A_Wizard::Target,I think so too.\Something seems like it's going to happen.
-,,,,,,13, @Target::A_Elf::Target,...Well- it's not like I didn't want to go in because it was boring!...
-,,,,,,14,,Let's just go in! Let's go!
-,,,,,,15, @Target::A_Warrior::Target,Right. Everyone be prepared.
+,,,,,,1, @Target::A_Elf::Target,What? Really?\Such a boring and uninteresting looking dungeon?
+,,,,,,2, @Target::A_Warrior::Target,The location seems right...\It's called the [Novice Dungeon].
+,,,,,,3, @Target::A_Elf::Target,What's with calling it the [Novice Dungeon]? \It's just your typical newbie dungeon through and through!
+,,,,,,4, @Target::A_Wizard::Target,Hmm. As far as I know- it was supposed to be an unremarkable dungeon-
+,,,,,,5,,It's quite interesting that a high^grade quest came from such a place.
+,,,,,,6, @Target::A_Tanker::Target,The quest content is to survey the entire dungeon and reassess its danger level.
+,,,,,,7,,We need to be careful since we don't know much.
+,,,,,,8, @Target::A_Elf::Target,You be careful! You can take the hits in front!
+,,,,,,9, @Target::A_Tanker::Target,・・・・・・
+,,,,,,10, @Target::A_Warrior::Target,Calm down a bit.
+,,,,,,11,,The guild wouldn't have posted a high^grade quest for no reason.\There must be something.
+,,,,,,12, @Target::A_Wizard::Target,I think so too.\It feels like something's about to happen.
+,,,,,,13, @Target::A_Elf::Target,...Well- I wasn't saying I didn't want to go in because it's boring!...
+,,,,,,14,,Let's just go! Let's go!
+,,,,,,15, @Target::A_Warrior::Target,Alright. Everyone- prepare well.
 ,,,,,,16,,We're going in!
 ,,,,,,,,
 ,,,,,,,,
-,201,Day20_Over,Bubble,,,0, @Camera::Player::Camera,Dangerous.\They must have been the famous four-man party from the guild.
-,,,,,,1,,Did the guild issue this quest?
-,,,,,,2,,To have taken them down- there's bound to be a huge uproar.
-,,,,,,3,,There's not much time left in the contract period-\so we need to be fully prepared for whatever may happen before then.
+,201,Day20_Over,Bubble,,,0, @Camera::Player::Camera,That was dangerous.\They were probably the famous 4^person party from the guild.
+,,,,,,1,,Did the guild post the quest?
+,,,,,,2,,Since we took them down- there will probably be a big commotion.
+,,,,,,3,,There's not much time left on the contract-\but I need to prepare thoroughly as we don't know what might happen before then.
 ,,,,,,,,
 ,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,250,Day25_Event,Bubble,,,0,  @Camera::Captine_A::Camera,Everyone- attention! \We will now commence the dungeon investigation and subjugation operation.
-,,,,,,1,,Actions will be carried out by squad units.
-,,,,,,2,,The first squad will enter with me first-\and the next squad will follow after.
-,,,,,,3,,All monsters encountered are targets for subjugation-\report any treasures or artifacts found.
+,250,Day25_Event,Bubble,,,0,  @Camera::Captine_A::Camera,Attention everyone! \We will now begin the dungeon investigation and suppression operation.
+,,,,,,1,,Actions will be carried out in squad units.
+,,,,,,2,,The first squad will enter with me-\followed by the next squad.
+,,,,,,3,,All monsters discovered are targets for suppression-\report any treasures or artifacts if found.
 ,,,,,,4, @Target::Event_Soldier1::Target, <size=50>Yes! Sir!
-,,,,,,5, @Target::Captine_B::Target,Did everyone hear that? \We'll wait for the front squad to enter- then enter after.
-,,,,,,6,,Everyone- inspect and wait.
+,,,,,,5, @Target::Captine_B::Target,Did everyone hear that? \We'll enter after the front squad goes in and waits.
+,,,,,,6,,Everyone prepare and wait.
 ,,,,,,7, @Target::Event_Soldier2::Target, <size=50>Yes! Sir!
 ,,,,,,8, @Target::Captine_A::Target,Then- enter!
 ,,,,,,,,
 ,,,,,,,,
-,300,Day30_Event,Bubble,,,0,  @Camera::Captine_C::Camera,Form up!
-,,,,,,1,,Following the failure of the last subjugation-\the guild suffered an unprecedented great loss.
-,,,,,,2,,To make up for that- this subjugation force was reassembled.
-,,,,,,3,,That is to say- failure will absolutely not\be tolerated this time.
-,,,,,,4,,Everyone- put in your full effort to thoroughly investigate\every monster- every blade of grass in the dungeon.
-,,,,,,5,,Report immediately if any strange locations or dangerous beings are found.
+,300,Day30_Event,Bubble,,,0,  @Camera::Captine_C::Camera,Fall in!
+,,,,,,1,,Due to the failure of the last suppression-\the guild has suffered an unprecedented large loss.
+,,,,,,2,,To make up for that- this suppression team has been reorganized.
+,,,,,,3,,In other words- failure is absolutely\not tolerated this time.
+,,,,,,4,,Everyone- use all your strength to thoroughly investigate\every single monster in the dungeon- down to the last blade of grass.
+,,,,,,5,,Be ready to report immediately if you discover any strange places or dangerous entities.
 ,,,,,,6, @Camera::Captine_A::Camera@Target::Captine_A::Target, <size=50>Yes! Sir!
 ,,,,,,7, @Camera::Captine_B::Camera@Target::Captine_B::Target, <size=50>Yes! Sir!
-,,,,,,8, @Camera::B_Warrior::Camera@Target::B_Warrior::Target,........
-,,,,,,9, @Target::B_Elf::Target,Heh- you think you can subjugate this dungeon by doing that?
-,,,,,,10,,Not a chance?
-,,,,,,11, @Target::B_Warrior::Target,You've become much more humble than last time.\You didn't have to come if you were scared.
-,,,,,,12, @Target::B_Elf::Target,I'm not scared!\It's just more dangerous than I thought- that's all.
-,,,,,,13,,And the guild said I absolutely have to come as a reference-\that there'll be disadvantages if I don't- so what can I do! I have to come.
-,,,,,,14, @Target::B_Warrior::Target,Well- if it comes to that I can just go to a different guild...
+,,,,,,8, @Camera::B_Warrior::Camera@Target::B_Warrior::Target,・・・
+,,,,,,9, @Target::B_Elf::Target,Hmph- do you think you can clear this dungeon like that?
+,,,,,,10,,Not a chance!
+,,,,,,11, @Target::B_Warrior::Target,You've become much more humble compared to last time.\You didn't have to come if you were scared.
+,,,,,,12, @Target::B_Elf::Target,I'm not scared!\It's just more dangerous than I thought.
+,,,,,,13,,And the guild said I had to come as a witness-\they said there would be disadvantages if I didn't come. So I had to come.
+,,,,,,14, @Target::B_Warrior::Target,Well- if it comes to that- I could just go to another guild...
 ,,,,,,15,,How about the rest of you?
-,,,,,,16, @Target::B_Wizard::Target,I want revenge for last time.
-,,,,,,17,,There may also be even more interesting things hidden here.
-,,,,,,18, @Target::B_Tanker::Target,I'll keep a close watch on the party this time.
-,,,,,,19, @Target::B_Elf::Target,Sheesh- you're all just idiots itching for a fight.
-,,,,,,20,,Right- let's go- go.
-,,,,,,21,,But this time the guild swordmen will take the lead-\so let's just take what we can from behind.
-,,,,,,22,,We'll run away right away if it gets dangerous!
-,,,,,,23, @Target::B_Warrior::Target,Okay.\Everyone knows the danger of this dungeon-\so let's go carefully.
+,,,,,,16, @Target::B_Wizard::Target,I want to get revenge for last time.
+,,,,,,17,,There might be more interesting things hidden too.
+,,,,,,18, @Target::B_Tanker::Target,This time- I'll watch the party carefully.
+,,,,,,19, @Target::B_Elf::Target,Sigh- everyone's just a bunch of idiots who want to fight.
+,,,,,,20,,Alright- let's go- go.
+,,,,,,21,,At least this time- the guild soldiers will lead the way-\so let's just reap the benefits from behind.
+,,,,,,22,,If it gets dangerous- we'll run away immediately!
+,,,,,,23, @Target::B_Warrior::Target,Alright.\Everyone should know the dangers of this dungeon-\let's go carefully.
 ,,,,,,,,
 ,,,,,,,,
+,302,Day30_Over,Bubble,,,0, @Camera::Player::Camera@Skip::3::Skip,!!
+,,,,,,1,@Skip::3::Skip,Finally... day 30・・
+,,,,,,2,@Skip::3::Skip,I wonder what will happen now...
+,,,,,,3,@Action::Ending::Action,
 ,,,,,,,,
 ,,,,,,,,
-,700,Ending_Common,Bubble,,,0,,Finally- the 30 day contract period has passed.
-,,,,,,1,,A large flow of mana occurred in the dungeon and began gathering into the egg in the room.
-,,,,,,2,,Soon- the egg started shaking and something awoke from it...
+,400,Herbalist0_Appear,Bubble,,,0, @Camera::Herbalist0::Camera,Shall I gather some herbs lightly?
+,,,,,,1,,It's probably nothing special- but at least it's safe here.
 ,,,,,,,,
 ,,,,,,,,
+,401,Miner0_Appear,Bubble,,,0, @Camera::Miner0::Camera,I hope there are good ores today.
+,,,,,,1,,But it's probably just common rocks anyway.
 ,,,,,,,,
-,711,Dog_1,Bubble,,,0,,What awoke from the egg was a life form that somehow felt familiar.
+,,,,,,,,
+,410,Elf_Appear,Bubble,,,0, @Camera::Elf::Camera,To think that I- an elf- would come to such a shabby dungeon.
+,,,,,,1,,There was a rumor that rare herbs could be found- right?
+,,,,,,2,,If it's different from what I heard- I won't let it slide!
+,,,,,,,,
+,,,,,,,,
+,420,Wizard_Appear,Bubble,,,0, @Camera::Wizard::Camera,I hope there's a good research subject in this dungeon.
+,,,,,,1,,It's worthless if it's too trivial- you know.
+,,,,,,,,
+,,,,,,,,
+,501,Opening_1,Bubble,,,0,,・・・・・・
+,,,,,,1,,Sigh- I want to go on a real adventure too.
+,,,,,,2,,How long do I have to stay cooped up in this dungeon?
+,,,,,,3,,Everyone else is going to popular dungeons or\dungeons overflowing with resources...
+,,,,,,4,,・・・・Well- who can I blame for my lack of skill.
+,,,,,,5,,But at least I know this dungeon inside out. \...It's almost like a second home.
+,,,,,,6,,・・・・・・・・・・・
+,,,,,,7,,Stop talking nonsense and let's pack up and go home.
+,,,,,,,,
+,,,,,,,,
+,502,Opening_2,Bubble,,,0,,Huh?
+,,,,,,1,,Why is there a teleportation circle in a place like that...
+,,,,,,2,,I've been coming to this dungeon \for years and it's the first time I've seen it.
+,,,,,,3,,To think there's a part of this dungeon I don't know about...
+,,,,,,4,,I'm curious- should I go check it out?
+,,,,,,,,
+,,,,,,,,
+,503,Opening_3,Bubble,,,0,,・・・・・・・
+,,,,,,1,,It feels so out of place.
+,,,,,,2,,Did I get teleported to a different dungeon?
+,,,,,,3,,I've heard there are sometimes teleportation circles like that...
+,,,,,,4,,No- but how could there be such a thing in a Novice Dungeon?
+,,,,,,5,,Hmm... There seems to be something written in front.
+,,,,,,,,
+,,,,,,,,
+,504,Opening_4,Bubble,,,0,@Target::Notice::Target,【』Super Special Rare Chance』【
+,,,,,,1,,You who have mastered this dungeon!!
+,,,,,,2,,A once in a lifetime opportunity given to you!!
+,,,,,,3,,If you raise the dungeon's rank to A- you'll get!!
+,,,,,,4,,Ownership of this dungeon!!\An absolutely unrepeatable lucky chance!!
+,,,,,,5,,Do you want to make a contract??\<size=10>『Forced contract if refused
+,,,,,,6,@Target::Player::Target,......What's with this scam^like explanation?
+,,,,,,7,,Mastering a Novice Dungeon that anyone can clear...
+,,,,,,8,,And since when did dungeons have ownership?
+,,,,,,9,,Hmm... I've heard of dungeons that charge entrance fees somewhere...
+,,,,,,10,,・・・・It's foolish to think about this seriously.
+,,,,,,11,,Is this someone's prank?
+,,,,,,12,,But I've never seen a space like this in this dungeon before...
+,,,,,,13,,If someone came to play a prank- I should have known...
+,,,,,,14,,More importantly- what's that egg in the back?\And what's this about dungeon rank?
+,,,,,,15,,How am I supposed to raise the dungeon's rank in the first place?
+,,,,,,16,,If there was such a method-\I would have made this dungeon more prosperous long ago...
+,,,,,,17,@Target::Notice::Target,Dungeon Master's intention confirmed.
+,,,,,,18,,Contract will proceed according to the Dungeon Master's intention.
+,,,,,,19,,The period is 30 days and your soul will be collected upon failure.
+,,,,,,20,,Well then- good luck!!
+,,,,,,21,@Target::Player::Target,What? This is crazy. When did I say I'd do it!!
+,,,,,,22,,No!!!!!!!!!
+,,,,,,,,
+,,,,,,,,
+,600,Ending_Demo,Bubble,,,0, @Camera::Player::Camera @Skip::2::Skip,!!
+,,,,,,1,@Skip::2::Skip,!!!!!!!!!
+,,,,,,2,@Skip::2::Skip,!!!!!!!!!!!!!!!
+,,,,,,,,
+,,,,,,,,
+,700,Ending_Common,Bubble,,,0,,Finally- the 30 days of the contract have passed.
+,,,,,,1,,A great flow of mana occurred in the dungeon and began to gather in the egg in the room.
+,,,,,,2,,Soon- the egg shook and something awakened...
+,,,,,,,,
+,,,,,,,,
+,711,Dog_1,Bubble,,,0,,What hatched from the egg was a creature that felt somehow familiar.
 ,,,,,,1,,It explained that it was a being born from the dungeon's mana.
-,,,,,,2,,It said it would help me from now on.
+,,,,,,2,,It says it will help me from now on.
 ,,,,,,,,
-,712,Dog_2,Bubble,,,0,,30 days have passed and the contract has ended- but the original contract terms were not fulfilled.
-,,,,,,1,,However- the soul retrieval written on the signboard did not occur.
-,,,,,,2,,Could it be that there was no contract or anything from the beginning?
 ,,,,,,,,
-,713,Dog_3,Bubble,,,0,,But it was true that I was able to manage the dungeon for those 30 days.
-,,,,,,1,,I lost the ability to manage the dungeon- and the dungeon returned to being a normal dungeon.
-,,,,,,2,,As time passed- it gradually became an ordinary Novice Dungeon again-\and when there were almost no more visitors- I too left the dungeon.
+,712,Dog_2,Bubble,,,0,,30 days have passed and the contract has ended- but the initial contract terms were not fulfilled.
+,,,,,,1,,However- the soul collection mentioned on the signboard did not take place.
+,,,,,,2,,Perhaps there was no contract or anything from the beginning?
+,,,,,,,,
+,,,,,,,,
+,713,Dog_3,Bubble,,,0,,But it's true that I was able to manage the dungeon for 30 days.
+,,,,,,1,,I lost the ability to manage the dungeon- and the dungeon returned to being an ordinary dungeon.
+,,,,,,2,,As time passed- it gradually became an ordinary Novice Dungeon again-\and when there were hardly any people visiting the dungeon- I too left the dungeon.
+,,,,,,,,
 ,,,,,,,,
 ,714,Dog_4,Bubble,,,0,,But I'm not lonely. Because I'm no longer alone like before.
-,,,,,,1,,By my side now is my closest friend- my companion- my trustworthy colleague.
-,,,,,,2,,Today too- I take a step towards the adventure I've dreamed of. Forever and ever...
+,,,,,,1,,Now- beside me- is my best friend- companion- and trustworthy comrade.
+,,,,,,2,,I take another step towards the adventure I've been dreaming of today. Forever...
 ,,,,,,,,
 ,,,,,,,,
 ,990,Expansion_4,Bubble,,,0, @Camera::Player::Camera@Skip::2::Skip@Fade::0::Fade,!!
 ,,,,,,1, @Action::Entrance_Move_2to4::Action@Skip::10::Skip,
-,,,,,,2,@Camera::Player::Camera,Has the location of the transitions leading to this room changed?
-,,,,,,3,,I'm guessing it's because the dungeon has been expanded...
-,,,,,,4,,If so- that's pretty good news.
-,,,,,,5,,As we continue to expand the dungeon- \the risk of being spotted in this room will decrease.
+,,,,,,2,@Camera::Player::Camera,Has the location of the teleportation circle leading to this space changed?
+,,,,,,3,,I guess it's because the dungeon expanded...
+,,,,,,4,,If so- this is quite good news.
+,,,,,,5,,As we continue to expand the dungeon-\the risk of this space being discovered will also decrease.
+,,,,,,,,
+,,,,,,,,
+,1000,Quest_0,Bubble,,,0, @Target::Player::Target@Pos::Down::Pos,There are no quests available for gathering information right now.
+,,,,,,,,
+,,,,,,,,
+,1001,Quest_1,Bubble,,,0, @Target::Player::Target @Pos::Down::Pos@Option::1000::Option,It seems there might be a quest about our dungeon.
+,,,,,,,,
+,,,,,,,,
+,1010,Quest_10,Bubble,,,0, @Target::Player::Target @Pos::Down::Pos,I could check quests here.
+,,,,,,1,,As a dungeon master- adventurer quests are meaningless now.
+,,,,,,2,,But if there are quests registered about our dungeon-\it wouldn't hurt to know.
+,,,,,,,,
+,,,,,,,,
+,1100,Quest_100,Quest,Slime of the Novice Dungeon,0,0,@Action::1100::Action,『Emergency Subjugation Quest\\Target : Mutated Slime in the Novice Dungeon
+,,,,,,1,,Rumors are circulating about the appearance of abnormally strong slimes in the Novice Dungeon.
+,,,,,,2,,At first- we ignored it as a light rumor- but as actual damage reports are coming in- we are urgently issuing an emergency subjugation quest.
+,,,,,,3,,Location : Novice Dungeon\Special Note : Looks like a normal slime but is abnormally strong.\Caution needed.
+,,,,,,,,
+,,,,,,,,
+,1101,Quest_101,Quest,Earth Golem's Core,0,0,@Action::1101::Action,『Rare Monster Information\\Target : Earth Golem
+,,,,,,1,,An adult^level Earth Golem has been sighted in the Novice Dungeon.
+,,,,,,2,,Golem cores are essential materials for elemental magicians- and alchemists can't get enough of them.
+,,,,,,3,,Due to excessive golem hunting- golem cores are currently being traded at very high prices.\\The guild is also buying them at high prices- so please visit the guild if you obtain any.
+,,,,,,,,
+,,,,,,,,
+,2000,Staff_A_0,Bubble,,,0,,Hello. What brings you to the guild?
+,,,,,,,,
+,,,,,,,,
+,2001,Staff_A_1,Bubble,,,0,@Option::2000::Option,Hello. What brings you to the guild?
+,,,,,,,,
+,,,,,,,,
+,2100,Staff_A_100,Bubble,Dungeon Promotion,,0, @Target::Player::Target @Pos::Down::Pos,Recently- there's a rumor about good herbs appearing in the Novice Dungeon......
+,,,,,,1,,There's quite a strong monster causing trouble......
+,,,,,,2, @Target::GuildStaff::Target @Pos::Up::Pos,Thank you for the information. I'll pass it on.
+,,,,,,3,@Action::2100::Action,
+,,,,,,,,
+,,,,,,,,
+,2101,Staff_A_101,Bubble,Ask for News,,0, @Target::Player::Target @Pos::Down::Pos,Is there any useful information going around recently?
+,,,,,,1, @Target::GuildStaff::Target@Pos::Up::Pos,Hmm... Nothing in particular right now.
+,,,,,,2,,Please check the bulletin board on the left as well.
+,,,,,,,,
+,,,,,,,,
+,3000,Staff_B_0,Bubble,,,0,,If you have any business- please see the staff on the right.
+,,,,,,,,
+,,,,,,,,
+,3010,Staff_B_10,Bubble,,,0,,Hello. The guild provides things that can be helpful to adventurers.
+,,,,,,,,
+,,,,,,,,
+,4000,Heroine_0,Bubble,,,0,,・・
+,,,,,,,,
+,,,,,,,,
+,4010,Heroine_10,Bubble,,,0,,What. If you have no business- <size=40>get lost.
+,,,,,,,,
+,,,,,,,,
+,5000,Odd_0,Bubble,,,0,,Ah- hello.
+,,,,,,,,
+,,,,,,,,
+,6000,Even_0,Bubble,,,0,,Even if it's not for a quest- the guild is also a place for rest.
+,,,,,,,,
+,,,,,,,,
+,9000,Hunter_Slime,Bubble,,,0,@Camera::Hunter_Slime::Camera,Hmmm. The target is... slimes?
+,,,,,,1,,A bounty on a slime- that's ridiculous.
+,,,,,,2,,I'm going to make a quick kill and go get a drink.
+,,,,,,,,
+,,,,,,,,
+,9001,Hunter_EarthGolem,Bubble,,,0,@Camera::Hunter_EarthGolem::Camera,Is this the place? Where they say an earth golem was spotted recently.
+,,,,,,1,,You get what you pay for- they say... \Gotta be the first to find it and cash in big time.

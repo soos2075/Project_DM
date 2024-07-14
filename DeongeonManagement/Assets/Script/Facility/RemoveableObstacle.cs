@@ -70,8 +70,8 @@ public class RemoveableObstacle : Facility, IWall
         }
 
         string confirm = $"<size=25>(" +
-                    $"-{ap}{UserData.Instance.LocaleText("AP")} " +
-                    $"-{mana}{UserData.Instance.LocaleText("Mana")} " +
+                    $"-{ap}{UserData.Instance.LocaleText("AP")}, " +
+                    $"-{mana}{UserData.Instance.LocaleText("Mana")}, " +
                     $"+{gold}{UserData.Instance.LocaleText("Gold")})";
 
         var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();

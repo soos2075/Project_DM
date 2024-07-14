@@ -583,7 +583,7 @@ public class EventManager : MonoBehaviour
 
     public bool TryRankUp(int fame, int danger)
     {
-        if (Main.Instance.DungeonRank == 1 && fame + danger >= 200)
+        if (Main.Instance.DungeonRank == 1 && fame + danger >= 150)
         {
             return true;
         }

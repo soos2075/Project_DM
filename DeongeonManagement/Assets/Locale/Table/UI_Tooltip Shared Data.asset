@@ -91,6 +91,22 @@ MonoBehaviour:
     m_Key: Command_Attack
     m_Metadata:
       m_Items: []
+  - m_Id: 14443102418972672
+    m_Key: Orb_Green
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14443166239502336
+    m_Key: Orb_Blue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14443169452339200
+    m_Key: Orb_Red
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14443171813732352
+    m_Key: Orb_Yellow
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

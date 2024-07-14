@@ -110,6 +110,12 @@ public class DataManager
                     var split = datas[k].Split('-');
                     datas[k] = string.Join(',', split);
                 }
+
+                if (datas[k].Contains('^'))
+                {
+                    var split = datas[k].Split('^');
+                    datas[k] = string.Join('-', split);
+                }
             }
 
             _dict.Add(int.Parse(spl_comma[1]), datas);
@@ -160,6 +166,11 @@ public class DataManager
                 {
                     var split = mainText.Split('-');
                     mainText = string.Join(',', split);
+                }
+                if (mainText.Contains('^'))
+                {
+                    var split = mainText.Split('^');
+                    mainText = string.Join('-', split);
                 }
 
                 var textData = new DialogueData.TextData(optionString, mainText);

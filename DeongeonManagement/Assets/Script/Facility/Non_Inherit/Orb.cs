@@ -141,48 +141,48 @@ public class Orb : MonoBehaviour
         switch (_OrbType)
         {
             case OrbType.green:
-                ui.SetText($"약초의 수정을 활성화할까요?\n" +
+                ui.SetText($"{UserData.Instance.LocaleText_Tooltip("Orb_Green")}\n" +
                     $"<size=25>" +
-                    $"(2 {UserData.Instance.LocaleText("AP")}, " +
-                    $"750 {UserData.Instance.LocaleText("Mana")} " +
-                    $"250 {UserData.Instance.LocaleText("Gold")} " +
-                    $"{UserData.Instance.LocaleText("필요")})");
+                    $"(-2{UserData.Instance.LocaleText("AP")}, " +
+                    $"-750{UserData.Instance.LocaleText("Mana")}, " +
+                    $"-250{UserData.Instance.LocaleText("Gold")})");// +
+                    //$"{UserData.Instance.LocaleText("필요")})");
 
                 StartCoroutine(WaitForAnswer(ui, () => Confirm(ap: 2, mana: 750, gold: 250)));
                 break;
 
 
             case OrbType.yellow:
-                ui.SetText($"광물의 수정을 활성화할까요?\n" +
+                ui.SetText($"{UserData.Instance.LocaleText_Tooltip("Orb_Yellow")}\n" +
     $"<size=25>" +
-    $"(2 {UserData.Instance.LocaleText("AP")}, " +
-    $"750 {UserData.Instance.LocaleText("Mana")} " +
-    $"250 {UserData.Instance.LocaleText("Gold")} " +
-    $"{UserData.Instance.LocaleText("필요")})");
+    $"(-2{UserData.Instance.LocaleText("AP")}, " +
+    $"-750{UserData.Instance.LocaleText("Mana")}, " +
+    $"-250{UserData.Instance.LocaleText("Gold")})");// +
+    //$"{UserData.Instance.LocaleText("필요")})");
 
                 StartCoroutine(WaitForAnswer(ui, () => Confirm(ap: 2, mana: 750, gold: 250)));
                 break;
 
 
             case OrbType.blue:
-                ui.SetText($"마나의 수정을 활성화할까요?\n" +
+                ui.SetText($"{UserData.Instance.LocaleText_Tooltip("Orb_Blue")}\n" +
     $"<size=25>" +
-    $"(3 {UserData.Instance.LocaleText("AP")}, " +
-    $"2000 {UserData.Instance.LocaleText("Mana")} " +
-    $"1000 {UserData.Instance.LocaleText("Gold")} " +
-    $"{UserData.Instance.LocaleText("필요")})");
+    $"(-3{UserData.Instance.LocaleText("AP")}, " +
+    $"-2000{UserData.Instance.LocaleText("Mana")}, " +
+    $"-1000{UserData.Instance.LocaleText("Gold")})");// +
+    //$"{UserData.Instance.LocaleText("필요")})");
 
                 StartCoroutine(WaitForAnswer(ui, () => Confirm(ap: 3, mana: 2000, gold: 1000)));
                 break;
 
 
             case OrbType.red:
-                ui.SetText($"전투의 수정을 활성화할까요?\n" +
+                ui.SetText($"{UserData.Instance.LocaleText_Tooltip("Orb_Red")}\n" +
     $"<size=25>" +
-    $"(4 {UserData.Instance.LocaleText("AP")}, " +
-    $"1000 {UserData.Instance.LocaleText("Mana")} " +
-    $"2000 {UserData.Instance.LocaleText("Gold")} " +
-    $"{UserData.Instance.LocaleText("필요")})");
+    $"(-4{UserData.Instance.LocaleText("AP")}, " +
+    $"-1000{UserData.Instance.LocaleText("Mana")}, " +
+    $"-2000{UserData.Instance.LocaleText("Gold")})");// +
+    //$"{UserData.Instance.LocaleText("필요")})");
 
                 StartCoroutine(WaitForAnswer(ui, () => Confirm(ap: 4, mana: 1000, gold: 2000)));
                 break;
