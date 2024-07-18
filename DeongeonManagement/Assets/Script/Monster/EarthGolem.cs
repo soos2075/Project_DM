@@ -9,7 +9,7 @@ public class EarthGolem : Monster
     public override void MonsterInit()
     {
         Data = GameManager.Monster.GetData("EarthGolem");
-
+        Trait_Original();
 
         if (GameManager.Monster.Check_Evolution("FlameGolem"))
         {
@@ -19,6 +19,11 @@ public class EarthGolem : Monster
         //{
         //    Debug.Log("이미 등록된 진화몹 있음");
         //}
+    }
+
+    void Trait_Original()
+    {
+        AddTrait(new Trait.Vitality());
     }
     public override void MonsterInit_Evolution()
     {

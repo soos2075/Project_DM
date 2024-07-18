@@ -136,7 +136,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.60
+  bundleVersion: 0.60_ForArtist
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -668,7 +668,7 @@ PlayerSettings:
   webGLDecompressionFallback: 0
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Standalone: DEMO_BUILD
+    Standalone: DEMO_BUILD;CHEAT_BUILD
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

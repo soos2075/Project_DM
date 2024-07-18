@@ -221,6 +221,8 @@ public class UIManager
     }
 
 
+
+
     public void ClosePopUp()
     {
         if (_popupStack.Count == 0)
@@ -229,6 +231,7 @@ public class UIManager
         }
 
         UI_PopUp uiObject = _popupStack.Pop();
+        uiObject.PopupCloseCallback();
         Managers.Resource.Destroy(uiObject.gameObject);
         uiObject = null;
         //_sortOrder--;
@@ -263,6 +266,7 @@ public class UIManager
 
             // 해당 팝업을 제거
             UI_PopUp uiObject = _popupStack.Pop();
+            uiObject.PopupCloseCallback();
             Managers.Resource.Destroy(uiObject.gameObject);
             uiObject = null;
 

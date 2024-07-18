@@ -6,7 +6,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using Assets.PixelFantasy.PixelHeroes.Common.Scripts.CharacterScripts;
 
-public abstract class NPC : MonoBehaviour, IPlacementable
+public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat
 {
     void Start()
     {
@@ -637,6 +637,18 @@ public abstract class NPC : MonoBehaviour, IPlacementable
     #endregion
 
 
+
+
+    #region I_Battle Stat
+
+    public int B_HP { get => HP; }
+    public int B_HP_Max { get => HP_MAX; }
+    public int B_ATK { get => ATK; }
+    public int B_DEF { get => DEF; }
+    public int B_AGI { get => AGI; }
+    public int B_LUK { get => LUK; }
+
+    #endregion
 
 
     #region Npc Status Property

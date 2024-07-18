@@ -500,6 +500,26 @@ MonoBehaviour:
     m_Localized: is resting in the well...
     m_Metadata:
       m_Items: []
+  - m_Id: 47364170016043008
+    m_Localized: Cancel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47364782061465600
+    m_Localized: Skip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47365100409139200
+    m_Localized: Next
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47367262346358784
+    m_Localized: Continuous
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47393955509383168
+    m_Localized: Trait
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

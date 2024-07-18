@@ -9,7 +9,11 @@ public class Fairy : Monster
     public override void MonsterInit()
     {
         Data = GameManager.Monster.GetData("Fairy");
+        Trait_Original();
     }
-
+    void Trait_Original()
+    {
+        AddTrait(new Trait.Friend());
+    }
 
 }

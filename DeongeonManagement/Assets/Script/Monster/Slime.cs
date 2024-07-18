@@ -10,6 +10,7 @@ public class Slime : Monster
     public override void MonsterInit()
     {
         Data = GameManager.Monster.GetData("Slime");
+        Trait_Original();
 
 
         if (GameManager.Monster.Check_Evolution("BloodySlime"))
@@ -21,6 +22,13 @@ public class Slime : Monster
             Debug.Log("이미 등록된 진화몹 있음");
         }
     }
+
+    void Trait_Original()
+    {
+        //AddTrait(new Trait.Reconfigure());
+        AddTrait(TraitGroup.Reconfigure);
+    }
+
 
     public override void MonsterInit_Evolution()
     {
@@ -40,6 +48,8 @@ public class Slime : Monster
             EvolutionState = Evolution.Ready;
         }
     }
+
+
 
     public override void LevelUpEvent(LevelUpEventType levelUpType)
     {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Util
@@ -75,6 +76,19 @@ public class Util
         return new List<T>(uniqueSet);
     }
 
+
+
+    public static T GetClassToString<T>(string className) where T : class
+    {
+        Type type = Type.GetType(className);
+        T instance = Activator.CreateInstance(type) as T;
+        return instance;
+    }
+    public static Type GetTypeToString(string className)
+    {
+        Type type = Type.GetType(className);
+        return type;
+    }
 
 
 

@@ -150,7 +150,7 @@ public class UI_Management : UI_Base
         if (Main.Instance.Player_AP <= 2)
         {
             GetObject(((int)Objects.AP)).GetComponent<ContentSizeFitter>().enabled = false;
-            GetObject(((int)Objects.AP)).GetComponent<RectTransform>().sizeDelta = new Vector2(130, 90);
+            GetObject(((int)Objects.AP)).GetComponent<RectTransform>().sizeDelta = new Vector2(110, 70);
         }
         else
         {
@@ -203,7 +203,8 @@ public class UI_Management : UI_Base
         GetButton((int)ButtonEvent.Save).gameObject.AddUIEvent((data) => Button_Save());
         GetButton((int)ButtonEvent.Pause).gameObject.AddUIEvent((data) => Button_Pause());
 
-        //GetButton((int)ButtonEvent.Pedia).gameObject.AddUIEvent((data) => Button_Pedia());
+
+        GetButton((int)ButtonEvent.Pedia)?.gameObject.AddUIEvent((data) => Button_Pedia());
 
 
         GetButton((int)ButtonEvent.Speed1x).gameObject.AddUIEvent((data) => GameSpeedUp(1));

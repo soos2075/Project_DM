@@ -9,6 +9,12 @@ public class GreyHound : Monster
     public override void MonsterInit()
     {
         Data = GameManager.Monster.GetData("GreyHound");
+        Trait_Original();
     }
 
+
+    void Trait_Original()
+    {
+        AddTrait(new Trait.Nimble());
+    }
 }

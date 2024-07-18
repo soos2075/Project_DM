@@ -9,7 +9,11 @@ public class Salamandra : Monster
     public override void MonsterInit()
     {
         Data = GameManager.Monster.GetData("Salamandra");
+        Trait_Original();
     }
 
-
+    void Trait_Original()
+    {
+        AddTrait(new Trait.Overwhelm());
+    }
 }

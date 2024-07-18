@@ -136,9 +136,20 @@ public class MonsterManager
     {
         foreach (var monster in Monsters)
         {
-            if (monster != null && monster.State == Monster.MonsterState.Placement)
+            if (monster != null)
             {
                 monster.TurnStart();
+            }
+        }
+    }
+
+    public void MonsterTurnOverEvent()
+    {
+        foreach (var monster in Monsters)
+        {
+            if (monster != null)
+            {
+                monster.TurnOver();
             }
         }
     }

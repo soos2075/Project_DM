@@ -382,7 +382,12 @@ public class ContentManager
 
     IEnumerator ShowAllFloor(Vector2Int[] vector2Ints, Action action, UI_Floor.BuildMode buildMode = UI_Floor.BuildMode.Build)
     {
-        Managers.UI.ShowPopUpAlone<UI_DungeonPlacement>();
+        var dp = Managers.UI.ShowPopUpAlone<UI_DungeonPlacement>();
+
+        //? Å×½ºÆ®!
+        var letter = Managers.UI.ShowPopUpNonPush<UI_LetterBox>();
+        letter.SetBoxOption(UI_LetterBox.BoxOption.Build, dp);
+
         yield return new WaitForEndOfFrame();
 
         Main.Instance.CurrentBoundary = vector2Ints;

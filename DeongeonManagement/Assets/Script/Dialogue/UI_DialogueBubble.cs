@@ -18,6 +18,14 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
         {
             SkipText();
         }
+
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            if (Managers.Scene.GetCurrentScene() == SceneName._2_Management)
+            {
+                PerfectSkip();
+            }
+        }
     }
     private void LateUpdate()
     {
@@ -62,6 +70,16 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
 
         Init_BubblePosition();
         Init_Conversation();
+
+
+
+
+        //? 테스트
+        if (Managers.Scene.GetCurrentScene() == SceneName._2_Management)
+        {
+            var letterBox = Managers.UI.ShowPopUpNonPush<UI_LetterBox>();
+            letterBox.SetBoxOption(UI_LetterBox.BoxOption.Dialogue, this);
+        }
     }
 
 
@@ -372,6 +390,57 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
         yield return new WaitForSecondsRealtime(time);
         isAutoMode = false;
         SkipText();
+    }
+
+
+
+    void PerfectSkip()
+    {
+        if (Data == null)
+        {
+            return;
+        }
+
+        DialogueData textData = Data;
+
+        while (textCount < textData.TextDataList.Count)
+        {
+            string option = textData.TextDataList[textCount].optionString;
+            if (option == null)
+            {
+                option = string.Empty;
+            }
+
+            if (option.Contains("@Action"))
+            {
+                string actionName = option.Substring(option.IndexOf("@Action::") + 9, option.IndexOf("::Action") - (option.IndexOf("@Action::") + 9));
+                int id = 0;
+                if (int.TryParse(actionName, out id))
+                {
+                    EventManager.Instance.GetAction(id)?.Invoke();
+                }
+                else
+                {
+                    EventManager.Instance.GetAction(actionName)?.Invoke();
+                }
+            }
+
+            //if (option.Contains("@Option")) //? ID를 받아서 퀘스트만큼의 선택지를 제공
+            //{
+            //    //Debug.Log("선택지 제공 - 스킵할 때 여기서 멈춰야함");
+            //    string npcID = option.Substring(option.IndexOf("@Option::") + 9, option.IndexOf("::Option") - (option.IndexOf("@Option::") + 9));
+            //    var npc = GuildManager.Instance.GetInteraction(int.Parse(npcID));
+            //    npc.OneTimeOptionButton();
+            //}
+            ////? 위의 Option은 길드에서만 가능. 만약 게임씬에서 선택지를 쓰고싶으면 새로 다른이름으로 새로 만들어야함.
+
+            textCount++;
+        }
+
+        UserData.Instance.GameMode = Define.GameMode.Normal;
+        Managers.UI.ClosePopupPick(this);
+        Managers.Dialogue.currentDialogue = null;
+        Debug.Log("대화 스킵");
     }
 
 

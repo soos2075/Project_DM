@@ -26,6 +26,12 @@ public class DamageTest : MonoBehaviour
     }
 
 
+    public void Spawn_Int()
+    {
+        int ran = UnityEngine.Random.Range(1, 10);
+        DamageNumber dn = damage.Spawn(transform.position, $"{ran}");
+    }
+
     public void Spawn_Mana()
     {
         int ran = UnityEngine.Random.Range(1, 10);

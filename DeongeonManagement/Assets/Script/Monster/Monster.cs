@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Monster : MonoBehaviour, IPlacementable
+public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
 {
     protected void Awake()
     {
@@ -212,6 +212,20 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
 
 
+    #region I_Battle Stat
+
+    public int B_HP { get => HP_Final; }
+    public int B_HP_Max { get => HP_Max; }
+    public int B_ATK { get => ATK_Final; }
+    public int B_DEF { get => DEF_Final; }
+    public int B_AGI { get => AGI_Final; }
+    public int B_LUK { get => LUK_Final; }
+
+    #endregion
+
+
+
+
 
     #region Monster Status
     public string Name { get; protected set; }
@@ -232,26 +246,208 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
 
 
-    public int ATK_Final { get { return ATK + ATK_Bonus; } }
-    public int DEF_Final { get { return DEF + DEF_Bonus; } }
-    public int AGI_Final { get { return AGI + AGI_Bonus; } }
-    public int LUK_Final { get { return LUK + LUK_Bonus; } }
+    int HP_Final { get { return HP + Trait_HP; } }
 
 
-    public int ATK_Bonus { get { return Orb_Bonus + Floor_Bonus; } }
-    public int DEF_Bonus { get { return Orb_Bonus + Floor_Bonus; } }
-    public int AGI_Bonus { get { return Orb_Bonus + Floor_Bonus; } }
-    public int LUK_Bonus { get { return Orb_Bonus + Floor_Bonus; } }
+    int ATK_Final { get { return ATK + AllStat_Bonus + Trait_ATK + ATK_Bonus; } }
+    int DEF_Final { get { return DEF + AllStat_Bonus + Trait_DEF + DEF_Bonus; } }
+    int AGI_Final { get { return AGI + AllStat_Bonus + Trait_AGI + AGI_Bonus; } }
+    int LUK_Final { get { return LUK + AllStat_Bonus + Trait_LUK + LUK_Bonus; } }
+
+
+
+    int ATK_Bonus { get { return 0; } }
+    int DEF_Bonus { get { return 0; } }
+    int AGI_Bonus { get { return 0; } }
+    int LUK_Bonus { get { return 0; } }
+
+
+    int AllStat_Bonus { get { return Orb_Bonus + Floor_Bonus + Trait_Friend; } }
 
 
 
     //? 전투의 오브 활성화 보너스
-    public int Orb_Bonus { get { return GameManager.Buff.CurrentBuff.Orb_red > 0 ? 5 : 0; } }
+    int Orb_Bonus { get { return GameManager.Buff.CurrentBuff.Orb_red > 0 ? 5 : 0; } }
     //? 깊은 층에 배치할수록 스탯보너스
-    public int Floor_Bonus { get { return PlacementInfo != null ? PlacementInfo.Place_Floor.FloorIndex * 1 : 0; } }
+    int Floor_Bonus { get { return PlacementInfo != null ? PlacementInfo.Place_Floor.FloorIndex * 1 : 0; } }
+
+    //? 같은층의 몬스터 수에 따른 보너스
+    int Trait_Friend
+    {
+        get
+        {
+            if (State == MonsterState.Placement)
+            {
+                return TraitCheck(TraitGroup.Friend) ? PlacementInfo.Place_Floor.GetFloorObjectList(Define.TileType.Monster).Count - 1 : 0;
+            }
+            return 0;
+        }
+    }
+
+
+
+    #region IStat & ITrait
+    int Trait_HP { get => TraitList.Count > 0 ? Apply_HP() : 0; }
+    int Trait_HP_Max { get => TraitList.Count > 0 ? Apply_HP_Max() : 0; }
+    int Trait_ATK { get => TraitList.Count > 0 ? Apply_ATK() : 0; }
+    int Trait_DEF { get => TraitList.Count > 0 ? Apply_DEF() : 0; }
+    int Trait_AGI { get => TraitList.Count > 0 ? Apply_AGI() : 0; }
+    int Trait_LUK { get => TraitList.Count > 0 ? Apply_LUK() : 0; }
+
+
+
+
+
+    public List<ITrait> TraitList = new List<ITrait>();
+
+    public void AddTrait(ITrait trait) //? 동일한 특성 불가능
+    {
+        foreach (var item in TraitList)
+        {
+            if (trait.ID == item.ID)
+            {
+                return;
+            }
+        }
+        TraitList.Add(trait);
+    }
+    public void AddTrait(TraitGroup traitID)
+    {
+        string className = $"Trait+{traitID.ToString()}";
+        ITrait trait = Util.GetClassToString<ITrait>(className);
+        AddTrait(trait);
+    }
+
+    public bool TraitCheck(TraitGroup searchTrait)
+    {
+        var trait = Util.GetTypeToString($"Trait+{searchTrait.ToString()}");
+        foreach (var item in TraitList)
+        {
+            if (item.GetType() == trait) return true;
+        }
+        return false;
+    }
+    public void DoSomething(TraitGroup searchTrait)
+    {
+        var trait = Util.GetTypeToString($"Trait+{searchTrait.ToString()}");
+        foreach (var item in TraitList)
+        {
+            if (item.GetType() == trait)
+            {
+                item.DoSomething();
+            }
+        }
+    }
+    public int GetSomething<T>(TraitGroup searchTrait, T current)
+    {
+        var trait = Util.GetTypeToString($"Trait+{searchTrait.ToString()}");
+        foreach (var item in TraitList)
+        {
+            if (item.GetType() == trait)
+            {
+                int tValue = item.GetSomething(current);
+                return tValue;
+            }
+        }
+        return 0;
+    }
+
+
+
+
+
+    int Apply_HP()
+    {
+        int applyHp = 0;
+
+        foreach (var trait in TraitList)
+        {
+            applyHp += trait.ApplyHP(HP);
+        }
+        return applyHp;
+    }
+    int Apply_HP_Max()
+    {
+        int applyValue = 0;
+        foreach (var trait in TraitList)
+        {
+            applyValue += trait.ApplyHP_Max(HP_Max);
+        }
+        return applyValue;
+    }
+    int Apply_ATK()
+    {
+        int applyValue = 0;
+        foreach (var trait in TraitList)
+        {
+            applyValue += trait.ApplyATK(ATK);
+        }
+        return applyValue;
+    }
+    int Apply_DEF()
+    {
+        int applyValue = 0;
+        foreach (var trait in TraitList)
+        {
+            applyValue += trait.ApplyDEF(DEF);
+        }
+        return applyValue;
+    }
+    int Apply_AGI()
+    {
+        int applyValue = 0;
+        foreach (var trait in TraitList)
+        {
+            applyValue += trait.ApplyAGI(AGI);
+        }
+        return applyValue;
+    }
+    int Apply_LUK()
+    {
+        int applyValue = 0;
+        foreach (var trait in TraitList)
+        {
+            applyValue += trait.ApplyLUK(LUK);
+        }
+        return applyValue;
+    }
+
+
+
+
+
+
+
+    public List<int> SaveTraitList()
+    {
+        List<int> saveList = new List<int>();
+        foreach (var item in TraitList)
+        {
+            saveList.Add((int)item.ID);
+        }
+
+        return saveList;
+    }
+
+    public void LoadTraitList(List<int> loadData)
+    {
+        foreach (var item in loadData)
+        {
+            AddTrait((TraitGroup)item);
+        }
+    }
+
+
+
+    #endregion
+
+
+
+
 
 
     public abstract void MonsterInit();
+    //public abstract void Trait_Original();
     public virtual void MonsterInit_Evolution() //? 나중에 abstract로 변경하면 댐
     { 
 
@@ -285,9 +481,31 @@ public abstract class Monster : MonoBehaviour, IPlacementable
 
     public virtual void TurnStart()
     {
-        MoveSelf();
-        HP = HP_Max;
+        switch (State)
+        {
+            case MonsterState.Standby:
+                break;
+
+            case MonsterState.Placement:
+                MoveSelf();
+                HP = HP_Max;
+                break;
+
+            case MonsterState.Injury:
+                if (TraitCheck(TraitGroup.Reconfigure))
+                {
+                    HP = HP_Max;
+                    State = MonsterState.Standby;
+                }
+                break;
+        }
     }
+
+    public virtual void TurnOver()
+    {
+
+    }
+
     public virtual void MoveSelf()
     {
         //Debug.Log("몬스터 무브애니메이션 다시 시작");
@@ -613,6 +831,12 @@ public abstract class Monster : MonoBehaviour, IPlacementable
             case BattleField.BattleResult.NPC_Die:
                 UI_EventBox.AddEventText($"★{floorName} - {Name_Color} {UserData.Instance.LocaleText("Battle_Win")}");
                 GetBattlePoint(npc.Rank * 2);
+
+                if (TraitCheck(TraitGroup.Predation))
+                {
+                    HP_Max += 1;
+                    HP += 1;
+                }
                 break;
         }
 

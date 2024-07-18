@@ -91,6 +91,50 @@ public class BattleField : MonoBehaviour
     {
         bool isOver = false;
 
+        if (openingList.Count > 0)
+        {
+            for (int i = 0; i < openingList.Count; i++)
+            {
+                yield return UserData.Instance.Wait_GamePlay;
+                yield return new WaitForSeconds(0.2f);
+
+                if (openingList[i].target is Monster)
+                {
+                    switch (openingList[i].effectType)
+                    {
+                        case EffectType.Damaged:
+                            InstantAction(openingList[i].value, pos_Right, DamageMeshType.Damage);
+                            ChangeHPValue(0, openingList[i].value);
+                            break;
+
+                        case EffectType.Heal:
+                            InstantAction(openingList[i].value, pos_Right, DamageMeshType.Heal);
+                            ChangeHPValue(0, -openingList[i].value);
+                            break;
+                    }
+                }
+                else if (openingList[i].target is NPC)
+                {
+                    switch (openingList[i].effectType)
+                    {
+                        case EffectType.Damaged:
+                            InstantAction(openingList[i].value, pos_Left, DamageMeshType.Damage);
+                            ChangeHPValue(openingList[i].value, 0);
+                            break;
+
+                        case EffectType.Heal:
+                            InstantAction(openingList[i].value, pos_Left, DamageMeshType.Heal);
+                            ChangeHPValue(-openingList[i].value, 0);
+                            break;
+                    }
+                }
+
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
+
+
+
         for (int i = 0; i < roundList.Count; i++)
         {
             yield return UserData.Instance.Wait_GamePlay;
@@ -104,7 +148,11 @@ public class BattleField : MonoBehaviour
 
                 if (roundList[i].roundResult == BattleResult.NPC_Die)
                 {
-                    AddAction(roundList[i].damage, pos_Left, ani_npc);
+                    //AddAction(roundList[i].damage, pos_Left, ani_npc);
+                    foreach (var item in roundList[i].damage_show)
+                    {
+                        AddAction(item.Item1, pos_Left, ani_npc, item.Item2);
+                    }
 
                     yield return new WaitUntil(() => ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Idle);
 
@@ -120,7 +168,11 @@ public class BattleField : MonoBehaviour
                 }
                 else
                 {
-                    AddAction(roundList[i].damage, pos_Left);
+                    //AddAction(roundList[i].damage, pos_Left);
+                    foreach (var item in roundList[i].damage_show)
+                    {
+                        AddAction(item.Item1, pos_Left, item.Item2);
+                    }
                 }
                 //Debug.Log(ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash + $"##");
                 yield return new WaitUntil(() => ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Idle);
@@ -136,7 +188,11 @@ public class BattleField : MonoBehaviour
 
                 if (roundList[i].roundResult == BattleResult.Monster_Die)
                 {
-                    AddAction(roundList[i].damage, pos_Right, ani_monster);
+                    //AddAction(roundList[i].damage, pos_Right, ani_monster);
+                    foreach (var item in roundList[i].damage_show)
+                    {
+                        AddAction(item.Item1, pos_Right, ani_monster, item.Item2);
+                    }
 
                     yield return new WaitUntil(() => ani_npc.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Idle);
                     yield return new WaitForSeconds(0.5f);
@@ -145,7 +201,11 @@ public class BattleField : MonoBehaviour
                 }
                 else
                 {
-                    AddAction(roundList[i].damage, pos_Right);
+                    //AddAction(roundList[i].damage, pos_Right);
+                    foreach (var item in roundList[i].damage_show)
+                    {
+                        AddAction(item.Item1, pos_Right, item.Item2);
+                    }
                 }
 
                 yield return new WaitUntil(() => ani_npc.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Idle);
@@ -230,24 +290,83 @@ public class BattleField : MonoBehaviour
 
     Action Call_Damage;
     public DamageNumber damageMesh;
-    public void AddAction(int _dam, Transform parent)
+    public DamageNumber specialMesh;
+    public DamageNumber criticalMesh;
+    public DamageNumber healMesh;
+
+    public enum DamageMeshType
+    {
+        Damage,
+        Special,
+        Critical,
+        Heal,
+    }
+
+    public void InstantAction(int _dam, Transform parent, DamageMeshType meshType = DamageMeshType.Damage)
+    {
+        var pos = parent.GetChild(0);
+        switch (meshType)
+        {
+            case DamageMeshType.Damage:
+                if (_dam == 0)
+                {
+                    DamageNumber dn = damageMesh.Spawn(pos.transform.position, "miss");
+                }
+                else
+                {
+                    DamageNumber dn = damageMesh.Spawn(pos.transform.position, _dam);
+                }
+                break;
+
+            case DamageMeshType.Special:
+                DamageNumber dn1 = specialMesh.Spawn(pos.transform.position, _dam);
+                break;
+
+            case DamageMeshType.Critical:
+                DamageNumber dn2 = criticalMesh.Spawn(pos.transform.position, _dam);
+                break;
+
+            case DamageMeshType.Heal:
+                DamageNumber dn3 = healMesh.Spawn(pos.transform.position, _dam);
+                break;
+        }
+    }
+
+    public void AddAction(int _dam, Transform parent, DamageMeshType meshType = DamageMeshType.Damage)
     {
         Call_Damage += () =>
         {
             var pos = parent.GetChild(0);
-            if (_dam == 0)
+            switch (meshType)
             {
-                DamageNumber damageNumber = damageMesh.Spawn(pos.transform.position, "miss");
-            }
-            else
-            {
-                DamageNumber damageNumber = damageMesh.Spawn(pos.transform.position, _dam);
+                case DamageMeshType.Damage:
+                    if (_dam == 0)
+                    {
+                        DamageNumber damageNumber = damageMesh.Spawn(pos.transform.position, "miss");
+                    }
+                    else
+                    {
+                        DamageNumber damageNumber = damageMesh.Spawn(pos.transform.position, _dam);
+                    }
+                    break;
+
+                case DamageMeshType.Special:
+                    DamageNumber damageNumber1 = specialMesh.Spawn(pos.transform.position, _dam);
+                    break;
+
+                case DamageMeshType.Critical:
+                    DamageNumber damageNumber2 = criticalMesh.Spawn(pos.transform.position, _dam);
+                    break;
+
+                case DamageMeshType.Heal:
+                    DamageNumber damageNumber3 = healMesh.Spawn(pos.transform.position, _dam);
+                    break;
             }
         };
     }
-    public void AddAction(int _dam, Transform parent, Animator deadAnim)
+    public void AddAction(int _dam, Transform parent, Animator deadAnim, DamageMeshType meshType = DamageMeshType.Damage)
     {
-        AddAction(_dam, parent);
+        AddAction(_dam, parent, meshType);
         Call_Damage += () => deadAnim.Play(Define.ANIM_Dead);
     }
     public void AddFlashWhite(SpriteRenderer renderer)
@@ -298,21 +417,61 @@ public class BattleField : MonoBehaviour
 
     #endregion
 
+    List<OpeningTrait> openingList = new List<OpeningTrait>();
+
+    public class OpeningTrait
+    {
+        public EffectType effectType;
+
+        public I_BattleStat target;
+
+        public StatType statType;
+
+        public int value;
+
+        public OpeningTrait(EffectType _effect, I_BattleStat _target, StatType _stat, int _value)
+        {
+            effectType = _effect;
+            target = _target;
+            statType = _stat;
+            value = _value;
+        }
+    }
+
+    public enum StatType
+    {
+        HP = 0,
+        HP_MAX = 1,
+        ATK = 2,
+        DEF = 3,
+        AGI = 4,
+        LUK = 5,
+    }
+    public enum EffectType
+    {
+        Damaged,
+        Heal,
+    }
 
 
 
     public class Round
     {
         public PlacementType attacker;
+
         public int damage;
+        public List<(int, DamageMeshType)> damage_show;
 
         public BattleResult roundResult;
 
 
-        public Round(PlacementType _attacker, int _damage, BattleResult _result)
+        public Round(PlacementType _attacker, int _damage, List<(int, DamageMeshType)> _damageList, BattleResult _result)
         {
             attacker = _attacker;
+
             damage = _damage;
+            damage_show = _damageList;
+
             roundResult = _result;
         }
     }
@@ -362,12 +521,36 @@ public class BattleField : MonoBehaviour
         return result;
     }
 
+
+
+
+
+
     List<Round> roundList;
     List<Round> BattleStart()
     {
         roundList = new List<Round>();
-        int agi = npc.AGI - monster.AGI_Final;
 
+        if (monster.TraitCheck(TraitGroup.Vitality))
+        {
+            int bonusHP = monster.GetSomething(TraitGroup.Vitality, monster.HP_Max);
+            int applyHP = monster.B_HP + bonusHP;
+
+            int realValue = applyHP > monster.B_HP_Max ? (monster.B_HP_Max - monster.B_HP) : bonusHP;
+            monster.HP += realValue;
+            openingList.Add(new OpeningTrait(EffectType.Heal, monster, StatType.HP, realValue));
+        }
+
+        if (monster.TraitCheck(TraitGroup.Overwhelm))
+        {
+            int realValue = Mathf.RoundToInt(npc.HP * 0.2f);
+            npc.HP -= realValue;
+            openingList.Add(new OpeningTrait(EffectType.Damaged, npc, StatType.HP, realValue));
+        }
+
+
+
+        int agi = npc.B_AGI - monster.B_AGI;
         if (agi > 5)
         {
             //? 플레이어 선공 / 3방때림
@@ -411,55 +594,85 @@ public class BattleField : MonoBehaviour
 
     bool MonsterAttack()
     {
-        int damage = 1;
-        if (TryDodge(monster.LUK_Final, npc.LUK))
+        List<(int, DamageMeshType)> damageList = new List<(int, DamageMeshType)>();
+
+        int normalAttackDamage = 1;
+        if (TryDodge(monster.B_LUK, npc.LUK))
         {
             //Debug.Log("회피함");
-            damage = 0;
+            normalAttackDamage = 0;
         }
         else
         {
-            int atkRange = (int)UnityEngine.Random.Range(monster.ATK_Final * 0.8f, monster.ATK_Final * 1.2f);
+            int atkRange = (int)UnityEngine.Random.Range(monster.B_ATK * 0.8f, monster.B_ATK * 1.2f);
 
-            damage = Mathf.Clamp((atkRange - npc.DEF), 1, atkRange);
+            normalAttackDamage = Mathf.Clamp((atkRange - npc.DEF), 1, atkRange);
         }
-        
 
-        npc.HP -= damage;
+
+        damageList.Add((normalAttackDamage, DamageMeshType.Damage));
+
+        //? 님블 = 0.5배 추가공격
+        if (monster.TraitCheck(TraitGroup.Nimble))
+        {
+            int bonusAttack = normalAttackDamage / 2;
+            damageList.Add((bonusAttack, DamageMeshType.Damage));
+        }
+
+
+        if (monster.TraitCheck(TraitGroup.IronSkin))
+        {
+            int trueDamage = monster.GetSomething(TraitGroup.IronSkin, monster.B_DEF);
+            damageList.Add((trueDamage, DamageMeshType.Special));
+        }
+
+
+        int damage_Sum = 0;
+        foreach (var item in damageList)
+        {
+            damage_Sum += item.Item1;
+        }
+
+
+        npc.HP -= damage_Sum;
         if (npc.HP <= 0)
         {
             result = BattleResult.NPC_Die;
-            roundList.Add(new Round(PlacementType.Monster, damage, result));
+            roundList.Add(new Round(PlacementType.Monster, damage_Sum, damageList, result));
             return true;
         }
 
-        roundList.Add(new Round(PlacementType.Monster, damage, BattleResult.Nothing));
+        roundList.Add(new Round(PlacementType.Monster, damage_Sum, damageList, BattleResult.Nothing));
         return false;
     }
     bool NPCAttack()
     {
+        List<(int, DamageMeshType)> damageList = new List<(int, DamageMeshType)>();
+
         int damage = 1;
-        if (TryDodge(npc.LUK, monster.LUK_Final))
+        if (TryDodge(npc.B_LUK, monster.B_LUK))
         {
             //Debug.Log("회피함");
             damage = 0;
         }
         else
         {
-            int atkRange = (int)UnityEngine.Random.Range(npc.ATK * 0.8f, npc.ATK * 1.2f);
-            damage = Mathf.Clamp((atkRange - monster.DEF_Final), 1, atkRange);
+            int atkRange = (int)UnityEngine.Random.Range(npc.B_ATK * 0.8f, npc.B_ATK * 1.2f);
+            damage = Mathf.Clamp((atkRange - monster.B_DEF), 1, atkRange);
         }
+
+        damageList.Add((damage, DamageMeshType.Damage));
 
         monster.HP -= damage;
         if (monster.HP <= 0)
         {
             monster.HP = 0;
             result = BattleResult.Monster_Die;
-            roundList.Add(new Round(PlacementType.NPC, damage, result));
+            roundList.Add(new Round(PlacementType.NPC, damage, damageList, result));
             return true;
         }
 
-        roundList.Add(new Round(PlacementType.NPC, damage, BattleResult.Nothing));
+        roundList.Add(new Round(PlacementType.NPC, damage, damageList, BattleResult.Nothing));
         return false;
     }
 

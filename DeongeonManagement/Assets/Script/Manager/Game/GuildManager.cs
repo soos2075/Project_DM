@@ -110,8 +110,6 @@ public class GuildManager : MonoBehaviour
 
     #region Guild Scene
 
-    bool isFirstEnter = false;
-
 
     public void GuildEnter()
     {

@@ -10,10 +10,27 @@ public class Interface
 }
 
 
+
+
+
 public interface IWorldSpaceUI
 {
     public void SetCanvasWorldSpace();
 }
+
+
+public interface I_BattleStat
+{
+    int B_HP { get; }
+    int B_HP_Max { get; }
+    int B_ATK { get; }
+    int B_DEF { get; }
+    int B_AGI { get; }
+    int B_LUK { get; }
+}
+
+
+
 
 //? Basement에 배치가 가능한 오브젝트
 public interface IPlacementable

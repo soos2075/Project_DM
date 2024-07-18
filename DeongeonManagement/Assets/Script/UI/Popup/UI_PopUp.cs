@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -76,4 +77,14 @@ public class UI_PopUp : UI_Base
         return false;
     }
 
+
+    public event Action OnPopupCloseEvent;
+    public void PopupCloseCallback()
+    {
+        if (OnPopupCloseEvent != null)
+        {
+            OnPopupCloseEvent();
+            OnPopupCloseEvent = null;
+        }
+    }
 }

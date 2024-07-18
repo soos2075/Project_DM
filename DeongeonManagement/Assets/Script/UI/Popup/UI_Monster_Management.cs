@@ -279,10 +279,10 @@ public class UI_Monster_Management : UI_PopUp
 
         GetTMP(((int)Texts.Status)).text = $"HP : {Current.monster.HP} / {Current.monster.HP_Max}\n";
         GetTMP(((int)Texts.Status)).text +=
-            $"ATK : {Current.monster.ATK} {Util.SetTextColorTag($"(+{Current.monster.ATK_Bonus})", Define.TextColor.npc_red)}" +
-            $"\tDEF : {Current.monster.DEF} {Util.SetTextColorTag($"(+{Current.monster.DEF_Bonus})", Define.TextColor.npc_red)}" +
-            $"\nAGI : {Current.monster.AGI} {Util.SetTextColorTag($"(+{Current.monster.AGI_Bonus})", Define.TextColor.npc_red)}" +
-            $"\tLUK : {Current.monster.LUK} {Util.SetTextColorTag($"(+{Current.monster.LUK_Bonus})", Define.TextColor.npc_red)}";
+            $"ATK : {Current.monster.ATK} {Util.SetTextColorTag($"(+{Current.monster.B_ATK - Current.monster.ATK})", Define.TextColor.npc_red)}" +
+            $"\tDEF : {Current.monster.DEF} {Util.SetTextColorTag($"(+{Current.monster.B_DEF - Current.monster.DEF})", Define.TextColor.npc_red)}" +
+            $"\nAGI : {Current.monster.AGI} {Util.SetTextColorTag($"(+{Current.monster.B_AGI - Current.monster.AGI})", Define.TextColor.npc_red)}" +
+            $"\tLUK : {Current.monster.LUK} {Util.SetTextColorTag($"(+{Current.monster.B_LUK - Current.monster.LUK})", Define.TextColor.npc_red)}";
 
 
         //if (GameManager.Buff.CurrentBuff.Orb_red > 0)
@@ -492,7 +492,11 @@ public class UI_Monster_Management : UI_PopUp
     IEnumerator ShowAllFloor(Vector2Int[] vector2Ints, Action action)
     {
         Managers.UI.PausePopUp(this);
-        Managers.UI.ShowPopUpAlone<UI_DungeonPlacement>();
+        var dp = Managers.UI.ShowPopUpAlone<UI_DungeonPlacement>();
+
+        //? Å×½ºÆ®!
+        var letter = Managers.UI.ShowPopUpNonPush<UI_LetterBox>();
+        letter.SetBoxOption(UI_LetterBox.BoxOption.Monster, dp);
 
         yield return new WaitForEndOfFrame();
         yield return null;

@@ -771,6 +771,7 @@ public class Main : MonoBehaviour
                 TurnOverEvent();
                 NightEvent();
                 DayMonsterEvent();
+                GameManager.Monster.MonsterTurnOverEvent();
                 GameManager.Facility.TurnOverEvent();
                 EventManager.Instance.TurnOver();
                 UI_Main.Texts_Refresh();

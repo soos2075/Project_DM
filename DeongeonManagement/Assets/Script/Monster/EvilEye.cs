@@ -9,10 +9,14 @@ public class EvilEye : Monster
     public override void MonsterInit()
     {
         Data = GameManager.Monster.GetData("EvilEye");
+        Trait_Original();
     }
 
 
-
+    void Trait_Original()
+    {
+        AddTrait(new Trait.IronSkin());
+    }
 
 
 
