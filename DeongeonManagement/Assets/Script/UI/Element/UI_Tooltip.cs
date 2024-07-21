@@ -23,11 +23,14 @@ public class UI_Tooltip : UI_Base
     public string detail;
 
 
+    UI_TooltipBox.ShowPosition position;
 
-    public void SetTooltipContents(string _title, string _detail)
+
+    public void SetTooltipContents(string _title, string _detail, UI_TooltipBox.ShowPosition _position = UI_TooltipBox.ShowPosition.RightDown)
     {
         title = _title;
         detail = _detail;
+        position = _position;
     }
 
 
@@ -36,7 +39,7 @@ public class UI_Tooltip : UI_Base
         //Debug.Log(gameObject.name + "ShowTooltipBox");
 
         var ui = Managers.UI.ShowPopUpAlone<UI_TooltipBox>();
-        ui.Init_Tooltip(title, detail);
+        ui.Init_Tooltip(title, detail, position);
     }
 
     void TooltipBoxClose()

@@ -11,12 +11,14 @@ public class UI_TooltipBox : UI_PopUp
     //    Init();
     //}
 
-    public void Init_Tooltip(string name, string contents)
+    public void Init_Tooltip(string name, string contents, ShowPosition position = ShowPosition.RightDown)
     {
         SetCanvas();
         Init();
 
         ViewContents(contents);
+
+        BoxPosition = position;
     }
 
 
@@ -36,37 +38,34 @@ public class UI_TooltipBox : UI_PopUp
 
 
 
+    public enum ShowPosition
+    {
+        RightDown,
+        LeftUp,
+    }
+    ShowPosition BoxPosition;
+
 
     private void LateUpdate()
     {
-        //Debug.Log("###" + Input.mousePosition);
-        //Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
-        //Vector3 centeredMousePosition = Input.mousePosition - screenCenter;
-        //panel.localPosition = new Vector3(centeredMousePosition.x - 5, centeredMousePosition.y + 5, 0);
-
-
-        //? 스크린사이즈 테스트
         Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
         Vector3 centeredMousePosition = Input.mousePosition - screenCenter;
 
         float offset = (float)Screen.width / 1280f;
         centeredMousePosition /= offset;
 
-        //panel.localPosition = new Vector3(centeredMousePosition.x, centeredMousePosition.y);
-        panel.localPosition = new Vector3(centeredMousePosition.x + (57600 / Screen.width), centeredMousePosition.y - (32400 / Screen.height), 0);
-        //panel.localPosition = new Vector3(centeredMousePosition.x + 50, centeredMousePosition.y - 30, 0);
+        switch (BoxPosition)
+        {
+            case ShowPosition.RightDown:
+                panel.localPosition = new Vector3(centeredMousePosition.x + (57600 / Screen.width), centeredMousePosition.y - (32400 / Screen.height), 0);
+                break;
 
-        // 결과 출력
-        //Debug.Log(centeredMousePosition);
 
-        //? 툴팁박스 크기에 맞춰서 이미지 크기 변경 -> 피벗문제때문에 위치달려져서 기각
-        //GetObject((int)Contents.Contents).GetComponent<RectTransform>().sizeDelta =
-        //    new Vector2(text_Contents.preferredWidth, text_Contents.preferredHeight);
-
-        //GetObject((int)Contents.Panel).GetComponent<RectTransform>().sizeDelta =
-        //    new Vector2(text_Contents.preferredWidth, text_Contents.preferredHeight);
-
-        //? 만약 화면 바깥으로 벗어나면 안쪽에 표시되게 변경해야함
+            case ShowPosition.LeftUp:
+                panel.pivot = Vector2.right;
+                panel.localPosition = new Vector3(centeredMousePosition.x, centeredMousePosition.y, 0);
+                break;
+        }
     }
 
 

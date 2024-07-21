@@ -131,7 +131,7 @@ public class CollectionManager : MonoBehaviour
 
 
 
-    public CollectionUnitRegist<T> Get_Collection<T>(T SO_Data) where T : ScriptableObject
+    public CollectionUnitRegist<T> Get_Collection<T>(T SO_Data) where T : ScriptableObject, I_SO_Collection
     {
         foreach (var item in Register_Monster)
         {
@@ -343,7 +343,7 @@ public class CollectionManager : MonoBehaviour
     }
 
 
-    public class CollectionUnitRegist<T> where T : ScriptableObject
+    public class CollectionUnitRegist<T> where T : I_SO_Collection
     {
         public T unit;
 
@@ -532,9 +532,9 @@ public class Regist_Info
     }
     public Regist_Info(bool regist, int count, bool level1, bool level2, bool level3, bool level4, bool level5)
     {
-        UnlockPoint = count;
-
         isRegist = regist;
+
+        UnlockPoint = count;
 
         level_1_Unlock = level1;
         level_2_Unlock = level2;
@@ -549,23 +549,23 @@ public class Regist_Info
         {
             isRegist = true;
         }
-        else if (UnlockPoint > 5)
+        if (UnlockPoint > 5)
         {
             level_1_Unlock = true;
         }
-        else if (UnlockPoint > 15)
+        if (UnlockPoint > 15)
         {
             level_2_Unlock = true;
         }
-        else if (UnlockPoint > 30)
+        if (UnlockPoint > 30)
         {
             level_3_Unlock = true;
         }
-        else if (UnlockPoint > 50)
+        if (UnlockPoint > 50)
         {
             level_4_Unlock = true;
         }
-        else if (UnlockPoint > 100)
+        if (UnlockPoint > 100)
         {
             level_5_Unlock = true;
         }

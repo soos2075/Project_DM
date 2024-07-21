@@ -36,6 +36,8 @@ public class Slime : Monster
         GameManager.Monster.ChangeSLA(this, "BloodyJelly");
 
         GameManager.Monster.Regist_Evolution("Slime");
+
+        Trait_Original();
     }
 
 

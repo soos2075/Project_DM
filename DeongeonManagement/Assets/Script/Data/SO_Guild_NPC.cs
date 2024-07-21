@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SO_Guild_NPC", menuName = "SO_Guild_NPC")]
+//[CreateAssetMenu(fileName = "SO_Guild_NPC", menuName = "SO_Guild_NPC")]
 public class SO_Guild_NPC : ScriptableObject
 {
 

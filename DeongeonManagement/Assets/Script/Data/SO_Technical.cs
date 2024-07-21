@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 //[CreateAssetMenu(fileName = "Data", menuName = "SO_Data")]
-public class SO_Technical : ScriptableObject
+public class SO_Technical : ScriptableObject, I_SO_Collection
 {
     [Header("Default")]
     public int id;

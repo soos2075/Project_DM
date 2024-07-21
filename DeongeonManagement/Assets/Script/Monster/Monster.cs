@@ -151,6 +151,15 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
         EvolutionState = _LoadData.Evolution;
         BattlePoint_Count = _LoadData.BattleCount;
         BattlePoint_Rank = _LoadData.BattlePoint;
+
+        if (_LoadData.traitCounter != null)
+        {
+            traitCounter = _LoadData.traitCounter;
+            traitCounter.monster = this;
+        }
+        LoadTraitList(_LoadData.currentTraitList);
+
+        Debug.Log($"ÈÆ·ÃÄ«¿îÆ® : {traitCounter.TrainingCounter}");
     }
 
     #endregion
@@ -209,6 +218,11 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
     }
 
     #endregion
+
+
+
+
+
 
 
 
@@ -283,6 +297,145 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
             return 0;
         }
     }
+
+
+    #region Trait_SaveData
+
+    public class TraitCounter
+    {
+        public int BattleCounter;
+        public int TrainingCounter;
+        public int InjuryCounter;
+        public int KillCounter;
+
+        public int PlacementDays;
+        public int StandbyDays;
+
+
+        [Newtonsoft.Json.JsonIgnore]
+        public Monster monster;
+
+
+
+        public void AddBattleCounter()
+        {
+            BattleCounter++;
+            if (BattleCounter >= 10 && monster.Data.TraitableList.Contains(TraitGroup.VeteranC))
+            {
+                monster.AddTrait(TraitGroup.VeteranC);
+            }
+            if (BattleCounter >= 15 && monster.Data.TraitableList.Contains(TraitGroup.VeteranB))
+            {
+                monster.AddTrait(TraitGroup.VeteranB);
+            }
+            if (BattleCounter >= 20 && monster.Data.TraitableList.Contains(TraitGroup.VeteranA))
+            {
+                monster.AddTrait(TraitGroup.VeteranA);
+            }
+        }
+
+        public void AddTrainingCounter()
+        {
+            TrainingCounter++;
+            if (TrainingCounter >= 5 && monster.Data.TraitableList.Contains(TraitGroup.EliteC))
+            {
+                monster.AddTrait(TraitGroup.EliteC);
+            }
+            if (TrainingCounter >= 10 && monster.Data.TraitableList.Contains(TraitGroup.EliteB))
+            {
+                monster.AddTrait(TraitGroup.EliteB);
+            }
+            if (TrainingCounter >= 15 && monster.Data.TraitableList.Contains(TraitGroup.EliteA))
+            {
+                monster.AddTrait(TraitGroup.EliteA);
+            }
+        }
+
+        public void AddInjuryCounter()
+        {
+            InjuryCounter++;
+            if (InjuryCounter >= 3 && monster.Data.TraitableList.Contains(TraitGroup.ShirkingC))
+            {
+                monster.AddTrait(TraitGroup.ShirkingC);
+            }
+            if (InjuryCounter >= 4 && monster.Data.TraitableList.Contains(TraitGroup.ShirkingB))
+            {
+                monster.AddTrait(TraitGroup.ShirkingB);
+            }
+            if (InjuryCounter >= 5 && monster.Data.TraitableList.Contains(TraitGroup.ShirkingA))
+            {
+                monster.AddTrait(TraitGroup.ShirkingA);
+            }
+        }
+        public void AddKillCounter()
+        {
+            KillCounter++;            
+            if (KillCounter >= 10 && monster.Data.TraitableList.Contains(TraitGroup.RuthlessC))
+            {
+                monster.AddTrait(TraitGroup.RuthlessC);
+            }
+            if (KillCounter >= 15 && monster.Data.TraitableList.Contains(TraitGroup.RuthlessB))
+            {
+                monster.AddTrait(TraitGroup.RuthlessB);
+            }
+            if (KillCounter >= 20 && monster.Data.TraitableList.Contains(TraitGroup.RuthlessA))
+            {
+                monster.AddTrait(TraitGroup.RuthlessA);
+            }
+        }
+        public void AddPlacementDays()
+        {
+            StandbyDays = 0;
+            PlacementDays++;
+            if (PlacementDays >= 4 && monster.Data.TraitableList.Contains(TraitGroup.SurvivabilityC))
+            {
+                monster.AddTrait(TraitGroup.SurvivabilityC);
+            }
+            if (PlacementDays >= 7 && monster.Data.TraitableList.Contains(TraitGroup.SurvivabilityB))
+            {
+                monster.AddTrait(TraitGroup.SurvivabilityB);
+            }
+            if (PlacementDays >= 10 && monster.Data.TraitableList.Contains(TraitGroup.SurvivabilityA))
+            {
+                monster.AddTrait(TraitGroup.SurvivabilityA);
+            }
+            if (PlacementDays >= 15 && monster.Data.TraitableList.Contains(TraitGroup.SurvivabilityS))
+            {
+                monster.AddTrait(TraitGroup.SurvivabilityS);
+            }
+        }
+        public void AddStandbyDays()
+        {
+            PlacementDays = 0;
+            StandbyDays++;
+            if (StandbyDays >= 3 && monster.Data.TraitableList.Contains(TraitGroup.DiscreetC))
+            {
+                monster.AddTrait(TraitGroup.DiscreetC);
+            }
+            if (StandbyDays >= 6 && monster.Data.TraitableList.Contains(TraitGroup.DiscreetB))
+            {
+                monster.AddTrait(TraitGroup.DiscreetB);
+            }
+            if (StandbyDays >= 9 && monster.Data.TraitableList.Contains(TraitGroup.DiscreetA))
+            {
+                monster.AddTrait(TraitGroup.DiscreetA);
+            }
+        }
+    }
+
+    public TraitCounter traitCounter { get; set; }
+
+
+    public void Init_TraitCounter()
+    {
+        if (traitCounter == null)
+        {
+            traitCounter = new TraitCounter();
+            traitCounter.monster = this;
+        }
+    }
+
+    #endregion
 
 
 
@@ -431,6 +584,9 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
 
     public void LoadTraitList(List<int> loadData)
     {
+        if (loadData == null) return;
+
+
         foreach (var item in loadData)
         {
             AddTrait((TraitGroup)item);
@@ -472,6 +628,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
         def_chance = Data.up_def;
         agi_chance = Data.up_agi;
         luk_chance = Data.up_luk;
+
+        Init_TraitCounter();
     }
 
 
@@ -484,11 +642,14 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
         switch (State)
         {
             case MonsterState.Standby:
+                traitCounter.AddStandbyDays();
                 break;
 
             case MonsterState.Placement:
                 MoveSelf();
                 HP = HP_Max;
+
+                traitCounter.AddPlacementDays();
                 break;
 
             case MonsterState.Injury:
@@ -767,6 +928,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
     IEnumerator BattleWait(NPC npc)
     {
         //BattleStateCor = StartCoroutine(BattleStateBusy());
+        traitCounter.AddBattleCounter();
 
         BattleCount++;
         SetState_BattleCount(BattleCount);
@@ -831,6 +993,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
             case BattleField.BattleResult.NPC_Die:
                 UI_EventBox.AddEventText($"¡Ú{floorName} - {Name_Color} {UserData.Instance.LocaleText("Battle_Win")}");
                 GetBattlePoint(npc.Rank * 2);
+
+                traitCounter.AddKillCounter();
 
                 if (TraitCheck(TraitGroup.Predation))
                 {
@@ -983,6 +1147,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
         BattlePoint_Rank = 0;
         BattlePoint_Count = 0;
         GameManager.Monster.InjuryMonster++;
+
+        traitCounter.AddInjuryCounter();
     }
 
 
@@ -1028,6 +1194,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
         Debug.Log($"{Name_Color} ÈÆ·ÃÁøÇà");
         LevelUpEvent(LevelUpEventType.Training);
         LevelUp(true); ;
+
+        traitCounter.AddTrainingCounter();
     }
 
     public void LevelUp(bool _showPopup)

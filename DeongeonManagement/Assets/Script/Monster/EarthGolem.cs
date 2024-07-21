@@ -31,6 +31,8 @@ public class EarthGolem : Monster
         GameManager.Monster.ChangeSLA(this, "FlameGolem");
 
         GameManager.Monster.Regist_Evolution("EarthGolem");
+
+        Trait_Original();
     }
     IEnumerator Init_Evolution()
     {

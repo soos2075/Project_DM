@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //[CreateAssetMenu(fileName = "SO_Data", menuName = "SO_Ending")]
-public class SO_Ending : ScriptableObject
+public class SO_Ending : ScriptableObject, I_SO_Collection
 {
     [Header("Default")]
     public int id;

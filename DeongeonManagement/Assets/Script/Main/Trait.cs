@@ -51,12 +51,55 @@ public class Trait
 
 
     }
-    public class ToughnessTrait : ITrait
+    //public class ToughnessTrait : ITrait
+    //{
+    //    public TraitGroup ID { get; } = TraitGroup.ToughnessTrait;
+    //    public int ApplyHP(int current)
+    //    {
+    //        return current *= 200;
+    //    }
+    //    public int ApplyHP_Max(int current)
+    //    {
+    //        return 0;
+    //    }
+    //    public int ApplyATK(int current)
+    //    {
+    //        return 0;
+    //    }
+    //    public int ApplyDEF(int current)
+    //    {
+    //        return 0;
+    //    }
+    //    public int ApplyAGI(int current)
+    //    {
+    //        return 0;
+    //    }
+    //    public int ApplyLUK(int current)
+    //    {
+    //        return 0;
+    //    }
+
+    //    public void DoSomething()
+    //    {
+
+    //    }
+    //    public int GetSomething<T>(T current)
+    //    {
+    //        return 0;
+    //    }
+
+    //    public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
+    //    {
+    //        return current as T1;
+    //    }
+    //}
+
+    public class EliteC : ITrait
     {
-        public TraitGroup ID { get; } = TraitGroup.ToughnessTrait;
+        public TraitGroup ID { get; } = TraitGroup.EliteC;
         public int ApplyHP(int current)
         {
-            return current *= 200;
+            return 0;
         }
         public int ApplyHP_Max(int current)
         {
@@ -92,9 +135,806 @@ public class Trait
         {
             return current as T1;
         }
+
+
+    }
+    public class EliteB : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.EliteB;
+        public int ApplyHP(int current)
+        {
+            return 0;
+        }
+        public int ApplyHP_Max(int current)
+        {
+            return 0;
+        }
+        public int ApplyATK(int current)
+        {
+            return 0;
+        }
+        public int ApplyDEF(int current)
+        {
+            return 0;
+        }
+        public int ApplyAGI(int current)
+        {
+            return 0;
+        }
+        public int ApplyLUK(int current)
+        {
+            return 0;
+        }
+
+        public void DoSomething()
+        {
+
+        }
+        public int GetSomething<T>(T current)
+        {
+            return 0;
+        }
+
+        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
+        {
+            return current as T1;
+        }
+
+
+    }
+    public class EliteA : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.EliteA;
+        public int ApplyHP(int current)
+        {
+            return 0;
+        }
+        public int ApplyHP_Max(int current)
+        {
+            return 0;
+        }
+        public int ApplyATK(int current)
+        {
+            return 0;
+        }
+        public int ApplyDEF(int current)
+        {
+            return 0;
+        }
+        public int ApplyAGI(int current)
+        {
+            return 0;
+        }
+        public int ApplyLUK(int current)
+        {
+            return 0;
+        }
+
+        public void DoSomething()
+        {
+
+        }
+        public int GetSomething<T>(T current)
+        {
+            return 0;
+        }
+
+        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
+        {
+            return current as T1;
+        }
+
+
     }
 
+    public class VeteranC : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.VeteranC;
+        public int ApplyHP(int current)
+        {
+            return 0;
+        }
+        public int ApplyHP_Max(int current)
+        {
+            return 0;
+        }
+        public int ApplyATK(int current)
+        {
+            return 0;
+        }
+        public int ApplyDEF(int current)
+        {
+            return 0;
+        }
+        public int ApplyAGI(int current)
+        {
+            return 0;
+        }
+        public int ApplyLUK(int current)
+        {
+            return 0;
+        }
 
+        public void DoSomething()
+        {
+
+        }
+        public int GetSomething<T>(T current)
+        {
+            return 0;
+        }
+
+        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
+        {
+            return current as T1;
+        }
+
+
+    }
+    public class VeteranB : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.VeteranB;
+        public int ApplyHP(int current)
+        {
+            return 0;
+        }
+        public int ApplyHP_Max(int current)
+        {
+            return 0;
+        }
+        public int ApplyATK(int current)
+        {
+            return 0;
+        }
+        public int ApplyDEF(int current)
+        {
+            return 0;
+        }
+        public int ApplyAGI(int current)
+        {
+            return 0;
+        }
+        public int ApplyLUK(int current)
+        {
+            return 0;
+        }
+
+        public void DoSomething()
+        {
+
+        }
+        public int GetSomething<T>(T current)
+        {
+            return 0;
+        }
+
+        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
+        {
+            return current as T1;
+        }
+
+
+    }
+    public class VeteranA : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.VeteranA;
+        public int ApplyHP(int current)
+        {
+            return 0;
+        }
+        public int ApplyHP_Max(int current)
+        {
+            return 0;
+        }
+        public int ApplyATK(int current)
+        {
+            return 0;
+        }
+        public int ApplyDEF(int current)
+        {
+            return 0;
+        }
+        public int ApplyAGI(int current)
+        {
+            return 0;
+        }
+        public int ApplyLUK(int current)
+        {
+            return 0;
+        }
+
+        public void DoSomething()
+        {
+
+        }
+        public int GetSomething<T>(T current)
+        {
+            return 0;
+        }
+
+        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
+        {
+            return current as T1;
+        }
+
+
+    }
+
+    public class ShirkingC : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.ShirkingC;
+        public int ApplyHP(int current)
+        {
+            return 0;
+        }
+        public int ApplyHP_Max(int current)
+        {
+            return 0;
+        }
+        public int ApplyATK(int current)
+        {
+            return 0;
+        }
+        public int ApplyDEF(int current)
+        {
+            return 0;
+        }
+        public int ApplyAGI(int current)
+        {
+            return 0;
+        }
+        public int ApplyLUK(int current)
+        {
+            return 0;
+        }
+
+        public void DoSomething()
+        {
+
+        }
+        public int GetSomething<T>(T current)
+        {
+            return 0;
+        }
+
+        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
+        {
+            return current as T1;
+        }
+
+
+    }
+    public class ShirkingB : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.ShirkingB;
+        public int ApplyHP(int current)
+        {
+            return 0;
+        }
+        public int ApplyHP_Max(int current)
+        {
+            return 0;
+        }
+        public int ApplyATK(int current)
+        {
+            return 0;
+        }
+        public int ApplyDEF(int current)
+        {
+            return 0;
+        }
+        public int ApplyAGI(int current)
+        {
+            return 0;
+        }
+        public int ApplyLUK(int current)
+        {
+            return 0;
+        }
+
+        public void DoSomething()
+        {
+
+        }
+        public int GetSomething<T>(T current)
+        {
+            return 0;
+        }
+
+        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
+        {
+            return current as T1;
+        }
+
+
+    }
+    public class ShirkingA : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.ShirkingA;
+        public int ApplyHP(int current)
+        {
+            return 0;
+        }
+        public int ApplyHP_Max(int current)
+        {
+            return 0;
+        }
+        public int ApplyATK(int current)
+        {
+            return 0;
+        }
+        public int ApplyDEF(int current)
+        {
+            return 0;
+        }
+        public int ApplyAGI(int current)
+        {
+            return 0;
+        }
+        public int ApplyLUK(int current)
+        {
+            return 0;
+        }
+
+        public void DoSomething()
+        {
+
+        }
+        public int GetSomething<T>(T current)
+        {
+            return 0;
+        }
+
+        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
+        {
+            return current as T1;
+        }
+
+
+    }
+
+    public class SurvivabilityC : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.SurvivabilityC;
+        public int ApplyHP(int current)
+        {
+            return 0;
+        }
+        public int ApplyHP_Max(int current)
+        {
+            return 0;
+        }
+        public int ApplyATK(int current)
+        {
+            return 0;
+        }
+        public int ApplyDEF(int current)
+        {
+            return 0;
+        }
+        public int ApplyAGI(int current)
+        {
+            return 0;
+        }
+        public int ApplyLUK(int current)
+        {
+            return 0;
+        }
+
+        public void DoSomething()
+        {
+
+        }
+        public int GetSomething<T>(T current)
+        {
+            return 0;
+        }
+
+        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
+        {
+            return current as T1;
+        }
+
+
+    }
+    public class SurvivabilityB : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.SurvivabilityB;
+        public int ApplyHP(int current)
+        {
+            return 0;
+        }
+        public int ApplyHP_Max(int current)
+        {
+            return 0;
+        }
+        public int ApplyATK(int current)
+        {
+            return 0;
+        }
+        public int ApplyDEF(int current)
+        {
+            return 0;
+        }
+        public int ApplyAGI(int current)
+        {
+            return 0;
+        }
+        public int ApplyLUK(int current)
+        {
+            return 0;
+        }
+
+        public void DoSomething()
+        {
+
+        }
+        public int GetSomething<T>(T current)
+        {
+            return 0;
+        }
+
+        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
+        {
+            return current as T1;
+        }
+
+
+    }
+    public class SurvivabilityA : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.SurvivabilityA;
+        public int ApplyHP(int current)
+        {
+            return 0;
+        }
+        public int ApplyHP_Max(int current)
+        {
+            return 0;
+        }
+        public int ApplyATK(int current)
+        {
+            return 0;
+        }
+        public int ApplyDEF(int current)
+        {
+            return 0;
+        }
+        public int ApplyAGI(int current)
+        {
+            return 0;
+        }
+        public int ApplyLUK(int current)
+        {
+            return 0;
+        }
+
+        public void DoSomething()
+        {
+
+        }
+        public int GetSomething<T>(T current)
+        {
+            return 0;
+        }
+
+        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
+        {
+            return current as T1;
+        }
+
+
+    }
+    public class SurvivabilityS : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.SurvivabilityS;
+        public int ApplyHP(int current)
+        {
+            return 0;
+        }
+        public int ApplyHP_Max(int current)
+        {
+            return 0;
+        }
+        public int ApplyATK(int current)
+        {
+            return 0;
+        }
+        public int ApplyDEF(int current)
+        {
+            return 0;
+        }
+        public int ApplyAGI(int current)
+        {
+            return 0;
+        }
+        public int ApplyLUK(int current)
+        {
+            return 0;
+        }
+
+        public void DoSomething()
+        {
+
+        }
+        public int GetSomething<T>(T current)
+        {
+            return 0;
+        }
+
+        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
+        {
+            return current as T1;
+        }
+
+
+    }
+
+    public class DiscreetC : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.DiscreetC;
+        public int ApplyHP(int current)
+        {
+            return 0;
+        }
+        public int ApplyHP_Max(int current)
+        {
+            return 0;
+        }
+        public int ApplyATK(int current)
+        {
+            return 0;
+        }
+        public int ApplyDEF(int current)
+        {
+            return 0;
+        }
+        public int ApplyAGI(int current)
+        {
+            return 0;
+        }
+        public int ApplyLUK(int current)
+        {
+            return 0;
+        }
+
+        public void DoSomething()
+        {
+
+        }
+        public int GetSomething<T>(T current)
+        {
+            return 0;
+        }
+
+        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
+        {
+            return current as T1;
+        }
+
+
+    }
+    public class DiscreetB : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.DiscreetB;
+        public int ApplyHP(int current)
+        {
+            return 0;
+        }
+        public int ApplyHP_Max(int current)
+        {
+            return 0;
+        }
+        public int ApplyATK(int current)
+        {
+            return 0;
+        }
+        public int ApplyDEF(int current)
+        {
+            return 0;
+        }
+        public int ApplyAGI(int current)
+        {
+            return 0;
+        }
+        public int ApplyLUK(int current)
+        {
+            return 0;
+        }
+
+        public void DoSomething()
+        {
+
+        }
+        public int GetSomething<T>(T current)
+        {
+            return 0;
+        }
+
+        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
+        {
+            return current as T1;
+        }
+
+
+    }
+    public class DiscreetA : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.DiscreetA;
+        public int ApplyHP(int current)
+        {
+            return 0;
+        }
+        public int ApplyHP_Max(int current)
+        {
+            return 0;
+        }
+        public int ApplyATK(int current)
+        {
+            return 0;
+        }
+        public int ApplyDEF(int current)
+        {
+            return 0;
+        }
+        public int ApplyAGI(int current)
+        {
+            return 0;
+        }
+        public int ApplyLUK(int current)
+        {
+            return 0;
+        }
+
+        public void DoSomething()
+        {
+
+        }
+        public int GetSomething<T>(T current)
+        {
+            return 0;
+        }
+
+        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
+        {
+            return current as T1;
+        }
+
+
+    }
+
+    public class RuthlessC : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.RuthlessC;
+        public int ApplyHP(int current)
+        {
+            return 0;
+        }
+        public int ApplyHP_Max(int current)
+        {
+            return 0;
+        }
+        public int ApplyATK(int current)
+        {
+            return 0;
+        }
+        public int ApplyDEF(int current)
+        {
+            return 0;
+        }
+        public int ApplyAGI(int current)
+        {
+            return 0;
+        }
+        public int ApplyLUK(int current)
+        {
+            return 0;
+        }
+
+        public void DoSomething()
+        {
+
+        }
+        public int GetSomething<T>(T current)
+        {
+            return 0;
+        }
+
+        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
+        {
+            return current as T1;
+        }
+
+
+    }
+    public class RuthlessB : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.RuthlessB;
+        public int ApplyHP(int current)
+        {
+            return 0;
+        }
+        public int ApplyHP_Max(int current)
+        {
+            return 0;
+        }
+        public int ApplyATK(int current)
+        {
+            return 0;
+        }
+        public int ApplyDEF(int current)
+        {
+            return 0;
+        }
+        public int ApplyAGI(int current)
+        {
+            return 0;
+        }
+        public int ApplyLUK(int current)
+        {
+            return 0;
+        }
+
+        public void DoSomething()
+        {
+
+        }
+        public int GetSomething<T>(T current)
+        {
+            return 0;
+        }
+
+        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
+        {
+            return current as T1;
+        }
+
+
+    }
+    public class RuthlessA : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.RuthlessA;
+        public int ApplyHP(int current)
+        {
+            return 0;
+        }
+        public int ApplyHP_Max(int current)
+        {
+            return 0;
+        }
+        public int ApplyATK(int current)
+        {
+            return 0;
+        }
+        public int ApplyDEF(int current)
+        {
+            return 0;
+        }
+        public int ApplyAGI(int current)
+        {
+            return 0;
+        }
+        public int ApplyLUK(int current)
+        {
+            return 0;
+        }
+
+        public void DoSomething()
+        {
+
+        }
+        public int GetSomething<T>(T current)
+        {
+            return 0;
+        }
+
+        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
+        {
+            return current as T1;
+        }
+
+
+    }
 
     #endregion
 
@@ -439,12 +1279,17 @@ public interface ITrait
     public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object;
 }
 
+public enum TraitRating
+{
+    Normal = 0,
+    Original = 1,
+    Battle = 2,
+}
+
 public enum TraitGroup
 {
     //? 아무효과없음
     Nothing = 0,
-
-
 
     //? ㅡㅡㅡㅡㅡㅡㅡ 노말특성 - 나중에 생기거나 할 수 있음
 
@@ -452,11 +1297,43 @@ public enum TraitGroup
     ToughnessTrait = 101,
 
 
-    //? 전투보너스 : 전투횟수에 따라 스탯보너스 / 해당 특성은 하나만 가질 수 있음
-    //? 숙련자 : 전투횟수 20번이상 : 모든 스탯 +1
-    //? 베테랑 : 전투횟수 50번이상 : 모든 스탯 +2
-    //? 전투광 : 전투횟수 100번이상 : 모든 스탯 +3
+    //? 베테랑 Veteran  : 전투횟수 10/15/20 이상 : 올스탯 +1,2,3
+    VeteranC = 201,
+    VeteranB = 202,
+    VeteranA = 203,
 
+
+    //? 엘리트 Elite  : 훈련횟수 5/10/15번 이상 : 레벨업시 스탯 상승률 up
+    EliteC = 301,
+    EliteB = 302,
+    EliteA = 303,
+
+
+    //? 꾀병, Shirking,  : 부상횟수 3/4/5회 이상 : 부상회복마나 감소 : 10 20 30
+    ShirkingC = 401,
+    ShirkingB = 402,
+    ShirkingA = 403,
+
+
+    //? 생존력, Survivability,  : 배치 후 부상당하지 않고 4/7/10/15일이상 경과 : 체력 보너스 : 15, 30, 50, 부상무시(피0되면 퇴각 후 피1)
+    SurvivabilityC = 501,
+    SurvivabilityB = 502,
+    SurvivabilityA = 503,
+    SurvivabilityS = 504,
+
+
+    //? 신중함 Discreet  : 배치하지 않고 3/6/9일이상 경과 : 전투시 획득 경험치 +20, 40, 60
+    DiscreetC = 601,
+    DiscreetB = 602,
+    DiscreetA = 603,
+
+
+    //? 무자비 Ruthless  : 적 처치수 10/15/20 이상 : ATK +3,6,9
+    RuthlessC = 701,
+    RuthlessB = 702,
+    RuthlessA = 703,
+
+    
 
 
 

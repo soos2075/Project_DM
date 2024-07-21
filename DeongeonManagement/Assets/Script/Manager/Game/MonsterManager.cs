@@ -414,6 +414,12 @@ public class Save_MonsterData
     public string spritePath;
 
 
+    //? 몬스터 기록 데이터(특성용으로 쓰는데 도감용으로 써도 무방할듯)
+    public Monster.TraitCounter traitCounter;
+
+    //? 특성리스트
+    public List<int> currentTraitList;
+
     public void SetData(Monster monster)
     {
         PrefabPath = monster.Data.prefabPath;
@@ -451,6 +457,9 @@ public class Save_MonsterData
 
         savedName = monster.Data.labelName;
         spritePath = monster.Data.spritePath;
+
+        traitCounter = monster.traitCounter;
+        currentTraitList = monster.SaveTraitList();
     }
 }
 

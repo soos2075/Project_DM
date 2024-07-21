@@ -25,6 +25,8 @@ public class UI_Monster_Management : UI_PopUp
         GridPanel,
         ButtonPanel,
         ProfilePanel,
+        TraitPanel,
+
         FloorPanel,
 
         CommandPanel,
@@ -38,7 +40,7 @@ public class UI_Monster_Management : UI_PopUp
         Lv,
         Name,
         Status,
-        State,
+        //State,
         DetailInfo,
     }
     enum Etc
@@ -74,6 +76,7 @@ public class UI_Monster_Management : UI_PopUp
         Init_Panels();
         CreateMonsterBox();
         Init_CommandButton();
+
         PanelClear();
     }
 
@@ -85,7 +88,6 @@ public class UI_Monster_Management : UI_PopUp
     }
     public UI_Type Type { get; set; }
 
-
     void Init_Panels()
     {
         GetImage(((int)Panels.ClosePanel)).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.LeftClick);
@@ -94,6 +96,7 @@ public class UI_Monster_Management : UI_PopUp
 
         GetObject((int)Etc.Return).gameObject.AddUIEvent(data => CloseAll());
     }
+
 
     void PanelClear()
     {
@@ -272,13 +275,13 @@ public class UI_Monster_Management : UI_PopUp
     {
         if (Current == null || Current.monster == null) return;
 
-        GetImage(((int)Panels.ProfilePanel)).gameObject.SetActive(true);
+        GetImage((int)Panels.ProfilePanel).gameObject.SetActive(true);
 
-        GetTMP(((int)Texts.Lv)).text = $"Lv.{Current.monster.LV} / {Current.monster.Data.maxLv}";
-        GetTMP(((int)Texts.Name)).text = Current.monster.Name_Color;
+        GetTMP((int)Texts.Lv).text = $"Lv.{Current.monster.LV} / {Current.monster.Data.maxLv}";
+        GetTMP((int)Texts.Name).text = Current.monster.Name_Color;
 
-        GetTMP(((int)Texts.Status)).text = $"HP : {Current.monster.HP} / {Current.monster.HP_Max}\n";
-        GetTMP(((int)Texts.Status)).text +=
+        GetTMP((int)Texts.Status).text = $"HP : {Current.monster.HP} / {Current.monster.HP_Max}\n";
+        GetTMP((int)Texts.Status).text +=
             $"ATK : {Current.monster.ATK} {Util.SetTextColorTag($"(+{Current.monster.B_ATK - Current.monster.ATK})", Define.TextColor.npc_red)}" +
             $"\tDEF : {Current.monster.DEF} {Util.SetTextColorTag($"(+{Current.monster.B_DEF - Current.monster.DEF})", Define.TextColor.npc_red)}" +
             $"\nAGI : {Current.monster.AGI} {Util.SetTextColorTag($"(+{Current.monster.B_AGI - Current.monster.AGI})", Define.TextColor.npc_red)}" +
@@ -296,7 +299,21 @@ public class UI_Monster_Management : UI_PopUp
         //}
 
 
-        GetTMP(((int)Texts.State)).text = $"{Current.monster.Data.evolutionHint}";
+        // GetTMP(((int)Texts.State)).text = $"{Current.monster.Data.evolutionHint}";
+        var TraitPanel = GetImage((int)Panels.TraitPanel).transform;
+        //? 특성 초기화
+        for (int i = TraitPanel.childCount - 1; i >= 0; i--)
+        {
+            Managers.Resource.Destroy(TraitPanel.GetChild(i).gameObject);
+        }
+        //? 특성 새로추가
+        for (int i = 0; i < Current.monster.TraitList.Count; i++)
+        {
+            GameManager.Trait.CreateTraitBar(Current.monster.TraitList[i].ID, TraitPanel);
+        }
+        
+
+
 
         GetObject(((int)Etc.Profile)).GetComponent<Image>().sprite = Managers.Sprite.GetSprite(Current.monster.Data.spritePath);
     }
@@ -311,13 +328,13 @@ public class UI_Monster_Management : UI_PopUp
         GetButton(((int)Buttons.Command_Attack)).gameObject.AddUIEvent(data => ChangeMoveMode(Monster.MoveType.Attack));
 
         var fix = GetButton(((int)Buttons.Command_Fixed)).gameObject.GetOrAddComponent<UI_Tooltip>();
-        fix.SetTooltipContents("", UserData.Instance.LocaleText_Tooltip("Command_Fixed"));
+        fix.SetTooltipContents("", UserData.Instance.LocaleText_Tooltip("Command_Fixed"), UI_TooltipBox.ShowPosition.LeftUp);
 
         var wander = GetButton(((int)Buttons.Command_Wander)).gameObject.GetOrAddComponent<UI_Tooltip>();
-        wander.SetTooltipContents("", UserData.Instance.LocaleText_Tooltip("Command_Wander"));
+        wander.SetTooltipContents("", UserData.Instance.LocaleText_Tooltip("Command_Wander"), UI_TooltipBox.ShowPosition.LeftUp);
 
         var attack = GetButton(((int)Buttons.Command_Attack)).gameObject.GetOrAddComponent<UI_Tooltip>();
-        attack.SetTooltipContents("", UserData.Instance.LocaleText_Tooltip("Command_Attack"));
+        attack.SetTooltipContents("", UserData.Instance.LocaleText_Tooltip("Command_Attack"), UI_TooltipBox.ShowPosition.LeftUp);
     }
 
     void ChangeMoveMode(Monster.MoveType _mode)
@@ -374,6 +391,7 @@ public class UI_Monster_Management : UI_PopUp
     }
     IEnumerator RefreshAll()
     {
+        yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
         Debug.Log("창 새로고침");
         GetTMP((int)Texts.DetailInfo).text = $"{UserData.Instance.LocaleText("AP")} : {Main.Instance.Player_AP}";

@@ -1399,3 +1399,16 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat
 
 
 }
+public enum NPCGroup
+{
+    Herbalist = 10,
+    Miner = 20,
+    Adventurer = 30,
+    Elf = 40,
+    Wizard = 50,
+
+
+
+    EventNPC = 1000,
+    QuestHunter = 2000,
+}

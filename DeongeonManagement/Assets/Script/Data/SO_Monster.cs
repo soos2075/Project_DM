@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //[CreateAssetMenu(fileName = "MonsterData", menuName = "SO_Monster")]
-public class SO_Monster : ScriptableObject
+public class SO_Monster : ScriptableObject, I_SO_Collection
 {
 
     [Header("Default")]
@@ -47,4 +47,8 @@ public class SO_Monster : ScriptableObject
     public string detail;
     public string evolutionHint;
     public string evolutionDetail;
+
+
+    [Header("Trait")]
+    public List<TraitGroup> TraitableList;
 }

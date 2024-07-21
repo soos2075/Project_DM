@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     TechnicalManager _technical = new TechnicalManager();
     MonsterManager _monster = new MonsterManager();
     NPCManager _npc = new NPCManager();
+    TraitManager _trait = new TraitManager();
     PixelHeroManager _pixel = new PixelHeroManager();
     BuffManager _buff = new BuffManager();
 
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
     public static TechnicalManager Technical { get { return Instance._technical; } }
     public static MonsterManager Monster { get { return Instance._monster; } }
     public static NPCManager NPC { get { return Instance._npc; } }
+    public static TraitManager Trait { get { return Instance._trait; } }
     public static PixelHeroManager Pixel { get { return Instance._pixel; } }
     public static BuffManager Buff { get { return Instance._buff; } }
 
@@ -55,6 +57,7 @@ public class GameManager : MonoBehaviour
         _technical.Init();
         _monster.Init();
         _npc.Init();
+        _trait.Init();
         _pixel.Init();
         _buff.Init();
     }

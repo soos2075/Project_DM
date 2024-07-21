@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //[CreateAssetMenu(fileName = "NPCData", menuName = "SO_NPC")]
-public class SO_NPC : ScriptableObject
+public class SO_NPC : ScriptableObject, I_SO_Collection
 {
     [Header("Default")]
     public int id;

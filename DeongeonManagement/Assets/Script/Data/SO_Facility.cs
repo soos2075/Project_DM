@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //[CreateAssetMenu(fileName = "FacilityData", menuName = "SO_Facility")]
-public class SO_Facility : ScriptableObject
+public class SO_Facility : ScriptableObject, I_SO_Collection
 {
     [Header("Default")]
     public int id;

@@ -32,6 +32,13 @@ public interface I_BattleStat
 
 
 
+//? Collection용 SO 데이터
+public interface I_SO_Collection
+{
+    //T GetData<T>() where T : ScriptableObject;
+}
+
+
 //? Basement에 배치가 가능한 오브젝트
 public interface IPlacementable
 {
