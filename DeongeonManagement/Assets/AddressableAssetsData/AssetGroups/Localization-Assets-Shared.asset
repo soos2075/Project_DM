@@ -25,6 +25,10 @@ MonoBehaviour:
     m_Address: Assets/Locale/Table/UI_Tooltip Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
+  - m_GUID: 7560aa3ef6a5e1f49ad695a58c5f1983
+    m_Address: Assets/Locale/Table/Label Group Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: ee98e609717972e4589234052e5caa8a, type: 2}
   m_SchemaSet:

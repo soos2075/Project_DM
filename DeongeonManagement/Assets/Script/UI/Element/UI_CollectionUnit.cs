@@ -37,7 +37,7 @@ public class UI_CollectionUnit : UI_Base
 
     void SelectUnit()
     {
-        Debug.Log("클릭이야");
+        //Debug.Log("클릭이야");
         mainUI.Clear_ShowBox();
 
         if (Data_Monster != null)

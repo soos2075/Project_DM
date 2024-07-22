@@ -85,6 +85,11 @@ public class CollectionManager : MonoBehaviour
         Array.Sort(NpcData, (a, b) => a.id.CompareTo(b.id));
         Array.Sort(TechnicalData, (a, b) => a.id.CompareTo(b.id));
         Array.Sort(EndingData, (a, b) => a.id.CompareTo(b.id));
+
+        foreach (var mon in MonsterData)
+        {
+            mon.TraitableList.Sort((a, b) => a.CompareTo(b));
+        }
     }
 
 

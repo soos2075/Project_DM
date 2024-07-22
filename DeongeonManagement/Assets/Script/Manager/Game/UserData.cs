@@ -129,6 +129,17 @@ public class UserData : MonoBehaviour
         return LocalizationSettings.StringDatabase.GetLocalizedString("UI_Tooltip", keyString, LocalizationSettings.SelectedLocale);
     }
 
+    public string LocaleText_Label(string keyString)
+    {
+        if (LocalizationSettings.InitializationOperation.Status != UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+        {
+            Debug.Log("ÀÛ¾÷Áß");
+            return null;
+        }
+
+        return LocalizationSettings.StringDatabase.GetLocalizedString("Label Group", keyString, LocalizationSettings.SelectedLocale);
+    }
+
     #endregion
 
 

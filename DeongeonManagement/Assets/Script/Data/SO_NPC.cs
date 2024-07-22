@@ -39,4 +39,11 @@ public class SO_NPC : ScriptableObject, I_SO_Collection
     public string detail;
 
 
+
+    [Header("Trait")]
+    public List<TraitGroup> TraitableList;
+
+    [Header("Prefer")]
+    public List<InteractionGroup> PreferList;
+    public List<InteractionGroup> Non_PreferList;
 }

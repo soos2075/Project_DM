@@ -1401,14 +1401,29 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat
 }
 public enum NPCGroup
 {
-    Herbalist = 10,
-    Miner = 20,
-    Adventurer = 30,
-    Elf = 40,
-    Wizard = 50,
+    NPC_Herbalist = 10,
+    NPC_Miner = 20,
+    NPC_Adventurer = 30,
+    NPC_Elf = 40,
+    NPC_Wizard = 50,
 
 
+    NPC_EventNPC = 1000,
+    NPC_QuestHunter = 2000,
+}
 
-    EventNPC = 1000,
-    QuestHunter = 2000,
+public enum InteractionGroup
+{
+    Interaction_Nothing = -100,
+
+    Interaction_Monster = 0,
+
+    Interaction_Herb = 100,
+    Interaction_Mineral = 200,
+    Interaction_Treasure = 300,
+
+    Interaction_Trap = 400,
+
+    Interaction_NPC_Util = 1000,
+
 }

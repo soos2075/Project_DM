@@ -102,6 +102,8 @@ public class Wells : Facility, IWall
             //npc.OverWell_Interaction();
             npc.SetPriorityListForPublic();
         }
+
+        AddCollectionPoint();
     }
 
 

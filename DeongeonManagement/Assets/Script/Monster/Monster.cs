@@ -1196,6 +1196,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
         LevelUp(true); ;
 
         traitCounter.AddTrainingCounter();
+
     }
 
     public void LevelUp(bool _showPopup)
@@ -1221,6 +1222,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
         DEF += TryStatUp(Data.up_def, ref def_chance);
         AGI += TryStatUp(Data.up_agi, ref agi_chance);
         LUK += TryStatUp(Data.up_luk, ref luk_chance);
+
+        AddCollectionPoint();
     }
     public void StatUp()
     {

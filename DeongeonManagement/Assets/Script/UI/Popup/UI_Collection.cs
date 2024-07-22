@@ -19,8 +19,8 @@ public class UI_Collection : UI_PopUp
         Monster,
         NPC,
         Facility,
-        Technical,
-        Ending,
+        //Technical,
+        //Ending,
     }
 
     enum Objects
@@ -30,10 +30,12 @@ public class UI_Collection : UI_PopUp
         MonsterBox,
         NPCBox,
         FacilityBox,
-        TechnicalBox,
-        EndingBox,
+        //TechnicalBox,
+        //EndingBox,
 
         ShowBox,
+        //Content,
+        VerticalBox,
     }
 
     enum ShowBoxText
@@ -57,6 +59,10 @@ public class UI_Collection : UI_PopUp
     public Sprite button_Active;
     public Sprite button_Inactive;
 
+    public Sprite slot_Unlock;
+    public Sprite slot_Lock;
+    public Sprite icon_Lock;
+
     public override void Init()
     {
         Managers.UI.SetCanvas(gameObject);
@@ -71,12 +77,14 @@ public class UI_Collection : UI_PopUp
         GetButton((int)Buttons.Monster).gameObject.AddUIEvent(data => MenuButton(Buttons.Monster));
         GetButton((int)Buttons.NPC).gameObject.AddUIEvent(data => MenuButton(Buttons.NPC));
         GetButton((int)Buttons.Facility).gameObject.AddUIEvent(data => MenuButton(Buttons.Facility));
-        GetButton((int)Buttons.Technical).gameObject.AddUIEvent(data => MenuButton(Buttons.Technical));
-        GetButton((int)Buttons.Ending).gameObject.AddUIEvent(data => MenuButton(Buttons.Ending));
+
+        //GetButton((int)Buttons.Technical).gameObject.AddUIEvent(data => MenuButton(Buttons.Technical));
+        //GetButton((int)Buttons.Ending).gameObject.AddUIEvent(data => MenuButton(Buttons.Ending));
 
         Create_CollectionUnit();
 
         MenuButton(Buttons.Monster);
+        Clear_ShowBox();
     }
 
 
@@ -103,12 +111,12 @@ public class UI_Collection : UI_PopUp
             unit.GetComponent<UI_CollectionUnit>().SetUnit_Facility(CollectionManager.Instance.Register_Facility[i], this);
         }
 
-        var tech = GetObject((int)Objects.TechnicalBox).GetComponentInChildren<GridLayoutGroup>().transform;
-        for (int i = 0; i < CollectionManager.Instance.Register_Technical.Count; i++)
-        {
-            var unit = Managers.Resource.Instantiate("UI/PopUp/Element/CollectionUnit", tech);
-            unit.GetComponent<UI_CollectionUnit>().SetUnit_Technical(CollectionManager.Instance.Register_Technical[i], this);
-        }
+        //var tech = GetObject((int)Objects.TechnicalBox).GetComponentInChildren<GridLayoutGroup>().transform;
+        //for (int i = 0; i < CollectionManager.Instance.Register_Technical.Count; i++)
+        //{
+        //    var unit = Managers.Resource.Instantiate("UI/PopUp/Element/CollectionUnit", tech);
+        //    unit.GetComponent<UI_CollectionUnit>().SetUnit_Technical(CollectionManager.Instance.Register_Technical[i], this);
+        //}
 
         //var ending = GetObject((int)Objects.EndingBox);
         //for (int i = 0; i < CollectionManager.Instance..Length; i++)
@@ -140,18 +148,16 @@ public class UI_Collection : UI_PopUp
                 GetButton((int)Buttons.Facility).GetComponent<Image>().sprite = button_Active;
                 break;
 
-            case Buttons.Technical:
-                GetObject((int)Objects.TechnicalBox).SetActive(true);
-                GetButton((int)Buttons.Technical).GetComponent<Image>().sprite = button_Active;
-                break;
+            //case Buttons.Technical:
+            //    GetObject((int)Objects.TechnicalBox).SetActive(true);
+            //    GetButton((int)Buttons.Technical).GetComponent<Image>().sprite = button_Active;
+            //    break;
 
-            case Buttons.Ending:
-                GetObject((int)Objects.EndingBox).SetActive(true);
-                GetButton((int)Buttons.Ending).GetComponent<Image>().sprite = button_Active;
-                break;
+            //case Buttons.Ending:
+            //    GetObject((int)Objects.EndingBox).SetActive(true);
+            //    GetButton((int)Buttons.Ending).GetComponent<Image>().sprite = button_Active;
+            //    break;
         }
-
-        CurrentMenu = _button;
     }
 
     void CloseMenuAll()
@@ -159,14 +165,16 @@ public class UI_Collection : UI_PopUp
         GetButton((int)Buttons.Monster).GetComponent<Image>().sprite = button_Inactive;
         GetButton((int)Buttons.NPC).GetComponent<Image>().sprite = button_Inactive;
         GetButton((int)Buttons.Facility).GetComponent<Image>().sprite = button_Inactive;
-        GetButton((int)Buttons.Technical).GetComponent<Image>().sprite = button_Inactive;
-        GetButton((int)Buttons.Ending).GetComponent<Image>().sprite = button_Inactive;
+
+        //GetButton((int)Buttons.Technical).GetComponent<Image>().sprite = button_Inactive;
+        //GetButton((int)Buttons.Ending).GetComponent<Image>().sprite = button_Inactive;
 
         GetObject((int)Objects.MonsterBox).SetActive(false);
         GetObject((int)Objects.NPCBox).SetActive(false);
         GetObject((int)Objects.FacilityBox).SetActive(false);
-        GetObject((int)Objects.TechnicalBox).SetActive(false);
-        GetObject((int)Objects.EndingBox).SetActive(false);
+
+        //GetObject((int)Objects.TechnicalBox).SetActive(false);
+        //GetObject((int)Objects.EndingBox).SetActive(false);
     }
 
 
@@ -176,99 +184,130 @@ public class UI_Collection : UI_PopUp
 
     #region ShowBox
 
-    Buttons CurrentMenu;
 
-    //public void ShowBox(CollectionManager.CollectionUnitRegist<I_SO_Collection> data)
-    //{
-    //    if (data == null || data.info.isRegist == false) return;
+    IEnumerator WaitContentsizeFilter()
+    {
+        yield return null;
+        yield return new WaitForEndOfFrame();
 
-    //    Clear_ShowBox();
+        //var box1 = GetImage((int)ShowBoxImage.TextBox1).GetComponent<RectTransform>();
+        //var text1 = GetImage((int)ShowBoxImage.TextBox1).GetComponentInChildren<RectTransform>();
+        var verticalBox = GetObject((int)Objects.VerticalBox).transform;
+        var images = verticalBox.GetComponentsInChildren<Image>();
+        var texts = verticalBox.GetComponentsInChildren<TextMeshProUGUI>();
+        for (int i = 0; i < verticalBox.childCount; i++)
+        {
+            images[i].rectTransform.sizeDelta = texts[i].rectTransform.sizeDelta;
+        }
 
-    //    switch (CurrentMenu)
-    //    {
-    //        case Buttons.Monster:
-    //            ShowBox_Monster(data);
-    //            break;
 
-    //        case Buttons.NPC:
-    //            ShowBox_NPC(data);
-    //            break;
 
-    //        case Buttons.Facility:
-    //            ShowBox_Facility(data);
-    //            break;
 
-    //        case Buttons.Technical:
-    //            ShowBox_Technical(data);
-    //            break;
+        var layout = GetObject((int)Objects.ShowBox).GetComponentInChildren<ContentSizeFitter>();
 
-    //        case Buttons.Ending:
-    //            break;
-    //    }
-    //}
+        layout.enabled = false;
+        yield return null;
+        yield return new WaitForEndOfFrame();
+        layout.enabled = true;
+
+        //GetObject((int)Objects.ShowBox).GetComponentInChildren<VerticalLayoutGroup>().SetLayoutVertical();
+    }
 
 
     public void Clear_ShowBox()
     {
         GetImage((int)ShowBoxImage.MainSprite).sprite = Managers.Sprite.GetClear();
 
-        GetTMP((int)ShowBoxText.TMP_Point).text = "0";
+        GetTMP((int)ShowBoxText.TMP_Point).text = "";
         GetTMP((int)ShowBoxText.TMP_Name).text = "? ? ?";
-        GetTMP((int)ShowBoxText.TMP_Stat).text = "? ? ?";
-        GetTMP((int)ShowBoxText.TMP_Option1).text = "? ? ?";
-        GetTMP((int)ShowBoxText.TMP_Option2).text = "? ? ?";
-        GetTMP((int)ShowBoxText.TMP_Option3).text = "? ? ?";
-        GetTMP((int)ShowBoxText.TMP_Option4).text = "? ? ?";
-        GetTMP((int)ShowBoxText.TMP_Option5).text = "? ? ?";
+        GetTMP((int)ShowBoxText.TMP_Stat).text = "";
+        //GetTMP((int)ShowBoxText.TMP_Option1).text = "? ? ?";
+        //GetTMP((int)ShowBoxText.TMP_Option2).text = "? ? ?";
+        //GetTMP((int)ShowBoxText.TMP_Option3).text = "? ? ?";
+        //GetTMP((int)ShowBoxText.TMP_Option4).text = "? ? ?";
+        //GetTMP((int)ShowBoxText.TMP_Option5).text = "? ? ?";
+
+
+        OptionContentSet(ShowBoxText.TMP_Option1,"", false);
+        OptionContentSet(ShowBoxText.TMP_Option2,"", false);
+        OptionContentSet(ShowBoxText.TMP_Option3,"", false);
+        OptionContentSet(ShowBoxText.TMP_Option4,"", false);
+        OptionContentSet(ShowBoxText.TMP_Option5,"", false);
 
         //? 만약 내용이 있다면 ???로, 없으면 그냥 공백으로 하면됨. 내용은 Object csv 파일의 Option 내용으로 하면 될듯
+
+        StartCoroutine(WaitContentsizeFilter());
     }
+
+    void OptionContentSet(ShowBoxText OptionBox, string content, bool isOn = true)
+    {
+        if (isOn)
+        {
+            GetTMP((int)OptionBox).text = content;
+            GetTMP((int)OptionBox).GetComponent<ContentSizeFitter>().enabled = true;
+
+            if (string.IsNullOrEmpty(content) == false)
+            {
+                GetTMP((int)OptionBox).transform.parent.GetComponent<Image>().sprite = slot_Unlock;
+            }
+        }
+        else
+        {
+            GetTMP((int)OptionBox).text = content;
+            GetTMP((int)OptionBox).GetComponent<ContentSizeFitter>().enabled = false;
+            GetTMP((int)OptionBox).GetComponent<RectTransform>().sizeDelta = new Vector2Int(380, 72);
+
+            if (string.IsNullOrEmpty(content))
+            {
+                GetTMP((int)OptionBox).transform.parent.GetComponent<Image>().sprite = slot_Lock;
+            }
+        }
+    }
+
+
     public void ShowBox_Monster(CollectionManager.CollectionUnitRegist<SO_Monster> data)
     {
         SO_Monster SO_Data = data.unit;
-        Debug.Log($"{SO_Data.keyName} - {data.info.UnlockPoint}UnlockPoint");
-
 
         if (data.info.isRegist)
         {
-            GetTMP((int)ShowBoxText.TMP_Point).text = $"{data.info.UnlockPoint}";
+            GetTMP((int)ShowBoxText.TMP_Point).text = $"P:{data.info.UnlockPoint}";
 
             string stat = $"HP : {SO_Data.hp}\t MaxLv : {SO_Data.maxLv}" +
-                $"\nATK : {SO_Data.atk}\tDEF : {SO_Data.def}" +
-                $"\nAGI : {SO_Data.agi}\tLUK : {SO_Data.luk}";
+                $"\nATK : {SO_Data.atk}\t\tDEF : {SO_Data.def}" +
+                $"\nAGI : {SO_Data.agi}\t\tLUK : {SO_Data.luk}";
 
             GetImage((int)ShowBoxImage.MainSprite).sprite = Managers.Sprite.GetSprite(SO_Data.spritePath);
             GetTMP((int)ShowBoxText.TMP_Name).text = SO_Data.labelName;
             GetTMP((int)ShowBoxText.TMP_Stat).text = stat;
 
 
-            GetTMP((int)ShowBoxText.TMP_Option1).text = SO_Data.detail;
-
+            OptionContentSet(ShowBoxText.TMP_Option1, SO_Data.detail, true);
 
             if (data.info.level_1_Unlock)
             {
-                GetTMP((int)ShowBoxText.TMP_Option2).text = $"필요 던전 등급 : {(Define.DungeonRank)SO_Data.unlockRank}" +
+                var op2 = $"필요 던전 등급 : {(Define.DungeonRank)SO_Data.unlockRank}" +
                     $"\n최대 동시 전투 : {SO_Data.maxBattleCount}" +
                     $"\n전투 당 피로도 : {SO_Data.battleAp}";
+                OptionContentSet(ShowBoxText.TMP_Option2, op2, true);
             }
             if (data.info.level_2_Unlock)
             {
                 string traitString = "";
+
                 foreach (var item in SO_Data.TraitableList)
                 {
                     traitString += $"[{item.ToString()}]  ";
                 }
-                GetTMP((int)ShowBoxText.TMP_Option3).text = traitString;
-                //? 특성관련 -> 얻을 수 있는 특성을 제한하면 좋을듯. 슬라임이 모든특성 다얻어서 무쌍찍는것도 이상함. 뭐 불가능하진 않겠지만..
-                //? 그것도 그렇고 고유특성같은것도 그렇고. 뭐 2회공격이라면 3회 공격 4회 공격 중에 슬라임은 2회만 얻을 수 있고 누군 4회만 얻을 수 있고 이렇게
+                OptionContentSet(ShowBoxText.TMP_Option3, traitString, true);
             }
             if (data.info.level_3_Unlock)
             {
-                GetTMP((int)ShowBoxText.TMP_Option4).text = SO_Data.evolutionHint;
+                OptionContentSet(ShowBoxText.TMP_Option4, SO_Data.evolutionHint, true);
             }
             if (data.info.level_4_Unlock)
             {
-                GetTMP((int)ShowBoxText.TMP_Option5).text = SO_Data.evolutionDetail;
+                OptionContentSet(ShowBoxText.TMP_Option5, SO_Data.evolutionDetail, true);
             }
             if (data.info.level_5_Unlock)
             {
@@ -276,22 +315,127 @@ public class UI_Collection : UI_PopUp
                 //? 마스터리 추가효과로 실제 소환시 시작레벨이나 스탯보너스나 뭐 아무튼 보너스를 주는 내용을 넣어도 될 것 같다
             }
         }
-
-
     }
+
     public void ShowBox_NPC(CollectionManager.CollectionUnitRegist<SO_NPC> data)
     {
         SO_NPC SO_Data = data.unit;
-        Debug.Log(SO_Data.keyName);
 
+        if (data.info.isRegist)
+        {
+            GetTMP((int)ShowBoxText.TMP_Point).text = $"P:{data.info.UnlockPoint}";
+            GetImage((int)ShowBoxImage.MainSprite).sprite = Managers.Sprite.GetSprite_SLA(data.unit.SLA_category, data.unit.SLA_label);
+            GetTMP((int)ShowBoxText.TMP_Name).text = SO_Data.labelName;
+
+            OptionContentSet(ShowBoxText.TMP_Option1, SO_Data.detail, true);
+
+            if (data.info.level_1_Unlock)
+            {
+                string stat = $"HP : {SO_Data.HP}" +
+    $"\nATK : {SO_Data.ATK}\t\tDEF : {SO_Data.DEF}" +
+    $"\nAGI : {SO_Data.AGI}\t\tLUK : {SO_Data.LUK}";
+                GetTMP((int)ShowBoxText.TMP_Stat).text = stat;
+            }
+            if (data.info.level_2_Unlock)
+            {
+                GetTMP((int)ShowBoxText.TMP_Stat).text += $"\n{UserData.Instance.LocaleText("Mana")} : {SO_Data.MP}" +
+                    $"\t\t{UserData.Instance.LocaleText("AP")} : {SO_Data.AP}";
+            }
+            if (data.info.level_3_Unlock)
+            {
+                string prefer = "";
+                foreach (var item in SO_Data.PreferList)
+                {
+                    prefer += UserData.Instance.LocaleText_Label(item.ToString());
+                    prefer += "\t";
+                }
+                string NonPrefer = "";
+                foreach (var item in SO_Data.Non_PreferList)
+                {
+                    NonPrefer += UserData.Instance.LocaleText_Label(item.ToString());
+                    NonPrefer += "\t";
+                }
+
+                //GetTMP((int)ShowBoxText.TMP_Option2).text = $"선호 : {prefer}\n회피 : {NonPrefer}";
+                OptionContentSet(ShowBoxText.TMP_Option2, $"선호 : {prefer}\n회피 : {NonPrefer}", true);
+            }
+            if (data.info.level_4_Unlock)
+            {
+                //GetTMP((int)ShowBoxText.TMP_Option5).text = SO_Data.evolutionDetail;
+            }
+            if (data.info.level_5_Unlock)
+            {
+                //? 위에꺼에 내용을 추가한다든지
+                //? 마스터리 추가효과로 실제 소환시 시작레벨이나 스탯보너스나 뭐 아무튼 보너스를 주는 내용을 넣어도 될 것 같다
+            }
+        }
         // 선호 타입, 스탯, 랭크, 언제부터 나오는지, 행동력과 최대마나등등, 피하는타일
     }
     public void ShowBox_Facility(CollectionManager.CollectionUnitRegist<SO_Facility> data)
     {
         SO_Facility SO_Data = data.unit;
-        Debug.Log(SO_Data.keyName);
 
         // 시설타입, 주는 마나량, 층보너스, 
+
+        if (data.info.isRegist)
+        {
+            GetTMP((int)ShowBoxText.TMP_Point).text = $"P:{data.info.UnlockPoint}";
+
+            GetImage((int)ShowBoxImage.MainSprite).sprite = Managers.Sprite.GetSprite_SLA(data.unit.SLA_category, data.unit.SLA_label);
+            GetTMP((int)ShowBoxText.TMP_Name).text = SO_Data.labelName;
+
+            OptionContentSet(ShowBoxText.TMP_Option1, SO_Data.detail, true);
+
+            GetTMP((int)ShowBoxText.TMP_Stat).text = 
+                $"{UserData.Instance.LocaleText("분류")} : {UserData.Instance.LocaleText_Label(SO_Data.category.ToString())}";
+
+            if (data.info.level_1_Unlock)
+            {
+                string stat = $"\n{UserData.Instance.LocaleText("Mana")} : {SO_Data.mp_value}" +
+                    $"\n{UserData.Instance.LocaleText("횟수")} : {SO_Data.interactionOfTimes}" +
+                    $"\n{UserData.Instance.LocaleText("AP")} : {SO_Data.ap_value}";
+
+                GetTMP((int)ShowBoxText.TMP_Stat).text += stat;
+            }
+            if (data.info.level_2_Unlock)
+            {
+                string target = "";
+                foreach (var item in SO_Data.mainTarget)
+                {
+                    target += UserData.Instance.LocaleText_Label(item.ToString());
+                    target += "\t";
+                }
+                //GetTMP((int)ShowBoxText.TMP_Option2).text = $"100% : {target}";
+                OptionContentSet(ShowBoxText.TMP_Option2, $"100% : {target}", true);
+            }
+            if (data.info.level_3_Unlock)
+            {
+                string target = "";
+                foreach (var item in SO_Data.subTarget)
+                {
+                    target += UserData.Instance.LocaleText_Label(item.ToString());
+                    target += "\t";
+                }
+                //GetTMP((int)ShowBoxText.TMP_Option3).text = $"70% : {target}";
+                OptionContentSet(ShowBoxText.TMP_Option3, $"70% : {target}", true);
+            }
+            if (data.info.level_4_Unlock)
+            {
+                string target = "";
+                foreach (var item in SO_Data.weakTarget)
+                {
+                    target += UserData.Instance.LocaleText_Label(item.ToString());
+                    target += "\t";
+                }
+                //GetTMP((int)ShowBoxText.TMP_Option4).text = $"30% : {target}";
+                OptionContentSet(ShowBoxText.TMP_Option4, $"30% : {target}", true);
+            }
+            if (data.info.level_5_Unlock)
+            {
+                //? 위에꺼에 내용을 추가한다든지
+                //? 마스터리 추가효과로 실제 소환시 시작레벨이나 스탯보너스나 뭐 아무튼 보너스를 주는 내용을 넣어도 될 것 같다
+            }
+        }
     }
     public void ShowBox_Technical(CollectionManager.CollectionUnitRegist<SO_Technical> data)
     {

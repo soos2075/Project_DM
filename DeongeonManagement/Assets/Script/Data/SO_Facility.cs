@@ -35,6 +35,10 @@ public class SO_Facility : ScriptableObject, I_SO_Collection
     public int pop_value;
     public int danger_value;
 
+
+    [Header("Category")]
+    public InteractionGroup category;
+
     [Header("Target(TypeClassName)")]
     public string main;
 
@@ -44,12 +48,20 @@ public class SO_Facility : ScriptableObject, I_SO_Collection
 
     public string invalid;
 
+    [Header("NPCType")]
+    public List<NPCGroup> mainTarget;
+    public List<NPCGroup> subTarget;
+    public List<NPCGroup> weakTarget;
+    public List<NPCGroup> invalidTarget;
+
 
 
 
     [Header("CSV(Localization)")] //? external CSV Data
     public string labelName;
     public string detail;
+
+
 
 
 }

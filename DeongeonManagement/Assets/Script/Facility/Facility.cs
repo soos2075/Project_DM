@@ -87,6 +87,23 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
 
 
+
+    #region Collection
+
+    public void AddCollectionPoint()
+    {
+        var collection = CollectionManager.Instance.Get_Collection(Data);
+        if (collection != null)
+        {
+            collection.AddPoint();
+        }
+    }
+
+    #endregion
+
+
+
+
     public SO_Facility Data { get; set; }
 
     public string Data_KeyName { get; set; }
@@ -209,6 +226,8 @@ public abstract class Facility : MonoBehaviour, IPlacementable
                 npc.SetPriorityListForPublic();
             }
         }
+
+        AddCollectionPoint();
     }
 
     protected enum Target
@@ -291,3 +310,4 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
 
 }
+
