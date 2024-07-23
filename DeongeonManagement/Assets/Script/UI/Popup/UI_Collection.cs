@@ -297,7 +297,7 @@ public class UI_Collection : UI_PopUp
 
                 foreach (var item in SO_Data.TraitableList)
                 {
-                    traitString += $"[{item.ToString()}]  ";
+                    traitString += $"[{GameManager.Trait.GetData(item).labelName}]  ";
                 }
                 OptionContentSet(ShowBoxText.TMP_Option3, traitString, true);
             }
@@ -361,7 +361,7 @@ public class UI_Collection : UI_PopUp
             }
             if (data.info.level_4_Unlock)
             {
-                //GetTMP((int)ShowBoxText.TMP_Option5).text = SO_Data.evolutionDetail;
+                //? 여긴 가지고 있는 특성 나열하기 (npc도 특성을 가질 수 있음)
             }
             if (data.info.level_5_Unlock)
             {

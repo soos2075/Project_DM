@@ -257,8 +257,11 @@ public class Main : MonoBehaviour
         message.DelayTime = 2;
         message.Message = UserData.Instance.LocaleText("Message_First");
 
+        //yield return new WaitUntil(() => Managers.UI._popupStack.Count == 0);
+        //var tutorial = Managers.UI.ShowPopUp<UI_Tutorial>();
+
         yield return new WaitUntil(() => Managers.UI._popupStack.Count == 0);
-        var tutorial = Managers.UI.ShowPopUp<UI_Tutorial>();
+        var tutorial = Managers.UI.ShowPopUpNonPush<UI_GuidanceArrow>();
     }
     void Instantiate_DayOne()
     {

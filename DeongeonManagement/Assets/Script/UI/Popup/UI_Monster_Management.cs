@@ -280,7 +280,8 @@ public class UI_Monster_Management : UI_PopUp
         GetTMP((int)Texts.Lv).text = $"Lv.{Current.monster.LV} / {Current.monster.Data.maxLv}";
         GetTMP((int)Texts.Name).text = Current.monster.Name_Color;
 
-        GetTMP((int)Texts.Status).text = $"HP : {Current.monster.HP} / {Current.monster.HP_Max}\n";
+        GetTMP((int)Texts.Status).text = $"HP : {Current.monster.HP} / {Current.monster.HP_Max} " +
+            $"{Util.SetTextColorTag($"(+{Current.monster.B_HP - Current.monster.HP})", Define.TextColor.npc_red)}\n";
         GetTMP((int)Texts.Status).text +=
             $"ATK : {Current.monster.ATK} {Util.SetTextColorTag($"(+{Current.monster.B_ATK - Current.monster.ATK})", Define.TextColor.npc_red)}" +
             $"\tDEF : {Current.monster.DEF} {Util.SetTextColorTag($"(+{Current.monster.B_DEF - Current.monster.DEF})", Define.TextColor.npc_red)}" +
@@ -462,6 +463,20 @@ public class UI_Monster_Management : UI_PopUp
                     AddUIEvent((data) => GameManager.Monster.ReleaseMonster(Current.monster.MonsterID));
 
                 int RecoverCost = (int)(((Current.monster.LV * 0.08f) + 0.3f) * Current.monster.Data.manaCost);
+
+                if (Current.monster.TraitCheck(TraitGroup.ShirkingC))
+                {
+                    RecoverCost = Mathf.RoundToInt(RecoverCost * 0.9f);
+                }
+                if (Current.monster.TraitCheck(TraitGroup.ShirkingB))
+                {
+                    RecoverCost = Mathf.RoundToInt(RecoverCost * 0.8f);
+                }
+                if (Current.monster.TraitCheck(TraitGroup.ShirkingA))
+                {
+                    RecoverCost = Mathf.RoundToInt(RecoverCost * 0.7f);
+                }
+
                 GetButton(((int)Buttons.Recover)).gameObject.
                     AddUIEvent((data) => Current.monster.Recover(RecoverCost));
                 GetButton(((int)Buttons.Recover)).GetComponentInChildren<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText("È¸º¹")}({RecoverCost})";

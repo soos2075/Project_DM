@@ -54,6 +54,11 @@ public class DataManager
         //CSV_File_Parsing_Dialogue("Dialogue/Dialogue_KR", Dialogue_KR);
         //CSV_File_Parsing_Dialogue("Dialogue/Dialogue_EN", Dialogue_EN);
         //CSV_File_Parsing_Dialogue("Dialogue/Dialogue_JP", Dialogue_JP);
+
+        //? Trait - 한영일 하나의 파일로 파싱
+        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Trait/Trait_Result.csv").Completed +=
+    (handle) => { CSV_File_Parsing_Trait(OnCSVLoaded(handle)); };
+
     }
 
 
@@ -75,6 +80,39 @@ public class DataManager
             //Debug.LogError("Failed to load CSV file: " + handle.OperationException);
         }
     }
+
+
+
+    public Dictionary<TraitGroup, (string, string)> Trait_KR = new Dictionary<TraitGroup, (string, string)>();
+    public Dictionary<TraitGroup, (string, string)> Trait_EN = new Dictionary<TraitGroup, (string, string)>();
+    public Dictionary<TraitGroup, (string, string)> Trait_JP = new Dictionary<TraitGroup, (string, string)>();
+
+    // 0 ID, 1 TraitName, 2 Name_KR, 3 Detail_KR, 4 Name_EN, 5 Detail_EN, 6 Name_JP, 7 Detail_JP
+    void CSV_File_Parsing_Trait(string _stringData)
+    {
+        if (string.IsNullOrEmpty(_stringData)) return;
+
+        var spl_n = _stringData.Split('\n');
+
+        for (int i = 1; i < spl_n.Length; i++)
+        {
+            var spl_comma = spl_n[i].Split(',');
+
+            if (spl_comma.Length < 2 || string.IsNullOrEmpty(spl_comma[1])) //? 빈칸이면 다음으로
+            {
+                continue;
+            }
+
+            //string[] datas = new string[] { spl_comma[0], spl_comma[1], spl_comma[2], spl_comma[3], spl_comma[4], spl_comma[5], spl_comma[6], spl_comma[7] };
+            string[] datas = spl_comma;
+
+            Trait_KR.Add((TraitGroup)int.Parse(datas[0]), (datas[2], datas[3]));
+            Trait_EN.Add((TraitGroup)int.Parse(datas[0]), (datas[4], datas[5]));
+            Trait_JP.Add((TraitGroup)int.Parse(datas[0]), (datas[6], datas[7]));
+        }
+    }
+
+
 
 
     // 0 x / 1 : id / 2 : Label / 3 : Detail / 4 : Option1 / 5 : Option2 / 6: Option3

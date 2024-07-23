@@ -80,37 +80,42 @@ public class Slime : Monster
                     //? 진화진행
                     EvolutionState = Evolution.Complete;
                     EventManager.Instance.RemoveQuestAction(1100);
-                    EvolutionComplete(true);
+                    var ui = Managers.UI.ShowPopUp<UI_StatusUp>("Monster/UI_StatusUp");
+                    ui.TargetMonster(this);
+                    ui.StateText = $"{GameManager.Monster.GetData("Slime").labelName} → " +
+                        $"{GameManager.Monster.GetData("BloodySlime").labelName} {UserData.Instance.LocaleText("진화")}!!";
+                    EvolutionComplete();
                 }
                 break;
         }
     }
 
 
-    void EvolutionComplete(bool showUI)
+    void EvolutionComplete()
     {
-        string slime = Data.labelName;
         Data = GameManager.Monster.GetData("BloodySlime");
-        string bloody = Data.labelName;
-
-        if (showUI)
-        {
-            EvolutionUI(slime, bloody);
-        }
-
-
         Initialize_Status();
         GameManager.Monster.ChangeSLA(this, "BloodyJelly");
-        //Debug.Log("슬라임 진화완료");
-
         GameManager.Monster.Regist_Evolution("Slime");
+
+        ChangeTrait_Evolution();
     }
 
-    void EvolutionUI(string _origin, string _Evolution)
+    void ChangeTrait_Evolution()
     {
-        var ui = Managers.UI.ShowPopUp<UI_StatusUp>("Monster/UI_StatusUp");
-        ui.TargetMonster(this);
-        ui.StateText = $"{_origin} → {_Evolution} {UserData.Instance.LocaleText("진화")}!!";
+        List<ITrait> newTrait = new List<ITrait>();
+
+        newTrait.Add(new Trait.Reconfigure());
+        if (TraitCheck(TraitGroup.VeteranC)) newTrait.Add(new Trait.VeteranB());
+        if (TraitCheck(TraitGroup.EliteC)) newTrait.Add(new Trait.EliteB());
+        if (TraitCheck(TraitGroup.DiscreetC)) newTrait.Add(new Trait.DiscreetB());
+        if (TraitCheck(TraitGroup.ShirkingC)) newTrait.Add(new Trait.ShirkingB());
+        if (TraitCheck(TraitGroup.SurvivabilityC)) newTrait.Add(new Trait.SurvivabilityB());
+        if (TraitCheck(TraitGroup.RuthlessC)) newTrait.Add(new Trait.RuthlessB());
+
+        TraitList = newTrait;
     }
+
+
 
 }

@@ -498,7 +498,7 @@ public class Trait
         public TraitGroup ID { get; } = TraitGroup.SurvivabilityC;
         public int ApplyHP(int current)
         {
-            return 0;
+            return 15;
         }
         public int ApplyHP_Max(int current)
         {
@@ -542,7 +542,7 @@ public class Trait
         public TraitGroup ID { get; } = TraitGroup.SurvivabilityB;
         public int ApplyHP(int current)
         {
-            return 0;
+            return 30;
         }
         public int ApplyHP_Max(int current)
         {
@@ -586,7 +586,7 @@ public class Trait
         public TraitGroup ID { get; } = TraitGroup.SurvivabilityA;
         public int ApplyHP(int current)
         {
-            return 0;
+            return 50;
         }
         public int ApplyHP_Max(int current)
         {
@@ -816,7 +816,7 @@ public class Trait
         }
         public int ApplyATK(int current)
         {
-            return 0;
+            return 3;
         }
         public int ApplyDEF(int current)
         {
@@ -860,7 +860,7 @@ public class Trait
         }
         public int ApplyATK(int current)
         {
-            return 0;
+            return 6;
         }
         public int ApplyDEF(int current)
         {
@@ -904,7 +904,7 @@ public class Trait
         }
         public int ApplyATK(int current)
         {
-            return 0;
+            return 9;
         }
         public int ApplyDEF(int current)
         {

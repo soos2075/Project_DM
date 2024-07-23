@@ -1,0 +1,37 @@
+ID,TraitName,Name_KR,Detail_KR,Name_EN,Detail_EN,Name_JP,Detail_JP
+,,,,,,,
+1,Reconfigure,재구성,부상 하루 뒤 회복,Reconfigure,Recover after 1 day,再構成,1日後に回復
+2,Vitality,활력,전투 시작 시 최대 HP의 10% 회복,Vitality,Heal 10% max HP at battle start,活力,戦闘開始時 - 最大HPの10%回復
+3,Predation,포식,적을 쓰러트릴 시 HP가 영구적으로 1만큼 증가,Predation,Permanent +1 HP on kill,捕食,敵撃破時 - HP永久+1
+4,IronSkin,철피부,공격시 DEF의 25%만큼 방어무시데미지,IronSkin,25% DEF as true damage,鉄皮,攻撃時 - DEFの25%を貫通ダメージ
+5,Friend,친구,층에 있는 다른 유닛마다 모든 스탯 +1,Friend,+1 all stats per unit on floor,友,階層内の他ユニット毎に全ステータス+1
+6,Overwhelm,압도,전투 시작 시 상대의 현재체력 -20%,Overwhelm,-20% enemy current HP at battle start,圧倒,戦闘開始時 - 敵の現在HPを20%減少
+7,Nimble,재빠름,공격 시 데미지의 50%의 추가공격,Nimble,50% extra attack on hit,迅速,攻撃時 - 50%の追加攻撃
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+201,VeteranC,베테랑C,모든 스탯 +1,VeteranC,All stats +1,ベテランC,全ステータス+1
+202,VeteranB,베테랑B,모든 스탯 +2,VeteranB,All stats +2,ベテランB,全ステータス+2
+203,VeteranA,베테랑A,모든 스탯 +3,VeteranA,All stats +3,ベテランA,全ステータス+3
+,,,,,,,
+301,EliteC,엘리트C,레벨 업 시 스탯 상승률 UP,EliteC,Stat growth UP on level up,エリートC,レベルアップ時のステータス上昇率UP
+302,EliteB,엘리트B,레벨 업 시 스탯 상승률 UP+,EliteB,Stat growth UP+ on level up,エリートB,レベルアップ時のステータス上昇率UP+
+303,EliteA,엘리트A,레벨 업 시 스탯 상승률 UP++,EliteA,Stat growth UP++ on level up,エリートA,レベルアップ時のステータス上昇率UP++
+,,,,,,,
+401,ShirkingC,꾀병C,부상 회복 마나 -10%,ShirkingC,-10% mana for injury heal,サボりC,負傷回復マナ-10%
+402,ShirkingB,꾀병B,부상 회복 마나 -20%,ShirkingB,-20% mana for injury heal,サボりB,負傷回復マナ-20%
+403,ShirkingA,꾀병A,부상 회복 마나 -30%,ShirkingA,-30% mana for injury heal,サボりA,負傷回復マナ-30%
+,,,,,,,
+501,SurvivabilityC,생존력C,HP +15,SurvivabilityC,HP +15,生存力C,HP+15
+502,SurvivabilityB,생존력B,HP +30,SurvivabilityB,HP +30,生存力B,HP+30
+503,SurvivabilityA,생존력A,HP +50,SurvivabilityA,HP +50,生存力A,HP+50
+504,SurvivabilityS,생존력S,부상당하지 않음,SurvivabilityS,Immune to injuries,生存力S,負傷しない
+,,,,,,,
+601,DiscreetC,신중함C,전투로 얻는 경험치 +20%,DiscreetC,+20% combat EXP,慎重さC,戦闘経験値+20%
+602,DiscreetB,신중함B,전투로 얻는 경험치 +40%,DiscreetB,+40% combat EXP,慎重さB,戦闘経験値+40%
+603,DiscreetA,신중함A,전투로 얻는 경험치 +60%,DiscreetA,+60% combat EXP,慎重さA,戦闘経験値+60%
+,,,,,,,
+701,RuthlessC,무자비C,ATK +3,RuthlessC,ATK +3,無慈悲C,ATK +3
+702,RuthlessB,무자비B,ATK +6,RuthlessB,ATK +6,無慈悲B,ATK +6
+703,RuthlessA,무자비A,ATK +9,RuthlessA,ATK +9,無慈悲A,ATK +9

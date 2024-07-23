@@ -20,34 +20,32 @@ public class TraitManager
 
         foreach (var item in so_data)
         {
+            (string, string) datas = ("", "");
+            switch (UserData.Instance.Language)
+            {
+                case Define.Language.EN:
+                    Managers.Data.Trait_EN.TryGetValue((TraitGroup)item.id, out datas);
+                    break;
+
+                case Define.Language.KR:
+                    Managers.Data.Trait_KR.TryGetValue((TraitGroup)item.id, out datas);
+                    break;
+
+                case Define.Language.JP:
+                    Managers.Data.Trait_JP.TryGetValue((TraitGroup)item.id, out datas);
+                    break;
+            }
+            if (datas.Item1 == null || datas.Item2 == null)
+            {
+                Debug.Log($"{item.id} : CSV Data Not Exist");
+                continue;
+            }
+
+            item.labelName = datas.Item1;
+            item.detail = datas.Item2;
+
             Trait_Dictionary.Add(item.trait, item);
         }
-
-
-        //foreach (var item in so_data)
-        //{
-        //    string[] datas = null;
-        //    switch (UserData.Instance.Language)
-        //    {
-        //        case Define.Language.EN:
-        //            Managers.Data.ObjectsLabel_EN.TryGetValue(item.id, out datas);
-        //            break;
-
-        //        case Define.Language.KR:
-        //            Managers.Data.ObjectsLabel_KR.TryGetValue(item.id, out datas);
-        //            break;
-        //    }
-        //    if (datas == null)
-        //    {
-        //        Debug.Log($"{item.id} : CSV Data Not Exist");
-        //        continue;
-        //    }
-
-        //    item.labelName = datas[0];
-        //    item.detail = datas[1];
-
-        //    NPC_Dictionary.Add(item.keyName, item);
-        //}
     }
 
 

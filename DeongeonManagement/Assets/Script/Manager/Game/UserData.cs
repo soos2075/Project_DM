@@ -97,6 +97,7 @@ public class UserData : MonoBehaviour
             GameManager.Monster.Init_LocalData();
             GameManager.NPC.Init_LocalData();
             GameManager.Technical.Init_LocalData();
+            GameManager.Trait.Init_LocalData();
         }
 
         Cor_Operation_ChangeLanguage = null;

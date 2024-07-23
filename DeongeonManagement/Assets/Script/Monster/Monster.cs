@@ -229,7 +229,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
     #region I_Battle Stat
 
     public int B_HP { get => HP_Final; }
-    public int B_HP_Max { get => HP_Max; }
+    public int B_HP_Max { get => HPMax_Final; }
     public int B_ATK { get => ATK_Final; }
     public int B_DEF { get => DEF_Final; }
     public int B_AGI { get => AGI_Final; }
@@ -261,6 +261,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
 
 
     int HP_Final { get { return HP + Trait_HP; } }
+    int HPMax_Final { get { return HP_Max + Trait_HP; } }
 
 
     int ATK_Final { get { return ATK + AllStat_Bonus + Trait_ATK + ATK_Bonus; } }
@@ -276,7 +277,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
     int LUK_Bonus { get { return 0; } }
 
 
-    int AllStat_Bonus { get { return Orb_Bonus + Floor_Bonus + Trait_Friend; } }
+    int AllStat_Bonus { get { return Orb_Bonus + Floor_Bonus + Trait_Friend + Trait_Veteran; } }
 
 
 
@@ -294,6 +295,18 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
             {
                 return TraitCheck(TraitGroup.Friend) ? PlacementInfo.Place_Floor.GetFloorObjectList(Define.TileType.Monster).Count - 1 : 0;
             }
+            return 0;
+        }
+    }
+
+    //? Trait_Veteran
+    int Trait_Veteran
+    {
+        get
+        {
+            if (TraitCheck(TraitGroup.VeteranC)) { return 1; }
+            if (TraitCheck(TraitGroup.VeteranB)) { return 2; }
+            if (TraitCheck(TraitGroup.VeteranA)) { return 3; }
             return 0;
         }
     }
@@ -1117,11 +1130,27 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
 
     public void GetBattlePoint(int _npcRank)
     {
-        BattlePoint_Rank += _npcRank;
+        int exp = _npcRank;
+
+        if (TraitCheck(TraitGroup.DiscreetC))
+        {
+            exp = Mathf.RoundToInt(exp * 1.2f);
+        }
+        if (TraitCheck(TraitGroup.DiscreetB))
+        {
+            exp = Mathf.RoundToInt(exp * 1.4f);
+        }
+        if (TraitCheck(TraitGroup.DiscreetA))
+        {
+            exp = Mathf.RoundToInt(exp * 1.6f);
+        }
+
+
+        BattlePoint_Rank += exp;
         BattlePoint_Count++;
         //Debug.Log($"{Name_KR}// 랭크포인트:{BattleCount_Rank} // 전투횟수:{BattleCount_Quantity}");
 
-        if (BattlePoint_Count >= 5 || BattlePoint_Rank >= Mathf.Clamp(LV * 2, 4, 30) )
+        if (BattlePoint_Count >= 5 || BattlePoint_Rank >= Mathf.Clamp(LV * 2, 5, 50))
         {
             Debug.Log($"{Name_Color}.Lv{LV}가 레벨업");
             BattleLevelUp();
@@ -1143,6 +1172,14 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
 
     void Injury()
     {
+        if (TraitCheck(TraitGroup.SurvivabilityS))
+        {
+            HP = 1;
+            State = MonsterState.Standby;
+            return;
+        }
+
+
         GameManager.Monster.RemoveLevelUpEvent(this);
         BattlePoint_Rank = 0;
         BattlePoint_Count = 0;
@@ -1215,24 +1252,58 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
 
         LV++;
 
-        HP_Max += TryStatUp(Data.up_hp, ref hp_chance);
+        float hp_value = Data.up_hp;
+        float atk_value = Data.up_atk;
+        float def_value = Data.up_def;
+        float agi_value = Data.up_agi;
+        float luk_value = Data.up_luk;
+
+        if (TraitCheck(TraitGroup.EliteC))
+        {
+            hp_value += 0.2f;
+            atk_value += 0.1f;
+            def_value += 0.1f;
+            agi_value += 0.05f;
+            luk_value += 0.05f;
+        }
+        if (TraitCheck(TraitGroup.EliteB))
+        {
+            hp_value += 0.4f;
+            atk_value += 0.2f;
+            def_value += 0.2f;
+            agi_value += 0.1f;
+            luk_value += 0.1f;
+        }
+        if (TraitCheck(TraitGroup.EliteA))
+        {
+            hp_value += 0.6f;
+            atk_value += 0.3f;
+            def_value += 0.3f;
+            agi_value += 0.15f;
+            luk_value += 0.15f;
+        }
+
+
+        HP_Max += TryStatUp(hp_value, ref hp_chance);
         HP = HP_Max;
 
-        ATK += TryStatUp(Data.up_atk, ref atk_chance);
-        DEF += TryStatUp(Data.up_def, ref def_chance);
-        AGI += TryStatUp(Data.up_agi, ref agi_chance);
-        LUK += TryStatUp(Data.up_luk, ref luk_chance);
+        ATK += TryStatUp(atk_value, ref atk_chance);
+        DEF += TryStatUp(def_value, ref def_chance);
+        AGI += TryStatUp(agi_value, ref agi_chance);
+        LUK += TryStatUp(luk_value, ref luk_chance);
+
+
 
         AddCollectionPoint();
     }
-    public void StatUp()
-    {
-        HP_Max += TryStatUp(Data.up_hp, ref hp_chance);
-        ATK += TryStatUp(Data.up_atk, ref atk_chance);
-        DEF += TryStatUp(Data.up_def, ref def_chance);
-        AGI += TryStatUp(Data.up_agi, ref agi_chance);
-        LUK += TryStatUp(Data.up_luk, ref luk_chance);
-    }
+    //public void StatUp()
+    //{
+    //    HP_Max += TryStatUp(Data.up_hp, ref hp_chance);
+    //    ATK += TryStatUp(Data.up_atk, ref atk_chance);
+    //    DEF += TryStatUp(Data.up_def, ref def_chance);
+    //    AGI += TryStatUp(Data.up_agi, ref agi_chance);
+    //    LUK += TryStatUp(Data.up_luk, ref luk_chance);
+    //}
 
     int TryStatUp(float origin, ref float probability)
     {

@@ -533,7 +533,7 @@ public class BattleField : MonoBehaviour
 
         if (monster.TraitCheck(TraitGroup.Vitality))
         {
-            int bonusHP = monster.GetSomething(TraitGroup.Vitality, monster.HP_Max);
+            int bonusHP = monster.GetSomething(TraitGroup.Vitality, monster.B_HP_Max);
             int applyHP = monster.B_HP + bonusHP;
 
             int realValue = applyHP > monster.B_HP_Max ? (monster.B_HP_Max - monster.B_HP) : bonusHP;

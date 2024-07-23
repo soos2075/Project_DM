@@ -385,6 +385,8 @@ public class EventNPC : NPC
     {
         //Managers.Dialogue.ShowDialogueUI($"Day{8}_Event_Die", transform);
         StartCoroutine(DieEvent());
+
+        AddCollectionPoint();
     }
 
     IEnumerator DieEvent()

@@ -74,7 +74,8 @@ public class EarthGolem : Monster
                     EventManager.Instance.RemoveQuestAction(1101);
                     var ui = Managers.UI.ShowPopUp<UI_StatusUp>("Monster/UI_StatusUp");
                     ui.TargetMonster(this);
-                    ui.StateText = "æÓΩ∫∞Ò∑Ω -> «√∑π¿”∞Ò∑Ω ¡¯»≠!!";
+                    ui.StateText = $"{GameManager.Monster.GetData("EarthGolem").labelName} °Ê " +
+                        $"{GameManager.Monster.GetData("FlameGolem").labelName} {UserData.Instance.LocaleText("¡¯»≠")}!!";
                     EvolutionComplete();
                 }
                 break;
@@ -86,7 +87,23 @@ public class EarthGolem : Monster
         Data = GameManager.Monster.GetData("FlameGolem");
         Initialize_Status();
         GameManager.Monster.ChangeSLA(this, "FlameGolem");
-
         GameManager.Monster.Regist_Evolution("EarthGolem");
+
+        ChangeTrait_Evolution();
+    }
+
+    void ChangeTrait_Evolution()
+    {
+        List<ITrait> newTrait = new List<ITrait>();
+
+        newTrait.Add(new Trait.Vitality());
+        if (TraitCheck(TraitGroup.VeteranC)) newTrait.Add(new Trait.VeteranB());
+        if (TraitCheck(TraitGroup.EliteC)) newTrait.Add(new Trait.EliteB());
+        if (TraitCheck(TraitGroup.DiscreetC)) newTrait.Add(new Trait.DiscreetB());
+        if (TraitCheck(TraitGroup.ShirkingC)) newTrait.Add(new Trait.ShirkingB());
+        if (TraitCheck(TraitGroup.SurvivabilityC)) newTrait.Add(new Trait.SurvivabilityB());
+        if (TraitCheck(TraitGroup.RuthlessC)) newTrait.Add(new Trait.RuthlessB());
+
+        TraitList = newTrait;
     }
 }

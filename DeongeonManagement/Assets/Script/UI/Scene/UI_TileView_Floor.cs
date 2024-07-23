@@ -166,7 +166,7 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
 
                 case PlacementType.Monster:
                     var monster = CurrentTile.Original as Monster;
-                    view.ViewDetail($"{monster.HP}/{monster.HP_Max}".SetTextColorTag(Define.TextColor.LightGreen));
+                    view.ViewDetail($"{monster.B_HP}/{monster.HP_Max}".SetTextColorTag(Define.TextColor.LightGreen));
                     break;
 
                 case PlacementType.NPC:
