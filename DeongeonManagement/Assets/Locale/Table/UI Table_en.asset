@@ -528,6 +528,10 @@ MonoBehaviour:
     m_Localized: Categorization
     m_Metadata:
       m_Items: []
+  - m_Id: 50133869770518528
+    m_Localized: Quest List
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

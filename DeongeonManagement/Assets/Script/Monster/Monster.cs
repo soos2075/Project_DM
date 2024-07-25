@@ -421,7 +421,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
         {
             PlacementDays = 0;
             StandbyDays++;
-            if (StandbyDays >= 3 && monster.Data.TraitableList.Contains(TraitGroup.DiscreetC))
+            if (StandbyDays >= 4 && monster.Data.TraitableList.Contains(TraitGroup.DiscreetC))
             {
                 monster.AddTrait(TraitGroup.DiscreetC);
             }
@@ -429,7 +429,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
             {
                 monster.AddTrait(TraitGroup.DiscreetB);
             }
-            if (StandbyDays >= 9 && monster.Data.TraitableList.Contains(TraitGroup.DiscreetA))
+            if (StandbyDays >= 8 && monster.Data.TraitableList.Contains(TraitGroup.DiscreetA))
             {
                 monster.AddTrait(TraitGroup.DiscreetA);
             }

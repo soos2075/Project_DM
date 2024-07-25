@@ -73,12 +73,16 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
 
 
 
-
         //? 테스트
         if (Managers.Scene.GetCurrentScene() == SceneName._2_Management)
         {
             var letterBox = Managers.UI.ShowPopUpNonPush<UI_LetterBox>();
             letterBox.SetBoxOption(UI_LetterBox.BoxOption.Dialogue, this);
+        }
+        else if (Managers.Scene.GetCurrentScene() == SceneName._6_NewOpening)
+        {
+            var letterBox = Managers.UI.ShowPopUpNonPush<UI_LetterBox>();
+            letterBox.SetBoxOption(UI_LetterBox.BoxOption.NoSkip_Dialogue, this);
         }
     }
 
@@ -206,6 +210,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
     {
         yield return new WaitForEndOfFrame();
 
+
         while (textCount < textData.TextDataList.Count)
         {
             string option = textData.TextDataList[textCount].optionString;
@@ -285,6 +290,19 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
             }
 
 
+            if (option.Contains("@Reserve"))
+            {
+                string actionName = option.Substring(option.IndexOf("@Reserve::") + 10, option.IndexOf("::Reserve") - (option.IndexOf("@Reserve::") + 10));
+
+                var split = actionName.Split(':');
+                int days = int.Parse(split[0]);
+                int id = int.Parse(split[1]);
+
+                EventManager.Instance.ReservationToQuest(days, id);
+            }
+
+
+
 
             Action optionAction = null;
             if (option.Contains("@Option")) //? ID를 받아서 퀘스트만큼의 선택지를 제공
@@ -298,9 +316,8 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
             //? 위의 Option은 길드에서만 가능. 만약 게임씬에서 선택지를 쓰고싶으면 새로 다른이름으로 새로 만들어야함.
 
 
-
-            yield return StartCoroutine(TypingEffect(Data.TextDataList[textCount].mainText, optionAction));
             textCount++;
+            yield return StartCoroutine(TypingEffect(Data.TextDataList[textCount - 1].mainText, optionAction));
         }
 
         //Time.timeScale = 1;
@@ -401,6 +418,11 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
             return;
         }
 
+        if (Managers.Dialogue.AllowPerfectSkip == false)
+        {
+            return;
+        }
+
         DialogueData textData = Data;
 
         while (textCount < textData.TextDataList.Count)
@@ -423,6 +445,17 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
                 {
                     EventManager.Instance.GetAction(actionName)?.Invoke();
                 }
+            }
+
+            if (option.Contains("@Reserve"))
+            {
+                string actionName = option.Substring(option.IndexOf("@Reserve::") + 10, option.IndexOf("::Reserve") - (option.IndexOf("@Reserve::") + 10));
+
+                var split = actionName.Split(':');
+                int days = int.Parse(split[0]);
+                int id = int.Parse(split[1]);
+
+                EventManager.Instance.ReservationToQuest(days, id);
             }
 
             //if (option.Contains("@Option")) //? ID를 받아서 퀘스트만큼의 선택지를 제공

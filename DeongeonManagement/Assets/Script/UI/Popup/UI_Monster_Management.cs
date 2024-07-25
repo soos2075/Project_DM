@@ -39,14 +39,24 @@ public class UI_Monster_Management : UI_PopUp
     {
         Lv,
         Name,
-        Status,
+        //Status,
         //State,
-        DetailInfo,
+        DetailInfo_State,
+        DetailInfo_AP,
+        DetailInfo_Floor,
+
+        Status_HP,
+        Status_ATK,
+        Status_DEF,
+        Status_AGI,
+        Status_LUK,
     }
     enum Etc
     {
         Profile,
         Return,
+
+        Icon_Face_State,
     }
 
     enum Buttons
@@ -148,10 +158,14 @@ public class UI_Monster_Management : UI_PopUp
             }
         }
 
-        GetTMP((int)Texts.DetailInfo).text = $"{floorName}\n" +
+        GetTMP((int)Texts.DetailInfo_Floor).text = $"{floorName}\n" +
             $"{UserData.Instance.LocaleText("배치된 몬스터")} : {placeMonsters}\n" +
             $"{UserData.Instance.LocaleText("배치가능 몬스터")} : {ableMonsters}";
+
+        GetTMP((int)Texts.DetailInfo_AP).text = "";
+        GetTMP((int)Texts.DetailInfo_State).text = "";
     }
+
 
 
 
@@ -242,7 +256,8 @@ public class UI_Monster_Management : UI_PopUp
     void AddFloorInfo()
     {
         GetImage(((int)Panels.FloorPanel)).gameObject.SetActive(true);
-        GetTMP((int)Texts.DetailInfo).text = $"{UserData.Instance.LocaleText("AP")} : {Main.Instance.Player_AP}";
+        GetTMP((int)Texts.DetailInfo_AP).text = $"{UserData.Instance.LocaleText("AP")} : {Main.Instance.Player_AP}";
+        GetTMP((int)Texts.DetailInfo_Floor).text = "";
     }
 
     #endregion
@@ -260,13 +275,13 @@ public class UI_Monster_Management : UI_PopUp
 
     void SelectedPanel(UI_MonsterBox selected)
     {
-        selected.ChangePanelColor(Define.Color_Alpha_2);
+        selected.ChangePanelColor(Color.white);
 
         Current = selected;
         //Debug.Log(Current.monster.MonsterID);
         for (int i = 0; i < childList.Count; i++)
         {
-            childList[i].ChangePanelColor(Define.Color_Alpha_6);
+            childList[i].ChangePanelColor(Color.white);
         }
     }
 
@@ -278,15 +293,32 @@ public class UI_Monster_Management : UI_PopUp
         GetImage((int)Panels.ProfilePanel).gameObject.SetActive(true);
 
         GetTMP((int)Texts.Lv).text = $"Lv.{Current.monster.LV} / {Current.monster.Data.maxLv}";
-        GetTMP((int)Texts.Name).text = Current.monster.Name_Color;
+        GetTMP((int)Texts.Name).text = Current.monster.Name;
 
-        GetTMP((int)Texts.Status).text = $"HP : {Current.monster.HP} / {Current.monster.HP_Max} " +
-            $"{Util.SetTextColorTag($"(+{Current.monster.B_HP - Current.monster.HP})", Define.TextColor.npc_red)}\n";
-        GetTMP((int)Texts.Status).text +=
-            $"ATK : {Current.monster.ATK} {Util.SetTextColorTag($"(+{Current.monster.B_ATK - Current.monster.ATK})", Define.TextColor.npc_red)}" +
-            $"\tDEF : {Current.monster.DEF} {Util.SetTextColorTag($"(+{Current.monster.B_DEF - Current.monster.DEF})", Define.TextColor.npc_red)}" +
-            $"\nAGI : {Current.monster.AGI} {Util.SetTextColorTag($"(+{Current.monster.B_AGI - Current.monster.AGI})", Define.TextColor.npc_red)}" +
-            $"\tLUK : {Current.monster.LUK} {Util.SetTextColorTag($"(+{Current.monster.B_LUK - Current.monster.LUK})", Define.TextColor.npc_red)}";
+        //GetTMP((int)Texts.Status).text = $"HP : {Current.monster.HP} / {Current.monster.HP_Max} " +
+        //    $"{Util.SetTextColorTag($"(+{Current.monster.B_HP - Current.monster.HP})", Define.TextColor.npc_red)}\n";
+        //GetTMP((int)Texts.Status).text +=
+        //    $"ATK : {Current.monster.ATK} {Util.SetTextColorTag($"(+{Current.monster.B_ATK - Current.monster.ATK})", Define.TextColor.npc_red)}" +
+        //    $"\tDEF : {Current.monster.DEF} {Util.SetTextColorTag($"(+{Current.monster.B_DEF - Current.monster.DEF})", Define.TextColor.npc_red)}" +
+        //    $"\nAGI : {Current.monster.AGI} {Util.SetTextColorTag($"(+{Current.monster.B_AGI - Current.monster.AGI})", Define.TextColor.npc_red)}" +
+        //    $"\tLUK : {Current.monster.LUK} {Util.SetTextColorTag($"(+{Current.monster.B_LUK - Current.monster.LUK})", Define.TextColor.npc_red)}";
+
+        GetTMP((int)Texts.Status_HP).text = $"{Current.monster.HP}/{Current.monster.HP_Max} " +
+            $"{Util.SetTextColorTag($"(+{Current.monster.B_HP - Current.monster.HP})", Define.TextColor.npc_red)}";
+
+        GetTMP((int)Texts.Status_ATK).text = $"{Current.monster.ATK} " +
+            $"{Util.SetTextColorTag($"(+{Current.monster.B_ATK - Current.monster.ATK})", Define.TextColor.npc_red)}";
+
+        GetTMP((int)Texts.Status_DEF).text = $"{Current.monster.DEF} " +
+            $"{Util.SetTextColorTag($"(+{Current.monster.B_DEF - Current.monster.DEF})", Define.TextColor.npc_red)}";
+
+        GetTMP((int)Texts.Status_AGI).text = $"{Current.monster.AGI} " +
+            $"{Util.SetTextColorTag($"(+{Current.monster.B_AGI - Current.monster.AGI})", Define.TextColor.npc_red)}";
+
+        GetTMP((int)Texts.Status_LUK).text = $"{Current.monster.LUK} " +
+            $"{Util.SetTextColorTag($"(+{Current.monster.B_LUK - Current.monster.LUK})", Define.TextColor.npc_red)}";
+
+
 
 
         //if (GameManager.Buff.CurrentBuff.Orb_red > 0)
@@ -395,7 +427,7 @@ public class UI_Monster_Management : UI_PopUp
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
         Debug.Log("창 새로고침");
-        GetTMP((int)Texts.DetailInfo).text = $"{UserData.Instance.LocaleText("AP")} : {Main.Instance.Player_AP}";
+        GetTMP((int)Texts.DetailInfo_AP).text = $"{UserData.Instance.LocaleText("AP")} : {Main.Instance.Player_AP}";
 
         ShowDetail(Current);
         for (int i = 0; i < childList.Count; i++)
@@ -429,8 +461,10 @@ public class UI_Monster_Management : UI_PopUp
                 GetButton(((int)Buttons.Release)).gameObject.
                     AddUIEvent((data) => GameManager.Monster.ReleaseMonster(Current.monster.MonsterID));
 
-                GetTMP((int)Texts.DetailInfo).text = $"{UserData.Instance.LocaleText("대기중")}\n" +
-                    $"{UserData.Instance.LocaleText("AP")} : {Main.Instance.Player_AP}";
+                GetTMP((int)Texts.DetailInfo_State).text = $"{UserData.Instance.LocaleText("대기중")}\n";
+                GetObject((int)Etc.Icon_Face_State).GetComponent<Image>().sprite = Managers.Sprite.GetSprite_SLA("Element_Face", "Standby");
+                GetTMP((int)Texts.DetailInfo_AP).text = $"{UserData.Instance.LocaleText("AP")} : {Main.Instance.Player_AP}";
+                GetTMP((int)Texts.DetailInfo_Floor).text = "";
                 break;
 
 
@@ -448,8 +482,12 @@ public class UI_Monster_Management : UI_PopUp
                 GetButton(((int)Buttons.Training)).GetComponentInChildren<TextMeshProUGUI>().text = 
                     $"{UserData.Instance.LocaleText("훈련")}(1)";
 
-                GetTMP((int)Texts.DetailInfo).text = $"{UserData.Instance.LocaleText("배치중")} : {Current.monster.PlacementInfo.Place_Floor.LabelName}\n" +
-                    $"{UserData.Instance.LocaleText("AP")} : {Main.Instance.Player_AP}";
+                GetTMP((int)Texts.DetailInfo_State).text = $"{UserData.Instance.LocaleText("배치중")}";
+                GetTMP((int)Texts.DetailInfo_Floor).text = $"{Current.monster.PlacementInfo.Place_Floor.LabelName}";
+
+                GetObject((int)Etc.Icon_Face_State).GetComponent<Image>().sprite = Managers.Sprite.GetSprite_SLA("Element_Face", "Placement");
+                GetTMP((int)Texts.DetailInfo_AP).text = $"{UserData.Instance.LocaleText("AP")} : {Main.Instance.Player_AP}";
+                
                 break;
 
 
@@ -480,9 +518,9 @@ public class UI_Monster_Management : UI_PopUp
                 GetButton(((int)Buttons.Recover)).gameObject.
                     AddUIEvent((data) => Current.monster.Recover(RecoverCost));
                 GetButton(((int)Buttons.Recover)).GetComponentInChildren<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText("회복")}({RecoverCost})";
-
-
-                GetTMP((int)Texts.DetailInfo).text = $"{UserData.Instance.LocaleText("회복")} {UserData.Instance.LocaleText("Mana")} : {RecoverCost}";
+                GetObject((int)Etc.Icon_Face_State).GetComponent<Image>().sprite = Managers.Sprite.GetSprite_SLA("Element_Face", "Injury");
+                GetTMP((int)Texts.DetailInfo_State).text = $"{UserData.Instance.LocaleText("회복")} {UserData.Instance.LocaleText("Mana")} : {RecoverCost}";
+                GetTMP((int)Texts.DetailInfo_Floor).text = "";
                 break;
         }
     }

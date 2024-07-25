@@ -315,7 +315,35 @@ KR,\' = '\n',"-' = ','",,,,,,
 ,4000,Heroine_0,Bubble,,,0,,……
 ,,,,,,,,
 ,,,,,,,,
-,4010,Heroine_10,Bubble,,,0,,뭐야. 볼 일 없으면 <size=40>꺼져.
+,4010,Heroine_10,Bubble,,,0, @Reserve::2:4020::Reserve,뭐야. 볼 일 없으면 <size=40>꺼져.
+,,,,,,,,
+,,,,,,,,
+,4020,Heroine_20,Bubble,,,0, @Pos::Down::Pos,……
+,,,,,,1, @Target::Player::Target @Pos::Up::Pos,……
+,,,,,,2, @Target::Heroine::Target @Pos::Down::Pos,……
+,,,,,,3, @Target::Player::Target @Pos::Up::Pos,……
+,,,,,,4, @Target::Heroine::Target @Pos::Down::Pos,거기. 너.
+,,,,,,5,,쳐다보지만 말고 말을 해.
+,,,,,,6, @Target::Player::Target @Pos::Up::Pos,아- 안녕하세요.
+,,,,,,7, @Target::Heroine::Target @Pos::Down::Pos,이제와서?
+,,,,,,8, @Target::Player::Target @Pos::Up::Pos,어- 그게 왠지 말걸면 안될 것 같아서요.
+,,,,,,9, @Target::Heroine::Target @Pos::Down::Pos,무슨 바보같은 소리야?
+,,,,,,10,,…에휴- 됐다.
+,,,,,,11,,그보다 너- 혹시 초보자 던전에 대해서 잘 알아?
+,,,,,,12, @Target::Player::Target @Pos::Up::Pos,아- 네. 자주 다녀요.
+,,,,,,13, @Target::Heroine::Target @Pos::Down::Pos,하긴- 너같이 초보같아 보이는 모험가에겐 선택지가 별로 없겠지.
+,,,,,,14, @Target::Player::Target @Pos::Up::Pos,……
+,,,,,,15, @Target::Heroine::Target @Pos::Down::Pos,그럼 혹시 최근에 들리는 소문에 대해서 아는 거 있어?
+,,,,,,16, @Target::Player::Target @Pos::Up::Pos,무슨 소문이요?
+,,,,,,17, @Target::Heroine::Target @Pos::Down::Pos,초보자 던전에 강한 몬스터가 나온다든가- \귀한 아티팩트가 나온다든가 하는 소문말이야.
+,,,,,,18, @Target::Player::Target @Pos::Up::Pos,음… 잘 모르겠네요.
+,,,,,,19,,아- 확실히 난이도가 조금은 올라갔을지도? \귀한 약초가 나온 것 같기도 하고?
+,,,,,,20, @Target::Heroine::Target @Pos::Down::Pos,올라갔다는거야- 아니라는거야.
+,,,,,,21,,말 좀 똑바로 해줄래?
+,,,,,,22, @Target::Player::Target @Pos::Up::Pos,그게… 사실 잘 몰라서요. 깊은 곳까진 가보지 않아서…
+,,,,,,23, @Target::Heroine::Target @Pos::Down::Pos,에휴- 됐다. 너같은 초보자한테 물어본 내가 잘못이지.
+,,,,,,24,,이제 됐으니 저리 꺼져.
+,,,,,,25, @Target::Player::Target @Pos::Up::Pos,……
 ,,,,,,,,
 ,,,,,,,,
 ,5000,Odd_0,Bubble,,,0,,아- 안녕하세요.

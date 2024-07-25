@@ -318,6 +318,34 @@ KR,\' = '\n',"-' = ','",,,,,,
 ,4010,Heroine_10,Bubble,,,0,,What. If you have no business- <size=40>get lost.
 ,,,,,,,,
 ,,,,,,,,
+,4020,Heroine_20,Bubble,,,0, @Pos::Down::Pos,・・
+,,,,,,1, @Target::Player::Target @Pos::Up::Pos,・・
+,,,,,,2, @Target::Heroine::Target @Pos::Down::Pos,・・
+,,,,,,3, @Target::Player::Target @Pos::Up::Pos,・・
+,,,,,,4, @Target::Heroine::Target @Pos::Down::Pos,There. You.
+,,,,,,5,,Don't just stare- say something.
+,,,,,,6, @Target::Player::Target @Pos::Up::Pos,Ah- hello.
+,,,,,,7, @Target::Heroine::Target @Pos::Down::Pos,Now you speak?
+,,,,,,8, @Target::Player::Target @Pos::Up::Pos,Um- I felt like I shouldn't talk to you.
+,,,,,,9, @Target::Heroine::Target @Pos::Down::Pos,What nonsense are you saying?
+,,,,,,10,,...Sigh- forget it.
+,,,,,,11,,More importantly- \do you know much about the Novice Dungeon?
+,,,,,,12, @Target::Player::Target @Pos::Up::Pos,Ah- yes. I go there often.
+,,,,,,13, @Target::Heroine::Target @Pos::Down::Pos,Well- I guess someone who looks like \a novice like you doesn't have many options.
+,,,,,,14, @Target::Player::Target @Pos::Up::Pos,......
+,,,,,,15, @Target::Heroine::Target @Pos::Down::Pos,Then do you know anything about the recent rumors?
+,,,,,,16, @Target::Player::Target @Pos::Up::Pos,What rumors?
+,,,,,,17, @Target::Heroine::Target @Pos::Down::Pos,Rumors about strong monsters appearing in the Novice Dungeon-\or rare artifacts being found.
+,,,,,,18, @Target::Player::Target @Pos::Up::Pos,Hmm... I'm not sure.
+,,,,,,19,,Ah- the difficulty might have increased a bit?\Maybe some rare herbs have appeared?
+,,,,,,20, @Target::Heroine::Target @Pos::Down::Pos,Did it increase or not?
+,,,,,,21,,Can you speak clearly?
+,,,,,,22, @Target::Player::Target @Pos::Up::Pos,Well... I don't really know. I haven't gone to the deeper parts...
+,,,,,,23, @Target::Heroine::Target @Pos::Down::Pos,Sigh- forget it. It's my fault for asking a novice like you.
+,,,,,,24,,That's enough- get lost.
+,,,,,,25, @Target::Player::Target @Pos::Up::Pos,・・
+,,,,,,,,
+,,,,,,,,
 ,5000,Odd_0,Bubble,,,0,,Ah- hello.
 ,,,,,,,,
 ,,,,,,,,

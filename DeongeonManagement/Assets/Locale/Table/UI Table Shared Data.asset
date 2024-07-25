@@ -499,6 +499,10 @@ MonoBehaviour:
     m_Key: "\uBD84\uB958"
     m_Metadata:
       m_Items: []
+  - m_Id: 50133869770518528
+    m_Key: QuestList
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

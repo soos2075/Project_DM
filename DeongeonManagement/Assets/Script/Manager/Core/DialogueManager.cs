@@ -177,6 +177,9 @@ public class DialogueManager
 
 
 
+    public bool AllowPerfectSkip { get; set; } = true;
+
+
 
     public IDialogue currentDialogue;
     public enum DialogueState
@@ -356,6 +359,7 @@ public enum DialogueName
     // Heroine ID : 4000
     Heroine_0 = 4000,
     Heroine_10 = 4010,
+    Heroine_20 = 4020,
 
     // πÃ¡§
     Odd_0 = 5000,

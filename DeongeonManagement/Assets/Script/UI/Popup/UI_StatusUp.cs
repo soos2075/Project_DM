@@ -22,8 +22,14 @@ public class UI_StatusUp : UI_PopUp
     {
         Lv,
         Name,
-        Status,
+        //Status,
         State,
+
+        Status_HP,
+        Status_ATK,
+        Status_DEF,
+        Status_AGI,
+        Status_LUK,
     }
 
 
@@ -71,14 +77,21 @@ public class UI_StatusUp : UI_PopUp
     void ShowDefault()
     {
         GetImage(((int)Images.Profile)).sprite = Managers.Sprite.GetSprite(monster.Data.spritePath);
-        GetTMP(((int)Texts.Name)).text = monster.Data.labelName.SetTextColorTag(Define.TextColor.monster_green);
+        GetTMP(((int)Texts.Name)).text = monster.Data.labelName;
     }
     void ShowUpStatus()
     {
         GetTMP(((int)Texts.Lv)).text = $"LV.{show_lv}";
-        GetTMP(((int)Texts.Status)).text = $"HP\t{show_hp}\n" +
-            $"ATK\t{show_atk} \tDEF\t{show_def} \n" +
-            $"AGI\t{show_agi} \tLUK\t{show_luk}";
+
+        //GetTMP(((int)Texts.Status)).text = $"HP\t{show_hp}\n" +
+        //    $"ATK\t{show_atk} \tDEF\t{show_def} \n" +
+        //    $"AGI\t{show_agi} \tLUK\t{show_luk}";
+
+        GetTMP(((int)Texts.Status_HP)).text = $"{show_hp}";
+        GetTMP(((int)Texts.Status_ATK)).text = $"{show_atk}";
+        GetTMP(((int)Texts.Status_DEF)).text = $"{show_def}";
+        GetTMP(((int)Texts.Status_AGI)).text = $"{show_agi}";
+        GetTMP(((int)Texts.Status_LUK)).text = $"{show_luk}";
     }
 
 
@@ -172,8 +185,8 @@ public class UI_StatusUp : UI_PopUp
 
         if (before_hp < after_hp)
         {
-            show_hp = $"{after_hp}".SetTextColorTag(Define.TextColor.LightGreen);
-            show_hp += $" бу{after_hp - before_hp}".SetTextColorTag(Define.TextColor.SkyBlue);
+            show_hp = $"{after_hp}".SetTextColorTag(Define.TextColor.green);
+            show_hp += $" бу{after_hp - before_hp}".SetTextColorTag(Define.TextColor.blue);
         }
         else if (before_hp > after_hp)
         {
@@ -184,8 +197,8 @@ public class UI_StatusUp : UI_PopUp
 
         if (before_atk < after_atk)
         {
-            show_atk = $"{after_atk}".SetTextColorTag(Define.TextColor.LightGreen);
-            show_atk += $" бу{after_atk - before_atk}".SetTextColorTag(Define.TextColor.SkyBlue);
+            show_atk = $"{after_atk}".SetTextColorTag(Define.TextColor.green);
+            show_atk += $" бу{after_atk - before_atk}".SetTextColorTag(Define.TextColor.blue);
         }
         else if (before_atk > after_atk)
         {
@@ -196,8 +209,8 @@ public class UI_StatusUp : UI_PopUp
 
         if (before_def < after_def)
         {
-            show_def = $"{after_def}".SetTextColorTag(Define.TextColor.LightGreen);
-            show_def += $" бу{after_def - before_def}".SetTextColorTag(Define.TextColor.SkyBlue);
+            show_def = $"{after_def}".SetTextColorTag(Define.TextColor.green);
+            show_def += $" бу{after_def - before_def}".SetTextColorTag(Define.TextColor.blue);
         }
         else if (before_def > after_def)
         {
@@ -208,8 +221,8 @@ public class UI_StatusUp : UI_PopUp
 
         if (before_agi < after_agi)
         {
-            show_agi = $"{after_agi}".SetTextColorTag(Define.TextColor.LightGreen);
-            show_agi += $" бу{after_agi - before_agi}".SetTextColorTag(Define.TextColor.SkyBlue);
+            show_agi = $"{after_agi}".SetTextColorTag(Define.TextColor.green);
+            show_agi += $" бу{after_agi - before_agi}".SetTextColorTag(Define.TextColor.blue);
         }
         else if (before_agi > after_agi)
         {
@@ -220,8 +233,8 @@ public class UI_StatusUp : UI_PopUp
 
         if (before_luk < after_luk)
         {
-            show_luk = $"{after_luk}".SetTextColorTag(Define.TextColor.LightGreen);
-            show_luk += $" бу{after_luk - before_luk}".SetTextColorTag(Define.TextColor.SkyBlue);
+            show_luk = $"{after_luk}".SetTextColorTag(Define.TextColor.green);
+            show_luk += $" бу{after_luk - before_luk}".SetTextColorTag(Define.TextColor.blue);
         }
         else if (before_luk > after_luk)
         {

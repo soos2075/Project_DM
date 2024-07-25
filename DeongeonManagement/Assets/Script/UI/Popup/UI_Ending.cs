@@ -115,25 +115,32 @@ public class UI_Ending : UI_PopUp
 
     IEnumerator Clear_Demo()
     {
-        clear.text = "Demo Clear";
+        clear.text = "Novice Dungeon Master\n\n" +
+            "Demo Clear!";
         yield return StartCoroutine(TextFadeIn(clear, 1));
         yield return new WaitForSeconds(2);
         yield return StartCoroutine(TextFadeOut(clear, 1));
 
-        clear.text = "Thanks for playing";
+        clear.text = "Made by LazyCnD \n\n" +
+            "Special thanks\n" +
+            "\nyupi" +
+            "\nQU4RTER" +
+            "\nREDRAY" +
+            "\n다피네";
         yield return StartCoroutine(TextFadeIn(clear, 1));
         yield return new WaitForSeconds(2);
         yield return StartCoroutine(TextFadeOut(clear, 1));
 
-        clear.text = "Made by LazyCnD & Special thanks to yupi";
+        clear.text = "And You\n\n\nThanks for playing!!";
         yield return StartCoroutine(TextFadeIn(clear, 1));
         yield return new WaitForSeconds(2);
         yield return StartCoroutine(TextFadeOut(clear, 1));
 
-        clear.text = "Novice Dungeon Master";
-        yield return StartCoroutine(TextFadeIn(clear, 1));
-        yield return new WaitForSeconds(2);
-        yield return StartCoroutine(TextFadeOut(clear, 1));
+
+        //clear.text = "Novice Dungeon Master";
+        //yield return StartCoroutine(TextFadeIn(clear, 1));
+        //yield return new WaitForSeconds(2);
+        //yield return StartCoroutine(TextFadeOut(clear, 1));
 
 
         Managers.Scene.LoadSceneAsync(SceneName._1_Start);
@@ -144,7 +151,8 @@ public class UI_Ending : UI_PopUp
     void DemoClearUI()
     {
         var ui = Managers.UI.ShowPopUp<UI_SystemMessage>();
-        ui.Message = $"데모 클리어입니다.\n\n재밌게 즐겨주셨다면 스팀 위시리스트도 추가해주세요!";
+        ui.Message = $"데모 클리어입니다.\n\n재밌게 즐겨주셨다면 스팀 찜하기를 눌러주세요!" +
+            $"\n더 많은 이벤트와 엔딩이 기다리고 있습니다!";
     }
 
 

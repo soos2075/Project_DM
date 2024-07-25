@@ -132,6 +132,7 @@ public class DataManager
                 continue;
             }
 
+
             string[] datas = new string[] { spl_comma[2], spl_comma[3], spl_comma[4], spl_comma[5], spl_comma[6] };
 
 
@@ -319,6 +320,8 @@ public class DataManager
 
         // 대기중인 턴 이벤트
         public List<EventManager.DayEvent> DayEventList;
+
+        public List<EventManager.Quest_Reservation> Reservation_Quest;
     }
     //private SaveData tempData;
     #endregion

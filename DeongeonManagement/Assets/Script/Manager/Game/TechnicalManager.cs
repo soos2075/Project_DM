@@ -32,6 +32,10 @@ public class TechnicalManager
                 case Define.Language.KR:
                     Managers.Data.ObjectsLabel_KR.TryGetValue(item.id, out datas);
                     break;
+
+                case Define.Language.JP:
+                    Managers.Data.ObjectsLabel_JP.TryGetValue(item.id, out datas);
+                    break;
             }
             if (datas == null)
             {

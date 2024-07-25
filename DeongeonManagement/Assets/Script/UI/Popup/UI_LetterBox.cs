@@ -12,9 +12,11 @@ public class UI_LetterBox : UI_PopUp
 
     public enum BoxOption
     {
+        NoSkip_Dialogue,
         Dialogue,
         Build,
         Monster,
+
     }
 
 
@@ -32,14 +34,21 @@ public class UI_LetterBox : UI_PopUp
     {
         Init();
 
+        System.Action dest = () => Managers.Resource.Destroy(gameObject);
         if (parent != null)
         {
-            parent.OnPopupCloseEvent += () => Managers.Resource.Destroy(gameObject);
+            parent.OnPopupCloseEvent += dest;
         }
 
+        AllClear();
 
         switch (option)
         {
+            case BoxOption.NoSkip_Dialogue:
+                parent.OnPopupCloseEvent -= dest;
+                Option_NoSkip();
+                break;
+
             case BoxOption.Dialogue:
                 Option_Dialogue();
                 break;
@@ -55,21 +64,31 @@ public class UI_LetterBox : UI_PopUp
     }
 
 
-    void Option_Dialogue()
+    void AllClear()
     {
+        GetObject((int)BoxOption.NoSkip_Dialogue).SetActive(false);
+        GetObject((int)BoxOption.Dialogue).SetActive(false);
         GetObject((int)BoxOption.Build).SetActive(false);
         GetObject((int)BoxOption.Monster).SetActive(false);
     }
 
+    void Option_NoSkip()
+    {
+        GetObject((int)BoxOption.NoSkip_Dialogue).SetActive(true);
+    }
+
+    void Option_Dialogue()
+    {
+        GetObject((int)BoxOption.Dialogue).SetActive(true);
+    }
+
     void Option_Build()
     {
-        GetObject((int)BoxOption.Dialogue).SetActive(false);
-        GetObject((int)BoxOption.Monster).SetActive(false);
+        GetObject((int)BoxOption.Build).SetActive(true);
     }
     void Option_Monster()
     {
-        GetObject((int)BoxOption.Build).SetActive(false);
-        GetObject((int)BoxOption.Dialogue).SetActive(false);
+        GetObject((int)BoxOption.Monster).SetActive(true);
     }
 
 

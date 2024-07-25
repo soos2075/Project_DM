@@ -16,6 +16,14 @@ public class UI_MonsterBox : UI_Base
     public UI_Monster_Management parent;
 
 
+    public Sprite Select;
+    public Sprite NonSelect;
+
+    public Sprite face_Standby;
+    public Sprite face_Placement;
+    public Sprite face_Injury;
+
+
     enum Contents
     {
         BG,
@@ -24,6 +32,7 @@ public class UI_MonsterBox : UI_Base
         Name,
         State,
         Lv,
+        Face,
     }
 
 
@@ -36,6 +45,8 @@ public class UI_MonsterBox : UI_Base
         ShowContents();
 
         gameObject.AddUIEvent((data) => ParentUpdate());
+
+        GetObject(((int)Contents.Line)).GetComponent<Image>().enabled = false;
     }
 
     
@@ -62,14 +73,17 @@ public class UI_MonsterBox : UI_Base
         {
             case Monster.MonsterState.Standby:
                 GetObject(((int)Contents.State)).GetComponent<TextMeshProUGUI>().text = UserData.Instance.LocaleText("대기중").SetTextColorTag(Define.TextColor.green);
+                GetObject((int)Contents.Face).GetComponent<Image>().sprite = face_Standby;
                 break;
 
             case Monster.MonsterState.Placement:
                 GetObject(((int)Contents.State)).GetComponent<TextMeshProUGUI>().text = $"{monster.PlacementInfo.Place_Floor.LabelName}".SetTextColorTag(Define.TextColor.blue);
+                GetObject((int)Contents.Face).GetComponent<Image>().sprite = face_Placement;
                 break;
 
             case Monster.MonsterState.Injury:
                 GetObject(((int)Contents.State)).GetComponent<TextMeshProUGUI>().text = UserData.Instance.LocaleText("부상중").SetTextColorTag(Define.TextColor.red);
+                GetObject((int)Contents.Face).GetComponent<Image>().sprite = face_Injury;
                 break;
         }
 
@@ -82,11 +96,24 @@ public class UI_MonsterBox : UI_Base
         GetObject(((int)Contents.Name)).GetComponent<TextMeshProUGUI>().text = "";
         GetObject(((int)Contents.State)).GetComponent<TextMeshProUGUI>().text = "";
         GetObject(((int)Contents.Lv)).GetComponent<TextMeshProUGUI>().text = "";
+
+        GetObject(((int)Contents.Line)).GetComponent<Image>().enabled = false;
+        GetObject((int)Contents.Face).GetComponent<Image>().sprite = Managers.Sprite.GetClear();
     }
 
     public void ChangePanelColor(Color color)
     {
-        if (parent.Current == this) return;
+        if (parent.Current == this)
+        {
+            GetObject(((int)Contents.Line)).GetComponent<Image>().enabled = true;
+            GetObject(((int)Contents.BG)).GetComponent<Image>().sprite = Select;
+            return;
+        }
+
+
+        GetObject(((int)Contents.Line)).GetComponent<Image>().enabled = false;
+        GetObject(((int)Contents.BG)).GetComponent<Image>().sprite = NonSelect;
+
 
         GetObject(((int)Contents.BG)).GetComponent<Image>().color = color;
     }

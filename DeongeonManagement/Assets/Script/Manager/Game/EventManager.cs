@@ -50,10 +50,14 @@ public class EventManager : MonoBehaviour
     }
 
 
+
+
     public void TurnStart()
     {
         CurrentTurn = Main.Instance.Turn;
         CurrentQuestAction?.Invoke();
+
+        Add_ReservationQuest();
     }
 
     public void TurnOver()
@@ -71,6 +75,8 @@ public class EventManager : MonoBehaviour
         CurrentQuestAction = null;
         CurrentQuestAction_forSave.Clear();
         DayEventList = new List<DayEvent>();
+
+        Reservation_Quest = new List<Quest_Reservation>();
     }
 
 
@@ -116,6 +122,11 @@ public class EventManager : MonoBehaviour
             save.DayEventList = new List<DayEvent>(DayEventList);
         }
 
+        if (Reservation_Quest != null)
+        {
+            save.Reservation_Quest = new List<Quest_Reservation>(Reservation_Quest);
+        }
+
 
         return save;
     }
@@ -131,21 +142,6 @@ public class EventManager : MonoBehaviour
         if (LoadData.eventData.CurrentGuildData != null)
         {
             CurrentGuildData.AddRange(LoadData.eventData.CurrentGuildData);
-
-
-
-            //Debug.Log($"/////////");
-
-
-            //var originA = CurrentGuildData[0];
-            //var copyA = CurrentGuildData[0].DeepCopy();
-            //Debug.Log($"originA = {originA.InstanceQuestList.Count}");
-            //Debug.Log($"copyA = {copyA.InstanceQuestList.Count}");
-
-            //originA.InstanceQuestList = new List<int> { 1, 2, 3 };
-
-            //Debug.Log($"originA = {originA.InstanceQuestList.Count}");
-            //Debug.Log($"copyA = {copyA.InstanceQuestList.Count}");
         }
 
         if (LoadData.eventData.AddQuest_Special != null)
@@ -169,6 +165,11 @@ public class EventManager : MonoBehaviour
         if (LoadData.eventData.DayEventList != null)
         {
             DayEventList = new List<DayEvent>(LoadData.eventData.DayEventList);
+        }
+
+        if (LoadData.eventData.Reservation_Quest != null)
+        {
+            Reservation_Quest = new List<Quest_Reservation>(LoadData.eventData.Reservation_Quest);
         }
     }
 
@@ -334,6 +335,52 @@ public class EventManager : MonoBehaviour
         AddQuest_Special = Util.ListDistinct(AddQuest_Special);
     }
 
+
+    //? 같은날 길드를 또간다고 퀘스트가 추가되면 안되기 때문에 날짜 예약하기
+    public List<Quest_Reservation> Reservation_Quest = new List<Quest_Reservation>();
+    public void ReservationToQuest(int day, int questIndex)
+    {
+        Reservation_Quest.Add(new Quest_Reservation(day, questIndex));
+    }
+
+    public void Add_ReservationQuest() //? 매일 턴이 바뀔때마다
+    {
+        var removeList = new List<Quest_Reservation>();
+        foreach (var item in Reservation_Quest)
+        {
+            item.days--;
+            if (item.days <= 0)
+            {
+                Add_Special(item.questIndex);
+                removeList.Add(item);
+            }
+        }
+
+        foreach (var item in removeList)
+        {
+            Reservation_Quest.Remove(item);
+        }
+    }
+
+
+    public class Quest_Reservation
+    {
+        public int days;
+        public int questIndex;
+
+        public Quest_Reservation()
+        {
+
+        }
+
+        public Quest_Reservation(int day, int index)
+        {
+            days = day;
+            questIndex = index;
+        }
+    }
+
+
     //? 길드가면 추가시켜야 될 퀘스트 리스트 - 인기도 올리는 것 같이 매일 초기화 되는 항목 (얘는 퀘스트 발생 알림이 없음)
     public List<int> AddQuest_Daily { get; set; } = new List<int>();
 
@@ -486,15 +533,7 @@ public class EventManager : MonoBehaviour
             StartCoroutine(NewEnding());
         });
     }
-    //IEnumerator WaitEnding(float _time)
-    //{
-    //    var fade = Managers.UI.ClearAndShowPopUp<UI_Fade>();
-    //    fade.SetFadeOption(UI_Fade.FadeMode.WhiteOut, 1);
 
-    //    //UserData.Instance.GameClear();
-    //    yield return new WaitForSecondsRealtime(_time);
-    //    Managers.Scene.LoadSceneAsync(SceneName._5_Ending, false);
-    //}
 
     IEnumerator NewEnding()
     {
@@ -514,6 +553,16 @@ public class EventManager : MonoBehaviour
 
     IEnumerator EntranceMove_2to4()
     {
+        yield return null;
+        yield return new WaitForEndOfFrame();
+        if (Managers.Dialogue.GetState() == DialogueManager.DialogueState.None)
+        {
+            EntranceMove_2to4_Skip();
+            yield break;
+        }
+
+        Managers.Dialogue.AllowPerfectSkip = false;
+
         Camera.main.GetComponent<CameraControl>().ChasingTarget(new Vector3(0, -15, 0), 2);
         yield return new WaitForSecondsRealtime(2);
 
@@ -543,8 +592,34 @@ public class EventManager : MonoBehaviour
 
         Camera.main.GetComponent<CameraControl>().ChasingTarget(Main.Instance.Player, 2);
         yield return new WaitForSecondsRealtime(2);
+
+        Managers.Dialogue.AllowPerfectSkip = true;
     }
 
+
+    void EntranceMove_2to4_Skip()
+    {
+        if (Managers.Dialogue.GetState() == DialogueManager.DialogueState.None)
+        {
+            {
+                var tile = Main.Instance.Floor[2].GetRandomTile();
+                Main.Instance.Floor[2].TileMap.TryGetValue(new Vector2Int(0, 0), out tile);
+                GameManager.Facility.RemoveFacility(tile.Original as Facility);
+            }
+            {
+                var tile = Main.Instance.Floor[4].GetRandomTile();
+                Main.Instance.Floor[4].TileMap.TryGetValue(new Vector2Int(1, 15), out tile);
+                // 로드파일에서 테스트할 때
+                if (tile.Original != null)
+                {
+                    GameManager.Facility.RemoveFacility(tile.Original as Facility);
+                }
+
+                PlacementInfo info = new PlacementInfo(Main.Instance.Floor[4], tile);
+                var obj = GameManager.Facility.CreateFacility_OnlyOne("EggEntrance", info);
+            }
+        }
+    }
 
 
 
