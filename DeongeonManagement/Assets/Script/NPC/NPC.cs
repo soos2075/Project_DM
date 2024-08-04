@@ -553,7 +553,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat
         UI_EventBox.AddEventText($"◆{Name_Color} {UserData.Instance.LocaleText("Event_Enter")}");
         if (GameManager.Technical.Donation != null)
         {
-            Main.Instance.CurrentDay.AddGold(5);
+            Main.Instance.CurrentDay.AddGold(5, Main.DayResult.EventType.Etc);
             Main.Instance.ShowDM(5, Main.TextType.gold, GameManager.Technical.Donation_Pos, 1);
         }
 
@@ -942,19 +942,40 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat
 
     void Runaway_Base()
     {
-        Main.Instance.CurrentDay.AddReturn(1);
+        Main.Instance.CurrentDay.AddRunaway(1);
         NPC_Runaway();
+
+        var emotion = Managers.Resource.Instantiate("NPC/Emotions", transform);
+        emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.GetSprite_SLA("Run");
     }
     void Empty_Base()
     {
-        Main.Instance.CurrentDay.AddReturn(1);
+        Main.Instance.CurrentDay.AddEmpty(1);
         NPC_Return_Empty();
+
+        var emotion = Managers.Resource.Instantiate("NPC/Emotions", transform);
+        emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.GetSprite_SLA("Bad");
     }
     void Satisfaction_Base()
     {
         AddCollectionPoint();
-        Main.Instance.CurrentDay.AddSatisfaction(1);
-        NPC_Return_Satisfaction();
+
+        if (Mana <= Data.MP / 4)
+        {
+            Main.Instance.CurrentDay.AddSatisfaction(1);
+            NPC_Return_Satisfaction();
+
+            var emotion = Managers.Resource.Instantiate("NPC/Emotions", transform);
+            emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.GetSprite_SLA("Perfect");
+        }
+        else
+        {
+            Main.Instance.CurrentDay.AddNonSatisfaction(1);
+            NPC_Return_NonSatisfaction();
+
+            var emotion = Managers.Resource.Instantiate("NPC/Emotions", transform);
+            emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.GetSprite_SLA("Good");
+        }
     }
     void Die_Base()
     {
@@ -974,7 +995,23 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat
 
     protected abstract void NPC_Runaway();
     protected abstract void NPC_Return_Empty();
-    protected abstract void NPC_Return_Satisfaction();
+    protected virtual void NPC_Return_Satisfaction()
+    {
+        int value = Mathf.RoundToInt(Data.Rank * 1.6f);
+
+        Main.Instance.CurrentDay.AddPop(value);
+        Main.Instance.ShowDM(value, Main.TextType.pop, transform, 1);
+    }
+    protected virtual void NPC_Return_NonSatisfaction() //? RoundToInt에서  0.5는 0임  그래서 0.5보다 더 큰숫자로해야되서 0.6으로함
+    {
+        int value = Mathf.RoundToInt(Data.Rank * 0.6f);
+
+        Main.Instance.CurrentDay.AddPop(value);
+        Main.Instance.ShowDM(value, Main.TextType.pop, transform, 1);
+
+        Main.Instance.CurrentDay.AddDanger(value);
+        Main.Instance.ShowDM(value, Main.TextType.danger, transform, 1);
+    }
 
     public virtual int KillGold { get; set; }
     protected abstract void NPC_Die();

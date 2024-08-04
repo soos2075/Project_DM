@@ -84,10 +84,17 @@ public class Herbalist : NPC
         Main.Instance.CurrentDay.AddPop(-Data.Rank);
         Main.Instance.ShowDM(-Data.Rank, Main.TextType.pop, transform, 1);
     }
-    protected override void NPC_Return_Satisfaction()
+    //protected override void NPC_Return_Satisfaction()
+    //{
+    //    Main.Instance.CurrentDay.AddPop(Data.Rank);
+    //    Main.Instance.ShowDM(Data.Rank, Main.TextType.pop, transform, 1);
+    //}
+    protected override void NPC_Return_NonSatisfaction()
     {
-        Main.Instance.CurrentDay.AddPop(Data.Rank);
-        Main.Instance.ShowDM(Data.Rank, Main.TextType.pop, transform, 1);
+        int value = Mathf.RoundToInt(Data.Rank * 0.6f); 
+
+        Main.Instance.CurrentDay.AddPop(value);
+        Main.Instance.ShowDM(value, Main.TextType.pop, transform, 1);
     }
     protected override void NPC_Runaway()
     {
@@ -104,7 +111,7 @@ public class Herbalist : NPC
         UI_EventBox.AddEventText($"¢Â{Name_Color} {UserData.Instance.LocaleText("Event_Prison")}");
         Main.Instance.CurrentDay.AddPrisoner(1);
 
-        Main.Instance.CurrentDay.AddGold(KillGold * 2);
+        Main.Instance.CurrentDay.AddGold(KillGold * 2, Main.DayResult.EventType.Monster);
         Main.Instance.ShowDM(KillGold * 2, Main.TextType.gold, transform);
 
         Main.Instance.CurrentDay.AddDanger(5 + Data.Rank);
@@ -125,7 +132,7 @@ public class Herbalist : NPC
 
         UI_EventBox.AddEventText($"¢Â{Name_Color} {UserData.Instance.LocaleText("Event_Defeat")}");
 
-        Main.Instance.CurrentDay.AddGold(KillGold);
+        Main.Instance.CurrentDay.AddGold(KillGold, Main.DayResult.EventType.Monster);
         Main.Instance.ShowDM(KillGold, Main.TextType.gold, transform);
 
         Main.Instance.CurrentDay.AddDanger(5 + Data.Rank);

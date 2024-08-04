@@ -104,7 +104,7 @@ public class Trap : Facility
 
         if (confirm.GetAnswer() == UI_Confirm.State.Yes)
         {
-            Main.Instance.CurrentDay.AddGold(ReturnGold(trapType));
+            Main.Instance.CurrentDay.AddGold(ReturnGold(trapType), Main.DayResult.EventType.Facility);
             GameManager.Facility.RemoveFacility(this);
         }
     }

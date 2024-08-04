@@ -207,7 +207,7 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
         if (applyMana > 0)
         {
-            Main.Instance.CurrentDay.AddMana(applyMana);
+            Main.Instance.CurrentDay.AddMana(applyMana, Main.DayResult.EventType.Facility);
             Main.Instance.ShowDM(applyMana, Main.TextType.mana, transform);
         }
 

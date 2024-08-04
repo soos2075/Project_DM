@@ -202,7 +202,7 @@ public class UI_Summon_Monster : UI_PopUp
         GameManager.Monster.AddMonster(mon);
 
         //Debug.Log($"{data.ManaCost}마나를 사용하여 {data.Name_KR}을 소환");
-        Main.Instance.CurrentDay.SubtractMana(data.manaCost);
+        Main.Instance.CurrentDay.SubtractMana(data.manaCost, Main.DayResult.EventType.Monster);
 
         Init_Texts();
 

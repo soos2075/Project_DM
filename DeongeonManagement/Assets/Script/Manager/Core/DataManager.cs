@@ -250,7 +250,7 @@ public class DataManager
 
         // 세이브 슬롯에 표시할 게임정보
         public int turn;
-        public int Final_Score;
+        //public int Final_Score;
 
         // 게임 진행상황
         public int DungeonLV;
@@ -262,7 +262,7 @@ public class DataManager
         public int Player_AP;
         public int AP_MAX;
 
-        public int Prisoner;
+        //public int Prisoner;
 
         public Save_DayResult CurrentDay;
         public Save_DayResult[] DayResultList;
@@ -285,19 +285,9 @@ public class DataManager
         public Save_TechnicalData[] tachnicalList;
 
 
-        //// Guild 정보
-        //public List<GuildNPC_Data> guildNPCList;
-
-        //// 조건채운 퀘스트 목록(길드에 추가되기전)
-        //public List<int> guildQuestList;
-
-        //// 현재 진행중인 퀘스트 목록
-        //public List<int> currentQuestList;
-
         public UserData.SavefileConfig savefileConfig;
 
         public BuffList buffList;
-
 
         public SaveData_EventData eventData;
     }
@@ -473,18 +463,14 @@ public class DataManager
         saveData.dateTime = System.DateTime.Now.ToString("F");
 
         saveData.turn = Main.Instance.Turn;
-        saveData.Final_Score = Main.Instance.Final_Score;
+        //saveData.Final_Score = Main.Instance.Final_Score;
+        //saveData.Prisoner = Main.Instance.Prisoner;
 
         saveData.DungeonLV = Main.Instance.DungeonRank;
-
         saveData.Player_Mana = Main.Instance.Player_Mana;
         saveData.Player_Gold = Main.Instance.Player_Gold;
-
         saveData.AP_MAX = Main.Instance.AP_MAX;
 
-        //saveData.FameOfDungeon = Main.Instance.PopularityOfDungeon;
-        //saveData.DangerOfDungeon = Main.Instance.DangerOfDungeon;
-        //saveData.Player_AP = Main.Instance.Player_AP;
         int _fame;
         int _danger;
         int _ap;
@@ -493,7 +479,6 @@ public class DataManager
         saveData.DangerOfDungeon = _danger;
         saveData.Player_AP = _ap;
 
-        saveData.Prisoner = Main.Instance.Prisoner;
 
         saveData.CurrentDay = new Save_DayResult(Main.Instance.CurrentDay);
         saveData.DayResultList = new Save_DayResult[Main.Instance.DayList.Count];

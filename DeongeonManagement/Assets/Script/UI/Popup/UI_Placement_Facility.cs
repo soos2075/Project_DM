@@ -19,6 +19,8 @@ public class UI_Placement_Facility : UI_PopUp
         Preview_Text_Title,
         Preview_Text_Contents,
         Preview_Area,
+
+        //PlacementOption,
     }
 
     enum Buttons
@@ -40,6 +42,7 @@ public class UI_Placement_Facility : UI_PopUp
     }
 
 
+    Toggle placeOptionToggle;
 
     public SO_Contents Current { get; set; }
 
@@ -56,6 +59,9 @@ public class UI_Placement_Facility : UI_PopUp
         Bind<GameObject>(typeof(Preview));
         Bind<Button>(typeof(Buttons));
         Bind<TextMeshProUGUI>(typeof(Info));
+
+        placeOptionToggle = GetComponentInChildren<Toggle>();
+        placeOptionToggle.isOn = Main.Instance.isContinueOption;
 
         Init_Panels();
         Init_Preview();
@@ -196,18 +202,18 @@ public class UI_Placement_Facility : UI_PopUp
 
 
         FindAnyObjectByType<UI_Management>().Hide_MainCanvas();
-
-        Main.Instance.PurchaseAction = () => SubAction(mana, gold);
+        //Main.Instance.PurchaseAction = () => SubAction(mana, gold);
+        Main.Instance.CurrentPurchase = new Main.PurchaseInfo(mana, gold, placeOptionToggle.isOn);
         action.Invoke();
         return true;
     }
 
 
-    void SubAction(int mana, int gold)
-    {
-        Main.Instance.CurrentDay.SubtractMana(mana);
-        Main.Instance.CurrentDay.SubtractGold(gold);
-    }
+    //void SubAction(int mana, int gold)
+    //{
+    //    Main.Instance.CurrentDay.SubtractMana(mana);
+    //    Main.Instance.CurrentDay.SubtractGold(gold);
+    //}
 
 
 

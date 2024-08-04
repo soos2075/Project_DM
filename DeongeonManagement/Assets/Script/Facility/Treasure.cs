@@ -155,7 +155,7 @@ public class Treasure : Facility
         if (applyMana > 0)
         {
             npc.Mana -= applyMana;
-            Main.Instance.CurrentDay.AddMana(applyMana);
+            Main.Instance.CurrentDay.AddMana(applyMana, Main.DayResult.EventType.Facility);
             var dm = Main.Instance.dm_small.Spawn(transform.position, $"+{applyMana} mana");
             dm.SetColor(Color.blue);
         }
@@ -163,7 +163,7 @@ public class Treasure : Facility
         npc.ActionPoint -= ap_value;
         npc.HP -= hp_value;
 
-        Main.Instance.CurrentDay.AddGold(gold_value);
+        Main.Instance.CurrentDay.AddGold(gold_value, Main.DayResult.EventType.Facility);
         Main.Instance.CurrentDay.AddPop(pop_value);
         Main.Instance.CurrentDay.AddDanger(danger_value);
 

@@ -446,7 +446,7 @@ public class EventNPC : NPC
 
         //Debug.Log(EventDay + "eventDay");
         //Debug.Log(Main.Instance.Turn + "Turn");
-        Main.Instance.CurrentDay.AddGold(KillGold);
+        Main.Instance.CurrentDay.AddGold(KillGold, Main.DayResult.EventType.Monster);
         GameManager.NPC.InactiveNPC(this);
     }
 
@@ -465,6 +465,11 @@ public class EventNPC : NPC
     {
         
     }
+    protected override void NPC_Return_NonSatisfaction()
+    {
+        
+    }
+
     protected override void NPC_Runaway()
     {
         

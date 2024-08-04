@@ -87,7 +87,7 @@ public class Wells : Facility, IWall
         npc.Mana -= mp;
         npc.HP -= hp;
 
-        Main.Instance.CurrentDay.AddMana(10);
+        Main.Instance.CurrentDay.AddMana(10, Main.DayResult.EventType.Facility);
         Main.Instance.ShowDM(10, Main.TextType.mana, transform);
 
         OverCor_Wells(npc);

@@ -325,7 +325,7 @@ public class Main : MonoBehaviour
     public void SetLoadData(DataManager.SaveData data)
     {
         Turn = data.turn;
-        Final_Score = data.Final_Score;
+        //Final_Score = data.Final_Score;
 
         DungeonRank = data.DungeonLV;
         PopularityOfDungeon = data.FameOfDungeon;
@@ -336,7 +336,7 @@ public class Main : MonoBehaviour
         Player_AP = data.Player_AP;
         AP_MAX = data.AP_MAX;
 
-        Prisoner = data.Prisoner;
+        //Prisoner = data.Prisoner;
 
         CurrentDay = new DayResult(data.CurrentDay);
         DayList = new List<DayResult>();
@@ -416,20 +416,20 @@ public class Main : MonoBehaviour
     }
 
 
-    public int Final_Score { get; private set; }
+    //public int Final_Score { get; private set; }
 
-    void AddScore(DayResult day)
-    {
-        //? 점수시스템은 리뉴얼이 필요. 킬점수와 비슷하게 만족시켜서 돌아간 점수도 줘야함. 빈손으로 돌아가면 -는 아니고 0점이여도 만족은 점수를 높게
+    //void AddScore(DayResult day)
+    //{
+    //    //? 점수시스템은 리뉴얼이 필요. 킬점수와 비슷하게 만족시켜서 돌아간 점수도 줘야함. 빈손으로 돌아가면 -는 아니고 0점이여도 만족은 점수를 높게
 
-        int score = day.Get_Mana;
-        score += day.Get_Gold;
-        score += day.Get_Prisoner * 50;
-        score += day.Get_Kill * 100;
-        score += day.Get_Satisfaction * 120;
+    //    int score = day.Get_Mana;
+    //    score += day.Get_Gold;
+    //    score += day.Get_Prisoner * 50;
+    //    score += day.Get_Kill * 100;
+    //    score += day.Get_Satisfaction * 120;
 
-        Final_Score += score;
-    }
+    //    Final_Score += score;
+    //}
 
     int pop;
     public int PopularityOfDungeon { get { return pop; } private set { pop = Mathf.Clamp(value, 0, value); } }
@@ -438,7 +438,7 @@ public class Main : MonoBehaviour
 
 
     //private int _dungeonRank;
-    public int DungeonRank { get; private set; }
+    public int DungeonRank { get; private set; } = 1;
     //public string DungeonRank_Alphabet { get { return ((Define.DungeonRank)_dungeonRank).ToString(); } }
     public void Dungeon_RankUP()
     {
@@ -464,88 +464,167 @@ public class Main : MonoBehaviour
 
     public class DayResult
     {
+        //? 기존 상태 정보
         public int Origin_Mana;
         public int Origin_Gold;
-        public int Origin_Prisoner;
+        public int Origin_Pop;
+        public int Origin_Danger;
+        public int Origin_Rank;
 
-        public void SetOrigin(int mana, int gold, int prisoner)
+        public void SetOrigin(int mana, int gold, int pop, int danger, int rank)
         {
             Origin_Mana = mana;
             Origin_Gold = gold;
-            Origin_Prisoner = prisoner;
+            Origin_Pop = pop;
+            Origin_Danger = danger;
+            Origin_Rank = rank;
         }
 
-        public int Get_Mana;
-        public int Get_Gold;
-        public void AddMana(int value)
+
+        public enum EventType
         {
-            Get_Mana += value;
+            Facility,
+            //Entrance,
+            Monster,
+            //Battle,
+            //Statue,
+            Etc,
+        }
+
+        //? ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ마나
+        public int Mana_Get_Facility;
+        public int Mana_Get_Monster;
+        public int Mana_Get_Etc;
+        public void AddMana(int value, EventType eventType)
+        {
+            switch (eventType)
+            {
+                case EventType.Facility:
+                    Mana_Get_Facility += value;
+                    break;
+
+                case EventType.Monster:
+                    Mana_Get_Monster += value;
+                    break;
+
+                case EventType.Etc:
+                    Mana_Get_Facility += value;
+                    break;
+            }
             Instance.Player_Mana += value;
         }
-        public void AddGold(int value)
+        public int Mana_Use_Facility;
+        public int Mana_Use_Monster;
+        public int Mana_Use_Etc;
+        public void SubtractMana(int value, EventType eventType)
         {
-            Get_Gold += value;
+            switch (eventType)
+            {
+                case EventType.Facility:
+                    Mana_Use_Facility += value;
+                    break;
+
+                case EventType.Monster:
+                    Mana_Use_Monster += value;
+                    break;
+
+                case EventType.Etc:
+                    Mana_Use_Etc += value;
+                    break;
+            }
+            Instance.Player_Mana -= value;
+        }
+
+
+
+        //? ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ골드
+        public int Gold_Get_Facility;
+        public int Gold_Get_Monster;
+        public int Gold_Get_Etc;
+        public void AddGold(int value, EventType eventType)
+        {
+            switch (eventType)
+            {
+                case EventType.Facility:
+                    Gold_Get_Facility += value;
+                    break;
+
+                case EventType.Monster:
+                    Gold_Get_Monster += value;
+                    break;
+
+                case EventType.Etc:
+                    Gold_Get_Etc += value;
+                    break;
+            }
             Instance.Player_Gold += value;
         }
 
+        public int Gold_Use_Facility;
+        public int Gold_Use_Monster;
+        public int Gold_Use_Etc;
+        public void SubtractGold(int value, EventType eventType)
+        {
+            switch (eventType)
+            {
+                case EventType.Facility:
+                    Gold_Use_Facility += value;
+                    break;
 
-        public int Use_Mana;
-        public int Use_Gold;
-        public void SubtractMana(int value)
-        {
-            Use_Mana += value;
-            Instance.Player_Mana -= value;
-        }
-        public void SubtractGold(int value)
-        {
-            Use_Gold += value;
+                case EventType.Monster:
+                    Gold_Use_Monster += value;
+                    break;
+
+                case EventType.Etc:
+                    Gold_Use_Etc += value;
+                    break;
+            }
             Instance.Player_Gold -= value;
         }
 
-        public int Get_Visit;
-        public int Get_Prisoner;
-        public int Get_Kill;
-        public int Get_Satisfaction;
-        public int Get_Return;
+        //? ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ모험가
+        public int NPC_Visit;
+        public int NPC_Prisoner;
+        public int NPC_Kill;
+        public int NPC_Satisfaction;
+        public int NPC_NonSatisfaction;
+        public int NPC_Empty;
+        public int NPC_Runaway;
 
 
-        public void AddVisit(int value)
-        {
-            Get_Visit += value;
-        }
-        public void AddPrisoner(int value)
-        {
-            Get_Prisoner += value;
-        }
-        public void AddKill(int value)
-        {
-            Get_Kill += value;
-        }
-        public void AddSatisfaction(int value)
-        {
-            Get_Satisfaction += value;
-        }
-        public void AddReturn(int value)
-        {
-            Get_Return += value;
-        }
+        public void AddVisit(int value) { NPC_Visit += value; }
+        public void AddPrisoner(int value) { NPC_Prisoner += value; }
+        public void AddKill(int value) { NPC_Kill += value; }
+        public void AddSatisfaction(int value) { NPC_Satisfaction += value; }
+        public void AddNonSatisfaction(int value) { NPC_NonSatisfaction += value; }
+        public void AddEmpty(int value) { NPC_Empty += value; }
+        public void AddRunaway(int value) { NPC_Runaway += value; }
 
 
+        //? ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ몬스터
+        public int Monster_Battle;
+        public int Monster_Victory;
+        public int Monster_Defeat;
+        public int Monster_LvUp;
+        public int Monster_Trait;
+        public int Monster_Evolution;
+
+        public void AddBattle(int value) { Monster_Battle += value; }
+        public void AddVictory(int value) { Monster_Victory += value; }
+        public void AddDefeat(int value) { Monster_Defeat += value; }
+        public void AddLvUp(int value) { Monster_LvUp += value; }
+        public void AddTrait(int value) { Monster_Trait += value; }
+        public void AddEvolution(int value) { Monster_Evolution += value; }
+
+
+
+        //? ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ던전
         public int GetPopularity;
         public int GetDanger;
+        public void AddPop(int _value) { GetPopularity += _value; }
+        public void AddDanger(int _value) { GetDanger += _value; }
 
-        public void AddPop(int _value)
-        {
-            GetPopularity += _value;
-        }
-        public void AddDanger(int _value)
-        {
-            GetDanger += _value;
-        }
 
-        public int fame_perv;
-        public int danger_perv;
-        public int dungeonRank;
 
         public DayResult()
         {
@@ -555,27 +634,41 @@ public class Main : MonoBehaviour
         {
             Origin_Mana = result.Origin_Mana;
             Origin_Gold = result.Origin_Gold;
-            Origin_Prisoner = result.Origin_Prisoner;
+            Origin_Pop = result.Origin_Pop;
+            Origin_Danger = result.Origin_Danger;
+            Origin_Rank = result.Origin_Rank;
 
-            Get_Mana = result.Get_Mana;
-            Get_Gold = result.Get_Gold;
-            Use_Mana = result.Use_Mana;
-            Use_Gold = result.Use_Gold;
+            Mana_Get_Facility = result.Mana_Get_Facility;
+            Mana_Get_Monster = result.Mana_Get_Monster;
+            Mana_Get_Etc = result.Mana_Get_Etc;
+            Mana_Use_Facility = result.Mana_Use_Facility;
+            Mana_Use_Monster = result.Mana_Use_Monster;
+            Mana_Use_Etc = result.Mana_Use_Monster;
 
+            Gold_Get_Facility = result.Gold_Get_Facility;
+            Gold_Get_Monster = result.Gold_Get_Monster;
+            Gold_Get_Etc = result.Gold_Get_Etc;
+            Gold_Use_Facility = result.Gold_Use_Facility;
+            Gold_Use_Monster = result.Gold_Use_Monster;
+            Gold_Use_Etc = result.Gold_Use_Etc;
 
-            Get_Visit = result.Get_Visit;
-            Get_Return = result.Get_Return;
-            Get_Satisfaction = result.Get_Satisfaction;
-            Get_Kill = result.Get_Kill;
-            Get_Prisoner = result.Get_Prisoner;
+            NPC_Visit = result.NPC_Visit;
+            NPC_Prisoner = result.NPC_Prisoner;
+            NPC_Kill = result.NPC_Kill;
+            NPC_Satisfaction = result.NPC_Satisfaction;
+            NPC_NonSatisfaction = result.NPC_NonSatisfaction;
+            NPC_Empty = result.NPC_Empty;
+            NPC_Runaway = result.NPC_Runaway;
 
+            Monster_Battle = result.Monster_Battle;
+            Monster_Victory = result.Monster_Victory;
+            Monster_Defeat = result.Monster_Defeat;
+            Monster_LvUp = result.Monster_LvUp;
+            Monster_Trait = result.Monster_Trait;
+            Monster_Evolution = result.Monster_Evolution;
 
             GetPopularity = result.GetPopularity;
             GetDanger = result.GetDanger;
-
-            fame_perv = result.fame_perv;
-            danger_perv = result.danger_perv;
-            dungeonRank = result.dungeonRank;
         }
     }
 
@@ -583,10 +676,7 @@ public class Main : MonoBehaviour
     void Init_DayResult()
     {
         CurrentDay = new DayResult();
-        CurrentDay.SetOrigin(Player_Mana, Player_Gold, Prisoner);
-        CurrentDay.fame_perv = PopularityOfDungeon;
-        CurrentDay.danger_perv = DangerOfDungeon;
-        CurrentDay.dungeonRank = DungeonRank;
+        CurrentDay.SetOrigin(Player_Mana, Player_Gold, PopularityOfDungeon, DangerOfDungeon, DungeonRank);
     }
 
 
@@ -594,8 +684,11 @@ public class Main : MonoBehaviour
 
     void DayOver_Dayresult()
     {
+        CurrentDay.Monster_LvUp = GameManager.Monster.LevelUpList.Count;
+
+
         DayList.Add(CurrentDay);
-        AddScore(CurrentDay);
+        //AddScore(CurrentDay);
 
         PopularityOfDungeon += CurrentDay.GetPopularity;
         DangerOfDungeon += CurrentDay.GetDanger;
@@ -625,11 +718,15 @@ public class Main : MonoBehaviour
 
         foreach (var item in DayList)
         {
-            mana += item.Use_Mana;
+            mana += item.Mana_Use_Etc;
+            mana += item.Mana_Use_Facility;
+            mana += item.Mana_Use_Monster;
         }
         if (CurrentDay != null)
         {
-            mana += CurrentDay.Use_Mana;
+            mana += CurrentDay.Mana_Use_Etc;
+            mana += CurrentDay.Mana_Use_Facility;
+            mana += CurrentDay.Mana_Use_Monster;
         }
 
         return mana;
@@ -641,11 +738,15 @@ public class Main : MonoBehaviour
 
         foreach (var item in DayList)
         {
-            gold += item.Use_Gold;
+            gold += item.Gold_Use_Etc;
+            gold += item.Gold_Use_Facility;
+            gold += item.Gold_Use_Monster;
         }
         if (CurrentDay != null)
         {
-            gold += CurrentDay.Use_Gold;
+            gold += CurrentDay.Gold_Use_Etc;
+            gold += CurrentDay.Gold_Use_Facility;
+            gold += CurrentDay.Gold_Use_Monster;
         }
 
         return gold;
@@ -656,11 +757,11 @@ public class Main : MonoBehaviour
         int visit = 0;
         foreach (var item in DayList)
         {
-            visit += item.Get_Visit;
+            visit += item.NPC_Visit;
         }
         if (CurrentDay != null)
         {
-            visit += CurrentDay.Get_Visit;
+            visit += CurrentDay.NPC_Visit;
         }
         return visit;
     }
@@ -670,11 +771,11 @@ public class Main : MonoBehaviour
         int kill = 0;
         foreach (var item in DayList)
         {
-            kill += item.Get_Kill;
+            kill += item.NPC_Kill;
         }
         if (CurrentDay != null)
         {
-            kill += CurrentDay.Get_Kill;
+            kill += CurrentDay.NPC_Kill;
         }
         return kill;
     }
@@ -684,11 +785,11 @@ public class Main : MonoBehaviour
         int npc = 0;
         foreach (var item in DayList)
         {
-            npc += item.Get_Satisfaction;
+            npc += item.NPC_Satisfaction;
         }
         if (CurrentDay != null)
         {
-            npc += CurrentDay.Get_Satisfaction;
+            npc += CurrentDay.NPC_Satisfaction;
         }
         return npc;
     }
@@ -698,11 +799,11 @@ public class Main : MonoBehaviour
         int npc = 0;
         foreach (var item in DayList)
         {
-            npc += item.Get_Return;
+            npc += item.NPC_Empty;
         }
         if (CurrentDay != null)
         {
-            npc += CurrentDay.Get_Return;
+            npc += CurrentDay.NPC_Empty;
         }
         return npc;
     }
@@ -1091,6 +1192,7 @@ public class Main : MonoBehaviour
                 Debug.Log("1일차 종료 이벤트 - 시설배치");
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Facility, Player);
                 UI_Main.Active_Button(UI_Management.ButtonEvent._1_Facility);
+                UI_Main.SetNotice(UI_Management.OverlayImages.OverlayImage_Facility, true);
                 UI_Main.Active_Floor();
 
                 StartCoroutine(Wait_AP_Tutorial());
@@ -1101,6 +1203,8 @@ public class Main : MonoBehaviour
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Monster, Player);
                 UI_Main.Active_Button(UI_Management.ButtonEvent._2_Summon);
                 UI_Main.Active_Button(UI_Management.ButtonEvent._3_Management);
+                UI_Main.SetNotice(UI_Management.OverlayImages.OverlayImage_Monster, true);
+                UI_Main.SetNotice(UI_Management.OverlayImages.OverlayImage_Summon, true);
                 break;
 
             case 3:
@@ -1311,7 +1415,66 @@ public class Main : MonoBehaviour
     public BasementFloor CurrentFloor { get; set; }
     public BasementTile CurrentTile { get; set; }
     public Action CurrentAction { get; set; }
-    public Action PurchaseAction { get; set; }
+
+    //public Action PurchaseAction { get; set; }
+
+    public bool isContinueOption { get; set; }
+    public PurchaseInfo CurrentPurchase { get; set; }
+    public class PurchaseInfo
+    {
+        public int mana;
+        public int gold;
+        public int ap;
+        public int rank;
+
+        public bool isContinuous;
+
+        public PurchaseInfo(int _mana, int _gold, bool _isContinue, int _ap = 0, int _rank = 0)
+        {
+            mana = _mana;
+            gold = _gold;
+            ap = _ap;
+            rank = _rank;
+            isContinuous = _isContinue;
+            Main.Instance.isContinueOption = _isContinue;
+        }
+
+
+        public bool PurchaseConfirm()
+        {
+            if (Main.Instance.Player_Mana < mana)
+            {
+                var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+                msg.Message = UserData.Instance.LocaleText("Message_No_Mana");
+                return false;
+            }
+            if (Main.Instance.Player_Gold < gold)
+            {
+                var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+                msg.Message = UserData.Instance.LocaleText("Message_No_Gold");
+                return false;
+            }
+            if (Main.Instance.Player_AP < ap)
+            {
+                var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+                msg.Message = UserData.Instance.LocaleText("Message_No_AP");
+                return false;
+            }
+            if (Main.Instance.DungeonRank < rank)
+            {
+                var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+                msg.Message = UserData.Instance.LocaleText("Message_No_Rank");
+                return false;
+            }
+
+            Main.Instance.CurrentDay.SubtractMana(mana, DayResult.EventType.Facility);
+            Main.Instance.CurrentDay.SubtractGold(gold, DayResult.EventType.Facility);
+            Main.Instance.Player_AP -= ap;
+            return true;
+        }
+    }
+
+
 
     public Vector2Int[] CurrentBoundary { get; set; } = Define.Boundary_Cross_1;
 
@@ -1405,7 +1568,8 @@ public class Main : MonoBehaviour
         Main.Instance.CurrentBoundary = null;
         Main.Instance.CurrentAction = null;
         Main.Instance.CurrentTile = null;
-        Main.Instance.PurchaseAction = null;
+        //Main.Instance.PurchaseAction = null;
+        Main.Instance.CurrentPurchase = null;
         Managers.UI.ClosePopupPick(FindAnyObjectByType<UI_DungeonPlacement>());
         Managers.UI.PauseOpen();
         Time.timeScale = 0;
@@ -1508,30 +1672,41 @@ public class Save_DayResult
 {
     public int Origin_Mana;
     public int Origin_Gold;
-    public int Origin_Prisoner;
+    public int Origin_Pop;
+    public int Origin_Danger;
+    public int Origin_Rank;
 
+    public int Mana_Get_Facility;
+    public int Mana_Get_Monster;
+    public int Mana_Get_Etc;
+    public int Mana_Use_Facility;
+    public int Mana_Use_Monster;
+    public int Mana_Use_Etc;
 
-    public int Get_Mana;
-    public int Get_Gold;
+    public int Gold_Get_Facility;
+    public int Gold_Get_Monster;
+    public int Gold_Get_Etc;
+    public int Gold_Use_Facility;
+    public int Gold_Use_Monster;
+    public int Gold_Use_Etc;
 
-    public int Use_Mana;
-    public int Use_Gold;
+    public int NPC_Visit;
+    public int NPC_Prisoner;
+    public int NPC_Kill;
+    public int NPC_Satisfaction;
+    public int NPC_NonSatisfaction;
+    public int NPC_Empty;
+    public int NPC_Runaway;
 
-
-    public int Get_Visit;
-    public int Get_Satisfaction;
-    public int Get_Return;
-    public int Get_Kill;
-    public int Get_Prisoner;
-
+    public int Monster_Battle;
+    public int Monster_Victory;
+    public int Monster_Defeat;
+    public int Monster_LvUp;
+    public int Monster_Trait;
+    public int Monster_Evolution;
 
     public int GetPopularity;
     public int GetDanger;
-
-
-    public int fame_perv;
-    public int danger_perv;
-    public int dungeonRank;
 
 
     public Save_DayResult()
@@ -1542,30 +1717,41 @@ public class Save_DayResult
     {
         Origin_Mana = result.Origin_Mana;
         Origin_Gold = result.Origin_Gold;
-        Origin_Prisoner = result.Origin_Prisoner;
+        Origin_Pop = result.Origin_Pop;
+        Origin_Danger = result.Origin_Danger;
+        Origin_Rank = result.Origin_Rank;
 
+        Mana_Get_Facility = result.Mana_Get_Facility;
+        Mana_Get_Monster = result.Mana_Get_Monster;
+        Mana_Get_Etc = result.Mana_Get_Etc;
+        Mana_Use_Facility = result.Mana_Use_Facility;
+        Mana_Use_Monster = result.Mana_Use_Monster;
+        Mana_Use_Etc = result.Mana_Use_Monster;
 
-        Get_Mana = result.Get_Mana;
-        Get_Gold = result.Get_Gold;
+        Gold_Get_Facility = result.Gold_Get_Facility;
+        Gold_Get_Monster = result.Gold_Get_Monster;
+        Gold_Get_Etc = result.Gold_Get_Etc;
+        Gold_Use_Facility = result.Gold_Use_Facility;
+        Gold_Use_Monster = result.Gold_Use_Monster;
+        Gold_Use_Etc = result.Gold_Use_Etc;
 
-        Use_Mana = result.Use_Mana;
-        Use_Gold = result.Use_Gold;
+        NPC_Visit = result.NPC_Visit;
+        NPC_Prisoner = result.NPC_Prisoner;
+        NPC_Kill = result.NPC_Kill;
+        NPC_Satisfaction = result.NPC_Satisfaction;
+        NPC_NonSatisfaction = result.NPC_NonSatisfaction;
+        NPC_Empty = result.NPC_Empty;
+        NPC_Runaway = result.NPC_Runaway;
 
-
-        Get_Visit = result.Get_Visit;
-        Get_Satisfaction = result.Get_Satisfaction;
-        Get_Return = result.Get_Return;
-        Get_Kill = result.Get_Kill;
-        Get_Prisoner = result.Get_Prisoner;
-
+        Monster_Battle = result.Monster_Battle;
+        Monster_Victory = result.Monster_Victory;
+        Monster_Defeat = result.Monster_Defeat;
+        Monster_LvUp = result.Monster_LvUp;
+        Monster_Trait = result.Monster_Trait;
+        Monster_Evolution = result.Monster_Evolution;
 
         GetPopularity = result.GetPopularity;
         GetDanger = result.GetDanger;
-
-
-        fame_perv = result.fame_perv;
-        danger_perv = result.danger_perv;
-        dungeonRank = result.dungeonRank;
     }
 
 }

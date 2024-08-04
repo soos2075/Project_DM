@@ -57,6 +57,11 @@ public class UI_Floor_Tile : UI_Base
 
         if (Main.Instance.CurrentAction != null)
             Main.Instance.CurrentAction.Invoke();
+
+        if (Main.Instance.CurrentPurchase != null && Main.Instance.CurrentPurchase.isContinuous)
+        {
+            TileCheckEvent(Main.Instance.CurrentBoundary);
+        }
     }
 
     void ActionReturnEvent()

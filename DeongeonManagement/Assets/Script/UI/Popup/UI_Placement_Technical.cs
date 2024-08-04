@@ -192,8 +192,8 @@ public class UI_Placement_Technical : UI_PopUp
         }
 
 
-        Main.Instance.CurrentDay.SubtractMana(mana);
-        Main.Instance.CurrentDay.SubtractGold(gold);
+        Main.Instance.CurrentDay.SubtractMana(mana, Main.DayResult.EventType.Etc);
+        Main.Instance.CurrentDay.SubtractGold(gold, Main.DayResult.EventType.Etc);
         Main.Instance.Player_AP -= ap;
         action.Invoke();
         return true;

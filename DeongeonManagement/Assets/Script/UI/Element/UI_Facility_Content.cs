@@ -42,7 +42,7 @@ public class UI_Facility_Content : UI_Base
         GetTMP((int)Texts.Name).text = name;
         GetTMP((int)Texts.Mana).text = $"{mana}";
         GetTMP((int)Texts.Gold).text = $"{gold}";
-        GetTMP((int)Texts.LV).text = $"{lv}";
+        GetTMP((int)Texts.LV).text = $"{(Define.DungeonRank)lv}";
     }
 
 

@@ -72,9 +72,15 @@ public class UI_Management : UI_Base
         danger_Tooltip,
         rank_Tooltip,
 
+    }
 
-
-        GuildNotice,
+    public enum OverlayImages
+    {
+        OverlayImage_Facility,
+        OverlayImage_Summon,
+        OverlayImage_Monster,
+        OverlayImage_Guild,
+        OverlayImage_Quest,
     }
 
 
@@ -93,14 +99,16 @@ public class UI_Management : UI_Base
         Bind<Button>(typeof(ButtonEvent));
         Bind<TextMeshProUGUI>(typeof(Texts));
         Bind<GameObject>(typeof(Objects));
+        Bind<Image>(typeof(OverlayImages));
 
         Init_Tooltip();
         Texts_Refresh();
         Init_Button();
         StartCoroutine(DayInit());
         AP_Refresh();
-
         SpeedButtonImage();
+
+        OverlayImageReset();
 
         StartCoroutine(WaitAndUpdate_GuildButton());
     }
@@ -169,19 +177,38 @@ public class UI_Management : UI_Base
         GetTMP(((int)Texts.Value)).text += $"\n{(Define.DungeonRank)Main.Instance.DungeonRank}";
     }
 
+
+
+    void OverlayImageReset()
+    {
+        GetImage((int)OverlayImages.OverlayImage_Facility).enabled = false;
+        GetImage((int)OverlayImages.OverlayImage_Summon).enabled = false;
+        GetImage((int)OverlayImages.OverlayImage_Monster).enabled = false;
+        GetImage((int)OverlayImages.OverlayImage_Guild).enabled = false;
+        GetImage((int)OverlayImages.OverlayImage_Quest).enabled = false;
+    }
+
     public void GuildButtonNotice()
     {
         if (EventManager.Instance.CheckGuildNotice_Wating() || EventManager.Instance.CheckGuildNotice())
         {
             Debug.Log("길드 알림!!");
-            GetObject((int)Objects.GuildNotice).SetActive(true);
+            GetImage((int)OverlayImages.OverlayImage_Guild).enabled = true;
         }
         else
         {
             Debug.Log("길드 알림 없음!!");
-            GetObject((int)Objects.GuildNotice).SetActive(false);
+            GetImage((int)OverlayImages.OverlayImage_Guild).enabled = false;
         }
     }
+
+    public void SetNotice(OverlayImages notice, bool onoff)
+    {
+        GetImage((int)notice).enabled = onoff;
+    }
+
+
+
     IEnumerator WaitAndUpdate_GuildButton()
     {
         yield return null;
@@ -232,18 +259,18 @@ public class UI_Management : UI_Base
             return;
         }
 
-        if (Managers.UI.CurrentCanvasList != null)
-        {
-            Canvas main = GetComponent<Canvas>();
+        //if (Managers.UI.CurrentCanvasList != null)
+        //{
+        //    Canvas main = GetComponent<Canvas>();
 
-            foreach (var item in Managers.UI.CurrentCanvasList)
-            {
-                if (item == main)
-                {
-                    return;
-                }
-            }
-        }
+        //    foreach (var item in Managers.UI.CurrentCanvasList)
+        //    {
+        //        if (item == main)
+        //        {
+        //            return;
+        //        }
+        //    }
+        //}
 
 
         GetComponent<Canvas>().enabled = true;
@@ -278,10 +305,8 @@ public class UI_Management : UI_Base
     {
         if (!Main.Instance.Management) return;
 
-
         var facility = Managers.UI.ClearAndShowPopUp<UI_Placement_Facility>("Facility/UI_Placement_Facility");
-
-        //var facility = Managers.UI.ShowPopUpAlone<UI_Placement_Facility>("Facility/UI_Placement_Facility");
+        SetNotice(OverlayImages.OverlayImage_Facility, false);
 
         FloorPanelClear();
     }
@@ -291,18 +316,21 @@ public class UI_Management : UI_Base
         if (!Main.Instance.Management) return;
 
         Managers.UI.ClearAndShowPopUp<UI_Summon_Monster>("Monster/UI_Summon_Monster");
+        SetNotice(OverlayImages.OverlayImage_Summon, false);
     }
     void Button_MonsterManage()
     {
         if (!Main.Instance.Management) return;
 
         Managers.UI.ClearAndShowPopUp<UI_Monster_Management>("Monster/UI_Monster_Management");
+        SetNotice(OverlayImages.OverlayImage_Monster, false);
     }
     void Button_Quest()
     {
         if (!Main.Instance.Management) return;
 
         Managers.UI.ShowPopUpAlone<UI_Quest>();
+        SetNotice(OverlayImages.OverlayImage_Quest, false);
     }
 
 

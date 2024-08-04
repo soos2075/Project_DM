@@ -658,13 +658,19 @@ public class EventManager : MonoBehaviour
 
     public bool TryRankUp(int fame, int danger)
     {
+        UI_Management mainUI = FindAnyObjectByType<UI_Management>();
+
         if (Main.Instance.DungeonRank == 1 && fame + danger >= 150)
         {
+            mainUI.SetNotice(UI_Management.OverlayImages.OverlayImage_Facility, true);
+            mainUI.SetNotice(UI_Management.OverlayImages.OverlayImage_Summon, true);
             return true;
         }
 
         if (Main.Instance.DungeonRank == 2 && fame + danger >= 500)
         {
+            mainUI.SetNotice(UI_Management.OverlayImages.OverlayImage_Facility, true);
+            mainUI.SetNotice(UI_Management.OverlayImages.OverlayImage_Summon, true);
             return true;
         }
 

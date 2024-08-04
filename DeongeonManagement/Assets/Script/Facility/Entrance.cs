@@ -36,7 +36,7 @@ public class Entrance : Facility
 
             if (applyMana > 0)
             {
-                Main.Instance.CurrentDay.AddMana(applyMana);
+                Main.Instance.CurrentDay.AddMana(applyMana, Main.DayResult.EventType.Etc);
                 Main.Instance.ShowDM(applyMana, Main.TextType.mana, transform);
             }
 

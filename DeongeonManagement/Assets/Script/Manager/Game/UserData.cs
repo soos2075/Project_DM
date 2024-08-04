@@ -354,6 +354,7 @@ public class UserData : MonoBehaviour
 
     public void GamePlay()
     {
+        //Debug.Log("어디서 다시 활성화?");
         Time.timeScale = GameSpeed;
         //GameSpeed = speed;
         if (Managers.Scene.GetCurrentScene() == SceneName._2_Management)

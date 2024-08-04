@@ -532,6 +532,10 @@ MonoBehaviour:
     m_Localized: Quest List
     m_Metadata:
       m_Items: []
+  - m_Id: 53204818644381696
+    m_Localized: Continuous
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

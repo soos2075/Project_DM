@@ -17,6 +17,16 @@ public class UI_LetterBox : UI_PopUp
         Build,
         Monster,
 
+
+
+        CalculationPanel,
+    }
+
+    enum TextsInfo
+    {
+        TMP_mana,
+        TMP_gold,
+        TMP_ap,
     }
 
 
@@ -26,7 +36,40 @@ public class UI_LetterBox : UI_PopUp
         Managers.UI.SetCanvas(gameObject);
 
         Bind<GameObject>(typeof(BoxOption));
+        Bind<TMPro.TextMeshProUGUI>(typeof(TextsInfo));
     }
+
+    public void ShowCalculationPanel(Main.PurchaseInfo info)
+    {
+        GetObject((int)BoxOption.CalculationPanel).SetActive(true);
+        currentInfo = info;
+        ShowUpdate(currentInfo);
+    }
+
+    void ShowUpdate(Main.PurchaseInfo info)
+    {
+        GetTMP((int)TextsInfo.TMP_mana).text = $"{Main.Instance.Player_Mana}\n{Util.SetTextColorTag(info.mana.ToString(), Define.TextColor.red)}";
+        GetTMP((int)TextsInfo.TMP_gold).text = $"{Main.Instance.Player_Gold}\n{Util.SetTextColorTag(info.gold.ToString(), Define.TextColor.red)}";
+        if (info.ap != 0)
+        {
+            GetTMP((int)TextsInfo.TMP_ap).text = $"{Main.Instance.Player_AP}\n{info.ap}";
+        }
+        else
+        {
+            GetTMP((int)TextsInfo.TMP_ap).gameObject.SetActive(false);
+        }
+    }
+
+    Main.PurchaseInfo currentInfo;
+
+    private void LateUpdate()
+    {
+        if (GetObject((int)BoxOption.CalculationPanel).activeInHierarchy)
+        {
+            ShowUpdate(currentInfo);
+        }
+    }
+
 
 
 
@@ -70,6 +113,8 @@ public class UI_LetterBox : UI_PopUp
         GetObject((int)BoxOption.Dialogue).SetActive(false);
         GetObject((int)BoxOption.Build).SetActive(false);
         GetObject((int)BoxOption.Monster).SetActive(false);
+
+        GetObject((int)BoxOption.CalculationPanel).SetActive(false);
     }
 
     void Option_NoSkip()

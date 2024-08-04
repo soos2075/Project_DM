@@ -88,8 +88,8 @@ public class RemoveableObstacle : Facility, IWall
         {
             if (ConfirmCheck(ap: _ap, mana: _mana))
             {
-                Main.Instance.CurrentDay.AddGold(_gold);
-                Main.Instance.CurrentDay.SubtractMana(_mana);
+                Main.Instance.CurrentDay.AddGold(_gold, Main.DayResult.EventType.Etc);
+                Main.Instance.CurrentDay.SubtractMana(_mana, Main.DayResult.EventType.Etc);
                 Main.Instance.Player_AP -= _ap;
 
                 GameManager.Facility.RemoveFacility(this);

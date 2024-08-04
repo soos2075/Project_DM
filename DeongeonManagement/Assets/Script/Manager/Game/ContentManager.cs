@@ -231,19 +231,33 @@ public class ContentManager
 
 
     #region Create 메서드
-    void CreateAll(string _keyName)
-    {
-        if (Create(_keyName, Main.Instance.CurrentBoundary))
-        {
-            CreateOver();
-            SoundManager.Instance.PlaySound("SFX/Action_Build");
-        }
-        else
-        {
-            Debug.Log("배치할 수 없음");
-            SoundManager.Instance.PlaySound("SFX/Action_Wrong");
-        }
-    }
+    //void CreateAll(string _keyName)
+    //{
+    //    if (Create(_keyName, Main.Instance.CurrentBoundary))
+    //    {
+    //        CreateOver();
+    //        SoundManager.Instance.PlaySound("SFX/Action_Build");
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("배치할 수 없음");
+    //        SoundManager.Instance.PlaySound("SFX/Action_Wrong");
+    //    }
+    //}
+
+    //void CreateOnlyOne(string prefab)
+    //{
+    //    if (CreateUnique(prefab, Main.Instance.CurrentBoundary))
+    //    {
+    //        CreateOver();
+    //        SoundManager.Instance.PlaySound("SFX/Action_Build");
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("배치할 수 없음");
+    //        SoundManager.Instance.PlaySound("SFX/Action_Wrong");
+    //    }
+    //}
 
     void CreateCustom(List<Func<bool>> _funcList)
     {
@@ -255,8 +269,14 @@ public class ContentManager
 
         if (all)
         {
-            CreateOver();
-            SoundManager.Instance.PlaySound("SFX/Action_Build");
+            if (Main.Instance.CurrentPurchase.PurchaseConfirm())
+            {
+                SoundManager.Instance.PlaySound("SFX/Action_Build");
+                if (Main.Instance.CurrentPurchase.isContinuous == false)
+                {
+                    CreateOver();
+                }
+            }
         }
         else
         {
@@ -266,19 +286,7 @@ public class ContentManager
     }
 
 
-    void CreateOnlyOne(string prefab)
-    {
-        if (CreateUnique(prefab, Main.Instance.CurrentBoundary))
-        {
-            CreateOver();
-            SoundManager.Instance.PlaySound("SFX/Action_Build");
-        }
-        else
-        {
-            Debug.Log("배치할 수 없음");
-            SoundManager.Instance.PlaySound("SFX/Action_Wrong");
-        }
-    }
+
 
     bool Create(string _keyName, Vector2Int[] boundary)
     {
@@ -361,9 +369,12 @@ public class ContentManager
 
 
 
+
     void CreateOver()
     {
-        Main.Instance.PurchaseAction.Invoke();
+        //Main.Instance.PurchaseAction.Invoke();
+        //Main.Instance.CurrentPurchase.PurchaseConfirm();
+
         Main.Instance.ResetCurrentAction();
     }
 
@@ -387,6 +398,7 @@ public class ContentManager
         //? 테스트!
         var letter = Managers.UI.ShowPopUpNonPush<UI_LetterBox>();
         letter.SetBoxOption(UI_LetterBox.BoxOption.Build, dp);
+        letter.ShowCalculationPanel(Main.Instance.CurrentPurchase);
 
         yield return new WaitForEndOfFrame();
 

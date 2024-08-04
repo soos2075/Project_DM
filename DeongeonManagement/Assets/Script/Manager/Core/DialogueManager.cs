@@ -171,6 +171,10 @@ public class DialogueManager
             if (item != null)
             {
                 item.enabled = true;
+                if (item.GetComponent<UI_DayResult>() != null)
+                {
+                    Time.timeScale = 0;
+                }
             }
         }
     }

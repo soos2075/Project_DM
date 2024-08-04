@@ -73,8 +73,8 @@ public class UI_Expansion_Floor : UI_Base, IWorldSpaceUI
 
         if (confirm.GetAnswer() == UI_Confirm.State.Yes)
         {
-            Main.Instance.CurrentDay.SubtractGold(NeedGold);
-            Main.Instance.CurrentDay.SubtractMana(NeedMana);
+            Main.Instance.CurrentDay.SubtractGold(NeedGold, Main.DayResult.EventType.Etc);
+            Main.Instance.CurrentDay.SubtractMana(NeedMana, Main.DayResult.EventType.Etc);
             //Main.Instance.Player_AP--;
 
             Main.Instance.Basement_Expansion();

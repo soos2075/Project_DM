@@ -942,6 +942,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
     {
         //BattleStateCor = StartCoroutine(BattleStateBusy());
         traitCounter.AddBattleCounter();
+        Main.Instance.CurrentDay.AddBattle(1);
 
         BattleCount++;
         SetState_BattleCount(BattleCount);
@@ -1001,6 +1002,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
             case BattleField.BattleResult.Monster_Die:
                 UI_EventBox.AddEventText($"★{floorName} - {Name_Color} {UserData.Instance.LocaleText("Battle_Lose")}");
                 MonsterOutFloor();
+
+                Main.Instance.CurrentDay.AddDefeat(1);
                 break;
 
             case BattleField.BattleResult.NPC_Die:
@@ -1008,6 +1011,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
                 GetBattlePoint(npc.Rank * 2);
 
                 traitCounter.AddKillCounter();
+                Main.Instance.CurrentDay.AddVictory(1);
 
                 if (TraitCheck(TraitGroup.Predation))
                 {
@@ -1026,7 +1030,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
 
         if (manaClamp > 0)
         {
-            Main.Instance.CurrentDay.AddMana(manaClamp);
+            Main.Instance.CurrentDay.AddMana(manaClamp, Main.DayResult.EventType.Monster);
             Main.Instance.ShowDM(manaClamp, Main.TextType.mana, transform);
         }
         
@@ -1199,7 +1203,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
         //? 회복
         if (Main.Instance.Player_Mana >= mana)
         {
-            Main.Instance.CurrentDay.SubtractMana(mana);
+            Main.Instance.CurrentDay.SubtractMana(mana, Main.DayResult.EventType.Monster);
             HP = HP_Max;
             State = MonsterState.Standby;
             //Debug.Log("회복성공");

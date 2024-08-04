@@ -87,7 +87,7 @@ public class UI_CheatInput : UI_PopUp
             if (string.IsNullOrEmpty(input) == false)
             {
                 var mana = int.Parse(input);
-                Main.Instance.CurrentDay.AddMana(mana);
+                Main.Instance.CurrentDay.AddMana(mana, Main.DayResult.EventType.Etc);
             }
         }
 
@@ -96,7 +96,7 @@ public class UI_CheatInput : UI_PopUp
             if (string.IsNullOrEmpty(input) == false)
             {
                 var value = int.Parse(input);
-                Main.Instance.CurrentDay.AddGold(value);
+                Main.Instance.CurrentDay.AddGold(value, Main.DayResult.EventType.Etc);
             }
         }
 

@@ -109,6 +109,10 @@ public class QuestHunter : NPC
     {
         
     }
+    protected override void NPC_Return_NonSatisfaction()
+    {
+
+    }
     protected override void NPC_Runaway()
     {
         

@@ -105,7 +105,7 @@ public class Statue : Facility, IWall
         {
             int gold = Random.Range(50, 100);
             Main.Instance.Player_AP--;
-            Main.Instance.CurrentDay.AddGold(gold);
+            Main.Instance.CurrentDay.AddGold(gold, Main.DayResult.EventType.Etc);
 
             Managers.UI.ClosePopupPick(confirm);
             var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
@@ -120,7 +120,7 @@ public class Statue : Facility, IWall
         {
             int mana = Random.Range(75, 150);
             Main.Instance.Player_AP--;
-            Main.Instance.CurrentDay.AddMana(mana);
+            Main.Instance.CurrentDay.AddMana(mana, Main.DayResult.EventType.Etc);
 
             Managers.UI.ClosePopupPick(confirm);
             var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
