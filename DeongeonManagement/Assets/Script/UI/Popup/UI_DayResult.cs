@@ -17,8 +17,10 @@ public class UI_DayResult : UI_PopUp
     {
         //? 마나
         Mana_Get_Facility,
+        Mana_Get_Artifacts,
         Mana_Get_Monster,
         Mana_Get_Etc,
+        Mana_Get_Bonus,
 
         Mana_Use_Facility,
         Mana_Use_Monster,
@@ -32,6 +34,7 @@ public class UI_DayResult : UI_PopUp
         Gold_Get_Facility,
         Gold_Get_Monster,
         Gold_Get_Etc,
+        Gold_Get_Bonus,
 
         Gold_Use_Facility,
         Gold_Use_Monster,
@@ -102,84 +105,145 @@ public class UI_DayResult : UI_PopUp
         {
             GetTMP(i).text = "";
         }
+
+        GetTMP((int)ResultText.Mana_Get_Facility).gameObject.SetActive(false);
+        GetTMP((int)ResultText.Mana_Get_Artifacts).gameObject.SetActive(false);
+        GetTMP((int)ResultText.Mana_Get_Monster).gameObject.SetActive(false);
+        GetTMP((int)ResultText.Mana_Get_Etc).gameObject.SetActive(false);
+        GetTMP((int)ResultText.Mana_Get_Bonus).gameObject.SetActive(false);
+
+        GetTMP((int)ResultText.Mana_Use_Facility).gameObject.SetActive(false);
+        GetTMP((int)ResultText.Mana_Use_Monster).gameObject.SetActive(false);
+        GetTMP((int)ResultText.Mana_Use_Etc).gameObject.SetActive(false);
+
+
+
+        GetTMP((int)ResultText.Gold_Get_Facility).gameObject.SetActive(false);
+        GetTMP((int)ResultText.Gold_Get_Monster).gameObject.SetActive(false);
+        GetTMP((int)ResultText.Gold_Get_Etc).gameObject.SetActive(false);
+        GetTMP((int)ResultText.Gold_Get_Bonus).gameObject.SetActive(false);
+
+        GetTMP((int)ResultText.Gold_Use_Facility).gameObject.SetActive(false);
+        GetTMP((int)ResultText.Gold_Use_Monster).gameObject.SetActive(false);
+        GetTMP((int)ResultText.Gold_Use_Etc).gameObject.SetActive(false);
     }
 
     void ShowResult()
     {
-        //? 마나
+        //? ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ마나
         if (Result.Mana_Get_Facility > 0)
         {
-            GetTMP((int)ResultText.Mana_Get_Facility).text = $"{Result.Mana_Get_Facility}";
+            Show_Contents($"{Result.Mana_Get_Facility}", ResultText.Mana_Get_Facility);
             Show_SubTitle("시설", SubTitle.SubTitle_Mana_Get);
+        }
+        if (Result.Mana_Get_Artifacts > 0)
+        {
+            Show_Contents($"{Result.Mana_Get_Artifacts}", ResultText.Mana_Get_Artifacts);
+            Show_SubTitle("아티팩트", SubTitle.SubTitle_Mana_Get);
         }
         if (Result.Mana_Get_Monster > 0)
         {
-            GetTMP((int)ResultText.Mana_Get_Facility).text = $"{Result.Mana_Get_Monster}";
+            Show_Contents($"{Result.Mana_Get_Monster}", ResultText.Mana_Get_Monster);
             Show_SubTitle("전투", SubTitle.SubTitle_Mana_Get);
         }
         if (Result.Mana_Get_Etc > 0)
         {
-            GetTMP((int)ResultText.Mana_Get_Facility).text = $"{Result.Mana_Get_Etc}";
+            Show_Contents($"{Result.Mana_Get_Etc}", ResultText.Mana_Get_Etc);
             Show_SubTitle("기타", SubTitle.SubTitle_Mana_Get);
         }
 
+        //? 마나 보너스 처리
+        int temp_mana = Result.Mana_Get_Etc + Result.Mana_Get_Facility + Result.Mana_Get_Monster + Result.Mana_Get_Artifacts;
+        float ratio = GameManager.Buff.CurrentBuff.Orb_blue > 0 ? 0.2f : 0;
+        ratio += (GameManager.Buff.ManaBonus * 0.01f);
+        if (ratio > 0)
+        {
+            int bonus = Mathf.RoundToInt(temp_mana * ratio);
+            Debug.Log($"비율은{ratio} @@ 보너스는 {bonus}");
+
+            Result.AddMana(bonus, Main.DayResult.EventType.ResultBonus);
+            Show_Contents($"{Result.Mana_Get_Bonus}", ResultText.Mana_Get_Bonus);
+            Show_SubTitle("보너스", SubTitle.SubTitle_Mana_Get);
+        }
+
+
+
         if (Result.Mana_Use_Facility > 0)
         {
-            GetTMP((int)ResultText.Mana_Use_Facility).text = $"{Result.Mana_Use_Facility}";
+            Show_Contents($"{Result.Mana_Use_Facility}", ResultText.Mana_Use_Facility);
             Show_SubTitle("시설배치", SubTitle.SubTitle_Mana_Use);
         }
         if (Result.Mana_Use_Monster > 0)
         {
-            GetTMP((int)ResultText.Mana_Use_Monster).text = $"{Result.Mana_Use_Monster}";
+            Show_Contents($"{Result.Mana_Use_Monster}", ResultText.Mana_Use_Monster);
             Show_SubTitle("유닛", SubTitle.SubTitle_Mana_Use);
         }
         if (Result.Mana_Use_Etc > 0)
         {
-            GetTMP((int)ResultText.Mana_Use_Etc).text = $"{Result.Mana_Use_Etc}";
+            Show_Contents($"{Result.Mana_Use_Etc}", ResultText.Mana_Use_Etc);
             Show_SubTitle("기타", SubTitle.SubTitle_Mana_Use);
         }
 
-        int get_Mana = Result.Mana_Get_Etc + Result.Mana_Get_Facility + Result.Mana_Get_Monster;
+        int get_Mana = Result.Mana_Get_Etc + Result.Mana_Get_Facility + Result.Mana_Get_Monster + Result.Mana_Get_Artifacts + Result.Mana_Get_Bonus;
         int use_Mana = Result.Mana_Use_Etc + Result.Mana_Use_Facility + Result.Mana_Use_Monster;
 
         GetTMP((int)ResultText.Mana_Result_Get).text = $"{get_Mana}";
         GetTMP((int)ResultText.Mana_Result_Use).text = $"-{use_Mana}";
         GetTMP((int)ResultText.Mana_Result).text = $"{get_Mana - use_Mana}";
 
-        //? 골드
+
+
+
+        //? ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ골드
         if (Result.Gold_Get_Facility > 0)
         {
-            GetTMP((int)ResultText.Gold_Get_Facility).text = $"{Result.Gold_Get_Facility}";
+            Show_Contents($"{Result.Gold_Get_Facility}", ResultText.Gold_Get_Facility);
             Show_SubTitle("시설", SubTitle.SubTitle_Gold_Get);
         }
         if (Result.Gold_Get_Monster > 0)
         {
-            GetTMP((int)ResultText.Gold_Get_Facility).text = $"{Result.Gold_Get_Monster}";
+            Show_Contents($"{Result.Gold_Get_Monster}", ResultText.Gold_Get_Monster);
             Show_SubTitle("전투", SubTitle.SubTitle_Gold_Get);
         }
         if (Result.Gold_Get_Etc > 0)
         {
-            GetTMP((int)ResultText.Gold_Get_Facility).text = $"{Result.Gold_Get_Etc}";
+            Show_Contents($"{Result.Gold_Get_Etc}", ResultText.Gold_Get_Etc);
             Show_SubTitle("기타", SubTitle.SubTitle_Gold_Get);
         }
 
+        //? 골드 보너스 처리
+        int temp_gold = Result.Gold_Get_Etc + Result.Gold_Get_Facility + Result.Gold_Get_Monster;
+        //float ratio_gold = GameManager.Buff.CurrentBuff.Orb_blue > 0 ? 0.2f : 0;
+        float ratio_gold = (GameManager.Buff.GoldBonus * 0.01f);
+        if (ratio_gold > 0)
+        {
+            int bonus = Mathf.RoundToInt(temp_gold * ratio_gold);
+            Debug.Log($"골드비율은{ratio} @@ 골드보너스는 {bonus}");
+
+            Result.AddGold(bonus, Main.DayResult.EventType.ResultBonus);
+            Show_Contents($"{Result.Gold_Get_Bonus}", ResultText.Gold_Get_Bonus);
+            Show_SubTitle("보너스", SubTitle.SubTitle_Gold_Get);
+        }
+
+
+
         if (Result.Gold_Use_Facility > 0)
         {
-            GetTMP((int)ResultText.Gold_Use_Facility).text = $"{Result.Gold_Use_Facility}";
+            Show_Contents($"{Result.Gold_Use_Facility}", ResultText.Gold_Use_Facility);
             Show_SubTitle("시설배치", SubTitle.SubTitle_Gold_Use);
         }
         if (Result.Gold_Use_Monster > 0)
         {
-            GetTMP((int)ResultText.Gold_Use_Monster).text = $"{Result.Gold_Use_Monster}";
+            Show_Contents($"{Result.Gold_Use_Monster}", ResultText.Gold_Use_Monster);
             Show_SubTitle("유닛", SubTitle.SubTitle_Gold_Use);
         }
         if (Result.Gold_Use_Etc > 0)
         {
-            GetTMP((int)ResultText.Gold_Use_Etc).text = $"{Result.Gold_Use_Etc}";
+            Show_Contents($"{Result.Gold_Use_Etc}", ResultText.Gold_Use_Etc);
             Show_SubTitle("기타", SubTitle.SubTitle_Gold_Use);
         }
 
-        int get_Gold = Result.Gold_Get_Etc + Result.Gold_Get_Facility + Result.Gold_Get_Monster;
+        int get_Gold = Result.Gold_Get_Etc + Result.Gold_Get_Facility + Result.Gold_Get_Monster + Result.Gold_Get_Bonus;
         int use_Gold = Result.Gold_Use_Etc + Result.Gold_Use_Facility + Result.Gold_Use_Monster;
 
         GetTMP((int)ResultText.Gold_Result_Get).text = $"{get_Gold}";
@@ -187,7 +251,7 @@ public class UI_DayResult : UI_PopUp
         GetTMP((int)ResultText.Gold_Result).text = $"{get_Gold - use_Gold}";
 
 
-        //? 모험가
+        //? ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ모험가
         GetTMP((int)ResultText.NPC_Visit).text = $"{Result.NPC_Visit}";
         //GetTMP((int)ResultText.NPC_Prisoner).text = $"{Result.NPC_Visit}";
         GetTMP((int)ResultText.NPC_Die).text = $"{Result.NPC_Kill}";
@@ -197,7 +261,7 @@ public class UI_DayResult : UI_PopUp
         GetTMP((int)ResultText.NPC_Runaway).text = $"{Result.NPC_Runaway}";
 
 
-        //? 몬스터
+        //? ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ몬스터
         GetTMP((int)ResultText.Monster_Battle).text = $"{Result.Monster_Battle}";
         GetTMP((int)ResultText.Monster_Victory).text = $"{Result.Monster_Victory}";
         GetTMP((int)ResultText.Monster_Defeat).text = $"{Result.Monster_Defeat}";
@@ -206,7 +270,7 @@ public class UI_DayResult : UI_PopUp
         GetTMP((int)ResultText.Monster_Evolution).text = $"{Result.Monster_Evolution}";
 
 
-        //? 던전
+        //? ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ던전
         GetTMP((int)ResultText.Dungeon_Pop).text = $"{Result.Origin_Pop} -> {Main.Instance.PopularityOfDungeon}";
         GetTMP((int)ResultText.Dungeon_Danger).text = $"{Result.Origin_Danger} -> {Main.Instance.DangerOfDungeon}";
         GetTMP((int)ResultText.Dungeon_Rank).text = $"{(Define.DungeonRank)Result.Origin_Rank}";
@@ -216,6 +280,16 @@ public class UI_DayResult : UI_PopUp
             GetTMP((int)ResultText.Dungeon_Rank).text = $"{(Define.DungeonRank)Result.Origin_Rank} -> {(Define.DungeonRank)Main.Instance.DungeonRank}";
         }
     }
+
+    void Show_Contents(string contents, ResultText title)
+    {
+        if (GetTMP((int)title).gameObject.activeInHierarchy == false)
+        {
+            GetTMP((int)title).gameObject.SetActive(true);
+            GetTMP((int)title).text = contents;
+        }
+    }
+
 
 
     void Init_SubTitle()

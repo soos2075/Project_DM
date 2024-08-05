@@ -261,6 +261,12 @@ public class ContentManager
 
     void CreateCustom(List<Func<bool>> _funcList)
     {
+        if (Main.Instance.CurrentPurchase.PurchaseCheck() == false)
+        {
+            CreateOver();
+            return;
+        }
+
         bool all = true;
         foreach (var item in _funcList)
         {
@@ -269,13 +275,11 @@ public class ContentManager
 
         if (all)
         {
-            if (Main.Instance.CurrentPurchase.PurchaseConfirm())
+            SoundManager.Instance.PlaySound("SFX/Action_Build");
+            Main.Instance.CurrentPurchase.PurchaseConfirm();
+            if (Main.Instance.CurrentPurchase.isContinuous == false)
             {
-                SoundManager.Instance.PlaySound("SFX/Action_Build");
-                if (Main.Instance.CurrentPurchase.isContinuous == false)
-                {
-                    CreateOver();
-                }
+                CreateOver();
             }
         }
         else

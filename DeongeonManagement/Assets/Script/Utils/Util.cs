@@ -99,48 +99,55 @@ public class Util
         {
             case Define.Boundary.Boundary_1x1:
                 return Define.Boundary_1x1;
-
             case Define.Boundary.Boundary_1x2:
                 return Define.Boundary_1x2;
-
             case Define.Boundary.Boundary_1x3:
                 return Define.Boundary_1x3;
-
             case Define.Boundary.Boundary_2x1:
                 return Define.Boundary_2x1;
-
             case Define.Boundary.Boundary_2x2:
                 return Define.Boundary_2x2;
-
             case Define.Boundary.Boundary_2x3:
                 return Define.Boundary_2x3;
-
             case Define.Boundary.Boundary_3x1:
                 return Define.Boundary_3x1;
-
             case Define.Boundary.Boundary_3x2:
                 return Define.Boundary_3x2;
-
             case Define.Boundary.Boundary_3x3:
                 return Define.Boundary_3x3;
-
             case Define.Boundary.Boundary_4x4:
                 return Define.Boundary_4x4;
-
             case Define.Boundary.Boundary_5x5:
                 return Define.Boundary_5x5;
 
+
             case Define.Boundary.Boundary_Cross_1:
                 return Define.Boundary_Cross_1;
-
             case Define.Boundary.Boundary_Cross_2:
                 return Define.Boundary_Cross_2;
-
             case Define.Boundary.Boundary_Cross_3:
                 return Define.Boundary_Cross_3;
+            case Define.Boundary.Boundary_Cross_4:
+                return Define.Boundary_Cross_4;
+
 
             case Define.Boundary.Boundary_X_1:
                 return Define.Boundary_X_1;
+            case Define.Boundary.Boundary_X_Big:
+                return Define.Boundary_X_Big;
+
+
+            case Define.Boundary.Boundary_Diagonal__Small:
+                return Define.Boundary_Diagonal__Small;
+            case Define.Boundary.Boundary_Diagonal__Big:
+                return Define.Boundary_Diagonal__Big;
+            case Define.Boundary.Boundary_Diagonal_Reverse_Small:
+                return Define.Boundary_Diagonal_Reverse_Small;
+            case Define.Boundary.Boundary_Diagonal_Reverse_Big:
+                return Define.Boundary_Diagonal_Reverse_Big;
+
+
+
 
             case Define.Boundary.Boundary_V_1:
                 return Define.Boundary_V_1;
@@ -157,7 +164,8 @@ public class Util
             case Define.Boundary.Boundary_Side_Cross_2:
                 return Define.Boundary_Side_Cross_2;
 
-
+            case Define.Boundary.Boundary_Empty_rhombus:
+                return Define.Boundary_Empty_rhombus;
         }
         return null;
     }

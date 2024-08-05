@@ -300,6 +300,16 @@ public enum DialogueName
 
     Day8_Event = 83,
     Day8_Event_Die = 84,
+    Day8_ReturnEvent = 85,
+
+
+    Goblin_Appear = 90,
+    Goblin_Satisfiction = 91,
+    Goblin_Empty = 92,
+    Goblin_Die = 93,
+
+    Goblin_Party = 100,
+
 
     Day15_Event = 153,
     Day15_Event_Die = 154,
@@ -349,6 +359,9 @@ public enum DialogueName
     Quest_100 = 1100,
     Quest_101 = 1101,
 
+    Quest_151 = 1151,
+
+
     // Staff A ID : 2000
     Staff_A_0 = 2000,
     Staff_A_1 = 2001,
@@ -375,6 +388,9 @@ public enum DialogueName
     Hunter_Slime = 9000,
     Hunter_EarthGolem = 9001,
 
+
+    RetiredHero_0 = 15000,
+    RetiredHero_10 = 15010,
 
 }
 

@@ -44,28 +44,23 @@ public class Herb : Facility
     {
         if (InteractionOfTimes > 0)
         {
-            int changeMP = mp_value;
+            int changeMP = mp_value + GameManager.Buff.HerbBonus;
 
-            switch (GetTarget(npc))
+            switch (TagCheck(npc))
             {
-                case Target.Main:
-                    changeMP = mp_value;
-                    break;
-
-                case Target.Sub:
-                    changeMP = (int)(mp_value * 0.7f);
+                case Target.Bonus:
+                    changeMP = Mathf.RoundToInt(mp_value * 1.3f);
                     break;
 
                 case Target.Weak:
-                    changeMP = (int)(mp_value * 0.3f);
+                    changeMP = Mathf.RoundToInt(mp_value * 0.7f);
                     break;
 
                 case Target.Invalid:
-                    changeMP = 0;
+                    changeMP = Mathf.RoundToInt(mp_value * 0.1f);
                     break;
 
-                case Target.Nothing:
-                    changeMP = (int)(mp_value * 0.5f);
+                case Target.Normal:
                     break;
             }
 

@@ -43,7 +43,10 @@ public class SO_NPC : ScriptableObject, I_SO_Collection
     [Header("Trait")]
     public List<TraitGroup> TraitableList;
 
-    [Header("Prefer")]
+    [Header("Prefer")] //? 행동 우선순위
     public List<InteractionGroup> PreferList;
     public List<InteractionGroup> Non_PreferList;
+
+    [Header("FacilityTag")] //? 상호작용시 보너스효과와 마이너스효과
+    public List<TagGroup> FacilityTagList;
 }

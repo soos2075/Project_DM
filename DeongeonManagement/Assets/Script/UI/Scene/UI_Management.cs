@@ -114,6 +114,8 @@ public class UI_Management : UI_Base
     }
 
 
+
+
     void Init_Tooltip()
     {
         var gold = GetObject((int)Objects.gold_Tooltip).GetOrAddComponent<UI_Tooltip>();
@@ -207,6 +209,13 @@ public class UI_Management : UI_Base
         GetImage((int)notice).enabled = onoff;
     }
 
+    public void QuestNotice()
+    {
+        if (EventManager.Instance.CurrentQuestAction_forSave.Count > 0)
+        {
+            SetNotice(OverlayImages.OverlayImage_Quest, true);
+        }
+    }
 
 
     IEnumerator WaitAndUpdate_GuildButton()

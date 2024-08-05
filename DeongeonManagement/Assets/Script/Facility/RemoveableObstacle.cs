@@ -37,6 +37,7 @@ public class RemoveableObstacle : Facility, IWall
     public override void MouseClickEvent()
     {
         if (Main.Instance.Management == false) return;
+        if (Main.Instance.CurrentAction != null) return;
 
         int ap = 0;
         int mana = 0;
@@ -136,11 +137,13 @@ public class RemoveableObstacle : Facility, IWall
     public override void MouseMoveEvent()
     {
         if (Main.Instance.Management == false) return;
+        if (Main.Instance.CurrentAction != null) return;
         CategorySelect(Data.SLA_category + "_Outline", Data.SLA_label);
     }
     public override void MouseExitEvent()
     {
         if (Main.Instance.Management == false) return;
+        if (Main.Instance.CurrentAction != null) return;
         CategorySelect(Data.SLA_category, Data.SLA_label);
     }
 

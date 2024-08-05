@@ -188,7 +188,7 @@ public class NPCManager
 
     System.Action EventNPCAction { get; set; }
 
-    public void AddEventNPC(NPCType type, float time)
+    public void AddEventNPC(EventNPCType type, float time)
     {
         EventNPCAction += () =>
         {
@@ -244,31 +244,37 @@ public class NPCManager
 
         //? 이벤트 NPC들.  순서는 자유, rankWeightedList와 관련없음. index는 고유 타입의 enum 값과 같아야함.
         //? Dict_Key와 enum string값이 동일해야함
-        Hunter_Slime = 1100,
-        Hunter_EarthGolem = 1101,
+        //Hunter_Slime = 1100,
+        //Hunter_EarthGolem = 1101,
 
-        Event_Day3 = 2000,
-        Event_Day8,
-        Event_Day15,
+        //Event_Day3 = 1903,
+        //Event_Day8 = 1908,
+
+        //Event_Goblin = 1910,
+        //Event_Goblin_Leader = 1911,
+        //Event_Goblin_Leader2 = 1912,
+
+        //Event_Day15 = 1915,
 
 
-        A_Warrior,
-        A_Tanker,
-        A_Wizard,
-        A_Elf,
 
-        B_Warrior,
-        B_Tanker,
-        B_Wizard,
-        B_Elf,
+        //A_Warrior = 1920,
+        //A_Tanker,
+        //A_Wizard,
+        //A_Elf,
 
-        Captine_A,
-        Captine_B,
-        Captine_C,
+        //B_Warrior,
+        //B_Tanker,
+        //B_Wizard,
+        //B_Elf,
 
-        Event_Soldier1,
-        Event_Soldier2,
-        Event_Soldier3,
+        //Captine_A = 1930,
+        //Captine_B,
+        //Captine_C,
+
+        //Event_Soldier1 = 1941,
+        //Event_Soldier2,
+        //Event_Soldier3,
     }
 
 
@@ -399,7 +405,8 @@ public class NPCManager
             return null;
         }
     }
-    public NPC InstantiateNPC_Event(NPCType _name)
+
+    public NPC InstantiateNPC_Event(EventNPCType _name)
     {
         SO_NPC data = null;
         if (NPC_Dictionary.TryGetValue(_name.ToString(), out data))
@@ -459,4 +466,40 @@ public class NPCManager
 
 
 
+}
+
+
+public enum EventNPCType
+{
+    Hunter_Slime = 1100,
+    Hunter_EarthGolem = 1101,
+
+    Event_Day3 = 1903,
+    Event_Day8 = 1908,
+
+    Event_Goblin = 1910,
+    Event_Goblin_Leader = 1911,
+    Event_Goblin_Leader2 = 1912,
+
+    Event_RetiredHero = 1915,
+
+
+
+    A_Warrior = 1920,
+    A_Tanker,
+    A_Wizard,
+    A_Elf,
+
+    B_Warrior,
+    B_Tanker,
+    B_Wizard,
+    B_Elf,
+
+    Captine_A = 1930,
+    Captine_B,
+    Captine_C,
+
+    Event_Soldier1 = 1941,
+    Event_Soldier2,
+    Event_Soldier3,
 }

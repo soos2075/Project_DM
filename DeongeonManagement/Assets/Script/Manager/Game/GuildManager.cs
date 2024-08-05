@@ -86,22 +86,34 @@ public class GuildManager : MonoBehaviour
     }
 
 
-    //public void Update_SO_GuildNPC()
-    //{
-    //    var currentData = EventManager.Instance.CurrentGuildData;
-    //    if (currentData == null) return;
+    #endregion
 
 
-    //    SO_Guild_NPC tempData;
-    //    foreach (var item in currentData)
-    //    {
-    //        if (Guild_Dictionary.TryGetValue(item.Original_Index, out tempData))
-    //        {
-    //            tempData.InstanceQuestList = item.InstanceQuestList;
-    //            tempData.OptionList = item.OptionList;
-    //        }
-    //    }
-    //}
+
+
+    #region Save
+    public HashSet<int> Data_SaveInstanceNPC()
+    {
+        HashSet<int> saveData = new HashSet<int>();
+
+        foreach (var item in Instance_GuildNPC)
+        {
+            saveData.Add((int)item);
+        }
+        return saveData;
+    }
+
+    public void Data_LoadInstanceNPC(HashSet<int> npcs)
+    {
+        Instance_GuildNPC = new HashSet<GuildNPC_LabelName>();
+
+        if (npcs == null) return;
+
+        foreach (var item in npcs)
+        {
+            Instance_GuildNPC.Add((GuildNPC_LabelName)item);
+        }
+    }
 
 
     #endregion
@@ -116,34 +128,43 @@ public class GuildManager : MonoBehaviour
         UserData.Instance.GamePlay_Normal();
 
         Init_Dictionary();
+        Init_SpecialNPC();
 
         Guild_In_GetGuildData();
         Guild_In_GetAddQuest();
         Guild_In_DailyQuest();
 
         AddBackAction(() => Guild_Out_SaveGuildData());
-
-
-        //if (NPC_Dict[2000].OptionList.Contains(100) == false)
-        //{
-        //    NPC_Dict[2000].OptionList.Add(100);
-        //}
-
-        //Debug.Log("특별 퀘스트 : " + EventManager.Instance.AddQuest_Special.Count);
-        //foreach (var item in EventManager.Instance.AddQuest_Special)
-        //{
-        //    Debug.Log("특별 퀘스트 : " + item);
-        //}
-        //Debug.Log("데일리 퀘스트 : " + EventManager.Instance.AddQuest_Daily.Count);
-        //foreach (var item in EventManager.Instance.AddQuest_Daily)
-        //{
-        //    Debug.Log("데일리 퀘스트 : " + item);
-        //}
     }
 
 
     Dictionary<int, Interaction_Guild> NPC_Active_Dict;
 
+    public HashSet<GuildNPC_LabelName> Instance_GuildNPC = new HashSet<GuildNPC_LabelName>();
+
+    public void AddInstanceGuildNPC(GuildNPC_LabelName npc)
+    {
+        Instance_GuildNPC.Add(npc);
+    }
+    public void RemoveInstanceGuildNPC(GuildNPC_LabelName npc)
+    {
+        Instance_GuildNPC.Remove(npc);
+    }
+
+
+    void Init_SpecialNPC()
+    {
+        foreach (var item in NPC_Active_Dict)
+        {
+            foreach (var instance in Instance_GuildNPC)
+            {
+                if (item.Key == (int)instance)
+                {
+                    item.Value.gameObject.SetActive(true);
+                }
+            }
+        }
+    }
 
     void Init_Dictionary()
     {
@@ -159,6 +180,10 @@ public class GuildManager : MonoBehaviour
 
             switch (GetData(item.Original_Index).DayOption)
             {
+                case Guild_DayOption.Special:
+                    item.gameObject.SetActive(false);
+                    break;
+
                 case Guild_DayOption.Always:
                     break;
 
@@ -381,6 +406,7 @@ public class GuildNPC_Data
 
 public enum Guild_DayOption
 {
+    Special = -1, //? 원래는 없는데 따로 조건으로 등장하는 NPC
     Always = 0,
     Odd = 1,
     Even = 2,
@@ -389,4 +415,10 @@ public enum Guild_DayOption
     Multiple_5 = 50,
     //Multiple_6 = 60,
     Multiple_7 = 70,
+}
+
+public enum GuildNPC_LabelName
+{
+    Heroine = 4000,
+    RetiredHero = 15000,
 }

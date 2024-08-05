@@ -195,13 +195,12 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         }
 
         yield return new WaitForSeconds(durationTime);
-
-        int applyMana = Mathf.Clamp(mp, mp, npc.Mana); //? 높은 마나회수여도 npc가 가진 마나 이상으로 얻진 못함. - 앵벌이 방지용
+        int manabonus = mp + GameManager.Buff.FacilityBonus;
+        int applyMana = Mathf.Clamp(manabonus, manabonus, npc.Mana); //? 높은 마나회수여도 npc가 가진 마나 이상으로 얻진 못함. - 앵벌이 방지용
 
         npc.ActionPoint -= ap;
         npc.Mana -= applyMana;
         npc.HP -= hp;
-
 
         //? 최대치 이상으로 회복시키고 싶지 않으면 위에 -= 하는 부분에서 Clamp 해주면 됨
 
@@ -232,82 +231,178 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
     protected enum Target
     {
-        Nothing,
-        Main,
-        Sub,
+        //Nothing,
+        Bonus,
+        Normal,
         Weak,
         Invalid,
     }
-    string[] GetTargetTypeString(Target target)
+
+    protected Target TagCheck(NPC _npc)
     {
-        if (Data == null) return null;
+        List<TagGroup> tagList = _npc.Data.FacilityTagList;
+        List<TagGroup> bonus = Data.bonusTarget;
+        List<TagGroup> weak = Data.weakTarget;
+        List<TagGroup> invalid = Data.invalidTarget;
 
-        string[] types = null;
-
-        switch (target)
+        foreach (var item in tagList)
         {
-            case Target.Main:
-                types = Data.main?.Split(',');
-                break;
-
-            case Target.Sub:
-                types = Data.sub?.Split(',');
-                break;
-
-            case Target.Weak:
-                types = Data.weak?.Split(',');
-                break;
-
-            case Target.Invalid:
-                types = Data.invalid?.Split(',');
-                break;
-        }
-
-        return types;
-    }
-
-    protected Type[] GetTargetType(Target target)
-    {
-        string[] names = GetTargetTypeString(target);
-        if (names == null) 
-        {
-            Debug.Log("Target Type Not Exist");
-            return null;
-        }
-
-        Type[] types = new Type[names.Length];
-
-        for (int i = 0; i < names.Length; i++)
-        {
-            Type type = Type.GetType(names[i]);
-            types[i] = type;
-        }
-
-        return types;
-    }
-    protected Target GetTarget(NPC npc)
-    {
-        Type npcType = npc.GetType();
-
-        for (int i = 1; i < Enum.GetNames(typeof(Target)).Length; i++)
-        {
-            Type[] types = GetTargetType((Target)i);
-            // 타겟 리스트가 없으면 넘기기
-            if (types == null) continue;
-
-            foreach (var item in types)
+            foreach (var item2 in bonus)
             {
-                if (npcType == item)
+                if (item == item2)
                 {
-                    return (Target)i;
+                    return Target.Bonus;
+                }
+            }
+            foreach (var item2 in weak)
+            {
+                if (item == item2)
+                {
+                    return Target.Weak;
+                }
+            }
+            foreach (var item2 in invalid)
+            {
+                if (item == item2)
+                {
+                    return Target.Invalid;
                 }
             }
         }
 
-        return Target.Nothing;
+        return Target.Normal;
     }
 
 
+    //string[] GetTargetTypeString(Target target)
+    //{
+    //    if (Data == null) return null;
+
+    //    string[] types = null;
+
+    //    switch (target)
+    //    {
+    //        case Target.Main:
+    //            types = Data.main?.Split(',');
+    //            break;
+
+    //        case Target.Normal:
+    //            types = Data.sub?.Split(',');
+    //            break;
+
+    //        case Target.Weak:
+    //            types = Data.weak?.Split(',');
+    //            break;
+
+    //        case Target.Invalid:
+    //            types = Data.invalid?.Split(',');
+    //            break;
+    //    }
+
+    //    return types;
+    //}
+
+    //protected Type[] GetTargetType(Target target)
+    //{
+    //    string[] names = GetTargetTypeString(target);
+    //    if (names == null) 
+    //    {
+    //        Debug.Log("Target Type Not Exist");
+    //        return null;
+    //    }
+
+    //    Type[] types = new Type[names.Length];
+
+    //    for (int i = 0; i < names.Length; i++)
+    //    {
+    //        Type type = Type.GetType(names[i]);
+    //        types[i] = type;
+    //    }
+
+    //    return types;
+    //}
+    //protected Target GetTarget(NPC npc)
+    //{
+    //    Type npcType = npc.GetType();
+
+    //    for (int i = 1; i < Enum.GetNames(typeof(Target)).Length; i++)
+    //    {
+    //        Type[] types = GetTargetType((Target)i);
+    //        // 타겟 리스트가 없으면 넘기기
+    //        if (types == null) continue;
+
+    //        foreach (var item in types)
+    //        {
+    //            if (npcType == item)
+    //            {
+    //                return (Target)i;
+    //            }
+    //        }
+    //    }
+
+    //    return Target.Nothing;
+    //}
+
+
+    //protected Target GetTarget(TagGroup npc)
+    //{
+    //    Type npcType = npc.GetType();
+
+    //    for (int i = 1; i < Enum.GetNames(typeof(Target)).Length; i++)
+    //    {
+    //        Type[] types = GetTargetType((Target)i);
+    //        // 타겟 리스트가 없으면 넘기기
+    //        if (types == null) continue;
+
+    //        foreach (var item in types)
+    //        {
+    //            if (npcType == item)
+    //            {
+    //                return (Target)i;
+    //            }
+    //        }
+    //    }
+
+    //    return Target.Nothing;
+    //}
+
+
+
+    #region DayEvent_Facility
+    protected enum DayType
+    {
+        Day,
+        Night,
+    }
+
+    protected void AddTurnEvent(Action<int> _action, DayType dayType)
+    {
+        switch (dayType)
+        {
+            case DayType.Day:
+                Main.Instance.DayActions.Add(_action);
+                break;
+
+            case DayType.Night:
+                Main.Instance.NightActions.Add(_action);
+                break;
+
+        }
+    }
+    protected void RemoveTurnEvent(Action<int> _action, DayType dayType)
+    {
+        switch (dayType)
+        {
+            case DayType.Day:
+                Main.Instance.DayActions.Remove(_action);
+                break;
+
+            case DayType.Night:
+                Main.Instance.NightActions.Remove(_action);
+                break;
+        }
+    }
+    #endregion
 
 }
 

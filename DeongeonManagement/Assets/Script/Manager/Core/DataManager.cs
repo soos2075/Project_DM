@@ -290,6 +290,8 @@ public class DataManager
         public BuffList buffList;
 
         public SaveData_EventData eventData;
+
+        public HashSet<int> instanceGuildNPC;
     }
 
 
@@ -496,6 +498,8 @@ public class DataManager
 
 
         saveData.eventData = EventManager.Instance.Data_SaveEventManager();
+        saveData.instanceGuildNPC = GuildManager.Instance.Data_SaveInstanceNPC();
+
 
         //saveData.savefileConfig = UserData.Instance.FileConfig;
         UserData.Instance.FileConfig.PlayTimeApply();
@@ -560,6 +564,8 @@ public class DataManager
         GameManager.Monster.Load_MonsterData(loadData.monsterList);
         GameManager.Technical.Load_TechnicalData(loadData.tachnicalList);
         GameManager.Facility.Load_FacilityData(loadData.facilityList);
+
+        GuildManager.Instance.Data_LoadInstanceNPC(loadData.instanceGuildNPC);
     }
     void LoadGuildData(SaveData loadData)
     {

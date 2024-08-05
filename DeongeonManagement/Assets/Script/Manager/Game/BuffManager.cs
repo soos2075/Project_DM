@@ -11,13 +11,29 @@ public class BuffManager
 
 
 
+    #region Normal Buff
+    //? 이 항목은 따로 저장하지 않음. 그냥 모든 시설과 기타 등등으로 인해 새로시작, 로드 등으로 각자장소에서 해줘야함(중복방지)
+    public int PortalBonus { get; set; }    //? 포탈 이용시 마나 보너스 - 정수
+    public int FacilityBonus { get; set; }  //? 모든 시설 이용시 마나 보너스 - 정수
+
+    public int HerbBonus { get; set; }      //? 모든 약초 채집시 마나 보너스 - 정수
+    public int MineralBonus { get; set; }   //? 모든 광물 채굴시 마나 보너스 - 정수
+
+
+    public int BattleBonus { get; set; }    //? 모든 전투시 마나 보너스 - 정수
+
+
+    public int ManaBonus { get; set; }      //? 최종 마나 계산시 보너스 - 1당 1퍼센트
+    public int GoldBonus { get; set; }      //? 최종 골드 계산시 보너스 - 1당 1퍼센트
+    public int APBonus { get; set; }        //? 턴 시작시 행동력 보너스 - 정수
+
+
+    #endregion
 
 
 
+    #region Orb Buff
     public BuffList CurrentBuff { get; set; }
-
-
-
 
     public BuffList Save_Buff()
     {
@@ -31,6 +47,7 @@ public class BuffManager
             CurrentBuff = data.Clone();
         }
     }
+    #endregion
 }
 
 public class BuffList
@@ -41,10 +58,6 @@ public class BuffList
     public int Orb_blue;
     public int Orb_yellow;
     public int Orb_red;
-
-
-
-
 
 
     public BuffList()

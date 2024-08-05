@@ -1435,18 +1435,55 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat
 
 
 
+
 }
-public enum NPCGroup
+public enum TagGroup //? 예를 그냥 태그라고 생각한다면 다음 4개로 나눌 수 있음 보너스태그
 {
-    NPC_Herbalist = 10,
-    NPC_Miner = 20,
-    NPC_Adventurer = 30,
-    NPC_Elf = 40,
-    NPC_Wizard = 50,
+    //? Bonus
+    약초학 = 1000,
+    광물지식,
+    전투원,
+    보물사냥꾼,
+
+    //? Weak
+    잡초 = 5000,
+    돌멩이,
+    비전투원,
+
+    //? Invalid
+    짓밟기 = 9000,
 
 
-    NPC_EventNPC = 1000,
-    NPC_QuestHunter = 2000,
+
+
+    ////? Normal
+    //NPC_Herbalist = 10,
+    //NPC_Miner = 20,
+    //NPC_Adventurer = 30,
+    //NPC_Elf = 40,
+    //NPC_Wizard = 50,
+
+    ////? NPC_QuestHunter
+    //NPC_Hunter_Slime = 1100,
+    //NPC_Hunter_EarthGolem = 1101,
+
+
+    ////? NPC_EventNPC
+    //NPC_Event_Day3 = 1903,
+    //NPC_Event_Day8 = 1908,
+
+    //NPC_Event_Goblin = 1910,
+
+    //NPC_Event_RetiredHero = 1915,
+
+    //NPC_A_Warrior = 1920,
+    //NPC_A_Tanker,
+    //NPC_A_Wizard,
+    //NPC_A_Elf,
+
+    //NPC_Captine = 1930,
+
+    //NPC_Event_Soldier = 1941,
 }
 
 public enum InteractionGroup

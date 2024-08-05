@@ -49,7 +49,15 @@ public class UI_Quest : UI_PopUp
             string title = Managers.Dialogue.GetDialogue((DialogueName)id).dialogueName;
             string detail = Managers.Dialogue.GetDialogue((DialogueName)id).TextDataList[0].mainText;
 
-            content.SetText(title, detail);
+            string day = Managers.Dialogue.GetDialogue((DialogueName)id).TextDataList[0].optionString;
+            string numbersOnly = System.Text.RegularExpressions.Regex.Replace(day, "[^0-9]", "");
+            int dayOption = 0;
+            if (string.IsNullOrEmpty(numbersOnly) == false)
+            {
+                dayOption = int.Parse(numbersOnly);
+            }
+
+            content.SetText(title, detail, dayOption);
         }
     }
 

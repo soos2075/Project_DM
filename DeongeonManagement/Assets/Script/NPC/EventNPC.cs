@@ -31,7 +31,7 @@ public class EventNPC : NPC
         {
             case EventNPCType.Event_Day3:
             case EventNPCType.Event_Day8:
-            case EventNPCType.Event_Day15:
+            case EventNPCType.Event_RetiredHero:
             case EventNPCType.Captine_A:
             case EventNPCType.Captine_B:
             case EventNPCType.Captine_C:
@@ -45,6 +45,9 @@ public class EventNPC : NPC
             case EventNPCType.B_Wizard:
             case EventNPCType.A_Elf:
             case EventNPCType.B_Elf:
+            case EventNPCType.Event_Goblin_Leader:
+            case EventNPCType.Event_Goblin_Leader2:
+            case EventNPCType.Event_Goblin:
                 return 2;
 
             default:
@@ -62,7 +65,7 @@ public class EventNPC : NPC
                 return 50;
             case EventNPCType.Event_Day8:
                 return 200;
-            case EventNPCType.Event_Day15:
+            case EventNPCType.Event_RetiredHero:
                 return 500;
             case EventNPCType.Captine_A:
             case EventNPCType.Captine_B:
@@ -101,9 +104,19 @@ public class EventNPC : NPC
             case EventNPCType.Event_Day8:
                 StartCoroutine(EventCor($"Day8_Event"));
                 break;
-            case EventNPCType.Event_Day15:
+
+            case EventNPCType.Event_RetiredHero:
                 StartCoroutine(EventCor($"Day15_Event"));
                 break;
+
+            case EventNPCType.Event_Goblin_Leader:
+                StartCoroutine(EventCor(DialogueName.Goblin_Appear));
+                break;
+
+            case EventNPCType.Event_Goblin_Leader2:
+                StartCoroutine(EventCor(DialogueName.Goblin_Party));
+                break;
+
 
             case EventNPCType.A_Warrior:
                 StartCoroutine(EventCor($"Day20_Event"));
@@ -111,31 +124,35 @@ public class EventNPC : NPC
         }
     }
 
-    public enum EventNPCType
-    {
-        Event_Day3 = 2000,
-        Event_Day8,
-        Event_Day15,
+    //public enum EventNPCType
+    //{
+    //    Event_Day3 = 2000,
+    //    Event_Day8,
+    //    RetiredHero,
+
+    //    Goblin_Leader,
+    //    Goblin_Leader2,
+    //    Goblin,
 
 
-        A_Warrior,
-        A_Tanker,
-        A_Wizard,
-        A_Elf,
+    //    A_Warrior,
+    //    A_Tanker,
+    //    A_Wizard,
+    //    A_Elf,
 
-        B_Warrior,
-        B_Tanker,
-        B_Wizard,
-        B_Elf,
+    //    B_Warrior,
+    //    B_Tanker,
+    //    B_Wizard,
+    //    B_Elf,
 
-        Captine_A,
-        Captine_B,
-        Captine_C,
+    //    Captine_A,
+    //    Captine_B,
+    //    Captine_C,
 
-        Event_Soldier1,
-        Event_Soldier2,
-        Event_Soldier3,
-    }
+    //    Event_Soldier1,
+    //    Event_Soldier2,
+    //    Event_Soldier3,
+    //}
     public EventNPCType EventDay { get { return (EventNPCType)EventID; } }
 
     protected override void SetRandomClothes()
@@ -163,7 +180,7 @@ public class EventNPC : NPC
                 characterBuilder.Weapon = "Katana";
                 break;
 
-            case EventNPCType.Event_Day15:
+            case EventNPCType.Event_RetiredHero:
                 KillGold = 500;
                 characterBuilder.Hair = "Hair10#858585/0:0:0";
                 characterBuilder.Armor = "HeavyKnightArmor";
@@ -172,9 +189,21 @@ public class EventNPC : NPC
                 break;
 
 
+            case EventNPCType.Event_Goblin:
+            case EventNPCType.Event_Goblin_Leader:
+            case EventNPCType.Event_Goblin_Leader2:
+                characterBuilder.Hair = "";
+                characterBuilder.Head = "Goblin#FFFFFF/0:0:0";
+                characterBuilder.Ears = "Goblin#FFFFFF/0:0:0";
+                characterBuilder.Eyes = "Goblin#FFFFFF/0:0:0";
+                characterBuilder.Body = "Goblin#FFFFFF/0:0:0";
+                characterBuilder.Weapon = "RustedShovel#FFFFFF/0:0:0";
+                characterBuilder.Back = "LargeBackpack#FFFFFF/0:0:0";
+                break;
 
 
-                //? 여기부터 killgold같은거 추가로 설정해야함
+
+            //? 여기부터 killgold같은거 추가로 설정해야함
 
             case EventNPCType.A_Warrior:
             case EventNPCType.B_Warrior:
@@ -261,24 +290,44 @@ public class EventNPC : NPC
     {
         if (PriorityList != null) PriorityList.Clear();
 
-        {
-            var list1 = GetFloorObjectsAll(Define.TileType.Monster);
-            AddList(list1);
-        }
-        //{
-        //    var treasure = GetPriorityPick(typeof(Treasure));
-        //    AddList(treasure);
-        //}
-
-
         switch (EventDay)
         {
+            case EventNPCType.Event_Goblin:
+            case EventNPCType.Event_Goblin_Leader:
+            case EventNPCType.Event_Goblin_Leader2:
+                {
+                    var herb = GetPriorityPick(typeof(Herb));
+                    AddList(herb, AddPos.Front);
+                }
+                {
+                    var mineral = GetPriorityPick(typeof(Mineral));
+                    AddList(mineral, AddPos.Front);
+                }
+                {
+                    var treasure = GetPriorityPick(typeof(Treasure));
+                    AddList(treasure, AddPos.Front);
+                }
+                {
+                    var add_secret = GetPriorityPick(typeof(Entrance_Egg));
+                    AddList(add_secret, AddPos.Back);
+                }
+                {
+                    var add_egg = GetPriorityPick(typeof(SpecialEgg));
+                    AddList(add_egg, AddPos.Back);
+                }
+                break;
+
+
             case EventNPCType.Event_Day3:
             case EventNPCType.Event_Day8:
-            case EventNPCType.Event_Day15:
+            case EventNPCType.Event_RetiredHero:
             case EventNPCType.Captine_A:
             case EventNPCType.Captine_B:
             case EventNPCType.Captine_C:
+                {
+                    var list1 = GetFloorObjectsAll(Define.TileType.Monster);
+                    AddList(list1);
+                }
                 {
                     var treasure = GetPriorityPick(typeof(Treasure));
                     AddList(treasure, AddPos.Back);
@@ -297,22 +346,12 @@ public class EventNPC : NPC
 
             case EventNPCType.A_Warrior:
             case EventNPCType.B_Warrior:
-                {
-                    var add_egg = GetPriorityPick(typeof(SpecialEgg));
-                    AddList(add_egg);
-                }
-                {
-                    var add_secret = GetPriorityPick(typeof(Entrance_Egg));
-                    AddList(add_secret, AddPos.Back);
-                }
-                {
-                    var treasure = GetPriorityPick(typeof(Treasure));
-                    AddList(treasure, AddPos.Front);
-                }
-                break;
-
             case EventNPCType.A_Tanker:
             case EventNPCType.B_Tanker:
+                {
+                    var list1 = GetFloorObjectsAll(Define.TileType.Monster);
+                    AddList(list1);
+                }
                 {
                     var add_egg = GetPriorityPick(typeof(SpecialEgg));
                     AddList(add_egg);
@@ -330,6 +369,10 @@ public class EventNPC : NPC
             case EventNPCType.A_Wizard:
             case EventNPCType.B_Wizard:
                 {
+                    var list1 = GetFloorObjectsAll(Define.TileType.Monster);
+                    AddList(list1);
+                }
+                {
                     var add_egg = GetPriorityPick(typeof(SpecialEgg));
                     AddList(add_egg);
                 }
@@ -345,6 +388,10 @@ public class EventNPC : NPC
 
             case EventNPCType.A_Elf:
             case EventNPCType.B_Elf:
+                {
+                    var list1 = GetFloorObjectsAll(Define.TileType.Monster);
+                    AddList(list1);
+                }
                 {
                     var add_egg = GetPriorityPick(typeof(SpecialEgg));
                     AddList(add_egg);
@@ -364,16 +411,17 @@ public class EventNPC : NPC
             case EventNPCType.Event_Soldier2:
             case EventNPCType.Event_Soldier3:
                 {
+                    var list1 = GetFloorObjectsAll(Define.TileType.Monster);
+                    AddList(list1);
+                }
+                {
                     var herb = GetPriorityPick(typeof(Herb));
-                    AddList(herb, AddPos.Front);
+                    AddList(herb, AddPos.Back);
                 }
                 {
                     var mineral = GetPriorityPick(typeof(Mineral));
-                    AddList(mineral, AddPos.Front);
+                    AddList(mineral, AddPos.Back);
                 }
-                break;
-
-            default:
                 break;
         }
     }
@@ -409,9 +457,15 @@ public class EventNPC : NPC
                 Main.Instance.CurrentDay.AddPop(25);
                 break;
 
-            case EventNPCType.Event_Day15:
+            case EventNPCType.Event_RetiredHero:
                 Main.Instance.CurrentDay.AddDanger(50);
                 Main.Instance.CurrentDay.AddPop(50);
+                GuildManager.Instance.RemoveInstanceGuildNPC(GuildNPC_LabelName.RetiredHero);
+                EventManager.Instance.RemoveQuestAction(1151);
+                break;
+
+            case EventNPCType.Event_Goblin_Leader:
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Goblin_Die, transform);
                 break;
 
 
@@ -459,27 +513,74 @@ public class EventNPC : NPC
     }
     protected override void NPC_Return_Empty()
     {
-        
+        Return();
+
+        switch (EventDay)
+        {
+            case EventNPCType.Event_Goblin_Leader:
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Goblin_Empty, transform);
+                break;
+        }
+    }
+    protected override void NPC_Runaway()
+    {
+        Return();
+
+        switch (EventDay)
+        {
+            case EventNPCType.Event_Goblin_Leader:
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Goblin_Empty, transform);
+                break;
+        }
     }
     protected override void NPC_Return_Satisfaction()
     {
-        
+        Return();
+
+        switch (EventDay)
+        {
+            case EventNPCType.Event_Goblin_Leader:
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Goblin_Satisfiction, transform);
+                break;
+        }
     }
     protected override void NPC_Return_NonSatisfaction()
     {
-        
+        Return();
+
+        switch (EventDay)
+        {
+            case EventNPCType.Event_Goblin_Leader:
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Goblin_Satisfiction, transform);
+                break;
+        }
     }
 
-    protected override void NPC_Runaway()
-    {
-        
-    }
+
+
+
+
 
     void Return()
     {
-        Managers.Dialogue.ShowDialogueUI($"Day{Main.Instance.Turn}_Event_Return", transform);
-        Main.Instance.CurrentDay.AddDanger(-50);
+        switch (EventDay)
+        {
+            case EventNPCType.Event_Day8:
+                Managers.Dialogue.ShowDialogueUI($"Day{8}_ReturnEvent", transform);
+                Main.Instance.CurrentDay.AddDanger(-10);
+                Main.Instance.CurrentDay.AddPop(25);
+                break;
+
+            case EventNPCType.Event_RetiredHero:
+                GuildManager.Instance.RemoveInstanceGuildNPC(GuildNPC_LabelName.RetiredHero);
+                EventManager.Instance.RemoveQuestAction(1151);
+                break;
+        }
+        
+
     }
+
+
 
 
 }

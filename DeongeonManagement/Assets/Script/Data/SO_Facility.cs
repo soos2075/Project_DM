@@ -49,10 +49,10 @@ public class SO_Facility : ScriptableObject, I_SO_Collection
     public string invalid;
 
     [Header("NPCType")]
-    public List<NPCGroup> mainTarget;
-    public List<NPCGroup> subTarget;
-    public List<NPCGroup> weakTarget;
-    public List<NPCGroup> invalidTarget;
+    public List<TagGroup> bonusTarget; //? 1.3배
+    //public List<NPCGroup> subTarget;
+    public List<TagGroup> weakTarget; //? 0.7배
+    public List<TagGroup> invalidTarget; //? 무효(0.1배? 혹은 0)
 
 
 

@@ -66,6 +66,7 @@ public class Define
         S = 6,
         SS = 7,
         SSS = 8,
+        Unrated
     }
 
 
@@ -219,8 +220,17 @@ public class Define
         Boundary_Cross_1 = 1001,
         Boundary_Cross_2 = 1002,
         Boundary_Cross_3 = 1003,
+        Boundary_Cross_4 = 1004,
 
         Boundary_X_1 = 2001,
+        Boundary_X_Big = 2002,
+
+        Boundary_Diagonal__Small = 2101,
+        Boundary_Diagonal__Big = 2102,
+
+        Boundary_Diagonal_Reverse_Small = 2201,
+        Boundary_Diagonal_Reverse_Big = 2202,
+
 
         Boundary_V_1 = 2501,
 
@@ -230,6 +240,8 @@ public class Define
         Boundary_Side_Cross = 3003,
         Boundary_Side_Cross_2 = 3004,
 
+
+        Boundary_Empty_rhombus = 4001,
     }
 
 
@@ -240,7 +252,6 @@ public class Define
     public static readonly Vector2Int[] Boundary_1x2 = { new Vector2Int(0, 0), new Vector2Int(0, 1) };
 
     public static readonly Vector2Int[] Boundary_1x3 = { new Vector2Int(0, 0), new Vector2Int(0, 1), new Vector2Int(0, -1) };
-
 
 
     public static readonly Vector2Int[] Boundary_2x1 = { new Vector2Int(0, 0), new Vector2Int(1, 0) };
@@ -268,15 +279,11 @@ public class Define
         new Vector2Int(0, 1), new Vector2Int(1, 1), new Vector2Int(-1, 1),
         new Vector2Int(0, -1), new Vector2Int(1, -1), new Vector2Int(-1, -1)};
 
-
     public static readonly Vector2Int[] Boundary_4x4 = {
         new Vector2Int(0, 0), new Vector2Int(1, 0), new Vector2Int(2, 0), new Vector2Int(-1, 0),
         new Vector2Int(0, 1), new Vector2Int(1, 1), new Vector2Int(2, 1), new Vector2Int(-1, 1),
         new Vector2Int(-1, -1), new Vector2Int(0, -1), new Vector2Int(1, -1), new Vector2Int(2, -1),
-        new Vector2Int(-1, 2), new Vector2Int(0, 2), new Vector2Int(1, 2), new Vector2Int(2, 2),
-    };
-
-
+        new Vector2Int(-1, 2), new Vector2Int(0, 2), new Vector2Int(1, 2), new Vector2Int(2, 2),};
 
     public static readonly Vector2Int[] Boundary_5x5 = {
         new Vector2Int(0, 0), new Vector2Int(1, 0), new Vector2Int(-1, 0), new Vector2Int(2, 0), new Vector2Int(-2, 0),
@@ -284,6 +291,9 @@ public class Define
         new Vector2Int(0, -1), new Vector2Int(1, -1), new Vector2Int(-1, -1), new Vector2Int(2, -1), new Vector2Int(-2, -1),
         new Vector2Int(0, -2), new Vector2Int(1, -2), new Vector2Int(-1, -2), new Vector2Int(2, -2), new Vector2Int(-2, -2),
         new Vector2Int(0, 2), new Vector2Int(1, 2), new Vector2Int(-1, 2), new Vector2Int(2, 2), new Vector2Int(-2, 2)    };
+
+
+
 
 
 
@@ -304,11 +314,41 @@ public class Define
         new Vector2Int(0, 1), new Vector2Int(0, -1), new Vector2Int(0, 2), new Vector2Int(0, -2),
         new Vector2Int(1, 1), new Vector2Int(1, -1), new Vector2Int(-1, 1), new Vector2Int(-1, -1)};
 
+    public static readonly Vector2Int[] Boundary_Cross_4 = {
+        new Vector2Int(0, 0),
+        new Vector2Int(1, 0), new Vector2Int(-1, 0), new Vector2Int(2, 0), new Vector2Int(-2, 0),
+        new Vector2Int(0, 1), new Vector2Int(0, -1), new Vector2Int(0, 2), new Vector2Int(0, -2)};
+
+
 
 
     public static readonly Vector2Int[] Boundary_X_1 = {
         new Vector2Int(0, 0),
         new Vector2Int(1, 1), new Vector2Int(1, -1), new Vector2Int(-1, 1), new Vector2Int(-1, -1)};
+
+    public static readonly Vector2Int[] Boundary_X_Big = {
+        new Vector2Int(0, 0),
+        new Vector2Int(1, 1), new Vector2Int(1, -1), new Vector2Int(-1, 1), new Vector2Int(-1, -1),
+        new Vector2Int(2, 2), new Vector2Int(2, -2), new Vector2Int(-2, 2), new Vector2Int(-2, -2)};
+
+
+    public static readonly Vector2Int[] Boundary_Diagonal__Small = {
+        new Vector2Int(0, 0),
+        new Vector2Int(1, 1), new Vector2Int(-1, -1)};
+
+    public static readonly Vector2Int[] Boundary_Diagonal__Big = {
+        new Vector2Int(0, 0),
+        new Vector2Int(1, 1), new Vector2Int(-1, -1),
+        new Vector2Int(2, 2), new Vector2Int(-2, -2)};
+
+    public static readonly Vector2Int[] Boundary_Diagonal_Reverse_Small = {
+        new Vector2Int(0, 0),
+        new Vector2Int(1, -1), new Vector2Int(-1, 1)};
+
+    public static readonly Vector2Int[] Boundary_Diagonal_Reverse_Big = {
+        new Vector2Int(0, 0),
+        new Vector2Int(1, -1), new Vector2Int(-1, 1),
+        new Vector2Int(2, -2), new Vector2Int(-2, 2)};
 
 
     public static readonly Vector2Int[] Boundary_V_1 = {
@@ -332,6 +372,10 @@ public class Define
         new Vector2Int(2, 0), new Vector2Int(-2, 0), new Vector2Int(0, 2), new Vector2Int(0, -2) };
 
 
+
+    public static readonly Vector2Int[] Boundary_Empty_rhombus = {
+        new Vector2Int(2, 0), new Vector2Int(-2, 0), new Vector2Int(0, 2), new Vector2Int(0, -2),
+        new Vector2Int(1, 1), new Vector2Int(1, -1), new Vector2Int(-1, 1), new Vector2Int(-1, -1)};
 
     #endregion Boundary
 

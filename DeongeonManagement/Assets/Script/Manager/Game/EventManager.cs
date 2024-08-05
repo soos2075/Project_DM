@@ -47,6 +47,7 @@ public class EventManager : MonoBehaviour
         AddDialogueAction();
         AddEventAction();
         AddForQuestAction();
+        RegistDayEvent();
     }
 
 
@@ -58,6 +59,14 @@ public class EventManager : MonoBehaviour
         CurrentQuestAction?.Invoke();
 
         Add_ReservationQuest();
+
+        //? 시작이벤트 발생부분
+        OneDayAfter();
+        var TodayEvent = GetDayEvent();
+        if (TodayEvent != null)
+        {
+            Run_DayEventAction(TodayEvent.EventIndex);
+        }
     }
 
     public void TurnOver()
@@ -171,6 +180,8 @@ public class EventManager : MonoBehaviour
         {
             Reservation_Quest = new List<Quest_Reservation>(LoadData.eventData.Reservation_Quest);
         }
+
+        FindAnyObjectByType<UI_Management>().QuestNotice();
     }
 
 
@@ -265,38 +276,74 @@ public class EventManager : MonoBehaviour
 
     #region DayEventPriorityQueue
 
+
+    Dictionary<DayEventLabel, Action> DayEventActionRegister = new Dictionary<DayEventLabel, Action>();
+
     public class DayEvent
     {
-        public int EventIndex;
+        public DayEventLabel EventIndex;
 
         //? 퀘스트의 우선순위. 숫자가 낮을수록 우선순위가 높음
         public int Priority;
+
+        //? 발동대기날짜 (여러방법이 있음. 최소 3일 후에 발생하는 이벤트 or 최소 턴이상에 발동하는 이벤트)
+        //? Embargo는 턴(날짜)제한 - 최소 턴이 이 숫자 이상일 때 이벤트가 발생
+        public int Embargo;
+        //? Delay는 등록되고난다음부터 매일 1씩 줄어드는데 최소 딜레이를 주기 위함이고 0보다 작을때만 가능
+        public int Delay;
 
         public DayEvent()
         {
 
         }
-        public DayEvent(int index, int priority)
+        public DayEvent(DayEventLabel index, int priority, int embargo, int delay)
         {
             EventIndex = index;
             Priority = priority;
+            Embargo = embargo;
+            Delay = delay;
         }
     }
 
     public List<DayEvent> DayEventList { get; set; } = new List<DayEvent>();
 
-
-    public DayEvent GetDayEvent()
+    void OneDayAfter()
     {
-        if (DayEventList.Count == 0)
+        foreach (var item in DayEventList)
+        {
+            item.Delay--;
+        }
+    }
+
+
+    DayEvent GetDayEvent()
+    {
+        List<DayEvent> CurrentAbleEvent = new List<DayEvent>();
+
+        if (DayEventList.Count == 0) //? 등록된 이벤트가 없으면 Null
         {
             return null;
         }
         else
         {
-            var temp = DayEventList[0];
-
             foreach (var item in DayEventList)
+            {
+                if (item.Delay <= 0 && item.Embargo <= CurrentTurn)
+                {
+                    CurrentAbleEvent.Add(item);
+                }
+            }
+        }
+
+
+        if (CurrentAbleEvent.Count == 0) //? 등록된 이벤트중에 지금 당장 가능한 이벤트가 없으면 Null
+        {
+            return null;
+        }
+        else
+        {
+            DayEvent temp = CurrentAbleEvent[0];
+            foreach (var item in CurrentAbleEvent)
             {
                 if (item.Priority < temp.Priority) //? 만약 우선순위가 더 낮은 급한 퀘스트가 있으면 교체
                 {
@@ -309,9 +356,45 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public void AddDayEvent(int questIndex, int priority)
+    public void AddDayEvent(DayEventLabel eventName, int priority, int embargo, int delay)
     {
-        DayEventList.Add(new DayEvent(questIndex, priority));
+        DayEventList.Add(new DayEvent(eventName, priority, embargo, delay));
+    }
+
+    void RegistDayEvent()
+    {
+        DayEventActionRegister.Add(DayEventLabel.RetiredHero, () => {
+            Debug.Log("은퇴한 영웅 이벤트");
+            GameManager.NPC.AddEventNPC(EventNPCType.Event_RetiredHero, 9);
+        });
+
+        //DayEventActionRegister.Add(DayEventLabel.Test1, () => Debug.Log("테스트1 데이이벤트 시작"));
+        //DayEventActionRegister.Add(DayEventLabel.Test2, () => Debug.Log("테스트2 데이이벤트 시작"));
+        //DayEventActionRegister.Add(DayEventLabel.Test3, () => Debug.Log("테스트3 데이이벤트 시작"));
+
+        DayEventActionRegister.Add(DayEventLabel.Goblin_Appear, () => {
+            Debug.Log("고블린 첫등장 이벤트");
+            GameManager.NPC.AddEventNPC(EventNPCType.Event_Goblin_Leader, 9);
+        });
+
+        DayEventActionRegister.Add(DayEventLabel.Goblin_Party, () => {
+            Debug.Log("고블린 파티 이벤트");
+            GameManager.NPC.AddEventNPC(EventNPCType.Event_Goblin_Leader2, 3);
+            GameManager.NPC.AddEventNPC(EventNPCType.Event_Goblin, 3.5f);
+            GameManager.NPC.AddEventNPC(EventNPCType.Event_Goblin, 4);
+            GameManager.NPC.AddEventNPC(EventNPCType.Event_Goblin, 4.5f);
+            GameManager.NPC.AddEventNPC(EventNPCType.Event_Goblin, 5);
+        });
+    }
+
+
+    void Run_DayEventAction(DayEventLabel dayEventName)
+    {
+        Action act = null;
+        if (DayEventActionRegister.TryGetValue(dayEventName, out act))
+        {
+            act.Invoke();
+        }
     }
 
     #endregion
@@ -425,18 +508,28 @@ public class EventManager : MonoBehaviour
         forQuestAction.Add(1100, () =>
         {
             Debug.Log("퀘스트 - 슬라임토벌 활성화");
-            GameManager.NPC.AddEventNPC(NPCManager.NPCType.Hunter_Slime, 12);
+            GameManager.NPC.AddEventNPC(EventNPCType.Hunter_Slime, 12);
         });
 
         forQuestAction.Add(1101, () =>
         {
             Debug.Log("퀘스트 - 어스골렘 활성화");
-            GameManager.NPC.AddEventNPC(NPCManager.NPCType.Hunter_EarthGolem, 13);
+            GameManager.NPC.AddEventNPC(EventNPCType.Hunter_EarthGolem, 13);
         });
 
         forQuestAction.Add(1102, () =>
         {
             Debug.Log("1102 퀘스트");
+        });
+
+        forQuestAction.Add(1150, () =>
+        {
+            Debug.Log("고블린 파티 방문 대기중");
+        });
+
+        forQuestAction.Add(1151, () =>
+        {
+            Debug.Log("은퇴한 영웅 방문 대기중");
         });
     }
     void AddDialogueAction()
@@ -472,7 +565,14 @@ public class EventManager : MonoBehaviour
         {
             AddQuestAction(1102);
         });
+
+        GuildNPCAction.Add(1151, () =>
+        {
+            AddQuestAction(1151);
+        });
     }
+
+
     void AddEventAction()
     {
         //EventAction.Add("Message_Tutorial_AP", () => 
@@ -519,6 +619,44 @@ public class EventManager : MonoBehaviour
         EventAction.Add("Entrance_Move_2to4", () =>
         {
             StartCoroutine(EntranceMove_2to4());
+        });
+
+        EventAction.Add("Day8_Event_Die", () => 
+        {
+            Debug.Log("혈기왕성모험가 패배 이벤트 - 은퇴한 영웅 이벤트 연계");
+            AddDayEvent(DayEventLabel.RetiredHero, 0, 15, 0);
+            GuildManager.Instance.AddInstanceGuildNPC(GuildNPC_LabelName.RetiredHero);
+
+            var e8 = GameObject.Find("Event_Day8");
+            if (e8 != null)
+            {
+                GameManager.Placement.Disable(e8.GetComponent<EventNPC>());
+
+                var fade = Managers.UI.ShowPopUp<UI_Fade>();
+                fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 2, true);
+            }
+        });
+
+        EventAction.Add("Day8_ReturnEvent", () =>
+        {
+            Debug.Log("혈기왕성모험가 리턴 이벤트 - 고블린스토리 연계");
+            AddDayEvent(DayEventLabel.Goblin_Appear, priority: 0, embargo: 10, delay: 1);
+        });
+
+        EventAction.Add("Goblin_Satisfiction", () =>
+        {
+            Debug.Log("고블린 만족 - 고블린 파티 이벤트 연계");
+            AddDayEvent(DayEventLabel.Goblin_Party, priority: 0, embargo: 15, delay: 0);
+            AddQuestAction(1150); //? 고블린파티 바로 퀘스트에 추가
+
+            var fade = Managers.UI.ShowPopUp<UI_Fade>();
+            fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 2, true);
+        });
+
+        EventAction.Add("Goblin_Pass", () =>
+        {
+            Debug.Log("고블린 불만족 - 다른 이벤트 추가 필요");
+            AddDayEvent(DayEventLabel.Dark, priority: 0, embargo: 15, delay: 0);
         });
 
 
@@ -624,6 +762,10 @@ public class EventManager : MonoBehaviour
 
 
 
+
+
+
+
     //? 클리어시에만 임시로 사용함. 이게 있을 땐 SaveLoad에서도 얘로 대신해서 저장함. (인덱스는 클릭한 인덱스로). 클리어 처리 후엔 삭제됨
     public DataManager.SaveData Temp_saveData { get; set; }
 
@@ -689,6 +831,21 @@ public class EventManager : MonoBehaviour
             Main.Instance.DungeonExpansionUI();
         }
     }
+
+}
+
+public enum DayEventLabel
+{
+    Test1 = 0,
+    Test2 = 1,
+    Test3 = 2,
+
+    Goblin_Appear = 93,
+    Goblin_Party = 100,
+
+    Dark = 140,
+
+    RetiredHero = 153,
 
 }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,19 @@ using UnityEngine.U2D.Animation;
 
 public class Treasure : Facility
 {
+    public enum TreasureCategory
+    {
+        Swords = 2200,
+        Rings = 2210,
+        Hats = 2220,
+        Scrolls = 2230,
+        Artifacts = 2240,
+        Crowns = 2250,
+        Chests = 2260,
+    }
+    public TreasureCategory treasureType;
+
+
     public override void Init_Personal()
     {
         int category = (CategoryIndex / 10) * 10;
@@ -24,6 +38,11 @@ public class Treasure : Facility
         {
             First_Instantiate();
         }
+
+        if (treasureType == TreasureCategory.Artifacts)
+        {
+            AddEvent_Artifact();
+        }
     }
 
     public void First_Instantiate()
@@ -37,54 +56,14 @@ public class Treasure : Facility
             labelString.Add(item);
         }
 
-        int label = Random.Range(0, labelString.Count);
+        int label = UnityEngine.Random.Range(0, labelString.Count);
         string dataKeyName = labelString[label];
         Data = GameManager.Facility.GetData($"Treasure_{dataKeyName}");
         SetData();
         isInit = true;
 
-
-        //switch (treasureType)
-        //{
-        //    case TreasureCategory.Swords:
-        //        break;
-
-        //    case TreasureCategory.Rings:
-        //        break;
-
-        //    case TreasureCategory.Hats:
-        //        break;
-
-        //    case TreasureCategory.Scrolls:
-        //        break;
-
-        //    case TreasureCategory.Artifacts:
-        //        break;
-
-        //    case TreasureCategory.Crowns:
-        //        break;
-
-        //    case TreasureCategory.Chests:
-        //        break;
-        //}
-
-
-
         CategorySelect(Data.SLA_label);
     }
-
-
-    public enum TreasureCategory
-    {
-        Swords = 2200,
-        Rings = 2210,
-        Hats = 2220,
-        Scrolls = 2230,
-        Artifacts = 2240,
-        Crowns = 2250,
-        Chests = 2260,
-    }
-    public TreasureCategory treasureType;
 
     void CategorySelect(string _dataKeyName)
     {
@@ -92,7 +71,6 @@ public class Treasure : Facility
         //resolver.SetCategoryAndLabel(treasureType.ToString(), "Entry");
         resolver.SetCategoryAndLabel(treasureType.ToString(), _dataKeyName);
     }
-
 
 
 
@@ -124,28 +102,22 @@ public class Treasure : Facility
 
         yield return new WaitForSeconds(durationTime);
 
-        int changeMP = mp_value;
-
-        switch (GetTarget(npc))
+        int changeMP = mp_value + GameManager.Buff.FacilityBonus;
+        switch (TagCheck(npc))
         {
-            case Target.Main:
-                changeMP = mp_value;
-                break;
-
-            case Target.Sub:
-                changeMP = (int)(mp_value * 0.7f);
+            case Target.Bonus:
+                changeMP = Mathf.RoundToInt(mp_value * 1.3f);
                 break;
 
             case Target.Weak:
-                changeMP = (int)(mp_value * 0.3f);
+                changeMP = Mathf.RoundToInt(mp_value * 0.7f);
                 break;
 
             case Target.Invalid:
-                changeMP = 0;
+                changeMP = Mathf.RoundToInt(mp_value * 0.1f);
                 break;
 
-            case Target.Nothing:
-                changeMP = (int)(mp_value * 0.5f);
+            case Target.Normal:
                 break;
         }
 
@@ -156,20 +128,40 @@ public class Treasure : Facility
         {
             npc.Mana -= applyMana;
             Main.Instance.CurrentDay.AddMana(applyMana, Main.DayResult.EventType.Facility);
-            var dm = Main.Instance.dm_small.Spawn(transform.position, $"+{applyMana} mana");
-            dm.SetColor(Color.blue);
+            Main.Instance.ShowDM(applyMana, Main.TextType.mana, transform);
         }
 
         npc.ActionPoint -= ap_value;
         npc.HP -= hp_value;
 
-        Main.Instance.CurrentDay.AddGold(gold_value, Main.DayResult.EventType.Facility);
-        Main.Instance.CurrentDay.AddPop(pop_value);
-        Main.Instance.CurrentDay.AddDanger(danger_value);
+        if (gold_value != 0) 
+        {
+            Main.Instance.CurrentDay.AddGold(gold_value, Main.DayResult.EventType.Facility);
+            Main.Instance.ShowDM(gold_value, Main.TextType.gold, transform);
+        }
+        if (pop_value != 0)
+        {
+            Main.Instance.CurrentDay.AddPop(pop_value);
+            Main.Instance.ShowDM(pop_value, Main.TextType.pop, transform);
+        }
+        if (danger_value != 0)
+        {
+            Main.Instance.CurrentDay.AddDanger(danger_value);
+            Main.Instance.ShowDM(danger_value, Main.TextType.danger, transform);
+        }
 
         OverCor(npc, isLastInteraction);
     }
 
+
+    protected override void OverCor(NPC npc, bool isRemove)
+    {
+        base.OverCor(npc, isRemove);
+        if (treasureType == TreasureCategory.Artifacts)
+        {
+            RemoveEvent_Artifact();
+        }
+    }
 
 
 
@@ -192,4 +184,119 @@ public class Treasure : Facility
             GameManager.Facility.RemoveFacility(this);
         }
     }
+
+
+
+
+
+
+
+
+    Action<int> ArtifactAction;
+    void AddEvent_Artifact()
+    {
+        ArtifactAction = (value) => Artifacts_AddMana(Data.id);
+        AddTurnEvent(ArtifactAction, DayType.Day);
+
+        switch (Data.id)
+        {
+            case 2240:
+                GameManager.Buff.FacilityBonus += 1;
+                break;
+
+            case 2241:
+                GameManager.Buff.BattleBonus += 5;
+                break;
+
+            case 2242:
+                GameManager.Buff.HerbBonus += 2;
+                break;
+
+            case 2243:
+                GameManager.Buff.MineralBonus += 2;
+                break;
+
+            case 2244:
+                GameManager.Buff.PortalBonus += 3;
+                break;
+
+            case 2245:
+                GameManager.Buff.ManaBonus += 5;
+                break;
+
+            case 2246:
+                GameManager.Buff.ManaBonus += 5;
+                break;
+
+            case 2247:
+                GameManager.Buff.GoldBonus += 5;
+                break;
+
+            case 2248:
+                GameManager.Buff.GoldBonus += 5;
+                break;
+
+            case 2249:
+                GameManager.Buff.APBonus += 1;
+                break;
+        }
+    }
+
+    void RemoveEvent_Artifact()
+    {
+        RemoveTurnEvent(ArtifactAction, DayType.Day);
+
+        switch (Data.id)
+        {
+            case 2240:
+                GameManager.Buff.FacilityBonus -= 1;
+                break;
+
+            case 2241:
+                GameManager.Buff.BattleBonus -= 5;
+                break;
+
+            case 2242:
+                GameManager.Buff.HerbBonus -= 2;
+                break;
+
+            case 2243:
+                GameManager.Buff.MineralBonus -= 2;
+                break;
+
+            case 2244:
+                GameManager.Buff.PortalBonus -= 3;
+                break;
+
+            case 2245:
+                GameManager.Buff.ManaBonus -= 5;
+                break;
+
+            case 2246:
+                GameManager.Buff.ManaBonus -= 5;
+                break;
+
+            case 2247:
+                GameManager.Buff.GoldBonus -= 5;
+                break;
+
+            case 2248:
+                GameManager.Buff.GoldBonus -= 5;
+                break;
+
+            case 2249:
+                GameManager.Buff.APBonus -= 1;
+                break;
+        }
+    }
+
+
+    void Artifacts_AddMana(int value)
+    {
+        //? 기본적으로 아티팩트는 부셔지지않으면 매턴 마나를 주는걸로
+        Main.Instance.CurrentDay.AddMana(100, Main.DayResult.EventType.Artifacts);
+        Main.Instance.ShowDM(100, Main.TextType.mana, transform);
+    }
+
+
 }

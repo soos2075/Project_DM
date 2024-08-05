@@ -40,14 +40,28 @@ public class UI_Collection : UI_PopUp
 
     enum ShowBoxText
     {
-        TMP_Point,
         TMP_Name,
-        TMP_Stat,
+        TMP_Number,
+        TMP_Detail,
+        TMP_Point,
+
         TMP_Option1,
         TMP_Option2,
         TMP_Option3,
         TMP_Option4,
         TMP_Option5,
+
+        TMP_Stat_Main1,
+        TMP_Stat_Main2,
+        TMP_Stat_Main3,
+        TMP_Stat_Main4,
+        TMP_Stat_Main5,
+        TMP_Stat_Main6,
+
+        TMP_Stat_Sub1,
+        TMP_Stat_Sub2,
+        TMP_Stat_Sub3,
+        TMP_Stat_Sub4,
     }
 
     enum ShowBoxImage
@@ -218,14 +232,23 @@ public class UI_Collection : UI_PopUp
     {
         GetImage((int)ShowBoxImage.MainSprite).sprite = Managers.Sprite.GetClear();
 
-        GetTMP((int)ShowBoxText.TMP_Point).text = "";
         GetTMP((int)ShowBoxText.TMP_Name).text = "? ? ?";
-        GetTMP((int)ShowBoxText.TMP_Stat).text = "";
-        //GetTMP((int)ShowBoxText.TMP_Option1).text = "? ? ?";
-        //GetTMP((int)ShowBoxText.TMP_Option2).text = "? ? ?";
-        //GetTMP((int)ShowBoxText.TMP_Option3).text = "? ? ?";
-        //GetTMP((int)ShowBoxText.TMP_Option4).text = "? ? ?";
-        //GetTMP((int)ShowBoxText.TMP_Option5).text = "? ? ?";
+        GetTMP((int)ShowBoxText.TMP_Point).text = "";
+        GetTMP((int)ShowBoxText.TMP_Detail).text = "";
+        GetTMP((int)ShowBoxText.TMP_Number).text = "";
+
+
+
+        StatContentsSet(ShowBoxText.TMP_Stat_Main1, "", $"");
+        StatContentsSet(ShowBoxText.TMP_Stat_Main2, "", $"");
+        StatContentsSet(ShowBoxText.TMP_Stat_Main3, "", $"");
+        StatContentsSet(ShowBoxText.TMP_Stat_Main4, "", $"");
+        StatContentsSet(ShowBoxText.TMP_Stat_Main5, "", $"");
+        StatContentsSet(ShowBoxText.TMP_Stat_Main6, "", $"");
+        StatContentsSet(ShowBoxText.TMP_Stat_Sub1, "", $"");
+        StatContentsSet(ShowBoxText.TMP_Stat_Sub2, "", $"");
+        StatContentsSet(ShowBoxText.TMP_Stat_Sub3, "", $"");
+        StatContentsSet(ShowBoxText.TMP_Stat_Sub4, "", $"");
 
 
         OptionContentSet(ShowBoxText.TMP_Option1,"", false);
@@ -238,6 +261,13 @@ public class UI_Collection : UI_PopUp
 
         StartCoroutine(WaitContentsizeFilter());
     }
+
+    void StatContentsSet(ShowBoxText textBox, string title, string content)
+    {
+        GetTMP((int)textBox).text = title;
+        GetTMP((int)textBox).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = content;
+    }
+
 
     void OptionContentSet(ShowBoxText OptionBox, string content, bool isOn = true)
     {
@@ -269,27 +299,30 @@ public class UI_Collection : UI_PopUp
     {
         SO_Monster SO_Data = data.unit;
 
+        GetTMP((int)ShowBoxText.TMP_Point).text = $"Point : {data.info.UnlockPoint}";
+        GetTMP((int)ShowBoxText.TMP_Number).text = $"No.{data.CollectionNumber}";
+
         if (data.info.isRegist)
         {
-            GetTMP((int)ShowBoxText.TMP_Point).text = $"P:{data.info.UnlockPoint}";
-
-            string stat = $"HP : {SO_Data.hp}\t MaxLv : {SO_Data.maxLv}" +
-                $"\nATK : {SO_Data.atk}\t\tDEF : {SO_Data.def}" +
-                $"\nAGI : {SO_Data.agi}\t\tLUK : {SO_Data.luk}";
-
             GetImage((int)ShowBoxImage.MainSprite).sprite = Managers.Sprite.GetSprite(SO_Data.spritePath);
+
             GetTMP((int)ShowBoxText.TMP_Name).text = SO_Data.labelName;
-            GetTMP((int)ShowBoxText.TMP_Stat).text = stat;
+            GetTMP((int)ShowBoxText.TMP_Point).text = $"Point : {data.info.UnlockPoint}";
+            GetTMP((int)ShowBoxText.TMP_Number).text = $"No.{data.CollectionNumber}";
+            GetTMP((int)ShowBoxText.TMP_Detail).text = $"{SO_Data.detail}";
 
-
-            OptionContentSet(ShowBoxText.TMP_Option1, SO_Data.detail, true);
+            StatContentsSet(ShowBoxText.TMP_Stat_Main1, "HP", $"{SO_Data.hp}");
+            StatContentsSet(ShowBoxText.TMP_Stat_Main2, "MaxLv", $"{SO_Data.maxLv}");
+            StatContentsSet(ShowBoxText.TMP_Stat_Main3, "ATK", $"{SO_Data.atk}");
+            StatContentsSet(ShowBoxText.TMP_Stat_Main4, "DEF", $"{SO_Data.def}");
+            StatContentsSet(ShowBoxText.TMP_Stat_Main5, "AGI", $"{SO_Data.agi}");
+            StatContentsSet(ShowBoxText.TMP_Stat_Main6, "LUK", $"{SO_Data.luk}");
 
             if (data.info.level_1_Unlock)
             {
-                var op2 = $"필요 던전 등급 : {(Define.DungeonRank)SO_Data.unlockRank}" +
-                    $"\n최대 동시 전투 : {SO_Data.maxBattleCount}" +
-                    $"\n전투 당 피로도 : {SO_Data.battleAp}";
-                OptionContentSet(ShowBoxText.TMP_Option2, op2, true);
+                StatContentsSet(ShowBoxText.TMP_Stat_Sub1, $"동시전투", $"{SO_Data.maxBattleCount}");
+                StatContentsSet(ShowBoxText.TMP_Stat_Sub2, $"{UserData.Instance.LocaleText("AP")}", $"{SO_Data.battleAp}");
+                StatContentsSet(ShowBoxText.TMP_Stat_Sub3, $"등급", $"{(Define.DungeonRank)SO_Data.unlockRank}");
             }
             if (data.info.level_2_Unlock)
             {
@@ -299,15 +332,15 @@ public class UI_Collection : UI_PopUp
                 {
                     traitString += $"[{GameManager.Trait.GetData(item).labelName}]  ";
                 }
-                OptionContentSet(ShowBoxText.TMP_Option3, traitString, true);
+                OptionContentSet(ShowBoxText.TMP_Option1, traitString, true);
             }
             if (data.info.level_3_Unlock)
             {
-                OptionContentSet(ShowBoxText.TMP_Option4, SO_Data.evolutionHint, true);
+                OptionContentSet(ShowBoxText.TMP_Option2, SO_Data.evolutionHint, true);
             }
             if (data.info.level_4_Unlock)
             {
-                OptionContentSet(ShowBoxText.TMP_Option5, SO_Data.evolutionDetail, true);
+                OptionContentSet(ShowBoxText.TMP_Option3, SO_Data.evolutionDetail, true);
             }
             if (data.info.level_5_Unlock)
             {
@@ -321,28 +354,45 @@ public class UI_Collection : UI_PopUp
     {
         SO_NPC SO_Data = data.unit;
 
+        GetTMP((int)ShowBoxText.TMP_Point).text = $"Point : {data.info.UnlockPoint}";
+        GetTMP((int)ShowBoxText.TMP_Number).text = $"No.{data.CollectionNumber}";
+
         if (data.info.isRegist)
         {
-            GetTMP((int)ShowBoxText.TMP_Point).text = $"P:{data.info.UnlockPoint}";
             GetImage((int)ShowBoxImage.MainSprite).sprite = Managers.Sprite.GetSprite_SLA(data.unit.SLA_category, data.unit.SLA_label);
-            GetTMP((int)ShowBoxText.TMP_Name).text = SO_Data.labelName;
 
-            OptionContentSet(ShowBoxText.TMP_Option1, SO_Data.detail, true);
+            GetTMP((int)ShowBoxText.TMP_Name).text = SO_Data.labelName;
+            GetTMP((int)ShowBoxText.TMP_Point).text = $"Point : {data.info.UnlockPoint}";
+            GetTMP((int)ShowBoxText.TMP_Number).text = $"No.{data.CollectionNumber}";
+            GetTMP((int)ShowBoxText.TMP_Detail).text = $"{SO_Data.detail}";
 
             if (data.info.level_1_Unlock)
             {
-                string stat = $"HP : {SO_Data.HP}" +
-    $"\nATK : {SO_Data.ATK}\t\tDEF : {SO_Data.DEF}" +
-    $"\nAGI : {SO_Data.AGI}\t\tLUK : {SO_Data.LUK}";
-                GetTMP((int)ShowBoxText.TMP_Stat).text = stat;
+                StatContentsSet(ShowBoxText.TMP_Stat_Main1, "HP", $"{SO_Data.HP}");
+                StatContentsSet(ShowBoxText.TMP_Stat_Main3, "ATK", $"{SO_Data.ATK}");
+                StatContentsSet(ShowBoxText.TMP_Stat_Main4, "DEF", $"{SO_Data.DEF}");
+                StatContentsSet(ShowBoxText.TMP_Stat_Main5, "AGI", $"{SO_Data.AGI}");
+                StatContentsSet(ShowBoxText.TMP_Stat_Main6, "LUK", $"{SO_Data.LUK}");
             }
             if (data.info.level_2_Unlock)
             {
-                GetTMP((int)ShowBoxText.TMP_Stat).text += $"\n{UserData.Instance.LocaleText("Mana")} : {SO_Data.MP}" +
-                    $"\t\t{UserData.Instance.LocaleText("AP")} : {SO_Data.AP}";
+                StatContentsSet(ShowBoxText.TMP_Stat_Sub1, $"{UserData.Instance.LocaleText("Mana")}", $"{SO_Data.MP}");
+                StatContentsSet(ShowBoxText.TMP_Stat_Sub2, $"{UserData.Instance.LocaleText("AP")}", $"{SO_Data.AP}");
+                StatContentsSet(ShowBoxText.TMP_Stat_Sub3, $"등급", $"{(Define.DungeonRank)SO_Data.Rank}");
             }
             if (data.info.level_3_Unlock)
             {
+                string tag = "";
+                foreach (var item in SO_Data.FacilityTagList)
+                {
+                    tag += item.ToString();
+                    tag += "\t";
+                }
+                OptionContentSet(ShowBoxText.TMP_Option1, $"고유 속성 : {tag}", true);
+            }
+            if (data.info.level_4_Unlock)
+            {
+                //? 여긴 가지고 있는 특성 나열하기 (npc도 특성을 가질 수 있음)
                 string prefer = "";
                 foreach (var item in SO_Data.PreferList)
                 {
@@ -355,13 +405,7 @@ public class UI_Collection : UI_PopUp
                     NonPrefer += UserData.Instance.LocaleText_Label(item.ToString());
                     NonPrefer += "\t";
                 }
-
-                //GetTMP((int)ShowBoxText.TMP_Option2).text = $"선호 : {prefer}\n회피 : {NonPrefer}";
                 OptionContentSet(ShowBoxText.TMP_Option2, $"선호 : {prefer}\n회피 : {NonPrefer}", true);
-            }
-            if (data.info.level_4_Unlock)
-            {
-                //? 여긴 가지고 있는 특성 나열하기 (npc도 특성을 가질 수 있음)
             }
             if (data.info.level_5_Unlock)
             {
@@ -375,60 +419,64 @@ public class UI_Collection : UI_PopUp
     {
         SO_Facility SO_Data = data.unit;
 
-        // 시설타입, 주는 마나량, 층보너스, 
+        GetTMP((int)ShowBoxText.TMP_Point).text = $"Point : {data.info.UnlockPoint}";
+        GetTMP((int)ShowBoxText.TMP_Number).text = $"No.{data.CollectionNumber}";
 
         if (data.info.isRegist)
         {
-            GetTMP((int)ShowBoxText.TMP_Point).text = $"P:{data.info.UnlockPoint}";
-
             GetImage((int)ShowBoxImage.MainSprite).sprite = Managers.Sprite.GetSprite_SLA(data.unit.SLA_category, data.unit.SLA_label);
+
             GetTMP((int)ShowBoxText.TMP_Name).text = SO_Data.labelName;
+            GetTMP((int)ShowBoxText.TMP_Point).text = $"Point : {data.info.UnlockPoint}";
+            GetTMP((int)ShowBoxText.TMP_Number).text = $"No.{data.CollectionNumber}";
+            GetTMP((int)ShowBoxText.TMP_Detail).text = $"{SO_Data.detail}";
 
-            OptionContentSet(ShowBoxText.TMP_Option1, SO_Data.detail, true);
-
-            GetTMP((int)ShowBoxText.TMP_Stat).text = 
-                $"{UserData.Instance.LocaleText("분류")} : {UserData.Instance.LocaleText_Label(SO_Data.category.ToString())}";
+            StatContentsSet(ShowBoxText.TMP_Stat_Main1, $"{UserData.Instance.LocaleText("분류")}", 
+                $"{UserData.Instance.LocaleText_Label(SO_Data.category.ToString())}");
 
             if (data.info.level_1_Unlock)
             {
-                string stat = $"\n{UserData.Instance.LocaleText("Mana")} : {SO_Data.mp_value}" +
-                    $"\n{UserData.Instance.LocaleText("횟수")} : {SO_Data.interactionOfTimes}" +
-                    $"\n{UserData.Instance.LocaleText("AP")} : {SO_Data.ap_value}";
-
-                GetTMP((int)ShowBoxText.TMP_Stat).text += stat;
+                StatContentsSet(ShowBoxText.TMP_Stat_Main3, $"{UserData.Instance.LocaleText("Mana")}", $"{SO_Data.mp_value}");
+                StatContentsSet(ShowBoxText.TMP_Stat_Sub1, $"{UserData.Instance.LocaleText("횟수")}", $"{SO_Data.interactionOfTimes}");
+                StatContentsSet(ShowBoxText.TMP_Stat_Sub2, $"{UserData.Instance.LocaleText("AP")}", $"{SO_Data.ap_value}");
             }
             if (data.info.level_2_Unlock)
             {
-                string target = "";
-                foreach (var item in SO_Data.mainTarget)
                 {
-                    target += UserData.Instance.LocaleText_Label(item.ToString());
-                    target += "\t";
+                    string target = "";
+                    foreach (var item in SO_Data.bonusTarget)
+                    {
+                        target += item.ToString();
+                        target += "\t";
+                    }
+                    OptionContentSet(ShowBoxText.TMP_Option1, $"보너스 속성 : {target}", true);
                 }
-                //GetTMP((int)ShowBoxText.TMP_Option2).text = $"100% : {target}";
-                OptionContentSet(ShowBoxText.TMP_Option2, $"100% : {target}", true);
+                {
+                    string target = "";
+                    foreach (var item in SO_Data.weakTarget)
+                    {
+                        target += item.ToString();
+                        target += "\t";
+                    }
+                    OptionContentSet(ShowBoxText.TMP_Option2, $"비효율 속성 : {target}", true);
+                }
+                {
+                    string target = "";
+                    foreach (var item in SO_Data.invalidTarget)
+                    {
+                        target += item.ToString();
+                        target += "\t";
+                    }
+                    OptionContentSet(ShowBoxText.TMP_Option3, $"무효 속성 : {target}", true);
+                }
             }
             if (data.info.level_3_Unlock)
             {
-                string target = "";
-                foreach (var item in SO_Data.subTarget)
-                {
-                    target += UserData.Instance.LocaleText_Label(item.ToString());
-                    target += "\t";
-                }
-                //GetTMP((int)ShowBoxText.TMP_Option3).text = $"70% : {target}";
-                OptionContentSet(ShowBoxText.TMP_Option3, $"70% : {target}", true);
+
             }
             if (data.info.level_4_Unlock)
             {
-                string target = "";
-                foreach (var item in SO_Data.weakTarget)
-                {
-                    target += UserData.Instance.LocaleText_Label(item.ToString());
-                    target += "\t";
-                }
-                //GetTMP((int)ShowBoxText.TMP_Option4).text = $"30% : {target}";
-                OptionContentSet(ShowBoxText.TMP_Option4, $"30% : {target}", true);
+
             }
             if (data.info.level_5_Unlock)
             {
@@ -442,22 +490,6 @@ public class UI_Collection : UI_PopUp
         SO_Technical SO_Data = data.unit;
         Debug.Log(SO_Data.keyName);
     }
-
-
-    void View_ShowBox(Sprite main, string name, string stat, string op1, string op2, string op3, string op4, string op5)
-    {
-        GetImage((int)ShowBoxImage.MainSprite).sprite = main;
-
-        GetTMP((int)ShowBoxText.TMP_Name).text = name;
-        GetTMP((int)ShowBoxText.TMP_Stat).text = stat;
-        GetTMP((int)ShowBoxText.TMP_Option1).text = op1;
-        GetTMP((int)ShowBoxText.TMP_Option2).text = op2;
-        GetTMP((int)ShowBoxText.TMP_Option3).text = op3;
-        GetTMP((int)ShowBoxText.TMP_Option4).text = op4;
-        GetTMP((int)ShowBoxText.TMP_Option4).text = op5;
-    }
-
-
 
 
     #endregion

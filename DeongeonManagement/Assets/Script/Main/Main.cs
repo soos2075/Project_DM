@@ -364,7 +364,6 @@ public class Main : MonoBehaviour
         UI_Main.Texts_Refresh();
 
 
-
         //Type type = CurrentDay.GetType();
         //// 클래스의 모든 필드 정보 가져오기
         //FieldInfo[] fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public);
@@ -484,17 +483,20 @@ public class Main : MonoBehaviour
         public enum EventType
         {
             Facility,
+            Artifacts,
             //Entrance,
             Monster,
             //Battle,
-            //Statue,
             Etc,
+            ResultBonus,
         }
 
         //? ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ마나
         public int Mana_Get_Facility;
+        public int Mana_Get_Artifacts;
         public int Mana_Get_Monster;
         public int Mana_Get_Etc;
+        public int Mana_Get_Bonus;
         public void AddMana(int value, EventType eventType)
         {
             switch (eventType)
@@ -503,12 +505,20 @@ public class Main : MonoBehaviour
                     Mana_Get_Facility += value;
                     break;
 
+                case EventType.Artifacts:
+                    Mana_Get_Artifacts += value;
+                    break;
+
                 case EventType.Monster:
                     Mana_Get_Monster += value;
                     break;
 
                 case EventType.Etc:
                     Mana_Get_Facility += value;
+                    break;
+
+                case EventType.ResultBonus:
+                    Mana_Get_Bonus += value;
                     break;
             }
             Instance.Player_Mana += value;
@@ -541,6 +551,7 @@ public class Main : MonoBehaviour
         public int Gold_Get_Facility;
         public int Gold_Get_Monster;
         public int Gold_Get_Etc;
+        public int Gold_Get_Bonus;
         public void AddGold(int value, EventType eventType)
         {
             switch (eventType)
@@ -555,6 +566,10 @@ public class Main : MonoBehaviour
 
                 case EventType.Etc:
                     Gold_Get_Etc += value;
+                    break;
+
+                case EventType.ResultBonus:
+                    Gold_Get_Bonus += value;
                     break;
             }
             Instance.Player_Gold += value;
@@ -639,18 +654,28 @@ public class Main : MonoBehaviour
             Origin_Rank = result.Origin_Rank;
 
             Mana_Get_Facility = result.Mana_Get_Facility;
+            Mana_Get_Artifacts = result.Mana_Get_Artifacts;
             Mana_Get_Monster = result.Mana_Get_Monster;
             Mana_Get_Etc = result.Mana_Get_Etc;
+            Mana_Get_Bonus = result.Mana_Get_Bonus;
+
             Mana_Use_Facility = result.Mana_Use_Facility;
             Mana_Use_Monster = result.Mana_Use_Monster;
-            Mana_Use_Etc = result.Mana_Use_Monster;
+            Mana_Use_Etc = result.Mana_Use_Etc;
+
+
 
             Gold_Get_Facility = result.Gold_Get_Facility;
             Gold_Get_Monster = result.Gold_Get_Monster;
             Gold_Get_Etc = result.Gold_Get_Etc;
+            Gold_Get_Bonus = result.Gold_Get_Bonus;
+
             Gold_Use_Facility = result.Gold_Use_Facility;
             Gold_Use_Monster = result.Gold_Use_Monster;
             Gold_Use_Etc = result.Gold_Use_Etc;
+
+
+
 
             NPC_Visit = result.NPC_Visit;
             NPC_Prisoner = result.NPC_Prisoner;
@@ -925,27 +950,27 @@ public class Main : MonoBehaviour
 
             case 3:
                 Debug.Log("3일차 시작 이벤트 - 모험가 한명 무조건 소환");
-                GameManager.NPC.AddEventNPC(NPCManager.NPCType.Event_Day3, 7);
+                GameManager.NPC.AddEventNPC(EventNPCType.Event_Day3, 7);
                 break;
 
 
             case 8:
                 Debug.Log("8일차 시작 이벤트 - 패배 트리거 이벤트 모험가 소환");
-                GameManager.NPC.AddEventNPC(NPCManager.NPCType.Event_Day8, 9);
+                GameManager.NPC.AddEventNPC(EventNPCType.Event_Day8, 9);
                 break;
 
             case 15:
-                Debug.Log("15일차 시작 이벤트 - 패배 트리거 이벤트 모험가 소환");
-                GameManager.NPC.AddEventNPC(NPCManager.NPCType.Event_Day15, 9);
+                //Debug.Log("15일차 시작 이벤트 - 패배 트리거 이벤트 모험가 소환");
+                //GameManager.NPC.AddEventNPC(NPCManager.NPCType.Event_Day15, 9);
                 //GameManager.NPC.AddEventNPC(NPCManager.NPCType.Adventurer_0, 9);
                 break;
 
             case 20:
                 Debug.Log("20일차 시작 이벤트 - 붉은 모험단 소환");
-                GameManager.NPC.AddEventNPC(NPCManager.NPCType.A_Tanker, 10f);
-                GameManager.NPC.AddEventNPC(NPCManager.NPCType.A_Warrior, 10.5f);
-                GameManager.NPC.AddEventNPC(NPCManager.NPCType.A_Wizard, 11f);
-                GameManager.NPC.AddEventNPC(NPCManager.NPCType.A_Elf, 11.5f);
+                GameManager.NPC.AddEventNPC(EventNPCType.A_Tanker, 10f);
+                GameManager.NPC.AddEventNPC(EventNPCType.A_Warrior, 10.5f);
+                GameManager.NPC.AddEventNPC(EventNPCType.A_Wizard, 11f);
+                GameManager.NPC.AddEventNPC(EventNPCType.A_Elf, 11.5f);
                 break;
 
             case 25:
@@ -973,13 +998,13 @@ public class Main : MonoBehaviour
         List<NPC> sol1List = new List<NPC>();
         List<NPC> sol2List = new List<NPC>();
 
-        var cap_A = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.Captine_A);
+        var cap_A = GameManager.NPC.InstantiateNPC_Event(EventNPCType.Captine_A);
         cap_A.transform.position = Dungeon.transform.position + (Vector3.right * 1.5f);
         GameManager.Placement.Visible(cap_A);
 
         for (int i = 0; i < 7; i++)
         {
-            var sol_1 = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.Event_Soldier1);
+            var sol_1 = GameManager.NPC.InstantiateNPC_Event(EventNPCType.Event_Soldier1);
             sol_1.transform.position = Dungeon.transform.position + (Vector3.right * 0.5f * i) + Vector3.right * 2.5f;
             sol_1.Anim_State = NPC.animState.left;
             sol_1.Anim_State = NPC.animState.Ready;
@@ -988,7 +1013,7 @@ public class Main : MonoBehaviour
             sol1List.Add(sol_1);
         }
 
-        var cap_B = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.Captine_B);
+        var cap_B = GameManager.NPC.InstantiateNPC_Event(EventNPCType.Captine_B);
         cap_B.transform.position = Dungeon.transform.position + (Vector3.right * -1.5f);
         cap_B.Anim_State = NPC.animState.left;
         cap_B.Anim_State = NPC.animState.Idle;
@@ -996,7 +1021,7 @@ public class Main : MonoBehaviour
 
         for (int i = 0; i < 7; i++)
         {
-            var sol_1 = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.Event_Soldier2);
+            var sol_1 = GameManager.NPC.InstantiateNPC_Event(EventNPCType.Event_Soldier2);
             sol_1.transform.position = Dungeon.transform.position + (Vector3.right * -0.5f * i) + Vector3.right * -2.5f;
             sol_1.Anim_State = NPC.animState.Ready;
 
@@ -1043,44 +1068,44 @@ public class Main : MonoBehaviour
         List<NPC> bloodSong = new List<NPC>();
         //? 피의노래 파티원 생성
         {
-            var party = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.B_Tanker);
+            var party = GameManager.NPC.InstantiateNPC_Event(EventNPCType.B_Tanker);
             party.transform.position = Dungeon.transform.position + (Vector3.left * 6.5f);
             GameManager.Placement.Visible(party);
             bloodSong.Add(party);
         }
         {
-            var party = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.B_Warrior);
+            var party = GameManager.NPC.InstantiateNPC_Event(EventNPCType.B_Warrior);
             party.transform.position = Dungeon.transform.position + (Vector3.left * 7);
             GameManager.Placement.Visible(party);
             bloodSong.Add(party);
         }
         {
-            var party = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.B_Wizard);
+            var party = GameManager.NPC.InstantiateNPC_Event(EventNPCType.B_Wizard);
             party.transform.position = Dungeon.transform.position + (Vector3.left * 7.5f);
             GameManager.Placement.Visible(party);
             bloodSong.Add(party);
         }
         {
-            var party = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.B_Elf);
+            var party = GameManager.NPC.InstantiateNPC_Event(EventNPCType.B_Elf);
             party.transform.position = Dungeon.transform.position + (Vector3.left * 8);
             GameManager.Placement.Visible(party);
             bloodSong.Add(party);
         }
 
         //? 대장급 생성
-        var Cap_A = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.Captine_A);
+        var Cap_A = GameManager.NPC.InstantiateNPC_Event(EventNPCType.Captine_A);
         Cap_A.transform.position = Dungeon.transform.position + (Vector3.right * 1);
         Cap_A.Anim_State = NPC.animState.right;
         Cap_A.Anim_State = NPC.animState.Ready;
         GameManager.Placement.Visible(Cap_A);
 
-        var Cap_B = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.Captine_B);
+        var Cap_B = GameManager.NPC.InstantiateNPC_Event(EventNPCType.Captine_B);
         Cap_B.transform.position = Dungeon.transform.position + (Vector3.right * 5);
         Cap_B.Anim_State = NPC.animState.right;
         Cap_B.Anim_State = NPC.animState.Ready;
         GameManager.Placement.Visible(Cap_B);
 
-        var Captine_C = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.Captine_C);
+        var Captine_C = GameManager.NPC.InstantiateNPC_Event(EventNPCType.Captine_C);
         Captine_C.transform.position = Dungeon.transform.position + (Vector3.left * 1.5f);
         GameManager.Placement.Visible(Captine_C);
 
@@ -1091,7 +1116,7 @@ public class Main : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
         {
-            var sol = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.Event_Soldier1);
+            var sol = GameManager.NPC.InstantiateNPC_Event(EventNPCType.Event_Soldier1);
             sol.transform.position = Dungeon.transform.position + (Vector3.right * 0.5f * i) + Vector3.right * 2.0f;
             sol.Anim_State = NPC.animState.left;
             sol.Anim_State = NPC.animState.Ready;
@@ -1101,7 +1126,7 @@ public class Main : MonoBehaviour
         }
         for (int i = 0; i < 5; i++)
         {
-            var sol = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.Event_Soldier2);
+            var sol = GameManager.NPC.InstantiateNPC_Event(EventNPCType.Event_Soldier2);
             sol.transform.position = Dungeon.transform.position + (Vector3.right * 0.5f * i) + Vector3.right * 6.0f;
             sol.Anim_State = NPC.animState.left;
             sol.Anim_State = NPC.animState.Ready;
@@ -1111,7 +1136,7 @@ public class Main : MonoBehaviour
         }
         for (int i = 0; i < 5; i++)
         {
-            var sol = GameManager.NPC.InstantiateNPC_Event(NPCManager.NPCType.Event_Soldier3);
+            var sol = GameManager.NPC.InstantiateNPC_Event(EventNPCType.Event_Soldier3);
             sol.transform.position = Dungeon.transform.position + (Vector3.left * 0.5f * i) + Vector3.left * 2.5f;
             sol.Anim_State = NPC.animState.right;
             sol.Anim_State = NPC.animState.Ready;
@@ -1440,37 +1465,44 @@ public class Main : MonoBehaviour
         }
 
 
-        public bool PurchaseConfirm()
+        public bool PurchaseCheck()
         {
             if (Main.Instance.Player_Mana < mana)
             {
-                var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-                msg.Message = UserData.Instance.LocaleText("Message_No_Mana");
+                //var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+                //msg.Message = UserData.Instance.LocaleText("Message_No_Mana");
                 return false;
             }
             if (Main.Instance.Player_Gold < gold)
             {
-                var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-                msg.Message = UserData.Instance.LocaleText("Message_No_Gold");
+                //var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+                //msg.Message = UserData.Instance.LocaleText("Message_No_Gold");
                 return false;
             }
             if (Main.Instance.Player_AP < ap)
             {
-                var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-                msg.Message = UserData.Instance.LocaleText("Message_No_AP");
+                //var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+                //msg.Message = UserData.Instance.LocaleText("Message_No_AP");
                 return false;
             }
             if (Main.Instance.DungeonRank < rank)
             {
-                var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-                msg.Message = UserData.Instance.LocaleText("Message_No_Rank");
+                //var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+                //msg.Message = UserData.Instance.LocaleText("Message_No_Rank");
                 return false;
             }
 
+            //Main.Instance.CurrentDay.SubtractMana(mana, DayResult.EventType.Facility);
+            //Main.Instance.CurrentDay.SubtractGold(gold, DayResult.EventType.Facility);
+            //Main.Instance.Player_AP -= ap;
+            return true;
+        }
+
+        public void PurchaseConfirm()
+        {
             Main.Instance.CurrentDay.SubtractMana(mana, DayResult.EventType.Facility);
             Main.Instance.CurrentDay.SubtractGold(gold, DayResult.EventType.Facility);
             Main.Instance.Player_AP -= ap;
-            return true;
         }
     }
 
@@ -1677,18 +1709,25 @@ public class Save_DayResult
     public int Origin_Rank;
 
     public int Mana_Get_Facility;
+    public int Mana_Get_Artifacts;
     public int Mana_Get_Monster;
     public int Mana_Get_Etc;
+    public int Mana_Get_Bonus;
+
     public int Mana_Use_Facility;
     public int Mana_Use_Monster;
     public int Mana_Use_Etc;
 
+
     public int Gold_Get_Facility;
     public int Gold_Get_Monster;
     public int Gold_Get_Etc;
+    public int Gold_Get_Bonus;
+
     public int Gold_Use_Facility;
     public int Gold_Use_Monster;
     public int Gold_Use_Etc;
+
 
     public int NPC_Visit;
     public int NPC_Prisoner;
@@ -1722,18 +1761,27 @@ public class Save_DayResult
         Origin_Rank = result.Origin_Rank;
 
         Mana_Get_Facility = result.Mana_Get_Facility;
+        Mana_Get_Artifacts = result.Mana_Get_Artifacts;
         Mana_Get_Monster = result.Mana_Get_Monster;
         Mana_Get_Etc = result.Mana_Get_Etc;
+        Mana_Get_Bonus = result.Mana_Get_Bonus;
+
         Mana_Use_Facility = result.Mana_Use_Facility;
         Mana_Use_Monster = result.Mana_Use_Monster;
         Mana_Use_Etc = result.Mana_Use_Monster;
 
+
+
         Gold_Get_Facility = result.Gold_Get_Facility;
         Gold_Get_Monster = result.Gold_Get_Monster;
         Gold_Get_Etc = result.Gold_Get_Etc;
+        Gold_Get_Bonus = result.Gold_Get_Bonus;
+
         Gold_Use_Facility = result.Gold_Use_Facility;
         Gold_Use_Monster = result.Gold_Use_Monster;
         Gold_Use_Etc = result.Gold_Use_Etc;
+
+
 
         NPC_Visit = result.NPC_Visit;
         NPC_Prisoner = result.NPC_Prisoner;

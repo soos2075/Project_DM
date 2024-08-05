@@ -72,10 +72,45 @@ KR,\' = '\n',"-' = ','",,,,,,
 ,84,Day8_Event_Die,Bubble,,,0, @Camera::Event_Day8::Camera,뭐야 이 던전은?
 ,,,,,,1,,들은 것 보다 엄청나게 더 위험하잖아?
 ,,,,,,2,,뭔가 이상해… 일단 도망쳐야겠어.
-,,,,,,3, @Camera::Player::Camera@Target::Player::Target,……………
+,,,,,,3,  @Action::Day8_Event_Die::Action @Camera::Player::Camera @Target::Player::Target,……………
 ,,,,,,4,,돌아갔…나?
 ,,,,,,5,,견습 치고는 상당히 위험한 녀석이였네.
 ,,,,,,6,,혹시 별일은 없겠지? 다시 안오면 좋겠는데…
+,,,,,,,,
+,,,,,,,,
+,85,Day8_ReturnEvent,Bubble,,,0, @Camera::Event_Day8::Camera,역시 위험한 일은 없었네
+,,,,,,1, @Action::Day8_ReturnEvent::Action,그래도 들은 것 보단 쓸만한 던전이잖아?
+,,,,,,2,,가끔씩은 수련할 겸 와도 되겠어.
+,,,,,,,,
+,,,,,,,,
+,90,Goblin_Appear,Bubble,,,0, @Camera::Event_Goblin_Leader::Camera,킁킁…
+,,,,,,1,,냄새가 난다…
+,,,,,,2,,풍부한 자원의 냄새…
+,,,,,,3,,던전의 마나의 냄새…
+,,,,,,4,,모두… 내꺼다…
+,,,,,,,,
+,,,,,,,,
+,91,Goblin_Satisfiction,Bubble,,,0,  @Camera::Event_Goblin_Leader::Camera,매우 만족스럽다…
+,,,,,,1,,하지만 자원 아직도 더 많다…
+,,,,,,2, ,다시…와야겠다…
+,,,,,,3,  @Action::Goblin_Satisfiction::Action@Camera::Player::Camera,무지막지한 놈들이네
+,,,,,,4,,다음에 또 올지도 모르겠는걸
+,,,,,,5,,만약 한마리가 아니라 여럿이 온다면…
+,,,,,,6,,충분한 대비가 필요할 것 같아.
+,,,,,,,,
+,,,,,,,,
+,92,Goblin_Empty,Bubble,,,0, @Camera::Event_Goblin_Leader::Camera,…던전…별 거 없다…
+,,,,,,1, @Action::Goblin_Pass::Action,다른 던전… 찾아야 한다…
+,,,,,,,,
+,,,,,,,,
+,93,Goblin_Die,Bubble,,,0, @Camera::Event_Goblin_Leader::Camera,으윽…
+,,,,,,1, @Action::Goblin_Pass::Action,던전… 위험하다…
+,,,,,,,,
+,,,,,,,,
+,100,Goblin_Party,Bubble,,,0, @Camera::Event_Goblin_Leader2::Camera,여기… 자원 많다고 한다…
+,,,,,,1,,동료… 다같이 왔다…
+,,,,,,2,,전부… 우리꺼다…
+,,,,,,,,
 ,,,,,,,,
 ,,,,,,,,
 ,153,Day15_Event,Bubble,,,0, @Camera::Event_Day15::Camera,제자가 계속 던전을 가고싶다고 보채길래-\안전한 이 초보자 던전을 보냈었는데
@@ -289,6 +324,12 @@ KR,\' = '\n',"-' = ','",,,,,,
 ,,,,,,3,,지나친 골렘의 남획으로 인해 골렘의 핵 수급이 어려운 현재 매우 고가에 거래되고 있는 상황입니다.\\길드에서도 비싼값에 매입하고 있으므로 획득하게 되신다면 길드를 찾아주세요.
 ,,,,,,,,
 ,,,,,,,,
+,1150,Quest_150,Quest,고블린의 재방문,,0, @Day::15::Day@,고블린이 분명 다시 올 것 같다.\\던전이 위험해질 수도 있으니 단단히 준비하자!
+,,,,,,,,
+,,,,,,,,
+,1151,Quest_151,Quest,은퇴한 영웅,,0, @Day::15::Day@,은퇴한 영웅이 던전에 방문할 계획을 세우고 있다.\\던전이 격파당하지 않도록 단단히 준비하자!
+,,,,,,,,
+,,,,,,,,
 ,2000,Staff_A_0,Bubble,,,0,,안녕하세요. 길드에는 어떤 용무로 오셨나요?
 ,,,,,,,,
 ,,,,,,,,
@@ -359,3 +400,46 @@ KR,\' = '\n',"-' = ','",,,,,,
 ,,,,,,,,
 ,9001,Hunter_EarthGolem,Bubble,,,0,@Camera::Hunter_EarthGolem::Camera,여긴가? 최근에 어스골렘이 목격됐다는 곳이.
 ,,,,,,1,,부르는 게 값이라던데… 제일 먼저 찾아서 한몫 챙겨야겠군.
+,,,,,,,,
+,15000,RetiredHero_0,Bubble,,,0, @Target::RetiredHero::Target,나도 이제 늙었구만…
+,,,,,,,,
+,,,,,,,,
+,15010,RetiredHero_10,Bubble,,,0, @Action::1151::Action@Target::Player::Target,안녕하세요. 뭘 하고 계신가요?
+,,,,,,1, @Target::RetiredHero::Target,음? 초보 모험가인가.
+,,,,,,2,,보다시피 몸을 좀 풀고 있다네.
+,,,,,,3, @Target::Player::Target,네? 과거에 영웅으로 활동하셨던 분이 갑자기 왜…
+,,,,,,4, @Target::RetiredHero::Target,오- 나를 아는가? \아직까지 나를 기억하는 모험가가 남아있을 줄이야.
+,,,,,,5,,이거 기분이 좋구만.
+,,,,,,6, @Target::Player::Target,모를리가요. \제가 동경하던 모험가중 한 분 이셨습니다.
+,,,,,,7, @Target::RetiredHero::Target,헛헛- 사람을 기분좋게 하는 재주가 있구먼.
+,,,,,,8, @Target::Player::Target,그러고보니 무슨 일로 길드에 계신건가요?
+,,,,,,9, @Target::RetiredHero::Target,어디보자… \자네 혹시 초보자던전이라고 아는가?
+,,,,,,10, @Target::Player::Target,네. 저같은 초보 모험가들이 가기 좋은 곳으로 알고있습니다.
+,,,,,,11, @Target::RetiredHero::Target,그래그래. 그 초보자 던전말이지.
+,,,,,,12,,내가 은퇴 후 육성하던 제자가 한명 있는데 말이야.
+,,,,,,13,,아직 초짜지만 그래도 내가 가르친만큼 \그렇게 약한건 아니란 말이지?
+,,,,,,14,,그런데 이녀석이 초보자 던전을 가서 \큰 부상을 입고 돌아왔어.
+,,,,,,15,,분명 그정도 던전은 손쉽게 격파할거라고 \생각했는데 말이지.
+,,,,,,16, @Target::Player::Target,정말요? 혹시 제자가 거짓말을 한건…
+,,,,,,17, @Target::RetiredHero::Target,그럴리가 없잖나. 멍청해도 거짓말을 하는 놈은 아니야.
+,,,,,,18, @Target::Player::Target,그렇지만 초보자 던전은 아주 쉬운 던전이 아닌가요?
+,,,,,,19, @Target::RetiredHero::Target,바로 그점이 이상한 부분이지.
+,,,,,,20,,제자 말로는 더 이상 초보자 수준의 \던전이 아닌 것 같다고 하더라고.
+,,,,,,21,,그래서 내가 직접 확인해보려고 준비중인 걸세.
+,,,,,,22, @Target::Player::Target,그러시군요. \그렇지만 그런건 길드에서 확인해보면 되지 않나요?
+,,,,,,23, @Target::RetiredHero::Target,안그래도 물어본 참일세.
+,,,,,,24,,그런데 분명 이상한 소문이 들려오는게 사실이야.
+,,,,,,25,,길드에서도 사실확인중이라고 하고.
+,,,,,,26,,그래서 기왕 내가 직접 확인하고 알려주기로 했네.
+,,,,,,27, @Target::Player::Target,그러시군요.
+,,,,,,28,,혹시 던전에 가시는 날짜가 언제인가요?
+,,,,,,29, @Target::RetiredHero::Target,음? 아마 15일에 가려고 하고있네.
+,,,,,,30,,그런데 그건 왜 묻는가?
+,,,,,,31, @Target::Player::Target,아- 혹시 영웅분의 활약상을 조금이나마 볼 수 있을까 해서…
+,,,,,,32, @Target::RetiredHero::Target,하하- 자넨 역시 말을 잘하는구만.
+,,,,,,33,,그렇지만 도움은 필요없다네.
+,,,,,,34, @Target::Player::Target,알겠습니다. 그럼 감사했습니다.
+,,,,,,35, @Target::RetiredHero::Target,그래- 들어가시게.
+,,,,,,36, @Target::Player::Target,(큰일났는걸. 아무리 은퇴했다지만 한 때의 영웅)
+,,,,,,37,,(제대로 준비하지 않으면 던전을 격파당할지도 모르겠어)
+,,,,,,38,,(15일이라고 했지. 최대한 미리 대비해보자)

@@ -14,7 +14,7 @@ public class QuestHunter : NPC
 
         switch (Hunter)
         {
-            case HunterType.Slime:
+            case EventNPCType.Hunter_Slime:
                 if (UserData.Instance.FileConfig.firstAppear_Hunter_Slime == false)
                 {
                     UserData.Instance.FileConfig.firstAppear_Hunter_Slime = true;
@@ -22,7 +22,7 @@ public class QuestHunter : NPC
                 }
                 break;
 
-            case HunterType.EarthGolem:
+            case EventNPCType.Hunter_EarthGolem:
                 if (UserData.Instance.FileConfig.firstAppear_Hunter_EarthGolem == false)
                 {
                     UserData.Instance.FileConfig.firstAppear_Hunter_EarthGolem = true;
@@ -50,14 +50,14 @@ public class QuestHunter : NPC
 
         switch (Hunter)
         {
-            case HunterType.Slime:
+            case EventNPCType.Hunter_Slime:
                 characterBuilder.Armor = "ThiefTunic";
                 characterBuilder.Weapon = "Butcher";
                 characterBuilder.Helmet = "HornsHelmet";
                 characterBuilder.Back = "BackSword";
                 break;
 
-            case HunterType.EarthGolem:
+            case EventNPCType.Hunter_EarthGolem:
                 characterBuilder.Hair = "Hair12#891E2B/0:0:0";
                 characterBuilder.Armor = "ThiefTunic";
                 characterBuilder.Weapon = "Dagger";
@@ -78,23 +78,23 @@ public class QuestHunter : NPC
     }
 
 
-    public enum HunterType
-    {
-        Slime = 1100,
-        EarthGolem = 1101,
-    }
-    public HunterType Hunter { get { return (HunterType)EventID; } }
+    //public enum HunterType
+    //{
+    //    Slime = 1100,
+    //    EarthGolem = 1101,
+    //}
+    public EventNPCType Hunter { get { return (EventNPCType)EventID; } }
 
 
     void SetHunterType()
     {
         switch (Hunter)
         {
-            case HunterType.Slime:
+            case EventNPCType.Hunter_Slime:
                 AddList(GetPriorityPick(typeof(Slime)));
                 break;
 
-            case HunterType.EarthGolem:
+            case EventNPCType.Hunter_EarthGolem:
                 AddList(GetPriorityPick(typeof(EarthGolem)));
                 break;
         }

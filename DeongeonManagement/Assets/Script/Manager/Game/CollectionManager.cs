@@ -105,32 +105,32 @@ public class CollectionManager : MonoBehaviour
         Register_Monster = new List<CollectionUnitRegist<SO_Monster>>();
         for (int i = 0; i < MonsterData.Length; i++)
         {
-            Register_Monster.Add(new CollectionUnitRegist<SO_Monster>(MonsterData[i], new Regist_Info()));
+            Register_Monster.Add(new CollectionUnitRegist<SO_Monster>(MonsterData[i], new Regist_Info(), i+1));
         }
 
         Register_Facility = new List<CollectionUnitRegist<SO_Facility>>();
         for (int i = 0; i < FacilityData.Length; i++)
         {
             if (FacilityData[i].id < 0) continue;
-            Register_Facility.Add(new CollectionUnitRegist<SO_Facility>(FacilityData[i], new Regist_Info()));
+            Register_Facility.Add(new CollectionUnitRegist<SO_Facility>(FacilityData[i], new Regist_Info(), i+1));
         }
 
         Register_NPC = new List<CollectionUnitRegist<SO_NPC>>();
         for (int i = 0; i < NpcData.Length; i++)
         {
-            Register_NPC.Add(new CollectionUnitRegist<SO_NPC>(NpcData[i], new Regist_Info()));
+            Register_NPC.Add(new CollectionUnitRegist<SO_NPC>(NpcData[i], new Regist_Info(), i+1));
         }
 
         Register_Technical = new List<CollectionUnitRegist<SO_Technical>>();
         for (int i = 0; i < TechnicalData.Length; i++)
         {
-            Register_Technical.Add(new CollectionUnitRegist<SO_Technical>(TechnicalData[i], new Regist_Info()));
+            Register_Technical.Add(new CollectionUnitRegist<SO_Technical>(TechnicalData[i], new Regist_Info(), i+1));
         }
 
         Register_Ending = new List<CollectionUnitRegist<SO_Ending>>();
         for (int i = 0; i < EndingData.Length; i++)
         {
-            Register_Ending.Add(new CollectionUnitRegist<SO_Ending>(EndingData[i], new Regist_Info()));
+            Register_Ending.Add(new CollectionUnitRegist<SO_Ending>(EndingData[i], new Regist_Info(), i+1));
         }
     }
 
@@ -351,14 +351,16 @@ public class CollectionManager : MonoBehaviour
     public class CollectionUnitRegist<T> where T : I_SO_Collection
     {
         public T unit;
+        public int CollectionNumber;
 
         public Regist_Info info;
 
 
-        public CollectionUnitRegist(T _so_Data, Regist_Info _regist)
+        public CollectionUnitRegist(T _so_Data, Regist_Info _regist, int num)
         {
             unit = _so_Data;
             info = _regist;
+            CollectionNumber = num;
         }
 
         public void Apply_Info(Regist_Info infoData)
