@@ -93,20 +93,14 @@ public class Trap : Facility
 
         var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
         ui.SetText($"[{Name}] {UserData.Instance.LocaleText("Confirm_Remove")}" +
-            $"\n(+{ReturnGold(trapType)} {UserData.Instance.LocaleText("Gold")})");
-        StartCoroutine(WaitForAnswer(ui));
+            $"\n(+{ReturnGold(trapType)} {UserData.Instance.LocaleText("Gold")})",
+            () => YesAction());
     }
 
-
-    IEnumerator WaitForAnswer(UI_Confirm confirm)
+    void YesAction()
     {
-        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
-
-        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
-        {
-            Main.Instance.CurrentDay.AddGold(ReturnGold(trapType), Main.DayResult.EventType.Facility);
-            GameManager.Facility.RemoveFacility(this);
-        }
+        Main.Instance.CurrentDay.AddGold(ReturnGold(trapType), Main.DayResult.EventType.Facility);
+        GameManager.Facility.RemoveFacility(this);
     }
 
     #endregion

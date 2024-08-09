@@ -18,7 +18,7 @@ public class QuestHunter : NPC
                 if (UserData.Instance.FileConfig.firstAppear_Hunter_Slime == false)
                 {
                     UserData.Instance.FileConfig.firstAppear_Hunter_Slime = true;
-                    StartCoroutine(EventCor($"Hunter_{Hunter.ToString()}"));
+                    StartCoroutine(EventCor($"{Hunter.ToString()}"));
                 }
                 break;
 
@@ -26,7 +26,7 @@ public class QuestHunter : NPC
                 if (UserData.Instance.FileConfig.firstAppear_Hunter_EarthGolem == false)
                 {
                     UserData.Instance.FileConfig.firstAppear_Hunter_EarthGolem = true;
-                    StartCoroutine(EventCor($"Hunter_{Hunter.ToString()}"));
+                    StartCoroutine(EventCor($"{Hunter.ToString()}"));
                 }
                 break;
         }
@@ -41,7 +41,7 @@ public class QuestHunter : NPC
 
     protected override void Start_Setting()
     {
-        gameObject.name = $"Hunter_{Hunter.ToString()}";
+        gameObject.name = $"{Hunter.ToString()}";
     }
 
     protected override void SetRandomClothes()

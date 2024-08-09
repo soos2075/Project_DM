@@ -72,13 +72,65 @@ KR,\' = '\n',"-' = ','",,,,,,
 ,84,Day8_Event_Die,Bubble,,,0, @Camera::Event_Day8::Camera,What's with this dungeon?
 ,,,,,,1,,It's way more dangerous than I heard!
 ,,,,,,2,,Something's not right... I need to escape for now.
-,,,,,,3, @Camera::Player::Camera@Target::Player::Target,……………
+,,,,,,3,  @Action::Day8_Event_Die::Action @Camera::Player::Camera @Target::Player::Target,……………
 ,,,,,,4,,Did they go back...?
 ,,,,,,5,,That was quite a dangerous one for an apprentice.
 ,,,,,,6,,I hope nothing bad happened? It'd be nice if they don't come back...
 ,,,,,,,,
 ,,,,,,,,
-,153,Day15_Event,Bubble,,,0, @Camera::Event_Day15::Camera,My apprentice kept begging to go to the dungeon-\so I sent them to this safe Novice Dungeon
+,85,Day8_ReturnEvent,Bubble,,,0, @Camera::Event_Day8::Camera,There wasn't any danger after all.
+,,,,,,1, @Action::Day8_ReturnEvent::Action,It's a more useful dungeon than I heard- isn't it?
+,,,,,,2,,Sometimes I could come here for training.
+,,,,,,,,
+,,,,,,,,
+,90,Goblin_Appear,Bubble,,,0, @Camera::Event_Goblin_Leader::Camera,Sniff sniff…
+,,,,,,1,,I smell something…
+,,,,,,2,,The smell of rich resources…
+,,,,,,3,,The smell of dungeon mana…
+,,,,,,4,,All… mine…
+,,,,,,,,
+,,,,,,,,
+,91,Goblin_Satisfiction,Bubble,,,0,  @Camera::Event_Goblin_Leader::Camera,Very satisfying…
+,,,,,,1,,But there are still more resources…
+,,,,,,2, ,I must come back again…
+,,,,,,3,  @Action::Goblin_Satisfiction::Action@Camera::Player::Camera @Target::Player::Target,……
+,,,,,,4,,They're truly ruthless- aren't they?
+,,,,,,5,,Luckily- we seem to have plenty of mana…
+,,,,,,6,,Somehow- I think they'll come back again.
+,,,,,,7,,But if more come next time- it'll be trouble.
+,,,,,,8,,Let's make sure they can't get further into the dungeon.
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+,92,Goblin_Empty,Bubble,,,0, @Camera::Event_Goblin_Leader::Camera,…Dungeon…nothing special…
+,,,,,,1, @Action::Goblin_Pass::Action,Must find…another dungeon…
+,,,,,,,,
+,,,,,,,,
+,93,Goblin_Die,Bubble,,,0, @Camera::Event_Goblin_Leader::Camera,Ugh…
+,,,,,,1, @Action::Goblin_Pass::Action,Dungeon…dangerous…
+,,,,,,,,
+,,,,,,,,
+,100,Goblin_Party,Bubble,,,0, @Camera::Event_Goblin_Leader2::Camera,They say there are many resources here…
+,,,,,,1,,The comrades… have all come together…
+,,,,,,2,,Everything… is ours…
+,,,,,,,,
+,,,,,,,,
+,140,Catastrophe_Appear,Bubble,,,0, @Camera::Event_Catastrophe::Camera,………………………………
+,,,,,,,,
+,,,,,,,,
+,141,Catastrophe_Return,Bubble,,,0, @Camera::Event_Catastrophe::Camera,That's all for today…
+,,,,,,,,
+,,,,,,,,
+,142,Catastrophe_Return_First,Bubble,,,0, @Camera::Event_Catastrophe::Camera,That's all for today…
+,,,,,,1,  @Action::Catastrophe_Refeat::Action@Camera::Player::Camera @Target::Player::Target,………………………………
+,,,,,,2,,We barely made it back…
+,,,,,,3,,Oddly- it seems there’s less mana generation- \and it’s not easy to drive them away.
+,,,,,,4,,It looks like they might keep coming…
+,,,,,,5,,If this continues- \it could end up like the other dungeons- being overtaken.
+,,,,,,6,,Is there no way to handle this? \I need to find a solution somehow.
+,,,,,,,,
+,,,,,,,,
+,153,Day15_Event,Bubble,,,0, @Camera::Event_RetiredHero::Camera,My apprentice kept begging to go to the dungeon-\so I sent them to this safe Novice Dungeon
 ,,,,,,1,,But they came back with quite severe injuries.
 ,,,,,,2,,I'm sure I remember it being an unremarkable dungeon...
 ,,,,,,3,,It seemed strange so I investigated-\and there were rumors that recently-\strong monsters have appeared or rare items have been found.
@@ -88,7 +140,7 @@ KR,\' = '\n',"-' = ','",,,,,,
 ,,,,,,7,,Shall we go then?
 ,,,,,,,,
 ,,,,,,,,
-,154,Day15_Event_Die,Bubble,,,0, @Camera::Event_Day15::Camera,This is definitely dangerous.
+,154,Day15_Event_Die,Bubble,,,0, @Camera::Event_RetiredHero::Camera,This is definitely dangerous.
 ,,,,,,1,,Even for a retired pro like me to struggle this much…
 ,,,,,,2,,This needs to be reported to the guild.
 ,,,,,,,,
@@ -289,6 +341,18 @@ KR,\' = '\n',"-' = ','",,,,,,
 ,,,,,,3,,Due to excessive golem hunting- golem cores are currently being traded at very high prices.\\The guild is also buying them at high prices- so please visit the guild if you obtain any.
 ,,,,,,,,
 ,,,,,,,,
+,1140,Quest_140,Quest,Catastrophe of the Dungeon,,0, @Day::15::Day@,Danger is approaching the beginner's dungeon. \Preparation is needed.
+,,,,,,,,
+,,,,,,,,
+,1141,Quest_141,Quest,The catastrophe continues,,0,,Disasters keep coming. \Find a way to resolve them.
+,,,,,,,,
+,,,,,,,,
+,1150,Quest_150,Quest,Goblin Revisited,,0, @Day::15::Day@,The goblins will definitely come back. \Prepare well as the dungeon might become dangerous!
+,,,,,,,,
+,,,,,,,,
+,1151,Quest_151,Quest,Retired Heroes,,0, @Day::15::Day@,A retired hero is planning to visit the dungeon. \Prepare thoroughly to ensure the dungeon is not defeated!
+,,,,,,,,
+,,,,,,,,
 ,2000,Staff_A_0,Bubble,,,0,,Hello. What brings you to the guild?
 ,,,,,,,,
 ,,,,,,,,
@@ -296,13 +360,12 @@ KR,\' = '\n',"-' = ','",,,,,,
 ,,,,,,,,
 ,,,,,,,,
 ,2100,Staff_A_100,Bubble,Dungeon Promotion,,0, @Target::Player::Target @Pos::Down::Pos,Recently- there's a rumor about good herbs appearing in the Novice Dungeon......
-,,,,,,1,,There's quite a strong monster causing trouble......
-,,,,,,2, @Target::GuildStaff::Target @Pos::Up::Pos,Thank you for the information. I'll pass it on.
-,,,,,,3,@Action::2100::Action,
+,,,,,,1, @Action::2100::Action,There's quite a strong monster causing trouble......
+,,,,,,2, @Target::Staff_A::Target @Pos::Up::Pos ,Thank you for the information. I'll pass it on.
 ,,,,,,,,
 ,,,,,,,,
 ,2101,Staff_A_101,Bubble,Ask for News,,0, @Target::Player::Target @Pos::Down::Pos,Is there any useful information going around recently?
-,,,,,,1, @Target::GuildStaff::Target@Pos::Up::Pos,Hmm... Nothing in particular right now.
+,,,,,,1, @Target::Staff_A::Target@Pos::Up::Pos,Hmm... Nothing in particular right now.
 ,,,,,,2,,Please check the bulletin board on the left as well.
 ,,,,,,,,
 ,,,,,,,,
@@ -310,6 +373,28 @@ KR,\' = '\n',"-' = ','",,,,,,
 ,,,,,,,,
 ,,,,,,,,
 ,3010,Staff_B_10,Bubble,,,0,,Hello. The guild provides things that can be helpful to adventurers.
+,,,,,,,,
+,,,,,,,,
+,3014,Staff_B_14,Bubble,,,0, @Action::1140::Action,Are you heading to the dungeon now?
+,,,,,,1, @Target::Player::Target @Pos::Down::Pos,Huh? Well… maybe?
+,,,,,,2, @Target::Staff_B::Target@Pos::Up::Pos,Then you should be careful.
+,,,,,,3, @Target::Player::Target @Pos::Down::Pos,Is there anything to watch out for in the Novice dungeon?
+,,,,,,4, @Target::Staff_B::Target@Pos::Up::Pos,I received urgent information through another guild.
+,,,,,,5,,Recently- there have been reports of extremely \dangerous creatures appearing in beginner dungeons.
+,,,,,,6,,They reportedly destroy everything- \regardless of adventurers- monsters- or resources.
+,,,,,,7, @Target::Player::Target @Pos::Down::Pos,That sounds pretty dangerous.
+,,,,,,8,,Is there any way to deal with them?
+,,,,,,9, @Target::Staff_B::Target@Pos::Up::Pos,Well…
+,,,,,,10,,So far- all we have are reports of people \barely escaping without properly fighting.
+,,,,,,11,,Oh- and after these creatures appeared- the dungeon…
+,,,,,,12,,Apparently- the mana has been completely depleted.
+,,,,,,13, @Target::Player::Target @Pos::Down::Pos,Is that even possible?
+,,,,,,14, @Target::Staff_B::Target@Pos::Up::Pos,I only relay what I've been told- \so I don't know the details.
+,,,,,,15,,Anyway- I've informed you- so please be careful.
+,,,,,,16, @Target::Player::Target @Pos::Down::Pos,Thank you.
+,,,,,,17,,(…If it's true- it’s a big problem. \It feels like something major is going to happen.)
+,,,,,,18,,(Is there anything I can do?)
+,,,,,,19,,(…I should prepare as much as possible.)
 ,,,,,,,,
 ,,,,,,,,
 ,4000,Heroine_0,Bubble,,,0,,……
@@ -359,3 +444,45 @@ KR,\' = '\n',"-' = ','",,,,,,
 ,,,,,,,,
 ,9001,Hunter_EarthGolem,Bubble,,,0,@Camera::Hunter_EarthGolem::Camera,Is this the place? Where they say an earth golem was spotted recently.
 ,,,,,,1,,You get what you pay for- they say... \Gotta be the first to find it and cash in big time.
+,,,,,,,,
+,15000,RetiredHero_0,Bubble,,,0, @Target::RetiredHero::Target,I'm getting old...
+,,,,,,,,
+,,,,,,,,
+,15010,RetiredHero_10,Bubble,,,0, @Action::1151::Action@Target::Player::Target,Hello. What are you doing?
+,,,,,,1, @Target::RetiredHero::Target,Hmm? A novice adventurer- I see.
+,,,,,,2,,Just stretching a bit- as you can see.
+,,,,,,3, @Target::Player::Target,Huh? Why is a former hero suddenly here…
+,,,,,,4, @Target::RetiredHero::Target,Oh- You recognize me?
+,,,,,,5,,I didn't think any adventurers would remember me.
+,,,,,,6, @Target::Player::Target,How could I not? \You were one of the heroes I admired.
+,,,,,,7, @Target::RetiredHero::Target,Haha- I do have a knack for making people feel good.
+,,,,,,8, @Target::Player::Target,By the way- what brings you to the guild?
+,,,,,,9, @Target::RetiredHero::Target,Let me see… \Do you happen to know about the Novice dungeon?
+,,,,,,10, @Target::Player::Target,Yes. It’s a good place for beginners like me.
+,,,,,,11, @Target::RetiredHero::Target,Yes- yes. That Novice dungeon.
+,,,,,,12,,I have a former apprentice who I trained after retirement.
+,,,,,,13,,Although they’re still inexperienced- \they’re not as weak as you might think based on my training.
+,,,,,,14,,But this person went to the Novice dungeon \and returned with severe injuries.
+,,,,,,15,,I thought such a dungeon would be easily conquered.
+,,,,,,16, @Target::Player::Target,Really? Could it be that your apprentice is lying…
+,,,,,,17, @Target::RetiredHero::Target,That can’t be. \Even if they’re foolish- they’re not a liar.
+,,,,,,18, @Target::Player::Target,But isn’t the Novice dungeon supposed to be very easy?
+,,,,,,19, @Target::RetiredHero::Target,That’s precisely what’s strange.
+,,,,,,20,,According to my apprentice- it seems like \it’s no longer a beginner’s dungeon.
+,,,,,,21,,So- I’m preparing to check it out myself.
+,,,,,,22, @Target::Player::Target,I see. \But couldn’t you check that with the guild?
+,,,,,,23, @Target::RetiredHero::Target,I did ask them about it.
+,,,,,,24,,And indeed- strange reports came in.
+,,,,,,25,,So- I decided to check it out myself and let you know.
+,,,,,,26, @Target::Player::Target,I see…
+,,,,,,27,,When are you planning to go to the dungeon?
+,,,,,,28, @Target::RetiredHero::Target,Hmm? I’m planning to go on the 15th.
+,,,,,,29,,Why do you ask?
+,,,,,,30, @Target::Player::Target,Ah- I was hoping to see a bit of the hero’s prowess…
+,,,,,,31, @Target::RetiredHero::Target,Haha- You sure know how to talk.
+,,,,,,32,,But I don’t need any help. \It would only be a hindrance.
+,,,,,,33, @Target::Player::Target,Understood. Thank you.
+,,,,,,34, @Target::RetiredHero::Target,Alright- Take care.
+,,,,,,35, @Target::Player::Target,(This is serious. \Even though they’re retired- they were once a hero.)
+,,,,,,36,,(If I don’t prepare properly- the dungeon might be conquered.)
+,,,,,,37,,(They said the 15th. I should prepare as much as possible.)

@@ -103,44 +103,32 @@ public class UI_StartMenu : UI_Scene
         //    yield return StartCoroutine(WaitForAnswer_ClearData(dataConfirm));
         //}
 
+        Debug.Log("BIC 오프라인 데모버전 - 시작초기화지점");
+        var dataReset = Managers.UI.ShowPopUpAlone<UI_Confirm>();
+
+        string optionText = UserData.Instance.LocaleText("데이터초기화_First");
+        dataReset.SetText(optionText, () => DataReset_Action());
+
+        yield return new WaitUntil(() => dataReset == null);
+        yield return new WaitForSecondsRealtime(0.5f);
 
         var openingConfirm = Managers.UI.ShowPopUp<UI_Confirm>();
-        openingConfirm.SetText(UserData.Instance.LocaleText("Confirm_Opening"));
-        StartCoroutine(WaitForAnswer(openingConfirm));
+        openingConfirm.SetText(UserData.Instance.LocaleText("Confirm_Opening"),
+            () => Go_Opening(), 
+            () => Go_Game());
     }
 
-    IEnumerator WaitForAnswer(UI_Confirm confirm)
+    void Go_Opening()
     {
-        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
-
-        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
-        {
-            Managers.Scene.AddLoadAction_OneTime(() => Opening());
-            Managers.Scene.LoadSceneAsync(SceneName._6_NewOpening, false);
-        }
-        else if (confirm.GetAnswer() == UI_Confirm.State.No)
-        {
-            Managers.Scene.AddLoadAction_OneTime(() => NewGame_Action());
-            Managers.Scene.LoadSceneAsync(SceneName._2_Management, false);
-        }
+        Managers.Scene.AddLoadAction_OneTime(() => Opening());
+        Managers.Scene.LoadSceneAsync(SceneName._6_NewOpening, false);
     }
-
-
-    IEnumerator WaitForAnswer_ClearData(UI_Confirm confirm)
+    void Go_Game()
     {
-        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
-
-        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
-        {
-            CollectionManager.Instance.RoundClearData.dataApply = true;
-            confirm.ClosePopUp();
-        }
-        else if (confirm.GetAnswer() == UI_Confirm.State.No)
-        {
-            CollectionManager.Instance.RoundClearData.dataApply = false;
-            confirm.ClosePopUp();
-        }
+        Managers.Scene.AddLoadAction_OneTime(() => NewGame_Action());
+        Managers.Scene.LoadSceneAsync(SceneName._2_Management, false);
     }
+
 
 
 
@@ -165,6 +153,23 @@ public class UI_StartMenu : UI_Scene
     {
         var ui = Managers.UI.ShowPopUpAlone<UI_SaveLoad>();
         ui.SetMode(UI_SaveLoad.Buttons.Load);
+    }
+
+
+
+
+    void DataReset_Action()
+    {
+        // 플레이어 데이터 삭제
+        PlayerPrefs.DeleteAll();
+        // 클리어 데이터 삭제
+        CollectionManager.Instance.RoundClearData = null;
+        Managers.Data.DeleteSaveFile("ClearData");
+        // 컬렉션 데이터 삭제
+        Managers.Data.DeleteSaveFile("CollectionData");
+        CollectionManager.Instance.DataResetAndNewGame();
+        // 세이브 데이터 삭제
+        Managers.Data.DeleteSaveFileAll();
     }
 
 }

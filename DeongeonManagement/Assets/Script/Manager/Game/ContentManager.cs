@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -144,12 +145,129 @@ public class ContentManager
                 list.Add(item);
             }
         }
-
-        list.Sort((a, b) => a.id.CompareTo(b.id));
-
-        //list.Sort(new ContentComparer());
-        return list;
+        //list.Sort((a, b) => a.id.CompareTo(b.id));
+        return SortByOption(list);
     }
+
+    public List<SO_Contents> SortByOption(List<SO_Contents> target, ContentsSortOption sortOption = ContentsSortOption.Basic, 
+        bool keep = true, bool ascend = true)
+    {
+        ContentsComparer comparer = new ContentsComparer(sortOption, keep, ascend);
+        target.Sort(comparer);
+        return target;
+    }
+    //public List<UI_Facility_Content> SortByOption(List<UI_Facility_Content> target, ContentsSortOption sortOption = ContentsSortOption.Basic)
+    //{
+    //    //List<SO_Contents> newList = new List<SO_Contents>();
+    //    List<SO_Contents> newList = target.Select(item => item.Content).ToList();
+    //    SortByOption(newList);
+
+    //    Dictionary<SO_Contents, UI_Facility_Content> contentMap = target.ToDictionary(item => item.Content);
+
+    //    List<UI_Facility_Content> sortedTarget = newList.Select(content => contentMap[content]).ToList();
+    //    return sortedTarget;
+    //}
+
+
+
+    public class ContentsComparer : IComparer<SO_Contents>
+    {
+        bool PriorityKeep;
+        bool Ascending;
+        ContentsSortOption SortOption;
+
+
+        public ContentsComparer(ContentsSortOption option , bool priority = true, bool ascend = true)
+        {
+            SortOption = option;
+            PriorityKeep = priority;
+            Ascending = ascend;
+        }
+
+        public int Compare(SO_Contents x, SO_Contents y)
+        {
+            int result = 0;
+            if (PriorityKeep) //? 기본 정렬상태 유지(타입)
+            {
+                int temp = x.priority.CompareTo(y.priority);
+
+                switch (SortOption)
+                {
+                    case ContentsSortOption.Basic: //? 1차 = 카테고리, 2차 = 랭크, 3차 = 마나와 골드 합계
+                        var temp2 = temp == 0 ? x.UnlockRank.CompareTo(y.UnlockRank) : temp;
+                        result = temp2 == 0 ? (x.Mana + x.Gold).CompareTo(y.Mana + y.Gold) : temp2;
+                        break;
+
+                    case ContentsSortOption.Rank:
+                        result = temp == 0 ? x.UnlockRank.CompareTo(y.UnlockRank) : temp;
+                        break;
+
+                    case ContentsSortOption.Mana:
+                        result = temp == 0 ? x.Mana.CompareTo(y.Mana) : temp;
+                        break;
+
+                    case ContentsSortOption.Gold:
+                        result = temp == 0 ? x.Gold.CompareTo(y.Gold) : temp;
+                        break;
+
+                    case ContentsSortOption.AP:
+                        result = temp == 0 ? x.Ap.CompareTo(y.Ap) : temp;
+                        break;
+
+                    case ContentsSortOption.Name:
+                        result = temp == 0 ? x.labelName.CompareTo(y.labelName) : temp;
+                        break;
+
+                    default:
+                        result = temp;
+                        break;
+                }
+            }
+            else
+            {
+                switch (SortOption)
+                {
+                    case ContentsSortOption.Rank:
+                        result = x.UnlockRank.CompareTo(y.UnlockRank);
+                        break;
+
+                    case ContentsSortOption.Mana:
+                        result = x.Mana.CompareTo(y.Mana);
+                        break;
+
+                    case ContentsSortOption.Gold:
+                        result = x.Gold.CompareTo(y.Gold);
+                        break;
+
+                    case ContentsSortOption.AP:
+                        result = x.Ap.CompareTo(y.Ap);
+                        break;
+
+                    case ContentsSortOption.Name:
+                        result = x.labelName.CompareTo(y.labelName);
+                        break;
+
+                    default:
+                        result = x.priority.CompareTo(y.priority);
+                        break;
+                }
+            }
+
+            return Ascending ? result : result *= -1;
+        }
+    }
+
+    public enum ContentsSortOption
+    {
+        Basic,
+        Mana,
+        Gold,
+        AP,
+        Name,
+        Rank,
+        Priority,
+    }
+
 
 
     public SO_Contents GetData(string _keyName)

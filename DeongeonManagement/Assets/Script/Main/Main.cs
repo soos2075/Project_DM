@@ -200,7 +200,7 @@ public class Main : MonoBehaviour
 
         UserData.Instance.SetData(PrefsKey.NewGameTimes, UserData.Instance.GetDataInt(PrefsKey.NewGameTimes) + 1);
         UserData.Instance.NewGameConfig();
-        EventManager.Instance.QuestDataReset();
+        EventManager.Instance.NewGameReset();
 
 
         ActiveFloor_Basement = 4;
@@ -219,8 +219,6 @@ public class Main : MonoBehaviour
         Init_DayResult();
         ExpansionConfirm();
         GameManager.Technical.Expantion_Technical();
-        EventManager.Instance.Add_Special(1010);
-
 
         StartCoroutine(NewGameInitAndMessage());
 
@@ -362,7 +360,6 @@ public class Main : MonoBehaviour
 
         UI_Main.DungeonExpansion();
         UI_Main.Texts_Refresh();
-
 
         //Type type = CurrentDay.GetType();
         //// 클래스의 모든 필드 정보 가져오기
@@ -945,7 +942,6 @@ public class Main : MonoBehaviour
         {
 
             case 1:
-                //Day30Event_Direction();
                 break;
 
             case 3:
@@ -953,10 +949,17 @@ public class Main : MonoBehaviour
                 GameManager.NPC.AddEventNPC(EventNPCType.Event_Day3, 7);
                 break;
 
+            case 7: //? 모험가 이벤트
+                GameManager.NPC.AddEventNPC(EventNPCType.Event_Day8, 10);
+                break;
 
             case 8:
-                Debug.Log("8일차 시작 이벤트 - 패배 트리거 이벤트 모험가 소환");
-                GameManager.NPC.AddEventNPC(EventNPCType.Event_Day8, 9);
+                //Debug.Log("8일차 시작 이벤트 - 패배 트리거 이벤트 모험가 소환");
+                //GameManager.NPC.AddEventNPC(EventNPCType.Event_Day8, 9);
+                break;
+
+            case 9: //? 고블린 임시 이벤트
+                GameManager.NPC.AddEventNPC(EventNPCType.Event_Goblin_Leader, 10);
                 break;
 
             case 15:
@@ -1208,11 +1211,6 @@ public class Main : MonoBehaviour
 
         switch (Turn)
         {
-            //case 0:
-            //    Debug.Log("0일차, 각종 테스트");
-            //    var ending = Managers.UI.ShowPopUp<UI_Ending>();
-            //    break;
-
             case 1:
                 Debug.Log("1일차 종료 이벤트 - 시설배치");
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Facility, Player);
@@ -1233,8 +1231,6 @@ public class Main : MonoBehaviour
                 break;
 
             case 3:
-                //TestEnding();
-
                 Debug.Log("3일차 종료 이벤트 - 테크니컬");
                 Technical_Expansion();
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Technical, Player);
@@ -1255,11 +1251,13 @@ public class Main : MonoBehaviour
                 //TestEnding();
                 break;
 
-            case 15:
-                //Debug.Log("임시로 15일 게임클리어");
-                //Managers.Dialogue.ShowDialogueUI(DialogueName.Ending_Demo, GameObject.Find("Player").transform);
-                // 임시
-                //Managers.Dialogue.ShowDialogueUI(DialogueName.Day30_Over, GameObject.Find("Player").transform);
+            case 10: //? BIC 데모는 10일차 끝나고 종료
+                DEMO_15DAY();
+                return;
+
+            case 15: //? 데모 종료구간
+                //DEMO_15DAY();
+                //return;
                 break;
 
             case 20:
@@ -1314,6 +1312,9 @@ public class Main : MonoBehaviour
     }
 
 
+
+
+
     IEnumerator AutoSave()
     {
         yield return new WaitForEndOfFrame();
@@ -1342,6 +1343,13 @@ public class Main : MonoBehaviour
         message.Message = UserData.Instance.LocaleText("Message_Tutorial_AP");
     }
 
+
+
+    [Obsolete]
+    void DEMO_15DAY()
+    {
+        Managers.Resource.Instantiate($"UI/_UI_BIC_DEMO_CLEAR");
+    }
 
 
 
@@ -1454,7 +1462,7 @@ public class Main : MonoBehaviour
 
         public bool isContinuous;
 
-        public PurchaseInfo(int _mana, int _gold, bool _isContinue, int _ap = 0, int _rank = 0)
+        public PurchaseInfo(int _mana, int _gold, int _ap, bool _isContinue,  int _rank = 0)
         {
             mana = _mana;
             gold = _gold;
@@ -1636,30 +1644,27 @@ public class Main : MonoBehaviour
 
     void ChangeEggState()
     {
-        Debug.Log($"{Turn}일차 종료");
-        Debug.Log($"Total Mana : {GetTotalMana()}");
-        Debug.Log($"Total Gold : {GetTotalGold()}");
+        Debug.Log($"{Turn}일차 종료\nTotal Mana : {GetTotalMana()}\nTotal Gold : {GetTotalGold()}");
 
-
-        if (Turn < 10)
+        if (Turn < 5)
         {
             CurrentEndingState = Endings.Dog;
             EggSprite.SetCategoryAndLabel("Egg", "Level_1");
             eggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Lv1"));
         }
-        else if (Turn < 15 && Turn >= 10)
+        else if (Turn < 10 && Turn >= 5)
         {
             CurrentEndingState = Endings.Dog;
             EggSprite.SetCategoryAndLabel("Egg", "Level_2");
             eggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Lv2"));
         }
-        else if(Turn < 20 && Turn >= 15)
+        else if(Turn < 15 && Turn >= 10)
         {
             CurrentEndingState = Endings.Dog;
             EggSprite.SetCategoryAndLabel("Egg", "Level_3");
             eggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Lv3"));
         }
-        else if(Turn >= 20)
+        else if(Turn >= 15)
         {
             SelectEnding();
         }

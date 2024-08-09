@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
 
@@ -81,6 +83,10 @@ public class UserData : MonoBehaviour
     {
         Cor_Operation_ChangeLanguage = StartCoroutine(ChangeCor(index));
     }
+    public void ChangeLanguage(Define.Language index)
+    {
+        Cor_Operation_ChangeLanguage = StartCoroutine(ChangeCor((int)index));
+    }
 
     IEnumerator ChangeCor(int index)
     {
@@ -141,6 +147,31 @@ public class UserData : MonoBehaviour
         return LocalizationSettings.StringDatabase.GetLocalizedString("Label Group", keyString, LocalizationSettings.SelectedLocale);
     }
 
+
+
+    public string GetLocalDateTime(DateTime saveTime)
+    {
+        CultureInfo cultureInfo;
+
+        switch (Language)
+        {
+            case Define.Language.EN:
+                cultureInfo = new CultureInfo("en-US");
+                break;
+            case Define.Language.KR:
+                cultureInfo = new CultureInfo("ko-KR");
+                break;
+            case Define.Language.JP:
+                cultureInfo = new CultureInfo("ja-JP");
+                break;
+
+            default:
+                cultureInfo = new CultureInfo("en-US");
+                break;
+        }
+
+        return saveTime.ToString("F", cultureInfo);
+    }
     #endregion
 
 
@@ -519,8 +550,11 @@ public class UserData : MonoBehaviour
         public bool firstAppear_Hunter_Slime;
         public bool firstAppear_Hunter_EarthGolem;
 
+        public bool firstAppear_Catastrophe;
+        public bool firstReturn_Catastrophe;
 
-        public SavefileConfig Clone()
+
+        public SavefileConfig DeepCopy()
         {
             SavefileConfig newConfig = new SavefileConfig();
 
@@ -538,6 +572,9 @@ public class UserData : MonoBehaviour
 
             newConfig.firstAppear_Hunter_Slime = firstAppear_Hunter_Slime;
             newConfig.firstAppear_Hunter_EarthGolem = firstAppear_Hunter_EarthGolem;
+
+            newConfig.firstAppear_Catastrophe = firstAppear_Catastrophe;
+            newConfig.firstReturn_Catastrophe = firstReturn_Catastrophe;
 
             return newConfig;
         }

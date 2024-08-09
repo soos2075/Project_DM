@@ -66,7 +66,20 @@ public class Define
         S = 6,
         SS = 7,
         SSS = 8,
-        Unrated
+
+        X = 9,
+        XX = 10,
+        XXX = 11,
+
+        Y = 12,
+        YY = 13,
+        YYY = 14,
+
+        Z = 15,
+        ZZ = 16,
+        ZZZ = 17,
+
+        L = 99,
     }
 
 
@@ -149,6 +162,10 @@ public class Define
         SkyBlue,
         LightGreen,
         LightYellow,
+
+        Plus_Green,
+        Plus_Blue,
+        Plus_Red,
     }
 
 

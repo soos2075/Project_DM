@@ -61,37 +61,30 @@ public class UI_Expansion_Floor : UI_Base, IWorldSpaceUI
         if (NeedGold <= Main.Instance.Player_Gold && NeedMana <= Main.Instance.Player_Mana && NeedLv <= Main.Instance.DungeonRank)
         {
             var ui = Managers.UI.ShowPopUp<UI_Confirm>();
-            ui.SetText(UserData.Instance.LocaleText("Confirm_Expansion"));
-            StartCoroutine(WaitForAnswer(ui));
+            ui.SetText(UserData.Instance.LocaleText("Confirm_Expansion"), () => StartCoroutine(WaitForAnswer(ui)));
         }
     }
 
-   
+
     IEnumerator WaitForAnswer(UI_Confirm confirm)
     {
-        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
+        Main.Instance.CurrentDay.SubtractGold(NeedGold, Main.DayResult.EventType.Etc);
+        Main.Instance.CurrentDay.SubtractMana(NeedMana, Main.DayResult.EventType.Etc);
+        //Main.Instance.Player_AP--;
 
-        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
-        {
-            Main.Instance.CurrentDay.SubtractGold(NeedGold, Main.DayResult.EventType.Etc);
-            Main.Instance.CurrentDay.SubtractMana(NeedMana, Main.DayResult.EventType.Etc);
-            //Main.Instance.Player_AP--;
+        Main.Instance.Basement_Expansion();
+        FindObjectOfType<UI_Management>().DungeonExpansion();
 
-            Main.Instance.Basement_Expansion();
-            FindObjectOfType<UI_Management>().DungeonExpansion();
+        //Managers.UI.ClosePopUp(confirm);
 
-            //Managers.UI.ClosePopUp(confirm);
+        yield return null;
+        yield return null;
 
-            yield return null;
-            yield return null;
-
-            //? 4층 확장시 4층으로 전이진이 옮겨지는 이벤트
-            Managers.Dialogue.ShowDialogueUI(DialogueName.Expansion_4, Main.Instance.Player);
-            //Managers.UI.ClosePopUp(confirm);
-            Managers.Resource.Destroy(gameObject);
-            //yield return null;
-            //yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
-            
-        }
+        //? 4층 확장시 4층으로 전이진이 옮겨지는 이벤트
+        Managers.Dialogue.ShowDialogueUI(DialogueName.Expansion_4, Main.Instance.Player);
+        //Managers.UI.ClosePopUp(confirm);
+        Managers.Resource.Destroy(gameObject);
+        //yield return null;
+        //yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
     }
 }

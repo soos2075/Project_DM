@@ -41,22 +41,11 @@ public class UI_Language : UI_PopUp
 
     void ChangeLanguage(Define.Language language)
     {
-
         var confirm = Managers.UI.ShowPopUp<UI_Confirm>();
-        confirm.SetText(UserData.Instance.LocaleText("LanguageChange"));
-        StartCoroutine(WaitForAnswer(confirm, (int)language));
+        confirm.SetText(UserData.Instance.LocaleText("LanguageChange"), () => UserData.Instance.ChangeLanguage((int)language));
     }
 
-    IEnumerator WaitForAnswer(UI_Confirm confirm, int index)
-    {
-        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
 
-        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
-        {
-            UserData.Instance.ChangeLanguage(index);
-            Managers.UI.ClosePopUp(confirm);
-        }
-    }
 
 
 

@@ -53,7 +53,7 @@ public class GuildManager : MonoBehaviour
 
     SO_Guild_NPC[] so_data;
     Dictionary<int, SO_Guild_NPC> Guild_Dictionary { get; set; }
-    public void Init_LocalData()
+    void Init_LocalData()
     {
         Guild_Dictionary = new Dictionary<int, SO_Guild_NPC>();
         so_data = Resources.LoadAll<SO_Guild_NPC>("Data/Guild");
@@ -62,9 +62,21 @@ public class GuildManager : MonoBehaviour
         {
             Guild_Dictionary.Add(item.Original_Index, item);
         }
+
+        Init_CurrentGuildData();
     }
 
 
+    public void Init_CurrentGuildData()
+    {
+        EventManager.Instance.CurrentGuildData = new List<GuildNPC_Data>();
+        foreach (var item in so_data)
+        {
+            var data = new GuildNPC_Data();
+            data.SetData(item.Original_Index, item.InstanceQuestList, item.OptionList);
+            EventManager.Instance.CurrentGuildData.Add(data);
+        }
+    }
 
 
     public SO_Guild_NPC GetData(int _id)
@@ -84,7 +96,6 @@ public class GuildManager : MonoBehaviour
     {
         return so_data;
     }
-
 
     #endregion
 
@@ -113,6 +124,8 @@ public class GuildManager : MonoBehaviour
         {
             Instance_GuildNPC.Add((GuildNPC_LabelName)item);
         }
+
+        //FindAnyObjectByType<UI_Management>().QuestNotice();
     }
 
 
@@ -126,19 +139,13 @@ public class GuildManager : MonoBehaviour
     public void GuildEnter()
     {
         UserData.Instance.GamePlay_Normal();
-
-        Init_Dictionary();
-        Init_SpecialNPC();
-
-        Guild_In_GetGuildData();
-        Guild_In_GetAddQuest();
+        //Guild_In_GetGuildData();
         Guild_In_DailyQuest();
 
-        AddBackAction(() => Guild_Out_SaveGuildData());
+        //AddBackAction(() => Guild_Out_SaveGuildData());
     }
 
-
-    Dictionary<int, Interaction_Guild> NPC_Active_Dict;
+    //Dictionary<int, Interaction_Guild> NPC_Active_Dict;
 
     public HashSet<GuildNPC_LabelName> Instance_GuildNPC = new HashSet<GuildNPC_LabelName>();
 
@@ -152,77 +159,20 @@ public class GuildManager : MonoBehaviour
     }
 
 
-    void Init_SpecialNPC()
+
+    public GuildNPC_Data GetInteraction(int id)
     {
-        foreach (var item in NPC_Active_Dict)
+        GuildNPC_Data target = null;
+
+        foreach (var item in EventManager.Instance.CurrentGuildData)
         {
-            foreach (var instance in Instance_GuildNPC)
+            if (item.Original_Index == id)
             {
-                if (item.Key == (int)instance)
-                {
-                    item.Value.gameObject.SetActive(true);
-                }
+                target = item;
             }
         }
-    }
 
-    void Init_Dictionary()
-    {
-        int turn = EventManager.Instance.CurrentTurn;
-
-        var npc = FindObjectsOfType<Interaction_Guild>();
-
-        NPC_Active_Dict = new Dictionary<int, Interaction_Guild>();
-
-        foreach (var item in npc)
-        {
-            NPC_Active_Dict.Add(item.Original_Index, item);
-
-            switch (GetData(item.Original_Index).DayOption)
-            {
-                case Guild_DayOption.Special:
-                    item.gameObject.SetActive(false);
-                    break;
-
-                case Guild_DayOption.Always:
-                    break;
-
-                case Guild_DayOption.Odd:
-                    if (turn % 2 != 1) item.gameObject.SetActive(false);
-                    break;
-
-                case Guild_DayOption.Even:
-                    if (turn % 2 != 0) item.gameObject.SetActive(false);
-                    break;
-
-                case Guild_DayOption.Multiple_3:
-                    if (turn % 3 != 0) item.gameObject.SetActive(false);
-                    break;
-
-                case Guild_DayOption.Multiple_4:
-                    if (turn % 4 != 0) item.gameObject.SetActive(false);
-                    break;
-
-                case Guild_DayOption.Multiple_5:
-                    if (turn % 5 != 0) item.gameObject.SetActive(false);
-                    break;
-
-                case Guild_DayOption.Multiple_7:
-                    if (turn % 7 != 0) item.gameObject.SetActive(false);
-                    break;
-            }
-        }
-    }
-
-    public Interaction_Guild GetInteraction(int id)
-    {
-        Interaction_Guild target = null;
-
-        if (NPC_Active_Dict.TryGetValue(id, out target))
-        {
-            return target;
-        }
-        return null;
+        return target;
     }
 
 
@@ -231,55 +181,6 @@ public class GuildManager : MonoBehaviour
     public void AddBackAction(Action action)
     {
         DungeonBackAction += action;
-    }
-
-
-    public List<GuildNPC_Data> SaveGuildData { get; set; }
-
-    void Guild_In_GetGuildData()
-    {
-        //SaveGuildData = EventManager.Instance.CurrentGuildData;
-        SaveGuildData = new List<GuildNPC_Data>();
-
-        if (EventManager.Instance.CurrentGuildData != null)
-        {
-            foreach (var item in EventManager.Instance.CurrentGuildData)
-            {
-                SaveGuildData.Add(item.DeepCopy());
-            }
-        }
-
-        foreach (var _saveNPC in SaveGuildData)
-        {
-            var currentNPC = GetInteraction(_saveNPC.Original_Index);
-            if (currentNPC != null)
-            {
-                currentNPC.InstanceQuestList = _saveNPC.InstanceQuestList;
-                currentNPC.OptionList = _saveNPC.OptionList;
-            }
-        }
-    }
-    void Guild_In_GetAddQuest()
-    {
-        var removeList = new List<int>();
-
-        foreach (var newQuest in EventManager.Instance.AddQuest_Special)
-        {
-            int id = (newQuest / 1000) * 1000;
-            int questIndex = newQuest - id;
-
-            var interaction = GetInteraction(id);
-            if (interaction != null)
-            {
-                interaction.AddQuest(questIndex);
-                removeList.Add(newQuest);
-            }
-        }
-
-        foreach (var item in removeList)
-        {
-            EventManager.Instance.AddQuest_Special.Remove(item);
-        }
     }
 
     void Guild_In_DailyQuest()
@@ -309,51 +210,51 @@ public class GuildManager : MonoBehaviour
 
 
 
-    void Guild_Out_SaveGuildData()
-    {
-        var newList = new List<GuildNPC_Data>();
+    //void Guild_Out_SaveGuildData()
+    //{
+    //    var newList = new List<GuildNPC_Data>();
 
-        var removeList = new List<GuildNPC_Data>();
+    //    var removeList = new List<GuildNPC_Data>();
 
-        //? 기존의 저장 데이터와 새로 저장할 데이터의 index가 같으면 갱신, 없으면 추가
-        foreach (var oldData in SaveGuildData)
-        {
-            if (NPC_Active_Dict.ContainsKey(oldData.Original_Index))
-            {
-                var newData = new GuildNPC_Data();
-                newData.SetData(oldData.Original_Index, NPC_Active_Dict[oldData.Original_Index].InstanceQuestList, NPC_Active_Dict[oldData.Original_Index].OptionList);
-                newList.Add(newData);
+    //    //? 기존의 저장 데이터와 새로 저장할 데이터의 index가 같으면 갱신, 없으면 추가
+    //    foreach (var oldData in SaveGuildData)
+    //    {
+    //        if (NPC_Active_Dict.ContainsKey(oldData.Original_Index))
+    //        {
+    //            var newData = new GuildNPC_Data();
+    //            newData.SetData(oldData.Original_Index, NPC_Active_Dict[oldData.Original_Index].InstanceQuestList, NPC_Active_Dict[oldData.Original_Index].OptionList);
+    //            newList.Add(newData);
 
-                //? 삭제는 foreach문이 끝난다음 해야댐
-                removeList.Add(oldData);
-            }
-            else
-            {
-                newList.Add(oldData);
-            }
-        }
+    //            //? 삭제는 foreach문이 끝난다음 해야댐
+    //            removeList.Add(oldData);
+    //        }
+    //        else
+    //        {
+    //            newList.Add(oldData);
+    //        }
+    //    }
 
-        foreach (var item in removeList)
-        {
-            SaveGuildData.Remove(item);
-            NPC_Active_Dict.Remove(item.Original_Index);
-        }
+    //    foreach (var item in removeList)
+    //    {
+    //        SaveGuildData.Remove(item);
+    //        NPC_Active_Dict.Remove(item.Original_Index);
+    //    }
 
 
 
-        //? 기존의 저장데이터에 없는 새로 추가된 npc의 데이터
-        foreach (var npc in NPC_Active_Dict)
-        {
-            var data = new GuildNPC_Data();
-            data.SetData(npc.Value.Original_Index, npc.Value.InstanceQuestList, npc.Value.OptionList);
+    //    //? 기존의 저장데이터에 없는 새로 추가된 npc의 데이터
+    //    foreach (var npc in NPC_Active_Dict)
+    //    {
+    //        var data = new GuildNPC_Data();
+    //        data.SetData(npc.Value.Original_Index, npc.Value.InstanceQuestList, npc.Value.OptionList);
 
-            newList.Add(data);
-        }
+    //        newList.Add(data);
+    //    }
 
-        //var data1 = Managers.Data.TestLoadFile($"DM_Save_{24}").eventData;
-        EventManager.Instance.CurrentGuildData = newList;
-        //var data2 = Managers.Data.TestLoadFile($"DM_Save_{24}").eventData;
-    }
+    //    //var data1 = Managers.Data.TestLoadFile($"DM_Save_{24}").eventData;
+    //    EventManager.Instance.CurrentGuildData = newList;
+    //    //var data2 = Managers.Data.TestLoadFile($"DM_Save_{24}").eventData;
+    //}
 
     #endregion
 
@@ -370,6 +271,30 @@ public class GuildNPC_Data
     // 선택지 옵션 리스트
     public List<int> OptionList;
 
+
+    //public GuildNPC_Data(int id, List<int> startQuest, List<int> startOption)
+    //{
+    //    Original_Index = id;
+    //    InstanceQuestList = startQuest;
+    //    OptionList = startOption;
+    //}
+
+    public void OneTimeOptionButton()
+    {
+        Managers.Dialogue.OneTimeOption(OptionList, Original_Index);
+    }
+
+    public void AddQuest(int _questIndex, bool special = true)
+    {
+        if (special)
+        {
+            InstanceQuestList.Add(_questIndex);
+        }
+        else
+        {
+            OptionList.Add(_questIndex);
+        }
+    }
 
     public void SetData(int _id, List<int> _questList, List<int> _optionList)
     {
@@ -419,6 +344,13 @@ public enum Guild_DayOption
 
 public enum GuildNPC_LabelName
 {
+    QuestZone = 1000,
+    StaffA = 2000,
+    StaffB = 3000,
     Heroine = 4000,
+
+    DummyA = 5000,
+    DummyB = 6000,
+
     RetiredHero = 15000,
 }

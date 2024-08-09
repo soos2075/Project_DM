@@ -156,7 +156,7 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
                     var facil = CurrentTile.Original as Facility;
                     if (facil.EventType == Facility.FacilityEventType.NPC_Interaction)
                     {
-                        if (facil.Data == null)
+                        if (facil.Data == null || facil.GetType() == typeof(SpecialEgg))
                         {
                             return;
                         }

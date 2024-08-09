@@ -100,6 +100,13 @@ public class CollectionManager : MonoBehaviour
     public List<CollectionUnitRegist<SO_Technical>> Register_Technical { get; private set; }
     public List<CollectionUnitRegist<SO_Ending>> Register_Ending { get; private set; }
 
+
+    public void DataResetAndNewGame()
+    {
+        Init_Register();
+    }
+
+
     void Init_Register()
     {
         Register_Monster = new List<CollectionUnitRegist<SO_Monster>>();

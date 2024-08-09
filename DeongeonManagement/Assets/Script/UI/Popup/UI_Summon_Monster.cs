@@ -15,6 +15,16 @@ public class UI_Summon_Monster : UI_PopUp
         Preview_Image,
         Preview_Text_Title,
         Preview_Text_Contents,
+
+        label,
+        mana,
+        hp,
+        atk,
+        def,
+        agi,
+        luk,
+        lv,
+        maxlv,
     }
 
     enum Buttons
@@ -25,7 +35,12 @@ public class UI_Summon_Monster : UI_PopUp
     enum Info
     {
         CurrentMana,
+        CurrentGold,
+        CurrentAp,
+
         NeedMana,
+        NeedGold,
+        NeedAp,
     }
 
     enum Panels
@@ -63,30 +78,25 @@ public class UI_Summon_Monster : UI_PopUp
         GetObject((int)Preview.Preview_Image).GetComponent<Image>().sprite = Managers.Sprite.GetClear();
         GetObject((int)Preview.Preview_Text_Title).GetComponent<TextMeshProUGUI>().text = "";
         GetObject((int)Preview.Preview_Text_Contents).GetComponent<TextMeshProUGUI>().text = "";
+
+        GetObject((int)Preview.label).AddUIEvent((data) => Sort_Contents(Preview.label));
+        GetObject((int)Preview.mana).AddUIEvent((data) => Sort_Contents(Preview.mana));
+        GetObject((int)Preview.hp).AddUIEvent((data) => Sort_Contents(Preview.hp));
+        GetObject((int)Preview.atk).AddUIEvent((data) => Sort_Contents(Preview.atk));
+        GetObject((int)Preview.def).AddUIEvent((data) => Sort_Contents(Preview.def));
+        GetObject((int)Preview.agi).AddUIEvent((data) => Sort_Contents(Preview.agi));
+        GetObject((int)Preview.luk).AddUIEvent((data) => Sort_Contents(Preview.luk));
+        GetObject((int)Preview.lv).AddUIEvent((data) => Sort_Contents(Preview.lv));
+        GetObject((int)Preview.maxlv).AddUIEvent((data) => Sort_Contents(Preview.maxlv));
     }
     void Init_Buttons()
     {
         GetButton((int)Buttons.Return).gameObject.AddUIEvent(data => CloseAll());
     }
-    void Init_Texts() //? 추후에 행동력이나 기타등등 필요하면 다시 추가
-    {
-        GetTMP((int)Info.CurrentMana).text = $"{UserData.Instance.LocaleText("Mana")}\t{Main.Instance.Player_Mana}";
-    }
 
     void Init_Contents()
     {
         var pos = GetComponentInChildren<ContentSizeFitter>().transform;
-
-        //for (int i = 0; i < GameManager.Monster.MonsterDatas.Count; i++)
-        //{
-        //    var content = Managers.Resource.Instantiate("UI/PopUp/Monster/Monster_Content", pos).GetComponent<UI_Monster_Content>();
-        //    content.Content = GameManager.Monster.MonsterDatas[i];
-        //    content.Parent = this;
-
-        //    //content.gameObject.name = Managers.Monster.MonsterDatas[i].Name;
-        //    childList.Add(content);
-        //}
-
 
         var list = GameManager.Monster.GetSummonList(Main.Instance.DungeonRank);
         for (int i = 0; i < list.Count; i++)
@@ -99,17 +109,87 @@ public class UI_Summon_Monster : UI_PopUp
         }
     }
 
+    Preview currentOption;
+    bool ascending = true;
+
+    void Sort_Contents(Preview sortOption)
+    {
+        foreach (var item in childList)
+        {
+            Managers.Resource.Destroy(item.gameObject);
+        }
+        childList = new List<UI_Monster_Content>();
 
 
+        var pos = GetComponentInChildren<ContentSizeFitter>().transform;
+
+        var list = GameManager.Monster.GetSummonList(Main.Instance.DungeonRank);
+        switch (sortOption)
+        {
+            case Preview.label:
+                list.Sort((a, b) => a.labelName.CompareTo(b.labelName));
+                break;
+            case Preview.mana:
+                list.Sort((a, b) => a.manaCost.CompareTo(b.manaCost));
+                break;
+            case Preview.hp:
+                list.Sort((a, b) => a.hp.CompareTo(b.hp));
+                break;
+            case Preview.atk:
+                list.Sort((a, b) => a.atk.CompareTo(b.atk));
+                break;
+            case Preview.def:
+                list.Sort((a, b) => a.def.CompareTo(b.def));
+                break;
+            case Preview.agi:
+                list.Sort((a, b) => a.agi.CompareTo(b.agi));
+                break;
+            case Preview.luk:
+                list.Sort((a, b) => a.luk.CompareTo(b.luk));
+                break;
+            case Preview.lv:
+                list.Sort((a, b) => a.startLv.CompareTo(b.startLv));
+                break;
+            case Preview.maxlv:
+                list.Sort((a, b) => a.maxLv.CompareTo(b.maxLv));
+                break;
+        }
+
+        ascending = currentOption == sortOption ? !ascending : true;
+        if (ascending == false)
+        {
+            list.Reverse();
+        }
+        currentOption = sortOption;
+
+        for (int i = 0; i < list.Count; i++)
+        {
+            var content = Managers.Resource.Instantiate("UI/PopUp/Monster/Monster_Content", pos).GetComponent<UI_Monster_Content>();
+            content.Content = list[i];
+            content.Parent = this;
+
+            childList.Add(content);
+        }
+    }
+
+    void Init_Texts()
+    {
+        GetTMP((int)Info.CurrentMana).text = $"{Main.Instance.Player_Mana}";
+        GetTMP((int)Info.CurrentGold).text = $"{Main.Instance.Player_Gold}";
+        GetTMP((int)Info.CurrentAp).text = $"{Main.Instance.Player_AP}";
+    }
     void Clear_NeedText()
     {
         GetTMP((int)Info.NeedMana).text = "";
+        GetTMP((int)Info.NeedGold).text = "";
+        GetTMP((int)Info.NeedAp).text = "";
     }
-    void Set_NeedTexts(int mana, int gold, int ap)
+
+    void Set_NeedTexts(int mana, int gold, int ap = 0)
     {
         if (mana == 0)
         {
-            GetTMP((int)Info.NeedMana).text = $"\n";
+            GetTMP((int)Info.NeedMana).text = $"";
         }
         else
         {
@@ -118,20 +198,20 @@ public class UI_Summon_Monster : UI_PopUp
 
         if (gold == 0)
         {
-            GetTMP((int)Info.NeedMana).text += $"\n";
+            GetTMP((int)Info.NeedGold).text = $"";
         }
         else
         {
-            GetTMP((int)Info.NeedMana).text += $"\n-{gold}";
+            GetTMP((int)Info.NeedGold).text = $"-{gold}";
         }
 
         if (ap == 0)
         {
-            GetTMP((int)Info.NeedMana).text += $"\n";
+            GetTMP((int)Info.NeedAp).text = $"";
         }
         else
         {
-            GetTMP((int)Info.NeedMana).text += $"\n-{ap}";
+            GetTMP((int)Info.NeedAp).text = $"-{ap}";
         }
     }
 

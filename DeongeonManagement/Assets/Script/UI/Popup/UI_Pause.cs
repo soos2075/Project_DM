@@ -54,35 +54,31 @@ public class UI_Pause : UI_PopUp
     void DataReset()
     {
         var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
-        ui.SetText("모든 데이터를 초기화 할까요?(복구 불가능)");
-        StartCoroutine(WaitForAnswer_Data(ui));
+        //ui.SetText("모든 데이터를 초기화 할까요?(복구 불가능)");
+        ui.SetText($"{UserData.Instance.LocaleText("데이터초기화")}", () => ResetAction());
     }
-    IEnumerator WaitForAnswer_Data(UI_Confirm confirm)
+
+    void ResetAction()
     {
-        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
-
-        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
-        {
-            // 플레이어 데이터 삭제
-            PlayerPrefs.DeleteAll();
+        // 플레이어 데이터 삭제
+        PlayerPrefs.DeleteAll();
 
 
-            // 클리어 데이터 삭제
-            CollectionManager.Instance.RoundClearData = null;
-            Managers.Data.DeleteSaveFile("ClearData");
+        // 클리어 데이터 삭제
+        CollectionManager.Instance.RoundClearData = null;
+        Managers.Data.DeleteSaveFile("ClearData");
 
 
-            // 컬렉션 데이터 삭제
-            Managers.Data.DeleteSaveFile("CollectionData");
+        // 컬렉션 데이터 삭제
+        Managers.Data.DeleteSaveFile("CollectionData");
 
 
-            // 세이브 데이터 삭제
-            Managers.Data.DeleteSaveFileAll();
+        // 세이브 데이터 삭제
+        Managers.Data.DeleteSaveFileAll();
 
 
-            // 씬 리로드
-            GotoStartScene();
-        }
+        // 씬 리로드
+        GotoStartScene();
     }
 
 
@@ -96,29 +92,17 @@ public class UI_Pause : UI_PopUp
     {
         Managers.Scene.LoadSceneAsync(SceneName._1_Start);
     }
-    void QuitConfirm()
-    {
-        var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
-        ui.SetText(UserData.Instance.LocaleText("Confirm_Quit"));
-        StartCoroutine(WaitForAnswer(ui));
-    }
     void SetLanguage()
     {
         var ui = Managers.UI.ShowPopUpAlone<UI_Language>();
-
     }
-
-
-    IEnumerator WaitForAnswer(UI_Confirm confirm)
+    void QuitConfirm()
     {
-        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
-
-        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
-        {
-            //Debug.Log("게임종료");
-            Application.Quit();
-        }
+        var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
+        ui.SetText(UserData.Instance.LocaleText("Confirm_Quit"), () => Application.Quit());
     }
+
+
 
 
     #endregion

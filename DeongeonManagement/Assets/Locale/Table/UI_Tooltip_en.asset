@@ -113,6 +113,54 @@ MonoBehaviour:
     m_Localized: Activate Crystal of Mineral?
     m_Metadata:
       m_Items: []
+  - m_Id: 22870784026554368
+    m_Localized: Dungeon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22871157340581888
+    m_Localized: Battle count
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22871926475272192
+    m_Localized: Defeat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22872292914835456
+    m_Localized: Level Up
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22873009863995392
+    m_Localized: Visit Count
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22873927397355520
+    m_Localized: Satisfied
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22874769395494912
+    m_Localized: Okay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22874880456470528
+    m_Localized: Disappointed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22875270379941888
+    m_Localized: Flee
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22880734295568384
+    m_Localized: Gain
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22881084150853632
+    m_Localized: Spent
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22881208881065984
+    m_Localized: Profit
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

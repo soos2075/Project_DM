@@ -26,7 +26,7 @@ public class Slime : Monster
     void Trait_Original()
     {
         //AddTrait(new Trait.Reconfigure());
-        AddTrait(TraitGroup.Reconfigure);
+        AddTrait(new Trait.Reconfigure());
     }
 
 
@@ -58,7 +58,7 @@ public class Slime : Monster
         if (EvolutionState == Evolution.Ready && LV + 1 >= Data.maxLv)
         {
             EvolutionState = Evolution.Progress;
-            EventManager.Instance.Add_Special(1100);
+            EventManager.Instance.Add_GuildQuest_Special(1100);
         }
     }
 
@@ -75,7 +75,7 @@ public class Slime : Monster
                 break;
 
             case BattleField.BattleResult.NPC_Die:
-                if (npc.name == $"Hunter_{name}")
+                if (npc.EventID == (int)EventNPCType.Hunter_Slime)
                 {
                     //? 진화진행
                     EvolutionState = Evolution.Complete;
@@ -94,7 +94,7 @@ public class Slime : Monster
     void EvolutionComplete()
     {
         Data = GameManager.Monster.GetData("BloodySlime");
-        Initialize_Status();
+        Evolution_Status();
         GameManager.Monster.ChangeSLA(this, "BloodyJelly");
         GameManager.Monster.Regist_Evolution("Slime");
 

@@ -50,11 +50,14 @@ public class UI_Quest : UI_PopUp
             string detail = Managers.Dialogue.GetDialogue((DialogueName)id).TextDataList[0].mainText;
 
             string day = Managers.Dialogue.GetDialogue((DialogueName)id).TextDataList[0].optionString;
-            string numbersOnly = System.Text.RegularExpressions.Regex.Replace(day, "[^0-9]", "");
             int dayOption = 0;
-            if (string.IsNullOrEmpty(numbersOnly) == false)
+            if (day.Contains("@Day"))
             {
-                dayOption = int.Parse(numbersOnly);
+                string numbersOnly = System.Text.RegularExpressions.Regex.Replace(day, "[^0-9]", "");
+                if (string.IsNullOrEmpty(numbersOnly) == false)
+                {
+                    dayOption = int.Parse(numbersOnly);
+                }
             }
 
             content.SetText(title, detail, dayOption);

@@ -51,6 +51,22 @@ MonoBehaviour:
     m_Key: Interaction_Treasure
     m_Metadata:
       m_Items: []
+  - m_Id: 5434434599989248
+    m_Key: Interaction_Trap
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5435259242098688
+    m_Key: Interaction_Artifact
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5765177561788416
+    m_Key: Interaction_Dungeon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5765460018802688
+    m_Key: Interaction_Etc
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -31,6 +31,7 @@ public class EventNPC : NPC
         {
             case EventNPCType.Event_Day3:
             case EventNPCType.Event_Day8:
+            case EventNPCType.Event_Catastrophe:
             case EventNPCType.Event_RetiredHero:
             case EventNPCType.Captine_A:
             case EventNPCType.Captine_B:
@@ -109,6 +110,10 @@ public class EventNPC : NPC
                 StartCoroutine(EventCor($"Day15_Event"));
                 break;
 
+            case EventNPCType.Event_Catastrophe:
+                StartCoroutine(EventCor(DialogueName.Catastrophe_Appear));
+                break;
+
             case EventNPCType.Event_Goblin_Leader:
                 StartCoroutine(EventCor(DialogueName.Goblin_Appear));
                 break;
@@ -124,35 +129,7 @@ public class EventNPC : NPC
         }
     }
 
-    //public enum EventNPCType
-    //{
-    //    Event_Day3 = 2000,
-    //    Event_Day8,
-    //    RetiredHero,
 
-    //    Goblin_Leader,
-    //    Goblin_Leader2,
-    //    Goblin,
-
-
-    //    A_Warrior,
-    //    A_Tanker,
-    //    A_Wizard,
-    //    A_Elf,
-
-    //    B_Warrior,
-    //    B_Tanker,
-    //    B_Wizard,
-    //    B_Elf,
-
-    //    Captine_A,
-    //    Captine_B,
-    //    Captine_C,
-
-    //    Event_Soldier1,
-    //    Event_Soldier2,
-    //    Event_Soldier3,
-    //}
     public EventNPCType EventDay { get { return (EventNPCType)EventID; } }
 
     protected override void SetRandomClothes()
@@ -180,6 +157,16 @@ public class EventNPC : NPC
                 characterBuilder.Weapon = "Katana";
                 break;
 
+            case EventNPCType.Event_Catastrophe:
+                characterBuilder.Hair = "";
+                characterBuilder.Head = "Demigod#FFFFFF/0:0:0";
+                characterBuilder.Ears = "Demigod#FFFFFF/0:0:0";
+                characterBuilder.Eyes = "Demigod#FFFFFF/0:0:0";
+                characterBuilder.Body = "Demigod#FFFFFF/0:0:0";
+                characterBuilder.Weapon = "DeathScythe#FFFFFF/0:0:0";
+                characterBuilder.Helmet = "ChumDoctorHelmet#FFFFFF/0:0:0";
+                break;
+
             case EventNPCType.Event_RetiredHero:
                 KillGold = 500;
                 characterBuilder.Hair = "Hair10#858585/0:0:0";
@@ -201,9 +188,6 @@ public class EventNPC : NPC
                 characterBuilder.Back = "LargeBackpack#FFFFFF/0:0:0";
                 break;
 
-
-
-            //? 여기부터 killgold같은거 추가로 설정해야함
 
             case EventNPCType.A_Warrior:
             case EventNPCType.B_Warrior:
@@ -423,6 +407,20 @@ public class EventNPC : NPC
                     AddList(mineral, AddPos.Back);
                 }
                 break;
+
+
+
+
+            case EventNPCType.Event_Catastrophe:
+                {
+                    AddList(GetFloorObjectsAll(Define.TileType.Monster));
+                    AddList(GetPriorityPick(typeof(Herb)));
+                    AddList(GetPriorityPick(typeof(Mineral)));
+                    AddList(GetPriorityPick(typeof(Treasure)));
+                    AddList(GetPriorityPick(typeof(SpecialEgg)));
+                    AddList(GetPriorityPick(typeof(Entrance_Egg)));
+                }
+                break;
         }
     }
 
@@ -431,81 +429,8 @@ public class EventNPC : NPC
 
     protected override void NPC_Die()
     {
-        //Managers.Dialogue.ShowDialogueUI($"Day{8}_Event_Die", transform);
-        StartCoroutine(DieEvent());
-
-        AddCollectionPoint();
+        Defeat();
     }
-
-    IEnumerator DieEvent()
-    {
-        Managers.Dialogue.ShowDialogueUI($"Day{Main.Instance.Turn}_Event_Die", transform);
-        yield return null;
-        yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
-
-        UI_EventBox.AddEventText($"◈{Name_Color} {UserData.Instance.LocaleText("Event_Defeat")}");
-
-        switch (EventDay)
-        {
-            case EventNPCType.Event_Day3:
-                Main.Instance.CurrentDay.AddDanger(5);
-                Main.Instance.CurrentDay.AddPop(5);
-                break;
-
-            case EventNPCType.Event_Day8:
-                Main.Instance.CurrentDay.AddDanger(25);
-                Main.Instance.CurrentDay.AddPop(25);
-                break;
-
-            case EventNPCType.Event_RetiredHero:
-                Main.Instance.CurrentDay.AddDanger(50);
-                Main.Instance.CurrentDay.AddPop(50);
-                GuildManager.Instance.RemoveInstanceGuildNPC(GuildNPC_LabelName.RetiredHero);
-                EventManager.Instance.RemoveQuestAction(1151);
-                break;
-
-            case EventNPCType.Event_Goblin_Leader:
-                Managers.Dialogue.ShowDialogueUI(DialogueName.Goblin_Die, transform);
-                break;
-
-
-            case EventNPCType.A_Warrior:
-            case EventNPCType.B_Warrior:
-            case EventNPCType.A_Tanker:
-            case EventNPCType.B_Tanker:
-            case EventNPCType.A_Wizard:
-            case EventNPCType.B_Wizard:
-            case EventNPCType.A_Elf:
-            case EventNPCType.B_Elf:
-                Main.Instance.CurrentDay.AddDanger(10);
-                Main.Instance.CurrentDay.AddPop(50);
-                break;
-
-
-            case EventNPCType.Captine_A:
-            case EventNPCType.Captine_B:
-            case EventNPCType.Captine_C:
-                Main.Instance.CurrentDay.AddDanger(50);
-                Main.Instance.CurrentDay.AddPop(10);
-                break;
-
-
-            case EventNPCType.Event_Soldier1:
-            case EventNPCType.Event_Soldier2:
-            case EventNPCType.Event_Soldier3:
-                Main.Instance.CurrentDay.AddDanger(20);
-                Main.Instance.CurrentDay.AddPop(10);
-                break;
-        }
-
-        //Debug.Log(EventDay + "eventDay");
-        //Debug.Log(Main.Instance.Turn + "Turn");
-        Main.Instance.CurrentDay.AddGold(KillGold, Main.DayResult.EventType.Monster);
-        GameManager.NPC.InactiveNPC(this);
-    }
-
-
-
 
     protected override void NPC_Captive()
     {
@@ -541,6 +466,41 @@ public class EventNPC : NPC
         {
             case EventNPCType.Event_Goblin_Leader:
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Goblin_Satisfiction, transform);
+                Main.Instance.CurrentDay.AddPop(50);
+                Main.Instance.ShowDM(50, Main.TextType.pop, transform, 1);
+                break;
+
+            case EventNPCType.Event_Goblin:
+                Main.Instance.CurrentDay.AddPop(25);
+                Main.Instance.ShowDM(25, Main.TextType.pop, transform, 1);
+                break;
+
+            case EventNPCType.A_Warrior:
+            case EventNPCType.B_Warrior:
+            case EventNPCType.A_Tanker:
+            case EventNPCType.B_Tanker:
+            case EventNPCType.A_Wizard:
+            case EventNPCType.B_Wizard:
+            case EventNPCType.A_Elf:
+            case EventNPCType.B_Elf:
+                Main.Instance.CurrentDay.AddPop(25);
+                Main.Instance.ShowDM(25, Main.TextType.pop, transform, 1);
+                break;
+
+
+            case EventNPCType.Captine_A:
+            case EventNPCType.Captine_B:
+            case EventNPCType.Captine_C:
+                Main.Instance.CurrentDay.AddPop(25);
+                Main.Instance.ShowDM(25, Main.TextType.pop, transform, 1);
+                break;
+
+
+            case EventNPCType.Event_Soldier1:
+            case EventNPCType.Event_Soldier2:
+            case EventNPCType.Event_Soldier3:
+                Main.Instance.CurrentDay.AddPop(10);
+                Main.Instance.ShowDM(10, Main.TextType.pop, transform, 1);
                 break;
         }
     }
@@ -552,6 +512,39 @@ public class EventNPC : NPC
         {
             case EventNPCType.Event_Goblin_Leader:
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Goblin_Satisfiction, transform);
+                Main.Instance.CurrentDay.AddPop(25);
+                break;
+
+            case EventNPCType.Event_Goblin:
+                Main.Instance.CurrentDay.AddPop(10);
+                break;
+
+            case EventNPCType.A_Warrior:
+            case EventNPCType.B_Warrior:
+            case EventNPCType.A_Tanker:
+            case EventNPCType.B_Tanker:
+            case EventNPCType.A_Wizard:
+            case EventNPCType.B_Wizard:
+            case EventNPCType.A_Elf:
+            case EventNPCType.B_Elf:
+                Main.Instance.CurrentDay.AddPop(10);
+                Main.Instance.ShowDM(10, Main.TextType.pop, transform, 1);
+                break;
+
+
+            case EventNPCType.Captine_A:
+            case EventNPCType.Captine_B:
+            case EventNPCType.Captine_C:
+                Main.Instance.CurrentDay.AddPop(10);
+                Main.Instance.ShowDM(10, Main.TextType.pop, transform, 1);
+                break;
+
+
+            case EventNPCType.Event_Soldier1:
+            case EventNPCType.Event_Soldier2:
+            case EventNPCType.Event_Soldier3:
+                Main.Instance.CurrentDay.AddPop(5);
+                Main.Instance.ShowDM(5, Main.TextType.pop, transform, 1);
                 break;
         }
     }
@@ -563,24 +556,123 @@ public class EventNPC : NPC
 
     void Return()
     {
+        AddCollectionPoint();
+
         switch (EventDay)
         {
             case EventNPCType.Event_Day8:
                 Managers.Dialogue.ShowDialogueUI($"Day{8}_ReturnEvent", transform);
-                Main.Instance.CurrentDay.AddDanger(-10);
                 Main.Instance.CurrentDay.AddPop(25);
+                Main.Instance.ShowDM(25, Main.TextType.pop, transform, 1);
                 break;
 
             case EventNPCType.Event_RetiredHero:
                 GuildManager.Instance.RemoveInstanceGuildNPC(GuildNPC_LabelName.RetiredHero);
                 EventManager.Instance.RemoveQuestAction(1151);
                 break;
-        }
-        
 
+            case EventNPCType.Event_Goblin_Leader2:
+                EventManager.Instance.RemoveQuestAction(1150);
+                break;
+
+            case EventNPCType.Event_Catastrophe:
+                if (UserData.Instance.FileConfig.firstReturn_Catastrophe == false)
+                {
+                    UserData.Instance.FileConfig.firstReturn_Catastrophe = true;
+                    Managers.Dialogue.ShowDialogueUI(DialogueName.Catastrophe_Return_First, transform);
+                }
+                else
+                {
+                    Managers.Dialogue.ShowDialogueUI(DialogueName.Catastrophe_Return, transform);
+                }
+                break;
+        }
+    }
+
+    void Defeat()
+    {
+        AddCollectionPoint();
+
+        switch (EventDay)
+        {
+            case EventNPCType.Event_Day3:
+                Main.Instance.CurrentDay.AddDanger(10);
+                Main.Instance.ShowDM(10, Main.TextType.danger, transform, 1);
+                break;
+
+            case EventNPCType.Event_Day8:
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Day8_Event_Die, transform);
+                Main.Instance.CurrentDay.AddDanger(50);
+                Main.Instance.ShowDM(50, Main.TextType.danger, transform, 1);
+                break;
+
+            case EventNPCType.Event_RetiredHero:
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Day15_Event_Die, transform);
+                Main.Instance.CurrentDay.AddDanger(100);
+                Main.Instance.ShowDM(100, Main.TextType.danger, transform, 1);
+                GuildManager.Instance.RemoveInstanceGuildNPC(GuildNPC_LabelName.RetiredHero);
+                EventManager.Instance.RemoveQuestAction(1151);
+                break;
+
+            case EventNPCType.Event_Goblin_Leader:
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Goblin_Die, transform);
+                break;
+
+            case EventNPCType.Event_Goblin_Leader2:
+                EventManager.Instance.RemoveQuestAction(1150);
+                break;
+
+
+            case EventNPCType.A_Warrior:
+            case EventNPCType.B_Warrior:
+            case EventNPCType.A_Tanker:
+            case EventNPCType.B_Tanker:
+            case EventNPCType.A_Wizard:
+            case EventNPCType.B_Wizard:
+            case EventNPCType.A_Elf:
+            case EventNPCType.B_Elf:
+                Main.Instance.CurrentDay.AddDanger(25);
+                Main.Instance.ShowDM(25, Main.TextType.danger, transform, 1);
+                break;
+
+
+            case EventNPCType.Captine_A:
+            case EventNPCType.Captine_B:
+            case EventNPCType.Captine_C:
+                Main.Instance.CurrentDay.AddDanger(25);
+                Main.Instance.ShowDM(25, Main.TextType.danger, transform, 1);
+                break;
+
+
+            case EventNPCType.Event_Soldier1:
+            case EventNPCType.Event_Soldier2:
+            case EventNPCType.Event_Soldier3:
+                Main.Instance.CurrentDay.AddDanger(10);
+                Main.Instance.ShowDM(10, Main.TextType.danger, transform, 1);
+                break;
+
+            case EventNPCType.Event_Catastrophe:
+                if (UserData.Instance.FileConfig.firstReturn_Catastrophe == false)
+                {
+                    UserData.Instance.FileConfig.firstReturn_Catastrophe = true;
+                    Managers.Dialogue.ShowDialogueUI(DialogueName.Catastrophe_Return_First, transform);
+                }
+                else
+                {
+                    Managers.Dialogue.ShowDialogueUI(DialogueName.Catastrophe_Return, transform);
+                }
+                break;
+        }
+
+        Managers.Dialogue.ActionReserve(() => InactiveCallback());
     }
 
 
-
+    void InactiveCallback()
+    {
+        UI_EventBox.AddEventText($"◈{Name_Color} {UserData.Instance.LocaleText("Event_Defeat")}");
+        Main.Instance.CurrentDay.AddGold(KillGold, Main.DayResult.EventType.Monster);
+        GameManager.NPC.InactiveNPC(this);
+    }
 
 }

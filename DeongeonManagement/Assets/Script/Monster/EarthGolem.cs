@@ -50,7 +50,7 @@ public class EarthGolem : Monster
         {
             EvolutionState = Evolution.Progress;
             Debug.Log("퀘스트 추가");
-            EventManager.Instance.Add_Special(1101);
+            EventManager.Instance.Add_GuildQuest_Special(1101);
         }
     }
 
@@ -67,7 +67,7 @@ public class EarthGolem : Monster
                 break;
 
             case BattleField.BattleResult.NPC_Die:
-                if (npc.name == $"Hunter_{name}")
+                if (npc.EventID == (int)EventNPCType.Hunter_EarthGolem)
                 {
                     //? 진화진행
                     EvolutionState = Evolution.Complete;
@@ -85,7 +85,7 @@ public class EarthGolem : Monster
     void EvolutionComplete()
     {
         Data = GameManager.Monster.GetData("FlameGolem");
-        Initialize_Status();
+        Evolution_Status();
         GameManager.Monster.ChangeSLA(this, "FlameGolem");
         GameManager.Monster.Regist_Evolution("EarthGolem");
 

@@ -4,33 +4,82 @@ using UnityEngine;
 
 public class Interaction_Guild : MonoBehaviour
 {
-    // 고유 이름
-    //public string Name;
 
-    // 고유 ID (진행중인 대화가 없을 때 돌아갈 번호)
-    public int Original_Index;
+    public GuildNPC_LabelName label;
+    //? 아래 세개를 이거로 통합(이건 실제 인스턴트가 아님)
+    public GuildNPC_Data data;
 
 
-    // 퀘스트가 있다면 더해줄 번호
-    public List<int> InstanceQuestList = new List<int>();
+    //// 고유 ID (진행중인 대화가 없을 때 돌아갈 번호)
+    //public int Original_Index;
 
-    public List<int> OptionList = new List<int>();
+    //// 퀘스트가 있다면 더해줄 번호
+    //public List<int> InstanceQuestList = new List<int>();
+
+    //public List<int> OptionList = new List<int>();
 
     void Start()
     {
-        
+        foreach (var item in EventManager.Instance.CurrentGuildData)
+        {
+            if (item.Original_Index == (int)label)
+            {
+                data = item;
+            }
+        }
+
+        int turn = EventManager.Instance.CurrentTurn;
+
+        switch (GuildManager.Instance.GetData(data.Original_Index).DayOption)
+        {
+            case Guild_DayOption.Special:
+                gameObject.SetActive(false);
+                break;
+
+            case Guild_DayOption.Odd:
+                if (turn % 2 != 1) gameObject.SetActive(false);
+                break;
+
+            case Guild_DayOption.Even:
+                if (turn % 2 != 0) gameObject.SetActive(false);
+                break;
+
+            case Guild_DayOption.Multiple_3:
+                if (turn % 3 != 0) gameObject.SetActive(false);
+                break;
+
+            case Guild_DayOption.Multiple_4:
+                if (turn % 4 != 0) gameObject.SetActive(false);
+                break;
+
+            case Guild_DayOption.Multiple_5:
+                if (turn % 5 != 0) gameObject.SetActive(false);
+                break;
+
+            case Guild_DayOption.Multiple_7:
+                if (turn % 7 != 0) gameObject.SetActive(false);
+                break;
+        }
+
+        foreach (var instance in GuildManager.Instance.Instance_GuildNPC)
+        {
+            if (label == instance)
+            {
+                gameObject.SetActive(true);
+            }
+        }
     }
 
     private void Update()
     {
-        if (InstanceQuestList.Count > 0 || OptionList.Count > 0)
+        if (data.InstanceQuestList.Count > 0 || data.OptionList.Count > 0)
         {
             if (eventKey == null)
             {
                 eventKey = Managers.Resource.Instantiate("Guild/Event", transform);
             }
         }
-        else if(InstanceQuestList.Count == 0 && OptionList.Count == 0)
+        else if(data.InstanceQuestList.Count == 0 && data.OptionList.Count == 0)
         {
             if (eventKey != null)
             {
@@ -45,11 +94,11 @@ public class Interaction_Guild : MonoBehaviour
     {
         if (_index / 100 == 0)
         {
-            InstanceQuestList.Add(_index);
+            data.InstanceQuestList.Add(_index);
         }
         else
         {
-            OptionList.Add(_index);
+            data.OptionList.Add(_index);
         }
     }
 
@@ -104,26 +153,22 @@ public class Interaction_Guild : MonoBehaviour
 
         int questIndex = 0;
 
-        if (InstanceQuestList.Count > 0)
+        if (data.InstanceQuestList.Count > 0)
         {
-            questIndex = InstanceQuestList[0];
-            InstanceQuestList.RemoveAt(0);
-            //return $"Guild_{Original_Index + questIndex}";
+            questIndex = data.InstanceQuestList[0];
+            data.InstanceQuestList.RemoveAt(0);
 
-            Managers.Dialogue.ShowDialogueUI(Original_Index + questIndex, transform);
+            Managers.Dialogue.ShowDialogueUI(data.Original_Index + questIndex, transform);
             return;
         }
 
-        if (OptionList.Count > 0)
+        if (data.OptionList.Count > 0)
         {
-            //return $"Guild_{Original_Index + 1}";
-            Managers.Dialogue.ShowDialogueUI(Original_Index + 1, transform);
+            Managers.Dialogue.ShowDialogueUI(data.Original_Index + 1, transform);
             return;
         }
 
-
-        //return $"Guild_{Original_Index}";
-        Managers.Dialogue.ShowDialogueUI(Original_Index, transform);
+        Managers.Dialogue.ShowDialogueUI(data.Original_Index, transform);
     }
 
 
@@ -137,7 +182,7 @@ public class Interaction_Guild : MonoBehaviour
 
     public void OneTimeOptionButton()
     {
-        Managers.Dialogue.OneTimeOption(OptionList, Original_Index);
+        Managers.Dialogue.OneTimeOption(data.OptionList, data.Original_Index);
     }
 }
 

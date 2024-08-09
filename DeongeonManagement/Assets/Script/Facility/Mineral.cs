@@ -94,19 +94,9 @@ public class Mineral : Facility
         if (Main.Instance.Management == false) return;
 
         var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
-        ui.SetText($"[{Name}] {UserData.Instance.LocaleText("Confirm_Remove")}");
-        StartCoroutine(WaitForAnswer(ui));
+        ui.SetText($"[{Name}] {UserData.Instance.LocaleText("Confirm_Remove")}", () => GameManager.Facility.RemoveFacility(this));
     }
 
 
-    IEnumerator WaitForAnswer(UI_Confirm confirm)
-    {
-        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
-
-        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
-        {
-            GameManager.Facility.RemoveFacility(this);
-        }
-    }
 
 }

@@ -29,7 +29,12 @@ public class UI_Placement_Technical : UI_PopUp
     enum Info
     {
         CurrentMana,
+        CurrentGold,
+        CurrentAp,
+
         NeedMana,
+        NeedGold,
+        NeedAp,
     }
 
     enum Panels
@@ -70,22 +75,26 @@ public class UI_Placement_Technical : UI_PopUp
         GetImage(((int)Panels.ClosePanel)).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.RightClick);
         GetImage(((int)Panels.Panel)).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.RightClick);
     }
+
+
     void Init_Texts()
     {
-        GetTMP((int)Info.CurrentMana).text = $"{UserData.Instance.LocaleText("Mana")}\t{Main.Instance.Player_Mana}";
-        GetTMP((int)Info.CurrentMana).text += $"\n{UserData.Instance.LocaleText("Gold")}\t{Main.Instance.Player_Gold}";
-        GetTMP((int)Info.CurrentMana).text += $"\n{UserData.Instance.LocaleText("AP")}\t{Main.Instance.Player_AP}";
+        GetTMP((int)Info.CurrentMana).text = $"{Main.Instance.Player_Mana}";
+        GetTMP((int)Info.CurrentGold).text = $"{Main.Instance.Player_Gold}";
+        GetTMP((int)Info.CurrentAp).text = $"{Main.Instance.Player_AP}";
     }
-
     void Clear_NeedText()
     {
         GetTMP((int)Info.NeedMana).text = "";
+        GetTMP((int)Info.NeedGold).text = "";
+        GetTMP((int)Info.NeedAp).text = "";
     }
-    void Set_NeedTexts(int mana, int gold, int ap)
+
+    void Set_NeedTexts(int mana, int gold, int ap = 0)
     {
         if (mana == 0)
         {
-            GetTMP((int)Info.NeedMana).text = $"\n";
+            GetTMP((int)Info.NeedMana).text = $"";
         }
         else
         {
@@ -94,23 +103,22 @@ public class UI_Placement_Technical : UI_PopUp
 
         if (gold == 0)
         {
-            GetTMP((int)Info.NeedMana).text += $"\n";
+            GetTMP((int)Info.NeedGold).text = $"";
         }
         else
         {
-            GetTMP((int)Info.NeedMana).text += $"\n-{gold}";
+            GetTMP((int)Info.NeedGold).text = $"-{gold}";
         }
 
         if (ap == 0)
         {
-            GetTMP((int)Info.NeedMana).text += $"\n";
+            GetTMP((int)Info.NeedAp).text = $"";
         }
         else
         {
-            GetTMP((int)Info.NeedMana).text += $"\n-{ap}";
+            GetTMP((int)Info.NeedAp).text = $"-{ap}";
         }
     }
-
     void Init_Preview()
     {
         GetObject((int)Preview.Preview_Image).GetComponent<Image>().sprite = Managers.Sprite.GetClear();

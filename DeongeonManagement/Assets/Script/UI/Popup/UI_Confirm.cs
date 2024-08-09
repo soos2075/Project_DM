@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -28,58 +29,65 @@ public class UI_Confirm : UI_PopUp
         Managers.UI.SetCanvas(gameObject);
         CloseFloorUI();
 
-
         Bind<GameObject>(typeof(Contents));
+
+        GetObject(((int)Contents.Yes)).gameObject.AddUIEvent((data) => SayYes());
 
         GetObject(((int)Contents.NoTouch)).gameObject.AddUIEvent((data) => SayNo(), Define.UIEvent.RightClick);
         GetObject(((int)Contents.Panel)).gameObject.AddUIEvent((data) => SayNo(), Define.UIEvent.RightClick);
-
-        GetObject(((int)Contents.Yes)).gameObject.AddUIEvent((data) => SayYes());
         GetObject(((int)Contents.No)).gameObject.AddUIEvent((data) => SayNo());
 
         GetObject(((int)Contents.Content)).GetComponent<TextMeshProUGUI>().text = textContent;
+
+
+        Cor_ComfirmAction = StartCoroutine(ConfirmAction());
     }
 
-    public enum State
+    Coroutine Cor_ComfirmAction;
+
+    enum State
     {
         Wait,
         Yes,
         No,
     }
+
     State state = State.Wait;
 
-
-
-    public State GetAnswer()
-    {
-        return state;
-    }
-
-    public void SetText(string _content)
+    public void SetText(string _content, Action yes, Action no = null)
     {
         textContent = _content;
+        YesAction = yes;
+        NoAction = no;
     }
 
+    Action YesAction;
+    Action NoAction;
 
     void SayYes()
     {
         state = State.Yes;
-        //ClosePopUp();
-        StartCoroutine(WaitAndClose());
     }
-
     void SayNo()
     {
         state = State.No;
-        //ClosePopUp();
-        StartCoroutine(WaitAndClose());
     }
 
-    IEnumerator WaitAndClose()
+    IEnumerator ConfirmAction()
     {
-        //yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-        ClosePopUp();
+        yield return new WaitUntil(() => state != State.Wait);
+
+        if (state == State.Yes)
+        {
+            YesAction?.Invoke();
+        }
+        else if (state == State.No)
+        {
+            NoAction?.Invoke();
+        }
+
+        Cor_ComfirmAction = null;
+        Managers.UI.ClosePopupPick(this);
     }
 
     void CloseFloorUI()
@@ -111,32 +119,3 @@ public class UI_Confirm : UI_PopUp
         PopupUI_OnDestroy();
     }
 }
-
-///////////////////////////////////////////////////////////////////////
-/*                       복붙용
- ////////////////////////////////////////////////////////
- /*
- *  
-    void Demolition_Technical()
-    {
-        var ui = Managers.UI.ShowPopUp<UI_Confirm>();
-        ui.SetText($"{Parent.Current.Data.name_Placement}(을)를 철거할까요?");
-        StartCoroutine(WaitForAnswer(ui));
-    }
-
-    IEnumerator WaitForAnswer(UI_Confirm confirm)
-    {
-        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
-
-        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
-        {
-            Managers.Technical.RemoveTechnical(Parent.Current);
-        }
-        //else if (confirm.GetAnswer() == UI_Confirm.State.No)
-        //{
-
-        //}
-    }
- * 
- * 
- * */////////////////////////////////////////////////////////////////

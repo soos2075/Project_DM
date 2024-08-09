@@ -22,6 +22,7 @@ public class UI_QuestBoard : UI_PopUp, IDialogue
     {
         Panel,
         NoTouch,
+        CloseButton,
     }
 
     public override void Init()
@@ -35,10 +36,12 @@ public class UI_QuestBoard : UI_PopUp, IDialogue
 
     void Init_Event()
     {
-        GetImage(((int)Images.NoTouch)).gameObject.AddUIEvent((data) => CloseAndAddAction(), Define.UIEvent.LeftClick);
+        //GetImage(((int)Images.NoTouch)).gameObject.AddUIEvent((data) => CloseAndAddAction(), Define.UIEvent.LeftClick);
         GetImage(((int)Images.NoTouch)).gameObject.AddUIEvent((data) => CloseAndAddAction(), Define.UIEvent.RightClick);
-        GetImage(((int)Images.Panel)).gameObject.AddUIEvent((data) => CloseAndAddAction(), Define.UIEvent.LeftClick);
+        //GetImage(((int)Images.Panel)).gameObject.AddUIEvent((data) => CloseAndAddAction(), Define.UIEvent.LeftClick);
         GetImage(((int)Images.Panel)).gameObject.AddUIEvent((data) => CloseAndAddAction(), Define.UIEvent.RightClick);
+
+        GetImage(((int)Images.CloseButton)).gameObject.AddUIEvent((data) => CloseAndAddAction(), Define.UIEvent.LeftClick);
     }
 
     void CloseAndAddAction()

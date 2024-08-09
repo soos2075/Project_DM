@@ -107,6 +107,54 @@ MonoBehaviour:
     m_Key: Orb_Yellow
     m_Metadata:
       m_Items: []
+  - m_Id: 22870784026554368
+    m_Key: "\uB358\uC804"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22871157340581888
+    m_Key: "\uC804\uD22C\uD69F\uC218"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22871926475272192
+    m_Key: "\uD328\uBC30"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22872292914835456
+    m_Key: "\uB808\uBCA8\uC5C5"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22873009863995392
+    m_Key: "\uBC29\uBB38\uD55C \uBAA8\uD5D8\uAC00"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22873927397355520
+    m_Key: "\uB9CC\uC871"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22874769395494912
+    m_Key: "\uADF8\uB7ED\uC800\uB7ED"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22874880456470528
+    m_Key: "\uC2E4\uB9DD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22875270379941888
+    m_Key: "\uB3C4\uB9DD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22880734295568384
+    m_Key: "\uD68D\uB4DD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22881084150853632
+    m_Key: "\uC18C\uBE44"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22881208881065984
+    m_Key: "\uC218\uC775"
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

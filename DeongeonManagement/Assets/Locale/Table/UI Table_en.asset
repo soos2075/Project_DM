@@ -115,7 +115,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 98926592208897
-    m_Localized: Manage Monster
+    m_Localized: Unit Management
     m_Metadata:
       m_Items: []
   - m_Id: 98926592208896
@@ -525,7 +525,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 49153070363521024
-    m_Localized: Categorization
+    m_Localized: Category
     m_Metadata:
       m_Items: []
   - m_Id: 50133869770518528
@@ -534,6 +534,47 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 53204818644381696
     m_Localized: Continuous
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54630618887303168
+    m_Localized: Unit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54636794186248192
+    m_Localized: Victory
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54642195724185600
+    m_Localized: Artifact
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54642574104932352
+    m_Localized: Battle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54642925197537280
+    m_Localized: Bonus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 54643217142067200
+    m_Localized: Etc
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55612750434611200
+    m_Localized: End the turn without spending an AP?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55613527567839232
+    m_Localized: 'Do you want to reset all game data?
+
+      (unrecoverable)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 55662541743009792
+    m_Localized: 'Do you want to initialize the data?
+
+      (if this is your first
+      time, Yes)'
     m_Metadata:
       m_Items: []
   references:

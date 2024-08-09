@@ -41,22 +41,16 @@ public class UI_MonsterBox_Clear : UI_Base
         {
             Debug.Log("선택됨 - 로컬라이징 해야함!!");
             var ui = Managers.UI.ShowPopUp<UI_Confirm>();
-            ui.SetText($"이 몬스터를 데려갈까요?(로컬라이징 해야함)");
-            StartCoroutine(WaitForAnswer(ui));
+            ui.SetText($"이 몬스터를 데려갈까요?(로컬라이징 해야함)", () => TakeMonster());
         }
     }
 
-
-    IEnumerator WaitForAnswer(UI_Confirm confirm)
+    void TakeMonster()
     {
-        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
-
-        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
-        {
-            UserData.Instance.SelectedMonster = monster;
-            Managers.UI.ClosePopupPick(parent);
-        }
+        UserData.Instance.SelectedMonster = monster;
+        Managers.UI.ClosePopupPick(parent);
     }
+
 
 
     public void ShowContents()

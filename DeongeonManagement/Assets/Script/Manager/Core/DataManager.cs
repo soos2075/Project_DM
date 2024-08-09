@@ -47,13 +47,6 @@ public class DataManager
 
 
 
-        //CSV_File_Parsing_Object("Object/Object_KR", ObjectsLabel_KR);
-        //CSV_File_Parsing_Object("Object/Object_EN", ObjectsLabel_EN);
-        //CSV_File_Parsing_Object("Object/Object_JP", ObjectsLabel_JP);
-
-        //CSV_File_Parsing_Dialogue("Dialogue/Dialogue_KR", Dialogue_KR);
-        //CSV_File_Parsing_Dialogue("Dialogue/Dialogue_EN", Dialogue_EN);
-        //CSV_File_Parsing_Dialogue("Dialogue/Dialogue_JP", Dialogue_JP);
 
         //? Trait - 한영일 하나의 파일로 파싱
         Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Trait/Trait_Result.csv").Completed +=
@@ -246,7 +239,7 @@ public class DataManager
 
         // 세이브 슬롯 정보
         public int saveIndex;
-        public string dateTime;
+        public DateTime dateTime;
 
         // 세이브 슬롯에 표시할 게임정보
         public int turn;
@@ -267,8 +260,6 @@ public class DataManager
         public Save_DayResult CurrentDay;
         public Save_DayResult[] DayResultList;
 
-        //public Main.DayResult CurrentDay;
-        //public List<Main.DayResult> DayResultList;
 
         // Floor 정보
         public int ActiveFloor_Basement; //? 확장된 계층정보
@@ -301,9 +292,6 @@ public class DataManager
         // 길드 현재상황 데이터 저장용
         public List<GuildNPC_Data> CurrentGuildData;
 
-        // 추가해야할 퀘스트 목록
-        public List<int> AddQuest_Special;
-
         // 추가해야할 퀘스트 목록 - 매턴 갱신(알림 X)
         public List<int> AddQuest_Daily;
 
@@ -315,7 +303,6 @@ public class DataManager
 
         public List<EventManager.Quest_Reservation> Reservation_Quest;
     }
-    //private SaveData tempData;
     #endregion
 
 
@@ -340,20 +327,25 @@ public class DataManager
 
     void Scan_File()
     {
-        for (int i = 1; i <= 6 * 5; i++)
+        for (int i = 1; i <= 6 * 10; i++)
         {
             if (Managers.Data.SaveFileSearch($"DM_Save_{i}"))
             {
                 var data = LoadToStorage($"DM_Save_{i}");
-
-                SaveFileList.Add($"DM_Save_{i}", data);
+                if (data != null)
+                {
+                    SaveFileList.Add($"DM_Save_{i}", data);
+                }
             }
         }
 
         if (Managers.Data.SaveFileSearch($"AutoSave"))
         {
             var data = LoadToStorage($"AutoSave");
-            SaveFileList.Add($"AutoSave", data);
+            if (data != null)
+            {
+                SaveFileList.Add($"AutoSave", data);
+            }
         }
     }
 
@@ -408,8 +400,10 @@ public class DataManager
             UserData.Instance.CurrentSaveData = data;
             UserData.Instance.isClear = data.isClear;
             UserData.Instance.EndingState = data.endgins;
-            LoadFileApply(data);
+
             LoadGuildData(data);
+            LoadFileApply(data);
+
             Debug.Log($"Load Success : {fileKey}");
             UserData.Instance.SetData(PrefsKey.LoadTimes, UserData.Instance.GetDataInt(PrefsKey.LoadTimes) + 1);
         }
@@ -462,7 +456,7 @@ public class DataManager
         SaveData saveData = new SaveData();
 
         saveData.saveIndex = index;
-        saveData.dateTime = System.DateTime.Now.ToString("F");
+        saveData.dateTime = System.DateTime.Now;
 
         saveData.turn = Main.Instance.Turn;
         //saveData.Final_Score = Main.Instance.Final_Score;
@@ -473,6 +467,7 @@ public class DataManager
         saveData.Player_Gold = Main.Instance.Player_Gold;
         saveData.AP_MAX = Main.Instance.AP_MAX;
 
+        //? 얘네는 단순 int값이 아니라 get set 메서드가 따로 구현된 프로퍼티라 따로 값복사를 해줘야함
         int _fame;
         int _danger;
         int _ap;
@@ -481,7 +476,7 @@ public class DataManager
         saveData.DangerOfDungeon = _danger;
         saveData.Player_AP = _ap;
 
-
+        //? 얘넨 깊은 복사가 되고있음(각각의 값들을 다 새로 복사중)
         saveData.CurrentDay = new Save_DayResult(Main.Instance.CurrentDay);
         saveData.DayResultList = new Save_DayResult[Main.Instance.DayList.Count];
         for (int i = 0; i < Main.Instance.DayList.Count; i++)
@@ -492,18 +487,21 @@ public class DataManager
         saveData.ActiveFloor_Basement = Main.Instance.ActiveFloor_Basement;
         saveData.ActiveFloor_Technical = Main.Instance.ActiveFloor_Technical;
 
+        //? 얘넨 참조타입이긴한데 저장할 때 빼고는 런타임에 쓰지 않는 데이터라 상관이 없음
         saveData.monsterList = GameManager.Monster.GetSaveData_Monster();
         saveData.tachnicalList = GameManager.Technical.GetSaveData_Technical();
         saveData.facilityList = GameManager.Facility.GetSaveData_Facility();
 
 
+        //? 아래 두개는 실제로 쓰는 데이터를 저장하는 관계로 저장할때와 로드할 때 각각 다 딥카피를 따로 해줘야함.
         saveData.eventData = EventManager.Instance.Data_SaveEventManager();
+        saveData.buffList = GameManager.Buff.Save_Buff();
+
+
         saveData.instanceGuildNPC = GuildManager.Instance.Data_SaveInstanceNPC();
 
-
-        //saveData.savefileConfig = UserData.Instance.FileConfig;
         UserData.Instance.FileConfig.PlayTimeApply();
-        saveData.savefileConfig = UserData.Instance.FileConfig.Clone();
+        saveData.savefileConfig = UserData.Instance.FileConfig.DeepCopy();
 
         saveData.isClear = UserData.Instance.isClear;
         saveData.endgins = UserData.Instance.EndingState;
@@ -511,7 +509,7 @@ public class DataManager
         int highTurn = Mathf.Max(saveData.turn, UserData.Instance.GetDataInt(PrefsKey.High_Turn, 0));
         UserData.Instance.SetData(PrefsKey.High_Turn, highTurn);
 
-        saveData.buffList = GameManager.Buff.Save_Buff();
+
 
 
         return saveData;
@@ -548,13 +546,27 @@ public class DataManager
     {
         //? 저장된 파일 읽어옴
         var _fileData = FileOperation(FileMode.Open, $"{Application.persistentDataPath}/Savefile/{fileName}.json");
-        SaveData loadData = JsonConvert.DeserializeObject<SaveData>(_fileData);
-        return loadData;
+
+        SaveData loadData; // = JsonConvert.DeserializeObject<SaveData>(_fileData);
+
+        try
+        {
+            loadData = JsonConvert.DeserializeObject<SaveData>(_fileData);
+            Console.WriteLine("SaveData loaded successfully.");
+            return loadData;
+        }
+        catch (JsonException ex)
+        {
+            Console.WriteLine("Failed to load SaveData: " + ex.Message);
+            // 세이브 파일 삭제 작업 수행
+            DeleteSaveFile(fileName);
+            return null;
+        }
     }
 
     void LoadFileApply(SaveData loadData)
     {
-        UserData.Instance.FileConfig = loadData.savefileConfig.Clone();
+        UserData.Instance.FileConfig = loadData.savefileConfig.DeepCopy();
         UserData.Instance.FileConfig.Init_CurrentPlayTime();
 
         GameManager.Buff.Load_Buff(loadData.buffList);
@@ -564,11 +576,10 @@ public class DataManager
         GameManager.Monster.Load_MonsterData(loadData.monsterList);
         GameManager.Technical.Load_TechnicalData(loadData.tachnicalList);
         GameManager.Facility.Load_FacilityData(loadData.facilityList);
-
-        GuildManager.Instance.Data_LoadInstanceNPC(loadData.instanceGuildNPC);
     }
     void LoadGuildData(SaveData loadData)
     {
+        GuildManager.Instance.Data_LoadInstanceNPC(loadData.instanceGuildNPC);
         EventManager.Instance.Data_LoadEventManager(loadData);
     }
 

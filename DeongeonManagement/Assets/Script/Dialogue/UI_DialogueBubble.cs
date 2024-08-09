@@ -82,7 +82,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
         else if (Managers.Scene.GetCurrentScene() == SceneName._6_NewOpening)
         {
             var letterBox = Managers.UI.ShowPopUpNonPush<UI_LetterBox>();
-            letterBox.SetBoxOption(UI_LetterBox.BoxOption.NoSkip_Dialogue, this);
+            letterBox.SetBoxOption(UI_LetterBox.BoxOption.LetterBox, this);
         }
     }
 

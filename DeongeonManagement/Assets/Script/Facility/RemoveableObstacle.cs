@@ -76,30 +76,20 @@ public class RemoveableObstacle : Facility, IWall
                     $"+{gold}{UserData.Instance.LocaleText("Gold")})";
 
         var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
-        ui.SetText($"{UserData.Instance.LocaleText("Confirm_RemoveObstacle")}\n{confirm}");
-        StartCoroutine(WaitForAnswer(ui, ap, mana, gold));
+        ui.SetText($"{UserData.Instance.LocaleText("Confirm_RemoveObstacle")}\n{confirm}", () => ConfirmUI_Action(ap, mana, gold));
     }
 
 
-    IEnumerator WaitForAnswer(UI_Confirm confirm, int _ap, int _mana, int _gold)
+    void ConfirmUI_Action(int _ap, int _mana, int _gold)
     {
-        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
-
-        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
+        if (ConfirmCheck(ap: _ap, mana: _mana))
         {
-            if (ConfirmCheck(ap: _ap, mana: _mana))
-            {
-                Main.Instance.CurrentDay.AddGold(_gold, Main.DayResult.EventType.Etc);
-                Main.Instance.CurrentDay.SubtractMana(_mana, Main.DayResult.EventType.Etc);
-                Main.Instance.Player_AP -= _ap;
+            Main.Instance.CurrentDay.AddGold(_gold, Main.DayResult.EventType.Etc);
+            Main.Instance.CurrentDay.SubtractMana(_mana, Main.DayResult.EventType.Etc);
+            Main.Instance.Player_AP -= _ap;
 
-                GameManager.Facility.RemoveFacility(this);
-                //Debug.Log($"장애물 제거 {ObstacleType}");
-            }
-            else
-            {
-                Managers.UI.ClosePopupPick(confirm);
-            }
+            GameManager.Facility.RemoveFacility(this);
+            //Debug.Log($"장애물 제거 {ObstacleType}");
         }
     }
 

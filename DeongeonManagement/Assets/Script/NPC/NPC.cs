@@ -946,7 +946,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat
         NPC_Runaway();
 
         var emotion = Managers.Resource.Instantiate("NPC/Emotions", transform);
-        emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.GetSprite_SLA("Run");
+        emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.GetSprite_SLA("Element_State", "Runaway");
     }
     void Empty_Base()
     {
@@ -954,7 +954,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat
         NPC_Return_Empty();
 
         var emotion = Managers.Resource.Instantiate("NPC/Emotions", transform);
-        emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.GetSprite_SLA("Bad");
+        emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.GetSprite_SLA("Element_State", "Bad");
     }
     void Satisfaction_Base()
     {
@@ -966,7 +966,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat
             NPC_Return_Satisfaction();
 
             var emotion = Managers.Resource.Instantiate("NPC/Emotions", transform);
-            emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.GetSprite_SLA("Perfect");
+            emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.GetSprite_SLA("Element_State", "Perfect");
         }
         else
         {
@@ -974,7 +974,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat
             NPC_Return_NonSatisfaction();
 
             var emotion = Managers.Resource.Instantiate("NPC/Emotions", transform);
-            emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.GetSprite_SLA("Good");
+            emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.GetSprite_SLA("Element_State", "Good");
         }
     }
     void Die_Base()
@@ -1498,6 +1498,9 @@ public enum InteractionGroup
 
     Interaction_Trap = 400,
 
+    Interaction_Artifact = 900,
+
     Interaction_NPC_Util = 1000,
+
 
 }

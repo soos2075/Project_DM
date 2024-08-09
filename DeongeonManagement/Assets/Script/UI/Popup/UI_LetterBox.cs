@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_LetterBox : UI_PopUp
 {
@@ -12,14 +13,19 @@ public class UI_LetterBox : UI_PopUp
 
     public enum BoxOption
     {
-        NoSkip_Dialogue,
         Dialogue,
         Build,
         Monster,
 
-
-
         CalculationPanel,
+
+        LetterBox,
+    }
+
+    enum Images
+    {
+        Wall_Up,
+        Wall_Down,
     }
 
     enum TextsInfo
@@ -37,6 +43,7 @@ public class UI_LetterBox : UI_PopUp
 
         Bind<GameObject>(typeof(BoxOption));
         Bind<TMPro.TextMeshProUGUI>(typeof(TextsInfo));
+        Bind<Image>(typeof(Images));
     }
 
     public void ShowCalculationPanel(Main.PurchaseInfo info)
@@ -71,8 +78,6 @@ public class UI_LetterBox : UI_PopUp
     }
 
 
-
-
     public void SetBoxOption(BoxOption option, UI_PopUp parent) //? 얜 PopupStack에 Push를 안하는 타입으로
     {
         Init();
@@ -87,9 +92,8 @@ public class UI_LetterBox : UI_PopUp
 
         switch (option)
         {
-            case BoxOption.NoSkip_Dialogue:
+            case BoxOption.LetterBox:
                 parent.OnPopupCloseEvent -= dest;
-                Option_NoSkip();
                 break;
 
             case BoxOption.Dialogue:
@@ -109,7 +113,6 @@ public class UI_LetterBox : UI_PopUp
 
     void AllClear()
     {
-        GetObject((int)BoxOption.NoSkip_Dialogue).SetActive(false);
         GetObject((int)BoxOption.Dialogue).SetActive(false);
         GetObject((int)BoxOption.Build).SetActive(false);
         GetObject((int)BoxOption.Monster).SetActive(false);
@@ -117,10 +120,6 @@ public class UI_LetterBox : UI_PopUp
         GetObject((int)BoxOption.CalculationPanel).SetActive(false);
     }
 
-    void Option_NoSkip()
-    {
-        GetObject((int)BoxOption.NoSkip_Dialogue).SetActive(true);
-    }
 
     void Option_Dialogue()
     {
@@ -130,11 +129,19 @@ public class UI_LetterBox : UI_PopUp
     void Option_Build()
     {
         GetObject((int)BoxOption.Build).SetActive(true);
+        Wall_Opacity();
     }
     void Option_Monster()
     {
         GetObject((int)BoxOption.Monster).SetActive(true);
+        Wall_Opacity();
     }
 
+
+    void Wall_Opacity()
+    {
+        GetImage((int)Images.Wall_Up).GetComponent<Image>().color = new Color(0, 0, 0, 0.7f);
+        GetImage((int)Images.Wall_Down).GetComponent<Image>().color = new Color(0, 0, 0, 0.7f);
+    }
 
 }

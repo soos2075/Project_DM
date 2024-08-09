@@ -218,6 +218,16 @@ public class Util
             case Define.TextColor.LightYellow:
                 return $"<color=#ffff55ff>{text}</color>";
 
+            case Define.TextColor.Plus_Green:
+                return $"<color=#4c7c48ff>{text}</color>";
+
+            case Define.TextColor.Plus_Blue:
+                return $"<color=#4377baff>{text}</color>";
+
+            case Define.TextColor.Plus_Red:
+                return $"<color=#e24242ff>{text}</color>";
+
+
 
             default:
                 return $"<color=white>{text}</color>";

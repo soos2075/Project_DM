@@ -141,62 +141,44 @@ public class Orb : MonoBehaviour
         switch (_OrbType)
         {
             case OrbType.green:
-                ui.SetText($"{UserData.Instance.LocaleText_Tooltip("Orb_Green")}\n" +
+                var green = $"{UserData.Instance.LocaleText_Tooltip("Orb_Green")}\n" +
                     $"<size=25>" +
                     $"(-2{UserData.Instance.LocaleText("AP")}, " +
                     $"-750{UserData.Instance.LocaleText("Mana")}, " +
-                    $"-250{UserData.Instance.LocaleText("Gold")})");// +
-                    //$"{UserData.Instance.LocaleText("필요")})");
+                    $"-250{UserData.Instance.LocaleText("Gold")})"; // + $"{UserData.Instance.LocaleText("필요")})");
 
-                StartCoroutine(WaitForAnswer(ui, () => Confirm(ap: 2, mana: 750, gold: 250)));
+                ui.SetText(green, () => Confirm(ap: 2, mana: 750, gold: 250));
                 break;
 
 
             case OrbType.yellow:
-                ui.SetText($"{UserData.Instance.LocaleText_Tooltip("Orb_Yellow")}\n" +
-    $"<size=25>" +
-    $"(-2{UserData.Instance.LocaleText("AP")}, " +
-    $"-750{UserData.Instance.LocaleText("Mana")}, " +
-    $"-250{UserData.Instance.LocaleText("Gold")})");// +
-    //$"{UserData.Instance.LocaleText("필요")})");
-
-                StartCoroutine(WaitForAnswer(ui, () => Confirm(ap: 2, mana: 750, gold: 250)));
+                var yellow = $"{UserData.Instance.LocaleText_Tooltip("Orb_Yellow")}\n" +
+                    $"<size=25>" +
+                    $"(-2{UserData.Instance.LocaleText("AP")}, " +
+                    $"-750{UserData.Instance.LocaleText("Mana")}, " +
+                    $"-250{UserData.Instance.LocaleText("Gold")})";
+                ui.SetText(yellow, () => Confirm(ap: 2, mana: 750, gold: 250));
                 break;
 
 
             case OrbType.blue:
-                ui.SetText($"{UserData.Instance.LocaleText_Tooltip("Orb_Blue")}\n" +
-    $"<size=25>" +
-    $"(-3{UserData.Instance.LocaleText("AP")}, " +
-    $"-2000{UserData.Instance.LocaleText("Mana")}, " +
-    $"-1000{UserData.Instance.LocaleText("Gold")})");// +
-    //$"{UserData.Instance.LocaleText("필요")})");
-
-                StartCoroutine(WaitForAnswer(ui, () => Confirm(ap: 3, mana: 2000, gold: 1000)));
+                var blue = $"{UserData.Instance.LocaleText_Tooltip("Orb_Blue")}\n" +
+                        $"<size=25>" +
+                        $"(-3{UserData.Instance.LocaleText("AP")}, " +
+                        $"-2000{UserData.Instance.LocaleText("Mana")}, " +
+                        $"-1000{UserData.Instance.LocaleText("Gold")})";
+                ui.SetText(blue, () => Confirm(ap: 3, mana: 2000, gold: 1000));
                 break;
 
 
             case OrbType.red:
-                ui.SetText($"{UserData.Instance.LocaleText_Tooltip("Orb_Red")}\n" +
-    $"<size=25>" +
-    $"(-4{UserData.Instance.LocaleText("AP")}, " +
-    $"-1000{UserData.Instance.LocaleText("Mana")}, " +
-    $"-2000{UserData.Instance.LocaleText("Gold")})");// +
-    //$"{UserData.Instance.LocaleText("필요")})");
-
-                StartCoroutine(WaitForAnswer(ui, () => Confirm(ap: 4, mana: 1000, gold: 2000)));
+                var red = $"{UserData.Instance.LocaleText_Tooltip("Orb_Red")}\n" +
+                        $"<size=25>" +
+                        $"(-4{UserData.Instance.LocaleText("AP")}, " +
+                        $"-1000{UserData.Instance.LocaleText("Mana")}, " +
+                        $"-2000{UserData.Instance.LocaleText("Gold")})";
+                ui.SetText(red, () => Confirm(ap: 4, mana: 1000, gold: 2000));
                 break;
-        }
-    }
-
-    IEnumerator WaitForAnswer(UI_Confirm confirm, System.Action action)
-    {
-        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
-
-        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
-        {
-            Managers.UI.ClosePopupPick(confirm);
-            action.Invoke();
         }
     }
 

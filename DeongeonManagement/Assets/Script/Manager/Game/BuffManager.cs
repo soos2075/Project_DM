@@ -37,14 +37,14 @@ public class BuffManager
 
     public BuffList Save_Buff()
     {
-        return CurrentBuff.Clone();
+        return CurrentBuff.DeepCopy();
     }
 
     public void Load_Buff(BuffList data)
     {
         if (data != null)
         {
-            CurrentBuff = data.Clone();
+            CurrentBuff = data.DeepCopy();
         }
     }
     #endregion
@@ -64,7 +64,7 @@ public class BuffList
     {
 
     }
-    public BuffList Clone()
+    public BuffList DeepCopy()
     {
         var buff = new BuffList();
         buff.Orb_green = Orb_green;

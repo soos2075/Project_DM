@@ -481,6 +481,7 @@ public enum EventNPCType
     Event_Goblin_Leader = 1911,
     Event_Goblin_Leader2 = 1912,
 
+    Event_Catastrophe = 1914,
     Event_RetiredHero = 1915,
 
 

@@ -50,8 +50,6 @@ public class UI_Management : UI_Base
         Speed1x,
         Speed2x,
         Speed3x,
-        
-        //DayChange_Temp,
     }
 
     enum Texts
@@ -192,14 +190,14 @@ public class UI_Management : UI_Base
 
     public void GuildButtonNotice()
     {
-        if (EventManager.Instance.CheckGuildNotice_Wating() || EventManager.Instance.CheckGuildNotice())
+        if (EventManager.Instance.CheckGuildNotice())// || EventManager.Instance.CheckGuildNotice_Wating())
         {
-            Debug.Log("길드 알림!!");
+            //Debug.Log("길드 알림!!");
             GetImage((int)OverlayImages.OverlayImage_Guild).enabled = true;
         }
         else
         {
-            Debug.Log("길드 알림 없음!!");
+            //Debug.Log("길드 알림 없음!!");
             GetImage((int)OverlayImages.OverlayImage_Guild).enabled = false;
         }
     }
@@ -246,8 +244,6 @@ public class UI_Management : UI_Base
         GetButton((int)ButtonEvent.Speed1x).gameObject.AddUIEvent((data) => GameSpeedUp(1));
         GetButton((int)ButtonEvent.Speed2x).gameObject.AddUIEvent((data) => GameSpeedUp(2));
         GetButton((int)ButtonEvent.Speed3x).gameObject.AddUIEvent((data) => GameSpeedUp(3));
-
-        //GetButton((int)ButtonEvent.DayChange_Temp).gameObject.AddUIEvent((data) => DayChange_Temp());
     }
 
 
@@ -359,30 +355,22 @@ public class UI_Management : UI_Base
         {
             var ui = Managers.UI.ClearAndShowPopUp<UI_Confirm>();
             ui.SetText($"{UserData.Instance.LocaleText("Confirm_Guild")}\n" +
-                $"<size=25>({GuildVisit_AP} {UserData.Instance.LocaleText("AP")} {UserData.Instance.LocaleText("필요")})");
-
-            //ui.SetText($"{UserData.Instance.GetLocaleText("Confirm_Guild")}\n({UserData.Instance.GetLocaleText("Confirm_AP")})");
-            StartCoroutine(WaitForAnswer(ui));
+                $"<size=25>({GuildVisit_AP} {UserData.Instance.LocaleText("AP")} {UserData.Instance.LocaleText("필요")})",
+                () => Visit_Action());
         }
     }
 
-
-    IEnumerator WaitForAnswer(UI_Confirm confirm)
+    void Visit_Action()
     {
-        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
+        Main.Instance.Player_AP -= GuildVisit_AP;
+        UserData.Instance.GameSpeed_GuildReturn = UserData.Instance.GameSpeed;
 
-        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
-        {
-            Main.Instance.Player_AP -= GuildVisit_AP;
-            UserData.Instance.GameSpeed_GuildReturn = UserData.Instance.GameSpeed;
+        Managers.Data.SaveAndAddFile("Temp_GuildSave", -2);
+        //Managers.Data.SaveAndAddFile("AutoSave", 0);
 
-            Managers.Data.SaveAndAddFile("Temp_GuildSave", -2);
-            //Managers.Data.SaveAndAddFile("AutoSave", 0);
-
-
-            Managers.Scene.LoadSceneAsync(SceneName._3_Guild);
-        }
+        Managers.Scene.LoadSceneAsync(SceneName._3_Guild);
     }
+
 
     #endregion
 
@@ -465,19 +453,10 @@ public class UI_Management : UI_Base
         if (Main.Instance.Player_AP > 0)
         {
             var ui = Managers.UI.ShowPopUp<UI_Confirm>();
-            ui.SetText($"행동력을 쓰지않고 턴을 종료할까요?");
-            StartCoroutine(WaitForAnswer_TurnOver(ui));
+            //ui.SetText($"행동력을 쓰지않고 턴을 종료할까요?");
+            ui.SetText($"{UserData.Instance.LocaleText("턴종료_행동력")}", () => TurnOverAction());
         }
         else
-        {
-            TurnOverAction();
-        }
-    }
-    IEnumerator WaitForAnswer_TurnOver(UI_Confirm confirm)
-    {
-        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
-
-        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
         {
             TurnOverAction();
         }

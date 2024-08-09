@@ -218,18 +218,18 @@ public class UI_SaveLoad : UI_PopUp
             if (data.isClear)
             {
                 SaveSlotList[_index - 1].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText("Slot")} {_index}";
-                SaveSlotList[_index - 1].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{data.dateTime}";
+                SaveSlotList[_index - 1].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocalDateTime(data.dateTime)}";
                 SaveSlotList[_index - 1].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text =
                     $"Clear : " + $"{data.endgins.ToString()}";
             }
             else
             {
                 SaveSlotList[_index - 1].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText("Slot")} {_index}";
-                SaveSlotList[_index - 1].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{data.dateTime}";
+                SaveSlotList[_index - 1].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocalDateTime(data.dateTime)}";
                 SaveSlotList[_index - 1].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text =
                     $"{data.turn}{UserData.Instance.LocaleText("Day")}\n" +
-                    $"{UserData.Instance.LocaleText("Popularity")} : {data.FameOfDungeon} / " +
-                    $"{UserData.Instance.LocaleText("Danger")} : {data.DangerOfDungeon}";
+                    $"\t{UserData.Instance.LocaleText("Popularity")} : {data.FameOfDungeon}\n" +
+                    $"\t{UserData.Instance.LocaleText("Danger")} : {data.DangerOfDungeon}";
             }
         }
         else
@@ -251,18 +251,18 @@ public class UI_SaveLoad : UI_PopUp
             if (autodata.isClear)
             {
                 GetImage(((int)Slot.AutoSave)).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText("AutoSave")}";
-                GetImage(((int)Slot.AutoSave)).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{autodata.dateTime}";
+                GetImage(((int)Slot.AutoSave)).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocalDateTime(autodata.dateTime)}";
                 GetImage(((int)Slot.AutoSave)).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text =
                     $"Clear : " + $"{autodata.endgins.ToString()}";
             }
             else
             {
                 GetImage(((int)Slot.AutoSave)).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText("AutoSave")}";
-                GetImage(((int)Slot.AutoSave)).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{autodata.dateTime}";
+                GetImage(((int)Slot.AutoSave)).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocalDateTime(autodata.dateTime)}";
                 GetImage(((int)Slot.AutoSave)).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text =
                     $"{autodata.turn}{UserData.Instance.LocaleText("Day")}\n" +
-                    $"{UserData.Instance.LocaleText("Popularity")} : {autodata.FameOfDungeon} / " +
-                    $"{UserData.Instance.LocaleText("Danger")} : {autodata.DangerOfDungeon}";
+                    $"\t{UserData.Instance.LocaleText("Popularity")} : {autodata.FameOfDungeon}\n" +
+                    $"\t{UserData.Instance.LocaleText("Danger")} : {autodata.DangerOfDungeon}";
             }
         }
         else

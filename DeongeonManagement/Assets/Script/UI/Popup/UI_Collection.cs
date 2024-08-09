@@ -67,6 +67,9 @@ public class UI_Collection : UI_PopUp
     enum ShowBoxImage
     {
         MainSprite,
+
+        NoTouch,
+        MainPanel,
     }
 
 
@@ -85,6 +88,10 @@ public class UI_Collection : UI_PopUp
         Bind<GameObject>(typeof(Objects));
         Bind<TextMeshProUGUI>(typeof(ShowBoxText));
         Bind<Image>(typeof(ShowBoxImage));
+
+
+        GetImage((int)ShowBoxImage.NoTouch).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.RightClick);
+        GetImage((int)ShowBoxImage.MainPanel).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.RightClick);
 
         GetButton((int)Buttons.Close).gameObject.AddUIEvent(data => ClosePopUp());
 
@@ -121,7 +128,7 @@ public class UI_Collection : UI_PopUp
         var facility = GetObject((int)Objects.FacilityBox).GetComponentInChildren<GridLayoutGroup>().transform;
         for (int i = 0; i < CollectionManager.Instance.Register_Facility.Count; i++)
         {
-            var unit = Managers.Resource.Instantiate("UI/PopUp/Element/CollectionUnit", facility);
+            var unit = Managers.Resource.Instantiate("UI/PopUp/Element/CollectionUnit_Facility", facility);
             unit.GetComponent<UI_CollectionUnit>().SetUnit_Facility(CollectionManager.Instance.Register_Facility[i], this);
         }
 

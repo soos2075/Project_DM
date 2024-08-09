@@ -26,8 +26,17 @@ public class UI_CollectionUnit : UI_Base
         Bind<GameObject>(typeof(Objects));
 
         gameObject.AddUIEvent((data) => { SelectUnit(); }, Define.UIEvent.LeftClick);
+
+
+
+        //? 얘 클릭해도 스크롤 가능하게
+        scroll = GetComponentInParent<ScrollRect>();
+        gameObject.AddUIEvent((data) => scroll.OnDrag(data), Define.UIEvent.Drag);
+        gameObject.AddUIEvent((data) => scroll.OnBeginDrag(data), Define.UIEvent.BeginDrag);
+        gameObject.AddUIEvent((data) => scroll.OnEndDrag(data), Define.UIEvent.EndDrag);
     }
 
+    ScrollRect scroll;
     UI_Collection mainUI;
     void InitAndSetData(UI_Collection parent)
     {

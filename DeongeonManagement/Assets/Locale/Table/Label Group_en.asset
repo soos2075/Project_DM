@@ -54,6 +54,22 @@ MonoBehaviour:
     m_Localized: Treasure
     m_Metadata:
       m_Items: []
+  - m_Id: 5434434599989248
+    m_Localized: Trap
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5435259242098688
+    m_Localized: Artifact
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5765177561788416
+    m_Localized: Dungeon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5765460018802688
+    m_Localized: Etc
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

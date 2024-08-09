@@ -15,13 +15,14 @@ public class UI_Facility_Content : UI_Base
     public UI_Placement_Facility Parent { get; set; }
 
 
-
     enum Texts
     {
+        Category,
         Name,
         Mana,
         Gold,
-        LV,
+        AP,
+        Rank,
     }
 
     public override void Init()
@@ -37,12 +38,45 @@ public class UI_Facility_Content : UI_Base
 
 
 
-    public void TextUpdate(string name, int mana, int gold, int lv)
+    void TextUpdate(string name, int mana, int gold, int lv)
     {
+        switch (Content.priority)
+        {
+            case Facility_Priority.System:
+                GetTMP((int)Texts.Category).text = UserData.Instance.LocaleText_Label("Interaction_Dungeon");
+                break;
+
+            case Facility_Priority.Herb:
+                GetTMP((int)Texts.Category).text = UserData.Instance.LocaleText_Label("Interaction_Herb");
+                break;
+
+            case Facility_Priority.Mineral:
+                GetTMP((int)Texts.Category).text = UserData.Instance.LocaleText_Label("Interaction_Mineral");
+                break;
+
+            case Facility_Priority.Trap:
+                GetTMP((int)Texts.Category).text = UserData.Instance.LocaleText_Label("Interaction_Trap");
+                break;
+
+            case Facility_Priority.Treasure:
+                GetTMP((int)Texts.Category).text = UserData.Instance.LocaleText_Label("Interaction_Treasure");
+                break;
+
+            case Facility_Priority.Artifact:
+                GetTMP((int)Texts.Category).text = UserData.Instance.LocaleText_Label("Interaction_Artifact");
+                break;
+
+            case Facility_Priority.Etc:
+                GetTMP((int)Texts.Category).text = UserData.Instance.LocaleText_Label("Interaction_Etc");
+                break;
+        }
+
+
         GetTMP((int)Texts.Name).text = name;
         GetTMP((int)Texts.Mana).text = $"{mana}";
         GetTMP((int)Texts.Gold).text = $"{gold}";
-        GetTMP((int)Texts.LV).text = $"{(Define.DungeonRank)lv}";
+        GetTMP((int)Texts.AP).text = $"{Content.Ap}";
+        GetTMP((int)Texts.Rank).text = $"{(Define.DungeonRank)lv}";
     }
 
 

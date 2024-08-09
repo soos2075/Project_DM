@@ -112,26 +112,17 @@ public class Wells : Facility, IWall
     {
         if (Main.Instance.Management == false) return;
 
-
         if (InteractionOfTimes > 0) return;
 
-
         var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
-        ui.SetText($"[{Name}] {UserData.Instance.LocaleText("Confirm_Refill")}");
-        StartCoroutine(WaitForAnswer(ui));
+        ui.SetText($"[{Name}] {UserData.Instance.LocaleText("Confirm_Refill")}", () => WellsRefill());
     }
 
-
-    IEnumerator WaitForAnswer(UI_Confirm confirm)
+    void WellsRefill()
     {
-        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
-
-        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
-        {
-            InteractionOfTimes = 12;
-            Wells_SpriteSwap();
-            //GameManager.Facility.RemoveFacility(this);
-        }
+        InteractionOfTimes = 12;
+        Wells_SpriteSwap();
+        //GameManager.Facility.RemoveFacility(this);
     }
 
 

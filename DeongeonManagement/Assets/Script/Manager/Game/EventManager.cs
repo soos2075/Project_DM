@@ -75,17 +75,22 @@ public class EventManager : MonoBehaviour
     }
 
 
-    public void QuestDataReset()
+    void QuestDataReset()
     {
         CurrentTurn = 0;
         CurrentGuildData = new List<GuildNPC_Data>();
-        AddQuest_Special = new List<int>();
         AddQuest_Daily = new List<int>();
         CurrentQuestAction = null;
         CurrentQuestAction_forSave.Clear();
         DayEventList = new List<DayEvent>();
 
         Reservation_Quest = new List<Quest_Reservation>();
+    }
+
+    public void NewGameReset()
+    {
+        QuestDataReset();
+        GuildManager.Instance.Init_CurrentGuildData(); //? CurrentGuildData가 리셋되서 다시 채우는 역할
     }
 
 
@@ -98,22 +103,10 @@ public class EventManager : MonoBehaviour
         if (CurrentGuildData != null)
         {
             save.CurrentGuildData = new List<GuildNPC_Data>();
-
             foreach (var item in CurrentGuildData)
             {
-                //var newData = new GuildNPC_Data();
-                //newData.SetData_Deep(item.Original_Index, new List<int>(item.InstanceQuestList), new List<int>(item.OptionList));
-                //save.CurrentGuildData.Add(newData);
-
                 save.CurrentGuildData.Add(item.DeepCopy());
             }
-        }
-
-
-
-        if (AddQuest_Special != null)
-        {
-            save.AddQuest_Special = new List<int>(AddQuest_Special);
         }
 
         if (AddQuest_Daily != null)
@@ -128,15 +121,21 @@ public class EventManager : MonoBehaviour
 
         if (DayEventList != null)
         {
-            save.DayEventList = new List<DayEvent>(DayEventList);
+            save.DayEventList = new List<DayEvent>();
+            foreach (var item in DayEventList)
+            {
+                save.DayEventList.Add(item.DeepCopy());
+            }
         }
 
         if (Reservation_Quest != null)
         {
-            save.Reservation_Quest = new List<Quest_Reservation>(Reservation_Quest);
+            save.Reservation_Quest = new List<Quest_Reservation>();
+            foreach (var item in Reservation_Quest)
+            {
+                save.Reservation_Quest.Add(item.DeepCopy());
+            }
         }
-
-
         return save;
     }
 
@@ -150,17 +149,22 @@ public class EventManager : MonoBehaviour
 
         if (LoadData.eventData.CurrentGuildData != null)
         {
-            CurrentGuildData.AddRange(LoadData.eventData.CurrentGuildData);
-        }
-
-        if (LoadData.eventData.AddQuest_Special != null)
-        {
-            AddQuest_Special.AddRange(LoadData.eventData.AddQuest_Special);
+            var newData = new List<GuildNPC_Data>();
+            foreach (var item in LoadData.eventData.CurrentGuildData)
+            {
+                newData.Add(item.DeepCopy());
+            }
+            CurrentGuildData = newData;
         }
 
         if (LoadData.eventData.AddQuest_Daily != null)
         {
-            AddQuest_Daily.AddRange(LoadData.eventData.AddQuest_Daily);
+            var newData = new List<int>();
+            foreach (var item in LoadData.eventData.AddQuest_Daily)
+            {
+                newData.Add(item);
+            }
+            AddQuest_Daily = newData;
         }
 
         if (LoadData.eventData.CurrentQuestAction_forSave != null)
@@ -173,26 +177,30 @@ public class EventManager : MonoBehaviour
 
         if (LoadData.eventData.DayEventList != null)
         {
-            DayEventList = new List<DayEvent>(LoadData.eventData.DayEventList);
+            //DayEventList = new List<DayEvent>(LoadData.eventData.DayEventList);
+            var newData = new List<DayEvent>();
+            foreach (var item in LoadData.eventData.DayEventList)
+            {
+                newData.Add(item.DeepCopy());
+            }
+            DayEventList = newData;
         }
 
         if (LoadData.eventData.Reservation_Quest != null)
         {
-            Reservation_Quest = new List<Quest_Reservation>(LoadData.eventData.Reservation_Quest);
+            //Reservation_Quest = new List<Quest_Reservation>(LoadData.eventData.Reservation_Quest);
+            var newData = new List<Quest_Reservation>();
+            foreach (var item in LoadData.eventData.Reservation_Quest)
+            {
+                newData.Add(item.DeepCopy());
+            }
+            Reservation_Quest = newData;
         }
-
-        FindAnyObjectByType<UI_Management>().QuestNotice();
     }
 
 
 
     #region 길드 방문 알림 표시
-    public bool CheckGuildNotice_Wating()
-    {
-        return AddQuest_Special.Count > 0 ? true : false;
-    }
-
-
     public bool CheckGuildNotice()
     {
         var guildData = CurrentGuildData;
@@ -208,14 +216,25 @@ public class EventManager : MonoBehaviour
             {
                 switch (GuildManager.Instance.GetData(item.Original_Index).DayOption)
                 {
+                    case Guild_DayOption.Special:
+                        foreach (var instNPC in GuildManager.Instance.Instance_GuildNPC)
+                        {
+                            if ((int)instNPC == item.Original_Index)
+                            {
+                                Debug.Log($"길드 퀘스트 발생중 : {item.Original_Index}");
+                                return true;
+                            }
+                        }
+                        break;
+
                     case Guild_DayOption.Always:
-                        Debug.Log($"퀘스트 발생 : {item.Original_Index}");
+                        Debug.Log($"길드 퀘스트 발생중 : {item.Original_Index}");
                         return true;
 
                     case Guild_DayOption.Odd:
                         if (CurrentTurn % 2 == 1)
                         {
-                            Debug.Log($"퀘스트 발생 : {item.Original_Index}");
+                            Debug.Log($"길드 퀘스트 발생중 : {item.Original_Index}");
                             return true;
                         }
                         break;
@@ -223,7 +242,7 @@ public class EventManager : MonoBehaviour
                     case Guild_DayOption.Even:
                         if (CurrentTurn % 2 == 0)
                         {
-                            Debug.Log($"퀘스트 발생 : {item.Original_Index}");
+                            Debug.Log($"길드 퀘스트 발생중 : {item.Original_Index}");
                             return true;
                         }
                         break;
@@ -231,7 +250,7 @@ public class EventManager : MonoBehaviour
                     case Guild_DayOption.Multiple_3:
                         if (CurrentTurn % 3 == 0)
                         {
-                            Debug.Log($"퀘스트 발생 : {item.Original_Index}");
+                            Debug.Log($"길드 퀘스트 발생중 : {item.Original_Index}");
                             return true;
                         }
                         break;
@@ -239,7 +258,7 @@ public class EventManager : MonoBehaviour
                     case Guild_DayOption.Multiple_4:
                         if (CurrentTurn % 4 == 0)
                         {
-                            Debug.Log($"퀘스트 발생 : {item.Original_Index}");
+                            Debug.Log($"길드 퀘스트 발생중 : {item.Original_Index}");
                             return true;
                         }
                         break;
@@ -247,7 +266,7 @@ public class EventManager : MonoBehaviour
                     case Guild_DayOption.Multiple_5:
                         if (CurrentTurn % 5 == 0)
                         {
-                            Debug.Log($"퀘스트 발생 : {item.Original_Index}");
+                            Debug.Log($"길드 퀘스트 발생중 : {item.Original_Index}");
                             return true;
                         }
                         break;
@@ -255,7 +274,7 @@ public class EventManager : MonoBehaviour
                     case Guild_DayOption.Multiple_7:
                         if (CurrentTurn % 7 == 0)
                         {
-                            Debug.Log($"퀘스트 발생 : {item.Original_Index}");
+                            Debug.Log($"길드 퀘스트 발생중 : {item.Original_Index}");
                             return true;
                         }
                         break;
@@ -265,9 +284,6 @@ public class EventManager : MonoBehaviour
 
         return false;
     }
-
-
-
     #endregion
 
 
@@ -275,7 +291,6 @@ public class EventManager : MonoBehaviour
 
 
     #region DayEventPriorityQueue
-
 
     Dictionary<DayEventLabel, Action> DayEventActionRegister = new Dictionary<DayEventLabel, Action>();
 
@@ -302,6 +317,12 @@ public class EventManager : MonoBehaviour
             Priority = priority;
             Embargo = embargo;
             Delay = delay;
+        }
+
+        public DayEvent DeepCopy()
+        {
+            var data = new DayEvent(EventIndex, Priority, Embargo, Delay);
+            return data;
         }
     }
 
@@ -385,6 +406,11 @@ public class EventManager : MonoBehaviour
             GameManager.NPC.AddEventNPC(EventNPCType.Event_Goblin, 4.5f);
             GameManager.NPC.AddEventNPC(EventNPCType.Event_Goblin, 5);
         });
+
+        DayEventActionRegister.Add(DayEventLabel.Catastrophe, () => {
+            Debug.Log("던전의 재앙 이벤트");
+            GameManager.NPC.AddEventNPC(EventNPCType.Event_Catastrophe, 10);
+        });
     }
 
 
@@ -402,25 +428,29 @@ public class EventManager : MonoBehaviour
 
 
 
-
+    #region 길드 관련
     public int CurrentTurn { get; set; }
 
-
-    //? 길드정보 저장용(길드에서 변화된 npc들의 퀘스트 정보들이 들어있음)
+    //? 길드정보 저장용 - 모든 길드관련 데이터를 가지고있고 씬 변경시에도 사라지지않음. 저장과 불러오기에도 동일하게 사용
     public List<GuildNPC_Data> CurrentGuildData { get; set; }
 
-    //? 길드가면 추가시켜야 될 퀘스트 리스트
-    public List<int> AddQuest_Special { get; set; } = new List<int>();
-
-    public void Add_Special(int index)
+    public void Add_GuildQuest_Special(int index)
     {
-        AddQuest_Special.Add(index);
-        AddQuest_Special = Util.ListDistinct(AddQuest_Special);
+        int id = (index / 1000) * 1000;
+        int questIndex = index - id;
+
+        foreach (var item in CurrentGuildData)
+        {
+            if (item.Original_Index == id)
+            {
+                item.AddQuest(questIndex);
+            }
+        }
     }
 
 
     //? 같은날 길드를 또간다고 퀘스트가 추가되면 안되기 때문에 날짜 예약하기
-    public List<Quest_Reservation> Reservation_Quest = new List<Quest_Reservation>();
+    public List<Quest_Reservation> Reservation_Quest { get; set; } = new List<Quest_Reservation>();
     public void ReservationToQuest(int day, int questIndex)
     {
         Reservation_Quest.Add(new Quest_Reservation(day, questIndex));
@@ -434,7 +464,7 @@ public class EventManager : MonoBehaviour
             item.days--;
             if (item.days <= 0)
             {
-                Add_Special(item.questIndex);
+                Add_GuildQuest_Special(item.questIndex);
                 removeList.Add(item);
             }
         }
@@ -461,6 +491,12 @@ public class EventManager : MonoBehaviour
             days = day;
             questIndex = index;
         }
+
+        public Quest_Reservation DeepCopy()
+        {
+            var data = new Quest_Reservation(days, questIndex);
+            return data;
+        }
     }
 
 
@@ -484,6 +520,15 @@ public class EventManager : MonoBehaviour
     {
         CurrentQuestAction += GetQuestAction(_index);
         CurrentQuestAction_forSave.Add(_index);
+
+        if (Managers.Scene.GetCurrentScene() == SceneName._2_Management)
+        {
+            FindAnyObjectByType<UI_Management>().QuestNotice();
+        }
+        else if (Managers.Scene.GetCurrentScene() == SceneName._3_Guild)
+        {
+            GuildManager.Instance.AddBackAction(() => FindAnyObjectByType<UI_Management>().QuestNotice());
+        }
     }
     public void RemoveQuestAction(int _index)
     {
@@ -503,7 +548,7 @@ public class EventManager : MonoBehaviour
     //? 단순히 CurrentQuestEvent에 add / remove 하는 용도로만 사용되어야함. 또 GuildAction과 중복되서 사용될 수도, 독립적으로 사용될 수도 있음.
     Dictionary<int, Action> forQuestAction = new Dictionary<int, Action>();
 
-    void AddForQuestAction() 
+    void AddForQuestAction()  //? 실제로 호출할 액션
     {
         forQuestAction.Add(1100, () =>
         {
@@ -517,9 +562,16 @@ public class EventManager : MonoBehaviour
             GameManager.NPC.AddEventNPC(EventNPCType.Hunter_EarthGolem, 13);
         });
 
-        forQuestAction.Add(1102, () =>
+
+        forQuestAction.Add(1140, () =>
         {
-            Debug.Log("1102 퀘스트");
+            Debug.Log("던전의 재앙 대기중");
+        });
+
+        forQuestAction.Add(1141, () =>
+        {
+            Debug.Log("지속되는 재앙");
+            GameManager.NPC.AddEventNPC(EventNPCType.Event_Catastrophe, 10);
         });
 
         forQuestAction.Add(1150, () =>
@@ -532,58 +584,32 @@ public class EventManager : MonoBehaviour
             Debug.Log("은퇴한 영웅 방문 대기중");
         });
     }
-    void AddDialogueAction()
+    void AddDialogueAction() //? 대화를 통해서 호출하는곳. 코드상에는 없고 Dialogue에 Index로만 존재함
     {
         GuildNPCAction.Add(2100, () =>
         {
-            UserData.Instance.GameMode = Define.GameMode.Normal;
-            //Time.timeScale = 1;
-            Managers.UI.ClosePopUp();
-            Managers.Dialogue.currentDialogue = null;
-
-            int ranPop = UnityEngine.Random.Range(10, 20 + CurrentTurn);
-            var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
-            msg.Message = $"{ranPop} {UserData.Instance.LocaleText("Message_Get_Pop")}";
-            GuildManager.Instance.AddBackAction(() =>
+            Managers.Dialogue.ActionReserve(() => 
             {
-                Main.Instance.CurrentDay.AddPop(ranPop);
-                //Debug.Log($"던전의 인기도가 {ranPop} 올랐습니다.");
+                int ranPop = UnityEngine.Random.Range(10, 20 + CurrentTurn);
+                var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
+                msg.Message = $"{ranPop} {UserData.Instance.LocaleText("Message_Get_Pop")}";
+                GuildManager.Instance.AddBackAction(() =>
+                {
+                    Main.Instance.CurrentDay.AddPop(ranPop);
+                    //Debug.Log($"던전의 인기도가 {ranPop} 올랐습니다.");
                 });
+            });
         });
 
-        GuildNPCAction.Add(1100, () =>
-        {
-            AddQuestAction(1100);
-        });
-
-        GuildNPCAction.Add(1101, () =>
-        {
-            AddQuestAction(1101);
-        });
-
-        GuildNPCAction.Add(1102, () =>
-        {
-            AddQuestAction(1102);
-        });
-
-        GuildNPCAction.Add(1151, () =>
-        {
-            AddQuestAction(1151);
-        });
+        GuildNPCAction.Add(1100, () => { AddQuestAction(1100); });
+        GuildNPCAction.Add(1101, () => { AddQuestAction(1101); });
+        GuildNPCAction.Add(1140, () => { AddQuestAction(1140); });
+        GuildNPCAction.Add(1151, () => { AddQuestAction(1151); });
     }
 
 
     void AddEventAction()
     {
-        //EventAction.Add("Message_Tutorial_AP", () => 
-        //{
-        //    var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
-        //    message.DelayTime = 2;
-        //    message.Message = UserData.Instance.LocaleText("Message_Tutorial_AP");
-        //});
-
-
-
         EventAction.Add("EggAppear", () => {
             var tile = Main.Instance.Floor[3].GetRandomTile();
             Main.Instance.Floor[3].TileMap.TryGetValue(new Vector2Int(12, 2), out tile);
@@ -608,9 +634,6 @@ public class EventManager : MonoBehaviour
 
         EventAction.Add("EggMessage", () =>
         {
-            //Time.timeScale = 1;
-            //Managers.UI.ClosePopUp();
-            //Managers.Dialogue.currentDialogue = null;
             var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
             message.DelayTime = 2;
             message.Message = UserData.Instance.LocaleText("Message_Egg");
@@ -621,11 +644,15 @@ public class EventManager : MonoBehaviour
             StartCoroutine(EntranceMove_2to4());
         });
 
+
+
+        //? Diglogue를 통해 호출
         EventAction.Add("Day8_Event_Die", () => 
         {
             Debug.Log("혈기왕성모험가 패배 이벤트 - 은퇴한 영웅 이벤트 연계");
-            AddDayEvent(DayEventLabel.RetiredHero, 0, 15, 0);
+            AddDayEvent(DayEventLabel.RetiredHero, priority: 0, embargo: 15, delay: 0);
             GuildManager.Instance.AddInstanceGuildNPC(GuildNPC_LabelName.RetiredHero);
+            ReservationToQuest(1, 15010);
 
             var e8 = GameObject.Find("Event_Day8");
             if (e8 != null)
@@ -640,7 +667,7 @@ public class EventManager : MonoBehaviour
         EventAction.Add("Day8_ReturnEvent", () =>
         {
             Debug.Log("혈기왕성모험가 리턴 이벤트 - 고블린스토리 연계");
-            AddDayEvent(DayEventLabel.Goblin_Appear, priority: 0, embargo: 10, delay: 1);
+            //AddDayEvent(DayEventLabel.Goblin_Appear, priority: 0, embargo: 10, delay: 1);
         });
 
         EventAction.Add("Goblin_Satisfiction", () =>
@@ -655,8 +682,17 @@ public class EventManager : MonoBehaviour
 
         EventAction.Add("Goblin_Pass", () =>
         {
-            Debug.Log("고블린 불만족 - 다른 이벤트 추가 필요");
-            AddDayEvent(DayEventLabel.Dark, priority: 0, embargo: 15, delay: 0);
+            Debug.Log("고블린 Die or Empty - 던전의 재앙 이벤트");
+            AddDayEvent(DayEventLabel.Catastrophe, priority: 0, embargo: 15, delay: 0);
+            Add_GuildQuest_Special(3014); //? 길드원한테 소식듣는 퀘스트 추가 - 이후 1140으로 연결
+        });
+
+
+        EventAction.Add("Catastrophe_Refeat", () =>
+        {
+            Debug.Log("던전의 재앙 - 해결할 때 까지 지속 이벤트");
+            RemoveQuestAction(1140);
+            AddQuestAction(1141); //? 해결되기전까지 1141은 지속발생되는 이벤트(퀘스트헌터마냥)
         });
 
 
@@ -666,6 +702,7 @@ public class EventManager : MonoBehaviour
         //    StartCoroutine(WaitEnding(1));
         //});
 
+        //? 엔딩관련
         EventAction.Add("Ending", () =>
         {
             StartCoroutine(NewEnding());
@@ -759,8 +796,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
-
-
+    #endregion
 
 
 
@@ -809,7 +845,7 @@ public class EventManager : MonoBehaviour
             return true;
         }
 
-        if (Main.Instance.DungeonRank == 2 && fame + danger >= 500)
+        if (Main.Instance.DungeonRank == 2 && fame + danger >= 400)
         {
             mainUI.SetNotice(UI_Management.OverlayImages.OverlayImage_Facility, true);
             mainUI.SetNotice(UI_Management.OverlayImages.OverlayImage_Summon, true);
@@ -843,7 +879,7 @@ public enum DayEventLabel
     Goblin_Appear = 93,
     Goblin_Party = 100,
 
-    Dark = 140,
+    Catastrophe = 140,
 
     RetiredHero = 153,
 

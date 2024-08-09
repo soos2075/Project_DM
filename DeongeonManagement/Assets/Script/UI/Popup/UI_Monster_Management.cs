@@ -44,6 +44,7 @@ public class UI_Monster_Management : UI_PopUp
         DetailInfo_State,
         DetailInfo_AP,
         DetailInfo_Floor,
+        DetailInfo_Unit,
 
         Status_HP,
         Status_ATK,
@@ -158,8 +159,9 @@ public class UI_Monster_Management : UI_PopUp
             }
         }
 
-        GetTMP((int)Texts.DetailInfo_Floor).text = $"{floorName}\n" +
-            $"{UserData.Instance.LocaleText("배치된 몬스터")} : {placeMonsters}\n" +
+        GetTMP((int)Texts.DetailInfo_Floor).text = $"{floorName}";
+
+        GetTMP((int)Texts.DetailInfo_Unit).text = $"{UserData.Instance.LocaleText("배치된 몬스터")} : {placeMonsters}\n" +
             $"{UserData.Instance.LocaleText("배치가능 몬스터")} : {ableMonsters}";
 
         GetTMP((int)Texts.DetailInfo_AP).text = "";
@@ -258,6 +260,7 @@ public class UI_Monster_Management : UI_PopUp
         GetImage(((int)Panels.FloorPanel)).gameObject.SetActive(true);
         GetTMP((int)Texts.DetailInfo_AP).text = $"{UserData.Instance.LocaleText("AP")} : {Main.Instance.Player_AP}";
         GetTMP((int)Texts.DetailInfo_Floor).text = "";
+        GetTMP((int)Texts.DetailInfo_Unit).text = "";
     }
 
     #endregion
@@ -441,6 +444,11 @@ public class UI_Monster_Management : UI_PopUp
     {
         if (Current == null || Current.monster == null) return;
 
+        if (Type == UI_Type.Placement)
+        {
+            return;
+        }
+
         GetImage(((int)Panels.ButtonPanel)).gameObject.SetActive(true);
         Init_ButtonEvent();
 
@@ -462,9 +470,10 @@ public class UI_Monster_Management : UI_PopUp
                     AddUIEvent((data) => GameManager.Monster.ReleaseMonster(Current.monster.MonsterID));
 
                 GetTMP((int)Texts.DetailInfo_State).text = $"{UserData.Instance.LocaleText("대기중")}\n";
-                GetObject((int)Etc.Icon_Face_State).GetComponent<Image>().sprite = Managers.Sprite.GetSprite_SLA("Element_Face", "Standby");
+                GetObject((int)Etc.Icon_Face_State).GetComponent<Image>().sprite = Managers.Sprite.GetSprite_SLA("Element_State", "Perfect");
                 GetTMP((int)Texts.DetailInfo_AP).text = $"{UserData.Instance.LocaleText("AP")} : {Main.Instance.Player_AP}";
                 GetTMP((int)Texts.DetailInfo_Floor).text = "";
+                GetTMP((int)Texts.DetailInfo_Unit).text = "";
                 break;
 
 
@@ -484,8 +493,8 @@ public class UI_Monster_Management : UI_PopUp
 
                 GetTMP((int)Texts.DetailInfo_State).text = $"{UserData.Instance.LocaleText("배치중")}";
                 GetTMP((int)Texts.DetailInfo_Floor).text = $"{Current.monster.PlacementInfo.Place_Floor.LabelName}";
-
-                GetObject((int)Etc.Icon_Face_State).GetComponent<Image>().sprite = Managers.Sprite.GetSprite_SLA("Element_Face", "Placement");
+                GetTMP((int)Texts.DetailInfo_Unit).text = "";
+                GetObject((int)Etc.Icon_Face_State).GetComponent<Image>().sprite = Managers.Sprite.GetSprite_SLA("Element_State", "Good");
                 GetTMP((int)Texts.DetailInfo_AP).text = $"{UserData.Instance.LocaleText("AP")} : {Main.Instance.Player_AP}";
                 
                 break;
@@ -518,9 +527,10 @@ public class UI_Monster_Management : UI_PopUp
                 GetButton(((int)Buttons.Recover)).gameObject.
                     AddUIEvent((data) => Current.monster.Recover(RecoverCost));
                 GetButton(((int)Buttons.Recover)).GetComponentInChildren<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText("회복")}({RecoverCost})";
-                GetObject((int)Etc.Icon_Face_State).GetComponent<Image>().sprite = Managers.Sprite.GetSprite_SLA("Element_Face", "Injury");
+                GetObject((int)Etc.Icon_Face_State).GetComponent<Image>().sprite = Managers.Sprite.GetSprite_SLA("Element_State", "Bad");
                 GetTMP((int)Texts.DetailInfo_State).text = $"{UserData.Instance.LocaleText("회복")} {UserData.Instance.LocaleText("Mana")} : {RecoverCost}";
                 GetTMP((int)Texts.DetailInfo_Floor).text = "";
+                GetTMP((int)Texts.DetailInfo_Unit).text = "";
                 break;
         }
     }
@@ -643,11 +653,6 @@ public class UI_Monster_Management : UI_PopUp
     {
         Debug.Log($"{Current.monster.Name_Color}(이)가 {Main.Instance.CurrentTile.floor.LabelName}에 배치되었습니다");
         ResetAction();
-
-        if (Type == UI_Type.Placement)
-        {
-            PlacePanelUpdate();
-        }
     }
     void ResetAction()
     {
@@ -656,6 +661,10 @@ public class UI_Monster_Management : UI_PopUp
         if (Type == UI_Type.Management)
         {
             StartCoroutine(RefreshAll());
+        }
+        else if (Type == UI_Type.Placement)
+        {
+            PlacePanelUpdate();
         }
         //else if (Type == UI_Type.Placement)
         //{

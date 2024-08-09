@@ -186,8 +186,7 @@ public class PlayerController : MonoBehaviour
         if (collision.CompareTag("Guild_Exit"))
         {
             var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
-            ui.SetText(UserData.Instance.LocaleText("Confirm_Return"));
-            StartCoroutine(WaitForAnswer(ui));
+            ui.SetText(UserData.Instance.LocaleText("Confirm_Return"), () => Exit_Action());
             return;
         }
 
@@ -217,42 +216,24 @@ public class PlayerController : MonoBehaviour
 
 
 
-
-    IEnumerator WaitForAnswer(UI_Confirm confirm)
+    void Exit_Action()
     {
-        yield return new WaitUntil(() => confirm.GetAnswer() != UI_Confirm.State.Wait);
+        //Debug.Log("각종 데이터 처리");
+        Managers.Scene.AddLoadAction_OneTime(() => Main.Instance.Default_Init());
+        Managers.Scene.AddLoadAction_OneTime(() => Managers.Data.LoadGame_ToGuild("Temp_GuildSave"));
 
-        if (confirm.GetAnswer() == UI_Confirm.State.Yes)
+        if (GuildManager.Instance.DungeonBackAction != null)
         {
-            //Debug.Log("각종 데이터 처리");
-            Managers.Scene.AddLoadAction_OneTime(() => Main.Instance.Default_Init());
-            Managers.Scene.AddLoadAction_OneTime(() => Managers.Data.LoadGame_ToGuild("Temp_GuildSave"));
-
-            //Managers.Scene.AddLoadAction_OneTime(() => Main.Instance.Player_AP -= 1);
-
-
-            if (GuildManager.Instance.DungeonBackAction != null)
-            {
-                Managers.Scene.AddLoadAction_OneTime(GuildManager.Instance.DungeonBackAction);
-
-                //? 이건 위에 넣은게 참조타입이라 null이라 실행을 안할 것 같은데? 여태 버그가 안난거부터가 신기하네
-                //GuildManager.Instance.DungeonBackAction = null;
-
-                Managers.Scene.AddLoadAction_OneTime(() => { GuildManager.Instance.DungeonBackAction = null; });
-            }
-            
-            Managers.Scene.AddLoadAction_OneTime(() => FindObjectOfType<UI_Management>().Texts_Refresh());
-            //Managers.Scene.AddLoadAction_OneTime(() => Debug.Log("유명도 오르는거 실행하는 순서인데 잘 하고 있냐?"));
-
-            //? 시간 원래대로 되돌리기
-            Managers.Scene.AddLoadAction_OneTime(() => UserData.Instance.GamePlay(UserData.Instance.GameSpeed_GuildReturn));
-
-            Managers.Scene.LoadSceneAsync(SceneName._2_Management);
-
-            //Time.timeScale = 1;
-            //UserData.Instance.GamePlay_Normal();
-
-
+            Managers.Scene.AddLoadAction_OneTime(GuildManager.Instance.DungeonBackAction);
+            Managers.Scene.AddLoadAction_OneTime(() => { GuildManager.Instance.DungeonBackAction = null; });
         }
+
+        Managers.Scene.AddLoadAction_OneTime(() => FindObjectOfType<UI_Management>().Texts_Refresh());
+        //Managers.Scene.AddLoadAction_OneTime(() => Debug.Log("유명도 오르는거 실행하는 순서인데 잘 하고 있냐?"));
+
+        //? 시간 원래대로 되돌리기
+        Managers.Scene.AddLoadAction_OneTime(() => UserData.Instance.GamePlay(UserData.Instance.GameSpeed_GuildReturn));
+        Managers.Scene.LoadSceneAsync(SceneName._2_Management);
     }
+
 }

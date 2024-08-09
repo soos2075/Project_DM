@@ -205,6 +205,44 @@ public class DialogueManager
     }
 
 
+    Action ReserveAction;
+    Coroutine WaitCor;
+
+    public void ActionReserve(Action action) //? 대화 끝나고 바로 시작할 액션을 예약해놓는곳
+    {
+        if (ReserveAction == null)
+        {
+            ReserveAction = action;
+        }
+        else
+        {
+            ReserveAction += action;
+        }
+
+
+        if (WaitCor == null)
+        {
+            WaitCor = Managers.Instance.StartCoroutine(WaitDialogueAndAction());
+        }
+    }
+
+    IEnumerator WaitDialogueAndAction()
+    {
+        yield return null;
+
+        if (GetState() == DialogueState.Talking)
+        {
+            yield return new WaitUntil(() => currentDialogue == null);
+            yield return null;
+        }
+
+        ReserveAction.Invoke();
+        ReserveAction = null;
+        WaitCor = null;
+    }
+
+
+
     public void OneTimeOption(List<int> optionList, int id)
     {
         for (int i = 0; i < optionList.Count; i++)
@@ -311,6 +349,13 @@ public enum DialogueName
     Goblin_Party = 100,
 
 
+    Catastrophe_Appear = 140,
+    Catastrophe_Return = 141,
+    Catastrophe_Return_First = 142,
+
+
+
+
     Day15_Event = 153,
     Day15_Event_Die = 154,
 
@@ -371,6 +416,7 @@ public enum DialogueName
     // Staff B ID : 3000
     Staff_B_0 = 3000,
     Staff_B_10 = 3010,
+    Staff_B_14 = 3014,
 
 
     // Heroine ID : 4000

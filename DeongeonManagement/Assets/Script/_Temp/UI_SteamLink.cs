@@ -21,6 +21,10 @@ public class UI_SteamLink : UI_PopUp
     {
         SteamLink,
         Record,
+
+        KR,
+        EN,
+        JP,
     }
 
 
@@ -28,9 +32,31 @@ public class UI_SteamLink : UI_PopUp
     {
         Bind<Button>(typeof(Buttons));
 
-        GetButton((int)Buttons.SteamLink).gameObject.AddUIEvent(data => OpenWebPageButton());
-        GetButton((int)Buttons.Record).gameObject.AddUIEvent(data => ShowPlayRecord());
+        //GetButton((int)Buttons.SteamLink).gameObject.AddUIEvent(data => OpenWebPageButton());
+        //GetButton((int)Buttons.Record).gameObject.AddUIEvent(data => ShowPlayRecord());
+
+        GetButton((int)Buttons.KR).gameObject.AddUIEvent(data => Lan_KR());
+        GetButton((int)Buttons.EN).gameObject.AddUIEvent(data => Lan_EN());
+        GetButton((int)Buttons.JP).gameObject.AddUIEvent(data => Lan_JP());
     }
+
+
+
+    void Lan_KR()
+    {
+        UserData.Instance.ChangeLanguage(Define.Language.KR);
+    }
+    void Lan_EN()
+    {
+        UserData.Instance.ChangeLanguage(Define.Language.EN);
+    }
+    void Lan_JP()
+    {
+        UserData.Instance.ChangeLanguage(Define.Language.JP);
+    }
+
+
+
 
 
     public string webpageURL = "https://store.steampowered.com/app/2886090/Novice_Dungeon_Master/";

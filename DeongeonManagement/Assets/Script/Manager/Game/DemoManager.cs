@@ -69,6 +69,10 @@ public class DemoManager : MonoBehaviour
 
 
         StartCoroutine(EndingTestCor());
+
+
+        //var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
+        //ui.SetText($"dd", () => Debug.Log(this + "YES"), () => Debug.Log(this + "NO"));
     }
 
 
