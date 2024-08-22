@@ -562,8 +562,8 @@ public class EventNPC : NPC
         {
             case EventNPCType.Event_Day8:
                 Managers.Dialogue.ShowDialogueUI($"Day{8}_ReturnEvent", transform);
-                Main.Instance.CurrentDay.AddPop(25);
-                Main.Instance.ShowDM(25, Main.TextType.pop, transform, 1);
+                Main.Instance.CurrentDay.AddPop(100);
+                Main.Instance.ShowDM(100, Main.TextType.pop, transform, 1);
                 break;
 
             case EventNPCType.Event_RetiredHero:
@@ -602,8 +602,8 @@ public class EventNPC : NPC
 
             case EventNPCType.Event_Day8:
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Day8_Event_Die, transform);
-                Main.Instance.CurrentDay.AddDanger(50);
-                Main.Instance.ShowDM(50, Main.TextType.danger, transform, 1);
+                Main.Instance.CurrentDay.AddDanger(100);
+                Main.Instance.ShowDM(100, Main.TextType.danger, transform, 1);
                 break;
 
             case EventNPCType.Event_RetiredHero:

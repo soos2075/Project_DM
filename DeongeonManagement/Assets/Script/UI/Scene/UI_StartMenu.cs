@@ -170,6 +170,8 @@ public class UI_StartMenu : UI_Scene
         CollectionManager.Instance.DataResetAndNewGame();
         // 세이브 데이터 삭제
         Managers.Data.DeleteSaveFileAll();
+
+
     }
 
 }

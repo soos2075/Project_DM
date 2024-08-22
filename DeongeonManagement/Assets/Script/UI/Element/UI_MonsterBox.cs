@@ -72,7 +72,7 @@ public class UI_MonsterBox : UI_Base
         switch (monster.State)
         {
             case Monster.MonsterState.Standby:
-                GetObject(((int)Contents.State)).GetComponent<TextMeshProUGUI>().text = UserData.Instance.LocaleText("대기중").SetTextColorTag(Define.TextColor.green);
+                GetObject(((int)Contents.State)).GetComponent<TextMeshProUGUI>().text = UserData.Instance.LocaleText("대기중").SetTextColorTag(Define.TextColor.Plus_Green);
                 GetObject((int)Contents.Face).GetComponent<Image>().sprite = face_Standby;
                 break;
 

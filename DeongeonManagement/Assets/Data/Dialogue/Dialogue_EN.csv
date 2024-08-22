@@ -143,6 +143,11 @@ KR,\' = '\n',"-' = ','",,,,,,
 ,154,Day15_Event_Die,Bubble,,,0, @Camera::Event_RetiredHero::Camera,This is definitely dangerous.
 ,,,,,,1,,Even for a retired pro like me to struggle this much…
 ,,,,,,2,,This needs to be reported to the guild.
+,,,,,,3," @Camera::Player::Camera @Target::Player::Target @Action::Hero_Die::Action@",…………………
+,,,,,,4,,This is irreversible now.
+,,,,,,5,,Well... can't be helped.
+,,,,,,6,,I'll have to be more careful with monsters and traps from now on.
+,,,,,,7,,And I should visit the guild more often to gather information.
 ,,,,,,,,
 ,,,,,,,,
 ,200,Day20_Event,Bubble,,,0, @Camera::A_Warrior::Camera,We've arrived. This is the quest location.
@@ -347,10 +352,10 @@ KR,\' = '\n',"-' = ','",,,,,,
 ,1141,Quest_141,Quest,The catastrophe continues,,0,,Disasters keep coming. \Find a way to resolve them.
 ,,,,,,,,
 ,,,,,,,,
-,1150,Quest_150,Quest,Goblin Revisited,,0, @Day::15::Day@,The goblins will definitely come back. \Prepare well as the dungeon might become dangerous!
+,1150,Quest_150,Quest,Goblin Revisited,,0, @Day::12::Day@,The goblins will definitely come back. \Prepare well as the dungeon might become dangerous!
 ,,,,,,,,
 ,,,,,,,,
-,1151,Quest_151,Quest,Retired Heroes,,0, @Day::15::Day@,A retired hero is planning to visit the dungeon. \Prepare thoroughly to ensure the dungeon is not defeated!
+,1151,Quest_151,Quest,Retired Heroes,,0, @Day::10::Day@,A retired hero is planning to visit the dungeon. \Prepare thoroughly to ensure the dungeon is not defeated!
 ,,,,,,,,
 ,,,,,,,,
 ,2000,Staff_A_0,Bubble,,,0,,Hello. What brings you to the guild?
@@ -476,7 +481,7 @@ KR,\' = '\n',"-' = ','",,,,,,
 ,,,,,,25,,So- I decided to check it out myself and let you know.
 ,,,,,,26, @Target::Player::Target,I see…
 ,,,,,,27,,When are you planning to go to the dungeon?
-,,,,,,28, @Target::RetiredHero::Target,Hmm? I’m planning to go on the 15th.
+,,,,,,28, @Target::RetiredHero::Target,Hmm? I’m planning to go on the 10th.
 ,,,,,,29,,Why do you ask?
 ,,,,,,30, @Target::Player::Target,Ah- I was hoping to see a bit of the hero’s prowess…
 ,,,,,,31, @Target::RetiredHero::Target,Haha- You sure know how to talk.
@@ -485,4 +490,4 @@ KR,\' = '\n',"-' = ','",,,,,,
 ,,,,,,34, @Target::RetiredHero::Target,Alright- Take care.
 ,,,,,,35, @Target::Player::Target,(This is serious. \Even though they’re retired- they were once a hero.)
 ,,,,,,36,,(If I don’t prepare properly- the dungeon might be conquered.)
-,,,,,,37,,(They said the 15th. I should prepare as much as possible.)
+,,,,,,37,,(They said the 10th. I should prepare as much as possible.)

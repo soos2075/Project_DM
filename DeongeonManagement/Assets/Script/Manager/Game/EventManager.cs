@@ -650,9 +650,12 @@ public class EventManager : MonoBehaviour
         EventAction.Add("Day8_Event_Die", () => 
         {
             Debug.Log("혈기왕성모험가 패배 이벤트 - 은퇴한 영웅 이벤트 연계");
-            AddDayEvent(DayEventLabel.RetiredHero, priority: 0, embargo: 15, delay: 0);
+            AddDayEvent(DayEventLabel.RetiredHero, priority: 0, embargo: 10, delay: 0);
             GuildManager.Instance.AddInstanceGuildNPC(GuildNPC_LabelName.RetiredHero);
-            ReservationToQuest(1, 15010);
+
+            //? 모험가 패배하면 딜레이없이 바로 이벤트 추가하기(일단 BIC 오프 임시로 하는거긴함)
+            //ReservationToQuest(1, 15010); 
+            Add_GuildQuest_Special(15010);
 
             var e8 = GameObject.Find("Event_Day8");
             if (e8 != null)
@@ -664,6 +667,21 @@ public class EventManager : MonoBehaviour
             }
         });
 
+        EventAction.Add("Hero_Die", () =>
+        {
+            Debug.Log("영웅 패배 이벤트");
+            var e8 = GameObject.Find("Event_RetiredHero");
+            if (e8 != null)
+            {
+                GameManager.Placement.Disable(e8.GetComponent<EventNPC>());
+
+                var fade = Managers.UI.ShowPopUp<UI_Fade>();
+                fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 2, true);
+            }
+        });
+
+
+
         EventAction.Add("Day8_ReturnEvent", () =>
         {
             Debug.Log("혈기왕성모험가 리턴 이벤트 - 고블린스토리 연계");
@@ -673,7 +691,7 @@ public class EventManager : MonoBehaviour
         EventAction.Add("Goblin_Satisfiction", () =>
         {
             Debug.Log("고블린 만족 - 고블린 파티 이벤트 연계");
-            AddDayEvent(DayEventLabel.Goblin_Party, priority: 0, embargo: 15, delay: 0);
+            AddDayEvent(DayEventLabel.Goblin_Party, priority: 0, embargo: 12, delay: 0);
             AddQuestAction(1150); //? 고블린파티 바로 퀘스트에 추가
 
             var fade = Managers.UI.ShowPopUp<UI_Fade>();
@@ -694,6 +712,9 @@ public class EventManager : MonoBehaviour
             RemoveQuestAction(1140);
             AddQuestAction(1141); //? 해결되기전까지 1141은 지속발생되는 이벤트(퀘스트헌터마냥)
         });
+
+
+
 
 
 
@@ -838,7 +859,7 @@ public class EventManager : MonoBehaviour
     {
         UI_Management mainUI = FindAnyObjectByType<UI_Management>();
 
-        if (Main.Instance.DungeonRank == 1 && fame + danger >= 150)
+        if (Main.Instance.DungeonRank == 1 && fame + danger >= 100)
         {
             mainUI.SetNotice(UI_Management.OverlayImages.OverlayImage_Facility, true);
             mainUI.SetNotice(UI_Management.OverlayImages.OverlayImage_Summon, true);

@@ -15,10 +15,19 @@ public class UI_Expansion_Floor : UI_Base, IWorldSpaceUI
         Managers.UI.SetCanvas(gameObject, RenderMode.WorldSpace, false);
     }
 
-    enum Contents
+    //enum Contents
+    //{
+    //    Title,
+    //    Content,
+    //}
+
+    enum TMP_Texts
     {
         Title,
-        Content,
+
+        NeedRank,
+        NeedMana,
+        NeedGold,
     }
 
 
@@ -26,11 +35,20 @@ public class UI_Expansion_Floor : UI_Base, IWorldSpaceUI
     {
         SetCanvasWorldSpace();
 
-        Bind<TextMeshProUGUI>(typeof(Contents));
+        //Bind<TextMeshProUGUI>(typeof(Contents));
+        Bind<TextMeshProUGUI>(typeof(TMP_Texts));
 
-        GetTMP(((int)Contents.Content)).text = $"{UserData.Instance.LocaleText("필요")} {UserData.Instance.LocaleText("Mana")} : {NeedMana}\n" +
-            $"{UserData.Instance.LocaleText("필요")} {UserData.Instance.LocaleText("Gold")} : {NeedGold}\n" +
-            $"{UserData.Instance.LocaleText("필요")} {UserData.Instance.LocaleText("Rank")} : {NeedLv}";
+        //GetTMP(((int)Contents.Content)).text = $"{UserData.Instance.LocaleText("필요")} {UserData.Instance.LocaleText("Mana")} : {NeedMana}\n" +
+        //    $"{UserData.Instance.LocaleText("필요")} {UserData.Instance.LocaleText("Gold")} : {NeedGold}\n" +
+        //    $"{UserData.Instance.LocaleText("필요")} {UserData.Instance.LocaleText("Rank")} : {NeedLv}";
+
+
+
+        GetTMP(((int)TMP_Texts.Title)).text = $"{UserData.Instance.LocaleText("던전 확장")}";
+        GetTMP(((int)TMP_Texts.NeedRank)).text = $"{(Define.DungeonRank)NeedLv}";
+        GetTMP(((int)TMP_Texts.NeedMana)).text = $"{NeedMana}";
+        GetTMP(((int)TMP_Texts.NeedGold)).text = $"{NeedGold}";
+
 
         gameObject.AddUIEvent((data) => ExpansionCheck());
     }
