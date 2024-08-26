@@ -9,24 +9,32 @@ public class SpriteManager
     //Sprite[] ui_large_buttons_vertical;
     //Sprite[] ui_panels;
 
-    Sprite[] ui_small_buttons;
+
     Sprite clear;
     Sprite[] ui_Cursor;
     SpriteLibraryAsset[] SLA_Array;
     Sprite[] ui_Area;
+    Sprite[] Technical;
+
 
     Dictionary<string, Sprite> areaDict = new Dictionary<string, Sprite>();
 
     Dictionary<string, Sprite> spriteDict = new Dictionary<string, Sprite>();
 
-    public enum UI_Small_Buttons
-    {
-        X_Normal = 128,
-        X_Pressed = 129,
 
-        Plus_Normal = 148,
-        Plus_Pressed = 149,
-    }
+    //Sprite[] ui_small_buttons;
+    //public enum UI_Small_Buttons
+    //{
+    //    X_Normal = 128,
+    //    X_Pressed = 129,
+
+    //    Plus_Normal = 148,
+    //    Plus_Pressed = 149,
+    //}
+    //public Sprite SmallButtons(UI_Small_Buttons name)
+    //{
+    //    return ui_small_buttons[(int)name];
+    //}
 
     public enum Cursors
     {
@@ -38,19 +46,19 @@ public class SpriteManager
 
     public void Init()
     {
-        ui_small_buttons = Resources.LoadAll<Sprite>("Sprite/UI/ui-small-buttons");
         clear = Resources.Load<Sprite>("Sprite/UI/Clear");
 
         ui_Cursor = Resources.LoadAll<Sprite>("Sprite/UI/Cursors");
 
         SLA_Array = Resources.LoadAll<SpriteLibraryAsset>("SpriteLabraryAsset");
 
-
         ui_Area = Resources.LoadAll<Sprite>("Sprite/_UI/Area");
         for (int i = 0; i < ui_Area.Length; i++)
         {
             areaDict.Add(ui_Area[i].name, ui_Area[i]);
         }
+
+        Technical = Resources.LoadAll<Sprite>("Sprite/_Object/Technical");
     }
 
 
@@ -59,10 +67,7 @@ public class SpriteManager
         return ui_Cursor[(int)cursors];
     }
 
-    public Sprite SmallButtons (UI_Small_Buttons name)
-    {
-        return ui_small_buttons[(int)name];
-    }
+
 
     public Sprite GetSprite (string path)
     {
@@ -144,9 +149,33 @@ public class SpriteManager
         return sprite;
     }
 
+    public Sprite Get_Technical(string techName)
+    {
+        Sprite sprite = null;
+        if (spriteDict.TryGetValue(techName, out sprite))
+        {
+            return sprite;
+        }
+
+        foreach (var item in Technical)
+        {
+            if (item.name == techName)
+            {
+                spriteDict.Add(techName, item);
+                return item;
+            }
+        }
+
+        return null;
+    }
+
+
     public Sprite GetClear()
     {
         return clear;
     }
+
+
+
 
 }

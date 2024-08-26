@@ -321,6 +321,17 @@ public class DialogueData
             mainText = _mainText;
         }
     }
+
+    public DialogueData()
+    {
+
+    }
+    public DialogueData(int _id, DialogueType _type, string _diaName)
+    {
+        id = _id;
+        Type = _type;
+        dialogueName = _diaName;
+    }
 }
 
 public enum DialogueName
@@ -332,6 +343,7 @@ public enum DialogueName
     Tutorial_Technical = 3,
     Tutorial_Egg = 4,
     Tutorial_Guild = 5,
+    Tutorial_Orb = 6,
 
 
     Day3_Event = 33,

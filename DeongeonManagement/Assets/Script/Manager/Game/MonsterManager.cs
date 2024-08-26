@@ -47,8 +47,19 @@ public class MonsterManager
 
             item.labelName = datas[0];
             item.detail = datas[1];
-            item.evolutionHint = datas[2];
-            item.evolutionDetail = datas[3];
+
+
+            if (datas[2].Contains("@Op1::"))
+            {
+                string op1 = datas[2].Substring(datas[2].IndexOf("@Op1::") + 6, datas[2].IndexOf("::Op1") - (datas[2].IndexOf("@Op1::") + 6));
+                item.evolutionHint = op1;
+            }
+
+            if (datas[2].Contains("@Op2::"))
+            {
+                string op2 = datas[2].Substring(datas[2].IndexOf("@Op2::") + 6, datas[2].IndexOf("::Op2") - (datas[2].IndexOf("@Op2::") + 6));
+                item.evolutionDetail = op2;
+            }
         }
     }
 
@@ -99,14 +110,9 @@ public class MonsterManager
 
 
     public List<MonsterStatusTemporary> LevelUpList { get; set; } = new List<MonsterStatusTemporary>();
-    public int InjuryMonster { get; set; }
+    //public int InjuryMonster { get; set; }
     public void AddLevelUpEvent(Monster _monster)
     {
-        //if (LevelUpList == null)
-        //{
-        //    LevelUpList = new List<MonsterStatusTemporary>();
-        //}
-        //else 
         if (LevelUpList.Count > 0)
         {
             foreach (var item in LevelUpList)
@@ -326,8 +332,6 @@ public class MonsterManager
                 Monsters[i].MonsterID = i;
             }
         }
-
-        InjuryMonster = 0;
     }
 
     #endregion

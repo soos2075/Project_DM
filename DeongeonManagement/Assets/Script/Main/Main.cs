@@ -207,7 +207,7 @@ public class Main : MonoBehaviour
         ActiveFloor_Technical = 0;
         DungeonRank = 1;
 
-        Player_Mana = 300;
+        Player_Mana = 100;
         Player_Gold = 200;
         AP_MAX = 2;
         Player_AP = 0;
@@ -486,6 +486,7 @@ public class Main : MonoBehaviour
             //Battle,
             Etc,
             ResultBonus,
+            Technical,
         }
 
         //? ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ마나
@@ -511,11 +512,15 @@ public class Main : MonoBehaviour
                     break;
 
                 case EventType.Etc:
-                    Mana_Get_Facility += value;
+                    Mana_Get_Etc += value;
                     break;
 
                 case EventType.ResultBonus:
                     Mana_Get_Bonus += value;
+                    break;
+
+                default:
+                    Mana_Get_Etc += value;
                     break;
             }
             Instance.Player_Mana += value;
@@ -523,6 +528,7 @@ public class Main : MonoBehaviour
         public int Mana_Use_Facility;
         public int Mana_Use_Monster;
         public int Mana_Use_Etc;
+        public int Mana_Use_Technical;
         public void SubtractMana(int value, EventType eventType)
         {
             switch (eventType)
@@ -536,6 +542,14 @@ public class Main : MonoBehaviour
                     break;
 
                 case EventType.Etc:
+                    Mana_Use_Etc += value;
+                    break;
+
+                case EventType.Technical:
+                    Mana_Use_Technical += value;
+                    break;
+
+                default:
                     Mana_Use_Etc += value;
                     break;
             }
@@ -568,6 +582,10 @@ public class Main : MonoBehaviour
                 case EventType.ResultBonus:
                     Gold_Get_Bonus += value;
                     break;
+
+                default:
+                    Gold_Get_Etc += value;
+                    break;
             }
             Instance.Player_Gold += value;
         }
@@ -575,6 +593,7 @@ public class Main : MonoBehaviour
         public int Gold_Use_Facility;
         public int Gold_Use_Monster;
         public int Gold_Use_Etc;
+        public int Gold_Use_Technical;
         public void SubtractGold(int value, EventType eventType)
         {
             switch (eventType)
@@ -588,6 +607,14 @@ public class Main : MonoBehaviour
                     break;
 
                 case EventType.Etc:
+                    Gold_Use_Etc += value;
+                    break;
+
+                case EventType.Technical:
+                    Gold_Use_Technical += value;
+                    break;
+
+                default:
                     Gold_Use_Etc += value;
                     break;
             }
@@ -659,6 +686,7 @@ public class Main : MonoBehaviour
             Mana_Use_Facility = result.Mana_Use_Facility;
             Mana_Use_Monster = result.Mana_Use_Monster;
             Mana_Use_Etc = result.Mana_Use_Etc;
+            Mana_Use_Technical = result.Mana_Use_Technical;
 
 
 
@@ -670,6 +698,7 @@ public class Main : MonoBehaviour
             Gold_Use_Facility = result.Gold_Use_Facility;
             Gold_Use_Monster = result.Gold_Use_Monster;
             Gold_Use_Etc = result.Gold_Use_Etc;
+            Gold_Use_Technical = result.Gold_Use_Technical;
 
 
 
@@ -706,9 +735,6 @@ public class Main : MonoBehaviour
 
     void DayOver_Dayresult()
     {
-        CurrentDay.Monster_LvUp = GameManager.Monster.LevelUpList.Count;
-
-
         DayList.Add(CurrentDay);
         //AddScore(CurrentDay);
 
@@ -722,13 +748,25 @@ public class Main : MonoBehaviour
 
         Player_AP = AP_MAX;
 
-
-        var ui = Managers.UI.ShowPopUp<UI_DayResult>();
-        ui.TextContents(DayList[Turn - 1]);
-
-
         //? 위가 적용 아래가 새로교체
         Init_DayResult();
+
+        StartCoroutine(Show_DayResult());
+    }
+
+    IEnumerator Show_DayResult()
+    {
+        yield return new WaitForEndOfFrame();
+        yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
+
+        Managers.UI.Popup_Reservation(() =>
+        {
+            var ui = Managers.UI.ShowPopUp<UI_DayResult>();
+            ui.TextContents(DayList[Turn - 1], CurrentDay);
+        });
+
+
+        StartCoroutine(AutoSave());
     }
 
 
@@ -882,8 +920,11 @@ public class Main : MonoBehaviour
                 Turn++;
                 Init_Player(); //? 플레이어 없으면 재소환
                 Start_Entrance();
-                TurnStartEvent();
                 DayEvent();
+
+                //? 대사 이벤트 등 턴 이벤트
+                Main_TurnStartEvent();
+
                 BattleManager.Instance.TurnStart();
                 EventManager.Instance.TurnStart();
                 GameManager.NPC.TurnStart();
@@ -893,15 +934,18 @@ public class Main : MonoBehaviour
             else
             {
                 Init_Player(); //? 플레이어 없으면 재소환
-                DayOver_Dayresult();
-                TurnOverEvent();
                 NightEvent();
                 DayMonsterEvent();
                 GameManager.Monster.MonsterTurnOverEvent();
                 GameManager.Facility.TurnOverEvent();
                 EventManager.Instance.TurnOver();
-                UI_Main.Texts_Refresh();
-                UI_Main.GuildButtonNotice();
+                UI_Main.TurnOverEvent();
+
+
+                //? 대사 이벤트 등 턴 이벤트
+                Main_TurnOverEvent();
+                //? 결과창과 저장
+                DayOver_Dayresult(); 
             }
         }
     }
@@ -933,7 +977,7 @@ public class Main : MonoBehaviour
 
 
 
-    public void TurnStartEvent()
+    void Main_TurnStartEvent()
     {
         UI_EventBox.AddEventText($"※{Turn}{UserData.Instance.LocaleText("Event_DayStart")}※");
 
@@ -942,6 +986,8 @@ public class Main : MonoBehaviour
         {
 
             case 1:
+                //? 원래 1일차 종료부터 가능했던 정보확인을 1일차 시작때부터 할 수 있도록 변경
+                UI_Main.Active_Floor();
                 break;
 
             case 3:
@@ -1204,7 +1250,7 @@ public class Main : MonoBehaviour
         //var ending = Managers.UI.ShowPopUp<UI_Ending>();
     }
 
-    public void TurnOverEvent()
+    void Main_TurnOverEvent()
     {
         UI_EventBox.AddEventText($"※{Turn}{UserData.Instance.LocaleText("Event_DayOver")}※");
         ChangeEggState();
@@ -1216,7 +1262,7 @@ public class Main : MonoBehaviour
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Facility, Player);
                 UI_Main.Active_Button(UI_Management.ButtonEvent._1_Facility);
                 UI_Main.SetNotice(UI_Management.OverlayImages.OverlayImage_Facility, true);
-                UI_Main.Active_Floor();
+                //UI_Main.Active_Floor();
 
                 StartCoroutine(Wait_AP_Tutorial());
                 break;
@@ -1248,12 +1294,14 @@ public class Main : MonoBehaviour
                 break;
 
             case 6:
-                //TestEnding();
+                Debug.Log("6일차 종료 이벤트 - 수정");
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Orb, Player);
                 break;
 
             case 10: //? BIC 데모는 10일차 끝나고 종료
-                DEMO_15DAY();
-                return;
+                //DEMO_15DAY();
+                //return;
+                break;
 
             case 15: //? 데모 종료구간
                 //DEMO_15DAY();
@@ -1305,10 +1353,6 @@ public class Main : MonoBehaviour
             default:
                 break;
         }
-
-
-        StartCoroutine(AutoSave());
-        UI_Main.EventBoxClose();
     }
 
 
@@ -1336,6 +1380,7 @@ public class Main : MonoBehaviour
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
 
+        yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => Managers.UI._popupStack.Count == 0);
 
         var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
@@ -1363,9 +1408,9 @@ public class Main : MonoBehaviour
 
     IEnumerator WaitForResultUI()
     {
-        yield return new WaitForEndOfFrame();
+        CurrentDay.Monster_LvUp = GameManager.Monster.LevelUpList.Count;
 
-        GameManager.Monster.InjuryMonster = 0;
+        yield return new WaitForEndOfFrame();
 
         if (GameManager.Monster.LevelUpList.Count != 0)
         {
@@ -1722,6 +1767,7 @@ public class Save_DayResult
     public int Mana_Use_Facility;
     public int Mana_Use_Monster;
     public int Mana_Use_Etc;
+    public int Mana_Use_Technical;
 
 
     public int Gold_Get_Facility;
@@ -1732,6 +1778,7 @@ public class Save_DayResult
     public int Gold_Use_Facility;
     public int Gold_Use_Monster;
     public int Gold_Use_Etc;
+    public int Gold_Use_Technical;
 
 
     public int NPC_Visit;
@@ -1774,7 +1821,7 @@ public class Save_DayResult
         Mana_Use_Facility = result.Mana_Use_Facility;
         Mana_Use_Monster = result.Mana_Use_Monster;
         Mana_Use_Etc = result.Mana_Use_Monster;
-
+        Mana_Use_Technical = result.Mana_Use_Technical;
 
 
         Gold_Get_Facility = result.Gold_Get_Facility;
@@ -1785,7 +1832,7 @@ public class Save_DayResult
         Gold_Use_Facility = result.Gold_Use_Facility;
         Gold_Use_Monster = result.Gold_Use_Monster;
         Gold_Use_Etc = result.Gold_Use_Etc;
-
+        Gold_Use_Technical = result.Gold_Use_Technical;
 
 
         NPC_Visit = result.NPC_Visit;

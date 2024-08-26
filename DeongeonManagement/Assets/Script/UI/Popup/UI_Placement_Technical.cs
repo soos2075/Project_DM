@@ -45,7 +45,7 @@ public class UI_Placement_Technical : UI_PopUp
 
 
 
-    public UI_Technical parents { get; set; }
+    //public UI_Technical parents { get; set; }
     public SO_Technical Current { get; set; }
 
     List<UI_Technical_Content> childList;
@@ -159,7 +159,7 @@ public class UI_Placement_Technical : UI_PopUp
 
     void PreviewRefresh(SO_Technical content)
     {
-        GetObject((int)Preview.Preview_Image).GetComponent<Image>().sprite = Managers.Sprite.GetSprite(content.spritePath);
+        GetObject((int)Preview.Preview_Image).GetComponent<Image>().sprite = Managers.Sprite.Get_Technical(content.spritePath);
         GetObject((int)Preview.Preview_Text_Title).GetComponent<TextMeshProUGUI>().text = content.labelName;
         GetObject((int)Preview.Preview_Text_Contents).GetComponent<TextMeshProUGUI>().text = content.detail;
 

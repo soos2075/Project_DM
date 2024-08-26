@@ -577,6 +577,26 @@ MonoBehaviour:
       time, Yes)'
     m_Metadata:
       m_Items: []
+  - m_Id: 60292466085146624
+    m_Localized: Summon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61765106578698240
+    m_Localized: Upgrade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61765348208357376
+    m_Localized: Replace
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61765742565208064
+    m_Localized: Remove
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61803145677975552
+    m_Localized: Want to upgrade?
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

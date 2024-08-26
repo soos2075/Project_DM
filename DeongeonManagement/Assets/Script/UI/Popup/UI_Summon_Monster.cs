@@ -91,7 +91,7 @@ public class UI_Summon_Monster : UI_PopUp
     }
     void Init_Buttons()
     {
-        GetButton((int)Buttons.Return).gameObject.AddUIEvent(data => CloseAll());
+        GetButton((int)Buttons.Return).gameObject.AddUIEvent(data => ClosePopUp());
     }
 
     void Init_Contents()

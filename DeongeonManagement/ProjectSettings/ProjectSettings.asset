@@ -710,7 +710,7 @@ PlayerSettings:
   webGLDecompressionFallback: 0
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Standalone: DEMO_BUILD
+    Standalone: DEMO_BUILD;CHEAT_BUILD
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

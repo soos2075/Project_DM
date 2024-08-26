@@ -562,6 +562,26 @@ MonoBehaviour:
       '\uB124')"
     m_Metadata:
       m_Items: []
+  - m_Id: 60292466085146624
+    m_Localized: "\uC18C\uD658"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61765106578698240
+    m_Localized: "\uC5C5\uADF8\uB808\uC774\uB4DC"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61765348208357376
+    m_Localized: "\uAD50\uCCB4"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61765742565208064
+    m_Localized: "\uC81C\uAC70"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61803145677975552
+    m_Localized: "\uC5C5\uADF8\uB808\uC774\uB4DC \uD560\uAE4C\uC694?"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

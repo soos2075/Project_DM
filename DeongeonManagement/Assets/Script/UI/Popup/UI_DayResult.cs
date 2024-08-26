@@ -272,13 +272,13 @@ public class UI_DayResult : UI_PopUp
 
 
         //? 天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天天湍瞪
-        GetTMP((int)ResultText.Dungeon_Pop).text = $"{Result.Origin_Pop} ⊥ {Main.Instance.PopularityOfDungeon}";
-        GetTMP((int)ResultText.Dungeon_Danger).text = $"{Result.Origin_Danger} ⊥ {Main.Instance.DangerOfDungeon}";
+        GetTMP((int)ResultText.Dungeon_Pop).text = $"{Result.Origin_Pop} ⊥ {Current.Origin_Pop}";
+        GetTMP((int)ResultText.Dungeon_Danger).text = $"{Result.Origin_Danger} ⊥ {Current.Origin_Danger}";
         GetTMP((int)ResultText.Dungeon_Rank).text = $"{(Define.DungeonRank)Result.Origin_Rank}";
 
-        if (Result.Origin_Rank < Main.Instance.DungeonRank)
+        if (Result.Origin_Rank < Current.Origin_Rank)
         {
-            GetTMP((int)ResultText.Dungeon_Rank).text = $"{(Define.DungeonRank)Result.Origin_Rank} ⊥ {(Define.DungeonRank)Main.Instance.DungeonRank}";
+            GetTMP((int)ResultText.Dungeon_Rank).text = $"{(Define.DungeonRank)Result.Origin_Rank} ⊥ {(Define.DungeonRank)Current.Origin_Rank}";
             GetObject((int)Etcs.Stamp).SetActive(true);
         }
     }
@@ -324,9 +324,12 @@ public class UI_DayResult : UI_PopUp
 
 
     Main.DayResult Result;
-    public void TextContents(Main.DayResult data)
+
+    Main.DayResult Current;
+    public void TextContents(Main.DayResult data, Main.DayResult current)
     {
         Result = data;
+        Current = current;
     }
 
 

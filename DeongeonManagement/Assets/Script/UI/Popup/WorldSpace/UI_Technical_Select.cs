@@ -32,7 +32,7 @@ public class UI_Technical_Select : UI_PopUp, IWorldSpaceUI
         {
             ClosePopUp();
             var tech = Managers.UI.ShowPopUp<UI_Placement_Technical>("Technical/UI_Placement_Technical");
-            tech.parents = this.parents;
+            //tech.parents = this.parents;
             //parents.PanelDisable();
         });
 

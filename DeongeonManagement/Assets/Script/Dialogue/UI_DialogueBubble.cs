@@ -11,6 +11,8 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
         //Time.timeScale = 0;
         UserData.Instance.GameMode = Define.GameMode.Stop;
         Init();
+
+        mainCam = Camera.main.GetComponent<CameraControl>();
     }
     private void Update()
     {
@@ -376,10 +378,12 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
     }
 
 
+    CameraControl mainCam;
+
     void SkipText()
     {
         if (Managers.UI._popupStack.Peek() != this) return;
-
+        if (mainCam.Cor_CameraChasing != null) return;
 
         if (isAutoMode)
         {

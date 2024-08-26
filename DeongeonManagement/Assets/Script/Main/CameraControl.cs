@@ -358,13 +358,13 @@ public class CameraControl : MonoBehaviour
 
         if (moveX != 0)
         {
-            transform.position += Vector3.right * moveX * Time.unscaledDeltaTime * 5;
+            transform.position += Vector3.right * moveX * Time.unscaledDeltaTime * 10;
             MouseLimit();
         }
 
         if (moveY != 0)
         {
-            transform.position += Vector3.up * moveY * Time.unscaledDeltaTime * 5;
+            transform.position += Vector3.up * moveY * Time.unscaledDeltaTime * 10;
             MouseLimit();
         }
     }
@@ -391,7 +391,7 @@ public class CameraControl : MonoBehaviour
 
     #region Direction
 
-    Coroutine Cor_CameraChasing;
+    public Coroutine Cor_CameraChasing;
 
 
     public void ChasingTarget(Vector3 target, float duration)

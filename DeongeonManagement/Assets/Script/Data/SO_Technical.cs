@@ -12,6 +12,16 @@ public class SO_Technical : ScriptableObject, I_SO_Collection
     public string spritePath;
 
 
+    [Header("Option")]
+    public bool View_Store;
+    public bool View_Collection;
+
+
+    [Header("Technical")]
+    public int techLv;
+    public bool upgradePossible;
+    public string upgradeKeyName;
+
     [Header("Create")]
     public int UnlockRank;
     public int Mana;

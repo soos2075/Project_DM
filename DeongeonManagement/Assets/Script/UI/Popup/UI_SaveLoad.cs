@@ -19,14 +19,14 @@ public class UI_SaveLoad : UI_PopUp
         AutoSave,
     }
 
-    public enum Buttons
+    public enum DataState
     {
-        Close,
+        Select,
         Save,
         Load,
     }
 
-    public Buttons State;
+    DataState State { get; set; }
 
     public Sprite button_Down;
     public Sprite button_Up;
@@ -40,6 +40,7 @@ public class UI_SaveLoad : UI_PopUp
         MainPanel,
 
         NoTouch,
+        Close,
     }
 
 
@@ -47,45 +48,30 @@ public class UI_SaveLoad : UI_PopUp
     {
         base.Init();
 
-
         Bind<Image>(typeof(Slot));
-        Bind<Button>(typeof(Buttons));
+        //Bind<Button>(typeof(Buttons));
         Bind<GameObject>(typeof(GameObjects));
 
-        //if (State == Buttons.Load)
+        //switch (State)
         //{
-        //    LoadButton();
-        //    GetButton(((int)Buttons.Save)).gameObject.SetActive(false);
-        //    //GetButton(((int)Buttons.Load)).gameObject.SetActive(false);
-        //    //GetButton(((int)Buttons.Load)).GetComponent<Image>().sprite = button_Down;
-        //    //GetButton(((int)Buttons.Load)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 18, 0, 0);
+        //    case Buttons.Close:
+        //        SaveButton();
+        //        break;
+
+        //    case Buttons.Save:
+        //        SaveButton();
+        //        GetButton(((int)Buttons.Load)).gameObject.SetActive(false);
+        //        break;
+
+        //    case Buttons.Load:
+        //        LoadButton();
+        //        GetButton(((int)Buttons.Save)).gameObject.SetActive(false);
+        //        break;
         //}
-        //if (State == Buttons.Save)
-        //{
-        //    SaveButton();
-        //    GetButton(((int)Buttons.Load)).gameObject.SetActive(false);
-        //}
 
-        switch (State)
-        {
-            case Buttons.Close:
-                SaveButton();
-                break;
-
-            case Buttons.Save:
-                SaveButton();
-                GetButton(((int)Buttons.Load)).gameObject.SetActive(false);
-                break;
-
-            case Buttons.Load:
-                LoadButton();
-                GetButton(((int)Buttons.Save)).gameObject.SetActive(false);
-                break;
-        }
-
-        GetButton(((int)Buttons.Close)).gameObject.AddUIEvent((data) => ClosePopUp());
-        GetButton(((int)Buttons.Save)).gameObject.AddUIEvent((data) => SaveButton());
-        GetButton(((int)Buttons.Load)).gameObject.AddUIEvent((data) => LoadButton());
+        GetObject(((int)GameObjects.Close)).gameObject.AddUIEvent((data) => ClosePopUp());
+        //GetButton(((int)Buttons.Save)).gameObject.AddUIEvent((data) => SaveButton());
+        //GetButton(((int)Buttons.Load)).gameObject.AddUIEvent((data) => LoadButton());
 
 
         GetObject((int)GameObjects.MainPanel).AddUIEvent((data) => ClosePopUp(), Define.UIEvent.RightClick);
@@ -94,7 +80,7 @@ public class UI_SaveLoad : UI_PopUp
 
         Init_SaveSlot();
 
-        GetImage((int)Slot.AutoSave).gameObject.AddUIEvent((data) => SlotClickEvent(0));
+        GetImage((int)Slot.AutoSave).gameObject.AddUIEvent((data) => SlotClickEvent(0, DataState.Load));
 
         //for (int i = 0; i < Enum.GetNames(typeof(Slot)).Length; i++)
         //{
@@ -105,38 +91,109 @@ public class UI_SaveLoad : UI_PopUp
         ShowAutoInfo();
     }
 
-    public void SetMode(Buttons saveMode)
+    public void SetMode(DataState saveMode)
     {
         State = saveMode;
     }
 
 
-    void SaveButton()
-    {
-        State = Buttons.Save;
-        GetButton(((int)Buttons.Save)).GetComponent<Image>().sprite = button_Down;
-        GetButton(((int)Buttons.Save)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 18, 0, 0);
+    //void SaveButton()
+    //{
+    //    State = Buttons.Save;
+    //    GetButton(((int)Buttons.Save)).GetComponent<Image>().sprite = button_Down;
+    //    GetButton(((int)Buttons.Save)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 18, 0, 0);
 
-        GetButton(((int)Buttons.Load)).GetComponent<Image>().sprite = button_Up;
-        GetButton(((int)Buttons.Load)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 5, 0, 0);
+    //    GetButton(((int)Buttons.Load)).GetComponent<Image>().sprite = button_Up;
+    //    GetButton(((int)Buttons.Load)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 5, 0, 0);
+    //}
+    //void LoadButton()
+    //{
+    //    State = Buttons.Load;
+    //    GetButton(((int)Buttons.Load)).GetComponent<Image>().sprite = button_Down;
+    //    GetButton(((int)Buttons.Load)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 18, 0, 0);
+
+    //    GetButton(((int)Buttons.Save)).GetComponent<Image>().sprite = button_Up;
+    //    GetButton(((int)Buttons.Save)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 5, 0, 0);
+    //}
+
+
+    void Show_SaveOption(int index)
+    {
+        var confirm = Managers.UI.ShowPopUpAlone<UI_SaveLoad_Confirm>();
+        confirm.SetAction($"{UserData.Instance.LocaleText("Slot")} {index}", () => SaveDataConfirm(index), () => LoadDataConfirm(index));
     }
-    void LoadButton()
-    {
-        State = Buttons.Load;
-        GetButton(((int)Buttons.Load)).GetComponent<Image>().sprite = button_Down;
-        GetButton(((int)Buttons.Load)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 18, 0, 0);
 
-        GetButton(((int)Buttons.Save)).GetComponent<Image>().sprite = button_Up;
-        GetButton(((int)Buttons.Save)).GetComponentInChildren<TextMeshProUGUI>().margin = new Vector4(0, 5, 0, 0);
+
+    void SaveDataConfirm(int index)
+    {
+        Managers.Data.SaveAndAddFile($"DM_Save_{index}", index);
+        UserData.Instance.SetData(PrefsKey.SaveTimes, UserData.Instance.GetDataInt(PrefsKey.SaveTimes) + 1);
+
+        ShowDataInfo(index);
+
+        SoundManager.Instance.PlaySound("SFX/Save");
+        var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
+        msg.Message = UserData.Instance.LocaleText("Message_Saved");
+
+        // 마지막 세이브 슬롯의 인덱스
+        UserData.Instance.SetData(PrefsKey.LastSaveSlotIndex, (index - 1) / 6);
+    }
+    void LoadDataConfirm(int index)
+    {
+        var data = Managers.Data.GetData($"DM_Save_{index}");
+        if (data == null)
+        {
+            return;
+        }
+        else
+        {
+            if (data.isClear) // 클리어 데이터면 걍 몬스터만 고르고 바로 끝 or 나중에 무한모드로 가든지 말든지(도전과제같은거?)
+            {
+                UserData.Instance.GameClear(data);
+                return;
+            }
+
+            Managers.Scene.AddLoadAction_OneTime(() => LoadAction(index));
+            Managers.Scene.LoadSceneAsync(SceneName._2_Management);
+        }
     }
 
 
-    void SlotClickEvent(int index)
+    void SlotClick(int index)
     {
-        //index += 1;
         switch (State)
         {
-            case Buttons.Save:
+            case DataState.Select:
+                var data = Managers.Data.GetData($"DM_Save_{index}");
+                if (data == null)
+                {
+                    SlotClickEvent(index, DataState.Save);
+                }
+                else
+                {
+                    Show_SaveOption(index);
+                }
+                break;
+
+            case DataState.Save:
+                SlotClickEvent(index, DataState.Save);
+                break;
+
+            case DataState.Load:
+                SlotClickEvent(index, DataState.Load);
+                break;
+        }
+    }
+
+
+
+
+    void SlotClickEvent(int index, DataState _currentState)
+    {
+        //index += 1;
+        switch (_currentState)
+        {
+            case DataState.Save:
                 if (index == 0)
                 {
                     return;
@@ -161,7 +218,7 @@ public class UI_SaveLoad : UI_PopUp
                 UserData.Instance.SetData(PrefsKey.LastSaveSlotIndex, (index - 1) / 6);
                 break;
 
-            case Buttons.Load:
+            case DataState.Load:
                 if (index == 0)
                 {
                     var autodata = Managers.Data.GetData($"AutoSave");
@@ -311,7 +368,8 @@ public class UI_SaveLoad : UI_PopUp
                 {
                     var str = data.pointerCurrentRaycast.gameObject.name.Substring(data.pointerCurrentRaycast.gameObject.name.IndexOf("_") + 1);
                     //Debug.Log(str);
-                    SlotClickEvent(int.Parse(str));
+                    //SlotClickEvent(int.Parse(str));
+                    SlotClick(int.Parse(str));
                 });
                 SaveSlotList.Add(obj);
             }

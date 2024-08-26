@@ -553,6 +553,9 @@ public class UserData : MonoBehaviour
         public bool firstAppear_Catastrophe;
         public bool firstReturn_Catastrophe;
 
+        //? Config Option - 각종 개인환경 옵션
+        public bool Placement_Continuous;
+
 
         public SavefileConfig DeepCopy()
         {
@@ -561,8 +564,10 @@ public class UserData : MonoBehaviour
             newConfig.PlayRounds = PlayRounds;
             newConfig.PlayTimes = PlayTimes;
 
+
             newConfig.Statue_Dog = Statue_Dog;
             newConfig.Statue_Dragon = Statue_Dragon;
+
 
             newConfig.firstAppear_Herbalist = firstAppear_Herbalist;
             newConfig.firstAppear_Miner = firstAppear_Miner;
@@ -570,11 +575,16 @@ public class UserData : MonoBehaviour
             newConfig.firstAppear_Elf = firstAppear_Elf;
             newConfig.firstAppear_Wizard = firstAppear_Wizard;
 
+
             newConfig.firstAppear_Hunter_Slime = firstAppear_Hunter_Slime;
             newConfig.firstAppear_Hunter_EarthGolem = firstAppear_Hunter_EarthGolem;
 
+
             newConfig.firstAppear_Catastrophe = firstAppear_Catastrophe;
             newConfig.firstReturn_Catastrophe = firstReturn_Catastrophe;
+
+
+            newConfig.Placement_Continuous = Placement_Continuous;
 
             return newConfig;
         }

@@ -610,6 +610,19 @@ public class EventManager : MonoBehaviour
 
     void AddEventAction()
     {
+        EventAction.Add("Tutorial_Orb", () => {
+            Transform child = Main.Instance.Player.GetComponentInChildren<SpriteRenderer>().transform;
+            child.localScale = new Vector3(-1, 1, 1);
+
+            Camera.main.GetComponent<CameraControl>().ChasingTarget(Main.Instance.eggObj.transform, 2);
+        });
+
+        EventAction.Add("Tutorial_Orb_Over", () => {
+            Transform child = Main.Instance.Player.GetComponentInChildren<SpriteRenderer>().transform;
+            child.localScale = Vector3.one;
+        });
+
+
         EventAction.Add("EggAppear", () => {
             var tile = Main.Instance.Floor[3].GetRandomTile();
             Main.Instance.Floor[3].TileMap.TryGetValue(new Vector2Int(12, 2), out tile);
@@ -789,6 +802,9 @@ public class EventManager : MonoBehaviour
         Camera.main.GetComponent<CameraControl>().ChasingTarget(Main.Instance.Player, 2);
         yield return new WaitForSecondsRealtime(2);
 
+        var ent = Main.Instance.Floor[4].Entrance;
+        var exi = Main.Instance.Floor[4].Exit;
+
         Managers.Dialogue.AllowPerfectSkip = true;
     }
 
@@ -814,6 +830,9 @@ public class EventManager : MonoBehaviour
                 PlacementInfo info = new PlacementInfo(Main.Instance.Floor[4], tile);
                 var obj = GameManager.Facility.CreateFacility_OnlyOne("EggEntrance", info);
             }
+
+            var ent = Main.Instance.Floor[4].Entrance;
+            var exi = Main.Instance.Floor[4].Exit;
         }
     }
 

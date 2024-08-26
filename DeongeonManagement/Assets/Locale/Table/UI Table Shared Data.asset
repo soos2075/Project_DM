@@ -543,6 +543,26 @@ MonoBehaviour:
     m_Key: "\uB370\uC774\uD130\uCD08\uAE30\uD654_First"
     m_Metadata:
       m_Items: []
+  - m_Id: 60292466085146624
+    m_Key: "\uC18C\uD658"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61765106578698240
+    m_Key: Upgrade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61765348208357376
+    m_Key: Replace
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61765742565208064
+    m_Key: Remove
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61803145677975552
+    m_Key: Confirm_Upgrade
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

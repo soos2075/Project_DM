@@ -85,7 +85,7 @@ public class UI_Pause : UI_PopUp
     void ShowLoadUI()
     {
         var ui = Managers.UI.ShowPopUpAlone<UI_SaveLoad>();
-        ui.SetMode(UI_SaveLoad.Buttons.Load);
+        ui.SetMode(UI_SaveLoad.DataState.Load);
     }
 
     void GotoStartScene()

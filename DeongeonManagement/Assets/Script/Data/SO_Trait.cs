@@ -20,6 +20,10 @@ public class SO_Trait : ScriptableObject, I_SO_Collection
 
     [Header("CSV(Localization)")] //? external CSV Data
     public string labelName;
+
     [TextArea(3, 10)]
     public string detail;
+
+    [TextArea(3, 10)]
+    public string Acquire;
 }

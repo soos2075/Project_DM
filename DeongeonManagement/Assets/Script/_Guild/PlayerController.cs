@@ -5,6 +5,8 @@ using UnityEngine.Tilemaps;
 
 public class PlayerController : MonoBehaviour
 {
+    public TileMapData_Guild mapData;
+    public Tilemap tilemap;
 
     public float speed;
     public float h;
@@ -20,8 +22,6 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         GuildManager.Instance.GuildEnter();
-
-
 
         rig = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
@@ -43,9 +43,16 @@ public class PlayerController : MonoBehaviour
         MouseEvent();
     }
 
+    
+
     private void LateUpdate()
     {
         RunningAnimation();
+
+        if (MoveCor_A == null)
+        {
+            rig.bodyType = RigidbodyType2D.Dynamic;
+        }
     }
     void RunningAnimation()
     {
@@ -54,11 +61,13 @@ public class PlayerController : MonoBehaviour
             anim.Play(Define.ANIM_Running);
             if (rig.velocity.x < 0)
             {
-                transform.localScale = new Vector3(-1, 1, 1) * playerSize;
+                //transform.localScale = new Vector3(-1, 1, 1) * playerSize;
+                transform.GetChild(0).localScale = new Vector3(-1, 1, 1) * playerSize;
             }
             else
             {
-                transform.localScale = Vector3.one * playerSize;
+                //transform.localScale = Vector3.one * playerSize;
+                transform.GetChild(0).localScale = Vector3.one * playerSize;
             }
         }
         else
@@ -70,9 +79,10 @@ public class PlayerController : MonoBehaviour
     {
         if (current_NPC != null && Input.GetKeyDown(KeyCode.E))
         {
-            if (moveCor != null)
+            if (MoveCor_A != null)
             {
-                StopCoroutine(moveCor);
+                StopCoroutine(MoveCor_A);
+                MoveCor_A = null;
             }
             current_NPC.StartDialogue();
             rig.velocity = Vector2.zero;
@@ -85,9 +95,10 @@ public class PlayerController : MonoBehaviour
         Vector2 move = new Vector2(h, v).normalized;
         rig.velocity = move * speed;
 
-        if (move.magnitude > 0 && moveCor != null)
+        if (move.magnitude > 0 && MoveCor_A != null)
         {
-            StopCoroutine(moveCor);
+            StopCoroutine(MoveCor_A);
+            MoveCor_A = null;
         }
     }
 
@@ -101,15 +112,90 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            MouseClick();
+            //MouseClick();
+            Move_AStar();
+            NPC_Interaction();
+        }
+    }
+
+    TileMapData_Guild.GuildTile targetPoint;
+    TileMapData_Guild.GuildTile startPoint;
+
+    Coroutine MoveCor_A;
+
+
+    readonly float moveOffset = 1f / 7f;
+
+    void Move_AStar()
+    {
+        // 마우스 위치를 스크린 좌표에서 월드 좌표로 변환
+        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        //var targetCheck = (Vector2Int)tilemap.WorldToCell(mouseWorldPos);
+        //Debug.Log($"{targetCheck}");
+
+        // 월드 좌표를 타일맵의 그리드 좌표로 변환
+        var target = (Vector2Int)tilemap.WorldToCell(mouseWorldPos) - new Vector2Int(tilemap.cellBounds.xMin, tilemap.cellBounds.yMin);
+        targetPoint = mapData.guildTileMap[target];
+
+
+        Vector3 roundPos = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), 0);
+
+        var _player = (Vector2Int)tilemap.WorldToCell(roundPos) - new Vector2Int(tilemap.cellBounds.xMin, tilemap.cellBounds.yMin);
+        startPoint = mapData.guildTileMap[_player];
+
+        //Debug.Log($"월드! 플레이어 좌표 : {startPoint.worldPosition}\n도착지 좌표 : {targetPoint.worldPosition}");
+        //Debug.Log($"인덱스! 플레이어 좌표 : {startPoint.index}\n도착지 좌표 : {targetPoint.index}");
+
+        var check = targetPoint.isPath;
+        //Debug.Log(check);
+        if (check)
+        {
+            var pathfinding = mapData.PathFinding(startPoint, targetPoint);
+            if (MoveCor_A != null)
+            {
+                StopCoroutine(MoveCor_A);
+            }
+            MoveCor_A = StartCoroutine(PlayerMove(pathfinding));
         }
     }
 
 
-    Coroutine moveCor;
-    void MouseClick()
+    IEnumerator PlayerMove(List<TileMapData_Guild.GuildTile> moveList)
     {
-        //스크린 좌표를 월드 좌표로 변환
+        var rig = GetComponent<Rigidbody2D>();
+        rig.bodyType = RigidbodyType2D.Kinematic;
+
+        float dis;
+        float moveValue;
+        Vector3 dir;
+        float timer = 0;
+        float duration = moveOffset;
+        foreach (var item in moveList)
+        {
+            dir = item.worldPosition - transform.position;
+            dis = Vector3.Distance(transform.position, item.worldPosition);
+            duration = moveOffset * dis;
+            moveValue = dis / duration;
+            timer = 0;
+            while (timer < duration)
+            {
+                yield return null;
+                timer += Time.deltaTime;
+                //transform.position += dir.normalized * moveValue * Time.deltaTime;
+                rig.velocity = dir.normalized * speed;
+            }
+
+            //transform.position = new Vector3(item.worldPosition.x, item.worldPosition.y, 0);
+        }
+
+        rig.bodyType = RigidbodyType2D.Dynamic;
+        MoveCor_A = null;
+    }
+
+
+    void NPC_Interaction()
+    {
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         if (current_NPC != null)
@@ -117,63 +203,78 @@ public class PlayerController : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
             if (hit.collider != null && hit.collider.gameObject == current_NPC.gameObject)
             {
-                if (moveCor != null)
+                if (MoveCor_A != null)
                 {
-                    StopCoroutine(moveCor);
+                    StopCoroutine(MoveCor_A);
+                    MoveCor_A = null;
                 }
                 //Debug.Log("충돌한 객체: " + hit.collider.gameObject.name);
                 current_NPC.StartDialogue();
+                rig.velocity = Vector2.zero;
                 return;
             }
         }
+    }
 
-        //Vector3Int cellPosition = tile_borderline.WorldToCell(worldPosition);
-        //TileBase tile = tile_borderline.GetTile(cellPosition);
-        //if (tile != null)
+
+
+    //Coroutine moveCor;
+    void MouseClick()
+    {
+        //스크린 좌표를 월드 좌표로 변환
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        //if (current_NPC != null)
         //{
-        //    Debug.Log("충돌한 타일: " + tile.name);
-        //    if (moveCor != null)
+        //    RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
+        //    if (hit.collider != null && hit.collider.gameObject == current_NPC.gameObject)
         //    {
-        //        StopCoroutine(moveCor);
+        //        if (moveCor != null)
+        //        {
+        //            StopCoroutine(moveCor);
+        //        }
+        //        //Debug.Log("충돌한 객체: " + hit.collider.gameObject.name);
+        //        current_NPC.StartDialogue();
+        //        return;
         //    }
-        //    return;
         //}
 
-        if (moveCor != null)
-        {
-            StopCoroutine(moveCor);
-        }
-        moveCor = StartCoroutine(PlayerMouseMove(worldPosition));
+
+        //if (moveCor != null)
+        //{
+        //    StopCoroutine(moveCor);
+        //}
+        //moveCor = StartCoroutine(PlayerMouseMove(worldPosition));
     }
 
-    IEnumerator PlayerMouseMove(Vector3 _movePoint)
-    {
-        Vector3 direction = _movePoint - transform.position;
-        Vector2 move = new Vector2(direction.x, direction.y).normalized;
+    //IEnumerator PlayerMouseMove(Vector3 _movePoint)
+    //{
+    //    Vector3 direction = _movePoint - transform.position;
+    //    Vector2 move = new Vector2(direction.x, direction.y).normalized;
 
-        float distance = Vector3.Distance(transform.position, _movePoint);
-        if (distance < 0.5f)
-        {
-            StopCoroutine(moveCor);
-            moveCor = null;
-        }
-        float timer = 0;
-        while (timer < 0.1f)
-        {
-            yield return null;
-            timer += Time.deltaTime;
-            rig.velocity = move * speed;
-        }
+    //    float distance = Vector3.Distance(transform.position, _movePoint);
+    //    if (distance < 0.5f)
+    //    {
+    //        StopCoroutine(moveCor);
+    //        moveCor = null;
+    //    }
+    //    float timer = 0;
+    //    while (timer < 0.1f)
+    //    {
+    //        yield return null;
+    //        timer += Time.deltaTime;
+    //        rig.velocity = move * speed;
+    //    }
 
-        while (distance > 0.5f && isContact == null)
-        {
-            yield return null;
-            rig.velocity = move * speed;
-            distance = Vector2.Distance(transform.position, _movePoint);
-        }
+    //    while (distance > 0.5f && isContact == null)
+    //    {
+    //        yield return null;
+    //        rig.velocity = move * speed;
+    //        distance = Vector2.Distance(transform.position, _movePoint);
+    //    }
 
-        moveCor = null;
-    }
+    //    moveCor = null;
+    //}
 
     Collision2D isContact;
 
@@ -235,5 +336,6 @@ public class PlayerController : MonoBehaviour
         Managers.Scene.AddLoadAction_OneTime(() => UserData.Instance.GamePlay(UserData.Instance.GameSpeed_GuildReturn));
         Managers.Scene.LoadSceneAsync(SceneName._2_Management);
     }
+
 
 }

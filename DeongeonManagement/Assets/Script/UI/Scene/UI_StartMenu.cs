@@ -103,14 +103,14 @@ public class UI_StartMenu : UI_Scene
         //    yield return StartCoroutine(WaitForAnswer_ClearData(dataConfirm));
         //}
 
-        Debug.Log("BIC 오프라인 데모버전 - 시작초기화지점");
-        var dataReset = Managers.UI.ShowPopUpAlone<UI_Confirm>();
+        //Debug.Log("BIC 오프라인 데모버전 - 시작초기화지점");
+        //var dataReset = Managers.UI.ShowPopUpAlone<UI_Confirm>();
 
-        string optionText = UserData.Instance.LocaleText("데이터초기화_First");
-        dataReset.SetText(optionText, () => DataReset_Action());
+        //string optionText = UserData.Instance.LocaleText("데이터초기화_First");
+        //dataReset.SetText(optionText, () => DataReset_Action());
 
-        yield return new WaitUntil(() => dataReset == null);
-        yield return new WaitForSecondsRealtime(0.5f);
+        //yield return new WaitUntil(() => dataReset == null);
+        //yield return new WaitForSecondsRealtime(0.5f);
 
         var openingConfirm = Managers.UI.ShowPopUp<UI_Confirm>();
         openingConfirm.SetText(UserData.Instance.LocaleText("Confirm_Opening"),
@@ -152,7 +152,7 @@ public class UI_StartMenu : UI_Scene
     void LoadGame()
     {
         var ui = Managers.UI.ShowPopUpAlone<UI_SaveLoad>();
-        ui.SetMode(UI_SaveLoad.Buttons.Load);
+        ui.SetMode(UI_SaveLoad.DataState.Load);
     }
 
 

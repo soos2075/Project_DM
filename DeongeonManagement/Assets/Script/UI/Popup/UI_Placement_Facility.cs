@@ -70,7 +70,9 @@ public class UI_Placement_Facility : UI_PopUp
         Bind<TextMeshProUGUI>(typeof(Info));
 
         placeOptionToggle = GetComponentInChildren<Toggle>();
-        placeOptionToggle.isOn = Main.Instance.isContinueOption;
+        placeOptionToggle.isOn = UserData.Instance.FileConfig.Placement_Continuous;
+        Main.Instance.isContinueOption = placeOptionToggle.isOn;
+        placeOptionToggle.onValueChanged.AddListener((isOn) => UserData.Instance.FileConfig.Placement_Continuous = isOn);
 
         Init_Panels();
         Init_Preview();

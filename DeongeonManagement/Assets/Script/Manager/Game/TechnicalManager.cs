@@ -58,7 +58,7 @@ public class TechnicalManager
 
         foreach (var item in so_data)
         {
-            if (item.UnlockRank <= _DungeonRank)
+            if (item.UnlockRank <= _DungeonRank && item.View_Store)
             {
                 list.Add(item);
             }
@@ -181,7 +181,10 @@ public class TechnicalManager
             return;
         }
 
+        RemoveCurrent();
         var tech = Create(data);
+
+        tech.InstanceDate = Main.Instance.Turn;
 
         tech.transform.position = Main.Instance.CurrentTechnical.transform.position + new Vector3(0.25f, -0.75f, 0);
         tech.transform.SetParent(Main.Instance.CurrentTechnical.transform);
@@ -192,6 +195,14 @@ public class TechnicalManager
         tech.parent.UI_Floor.NoticeImageUpdate();
 
         Managers.UI.CloseAll();
+    }
+
+    void RemoveCurrent()
+    {
+        if (Main.Instance.CurrentTechnical.Current != null)
+        {
+            GameManager.Technical.RemoveTechnical(Main.Instance.CurrentTechnical.Current);
+        }
     }
 
     Technical Create(SO_Technical data)

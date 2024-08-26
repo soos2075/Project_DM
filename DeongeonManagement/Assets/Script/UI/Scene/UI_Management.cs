@@ -45,6 +45,7 @@ public class UI_Management : UI_Base
         Save,
         Pause,
         Pedia,
+        DayLog,
 
 
         Speed1x,
@@ -237,8 +238,8 @@ public class UI_Management : UI_Base
         GetButton((int)ButtonEvent.Save).gameObject.AddUIEvent((data) => Button_Save());
         GetButton((int)ButtonEvent.Pause).gameObject.AddUIEvent((data) => Button_Pause());
 
-
         GetButton((int)ButtonEvent.Pedia)?.gameObject.AddUIEvent((data) => Button_Pedia());
+        GetButton((int)ButtonEvent.DayLog)?.gameObject.AddUIEvent((data) => Button_DayLog());
 
 
         GetButton((int)ButtonEvent.Speed1x).gameObject.AddUIEvent((data) => GameSpeedUp(1));
@@ -286,6 +287,11 @@ public class UI_Management : UI_Base
 
 
     #region UI_ButtonEvent
+    void Button_DayLog()
+    {
+        var ui = Managers.UI.ShowPopUp<UI_DayLog>();
+        //ui.TextContents(Main.Instance.DayList[Main.Instance.Turn - 1]);
+    }
     void Button_Pedia()
     {
         Managers.UI.ShowPopUp<UI_Collection>();
@@ -433,8 +439,15 @@ public class UI_Management : UI_Base
     }
 
 
+    public void TurnOverEvent()
+    {
+        Texts_Refresh();
+        GuildButtonNotice();
+        EventBoxClose();
+    }
 
-    void TurnOverAction()
+
+    void TurnStartAction()
     {
         if (!Main.Instance.Management) return;
 
@@ -454,11 +467,11 @@ public class UI_Management : UI_Base
         {
             var ui = Managers.UI.ShowPopUp<UI_Confirm>();
             //ui.SetText($"행동력을 쓰지않고 턴을 종료할까요?");
-            ui.SetText($"{UserData.Instance.LocaleText("턴종료_행동력")}", () => TurnOverAction());
+            ui.SetText($"{UserData.Instance.LocaleText("턴종료_행동력")}", () => TurnStartAction());
         }
         else
         {
-            TurnOverAction();
+            TurnStartAction();
         }
     }
 

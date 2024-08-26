@@ -161,6 +161,22 @@ MonoBehaviour:
     m_Localized: Profit
     m_Metadata:
       m_Items: []
+  - m_Id: 30062598764572672
+    m_Localized: +1 to all Herb Gathering
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30062832676712448
+    m_Localized: +1 to all minerals mined
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30062950574403584
+    m_Localized: 20% Mana Gain
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30063477735501824
+    m_Localized: All unit stats +5
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

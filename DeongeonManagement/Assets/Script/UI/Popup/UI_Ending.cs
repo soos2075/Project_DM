@@ -195,7 +195,7 @@ public class UI_Ending : UI_PopUp
 
 
         var save = Managers.UI.ShowPopUp<UI_SaveLoad>();
-        save.SetMode(UI_SaveLoad.Buttons.Save);
+        save.SetMode(UI_SaveLoad.DataState.Save);
 
         yield return new WaitUntil(() => save == null);
 

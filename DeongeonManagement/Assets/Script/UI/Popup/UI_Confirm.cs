@@ -18,7 +18,10 @@ public class UI_Confirm : UI_PopUp
         Yes,
         No,
         Content,
+
+        Panel_Calculation,
     }
+
 
 
     //public UI_Base Parent { get; set; }
@@ -41,6 +44,11 @@ public class UI_Confirm : UI_PopUp
 
 
         Cor_ComfirmAction = StartCoroutine(ConfirmAction());
+
+        if (View_CalcPanel == false)
+        {
+            GetObject(((int)Contents.Panel_Calculation)).gameObject.SetActive(false);
+        }
     }
 
     Coroutine Cor_ComfirmAction;
@@ -90,6 +98,39 @@ public class UI_Confirm : UI_PopUp
         Managers.UI.ClosePopupPick(this);
     }
 
+
+
+    enum CalcTexts
+    {
+        NeedRank,
+        NeedMana,
+        NeedGold,
+        NeedAp,
+    }
+
+    bool View_CalcPanel = false;
+
+    public void SetMode_Calculation(int rank, string mana, string gold, string ap)
+    {
+        View_CalcPanel = true;
+
+        Bind<TextMeshProUGUI>(typeof(CalcTexts));
+
+        GetTMP((int)CalcTexts.NeedRank).text = $"{(Define.DungeonRank)rank}";
+        GetTMP((int)CalcTexts.NeedMana).text = mana;
+        GetTMP((int)CalcTexts.NeedGold).text = gold;
+        GetTMP((int)CalcTexts.NeedAp).text = ap;
+    }
+
+
+
+
+
+
+
+
+
+
     void CloseFloorUI()
     {
         var typeUI = FindAnyObjectByType<UI_Placement_TypeSelect>();
@@ -99,9 +140,6 @@ public class UI_Confirm : UI_PopUp
             FindObjectOfType<UI_Management>().FloorPanelClear();
         }
     }
-
-
-
 
 
     public override bool EscapeKeyAction()

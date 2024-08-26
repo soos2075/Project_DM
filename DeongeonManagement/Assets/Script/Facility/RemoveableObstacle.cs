@@ -70,13 +70,14 @@ public class RemoveableObstacle : Facility, IWall
                 break;
         }
 
-        string confirm = $"<size=25>(" +
-                    $"-{ap}{UserData.Instance.LocaleText("AP")}, " +
-                    $"-{mana}{UserData.Instance.LocaleText("Mana")}, " +
-                    $"+{gold}{UserData.Instance.LocaleText("Gold")})";
+        //string confirm = $"<size=25>(" +
+        //            $"-{ap}{UserData.Instance.LocaleText("AP")}, " +
+        //            $"-{mana}{UserData.Instance.LocaleText("Mana")}, " +
+        //            $"+{gold}{UserData.Instance.LocaleText("Gold")})";
 
         var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
-        ui.SetText($"{UserData.Instance.LocaleText("Confirm_RemoveObstacle")}\n{confirm}", () => ConfirmUI_Action(ap, mana, gold));
+        ui.SetText($"{UserData.Instance.LocaleText("Confirm_RemoveObstacle")}", () => ConfirmUI_Action(ap, mana, gold));
+        ui.SetMode_Calculation(1, $"{mana}", $"+{gold}", $"{ap}");
     }
 
 

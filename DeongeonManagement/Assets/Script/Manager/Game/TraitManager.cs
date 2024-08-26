@@ -20,7 +20,9 @@ public class TraitManager
 
         foreach (var item in so_data)
         {
-            (string, string) datas = ("", "");
+            //(string, string) datas = ("", "");
+            string[] datas = null;
+
             switch (UserData.Instance.Language)
             {
                 case Define.Language.EN:
@@ -35,14 +37,15 @@ public class TraitManager
                     Managers.Data.Trait_JP.TryGetValue((TraitGroup)item.id, out datas);
                     break;
             }
-            if (datas.Item1 == null || datas.Item2 == null)
+            if (datas == null)
             {
                 Debug.Log($"{item.id} : CSV Data Not Exist");
                 continue;
             }
 
-            item.labelName = datas.Item1;
-            item.detail = datas.Item2;
+            item.labelName = datas[0];
+            item.detail = datas[1];
+            item.Acquire = datas[2];
 
             Trait_Dictionary.Add(item.trait, item);
         }

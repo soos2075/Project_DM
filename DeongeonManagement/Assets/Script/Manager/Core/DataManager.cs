@@ -19,33 +19,26 @@ public class DataManager
 
 
     #region CSV Data Parsing
-    public Dictionary<int, string[]> ObjectsLabel_KR = new Dictionary<int, string[]>();
-    public Dictionary<int, string[]> ObjectsLabel_EN = new Dictionary<int, string[]>();
-    public Dictionary<int, string[]> ObjectsLabel_JP = new Dictionary<int, string[]>();
+
 
     void Init_Object_CSV()
     {
-        //오브젝트
-        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Object/Object_KR.csv").Completed += 
-    (handle) => { CSV_File_Parsing_Object(OnCSVLoaded(handle), ObjectsLabel_KR); };
+        //? Object
+        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Object/Object_Result.csv").Completed +=
+(handle) => { CSV_File_Parsing_ObjectAll(OnCSVLoaded(handle)); };
 
-        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Object/Object_EN.csv").Completed +=
-    (handle) => { CSV_File_Parsing_Object(OnCSVLoaded(handle), ObjectsLabel_EN); };
+        //? Dialogue
+        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Dialogue/Dialogue_Result.csv").Completed +=
+(handle) => { CSV_File_Parsing_DialogueAll(OnCSVLoaded(handle)); };
 
-        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Object/Object_JP.csv").Completed +=
-    (handle) => { CSV_File_Parsing_Object(OnCSVLoaded(handle), ObjectsLabel_JP); };
+        //    Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Dialogue/Dialogue_KR.csv").Completed +=
+        //(handle) => { CSV_File_Parsing_Dialogue(OnCSVLoaded(handle), Dialogue_KR); };
 
-        //대사
-        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Dialogue/Dialogue_KR.csv").Completed +=
-    (handle) => { CSV_File_Parsing_Dialogue(OnCSVLoaded(handle), Dialogue_KR); };
+        //    Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Dialogue/Dialogue_EN.csv").Completed +=
+        //(handle) => { CSV_File_Parsing_Dialogue(OnCSVLoaded(handle), Dialogue_EN); };
 
-        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Dialogue/Dialogue_EN.csv").Completed +=
-    (handle) => { CSV_File_Parsing_Dialogue(OnCSVLoaded(handle), Dialogue_EN); };
-
-        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Dialogue/Dialogue_JP.csv").Completed +=
-    (handle) => { CSV_File_Parsing_Dialogue(OnCSVLoaded(handle), Dialogue_JP); };
-
-
+        //    Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Dialogue/Dialogue_JP.csv").Completed +=
+        //(handle) => { CSV_File_Parsing_Dialogue(OnCSVLoaded(handle), Dialogue_JP); };
 
 
         //? Trait - 한영일 하나의 파일로 파싱
@@ -76,11 +69,15 @@ public class DataManager
 
 
 
-    public Dictionary<TraitGroup, (string, string)> Trait_KR = new Dictionary<TraitGroup, (string, string)>();
-    public Dictionary<TraitGroup, (string, string)> Trait_EN = new Dictionary<TraitGroup, (string, string)>();
-    public Dictionary<TraitGroup, (string, string)> Trait_JP = new Dictionary<TraitGroup, (string, string)>();
-
-    // 0 ID, 1 TraitName, 2 Name_KR, 3 Detail_KR, 4 Name_EN, 5 Detail_EN, 6 Name_JP, 7 Detail_JP
+    public Dictionary<TraitGroup, string[]> Trait_KR = new Dictionary<TraitGroup, string[]>();
+    public Dictionary<TraitGroup, string[]> Trait_EN = new Dictionary<TraitGroup, string[]>();
+    public Dictionary<TraitGroup, string[]> Trait_JP = new Dictionary<TraitGroup, string[]>();
+    
+    //? csv 데이터 항목
+    // 0 ID, 1 TraitName,
+    // 2 Name_KR, 3 Detail_KR, 4 Acquire_KR,
+    // 5 Name_EN, 6 Detail_EN, 7 Acquire_EN,
+    // 8 Name_JP, 9 Detail_JP, 10 Acquire_JP,
     void CSV_File_Parsing_Trait(string _stringData)
     {
         if (string.IsNullOrEmpty(_stringData)) return;
@@ -95,39 +92,46 @@ public class DataManager
             {
                 continue;
             }
-
-            //string[] datas = new string[] { spl_comma[0], spl_comma[1], spl_comma[2], spl_comma[3], spl_comma[4], spl_comma[5], spl_comma[6], spl_comma[7] };
             string[] datas = spl_comma;
 
-            Trait_KR.Add((TraitGroup)int.Parse(datas[0]), (datas[2], datas[3]));
-            Trait_EN.Add((TraitGroup)int.Parse(datas[0]), (datas[4], datas[5]));
-            Trait_JP.Add((TraitGroup)int.Parse(datas[0]), (datas[6], datas[7]));
+            Trait_KR.Add((TraitGroup)int.Parse(datas[0]), new string[] { datas[2], datas[3], datas[4] });
+            Trait_EN.Add((TraitGroup)int.Parse(datas[0]), new string[] { datas[5], datas[6], datas[7] });
+            Trait_JP.Add((TraitGroup)int.Parse(datas[0]), new string[] { datas[8], datas[9], datas[10] });
         }
     }
 
 
+    public Dictionary<int, string[]> ObjectsLabel_KR { get; } = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> ObjectsLabel_EN { get; } = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> ObjectsLabel_JP { get; } = new Dictionary<int, string[]>();
 
-
-    // 0 x / 1 : id / 2 : Label / 3 : Detail / 4 : Option1 / 5 : Option2 / 6: Option3
-    void CSV_File_Parsing_Object(string _stringData, Dictionary<int, string[]> _dict) 
+    //? csv 데이터 항목 - Option은 좀 더 상세분류로 나뉨 - @Op1::Op1  가 존재하면 옵션이 존재하는것
+    // 0 KeyName / 1 id /
+    // 2 Label_KR / 3 Detail_KR / 4 Option_KR
+    // 5 Label_KR / 6 Detail_KR / 7 Option_KR
+    // 8 Label_KR / 9 Detail_KR / 10 Option_KR
+    void CSV_File_Parsing_ObjectAll(string _stringData)
     {
         if (string.IsNullOrEmpty(_stringData)) return;
 
-        //var obj_kr = FileOperation(FileMode.Open, $"{Application.streamingAssetsPath}/{_filePath}.csv");
         var spl_n = _stringData.Split('\n');
-        
+
         for (int i = 1; i < spl_n.Length; i++)
         {
             var spl_comma = spl_n[i].Split(',');
 
-            if (spl_comma.Length < 2 || string.IsNullOrEmpty(spl_comma[1]))
+            if (spl_comma.Length < 2 || string.IsNullOrEmpty(spl_comma[1])) //? 빈칸이면 다음으로
             {
                 continue;
             }
 
+            string[] datas = spl_comma;
 
-            string[] datas = new string[] { spl_comma[2], spl_comma[3], spl_comma[4], spl_comma[5], spl_comma[6] };
-
+            //Debug.Log(datas.Length);
+            //foreach (var item in datas)
+            //{
+            //    Debug.Log(item);
+            //}
 
             for (int k = 0; k < datas.Length; k++)
             {
@@ -150,7 +154,9 @@ public class DataManager
                 }
             }
 
-            _dict.Add(int.Parse(spl_comma[1]), datas);
+            ObjectsLabel_KR.Add(int.Parse(datas[1]), new string[] { datas[2], datas[3], datas[4] });
+            ObjectsLabel_EN.Add(int.Parse(datas[1]), new string[] { datas[5], datas[6], datas[7] });
+            ObjectsLabel_JP.Add(int.Parse(datas[1]), new string[] { datas[8], datas[9], datas[10] });
         }
     }
 
@@ -158,6 +164,94 @@ public class DataManager
     public Dictionary<DialogueName, DialogueData> Dialogue_KR = new Dictionary<DialogueName, DialogueData>();
     public Dictionary<DialogueName, DialogueData> Dialogue_EN = new Dictionary<DialogueName, DialogueData>();
     public Dictionary<DialogueName, DialogueData> Dialogue_JP = new Dictionary<DialogueName, DialogueData>();
+
+    //? csv 데이터 항목
+    // 0 Type(Bubble/Quest) / 1 ID / 2 KeyName / 3 Index / 4 optionString
+    // 5 mainText_KR / 11 Title_KR
+    // 6 mainText_EN / 12 Title_EN
+    // 7 mainText_JP / 13 Title_JP
+
+    void CSV_File_Parsing_DialogueAll(string _stringData)
+    {
+        if (string.IsNullOrEmpty(_stringData)) return;
+
+        var spl_n = _stringData.Split('\n');
+
+        for (int i = 6; i < spl_n.Length; i++) //? 맨위 7줄은 무시. (목차같은거)
+        {
+            var spl_comma = spl_n[i].Split(',');
+
+            if (spl_comma.Length < 2 || string.IsNullOrEmpty(spl_comma[1]))
+            {
+                continue;
+            }
+
+            int id = int.Parse(spl_comma[1]);
+            DialogueData.DialogueType type = (DialogueData.DialogueType)Enum.Parse(typeof(DialogueData.DialogueType), spl_comma[0]);
+
+            var dialogue_KR = new DialogueData(id, type, spl_comma[11]);
+            var dialogue_EN = new DialogueData(id, type, spl_comma[12]);
+            var dialogue_JP = new DialogueData(id, type, spl_comma[13]);
+
+            while (string.IsNullOrEmpty(spl_comma[3]) == false)
+            {
+                //int index = int.Parse(spl_comma[3]);
+                string optionString = spl_comma[4];
+
+                string mainText_KR = ContainsAndJoin(spl_comma[5]);
+                string mainText_EN = ContainsAndJoin(spl_comma[6]);
+                string mainText_JP = ContainsAndJoin(spl_comma[7]);
+
+                //var textData = new DialogueData.TextData(optionString, mainText);
+                //dialogue.TextDataList.Add(textData);
+                //Debug.Log(mainText);
+
+                var textData_KR = new DialogueData.TextData(optionString, mainText_KR);
+                var textData_EN = new DialogueData.TextData(optionString, mainText_EN);
+                var textData_JP = new DialogueData.TextData(optionString, mainText_JP);
+
+                dialogue_KR.TextDataList.Add(textData_KR);
+                dialogue_EN.TextDataList.Add(textData_EN);
+                dialogue_JP.TextDataList.Add(textData_JP);
+
+
+                i++;
+                spl_comma = spl_n[i].Split(',');
+                if (spl_comma.Length < 2)
+                {
+                    break;
+                }
+            }
+
+            Dialogue_KR.Add((DialogueName)id, dialogue_KR);
+            Dialogue_EN.Add((DialogueName)id, dialogue_EN);
+            Dialogue_JP.Add((DialogueName)id, dialogue_JP);
+        }
+    }
+
+    string ContainsAndJoin(string mainText)
+    {
+        if (mainText.Contains('\\'))
+        {
+            var split = mainText.Split('\\');
+            mainText = string.Join("\n", split);
+        }
+        if (mainText.Contains('-'))
+        {
+            var split = mainText.Split('-');
+            mainText = string.Join(',', split);
+        }
+        if (mainText.Contains('^'))
+        {
+            var split = mainText.Split('^');
+            mainText = string.Join('-', split);
+        }
+
+        return mainText;
+    }
+
+
+
 
     void CSV_File_Parsing_Dialogue(string _stringData, Dictionary<DialogueName, DialogueData> _dict)
     {

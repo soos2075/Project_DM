@@ -49,23 +49,8 @@ public class ContentManager
 
             item.labelName = datas[0];
             item.detail = datas[1];
-            item.boundary = datas[2];
 
 
-            //if (item.Options.Count == 1)
-            //{
-            //    if (item.isOnlyOne)
-            //    {
-            //        Vector2Int[] boundary = Util.GetBoundary(item.Boundary_All);
-            //        item.action = () => SetBoundary(boundary, () => CreateOnlyOne(item.Options[0].FacilityKeyName));
-            //    }
-            //    else
-            //    {
-            //        Vector2Int[] boundary = Util.GetBoundary(item.Boundary_All);
-            //        item.action = () => SetBoundary(boundary, () => CreateAll(item.Options[0].FacilityKeyName));
-            //    }
-            //}
-            //else
             {
                 List<Func<bool>> customFuncList = new List<Func<bool>>();
 

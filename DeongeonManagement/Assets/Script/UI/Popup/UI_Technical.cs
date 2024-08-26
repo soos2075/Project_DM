@@ -91,14 +91,17 @@ public class UI_Technical : UI_Scene, IWorldSpaceUI
         if (Main.Instance.CurrentAction != null) return;
 
 
+        Main.Instance.CurrentTechnical = Parent;
+
         if (Parent.Current != null)
         {
-            Demolition_Technical();
+            CurrentTechnical_Click();
+            //Demolition_Technical();
             CloseView();
         }
         else
         {
-            Main.Instance.CurrentTechnical = Parent;
+            //Main.Instance.CurrentTechnical = Parent;
 
             var popup = Managers.UI.ClearAndShowPopUp<UI_Technical_Select>("Technical/UI_Technical_Select");
             var pos = Camera.main.ScreenToWorldPoint(data.position);
@@ -115,6 +118,15 @@ public class UI_Technical : UI_Scene, IWorldSpaceUI
         ui.SetText($"[{Parent.Current.Data.labelName}] {UserData.Instance.LocaleText("Confirm_Remove")}", 
             () => GameManager.Technical.RemoveTechnical(Parent.Current));
     }
+
+
+    void CurrentTechnical_Click()
+    {
+        var ui = Managers.UI.ShowPopUp<UI_CurrentTechnical>("Technical/UI_CurrentTechnical");
+        ui.SetCurrentTechnical(Parent);
+    }
+
+
 
 
 

@@ -24,12 +24,13 @@ public class UI_Monster_Management : UI_PopUp
         SubPanel,
         GridPanel,
         ButtonPanel,
+        SummonPanel,
         ProfilePanel,
         TraitPanel,
-
         FloorPanel,
 
         CommandPanel,
+
         fix,
         wan,
         atk,
@@ -60,13 +61,16 @@ public class UI_Monster_Management : UI_PopUp
         Icon_Face_State,
     }
 
-    enum Buttons
+    enum Buttons //? Training ~ Retrieve는 변하면 안됨. 고정int로 반복문 사용중이라 건들면 오류남
     {
         Training,
         Placement,
         Release,
         Recover,
         Retrieve,
+
+        Summon,
+
 
         //? Command
         Command_Fixed,
@@ -114,6 +118,7 @@ public class UI_Monster_Management : UI_PopUp
         GetImage(((int)Panels.ProfilePanel)).gameObject.SetActive(false);
         GetImage(((int)Panels.ButtonPanel)).gameObject.SetActive(false);
         GetImage(((int)Panels.CommandPanel)).gameObject.SetActive(false);
+        GetImage(((int)Panels.SummonPanel)).gameObject.SetActive(false);
 
         if (Type == UI_Type.Placement)
         {
@@ -126,8 +131,30 @@ public class UI_Monster_Management : UI_PopUp
         else
         {
             GetImage(((int)Panels.FloorPanel)).gameObject.SetActive(false);
+            GetImage(((int)Panels.SummonPanel)).gameObject.SetActive(true);
+            GetButton((int)Buttons.Summon).gameObject.AddUIEvent((data) => Show_SummonUI());
         }
     }
+
+    void Show_SummonUI()
+    {
+        Hide_This();
+        var summon = Managers.UI.ShowPopUpAlone<UI_Summon_Monster>("Monster/UI_Summon_Monster");
+        summon.OnPopupCloseEvent += () => Show_This();
+        //SetNotice(OverlayImages.OverlayImage_Summon, false);
+    }
+
+    void Hide_This()
+    {
+        Managers.UI.ClosePopUp(this);
+    }
+    void Show_This()
+    {
+        Managers.UI.ClearAndShowPopUp<UI_Monster_Management>("Monster/UI_Monster_Management");
+        //SetNotice(OverlayImages.OverlayImage_Monster, false);
+    }
+
+
 
     void PlacePanelUpdate()
     {
@@ -450,6 +477,7 @@ public class UI_Monster_Management : UI_PopUp
         }
 
         GetImage(((int)Panels.ButtonPanel)).gameObject.SetActive(true);
+        GetImage(((int)Panels.SummonPanel)).gameObject.SetActive(false);
         Init_ButtonEvent();
 
         switch (Current.monster.State)

@@ -1223,7 +1223,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
         GameManager.Monster.RemoveLevelUpEvent(this);
         BattlePoint_Rank = 0;
         BattlePoint_Count = 0;
-        GameManager.Monster.InjuryMonster++;
+        //GameManager.Monster.InjuryMonster++;
 
         traitCounter.AddInjuryCounter();
     }
