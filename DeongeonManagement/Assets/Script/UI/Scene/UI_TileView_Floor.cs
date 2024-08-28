@@ -84,6 +84,12 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
             case PlacementType.NPC:
                 var npc = current as NPC;
                 view.ViewDetail($"{npc.HP}/{npc.HP_MAX}".SetTextColorTag(Define.TextColor.npc_red));
+                string trait = "";
+                foreach (var item in npc.Data.NPC_TraitList)
+                {
+                    trait += $"{GameManager.Trait.GetData(item).labelName}  ";
+                }
+                view.View_State(trait);
                 break;
         }
     }
@@ -172,6 +178,12 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
                 case PlacementType.NPC:
                     var npc = CurrentTile.Original as NPC;
                     view.ViewDetail($"{npc.HP}/{npc.HP_MAX}".SetTextColorTag(Define.TextColor.npc_red));
+                    string trait = "";
+                    foreach (var item in npc.Data.NPC_TraitList)
+                    {
+                        trait += $"{GameManager.Trait.GetData(item).labelName}  ";
+                    }
+                    view.View_State(trait);
                     break;
             }
         }

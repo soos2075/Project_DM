@@ -27,8 +27,17 @@ public interface I_BattleStat
     int B_DEF { get; }
     int B_AGI { get; }
     int B_LUK { get; }
+
+    int HP { get; set; }
 }
 
+public interface I_TraitSystem
+{
+    public bool TraitCheck(TraitGroup searchTrait);
+    public void DoSomething(TraitGroup searchTrait);
+    public int GetSomething<T>(TraitGroup searchTrait, T current);
+
+}
 
 
 

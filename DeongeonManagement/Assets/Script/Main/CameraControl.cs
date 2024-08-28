@@ -142,7 +142,7 @@ public class CameraControl : MonoBehaviour
 
         if (pixelCam.assetsPPU < 16)
         {
-            pixelCam.assetsPPU = 25;
+            pixelCam.assetsPPU = 26;
         }
         else if (pixelCam.assetsPPU >= 16)
         {
@@ -271,9 +271,9 @@ public class CameraControl : MonoBehaviour
         {
             pixelCam.assetsPPU = 10;
         }
-        if (pixelCam.assetsPPU > 25)
+        if (pixelCam.assetsPPU > 26)
         {
-            pixelCam.assetsPPU = 25;
+            pixelCam.assetsPPU = 26;
         }
         MouseLimit();
     }

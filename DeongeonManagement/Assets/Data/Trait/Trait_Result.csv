@@ -3,11 +3,12 @@ ID,TraitName,Name_KR,Detail_KR,Acquire_KR,Name_EN,Detail_EN,Acquire_EN,Name_JP,D
 1,Reconfigure,재구성,부상 하루 뒤 회복,고유 특성,Reconfigure,Recover after 1 day,Unique Trait,再構成,1日後に回復,固有特性
 2,Vitality,활력,전투 시작 시 최대 HP의 10% 회복,고유 특성,Vitality,Heal 10% max HP at battle start,Unique Trait,活力,戦闘開始時 - 最大HPの10%回復,固有特性
 3,Predation,포식,적을 쓰러트릴 시 HP가 영구적으로 1만큼 증가,고유 특성,Predation,Permanent +1 HP on kill,Unique Trait,捕食,敵撃破時 - HP永久+1,固有特性
-4,IronSkin,철피부,공격시 DEF의 25%만큼 방어무시데미지,고유 특성,IronSkin,25% DEF as true damage,Unique Trait,鉄皮,攻撃時 - DEFの25%を貫通ダメージ,固有特性
+4,IronSkin,철피부,공격 시 DEF의 25%만큼 방어무시데미지,고유 특성,IronSkin,25% DEF as true damage,Unique Trait,鉄皮,攻撃時 - DEFの25%を貫通ダメージ,固有特性
 5,Friend,친구,층에 있는 다른 유닛마다 모든 스탯 +1,고유 특성,Friend,+1 all stats per unit on floor,Unique Trait,友,階層内の他ユニット毎に全ステータス+1,固有特性
 6,Overwhelm,압도,전투 시작 시 상대의 현재체력 -20%,고유 특성,Overwhelm,-20% enemy current HP at battle start,Unique Trait,圧倒,戦闘開始時 - 敵の現在HPを20%減少,固有特性
 7,Nimble,재빠름,공격 시 데미지의 50%의 추가공격,고유 특성,Nimble,50% extra attack on hit,Unique Trait,迅速,攻撃時 - 50%の追加攻撃,固有特性
 ,,,,,,,,,,
+20,LifeDrain,정기흡수,공격 시 데미지의 25%만큼 체력흡수,고유 특성,LifeDrain,Absorb 25% of damage dealt as health,Unique Trait,生気吸収,攻撃時 - ダメージの25%を吸収,固有特性
 ,,,,,,,,,,
 ,,,,,,,,,,
 ,,,,,,,,,,
@@ -35,3 +36,21 @@ ID,TraitName,Name_KR,Detail_KR,Acquire_KR,Name_EN,Detail_EN,Acquire_EN,Name_JP,D
 701,RuthlessC,무자비C,ATK +3,전투 승리 10회,RuthlessC,ATK +3,Battle Victory 10 times,無慈悲C,ATK +3,戦闘勝利10回
 702,RuthlessB,무자비B,ATK +6,전투 승리 15회,RuthlessB,ATK +6,Battle Victory 15 times,無慈悲B,ATK +6,戦闘勝利15回
 703,RuthlessA,무자비A,ATK +9,전투 승리 20회,RuthlessA,ATK +9,Battle Victory 20 times,無慈悲A,ATK +9,戦闘勝利20回
+,,,,,,,,,,
+,,,,,,,,,,
+7000,Herbalism,약초학,,,Herbalism,,,薬草学,,
+7001,Mineralogy,광물학,,,Mineralogy,,,鉱物学,,
+7002,Collector,보물사냥꾼,,,Collector,,,宝探し,,
+,,,,,,,,,,
+8000,Weed,잡초,,,Weed,,,雑草,,
+8001,Stone,돌멩이,,,Stone,,,石畳,,
+,,,,,,,,,,
+,,,,,,,,,,
+9000,Militant,전투원,,,Militant,,,闘士,,
+9001,Civilian,비전투원,,,Civilian,,,一般人,,
+9002,Trample,짓밟기,,,Trample,,,踏みつけ,,
+9003,Swiftness,신속함,,,Swiftness,,,迅速性,,
+,,,,,,,,,,
+9900,Hunting:Slime,사냥:슬라임,,,Hunting:Slime,,,狩猟:スライム,,
+9901,Hunting:Golem,사냥:골렘,,,Hunting:Golem,,,狩猟:ゴーレム,,
+,,,,,,,,,,

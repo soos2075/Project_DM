@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
+public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_TraitSystem
 {
     protected void Awake()
     {
@@ -26,12 +26,15 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
         return this.gameObject;
     }
 
-    public string Name_Color { get { return $"{name_Tag_Start}{Name}{name_Tag_End}"; } }
+    public string Name_Color { get { return $"{name_Tag_Start}{CallName}{name_Tag_End}"; } }
     private string name_Tag_Start = "<color=#44ff44ff>";
     private string name_Tag_End = "</color>";
 
     public virtual string Detail_KR { get { return Data.detail; } }
 
+
+    public string CallName { get { return string.IsNullOrEmpty(CustomName) ? Name : CustomName; } }
+    public string CustomName { get; set; }
 
     public virtual void MouseClickEvent()
     {
@@ -130,6 +133,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
     public void Initialize_Load(Save_MonsterData _LoadData)
     {
         if (_LoadData == null) { Debug.Log($"세이브데이터 없음 : {name}"); return; }
+
+        CustomName = _LoadData.CustomName;
 
         LV = _LoadData.LV;
         HP = _LoadData.HP;
@@ -252,10 +257,15 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
     public int AGI { get; protected set; }
     public int LUK { get; protected set; }
 
+    [HideInInspector]
     public float hp_chance;
+    [HideInInspector]
     public float atk_chance;
+    [HideInInspector]
     public float def_chance;
+    [HideInInspector]
     public float agi_chance;
+    [HideInInspector]
     public float luk_chance;
 
 
@@ -508,9 +518,10 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
         var trait = Util.GetTypeToString($"Trait+{searchTrait.ToString()}");
         foreach (var item in TraitList)
         {
-            if (item.GetType() == trait)
+            if (item.GetType() == trait && item is ITrait_Value)
             {
-                item.DoSomething();
+                ITrait_Value value = item as ITrait_Value;
+                value.DoSomething();
             }
         }
     }
@@ -519,9 +530,10 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
         var trait = Util.GetTypeToString($"Trait+{searchTrait.ToString()}");
         foreach (var item in TraitList)
         {
-            if (item.GetType() == trait)
+            if (item.GetType() == trait && item is ITrait_Value)
             {
-                int tValue = item.GetSomething(current);
+                ITrait_Value value = item as ITrait_Value;
+                int tValue = value.GetSomething(current);
                 return tValue;
             }
         }
@@ -538,7 +550,10 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
 
         foreach (var trait in TraitList)
         {
-            applyHp += trait.ApplyHP(HP);
+            if (trait is ITrait_Value value)
+            {
+                applyHp += value.ApplyHP(HP);
+            }
         }
         return applyHp;
     }
@@ -547,7 +562,10 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
         int applyValue = 0;
         foreach (var trait in TraitList)
         {
-            applyValue += trait.ApplyHP_Max(HP_Max);
+            if (trait is ITrait_Value value)
+            {
+                applyValue += value.ApplyHP_Max(HP_Max);
+            }
         }
         return applyValue;
     }
@@ -556,7 +574,10 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
         int applyValue = 0;
         foreach (var trait in TraitList)
         {
-            applyValue += trait.ApplyATK(ATK);
+            if (trait is ITrait_Value value)
+            {
+                applyValue += value.ApplyATK(ATK);
+            }
         }
         return applyValue;
     }
@@ -565,7 +586,10 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
         int applyValue = 0;
         foreach (var trait in TraitList)
         {
-            applyValue += trait.ApplyDEF(DEF);
+            if (trait is ITrait_Value value)
+            {
+                applyValue += value.ApplyDEF(DEF);
+            }
         }
         return applyValue;
     }
@@ -574,7 +598,10 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
         int applyValue = 0;
         foreach (var trait in TraitList)
         {
-            applyValue += trait.ApplyAGI(AGI);
+            if (trait is ITrait_Value value)
+            {
+                applyValue += value.ApplyAGI(AGI);
+            }
         }
         return applyValue;
     }
@@ -583,7 +610,10 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
         int applyValue = 0;
         foreach (var trait in TraitList)
         {
-            applyValue += trait.ApplyLUK(LUK);
+            if (trait is ITrait_Value value)
+            {
+                applyValue += value.ApplyLUK(LUK);
+            }
         }
         return applyValue;
     }
@@ -992,19 +1022,19 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
 
         int battleMP = npc.Rank * 5;
 
-        foreach (var item in npc.Data.FacilityTagList)
+        foreach (var item in npc.Data.NPC_TraitList)
         {
-            if (item == TagGroup.전투원)
+            if (item == TraitGroup.Militant)
             {
                 battleMP += npc.Rank * 2;
             }
-            if (item == TagGroup.비전투원)
+            if (item == TraitGroup.Civilian)
             {
                 battleMP -= npc.Rank * 2;
             }
-            if (item == TagGroup.짓밟기)
+            if (item == TraitGroup.Trample)
             {
-                battleMP = npc.Rank;
+                battleMP = npc.Rank * 10;
             }
         }
 
@@ -1185,6 +1215,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat
             exp = Mathf.RoundToInt(exp * 1.6f);
         }
 
+        Main.Instance.ShowDM(exp, Main.TextType.exp, transform);
 
         BattlePoint_Rank += exp;
         BattlePoint_Count++;

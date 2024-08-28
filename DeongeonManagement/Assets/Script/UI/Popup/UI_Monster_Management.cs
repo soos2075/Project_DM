@@ -31,17 +31,17 @@ public class UI_Monster_Management : UI_PopUp
 
         CommandPanel,
 
-        fix,
-        wan,
-        atk,
+        PlacementPanel,
+        ModePanel,
+
+        EditPanel,
     }
 
     enum Texts
     {
         Lv,
         Name,
-        //Status,
-        //State,
+
         DetailInfo_State,
         DetailInfo_AP,
         DetailInfo_Floor,
@@ -57,7 +57,6 @@ public class UI_Monster_Management : UI_PopUp
     {
         Profile,
         Return,
-
         Icon_Face_State,
     }
 
@@ -69,13 +68,32 @@ public class UI_Monster_Management : UI_PopUp
         Recover,
         Retrieve,
 
+        //? Summon
         Summon,
 
+        //? 배치모드에서 회복
+        Recover_Floor,
 
         //? Command
         Command_Fixed,
         Command_Wander,
         Command_Attack,
+
+        //? Mode
+        Mode_Managed,
+        Mode_Placement,
+        Mode_Edit,
+
+        //? Floor
+        Floor_Egg,
+        Floor_01,
+        Floor_02,
+        Floor_03,
+        Floor_04,
+
+        //? Edit
+        Change_Name,
+        Change_Slot,
     }
 
     public override void Init()
@@ -91,17 +109,21 @@ public class UI_Monster_Management : UI_PopUp
         Init_Panels();
         CreateMonsterBox();
         Init_CommandButton();
+        Init_ModeButton();
+        Init_FloorButton();
+        Init_EditPanel();
 
         PanelClear();
     }
 
 
-    public enum UI_Type
+    public enum Unit_Mode
     {
         Management,
         Placement,
+        Edit,
     }
-    public UI_Type Type { get; set; }
+    public Unit_Mode Mode { get; set; }
 
     void Init_Panels()
     {
@@ -119,20 +141,43 @@ public class UI_Monster_Management : UI_PopUp
         GetImage(((int)Panels.ButtonPanel)).gameObject.SetActive(false);
         GetImage(((int)Panels.CommandPanel)).gameObject.SetActive(false);
         GetImage(((int)Panels.SummonPanel)).gameObject.SetActive(false);
+        GetImage(((int)Panels.PlacementPanel)).gameObject.SetActive(false);
+        GetImage(((int)Panels.FloorPanel)).gameObject.SetActive(false);
+        GetImage(((int)Panels.EditPanel)).gameObject.SetActive(false);
 
-        if (Type == UI_Type.Placement)
+        GetImage(((int)Panels.ModePanel)).gameObject.SetActive(true);
+        GetButton(((int)Buttons.Recover_Floor)).gameObject.SetActive(false);
+
+
+        switch (Mode)
         {
-            GetImage(((int)Panels.FloorPanel)).gameObject.SetActive(true);
-            PlacePanelUpdate();
-            //GetTMP((int)Texts.DetailInfo).text = $"{Main.Instance.CurrentFloor.LabelName}\n" +
-            //    $"{UserData.Instance.LocaleText("배치된 몬스터")} : {Main.Instance.CurrentFloor.monsterList.Count}\n" +
-            //    $"{UserData.Instance.LocaleText("배치가능 몬스터")} : {Main.Instance.CurrentFloor.MaxMonsterSize}";
-        }
-        else
-        {
-            GetImage(((int)Panels.FloorPanel)).gameObject.SetActive(false);
-            GetImage(((int)Panels.SummonPanel)).gameObject.SetActive(true);
-            GetButton((int)Buttons.Summon).gameObject.AddUIEvent((data) => Show_SummonUI());
+            case Unit_Mode.Management:
+                GetImage(((int)Panels.SummonPanel)).gameObject.SetActive(true);
+                GetButton((int)Buttons.Summon).gameObject.AddUIEvent((data) => Show_SummonUI());
+
+                GetButton(((int)Buttons.Mode_Managed)).transform.parent.GetComponent<Image>().color = Color.white;
+                GetButton(((int)Buttons.Mode_Placement)).transform.parent.GetComponent<Image>().color = Color.clear;
+                GetButton(((int)Buttons.Mode_Edit)).transform.parent.GetComponent<Image>().color = Color.clear;
+                break;
+
+            case Unit_Mode.Placement:
+                GetImage(((int)Panels.PlacementPanel)).gameObject.SetActive(true);
+                GetImage(((int)Panels.FloorPanel)).gameObject.SetActive(true);
+                PlacePanelUpdate();
+
+                GetButton(((int)Buttons.Mode_Managed)).transform.parent.GetComponent<Image>().color = Color.clear;
+                GetButton(((int)Buttons.Mode_Placement)).transform.parent.GetComponent<Image>().color = Color.white;
+                GetButton(((int)Buttons.Mode_Edit)).transform.parent.GetComponent<Image>().color = Color.clear;
+                break;
+
+            case Unit_Mode.Edit:
+                Init_EditPanel();
+                GetImage(((int)Panels.EditPanel)).gameObject.SetActive(true);
+
+                GetButton(((int)Buttons.Mode_Managed)).transform.parent.GetComponent<Image>().color = Color.clear;
+                GetButton(((int)Buttons.Mode_Placement)).transform.parent.GetComponent<Image>().color = Color.clear;
+                GetButton(((int)Buttons.Mode_Edit)).transform.parent.GetComponent<Image>().color = Color.white;
+                break;
         }
     }
 
@@ -163,7 +208,7 @@ public class UI_Monster_Management : UI_PopUp
         int placeMonsters = 0;
         int ableMonsters = 0;
 
-        if (Current != null && Current.monster != null)
+        if (Current != null && Current.monster != null && Current.monster.State == Monster.MonsterState.Placement)
         {
             floorName = Current.monster.PlacementInfo.Place_Floor.LabelName;
             placeMonsters = Current.monster.PlacementInfo.Place_Floor.monsterList.Count;
@@ -174,7 +219,7 @@ public class UI_Monster_Management : UI_PopUp
                 placeMonsters--;
             }
         }
-        else
+        else if (Main.Instance.CurrentFloor != null)
         {
             floorName = Main.Instance.CurrentFloor.LabelName;
             placeMonsters = Main.Instance.CurrentFloor.monsterList.Count;
@@ -188,14 +233,40 @@ public class UI_Monster_Management : UI_PopUp
 
         GetTMP((int)Texts.DetailInfo_Floor).text = $"{floorName}";
 
+        if (string.IsNullOrEmpty(floorName))
+        {
+            GetTMP((int)Texts.DetailInfo_Unit).text = "";
+        }
+        else
+        {
+            GetTMP((int)Texts.DetailInfo_Unit).text = $"{UserData.Instance.LocaleText("배치된 몬스터")} : {placeMonsters}\n" +
+                $"{UserData.Instance.LocaleText("배치가능 몬스터")} : {ableMonsters}";
+        }
+
+        GetTMP((int)Texts.DetailInfo_AP).text = "";
+        GetTMP((int)Texts.DetailInfo_State).text = "";
+    }
+
+    void PlacePanelUpdate(int floorIndex)
+    {
+        Main.Instance.CurrentFloor = Main.Instance.Floor[floorIndex];
+
+        string floorName = Main.Instance.CurrentFloor.LabelName;
+        int placeMonsters = Main.Instance.CurrentFloor.monsterList.Count;
+        int ableMonsters = Main.Instance.CurrentFloor.MaxMonsterSize;
+        if (Main.Instance.CurrentFloor.FloorIndex == 3)
+        {
+            placeMonsters--;
+        }
+
+        GetTMP((int)Texts.DetailInfo_Floor).text = $"{floorName}";
+
         GetTMP((int)Texts.DetailInfo_Unit).text = $"{UserData.Instance.LocaleText("배치된 몬스터")} : {placeMonsters}\n" +
             $"{UserData.Instance.LocaleText("배치가능 몬스터")} : {ableMonsters}";
 
         GetTMP((int)Texts.DetailInfo_AP).text = "";
         GetTMP((int)Texts.DetailInfo_State).text = "";
     }
-
-
 
 
 
@@ -220,7 +291,14 @@ public class UI_Monster_Management : UI_PopUp
 
     public void MonsterBox_ClickEvent(UI_MonsterBox selected)
     {
-        if (Current != null && Current == selected && selected.monster != null)
+        if (Cor_SlotChangeWait != null)
+        {
+            isChanging = true;
+            Current = selected;
+            return;
+        }
+
+        if (Current != null && Current == selected && selected.monster != null && Mode == Unit_Mode.Management)
         {
             switch (selected.monster.State)
             {
@@ -254,18 +332,44 @@ public class UI_Monster_Management : UI_PopUp
             return;
         }
 
-        if (Type == UI_Type.Placement && selected.monster.State != Monster.MonsterState.Injury)
+        switch (Mode)
         {
-            //PlacementOne(Define.Boundary_1x1, () => CreateAll(Current.monster.MonsterID));
-            PlacementEvent(Define.Boundary_1x1, () => CreateAll(Current.monster.MonsterID));
-            return;
+            case Unit_Mode.Management:
+                AddFloorInfo();
+                AddButtonEvent();
+                AddCommandPanel();
+                AddTextContents();
+                break;
+
+            case Unit_Mode.Placement:
+                if (selected.monster.State != Monster.MonsterState.Injury)
+                {
+                    PanelClear();
+                    PlacementEvent(Define.Boundary_1x1, () => CreateAll(Current.monster.MonsterID));
+                }
+                else
+                {
+                    GetButton(((int)Buttons.Recover_Floor)).gameObject.SetActive(true);
+                    GetButton((int)Buttons.Recover_Floor).gameObject.RemoveUIEventAll();
+
+                    AddEvent_Recover(GetButton(((int)Buttons.Recover_Floor)).gameObject);
+                    GetButton(((int)Buttons.Recover_Floor)).gameObject.AddUIEvent(data =>
+                    {
+                        Reset_Selected();
+                        PanelClear();
+                        for (int i = 0; i < childList.Count; i++)
+                        {
+                            childList[i].ShowContents();
+                        }
+                    });
+                }
+                break;
+
+            case Unit_Mode.Edit:
+                AddEditButtonEvent();
+                break;
         }
 
-
-        AddFloorInfo();
-        AddButtonEvent();
-        AddCommandPanel();
-        AddTextContents();
     }
 
     public void ShowDetail(Monster _monster)
@@ -315,6 +419,26 @@ public class UI_Monster_Management : UI_PopUp
         }
     }
 
+    void Reset_Selected()
+    {
+        Current = null;
+        for (int i = 0; i < childList.Count; i++)
+        {
+            childList[i].ChangePanelColor(Color.white);
+        }
+
+        GetTMP((int)Texts.DetailInfo_State).text = "";
+        GetTMP((int)Texts.DetailInfo_AP).text = "";
+        GetTMP((int)Texts.DetailInfo_Floor).text = "";
+        GetTMP((int)Texts.DetailInfo_Unit).text = "";
+
+        if (Cor_SlotChangeWait != null)
+        {
+            StopCoroutine(Cor_SlotChangeWait);
+            Cor_SlotChangeWait = null;
+        }
+    }
+
 
     void AddTextContents()
     {
@@ -323,15 +447,7 @@ public class UI_Monster_Management : UI_PopUp
         GetImage((int)Panels.ProfilePanel).gameObject.SetActive(true);
 
         GetTMP((int)Texts.Lv).text = $"Lv.{Current.monster.LV} / {Current.monster.Data.maxLv}";
-        GetTMP((int)Texts.Name).text = Current.monster.Name;
-
-        //GetTMP((int)Texts.Status).text = $"HP : {Current.monster.HP} / {Current.monster.HP_Max} " +
-        //    $"{Util.SetTextColorTag($"(+{Current.monster.B_HP - Current.monster.HP})", Define.TextColor.npc_red)}\n";
-        //GetTMP((int)Texts.Status).text +=
-        //    $"ATK : {Current.monster.ATK} {Util.SetTextColorTag($"(+{Current.monster.B_ATK - Current.monster.ATK})", Define.TextColor.npc_red)}" +
-        //    $"\tDEF : {Current.monster.DEF} {Util.SetTextColorTag($"(+{Current.monster.B_DEF - Current.monster.DEF})", Define.TextColor.npc_red)}" +
-        //    $"\nAGI : {Current.monster.AGI} {Util.SetTextColorTag($"(+{Current.monster.B_AGI - Current.monster.AGI})", Define.TextColor.npc_red)}" +
-        //    $"\tLUK : {Current.monster.LUK} {Util.SetTextColorTag($"(+{Current.monster.B_LUK - Current.monster.LUK})", Define.TextColor.npc_red)}";
+        GetTMP((int)Texts.Name).text = Current.monster.CallName;
 
         GetTMP((int)Texts.Status_HP).text = $"{Current.monster.HP}/{Current.monster.HP_Max} " +
             $"{Util.SetTextColorTag($"(+{Current.monster.B_HP - Current.monster.HP})", Define.TextColor.npc_red)}";
@@ -349,20 +465,6 @@ public class UI_Monster_Management : UI_PopUp
             $"{Util.SetTextColorTag($"(+{Current.monster.B_LUK - Current.monster.LUK})", Define.TextColor.npc_red)}";
 
 
-
-
-        //if (GameManager.Buff.CurrentBuff.Orb_red > 0)
-        //{
-        //    GetTMP(((int)Texts.Status)).text = $"HP : {Current.monster.HP} / {Current.monster.HP_Max}\n";
-        //    GetTMP(((int)Texts.Status)).text += 
-        //        $"ATK : {Current.monster.ATK} {"(+5)".SetTextColorTag(Define.TextColor.npc_red)} " +
-        //        $"\tDEF : {Current.monster.DEF} {"(+5)".SetTextColorTag(Define.TextColor.npc_red)} " +
-        //        $"\nAGI : {Current.monster.AGI} {"(+5)".SetTextColorTag(Define.TextColor.npc_red)} " +
-        //        $"\tLUK : {Current.monster.LUK} {"(+5)".SetTextColorTag(Define.TextColor.npc_red)}";
-        //}
-
-
-        // GetTMP(((int)Texts.State)).text = $"{Current.monster.Data.evolutionHint}";
         var TraitPanel = GetImage((int)Panels.TraitPanel).transform;
         //? 특성 초기화
         for (int i = TraitPanel.childCount - 1; i >= 0; i--)
@@ -375,13 +477,53 @@ public class UI_Monster_Management : UI_PopUp
             GameManager.Trait.CreateTraitBar(Current.monster.TraitList[i].ID, TraitPanel);
         }
         
-
-
-
         GetObject(((int)Etc.Profile)).GetComponent<Image>().sprite = Managers.Sprite.GetSprite(Current.monster.Data.spritePath);
     }
 
     #endregion
+
+
+    #region PlacementPanel
+    void Init_FloorButton()
+    {
+        GetButton(((int)Buttons.Floor_Egg)).gameObject.AddUIEvent(data => PlacePanelUpdate(3));
+        GetButton(((int)Buttons.Floor_01)).gameObject.AddUIEvent(data => PlacePanelUpdate(0));
+        GetButton(((int)Buttons.Floor_02)).gameObject.AddUIEvent(data => PlacePanelUpdate(1));
+        GetButton(((int)Buttons.Floor_03)).gameObject.AddUIEvent(data => PlacePanelUpdate(2));
+        GetButton(((int)Buttons.Floor_04)).gameObject.AddUIEvent(data => PlacePanelUpdate(4));
+
+        GetButton(((int)Buttons.Floor_Egg)).GetComponentInChildren<TextMeshProUGUI>().text =
+    $"{UserData.Instance.LocaleText("숨겨진곳")}";
+
+        GetButton(((int)Buttons.Floor_01)).GetComponentInChildren<TextMeshProUGUI>().text = 
+    $"{UserData.Instance.LocaleText("지하")} {1} {UserData.Instance.LocaleText("층")}";
+        GetButton(((int)Buttons.Floor_02)).GetComponentInChildren<TextMeshProUGUI>().text =
+    $"{UserData.Instance.LocaleText("지하")} {2} {UserData.Instance.LocaleText("층")}";
+        GetButton(((int)Buttons.Floor_03)).GetComponentInChildren<TextMeshProUGUI>().text =
+    $"{UserData.Instance.LocaleText("지하")} {3} {UserData.Instance.LocaleText("층")}";
+        GetButton(((int)Buttons.Floor_04)).GetComponentInChildren<TextMeshProUGUI>().text =
+    $"{UserData.Instance.LocaleText("지하")} {4} {UserData.Instance.LocaleText("층")}";
+    }
+
+    #endregion
+
+    #region ModePanel
+    void Init_ModeButton()
+    {
+        GetButton(((int)Buttons.Mode_Managed)).gameObject.AddUIEvent(data => ChangeMode(Unit_Mode.Management));
+        GetButton(((int)Buttons.Mode_Placement)).gameObject.AddUIEvent(data => ChangeMode(Unit_Mode.Placement));
+        GetButton(((int)Buttons.Mode_Edit)).gameObject.AddUIEvent(data => ChangeMode(Unit_Mode.Edit));
+    }
+
+    void ChangeMode(Unit_Mode _mode)
+    {
+        Reset_Selected();
+        Mode = _mode;
+        PanelClear();
+    }
+
+    #endregion
+
 
     #region CommandPanel
     void Init_CommandButton()
@@ -421,25 +563,108 @@ public class UI_Monster_Management : UI_PopUp
         switch (Current.monster.Mode)
         {
             case Monster.MoveType.Fixed:
-                GetImage(((int)Panels.fix)).color = Color.white;
-                GetImage(((int)Panels.wan)).color = Color.clear;
-                GetImage(((int)Panels.atk)).color = Color.clear;
+                GetButton((int)Buttons.Command_Fixed).transform.parent.GetComponent<Image>().color = Color.white;
+                GetButton((int)Buttons.Command_Wander).transform.parent.GetComponent<Image>().color = Color.clear;
+                GetButton((int)Buttons.Command_Attack).transform.parent.GetComponent<Image>().color = Color.clear;
                 break;
 
             case Monster.MoveType.Wander:
-                GetImage(((int)Panels.fix)).color = Color.clear;
-                GetImage(((int)Panels.wan)).color = Color.white;
-                GetImage(((int)Panels.atk)).color = Color.clear;
+                GetButton((int)Buttons.Command_Fixed).transform.parent.GetComponent<Image>().color = Color.clear;
+                GetButton((int)Buttons.Command_Wander).transform.parent.GetComponent<Image>().color = Color.white;
+                GetButton((int)Buttons.Command_Attack).transform.parent.GetComponent<Image>().color = Color.clear;
+
                 break;
 
             case Monster.MoveType.Attack:
-                GetImage(((int)Panels.fix)).color = Color.clear;
-                GetImage(((int)Panels.wan)).color = Color.clear;
-                GetImage(((int)Panels.atk)).color = Color.white;
+                GetButton((int)Buttons.Command_Fixed).transform.parent.GetComponent<Image>().color = Color.clear;
+                GetButton((int)Buttons.Command_Wander).transform.parent.GetComponent<Image>().color = Color.clear;
+                GetButton((int)Buttons.Command_Attack).transform.parent.GetComponent<Image>().color = Color.white;
                 break;
         }
     }
     #endregion
+
+
+    #region EditPanel
+
+    void Init_EditPanel()
+    {
+        GetButton((int)Buttons.Change_Name).gameObject.SetActive(false);
+        GetButton((int)Buttons.Change_Slot).gameObject.SetActive(false);
+        GetImage((int)Panels.EditPanel).gameObject.SetActive(false);
+    }
+
+
+    void AddEditButtonEvent()
+    {
+        GetImage((int)Panels.EditPanel).gameObject.SetActive(true);
+
+        GetButton((int)Buttons.Change_Name).gameObject.SetActive(true);
+        GetButton((int)Buttons.Change_Name).gameObject.RemoveUIEventAll();
+        GetButton((int)Buttons.Change_Name).gameObject.AddUIEvent(data => ChangeNameEvent());
+
+        GetButton((int)Buttons.Change_Slot).gameObject.SetActive(true);
+        GetButton((int)Buttons.Change_Slot).gameObject.RemoveUIEventAll();
+        GetButton((int)Buttons.Change_Slot).gameObject.AddUIEvent(data => ChangeSlotEvent());
+    }
+
+
+
+    void ChangeNameEvent()
+    {
+        var ui = Managers.UI.ShowPopUp<UI_InputField>();
+        ui.SetAction(_value => ChangeUnitName(_value), Current.monster.CallName, Current.monster.CallName);
+    }
+
+    void ChangeUnitName(string _value)
+    {
+        Current.monster.CustomName = _value;
+        for (int i = 0; i < childList.Count; i++)
+        {
+            childList[i].ShowContents();
+        }
+    }
+
+    void ChangeSlotEvent()
+    {
+        //? 다른 슬롯 클릭을 기다렸다가
+        Cor_SlotChangeWait = StartCoroutine(SlotChange());
+
+        //? 자기와 다른 슬롯클릭이 감지되면
+
+        //? 작업을 종료하고 초기화
+    }
+
+    bool isChanging { get; set; } = false;
+
+
+    Coroutine Cor_SlotChangeWait;
+    IEnumerator SlotChange()
+    {
+        int first = childList.IndexOf(Current);
+        yield return new WaitUntil(() => isChanging);
+        int second = childList.IndexOf(Current);
+
+        var mon = GameManager.Monster.Monsters[first];
+        GameManager.Monster.Monsters[first] = GameManager.Monster.Monsters[second];
+        GameManager.Monster.Monsters[second] = mon;
+
+        foreach (var item in childList)
+        {
+            Managers.Resource.Destroy(item.gameObject);
+        }
+
+        CreateMonsterBox();
+        Init_EditPanel();
+        isChanging = false;
+        Cor_SlotChangeWait = null;
+    }
+
+
+
+
+    #endregion
+
 
     #region ButtonPanel
 
@@ -451,6 +676,7 @@ public class UI_Monster_Management : UI_PopUp
             GetButton(i).gameObject.RemoveUIEventAll();
             GetButton(i).gameObject.AddUIEvent((data) => StartCoroutine(RefreshAll()));
         }
+        GetButton(((int)Buttons.Recover_Floor)).gameObject.SetActive(false);
     }
     IEnumerator RefreshAll()
     {
@@ -471,7 +697,7 @@ public class UI_Monster_Management : UI_PopUp
     {
         if (Current == null || Current.monster == null) return;
 
-        if (Type == UI_Type.Placement)
+        if (Mode != Unit_Mode.Management)
         {
             return;
         }
@@ -537,33 +763,38 @@ public class UI_Monster_Management : UI_PopUp
                 GetButton(((int)Buttons.Release)).gameObject.
                     AddUIEvent((data) => GameManager.Monster.ReleaseMonster(Current.monster.MonsterID));
 
-                int RecoverCost = (int)(((Current.monster.LV * 0.08f) + 0.3f) * Current.monster.Data.manaCost);
-
-                if (Current.monster.TraitCheck(TraitGroup.ShirkingC))
-                {
-                    RecoverCost = Mathf.RoundToInt(RecoverCost * 0.9f);
-                }
-                if (Current.monster.TraitCheck(TraitGroup.ShirkingB))
-                {
-                    RecoverCost = Mathf.RoundToInt(RecoverCost * 0.8f);
-                }
-                if (Current.monster.TraitCheck(TraitGroup.ShirkingA))
-                {
-                    RecoverCost = Mathf.RoundToInt(RecoverCost * 0.7f);
-                }
-
-                GetButton(((int)Buttons.Recover)).gameObject.
-                    AddUIEvent((data) => Current.monster.Recover(RecoverCost));
-                GetButton(((int)Buttons.Recover)).GetComponentInChildren<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText("회복")}({RecoverCost})";
-                GetObject((int)Etc.Icon_Face_State).GetComponent<Image>().sprite = Managers.Sprite.GetSprite_SLA("Element_State", "Bad");
-                GetTMP((int)Texts.DetailInfo_State).text = $"{UserData.Instance.LocaleText("회복")} {UserData.Instance.LocaleText("Mana")} : {RecoverCost}";
-                GetTMP((int)Texts.DetailInfo_Floor).text = "";
-                GetTMP((int)Texts.DetailInfo_Unit).text = "";
+                AddEvent_Recover(GetButton(((int)Buttons.Recover)).gameObject);
                 break;
         }
     }
 
 
+
+    void AddEvent_Recover(GameObject targetButton)
+    {
+        int RecoverCost = (int)(((Current.monster.LV * 0.08f) + 0.3f) * Current.monster.Data.manaCost);
+
+        if (Current.monster.TraitCheck(TraitGroup.ShirkingC))
+        {
+            RecoverCost = Mathf.RoundToInt(RecoverCost * 0.9f);
+        }
+        if (Current.monster.TraitCheck(TraitGroup.ShirkingB))
+        {
+            RecoverCost = Mathf.RoundToInt(RecoverCost * 0.8f);
+        }
+        if (Current.monster.TraitCheck(TraitGroup.ShirkingA))
+        {
+            RecoverCost = Mathf.RoundToInt(RecoverCost * 0.7f);
+        }
+
+            
+        targetButton.AddUIEvent((data) => Current.monster.Recover(RecoverCost));
+        targetButton.GetComponentInChildren<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText("회복")}({RecoverCost})";
+        GetObject((int)Etc.Icon_Face_State).GetComponent<Image>().sprite = Managers.Sprite.GetSprite_SLA("Element_State", "Bad");
+        GetTMP((int)Texts.DetailInfo_State).text = $"{UserData.Instance.LocaleText("회복")} {UserData.Instance.LocaleText("Mana")} : {RecoverCost}";
+        GetTMP((int)Texts.DetailInfo_Floor).text = "";
+        GetTMP((int)Texts.DetailInfo_Unit).text = "";
+    }
 
 
 
@@ -686,22 +917,19 @@ public class UI_Monster_Management : UI_PopUp
     {
         Main.Instance.ResetCurrentAction();
 
-        if (Type == UI_Type.Management)
+        switch (Mode)
         {
-            StartCoroutine(RefreshAll());
-        }
-        else if (Type == UI_Type.Placement)
-        {
-            PlacePanelUpdate();
-        }
-        //else if (Type == UI_Type.Placement)
-        //{
-        //    for (int i = 0; i < childList.Count; i++)
-        //    {
-        //        childList[i].ShowContents();
-        //    }
-        //}
+            case Unit_Mode.Management:
+                StartCoroutine(RefreshAll());
+                break;
 
+            case Unit_Mode.Placement:
+                PlacePanelUpdate();
+                break;
+
+            case Unit_Mode.Edit:
+                break;
+        }
     }
 
 

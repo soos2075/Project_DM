@@ -329,7 +329,7 @@ public class UI_Collection : UI_PopUp
             {
                 StatContentsSet(ShowBoxText.TMP_Stat_Sub1, $"동시전투", $"{SO_Data.maxBattleCount}");
                 StatContentsSet(ShowBoxText.TMP_Stat_Sub2, $"{UserData.Instance.LocaleText("AP")}", $"{SO_Data.battleAp}");
-                StatContentsSet(ShowBoxText.TMP_Stat_Sub3, $"등급", $"{(Define.DungeonRank)SO_Data.unlockRank}");
+                StatContentsSet(ShowBoxText.TMP_Stat_Sub3, $"Rank", $"{(Define.DungeonRank)SO_Data.unlockRank}");
             }
             if (data.info.level_2_Unlock)
             {
@@ -385,34 +385,32 @@ public class UI_Collection : UI_PopUp
             {
                 StatContentsSet(ShowBoxText.TMP_Stat_Sub1, $"{UserData.Instance.LocaleText("Mana")}", $"{SO_Data.MP}");
                 StatContentsSet(ShowBoxText.TMP_Stat_Sub2, $"{UserData.Instance.LocaleText("AP")}", $"{SO_Data.AP}");
-                StatContentsSet(ShowBoxText.TMP_Stat_Sub3, $"등급", $"{(Define.DungeonRank)SO_Data.Rank}");
+                StatContentsSet(ShowBoxText.TMP_Stat_Sub3, $"Rank", $"{(Define.DungeonRank)SO_Data.Rank}");
             }
             if (data.info.level_3_Unlock)
             {
                 string tag = "";
-                foreach (var item in SO_Data.FacilityTagList)
+                foreach (var item in SO_Data.NPC_TraitList)
                 {
-                    tag += item.ToString();
-                    tag += "\t";
+                    tag += $"[{GameManager.Trait.GetData(item).labelName}]  ";
                 }
-                OptionContentSet(ShowBoxText.TMP_Option1, $"고유 속성 : {tag}", true);
+                OptionContentSet(ShowBoxText.TMP_Option1, $"{tag}", true);
             }
             if (data.info.level_4_Unlock)
             {
-                //? 여긴 가지고 있는 특성 나열하기 (npc도 특성을 가질 수 있음)
-                string prefer = "";
-                foreach (var item in SO_Data.PreferList)
-                {
-                    prefer += UserData.Instance.LocaleText_Label(item.ToString());
-                    prefer += "\t";
-                }
-                string NonPrefer = "";
-                foreach (var item in SO_Data.Non_PreferList)
-                {
-                    NonPrefer += UserData.Instance.LocaleText_Label(item.ToString());
-                    NonPrefer += "\t";
-                }
-                OptionContentSet(ShowBoxText.TMP_Option2, $"선호 : {prefer}\n회피 : {NonPrefer}", true);
+                //string prefer = "";
+                //foreach (var item in SO_Data.PreferList)
+                //{
+                //    prefer += UserData.Instance.LocaleText_Label(item.ToString());
+                //    prefer += "\t";
+                //}
+                //string NonPrefer = "";
+                //foreach (var item in SO_Data.Non_PreferList)
+                //{
+                //    NonPrefer += UserData.Instance.LocaleText_Label(item.ToString());
+                //    NonPrefer += "\t";
+                //}
+                //OptionContentSet(ShowBoxText.TMP_Option2, $"선호 : {prefer}\n회피 : {NonPrefer}", true);
             }
             if (data.info.level_5_Unlock)
             {
@@ -453,8 +451,7 @@ public class UI_Collection : UI_PopUp
                     string target = "";
                     foreach (var item in SO_Data.bonusTarget)
                     {
-                        target += item.ToString();
-                        target += "\t";
+                        target += $"[{GameManager.Trait.GetData(item).labelName}]  ";
                     }
                     OptionContentSet(ShowBoxText.TMP_Option1, $"보너스 속성 : {target}", true);
                 }
@@ -462,8 +459,7 @@ public class UI_Collection : UI_PopUp
                     string target = "";
                     foreach (var item in SO_Data.weakTarget)
                     {
-                        target += item.ToString();
-                        target += "\t";
+                        target += $"[{GameManager.Trait.GetData(item).labelName}]  ";
                     }
                     OptionContentSet(ShowBoxText.TMP_Option2, $"비효율 속성 : {target}", true);
                 }
@@ -471,8 +467,7 @@ public class UI_Collection : UI_PopUp
                     string target = "";
                     foreach (var item in SO_Data.invalidTarget)
                     {
-                        target += item.ToString();
-                        target += "\t";
+                        target += $"[{GameManager.Trait.GetData(item).labelName}]  ";
                     }
                     OptionContentSet(ShowBoxText.TMP_Option3, $"무효 속성 : {target}", true);
                 }

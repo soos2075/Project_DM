@@ -61,13 +61,23 @@ public class Adventurer : NPC
     //? 4. 단 하나의 타입만 찾는다고 해도 꼭 AddList를 해줘야 PriorityList가 null이 되지 않음.
     //? 5. 리스트가 더하는게 너무 많아지면 그냥 1번으로 다찾아놓고 2번으로 삭제할 애들 받아온뒤 PriorityRemove에 2번을 넣어서 삭제하면 됨. 
 
-    protected override void SetPriorityList()
+    protected override void SetPriorityList(PrioritySortOption option)
     {
         if (PriorityList != null) PriorityList.Clear();
 
+        //{
+        //    var list1 = GetFloorObjectsAll(Define.TileType.Monster);
+        //    AddList(list1);
+        //}
         {
-            var list1 = GetFloorObjectsAll(Define.TileType.Monster);
-            AddList(list1);
+            var monster = GetPriorityPick(typeof(Monster));
+            switch (option)
+            {
+                case PrioritySortOption.SortByDistance:
+                    SortByDistance(monster);
+                    break;
+            }
+            AddList(monster);
         }
 
         {

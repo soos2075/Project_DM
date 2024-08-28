@@ -53,18 +53,29 @@ public class Elf : NPC
     }
 
 
-    protected override void SetPriorityList()
+    protected override void SetPriorityList(PrioritySortOption option)
     {
         if (PriorityList != null) PriorityList.Clear();
 
         {
-            var list1 = GetFloorObjectsAll(Define.TileType.Monster);
-            AddList(list1);
+            var herb = GetPriorityPick(typeof(Herb));
+            switch (option)
+            {
+                case PrioritySortOption.SortByDistance:
+                    SortByDistance(herb);
+                    break;
+            }
+            AddList(herb, AddPos.Front);
         }
-
         {
-            var list = GetPriorityPick(typeof(Herb));
-            AddList(list, AddPos.Front);
+            var monster = GetPriorityPick(typeof(Monster));
+            switch (option)
+            {
+                case PrioritySortOption.SortByDistance:
+                    SortByDistance(monster);
+                    break;
+            }
+            AddList(monster);
         }
 
         {

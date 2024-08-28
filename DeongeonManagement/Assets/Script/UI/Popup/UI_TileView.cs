@@ -57,6 +57,8 @@ public class UI_TileView : UI_PopUp, IWorldSpaceUI
         Name,
         Contents,
         Detail,
+
+        State_Detail,
     }
 
     TextMeshProUGUI text_Name;
@@ -73,6 +75,12 @@ public class UI_TileView : UI_PopUp, IWorldSpaceUI
         text_Detail = GetObject((int)Contents.Detail).GetComponent<TextMeshProUGUI>();
 
         text_Detail.text = "";
+
+
+        State_Detail = GetObject((int)Contents.State_Detail).GetComponent<TextMeshProUGUI>();
+        StatePanel = State_Detail.transform.parent.gameObject;
+        State_Detail.text = "";
+        StatePanel.SetActive(false);
     }
 
 
@@ -88,5 +96,15 @@ public class UI_TileView : UI_PopUp, IWorldSpaceUI
     {
         text_Detail.text = addContents;
     }
+
+
+    TextMeshProUGUI State_Detail;
+    GameObject StatePanel;
+    public void View_State(string contents)
+    {
+        StatePanel.SetActive(true);
+        State_Detail.text = contents;
+    }
+
 
 }

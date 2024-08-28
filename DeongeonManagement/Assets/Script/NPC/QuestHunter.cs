@@ -70,7 +70,7 @@ public class QuestHunter : NPC
         characterBuilder.Rebuild();
     }
 
-    protected override void SetPriorityList()
+    protected override void SetPriorityList(PrioritySortOption option)
     {
         if (PriorityList != null) PriorityList.Clear();
 

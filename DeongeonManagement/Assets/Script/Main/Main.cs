@@ -136,7 +136,15 @@ public class Main : MonoBehaviour
         }
     }
 
+    public void ShowDM_MSG(string _value, Vector3 _pos, Color _color, int _sizeOption = 0)
+    {
+        DamageNumber origin = _sizeOption == 0 ? dm_small : dm_large;
 
+        var dm5 = origin.Spawn(_pos, _value);
+        dm5.SetColor(_color);
+        dm5.SetScale(0.7f);
+        dm5.GetComponent<UnityEngine.Rendering.SortingGroup>().sortingOrder = 1000;
+    }
 
     #endregion
 

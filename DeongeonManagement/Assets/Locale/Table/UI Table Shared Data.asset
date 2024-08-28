@@ -563,6 +563,14 @@ MonoBehaviour:
     m_Key: Confirm_Upgrade
     m_Metadata:
       m_Items: []
+  - m_Id: 62453373296914432
+    m_Key: "\uBAA8\uB4DC \uBCC0\uACBD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62505269990731776
+    m_Key: "\uD3B8\uC9D1"
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

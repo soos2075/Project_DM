@@ -386,6 +386,7 @@ public class MonsterStatusTemporary
 [System.Serializable]
 public class Save_MonsterData
 {
+    public string CustomName;
     public string PrefabPath { get; set; }
     public int LV { get; set; }
     public int HP { get; set; }
@@ -426,6 +427,7 @@ public class Save_MonsterData
 
     public void SetData(Monster monster)
     {
+        CustomName = monster.CustomName;
         PrefabPath = monster.Data.prefabPath;
         LV = monster.LV;
         HP = monster.HP;

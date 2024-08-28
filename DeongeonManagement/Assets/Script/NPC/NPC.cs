@@ -6,7 +6,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using Assets.PixelFantasy.PixelHeroes.Common.Scripts.CharacterScripts;
 
-public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat
+public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_TraitSystem
 {
     void Start()
     {
@@ -14,6 +14,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat
         characterBuilder = GetComponent<CharacterBuilder>();
         SetRandomClothes();
         Start_Setting();
+        Init_Trait();
     }
 
 
@@ -358,7 +359,22 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat
 
 
     public abstract List<BasementTile> PriorityList { get; set; }
-    protected abstract void SetPriorityList();
+
+
+    protected enum PrioritySortOption
+    {
+        Random,
+        SortByDistance,
+    }
+
+    protected abstract void SetPriorityList(PrioritySortOption option);
+
+
+    protected void SortByDistance(List<BasementTile> targetList)
+    {
+        TileDistanceComparer comparer = new TileDistanceComparer(PlacementInfo.Place_Tile.worldPosition);
+        targetList.Sort(comparer);
+    }
 
 
     public bool isWellsCheck { get; set; }
@@ -377,7 +393,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat
     {
         if (State == NPCState.Priority)
         {
-            SetPriorityList();
+            SetPriorityList(PrioritySortOption.SortByDistance);
         }
     }
     
@@ -389,7 +405,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat
 
 
 
-    protected List<BasementTile> GetFloorObjectsAll(Define.TileType searchType = Define.TileType.Empty) //? 타입 전체 가져오는 리스트
+    List<BasementTile> GetFloorObjectsAll(Define.TileType searchType = Define.TileType.Empty) //? 타입 전체 가져오는 리스트
     {
         var newList = PlacementInfo.Place_Floor.GetFloorObjectList(searchType);
 
@@ -408,7 +424,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat
 
         for (int i = 0; i < allList.Count; i++)
         {
-            if (allList[i].Original != null && allList[i].Original.GetType() == type)
+            if (allList[i].Original != null && type.IsAssignableFrom(allList[i].Original.GetType()))
             {
                 newList.Add(allList[i]);
             }
@@ -609,6 +625,12 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat
     protected IEnumerator EventCor(DialogueName dialogueName, float dis = 1.5f)
     {
         yield return new WaitUntil(() => Vector3.Distance(transform.position, Main.Instance.Dungeon.position) < dis);
+
+        var renderer = GetComponentInChildren<SpriteRenderer>();
+        int originLayer = renderer.sortingOrder;
+        renderer.sortingOrder = 10;
+
+        Camera.main.GetComponent<CameraControl>().ChasingTarget(transform.position, 2); //? 여기서 하는 이유 = 카메라가 다른놈 가르키는거 방지
         Managers.Dialogue.ShowDialogueUI(dialogueName, transform);
 
         anim.Play(Define.ANIM_Idle);
@@ -617,6 +639,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat
         yield return UserData.Instance.Wait_GamePlay;
 
         Anim_State = Anim_State;
+
+        renderer.sortingOrder = originLayer;
     }
 
     protected IEnumerator EventCor(string dialogueName, float dis = 1.5f)
@@ -798,7 +822,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat
         FloorLevel++;
         //Debug.Log($"{name}(이)가 {FloorLevel}층에 도착");
 
-        SetPriorityList(); //? 우선순위에 맞춰 맵탐색
+        SetPriorityList(PrioritySortOption.Random); //? 우선순위에 맞춰 맵탐색
 
         if (PriorityList.Count > 0)
         {
@@ -839,7 +863,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat
         GameManager.Placement.PlacementConfirm(this, info_Exit);
 
         //SearchPreviousFloor(); // FloorPrevious로 들어오는경우는 Return_Empty 하나임. 나머진 즉시 탈출이라. 그러니까 돌아갈떄도 추가서치하는게 맞음.
-        SetPriorityList(); //? 우선순위에 맞춰 맵탐색
+        SetPriorityList(PrioritySortOption.Random); //? 우선순위에 맞춰 맵탐색
 
         if (PriorityList.Count > 0)
         {
@@ -867,7 +891,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat
         var info_Exit = new PlacementInfo(Main.Instance.Floor[hiddenFloor], Main.Instance.Floor[hiddenFloor].Exit.PlacementInfo.Place_Tile);
         GameManager.Placement.PlacementConfirm(this, info_Exit);
 
-        SetPriorityList(); //? 우선순위에 맞춰 맵탐색
+        SetPriorityList(PrioritySortOption.Random); //? 우선순위에 맞춰 맵탐색
         if (PriorityList.Count > 0)
         {
             State = NPCState.Priority;
@@ -1050,7 +1074,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat
 
         if (PriorityList.Count == 0)
         {
-            SetPriorityList();
+            SetPriorityList(PrioritySortOption.SortByDistance);
             PriorityList.RemoveAll(r => r.tileType_Original == Define.TileType.Empty || r.Original.PlacementState == PlacementState.Busy);
             if (PriorityList.Count == 0)
             {
@@ -1433,58 +1457,104 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat
 
 
 
+    #region NPC_Trait
+    public List<ITrait> TraitList = new List<ITrait>();
 
+    void Init_Trait()
+    {
+        foreach (var item in Data.NPC_TraitList)
+        {
+            AddTrait(item);
+        }
+    }
+
+    public bool AddTrait(ITrait trait) //? 동일한 특성 불가능
+    {
+        foreach (var item in TraitList)
+        {
+            if (trait.ID == item.ID)
+            {
+                return false;
+            }
+        }
+        TraitList.Add(trait);
+        return true;
+    }
+    public void AddTrait(TraitGroup traitID)
+    {
+        string className = $"Trait+{traitID.ToString()}";
+        ITrait trait = Util.GetClassToString<ITrait>(className);
+        AddTrait(trait);
+    }
+    //void AddTrait_Runtime(TraitGroup traitID)
+    //{
+    //    string className = $"Trait+{traitID.ToString()}";
+    //    ITrait trait = Util.GetClassToString<ITrait>(className);
+    //    if (AddTrait(trait))
+    //    {
+    //        Main.Instance.CurrentDay.AddTrait(1);
+    //    }
+    //}
+
+    public bool TraitCheck(TraitGroup searchTrait)
+    {
+        var trait = Util.GetTypeToString($"Trait+{searchTrait.ToString()}");
+        foreach (var item in TraitList)
+        {
+            if (item.GetType() == trait) return true;
+        }
+        return false;
+    }
+
+    public void DoSomething(TraitGroup searchTrait)
+    {
+        var trait = Util.GetTypeToString($"Trait+{searchTrait.ToString()}");
+        foreach (var item in TraitList)
+        {
+            if (item.GetType() == trait && item is ITrait_Value)
+            {
+                ITrait_Value value = item as ITrait_Value;
+                value.DoSomething();
+            }
+        }
+    }
+    public int GetSomething<T>(TraitGroup searchTrait, T current)
+    {
+        var trait = Util.GetTypeToString($"Trait+{searchTrait.ToString()}");
+        foreach (var item in TraitList)
+        {
+            if (item.GetType() == trait && item is ITrait_Value)
+            {
+                ITrait_Value value = item as ITrait_Value;
+                int tValue = value.GetSomething(current);
+                return tValue;
+            }
+        }
+        return 0;
+    }
+
+
+
+    #endregion
 
 
 }
-public enum TagGroup //? 예를 그냥 태그라고 생각한다면 다음 4개로 나눌 수 있음 보너스태그
-{
-    //? Bonus
-    약초학 = 1000,
-    광물지식,
-    전투원,
-    보물사냥꾼,
+//public enum TagGroup //? 예를 그냥 태그라고 생각한다면 다음 4개로 나눌 수 있음 보너스태그
+//{
+//    //? Bonus
+//    약초학 = 1000,
+//    광물지식,
+//    전투원,
+//    보물사냥꾼,
 
-    //? Weak
-    잡초 = 5000,
-    돌멩이,
-    비전투원,
+//    //? Weak
+//    잡초 = 5000,
+//    돌멩이,
+//    비전투원,
 
-    //? Invalid
-    짓밟기 = 9000,
-
-
-
-
-    ////? Normal
-    //NPC_Herbalist = 10,
-    //NPC_Miner = 20,
-    //NPC_Adventurer = 30,
-    //NPC_Elf = 40,
-    //NPC_Wizard = 50,
-
-    ////? NPC_QuestHunter
-    //NPC_Hunter_Slime = 1100,
-    //NPC_Hunter_EarthGolem = 1101,
-
-
-    ////? NPC_EventNPC
-    //NPC_Event_Day3 = 1903,
-    //NPC_Event_Day8 = 1908,
-
-    //NPC_Event_Goblin = 1910,
-
-    //NPC_Event_RetiredHero = 1915,
-
-    //NPC_A_Warrior = 1920,
-    //NPC_A_Tanker,
-    //NPC_A_Wizard,
-    //NPC_A_Elf,
-
-    //NPC_Captine = 1930,
-
-    //NPC_Event_Soldier = 1941,
-}
+//    //? Invalid
+//    짓밟기 = 9000,
+//}
 
 public enum InteractionGroup
 {

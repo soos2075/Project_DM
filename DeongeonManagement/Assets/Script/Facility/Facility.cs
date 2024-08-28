@@ -194,6 +194,12 @@ public abstract class Facility : MonoBehaviour, IPlacementable
             isLastInteraction = true;
         }
 
+        if (npc.TraitCheck(TraitGroup.Swiftness))
+        {
+            durationTime /= 2;
+        }
+
+
         yield return new WaitForSeconds(durationTime);
         int manabonus = mp + GameManager.Buff.FacilityBonus;
         int applyMana = Mathf.Clamp(manabonus, manabonus, npc.Mana); //? 높은 마나회수여도 npc가 가진 마나 이상으로 얻진 못함. - 앵벌이 방지용
@@ -220,10 +226,14 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         if (isRemove)
         {
             GameManager.Facility.RemoveFacility(this);
-            if (npc.gameObject.activeInHierarchy)
-            {
-                npc.SetPriorityListForPublic();
-            }
+            //if (npc.gameObject.activeInHierarchy)
+            //{
+            //    npc.SetPriorityListForPublic();
+            //}
+        }
+        if (npc.gameObject.activeInHierarchy)
+        {
+            npc.SetPriorityListForPublic();
         }
 
         AddCollectionPoint();
@@ -240,10 +250,10 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
     protected Target TagCheck(NPC _npc)
     {
-        List<TagGroup> tagList = _npc.Data.FacilityTagList;
-        List<TagGroup> bonus = Data.bonusTarget;
-        List<TagGroup> weak = Data.weakTarget;
-        List<TagGroup> invalid = Data.invalidTarget;
+        List<TraitGroup> tagList = _npc.Data.NPC_TraitList;
+        List<TraitGroup> bonus = Data.bonusTarget;
+        List<TraitGroup> weak = Data.weakTarget;
+        List<TraitGroup> invalid = Data.invalidTarget;
 
         foreach (var item in tagList)
         {
@@ -273,98 +283,6 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         return Target.Normal;
     }
 
-
-    //string[] GetTargetTypeString(Target target)
-    //{
-    //    if (Data == null) return null;
-
-    //    string[] types = null;
-
-    //    switch (target)
-    //    {
-    //        case Target.Main:
-    //            types = Data.main?.Split(',');
-    //            break;
-
-    //        case Target.Normal:
-    //            types = Data.sub?.Split(',');
-    //            break;
-
-    //        case Target.Weak:
-    //            types = Data.weak?.Split(',');
-    //            break;
-
-    //        case Target.Invalid:
-    //            types = Data.invalid?.Split(',');
-    //            break;
-    //    }
-
-    //    return types;
-    //}
-
-    //protected Type[] GetTargetType(Target target)
-    //{
-    //    string[] names = GetTargetTypeString(target);
-    //    if (names == null) 
-    //    {
-    //        Debug.Log("Target Type Not Exist");
-    //        return null;
-    //    }
-
-    //    Type[] types = new Type[names.Length];
-
-    //    for (int i = 0; i < names.Length; i++)
-    //    {
-    //        Type type = Type.GetType(names[i]);
-    //        types[i] = type;
-    //    }
-
-    //    return types;
-    //}
-    //protected Target GetTarget(NPC npc)
-    //{
-    //    Type npcType = npc.GetType();
-
-    //    for (int i = 1; i < Enum.GetNames(typeof(Target)).Length; i++)
-    //    {
-    //        Type[] types = GetTargetType((Target)i);
-    //        // 타겟 리스트가 없으면 넘기기
-    //        if (types == null) continue;
-
-    //        foreach (var item in types)
-    //        {
-    //            if (npcType == item)
-    //            {
-    //                return (Target)i;
-    //            }
-    //        }
-    //    }
-
-    //    return Target.Nothing;
-    //}
-
-
-    //protected Target GetTarget(TagGroup npc)
-    //{
-    //    Type npcType = npc.GetType();
-
-    //    for (int i = 1; i < Enum.GetNames(typeof(Target)).Length; i++)
-    //    {
-    //        Type[] types = GetTargetType((Target)i);
-    //        // 타겟 리스트가 없으면 넘기기
-    //        if (types == null) continue;
-
-    //        foreach (var item in types)
-    //        {
-    //            if (npcType == item)
-    //            {
-    //                return (Target)i;
-    //            }
-    //        }
-    //    }
-
-    //    return Target.Nothing;
-    //}
 
 
 

@@ -18,6 +18,41 @@ public class EventNPC : NPC
                 return new Define.TileType[] { Define.TileType.NPC, Define.TileType.Facility, Define.TileType.Monster };
 
             default:
+                switch (EventDay)
+                {
+                    case EventNPCType.Event_Day8:
+                        break;
+
+                    case EventNPCType.Event_Goblin:
+                    case EventNPCType.Event_Goblin_Leader:
+                    case EventNPCType.Event_Goblin_Leader2:
+                        return new Define.TileType[] { Define.TileType.NPC, Define.TileType.Monster };
+
+                    case EventNPCType.Event_Catastrophe:
+                        break;
+
+                    case EventNPCType.A_Warrior:
+                    case EventNPCType.A_Tanker:
+                    case EventNPCType.A_Wizard:
+                    case EventNPCType.A_Elf:
+                    case EventNPCType.B_Warrior:
+                    case EventNPCType.B_Tanker:
+                    case EventNPCType.B_Wizard:
+                    case EventNPCType.B_Elf:
+                    case EventNPCType.Event_Day3:
+                    case EventNPCType.Event_RetiredHero:
+                    case EventNPCType.Hunter_Slime:
+                    case EventNPCType.Hunter_EarthGolem:
+                    case EventNPCType.Captine_A:
+                    case EventNPCType.Captine_B:
+                    case EventNPCType.Captine_C:
+                        return new Define.TileType[] { Define.TileType.NPC, Define.TileType.Facility };
+
+                    //case EventNPCType.Event_Soldier1:
+                    //case EventNPCType.Event_Soldier2:
+                    //case EventNPCType.Event_Soldier3:
+                    //    break;
+                }
                 return new Define.TileType[] { Define.TileType.NPC };
         }
     }
@@ -270,7 +305,7 @@ public class EventNPC : NPC
 
         characterBuilder.Rebuild();
     }
-    protected override void SetPriorityList()
+    protected override void SetPriorityList(PrioritySortOption option)
     {
         if (PriorityList != null) PriorityList.Clear();
 
@@ -281,15 +316,20 @@ public class EventNPC : NPC
             case EventNPCType.Event_Goblin_Leader2:
                 {
                     var herb = GetPriorityPick(typeof(Herb));
+                    var mineral = GetPriorityPick(typeof(Mineral));
+                    herb.AddRange(mineral);
+                    switch (option)
+                    {
+                        case PrioritySortOption.SortByDistance:
+                            SortByDistance(herb);
+                            break;
+                    }
                     AddList(herb, AddPos.Front);
                 }
-                {
-                    var mineral = GetPriorityPick(typeof(Mineral));
-                    AddList(mineral, AddPos.Front);
-                }
+
                 {
                     var treasure = GetPriorityPick(typeof(Treasure));
-                    AddList(treasure, AddPos.Front);
+                    AddList(treasure, AddPos.Back);
                 }
                 {
                     var add_secret = GetPriorityPick(typeof(Entrance_Egg));
@@ -309,8 +349,14 @@ public class EventNPC : NPC
             case EventNPCType.Captine_B:
             case EventNPCType.Captine_C:
                 {
-                    var list1 = GetFloorObjectsAll(Define.TileType.Monster);
-                    AddList(list1);
+                    var monster = GetPriorityPick(typeof(Monster));
+                    switch (option)
+                    {
+                        case PrioritySortOption.SortByDistance:
+                            SortByDistance(monster);
+                            break;
+                    }
+                    AddList(monster);
                 }
                 {
                     var treasure = GetPriorityPick(typeof(Treasure));
@@ -332,9 +378,19 @@ public class EventNPC : NPC
             case EventNPCType.B_Warrior:
             case EventNPCType.A_Tanker:
             case EventNPCType.B_Tanker:
+            case EventNPCType.A_Wizard:
+            case EventNPCType.B_Wizard:
+            case EventNPCType.A_Elf:
+            case EventNPCType.B_Elf:
                 {
-                    var list1 = GetFloorObjectsAll(Define.TileType.Monster);
-                    AddList(list1);
+                    var monster = GetPriorityPick(typeof(Monster));
+                    switch (option)
+                    {
+                        case PrioritySortOption.SortByDistance:
+                            SortByDistance(monster);
+                            break;
+                    }
+                    AddList(monster);
                 }
                 {
                     var add_egg = GetPriorityPick(typeof(SpecialEgg));
@@ -350,61 +406,31 @@ public class EventNPC : NPC
                 }
                 break;
 
-            case EventNPCType.A_Wizard:
-            case EventNPCType.B_Wizard:
-                {
-                    var list1 = GetFloorObjectsAll(Define.TileType.Monster);
-                    AddList(list1);
-                }
-                {
-                    var add_egg = GetPriorityPick(typeof(SpecialEgg));
-                    AddList(add_egg);
-                }
-                {
-                    var add_secret = GetPriorityPick(typeof(Entrance_Egg));
-                    AddList(add_secret, AddPos.Back);
-                }
-                {
-                    var mineral = GetPriorityPick(typeof(Mineral));
-                    AddList(mineral, AddPos.Front);
-                }
-                break;
-
-            case EventNPCType.A_Elf:
-            case EventNPCType.B_Elf:
-                {
-                    var list1 = GetFloorObjectsAll(Define.TileType.Monster);
-                    AddList(list1);
-                }
-                {
-                    var add_egg = GetPriorityPick(typeof(SpecialEgg));
-                    AddList(add_egg);
-                }
-                {
-                    var add_secret = GetPriorityPick(typeof(Entrance_Egg));
-                    AddList(add_secret);
-                }
-                {
-                    var herb = GetPriorityPick(typeof(Herb));
-                    AddList(herb, AddPos.Front);
-                }
-                break;
-
 
             case EventNPCType.Event_Soldier1:
             case EventNPCType.Event_Soldier2:
             case EventNPCType.Event_Soldier3:
                 {
-                    var list1 = GetFloorObjectsAll(Define.TileType.Monster);
-                    AddList(list1);
+                    var monster = GetPriorityPick(typeof(Monster));
+                    switch (option)
+                    {
+                        case PrioritySortOption.SortByDistance:
+                            SortByDistance(monster);
+                            break;
+                    }
+                    AddList(monster);
                 }
                 {
                     var herb = GetPriorityPick(typeof(Herb));
-                    AddList(herb, AddPos.Back);
-                }
-                {
                     var mineral = GetPriorityPick(typeof(Mineral));
-                    AddList(mineral, AddPos.Back);
+                    herb.AddRange(mineral);
+                    switch (option)
+                    {
+                        case PrioritySortOption.SortByDistance:
+                            SortByDistance(herb);
+                            break;
+                    }
+                    AddList(herb, AddPos.Back);
                 }
                 break;
 
@@ -413,7 +439,16 @@ public class EventNPC : NPC
 
             case EventNPCType.Event_Catastrophe:
                 {
-                    AddList(GetFloorObjectsAll(Define.TileType.Monster));
+                    {
+                        var monster = GetPriorityPick(typeof(Monster));
+                        switch (option)
+                        {
+                            case PrioritySortOption.SortByDistance:
+                                SortByDistance(monster);
+                                break;
+                        }
+                        AddList(monster);
+                    }
                     AddList(GetPriorityPick(typeof(Herb)));
                     AddList(GetPriorityPick(typeof(Mineral)));
                     AddList(GetPriorityPick(typeof(Treasure)));
@@ -562,8 +597,8 @@ public class EventNPC : NPC
         {
             case EventNPCType.Event_Day8:
                 Managers.Dialogue.ShowDialogueUI($"Day{8}_ReturnEvent", transform);
-                Main.Instance.CurrentDay.AddPop(100);
-                Main.Instance.ShowDM(100, Main.TextType.pop, transform, 1);
+                Main.Instance.CurrentDay.AddPop(75);
+                Main.Instance.ShowDM(75, Main.TextType.pop, transform, 1);
                 break;
 
             case EventNPCType.Event_RetiredHero:
@@ -608,8 +643,8 @@ public class EventNPC : NPC
 
             case EventNPCType.Event_RetiredHero:
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Day15_Event_Die, transform);
-                Main.Instance.CurrentDay.AddDanger(100);
-                Main.Instance.ShowDM(100, Main.TextType.danger, transform, 1);
+                Main.Instance.CurrentDay.AddDanger(75);
+                Main.Instance.ShowDM(75, Main.TextType.danger, transform, 1);
                 GuildManager.Instance.RemoveInstanceGuildNPC(GuildNPC_LabelName.RetiredHero);
                 EventManager.Instance.RemoveQuestAction(1151);
                 break;

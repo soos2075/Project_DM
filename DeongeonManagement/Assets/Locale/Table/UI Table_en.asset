@@ -597,6 +597,14 @@ MonoBehaviour:
     m_Localized: Want to upgrade?
     m_Metadata:
       m_Items: []
+  - m_Id: 62453373296914432
+    m_Localized: Change mode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62505269990731776
+    m_Localized: Edit
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -58,7 +58,7 @@ public class Miner : NPC
     }
 
 
-    protected override void SetPriorityList()
+    protected override void SetPriorityList(PrioritySortOption option)
     {
         if (PriorityList != null) PriorityList.Clear();
 

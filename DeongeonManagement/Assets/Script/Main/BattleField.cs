@@ -89,14 +89,12 @@ public class BattleField : MonoBehaviour
 
     IEnumerator BattleAnimation()
     {
-        bool isOver = false;
-
         if (openingList.Count > 0)
         {
             for (int i = 0; i < openingList.Count; i++)
             {
                 yield return UserData.Instance.Wait_GamePlay;
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(0.5f);
 
                 if (openingList[i].target is Monster)
                 {
@@ -128,50 +126,47 @@ public class BattleField : MonoBehaviour
                             break;
                     }
                 }
-
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(1.0f);
             }
         }
-
-
 
         for (int i = 0; i < roundList.Count; i++)
         {
             yield return UserData.Instance.Wait_GamePlay;
+            yield return new WaitForSeconds(0.5f);
 
             if (roundList[i].attacker == PlacementType.Monster)
             {
                 AddFlashWhite(obj_Left.GetComponentInChildren<SpriteRenderer>());
-                AddHPBar(roundList[i].damage, 0);
+                AddHPBar(roundList[i].damage, -roundList[i].heal);
                 ani_monster.CrossFade(Define.ANIM_Attack, 0.1f);
                 yield return new WaitForSeconds(0.1f); //? crossFade 시간 동안은 hash값이 바뀌지 않으므로 그만큼은 기다려줘야함
 
                 if (roundList[i].roundResult == BattleResult.NPC_Die)
                 {
-                    //AddAction(roundList[i].damage, pos_Left, ani_npc);
                     foreach (var item in roundList[i].damage_show)
                     {
                         AddAction(item.Item1, pos_Left, ani_npc, item.Item2);
                     }
+                    foreach (var item in roundList[i].heal_show)
+                    {
+                        AddAction(item.Item1, pos_Right, item.Item2);
+                    }
 
                     yield return new WaitUntil(() => ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Idle);
-
+                    Main.Instance.ShowDM_MSG("Win!", transform.position + (Vector3.up), Color.blue, 1);
                     yield return new WaitForSeconds(0.5f);
-                    Main.Instance.ShowDM(npc.Rank * 2, Main.TextType.exp, pos_Right.GetChild(0), 1);
-
-                    //yield return new WaitForSeconds(0.5f);
-                    //Main.Instance.ShowDM(npc.KillGold, Main.TextType.gold, pos_Right.GetChild(0), 1);
-
-                    yield return new WaitForSeconds(0.5f);
-                    isOver = true;
                     break;
                 }
                 else
                 {
-                    //AddAction(roundList[i].damage, pos_Left);
                     foreach (var item in roundList[i].damage_show)
                     {
                         AddAction(item.Item1, pos_Left, item.Item2);
+                    }
+                    foreach (var item in roundList[i].heal_show)
+                    {
+                        AddAction(item.Item1, pos_Right, item.Item2);
                     }
                 }
                 //Debug.Log(ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash + $"##");
@@ -182,29 +177,35 @@ public class BattleField : MonoBehaviour
             if (roundList[i].attacker == PlacementType.NPC)
             {
                 AddFlashWhite(obj_Right.GetComponentInChildren<SpriteRenderer>());
-                AddHPBar(0, roundList[i].damage);
+                AddHPBar(-roundList[i].heal, roundList[i].damage);
                 NPC_AttackAnim();
                 yield return new WaitForSeconds(0.1f); //? crossFade 시간 동안은 hash값이 바뀌지 않으므로 그만큼은 기다려줘야함
 
                 if (roundList[i].roundResult == BattleResult.Monster_Die)
                 {
-                    //AddAction(roundList[i].damage, pos_Right, ani_monster);
                     foreach (var item in roundList[i].damage_show)
                     {
                         AddAction(item.Item1, pos_Right, ani_monster, item.Item2);
                     }
+                    foreach (var item in roundList[i].heal_show)
+                    {
+                        AddAction(item.Item1, pos_Left, item.Item2);
+                    }
 
                     yield return new WaitUntil(() => ani_npc.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Idle);
+                    Main.Instance.ShowDM_MSG("Lose...", transform.position + (Vector3.up), Color.red, 1);
                     yield return new WaitForSeconds(0.5f);
-                    isOver = true;
                     break;
                 }
                 else
                 {
-                    //AddAction(roundList[i].damage, pos_Right);
                     foreach (var item in roundList[i].damage_show)
                     {
                         AddAction(item.Item1, pos_Right, item.Item2);
+                    }
+                    foreach (var item in roundList[i].heal_show)
+                    {
+                        AddAction(item.Item1, pos_Left, item.Item2);
                     }
                 }
 
@@ -213,14 +214,8 @@ public class BattleField : MonoBehaviour
             }
         }
 
-        if (!isOver)
-        {
-            yield return new WaitForSeconds(0.5f);
-            Main.Instance.ShowDM(npc.Rank, Main.TextType.exp, pos_Right.GetChild(0), 1);
-            yield return new WaitForSeconds(0.5f);
-        }
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.0f);
         yield return UserData.Instance.Wait_GamePlay;
         Debug.Log("재생종료");
     }
@@ -462,17 +457,25 @@ public class BattleField : MonoBehaviour
         public int damage;
         public List<(int, DamageMeshType)> damage_show;
 
+        public int heal;
+        public List<(int, DamageMeshType)> heal_show;
+
+
         public BattleResult roundResult;
 
 
-        public Round(PlacementType _attacker, int _damage, List<(int, DamageMeshType)> _damageList, BattleResult _result)
+        public Round(BattleResult _result, PlacementType _attacker, 
+            int _damage, List<(int, DamageMeshType)> _damageList, 
+            int _heal, List<(int, DamageMeshType)> _healList)
         {
+            roundResult = _result;
             attacker = _attacker;
 
             damage = _damage;
             damage_show = _damageList;
 
-            roundResult = _result;
+            heal = _heal;
+            heal_show = _healList;
         }
     }
 
@@ -595,37 +598,9 @@ public class BattleField : MonoBehaviour
     bool MonsterAttack()
     {
         List<(int, DamageMeshType)> damageList = new List<(int, DamageMeshType)>();
-
-        int normalAttackDamage = 1;
-        if (TryDodge(monster.B_LUK, npc.LUK))
-        {
-            //Debug.Log("회피함");
-            normalAttackDamage = 0;
-        }
-        else
-        {
-            int atkRange = (int)UnityEngine.Random.Range(monster.B_ATK * 0.8f, monster.B_ATK * 1.2f);
-
-            normalAttackDamage = Mathf.Clamp((atkRange - npc.DEF), 1, atkRange);
-        }
-
-
+        int normalAttackDamage = TryDodge(monster, npc);
         damageList.Add((normalAttackDamage, DamageMeshType.Damage));
-
-        //? 님블 = 0.5배 추가공격
-        if (monster.TraitCheck(TraitGroup.Nimble))
-        {
-            int bonusAttack = normalAttackDamage / 2;
-            damageList.Add((bonusAttack, DamageMeshType.Damage));
-        }
-
-
-        if (monster.TraitCheck(TraitGroup.IronSkin))
-        {
-            int trueDamage = monster.GetSomething(TraitGroup.IronSkin, monster.B_DEF);
-            damageList.Add((trueDamage, DamageMeshType.Special));
-        }
-
+        damageList.AddRange(TryTrait(monster, npc, normalAttackDamage));
 
         int damage_Sum = 0;
         foreach (var item in damageList)
@@ -633,59 +608,149 @@ public class BattleField : MonoBehaviour
             damage_Sum += item.Item1;
         }
 
+        List<(int, DamageMeshType)> healList = new List<(int, DamageMeshType)>();
+        healList.AddRange(TryTrait_Util(monster, npc, normalAttackDamage));
+
+        int heal_Sum = 0;
+        foreach (var item in healList)
+        {
+            heal_Sum += item.Item1;
+        }
+
 
         npc.HP -= damage_Sum;
         if (npc.HP <= 0)
         {
             result = BattleResult.NPC_Die;
-            roundList.Add(new Round(PlacementType.Monster, damage_Sum, damageList, result));
+            roundList.Add(new Round(result, PlacementType.Monster, damage_Sum, damageList, heal_Sum, healList));
             return true;
         }
 
-        roundList.Add(new Round(PlacementType.Monster, damage_Sum, damageList, BattleResult.Nothing));
+        roundList.Add(new Round(BattleResult.Nothing, PlacementType.Monster, damage_Sum, damageList, heal_Sum, healList));
         return false;
     }
     bool NPCAttack()
     {
         List<(int, DamageMeshType)> damageList = new List<(int, DamageMeshType)>();
-
-        int damage = 1;
-        if (TryDodge(npc.B_LUK, monster.B_LUK))
-        {
-            //Debug.Log("회피함");
-            damage = 0;
-        }
-        else
-        {
-            int atkRange = (int)UnityEngine.Random.Range(npc.B_ATK * 0.8f, npc.B_ATK * 1.2f);
-            damage = Mathf.Clamp((atkRange - monster.B_DEF), 1, atkRange);
-        }
-
+        int damage = TryDodge(npc, monster);
         damageList.Add((damage, DamageMeshType.Damage));
+        damageList.AddRange(TryTrait(npc, monster, damage));
+        damageList.AddRange(TryTrait_Targeting(npc, monster, damage));
 
-        monster.HP -= damage;
+        int damage_Sum = 0;
+        foreach (var item in damageList)
+        {
+            damage_Sum += item.Item1;
+        }
+
+        List<(int, DamageMeshType)> healList = new List<(int, DamageMeshType)>();
+        healList.AddRange(TryTrait_Util(npc, monster, damage));
+
+        int heal_Sum = 0;
+        foreach (var item in healList)
+        {
+            heal_Sum += item.Item1;
+        }
+
+        monster.HP -= damage_Sum;
         if (monster.HP <= 0)
         {
             monster.HP = 0;
             result = BattleResult.Monster_Die;
-            roundList.Add(new Round(PlacementType.NPC, damage, damageList, result));
+            roundList.Add(new Round(result, PlacementType.NPC, damage_Sum, damageList, heal_Sum, healList));
             return true;
         }
 
-        roundList.Add(new Round(PlacementType.NPC, damage, damageList, BattleResult.Nothing));
+        roundList.Add(new Round(BattleResult.Nothing, PlacementType.NPC, damage_Sum, damageList, heal_Sum, healList));
         return false;
     }
 
-
-    bool TryDodge(int attacker, int defender) //? 회피확률. 최소 5%에 LUK가 1차이날수록 5%씩 증가, 최대 90%
+    //? 회피시스템
+    int TryDodge<T1, T2>(T1 attacker, T2 defender) where T1 : I_TraitSystem, I_BattleStat where T2 : I_TraitSystem, I_BattleStat
     {
-
-        int chance = Mathf.Clamp((defender - attacker), 1, 18);
+        //? 회피확률. 최소 5%에 LUK가 1차이날수록 5%씩 증가, 최대 90%
+        int chance = Mathf.Clamp((defender.B_LUK - attacker.B_LUK), 1, 18);
         int dice = UnityEngine.Random.Range(0, 20);
 
-        return chance > dice ? true : false;
+        int damage = 1;
+        if (chance > dice)
+        {
+            damage = 0;
+        }
+        else
+        {
+            int atkRange = (int)UnityEngine.Random.Range(attacker.B_ATK * 0.8f, attacker.B_ATK * 1.2f);
+            damage = Mathf.Clamp((atkRange - defender.B_DEF), 1, atkRange);
+        }
+
+        return damage;
     }
 
+    //? 기본 공격 특성
+    List<(int, DamageMeshType)> TryTrait<T1, T2>(T1 attacker, T2 defender, int damage) where T1 : I_TraitSystem, I_BattleStat where T2 : I_TraitSystem, I_BattleStat
+    {
+        List<(int, DamageMeshType)> addList = new List<(int, DamageMeshType)>();
+
+        //? 님블 = 0.5배 추가공격
+        if (attacker.TraitCheck(TraitGroup.Nimble))
+        {
+            int bonusAttack = damage / 2;
+            addList.Add((bonusAttack, DamageMeshType.Damage));
+        }
+
+        //? 철스킨 = def 25% 고정데미지
+        if (attacker.TraitCheck(TraitGroup.IronSkin))
+        {
+            int trueDamage = attacker.GetSomething(TraitGroup.IronSkin, attacker.B_DEF);
+            addList.Add((trueDamage, DamageMeshType.Special));
+        }
+
+        return addList;
+    }
+
+    //? 유틸 효과 - 공격자한테 추가하는거
+    List<(int, DamageMeshType)> TryTrait_Util<T1, T2>(T1 attacker, T2 defender, int damage) where T1 : I_TraitSystem, I_BattleStat where T2 : I_TraitSystem, I_BattleStat
+    {
+        List<(int, DamageMeshType)> addList = new List<(int, DamageMeshType)>();
+
+        //? 정기흡수 = dmg 25% 체력흡수
+        if (attacker.TraitCheck(TraitGroup.LifeDrain))
+        {
+            int bonusHP = attacker.GetSomething(TraitGroup.LifeDrain, damage);
+            int applyHP = attacker.B_HP + bonusHP;
+
+            int realValue = applyHP > attacker.B_HP_Max ? (attacker.B_HP_Max - attacker.B_HP) : bonusHP;
+            //attacker.HP += realValue;
+
+            addList.Add((realValue, DamageMeshType.Heal));
+        }
+
+        return addList;
+    }
+
+
+
+    //? 특정 타겟 보너스
+    List<(int, DamageMeshType)> TryTrait_Targeting<T1, T2>(T1 attacker, T2 defender, int damage) where T1 : I_TraitSystem, I_BattleStat where T2 : I_TraitSystem, I_BattleStat
+    {
+        List<(int, DamageMeshType)> addList = new List<(int, DamageMeshType)>();
+
+        if (attacker.TraitCheck(TraitGroup.Hunting_Slime) && defender.GetType() == typeof(Slime))
+        {
+            int bonusAttack = damage / 2;
+            addList.Add((bonusAttack, DamageMeshType.Damage));
+        }
+
+        if (attacker.TraitCheck(TraitGroup.Hunting_Golem) && defender.GetType() == typeof(EarthGolem))
+        {
+            int bonusAttack = damage / 2;
+            addList.Add((bonusAttack, DamageMeshType.Damage));
+        }
+
+
+
+        return addList;
+    }
 
 
 }

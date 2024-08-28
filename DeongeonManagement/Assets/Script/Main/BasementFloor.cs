@@ -1061,3 +1061,32 @@ public class BasementTile
     }
 }
 
+public class TileDistanceComparer : IComparer<BasementTile>
+{
+    private Vector3 comparePosition;
+
+    public TileDistanceComparer(Vector3 pos)
+    {
+        this.comparePosition = pos;
+    }
+
+    public int Compare(BasementTile x, BasementTile y)
+    {
+        float distanceX = Vector3.Distance(comparePosition, x.worldPosition);
+        float distanceY = Vector3.Distance(comparePosition, y.worldPosition);
+
+        if (distanceX < distanceY)
+        {
+            return -1;
+        }
+        else if (distanceX > distanceY)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+}
+

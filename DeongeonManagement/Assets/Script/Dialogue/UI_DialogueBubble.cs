@@ -23,7 +23,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
 
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            if (Managers.Scene.GetCurrentScene() == SceneName._2_Management)
+            if (Managers.Scene.GetCurrentScene() == SceneName._2_Management || Managers.Scene.GetCurrentScene() == SceneName._3_Guild)
             {
                 PerfectSkip();
             }
@@ -383,7 +383,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
     void SkipText()
     {
         if (Managers.UI._popupStack.Peek() != this) return;
-        if (mainCam.Cor_CameraChasing != null) return;
+        if (Managers.Scene.GetCurrentScene() == SceneName._2_Management && mainCam.Cor_CameraChasing != null) return;
 
         if (isAutoMode)
         {
@@ -427,6 +427,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
             return;
         }
 
+
         DialogueData textData = Data;
 
         while (textCount < textData.TextDataList.Count)
@@ -468,8 +469,10 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
             //    string npcID = option.Substring(option.IndexOf("@Option::") + 9, option.IndexOf("::Option") - (option.IndexOf("@Option::") + 9));
             //    var npc = GuildManager.Instance.GetInteraction(int.Parse(npcID));
             //    npc.OneTimeOptionButton();
+            //    StopAllCoroutines();
+            //    textCount++;
+            //    return;
             //}
-            ////? 위의 Option은 길드에서만 가능. 만약 게임씬에서 선택지를 쓰고싶으면 새로 다른이름으로 새로 만들어야함.
 
             textCount++;
         }

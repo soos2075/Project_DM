@@ -49,18 +49,29 @@ public class Wizard : NPC
 
 
 
-    protected override void SetPriorityList()
+    protected override void SetPriorityList(PrioritySortOption option)
     {
         if (PriorityList != null) PriorityList.Clear();
 
         {
-            var list1 = GetFloorObjectsAll(Define.TileType.Monster);
-            AddList(list1);
+            var mineral = GetPriorityPick(typeof(Mineral));
+            switch (option)
+            {
+                case PrioritySortOption.SortByDistance:
+                    SortByDistance(mineral);
+                    break;
+            }
+            AddList(mineral, AddPos.Front);
         }
-
         {
-            var list = GetPriorityPick(typeof(Mineral));
-            AddList(list, AddPos.Front);
+            var monster = GetPriorityPick(typeof(Monster));
+            switch (option)
+            {
+                case PrioritySortOption.SortByDistance:
+                    SortByDistance(monster);
+                    break;
+            }
+            AddList(monster);
         }
 
         {

@@ -61,20 +61,36 @@ public class Herbalist : NPC
 
 
 
-    protected override void SetPriorityList()
+
+
+    protected override void SetPriorityList(PrioritySortOption option)
     {
         if (PriorityList != null) PriorityList.Clear();
 
-        var list_0 = GetPriorityPick(typeof(Herb));
-        AddList(list_0);
+        {//? 메인타겟
+            var herb = GetPriorityPick(typeof(Herb));
+            switch (option)
+            {
+                case PrioritySortOption.SortByDistance:
+                    SortByDistance(herb);
+                    break;
+            }
+            AddList(herb);
+        }
 
-        {
+
+
+        {//? 에그서치
             var add_egg = GetPriorityPick(typeof(SpecialEgg));
             AddList(add_egg);
         }
 
-        PickToProbability(GetPriorityPick(typeof(Entrance_Egg)), (PlacementInfo.Place_Floor.FloorIndex + Rank) * 0.04f);
-        Add_Wells();
+
+        {//? 전이진 서치
+            PickToProbability(GetPriorityPick(typeof(Entrance_Egg)), (PlacementInfo.Place_Floor.FloorIndex + Rank) * 0.04f);
+            Add_Wells();
+        }
+
     }
 
 

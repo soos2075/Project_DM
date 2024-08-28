@@ -76,6 +76,11 @@ public class Mineral : Facility
                 InteractionOfTimes--;
             }
 
+            if (npc.TraitCheck(TraitGroup.Trample))
+            {
+                InteractionOfTimes = 0;
+            }
+
             Cor_Facility = StartCoroutine(FacilityEvent(npc, durationTime, UserData.Instance.LocaleText("Event_Mineral"), 
                 ap: ap_value, mp: changeMP, hp: hp_value));
             return Cor_Facility;
