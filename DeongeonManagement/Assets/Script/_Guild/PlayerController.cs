@@ -15,18 +15,15 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rig;
     Animator anim;
 
-    //GuildManager guildManager;
-    //Tilemap tile_borderline;
-
     float playerSize;
     void Start()
     {
+        transform.position = GuildHelper.Instance.GetPos(GuildHelper.Pos.Start).position;
+
         GuildManager.Instance.GuildEnter();
 
         rig = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
-        //guildManager = FindAnyObjectByType<GuildManager>();
-        //tile_borderline = FindAnyObjectByType<TilemapCollider2D>().GetComponent<Tilemap>();
 
         playerSize = transform.localScale.y;
     }
@@ -48,11 +45,6 @@ public class PlayerController : MonoBehaviour
     private void LateUpdate()
     {
         RunningAnimation();
-
-        if (MoveCor_A == null)
-        {
-            rig.bodyType = RigidbodyType2D.Dynamic;
-        }
     }
     void RunningAnimation()
     {
@@ -77,14 +69,15 @@ public class PlayerController : MonoBehaviour
     }
     void KeyboardEvent()
     {
-        if (current_NPC != null && Input.GetKeyDown(KeyCode.E))
+        Interaction_Guild current = null;
+        if (CurrentInteraction(out current) && Input.GetKeyDown(KeyCode.E))
         {
             if (MoveCor_A != null)
             {
                 StopCoroutine(MoveCor_A);
                 MoveCor_A = null;
             }
-            current_NPC.StartDialogue();
+            current.StartDialogue();
             rig.velocity = Vector2.zero;
             return;
         }
@@ -112,7 +105,6 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            //MouseClick();
             Move_AStar();
             NPC_Interaction();
         }
@@ -131,11 +123,11 @@ public class PlayerController : MonoBehaviour
         // 마우스 위치를 스크린 좌표에서 월드 좌표로 변환
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        //var targetCheck = (Vector2Int)tilemap.WorldToCell(mouseWorldPos);
-        //Debug.Log($"{targetCheck}");
-
         // 월드 좌표를 타일맵의 그리드 좌표로 변환
         var target = (Vector2Int)tilemap.WorldToCell(mouseWorldPos) - new Vector2Int(tilemap.cellBounds.xMin, tilemap.cellBounds.yMin);
+
+        if (mapData.guildTileMap.ContainsKey(target) == false) return;
+
         targetPoint = mapData.guildTileMap[target];
 
 
@@ -163,9 +155,6 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator PlayerMove(List<TileMapData_Guild.GuildTile> moveList)
     {
-        var rig = GetComponent<Rigidbody2D>();
-        rig.bodyType = RigidbodyType2D.Kinematic;
-
         float dis;
         float moveValue;
         Vector3 dir;
@@ -189,7 +178,6 @@ public class PlayerController : MonoBehaviour
             //transform.position = new Vector3(item.worldPosition.x, item.worldPosition.y, 0);
         }
 
-        rig.bodyType = RigidbodyType2D.Dynamic;
         MoveCor_A = null;
     }
 
@@ -198,10 +186,11 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (current_NPC != null)
+        Interaction_Guild current = null;
+        if (CurrentInteraction(out current))
         {
             RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
-            if (hit.collider != null && hit.collider.gameObject == current_NPC.gameObject)
+            if (hit.collider != null && hit.collider.gameObject == current.gameObject)
             {
                 if (MoveCor_A != null)
                 {
@@ -209,7 +198,7 @@ public class PlayerController : MonoBehaviour
                     MoveCor_A = null;
                 }
                 //Debug.Log("충돌한 객체: " + hit.collider.gameObject.name);
-                current_NPC.StartDialogue();
+                current.StartDialogue();
                 rig.velocity = Vector2.zero;
                 return;
             }
@@ -218,68 +207,26 @@ public class PlayerController : MonoBehaviour
 
 
 
-    //Coroutine moveCor;
-    void MouseClick()
+    HashSet<Collider2D> currentContact = new HashSet<Collider2D>();
+
+    bool CurrentInteraction(out Interaction_Guild current)
     {
-        //스크린 좌표를 월드 좌표로 변환
-        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (currentContact.Count == 0)
+        {
+            current = null;
+            return false;
+        }
 
-        //if (current_NPC != null)
-        //{
-        //    RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
-        //    if (hit.collider != null && hit.collider.gameObject == current_NPC.gameObject)
-        //    {
-        //        if (moveCor != null)
-        //        {
-        //            StopCoroutine(moveCor);
-        //        }
-        //        //Debug.Log("충돌한 객체: " + hit.collider.gameObject.name);
-        //        current_NPC.StartDialogue();
-        //        return;
-        //    }
-        //}
+        List<Interaction_Guild> list = new List<Interaction_Guild>();
+        foreach (var item in currentContact)
+        {
+            list.Add(item.GetComponent<Interaction_Guild>());
+        }
 
-
-        //if (moveCor != null)
-        //{
-        //    StopCoroutine(moveCor);
-        //}
-        //moveCor = StartCoroutine(PlayerMouseMove(worldPosition));
+        current = list[list.Count - 1];
+        return true;
     }
 
-    //IEnumerator PlayerMouseMove(Vector3 _movePoint)
-    //{
-    //    Vector3 direction = _movePoint - transform.position;
-    //    Vector2 move = new Vector2(direction.x, direction.y).normalized;
-
-    //    float distance = Vector3.Distance(transform.position, _movePoint);
-    //    if (distance < 0.5f)
-    //    {
-    //        StopCoroutine(moveCor);
-    //        moveCor = null;
-    //    }
-    //    float timer = 0;
-    //    while (timer < 0.1f)
-    //    {
-    //        yield return null;
-    //        timer += Time.deltaTime;
-    //        rig.velocity = move * speed;
-    //    }
-
-    //    while (distance > 0.5f && isContact == null)
-    //    {
-    //        yield return null;
-    //        rig.velocity = move * speed;
-    //        distance = Vector2.Distance(transform.position, _movePoint);
-    //    }
-
-    //    moveCor = null;
-    //}
-
-    Collision2D isContact;
-
-
-    Interaction_Guild current_NPC;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -291,30 +238,17 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        current_NPC = collision.GetComponent<Interaction_Guild>();
-        current_NPC.Contact();
+        currentContact.Add(collision);
+        collision.GetComponent<Interaction_Guild>()?.Contact();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         //Debug.Log($"Exit : {collision.name}");
-        Interaction_Guild interact;
-        if (collision.TryGetComponent(out interact))
-        {
-            interact.ContactOff();
-        }
-        current_NPC = null;
-    }
 
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        isContact = collision;
+        currentContact.Remove(collision);
+        collision.GetComponent<Interaction_Guild>()?.ContactOff();
     }
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        isContact = null;
-    }
-
 
 
     void Exit_Action()

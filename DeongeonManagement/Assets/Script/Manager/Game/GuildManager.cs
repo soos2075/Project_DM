@@ -295,6 +295,25 @@ public class GuildNPC_Data
             OptionList.Add(_questIndex);
         }
     }
+    public void RemoveQuest(int _questIndex)
+    {
+        foreach (var item in InstanceQuestList)
+        {
+            if (item == _questIndex)
+            {
+                InstanceQuestList.Remove(item);
+                return;
+            }
+        }
+        foreach (var item in OptionList)
+        {
+            if (item == _questIndex)
+            {
+                OptionList.Remove(item);
+                return;
+            }
+        }
+    }
 
     public void SetData(int _id, List<int> _questList, List<int> _optionList)
     {
@@ -351,6 +370,8 @@ public enum GuildNPC_LabelName
 
     DummyA = 5000,
     DummyB = 6000,
+    DummyC = 7000,
+    DummyD = 8000,
 
     RetiredHero = 15000,
 }

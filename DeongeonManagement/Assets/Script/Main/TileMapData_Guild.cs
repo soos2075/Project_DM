@@ -5,11 +5,12 @@ using UnityEngine.Tilemaps;
 
 public class TileMapData_Guild : MonoBehaviour
 {
-    public Tilemap tilemap;
+    public Tilemap tilemap_Main;
+    public Tilemap tilemap_Obj;
 
     private void Awake()
     {
-        tilemap = GetComponent<Tilemap>();
+        //tilemap = GetComponent<Tilemap>();
     }
     void Start()
     {
@@ -25,20 +26,20 @@ public class TileMapData_Guild : MonoBehaviour
     {
         guildTileMap = new Dictionary<Vector2Int, GuildTile>();
 
-        var tt = tilemap.cellBounds.allPositionsWithin;
+        var tt = tilemap_Main.cellBounds.allPositionsWithin;
 
-        int offset_X = tilemap.cellBounds.xMin;
-        int offset_Y = tilemap.cellBounds.yMin;
+        int offset_X = tilemap_Main.cellBounds.xMin;
+        int offset_Y = tilemap_Main.cellBounds.yMin;
 
         //Debug.Log(offset_X + "@" + offset_Y);
 
         foreach (var pos in tt)
         {
-            if (tilemap.HasTile(pos))
+            if (tilemap_Main.HasTile(pos))
             {
                 var cellPos = new Vector2Int(pos.x, pos.y);
                 var index = cellPos - new Vector2Int(offset_X, offset_Y);
-                var worldPos = tilemap.CellToWorld(pos);
+                var worldPos = tilemap_Main.CellToWorld(pos);
 
                 guildTileMap.Add(index, new GuildTile(false, worldPos, index));
                 //Debug.Log(index + $"갈 수 없는 좌표");
@@ -47,10 +48,50 @@ public class TileMapData_Guild : MonoBehaviour
             {
                 var cellPos = new Vector2Int(pos.x, pos.y);
                 var index = cellPos - new Vector2Int(offset_X, offset_Y);
-                var worldPos = tilemap.CellToWorld(pos);
+                var worldPos = tilemap_Main.CellToWorld(pos);
 
                 guildTileMap.Add(index, new GuildTile(true, worldPos, index));
                 //Debug.Log(index + $"갈 수 있는 좌표");
+            }
+        }
+
+        Init_TilemapObj();
+    }
+
+    void Init_TilemapObj()
+    {
+        var tt = tilemap_Obj.cellBounds.allPositionsWithin;
+
+        int offset_X = tilemap_Obj.cellBounds.xMin;
+        int offset_Y = tilemap_Obj.cellBounds.yMin;
+
+        //Debug.Log(offset_X + "@" + offset_Y);
+
+        foreach (var pos in tt)
+        {
+            if (tilemap_Obj.HasTile(pos))
+            {
+                var cellPos = new Vector2Int(pos.x, pos.y);
+                var index = cellPos - new Vector2Int(offset_X, offset_Y);
+                var worldPos = tilemap_Obj.CellToWorld(pos);
+
+                //GuildTile obj = null;
+                //if (guildTileMap.TryGetValue(worldPos, out obj))
+                //{
+                //    obj.isPath = false;
+                //    Debug.Log();
+                //}
+
+                foreach (var item in guildTileMap)
+                {
+                    if (item.Value.worldPosition == worldPos)
+                    {
+                        item.Value.isPath = false;
+                    }
+                    
+                }
+
+                //Debug.Log(index + $"갈 수 없는 좌표");
             }
         }
     }
@@ -82,17 +123,17 @@ public class TileMapData_Guild : MonoBehaviour
 
     public List<GuildTile> PathFinding(GuildTile startPoint, GuildTile targetPoint)
     {
-        //? 순서는 위 아래 왼쪽 오른쪽 순서 // 좌상 좌하 우상 우하
-        //int[] deltaX = new int[4] { 0, 0, -1, 1 };
-        //int[] deltaY = new int[4] { 1, -1, 0, 0 };
-        int[] deltaX = new int[8] { 0, 0, -1, 1, -1, -1, 1, 1 };
-        int[] deltaY = new int[8] { 1, -1, 0, 0, 1, -1, 1, -1 };
+        //? 0위 1아래 2왼쪽 3오른쪽 // 4좌상 5좌하 6우상 7우하
+        int[] deltaX = new int[4] { 0, 0, -1, 1 };
+        int[] deltaY = new int[4] { 1, -1, 0, 0 };
 
-        bool[,] closed = new bool[tilemap.cellBounds.size.x, tilemap.cellBounds.size.y];
+        deltaX = new int[8] { 0, 0, -1, 1, -1, -1, 1, 1 };
+        deltaY = new int[8] { 1, -1, 0, 0, 1, -1, 1, -1 };
+
+        bool[,] closed = new bool[tilemap_Main.cellBounds.size.x, tilemap_Main.cellBounds.size.y];
 
         PriorityQueue<PQNode> priorityQueue = new PriorityQueue<PQNode>();
-        Vector2Int[,] pathTile = new Vector2Int[tilemap.cellBounds.size.x, tilemap.cellBounds.size.y];
-
+        Vector2Int[,] pathTile = new Vector2Int[tilemap_Main.cellBounds.size.x, tilemap_Main.cellBounds.size.y];
 
         priorityQueue.Push(new PQNode()
         {
@@ -119,12 +160,33 @@ public class TileMapData_Guild : MonoBehaviour
                 break;
 
 
+            bool[] diagonalAllow = new bool[4] { true, true, true, true }; //? 대각선 이동을 허용할지 말지
+
             for (int i = 0; i < deltaX.Length; i++)
             {
+                if (i == 4 && diagonalAllow[0] == false)
+                {
+                    continue;
+                }
+                if (i == 5 && diagonalAllow[1] == false)
+                {
+                    continue;
+                }
+                if (i == 6 && diagonalAllow[2] == false)
+                {
+                    continue;
+                }
+                if (i == 7 && diagonalAllow[3] == false)
+                {
+                    continue;
+                }
+
+
+
                 int nextX = node.posX + deltaX[i];
                 int nextY = node.posY + deltaY[i];
 
-                if (nextX == tilemap.cellBounds.size.x || nextX < 0 || nextY == tilemap.cellBounds.size.y || nextY < 0)
+                if (nextX == tilemap_Main.cellBounds.size.x || nextX < 0 || nextY == tilemap_Main.cellBounds.size.y || nextY < 0)
                 {
                     continue;
                 }
@@ -138,7 +200,23 @@ public class TileMapData_Guild : MonoBehaviour
                 }
 
                 if (value.isPath == false)
-                {
+                {//? 상하좌우가 벽이라면 해당방향의 대각선 이동을 스킵함
+                    if (i == 0) 
+                    {
+                        diagonalAllow[0] = false; diagonalAllow[2] = false;
+                    }
+                    if (i == 1)
+                    {
+                        diagonalAllow[1] = false; diagonalAllow[3] = false;
+                    }
+                    if (i == 2)
+                    {
+                        diagonalAllow[0] = false; diagonalAllow[1] = false;
+                    }
+                    if (i == 3)
+                    {
+                        diagonalAllow[2] = false; diagonalAllow[3] = false;
+                    }
                     continue;
                 }
 

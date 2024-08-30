@@ -754,6 +754,36 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     #region MonsterMove
     Animator anim;
 
+    //protected void SetAnimClip_NewMonster()
+    //{
+    //    AnimatorOverrideController overrideController = new AnimatorOverrideController(anim.runtimeAnimatorController);
+    //    AnimationClip[] clips = Resources.LoadAll<AnimationClip>($"Animation/_Monster_Anim/{Data.keyName}");
+    //    foreach (var item in clips)
+    //    {
+    //        if (item.name.Contains("Attack"))
+    //        {
+    //            overrideController["Attack"] = item;
+    //        }
+    //        else if (item.name.Contains("Idle"))
+    //        {
+    //            overrideController["Idle"] = item;
+    //        }
+    //        else if (item.name.Contains("Ready"))
+    //        {
+    //            overrideController["Ready"] = item;
+    //        }
+    //        else if (item.name.Contains("Dead"))
+    //        {
+    //            overrideController["Dead"] = item;
+    //        }
+    //        else if (item.name.Contains("Running"))
+    //        {
+    //            overrideController["Running"] = item;
+    //        }
+    //    }
+    //    anim.runtimeAnimatorController = overrideController;
+    //}
+
     protected Coroutine Cor_Moving { get; set; }
     Coroutine Cor_moveAnimation;
 

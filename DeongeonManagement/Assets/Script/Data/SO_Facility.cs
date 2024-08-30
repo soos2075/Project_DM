@@ -14,7 +14,10 @@ public class SO_Facility : ScriptableObject, I_SO_Collection
     public string SLA_category;
     public string SLA_label;
 
-
+    [Header("Option")]
+    //public bool View_Store;
+    public bool View_Collection;
+    public int MaxCount;
 
 
     [Header("Interaction")]

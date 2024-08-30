@@ -11,6 +11,9 @@ public class Succubus : Monster
         Data = GameManager.Monster.GetData("Succubus");
         Trait_Original();
     }
+
+
+
     void Trait_Original()
     {
         AddTrait(new Trait.LifeDrain());

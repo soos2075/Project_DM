@@ -1059,12 +1059,18 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
         if (ActionPoint <= 0 || Mana <= 0)
         {
-            return NPCState.Return_Satisfaction;
+            if (TraitCheck(TraitGroup.Indomitable) == false)
+            {
+                return NPCState.Return_Satisfaction;
+            }
         }
 
         if (HP < (HP_MAX / RunawayHpRatio))
         {
-            return NPCState.Runaway;
+            if (TraitCheck(TraitGroup.Indomitable) == false)
+            {
+                return NPCState.Runaway;
+            }
         }
 
 

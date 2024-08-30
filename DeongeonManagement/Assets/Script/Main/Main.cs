@@ -1007,13 +1007,9 @@ public class Main : MonoBehaviour
                 GameManager.NPC.AddEventNPC(EventNPCType.Event_Day8, 10);
                 break;
 
-            case 8:
-                //Debug.Log("8일차 시작 이벤트 - 패배 트리거 이벤트 모험가 소환");
-                //GameManager.NPC.AddEventNPC(EventNPCType.Event_Day8, 9);
-                break;
 
             case 9: //? 고블린 임시 이벤트
-                GameManager.NPC.AddEventNPC(EventNPCType.Event_Goblin_Leader, 10);
+                //GameManager.NPC.AddEventNPC(EventNPCType.Event_Goblin_Leader, 10);
                 break;
 
             case 15:
@@ -1306,10 +1302,6 @@ public class Main : MonoBehaviour
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Orb, Player);
                 break;
 
-            case 10: //? BIC 데모는 10일차 끝나고 종료
-                //DEMO_15DAY();
-                //return;
-                break;
 
             case 15: //? 데모 종료구간
                 //DEMO_15DAY();

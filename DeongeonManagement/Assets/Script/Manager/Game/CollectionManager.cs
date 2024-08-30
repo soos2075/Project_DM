@@ -112,12 +112,14 @@ public class CollectionManager : MonoBehaviour
         Register_Monster = new List<CollectionUnitRegist<SO_Monster>>();
         for (int i = 0; i < MonsterData.Length; i++)
         {
+            if (MonsterData[i].View_Collection == false) continue;
             Register_Monster.Add(new CollectionUnitRegist<SO_Monster>(MonsterData[i], new Regist_Info(), i+1));
         }
 
         Register_Facility = new List<CollectionUnitRegist<SO_Facility>>();
         for (int i = 0; i < FacilityData.Length; i++)
         {
+            if (FacilityData[i].View_Collection == false) continue;
             if (FacilityData[i].id < 0) continue;
             Register_Facility.Add(new CollectionUnitRegist<SO_Facility>(FacilityData[i], new Regist_Info(), i+1));
         }
@@ -131,6 +133,7 @@ public class CollectionManager : MonoBehaviour
         Register_Technical = new List<CollectionUnitRegist<SO_Technical>>();
         for (int i = 0; i < TechnicalData.Length; i++)
         {
+            if (TechnicalData[i].View_Collection == false) continue;
             Register_Technical.Add(new CollectionUnitRegist<SO_Technical>(TechnicalData[i], new Regist_Info(), i+1));
         }
 

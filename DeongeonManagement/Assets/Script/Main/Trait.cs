@@ -1316,6 +1316,10 @@ public class Trait
         public TraitGroup ID { get; } = TraitGroup.Swiftness;
     }
 
+    public class Indomitable : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Indomitable;
+    }
 
     #endregion
 
@@ -1461,6 +1465,7 @@ public enum TraitGroup
     Civilian,
     Trample,
     Swiftness,
+    Indomitable,
 
 
     //? Hunting

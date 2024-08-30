@@ -14,6 +14,10 @@ public class SO_Monster : ScriptableObject, I_SO_Collection
     public string spritePath;
 
 
+    [Header("Option")]
+    public bool View_Store;
+    public bool View_Collection;
+
     [Header("Summon")]
     public int manaCost;
     public int unlockRank;

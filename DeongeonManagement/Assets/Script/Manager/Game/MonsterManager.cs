@@ -69,7 +69,7 @@ public class MonsterManager
 
         foreach (var item in so_data)
         {
-            if (item.unlockRank <= _DungeonRank)
+            if (item.unlockRank <= _DungeonRank && item.View_Store)
             {
                 list.Add(item);
             }

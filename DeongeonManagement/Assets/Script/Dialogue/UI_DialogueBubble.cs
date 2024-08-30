@@ -112,6 +112,17 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
         GetObject(((int)Contents.Bubble)).SetActive(false);
     }
 
+    public void Bubble_MoveToTarget(Transform pos)
+    {
+        BubbleReset();
+        transform.position = pos.position;
+        if (Managers.Scene.GetCurrentScene() == SceneName._3_Guild && pos.name == "Player")
+        {
+            transform.position += new Vector3(0.5f, 0.5f, 0);
+        }
+    }
+
+
     void ShowText(string _text)
     {
         if (_text.Length <= 1)
@@ -251,8 +262,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
                     pos = GameObject.Find(targetPos).transform;
                 }
 
-                BubbleReset();
-                transform.position = pos.position;
+                Bubble_MoveToTarget(pos);
                 yield return null;
             }
 

@@ -6,17 +6,8 @@ public class Interaction_Guild : MonoBehaviour
 {
 
     public GuildNPC_LabelName label;
-    //? 아래 세개를 이거로 통합(이건 실제 인스턴트가 아님)
+
     public GuildNPC_Data data;
-
-
-    //// 고유 ID (진행중인 대화가 없을 때 돌아갈 번호)
-    //public int Original_Index;
-
-    //// 퀘스트가 있다면 더해줄 번호
-    //public List<int> InstanceQuestList = new List<int>();
-
-    //public List<int> OptionList = new List<int>();
 
     void Start()
     {
@@ -68,15 +59,28 @@ public class Interaction_Guild : MonoBehaviour
                 gameObject.SetActive(true);
             }
         }
+
+        BoardSpriteChange();
     }
 
     private void Update()
     {
-        if (data.InstanceQuestList.Count > 0 || data.OptionList.Count > 0)
+        if (data.InstanceQuestList.Count > 0)
         {
             if (eventKey == null)
             {
-                eventKey = Managers.Resource.Instantiate("Guild/Event", transform);
+                //eventKey = Managers.Resource.Instantiate("Guild/Event", transform);
+                eventKey = GuildHelper.Instance.GetIcon(GuildHelper.Icon.Question_Yellow);
+                eventKey.transform.position = transform.position + Vector3.up;
+            }
+        }
+        else if (data.OptionList.Count > 0)
+        {
+            if (eventKey == null)
+            {
+                //eventKey = Managers.Resource.Instantiate("Guild/Event", transform);
+                eventKey = GuildHelper.Instance.GetIcon(GuildHelper.Icon.Question_Blue);
+                eventKey.transform.position = transform.position + Vector3.up;
             }
         }
         else if(data.InstanceQuestList.Count == 0 && data.OptionList.Count == 0)
@@ -88,6 +92,29 @@ public class Interaction_Guild : MonoBehaviour
             }
         }
     }
+
+
+    void BoardSpriteChange()
+    {
+        if (label == GuildNPC_LabelName.QuestZone)
+        {
+            int questCount = data.InstanceQuestList.Count + data.OptionList.Count;
+            if (questCount == 0)
+            {
+                GetComponent<SpriteRenderer>().sprite = GuildHelper.Instance.board_empty;
+            }
+            else if (questCount == 1)
+            {
+                GetComponent<SpriteRenderer>().sprite = GuildHelper.Instance.board_little;
+            }
+            else if(questCount > 1)
+            {
+                GetComponent<SpriteRenderer>().sprite = GuildHelper.Instance.board_many;
+            }
+        }
+    }
+
+
 
 
     public void AddQuest(int _index)
@@ -114,16 +141,15 @@ public class Interaction_Guild : MonoBehaviour
         {
             if (key == null)
             {
-                key = Managers.Resource.Instantiate("Guild/Key_E", transform);
+                //key = Managers.Resource.Instantiate("Guild/Key_E", transform);
+                key = GuildHelper.Instance.GetIcon(GuildHelper.Icon.Dialogue);
+                key.transform.position = transform.position + Vector3.up;
             }
             else
             {
                 key.SetActive(true);
             }
         }
-
-        
-
 
         if (TryGetComponent<SpriteOutline>(out outline))
         {

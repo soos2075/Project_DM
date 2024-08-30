@@ -15,6 +15,10 @@ public class SO_NPC : ScriptableObject, I_SO_Collection
     public string SLA_label;
 
 
+    [Header("Option")]
+    //public bool View_Store;
+    public bool View_Collection;
+
     [Header("Spawn")]
     public int Rank;
     public int MP;

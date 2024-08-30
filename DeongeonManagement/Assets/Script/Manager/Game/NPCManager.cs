@@ -7,6 +7,7 @@ public class NPCManager
     public void Init()
     {
         Init_LocalData();
+        Init_NPC_Weight();
 
         Managers.Scene.BeforeSceneChangeAction = () => StopAllMoving();
     }
@@ -104,66 +105,76 @@ public class NPCManager
             EventNPCAction = null;
         }
 
-        Calculation_MaxNPC();
+        //? 최대 등장 벨류
+        Max_NPC_Value = Calculation_MaxValue();
         Debug.Log($"Max Value = {Max_NPC_Value}");
 
-        Calculation_Rank();
-        Debug.Log($"최대 적 랭크 = {rankList.Count}");
+        //? 등장 확률
+        WeightUpdate_Danger();
+        string weight = "";
+        foreach (var item in Weight_NPC)
+        {
+            weight += $"{item.Key}:{item.Value}\n";
+        }
+        Debug.Log($"NPC Weight = \n{weight}");
 
-        //Instance_NPC_List = new List<NPC>();
-
+        //? 실제 인스턴트 생성
         for (Current_Value = 0; Current_Value < Max_NPC_Value;)
         {
-            var npc = InstantiateNPC((NPCType)WeightRandomPicker());
-            if (npc == null)
-            {
-                break;
-            }
+            var npc = InstantiateNPC(WeightPicker());
+            if (npc == null) break;
         }
-
         Debug.Log($"생성된 적 숫자 = {Instance_NPC_List.Count}");
 
 
 
-        if (Instance_NPC_List.Count <= 7)
+        for (int i = 0; i < Instance_NPC_List.Count; i++)
         {
-            for (int i = 0; i < Instance_NPC_List.Count; i++)
-            {
-                float ranValue = Random.Range(1f, 8f);
-                Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
-            }
+            float ranValue = Random.Range(1f, Instance_NPC_List.Count + 5);
+            Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
         }
-        else
-        {
-            for (int i = 0; i < 7; i++)
-            {
-                float ranValue = Random.Range(1f, 8f);
-                Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
-            }
 
-            if (Instance_NPC_List.Count <= 15)
-            {
-                for (int i = 7; i < Instance_NPC_List.Count; i++)
-                {
-                    float ranValue = Random.Range(8f, 14f);
-                    Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
-                }
-            }
-            else
-            {
-                for (int i = 7; i < 15; i++)
-                {
-                    float ranValue = Random.Range(8f, 14f);
-                    Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
-                }
 
-                for (int i = 15; i < Instance_NPC_List.Count; i++)
-                {
-                    float ranValue = Random.Range(14f, 20f);
-                    Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
-                }
-            }
-        }
+
+        //if (Instance_NPC_List.Count <= 7)
+        //{
+        //    for (int i = 0; i < Instance_NPC_List.Count; i++)
+        //    {
+        //        float ranValue = Random.Range(1f, 8f);
+        //        Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
+        //    }
+        //}
+        //else
+        //{
+        //    for (int i = 0; i < 7; i++)
+        //    {
+        //        float ranValue = Random.Range(1f, 8f);
+        //        Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
+        //    }
+
+        //    if (Instance_NPC_List.Count <= 15)
+        //    {
+        //        for (int i = 7; i < Instance_NPC_List.Count; i++)
+        //        {
+        //            float ranValue = Random.Range(8f, 14f);
+        //            Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
+        //        }
+        //    }
+        //    else
+        //    {
+        //        for (int i = 7; i < 15; i++)
+        //        {
+        //            float ranValue = Random.Range(8f, 14f);
+        //            Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
+        //        }
+
+        //        for (int i = 15; i < Instance_NPC_List.Count; i++)
+        //        {
+        //            float ranValue = Random.Range(14f, 20f);
+        //            Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
+        //        }
+        //    }
+        //}
     }
 
     IEnumerator ActiveNPC(int index, float delay)
@@ -200,156 +211,204 @@ public class NPCManager
 
     public bool CustomStage { get; set; }
 
+    #region New Calculation System
 
 
-
-
-    public enum NPCType
-    {
-        //? 가중치 랜덤으로 뽑을 NPC들 / rankWeightedList가 enum의 순서
-
-        // 1사이클
-        Herbalist0_1 = 0,
-        Miner0_1 = 1,
-        Adventurer0_1 = 2,
-
-        // 2사이클
-        Herbalist0_2,
-        Miner0_2,
-        Adventurer0_2,
-        Elf_1 = 6,
-        Wizard_1 = 7,
-
-        // 3사이클
-        Herbalist0_3,
-        Miner0_3,
-        Adventurer0_3,
-        Elf_2,
-        Wizard_2,
-
-        // 4사이클
-        Herbalist1_1,
-        Miner1_1,
-        Adventurer1_1,
-
-        // 5사이클
-        Herbalist1_2,
-        Miner1_2,
-        Adventurer1_2,
-
-
-        DarkElf_1,
-        DarkWizard_1,
-
-
-        //? 이벤트 NPC들.  순서는 자유, rankWeightedList와 관련없음. index는 고유 타입의 enum 값과 같아야함.
-        //? Dict_Key와 enum string값이 동일해야함
-        //Hunter_Slime = 1100,
-        //Hunter_EarthGolem = 1101,
-
-        //Event_Day3 = 1903,
-        //Event_Day8 = 1908,
-
-        //Event_Goblin = 1910,
-        //Event_Goblin_Leader = 1911,
-        //Event_Goblin_Leader2 = 1912,
-
-        //Event_Day15 = 1915,
-
-
-
-        //A_Warrior = 1920,
-        //A_Tanker,
-        //A_Wizard,
-        //A_Elf,
-
-        //B_Warrior,
-        //B_Tanker,
-        //B_Wizard,
-        //B_Elf,
-
-        //Captine_A = 1930,
-        //Captine_B,
-        //Captine_C,
-
-        //Event_Soldier1 = 1941,
-        //Event_Soldier2,
-        //Event_Soldier3,
-    }
-
-
-    #region Calculation
-    void Calculation_MaxNPC()
+    int Calculation_MaxValue()
     {
         int ofFame = Main.Instance.PopularityOfDungeon / 10;
+        int ofDanger = Main.Instance.DangerOfDungeon / 25;
 
-        Max_NPC_Value = Mathf.Clamp(Main.Instance.Turn + ofFame, 5, 5 + (Main.Instance.Turn * 2));
-
-        //Debug.Log("테스트모드!!!!!!!!!!!!!빌드전수정필");
-        //Max_NPC_Value = ofFame * 100;
-
-
-        if (Main.Instance.Turn > 30)
-        {
-            Max_NPC_Value = Main.Instance.PopularityOfDungeon / 10;
-        }
+        int maxValue = Mathf.Clamp(ofFame + ofDanger, 4 + Main.Instance.Turn, ofFame + ofDanger);
+        return maxValue;
     }
 
+    Dictionary<NPC_Normal, int> Weight_NPC = new Dictionary<NPC_Normal, int>();
 
-    //? 랭크 -> 1랭크 약초꾼, 광부, 모험가, Elf, Wizard 순서 -> 2랭크 약초꾼, 광부, 모험가, DarkElf, DarkWizard 순서
-    int[] rankWeightedList = new int[] {
-        13, 12, 10,             // 1랭크 약초꾼, 광부, 모험가
-        17, 18, 10, 10, 10,     // 1랭크 약초꾼, 광부, 모험가, Elf, Wizard
-        15, 15, 15, 20, 20,      // 1랭크 약초꾼, 광부, 모험가, Elf, Wizard
-        15, 15, 10,             // 2랭크 약초꾼, 광부, 모험가
-        25, 25, 20 };             // 2랭크 약초꾼, 광부, 모험가 - 여기까지가 총 295
-        //50, 50, 100};           // 2랭크 약초꾼, 광부, 모험가
-    List<int> rankList;
-
-
-    void Calculation_Rank() //? 위험도에 따라 나올 수 있는 적들이 달라짐. 아무리 위험도가 높아도 약한 적이 나오기는 함. 다만 점점 줄어들뿐.
+    void Init_NPC_Weight() //? 가장 처음 한번만 호출
     {
-        rankList = new List<int>();
-
-        int _danger = Mathf.Clamp(Main.Instance.DangerOfDungeon, 15 + (Main.Instance.Turn * 5), Main.Instance.DangerOfDungeon);
-
-        for (int i = 0; i < rankWeightedList.Length; i++)
+        for (int i = 0; i < System.Enum.GetNames(typeof(NPC_Normal)).Length; i++)
         {
-            _danger -= rankWeightedList[i];
-            rankList.Add(rankWeightedList[i]);
-            if (_danger <= 0)
-            {
-                rankList[i] += _danger;
-                break;
-            }
+            Weight_NPC.Add((NPC_Normal)i, 0);
+        }
+    }
+    void Weight_Reset()
+    {
+        SetWeightPoint(NPC_Normal.Herbalist0, 0);
+        SetWeightPoint(NPC_Normal.Herbalist1, 0);
+        SetWeightPoint(NPC_Normal.Miner0, 0);
+        SetWeightPoint(NPC_Normal.Miner1, 0);
+        SetWeightPoint(NPC_Normal.Adventurer0, 0);
+        SetWeightPoint(NPC_Normal.Adventurer1, 0);
+        SetWeightPoint(NPC_Normal.Elf, 0);
+        SetWeightPoint(NPC_Normal.Wizard, 0);
+    }
+
+    void WeightUpdate_Danger() //? 매 턴이 시작될 때 갱신
+    {
+        Weight_Reset();
+        int danger = Mathf.Clamp(Main.Instance.DangerOfDungeon, (Main.Instance.Turn * 10), Main.Instance.DangerOfDungeon);
+
+        if (danger <= 30)
+        {
+            AddWeightPoint(herb0: 15, miner0: 15);
+            return;
+        }
+
+        //? 가중치 순서 //       herb0   miner0  adv0    elf  wizard  herb1   miner1  adv1
+
+        //? 누적 value 30 /       15      15
+        if (danger > 30)
+        {
+            AddWeightPoint(herb0: 15, miner0: 15);
+            danger -= 30;
+        }
+        //? 누적 value 50 /       20      20      10
+        if (danger > 20)
+        {
+            AddWeightPoint(herb0: 5, miner0: 5, adv0: 10);
+            danger -= 20;
+        }
+        //? 누적 value 100 /      35      35      25      5
+        if (danger > 50)
+        {
+            AddWeightPoint(herb0: 15, miner0: 15, adv0: 15, elf: 5);
+            danger -= 50;
+        }
+        //? 누적 value 150        50      50      30      15      5
+        if (danger > 50)
+        {
+            AddWeightPoint(herb0: 15, miner0: 15, adv0: 5, elf: 10, wizard: 5);
+            danger -= 50;
+        }
+        //? 누적 value 200        60      60      40      30      10
+        if (danger > 50)
+        {
+            AddWeightPoint(herb0: 10, miner0: 10, adv0: 10, elf: 15, wizard: 5);
+            danger -= 50;
+        }
+        //? 누적 value 250        60      60      50      40      20      10      10
+        if (danger > 50)
+        {
+            AddWeightPoint(herb1: 10, miner1: 10, adv0: 10, elf: 10, wizard: 10);
+            danger -= 50;
+        }
+        //? 누적 value 300        60      60      50      50      30      20      20      10
+        if (danger > 50)
+        {
+            AddWeightPoint(herb1: 10, miner1: 10, adv1: 10, elf: 10, wizard: 10);
+            danger -= 50;
+        }
+        //? 누적 value 400        60      60      50      50      50      50      50      30
+        if (danger > 100)
+        {
+            AddWeightPoint(herb1: 30, miner1: 30, adv1: 20, wizard: 20);
+            danger -= 100;
+        }
+        //? 누적 value 500        60      60      50      90      90      50      50      50
+        if (danger > 100)
+        {
+            AddWeightPoint(adv1: 20, elf: 40, wizard: 40);
+            danger -= 100;
+        }
+
+        //? 500위험도를 썼고, 남은 위험도는 어떡하지? 여기서부턴 그냥 인기도로 치환해버릴까?
+        //? 뭐 새로운 적도 추가하거나 할 수 있으니 일단은 보류
+
+
+        Event_ValueChange();
+    }
+
+
+    void SetWeightPoint(NPC_Normal target, int value)
+    {
+        Weight_NPC[target] = value;
+    }
+    void AddWeightPoint(NPC_Normal target, int value)
+    {
+        Weight_NPC[target] += value;
+    }
+    void AddWeightPoint(int herb0 = 0, int herb1 = 0, int miner0 = 0, int miner1 = 0, int adv0 = 0, int adv1 = 0, int elf = 0, int wizard = 0)
+    {
+        AddWeightPoint(NPC_Normal.Herbalist0, herb0);
+        AddWeightPoint(NPC_Normal.Herbalist1, herb1);
+        AddWeightPoint(NPC_Normal.Miner0, miner0);
+        AddWeightPoint(NPC_Normal.Miner1, miner1);
+        AddWeightPoint(NPC_Normal.Adventurer0, adv0);
+        AddWeightPoint(NPC_Normal.Adventurer1, adv1);
+        AddWeightPoint(NPC_Normal.Elf, elf);
+        AddWeightPoint(NPC_Normal.Wizard, wizard);
+    }
+    public void AddWaightPoint_Event(NPC_Normal target, int value)
+    {
+        AddWeightPoint(target, value);
+    }
+
+
+    public bool Event_Herb { get; set; }
+    public bool Event_Mineral { get; set; }
+    public bool Event_Monster { get; set; }
+
+    public void Event_ValueChange()
+    {
+        if (Event_Herb)
+        {
+            Weight_NPC[NPC_Normal.Herbalist0] *= 3;
+            Weight_NPC[NPC_Normal.Herbalist1] *= 3;
+            Weight_NPC[NPC_Normal.Elf] *= 3;
+        }
+
+        if (Event_Mineral)
+        {
+
+        }
+        if (Event_Monster)
+        {
+
         }
     }
 
 
-    int WeightRandomPicker() //? 0~1의 랜덤값에 전체 가중치의 합을 곱해줌. 그리고 그값으로 픽하면 됨. 반환값은 랭크 단계
+    NPC_Normal WeightPicker() //? 0~1의 랜덤값에 전체 가중치의 합을 곱해줌. 그리고 그값으로 픽하면 됨. 반환값은 랭크 단계
     {
         int weightMax = 0;
-        foreach (var item in rankList)
+        foreach (var item in Weight_NPC)
         {
-            weightMax += item;
+            weightMax += item.Value;
         }
 
         float randomValue = Random.value * weightMax;
         int currentWeight = 0;
 
 
-        for (int i = 0; i < rankList.Count; i++)
+        foreach (var item in Weight_NPC)
         {
-            currentWeight += rankList[i];
-            if (currentWeight > randomValue)
+            currentWeight += item.Value;
+            if (currentWeight >= randomValue)
             {
-                return i;
+                return item.Key;
             }
         }
+
         Debug.Log("잘못된 랭크");
         return 0;
     }
+
+
+    public enum NPC_Normal
+    {
+        Herbalist0, Herbalist1,
+        Miner0, Miner1,
+        Adventurer0, Adventurer1,
+
+        Elf,
+        Wizard,
+    }
+
+
     #endregion
+
+
 
 
     bool[] NameIndex { get; set; } = new bool[100];
@@ -379,9 +438,9 @@ public class NPCManager
     }
 
 
-    NPC InstantiateNPC(NPCType rank)
+    NPC InstantiateNPC(NPC_Normal keyName)
     {
-        string Dict_Key = rank.ToString().Substring(0, rank.ToString().IndexOf('_'));
+        string Dict_Key = keyName.ToString();
         //Debug.Log(Dict_Key);
 
         SO_NPC data = null;
@@ -401,7 +460,7 @@ public class NPCManager
         }
         else
         {
-            Debug.Log($"NPC_Data 없음 : {rank.ToString()}");
+            Debug.Log($"NPC_Data 없음 : {keyName.ToString()}");
             return null;
         }
     }

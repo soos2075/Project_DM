@@ -58,6 +58,7 @@ public class EventManager : MonoBehaviour
         CurrentTurn = Main.Instance.Turn;
         CurrentQuestAction?.Invoke();
 
+        TurnStart_EventSchedule();
         Add_ReservationQuest();
 
         //? 시작이벤트 발생부분
@@ -71,7 +72,7 @@ public class EventManager : MonoBehaviour
 
     public void TurnOver()
     {
-        Add_Daily(2100);
+        TurnOver_EventSchedule();
     }
 
 
@@ -94,6 +95,29 @@ public class EventManager : MonoBehaviour
     }
 
 
+    void TurnStart_EventSchedule()
+    {
+        switch (CurrentTurn)
+        {
+            case 8:
+                Add_GuildQuest_Special(2102, false);
+                break;
+        }
+    }
+    void TurnOver_EventSchedule()
+    {
+        switch (CurrentTurn)
+        {
+            case 11:
+                Remove_GuildQuest(2102);
+                RemoveQuestAction(772102);
+                break;
+
+            default:
+                Add_Daily(2100);
+                break;
+        }
+    }
 
 
     public DataManager.SaveData_EventData Data_SaveEventManager()
@@ -434,7 +458,7 @@ public class EventManager : MonoBehaviour
     //? 길드정보 저장용 - 모든 길드관련 데이터를 가지고있고 씬 변경시에도 사라지지않음. 저장과 불러오기에도 동일하게 사용
     public List<GuildNPC_Data> CurrentGuildData { get; set; }
 
-    public void Add_GuildQuest_Special(int index)
+    public void Add_GuildQuest_Special(int index, bool special = true)
     {
         int id = (index / 1000) * 1000;
         int questIndex = index - id;
@@ -443,7 +467,21 @@ public class EventManager : MonoBehaviour
         {
             if (item.Original_Index == id)
             {
-                item.AddQuest(questIndex);
+                item.AddQuest(questIndex, special);
+            }
+        }
+    }
+
+    public void Remove_GuildQuest(int index)
+    {
+        int id = (index / 1000) * 1000;
+        int questIndex = index - id;
+
+        foreach (var item in CurrentGuildData)
+        {
+            if (item.Original_Index == id)
+            {
+                item.RemoveQuest(questIndex);
             }
         }
     }
@@ -583,6 +621,12 @@ public class EventManager : MonoBehaviour
         {
             Debug.Log("은퇴한 영웅 방문 대기중");
         });
+
+        forQuestAction.Add(772102, () =>
+        {
+            Debug.Log("약초 직업류 방문확률 3배!!");
+            GameManager.NPC.Event_Herb = true;
+        });
     }
     void AddDialogueAction() //? 대화를 통해서 호출하는곳. 코드상에는 없고 Dialogue에 Index로만 존재함
     {
@@ -601,10 +645,14 @@ public class EventManager : MonoBehaviour
             });
         });
 
+        GuildNPCAction.Add(2102, () => { AddQuestAction(772102); });
+
+
+
         GuildNPCAction.Add(1100, () => { AddQuestAction(1100); });
         GuildNPCAction.Add(1101, () => { AddQuestAction(1101); });
         GuildNPCAction.Add(1140, () => { AddQuestAction(1140); });
-        GuildNPCAction.Add(1151, () => { AddQuestAction(1151); });
+        //GuildNPCAction.Add(1151, () => { AddQuestAction(1151); });
     }
 
 
@@ -693,12 +741,56 @@ public class EventManager : MonoBehaviour
             }
         });
 
+        EventAction.Add("Hero_Quest_1", () =>
+        {
+            AddQuestAction(1151);
+            Debug.Log("영웅 길드 대화");
+            var fade = Managers.UI.ShowPopUp<UI_Fade>();
+            fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 1, true);
+
+            var hero = GameObject.Find("RetiredHero");
+            hero.transform.localScale = new Vector3(-1, 1, 1);
+            var player = GameObject.Find("Player");
+            player.GetComponentInChildren<SpriteRenderer>().transform.localScale = new Vector3(-1, 1, 1);
+            player.transform.position = GuildHelper.Instance.GetPos(GuildHelper.Pos.Hero).position;
+
+            FindAnyObjectByType<UI_DialogueBubble>().Bubble_MoveToTarget(player.transform);
+        });
+
+        EventAction.Add("Hero_Quest_2", () =>
+        {
+            Debug.Log("영웅 길드 대화2");
+            var fade = Managers.UI.ShowPopUp<UI_Fade>();
+            fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 1, true);
+
+            var hero = GameObject.Find("RetiredHero");
+            hero.transform.localScale = new Vector3(1, 1, 1);
+            var player = GameObject.Find("Player");
+            player.GetComponentInChildren<SpriteRenderer>().transform.localScale = new Vector3(1, 1, 1);
+            player.transform.position = GuildHelper.Instance.GetPos(GuildHelper.Pos.Exit).position;
+
+            FindAnyObjectByType<UI_DialogueBubble>().Bubble_MoveToTarget(player.transform);
+        });
+
+        EventAction.Add("Heroine_Quest_2", () =>
+        {
+            Debug.Log("히로인 대화2");
+            var fade = Managers.UI.ShowPopUp<UI_Fade>();
+            fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 1, true);
+
+            var player = GameObject.Find("Player");
+            //player.GetComponentInChildren<SpriteRenderer>().transform.localScale = new Vector3(-1, 1, 1);
+            player.transform.position = GuildHelper.Instance.GetPos(GuildHelper.Pos.Table2).position;
+
+            FindAnyObjectByType<UI_DialogueBubble>().Bubble_MoveToTarget(player.transform);
+        });
+
 
 
         EventAction.Add("Day8_ReturnEvent", () =>
         {
             Debug.Log("혈기왕성모험가 리턴 이벤트 - 고블린스토리 연계");
-            //AddDayEvent(DayEventLabel.Goblin_Appear, priority: 0, embargo: 10, delay: 1);
+            AddDayEvent(DayEventLabel.Goblin_Appear, priority: 0, embargo: 9, delay: 1);
         });
 
         EventAction.Add("Goblin_Satisfiction", () =>
