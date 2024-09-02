@@ -37,14 +37,14 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
     {
         Managers.UI.SetCanvas(gameObject, RenderMode.WorldSpace, true);
 
-        if (Managers.Scene.GetCurrentScene() != SceneName._2_Management)
-        {
-            GetComponent<RectTransform>().localScale = Vector3.one * 0.02f;
-            OffsetSize = 0.02f;
-        }
+        //if (Managers.Scene.GetCurrentScene() != SceneName._2_Management)
+        //{
+        //    GetComponent<RectTransform>().localScale = Vector3.one * 0.02f;
+        //    OffsetSize = 0.02f;
+        //}
     }
 
-    float OffsetSize = 0.01f;
+    float OffsetSize = 0.02f;
 
     enum Contents
     {

@@ -68,7 +68,9 @@ public class UI_TileView_Tile : UI_Base
             return;
         }
 
-        if (Managers.UI._popupStack.Count > 0) return;
+        //? 타일뷰를 제외한 다른 팝업이 열려있으면 무브이벤트 무시
+        if (Managers.UI._popupStack.Count > 0 && Managers.UI.ContainsPopup(typeof(UI_TileView)) == false) return;
+
 
         //Debug.Log(Managers.UI._popupStack.Count);
 
@@ -100,6 +102,7 @@ public class UI_TileView_Tile : UI_Base
         if (Tile.Original != null)
         {
             Tile.Original.MouseMoveEvent();
+            //Debug.Log(Tile.Original + "들어감");
         }
     }
 
@@ -111,6 +114,7 @@ public class UI_TileView_Tile : UI_Base
         if (Tile.Original != null)
         {
             Tile.Original.MouseExitEvent();
+            //Debug.Log(Tile.Original + "나감");
         }
     }
 

@@ -186,7 +186,7 @@ public class TechnicalManager
 
         tech.InstanceDate = Main.Instance.Turn;
 
-        tech.transform.position = Main.Instance.CurrentTechnical.transform.position + new Vector3(0.25f, -0.75f, 0);
+        tech.transform.position = Main.Instance.CurrentTechnical.transform.position + new Vector3(0.5f, -1.5f, 0);
         tech.transform.SetParent(Main.Instance.CurrentTechnical.transform);
 
         Main.Instance.CurrentTechnical.Current = tech;
@@ -280,7 +280,7 @@ public class TechnicalManager
         {
             var tech = Create(GetData(data[i].keyName));
 
-            tech.transform.position = Floor_Technical[data[i].LocationIndex].transform.position + new Vector3(0.25f, -0.75f, 0);
+            tech.transform.position = Floor_Technical[data[i].LocationIndex].transform.position + new Vector3(0.5f, -1.5f, 0);
             tech.transform.SetParent(Floor_Technical[data[i].LocationIndex].transform);
 
             Floor_Technical[data[i].LocationIndex].Current = tech;

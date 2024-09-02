@@ -13,8 +13,8 @@ public class CameraControl : MonoBehaviour
     float limit_left;
     float limit_right;
 
-    public float cameraSpeed;
-    public float Clickmove;
+    //public float KeyboardMoveSpeed;
+    public float CameraSpeed;
 
 
     Camera mainCam;
@@ -60,8 +60,8 @@ public class CameraControl : MonoBehaviour
 
 
 
-        limit_left = -150 / (mainCam.orthographicSize * mainCam.orthographicSize);
-        limit_right = 150 / (mainCam.orthographicSize * mainCam.orthographicSize);
+        limit_left = -1500 / (mainCam.orthographicSize * mainCam.orthographicSize);
+        limit_right = 1500 / (mainCam.orthographicSize * mainCam.orthographicSize);
 
 
 
@@ -88,7 +88,7 @@ public class CameraControl : MonoBehaviour
 
     public void LimitRefresh()
     {
-        limit_down = Main.Instance.Floor[Main.Instance.ActiveFloor_Basement - 1].transform.position.y - 5;
+        limit_down = Main.Instance.Floor[Main.Instance.ActiveFloor_Basement - 1].transform.position.y - 10;
     }
 
 
@@ -321,7 +321,7 @@ public class CameraControl : MonoBehaviour
         {
             dis_x = startMousePos.x - mainCam.ScreenToViewportPoint(Input.mousePosition).x;
             dis_y = startMousePos.y - mainCam.ScreenToViewportPoint(Input.mousePosition).y;
-            transform.position = new Vector3(startCameraPos.x + dis_x * Clickmove, startCameraPos.y + dis_y * Clickmove, startCameraPos.z);
+            transform.position = new Vector3(startCameraPos.x + dis_x * CameraSpeed, startCameraPos.y + dis_y * CameraSpeed, startCameraPos.z);
             MouseLimit();
         }
     }
@@ -358,13 +358,13 @@ public class CameraControl : MonoBehaviour
 
         if (moveX != 0)
         {
-            transform.position += Vector3.right * moveX * Time.unscaledDeltaTime * 10;
+            transform.position += Vector3.right * moveX * Time.unscaledDeltaTime * CameraSpeed;
             MouseLimit();
         }
 
         if (moveY != 0)
         {
-            transform.position += Vector3.up * moveY * Time.unscaledDeltaTime * 10;
+            transform.position += Vector3.up * moveY * Time.unscaledDeltaTime * CameraSpeed;
             MouseLimit();
         }
     }

@@ -8,6 +8,10 @@ using UnityEngine.U2D.Animation;
 
 public class BattleField : MonoBehaviour
 {
+    public int floorIndex;
+    public int slotIndex;
+
+
     public int sort = 10;
     void Start()
     {

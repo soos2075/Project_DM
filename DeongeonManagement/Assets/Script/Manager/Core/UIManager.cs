@@ -369,6 +369,18 @@ public class UIManager
     }
 
 
+    public bool ContainsPopup(Type uiType)
+    {
+        foreach (var item in _popupStack)
+        {
+            if (item.GetType() == uiType)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 
 

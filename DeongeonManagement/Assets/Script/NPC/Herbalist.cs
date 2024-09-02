@@ -79,6 +79,9 @@ public class Herbalist : NPC
         }
 
 
+        {//? 우물 등 모험가 유용 이벤트
+            Add_Wells();
+        }
 
         {//? 에그서치
             var add_egg = GetPriorityPick(typeof(SpecialEgg));
@@ -88,7 +91,6 @@ public class Herbalist : NPC
 
         {//? 전이진 서치
             PickToProbability(GetPriorityPick(typeof(Entrance_Egg)), (PlacementInfo.Place_Floor.FloorIndex + Rank) * 0.04f);
-            Add_Wells();
         }
 
     }

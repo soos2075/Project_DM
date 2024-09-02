@@ -138,7 +138,7 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
                         return;
                     }
 
-                    if (facil.GetType() == typeof(Clone_Facility)) //? 만약 클론이면 오리지널 데이터에 따라결정
+                    if (facil is Clone_Facility) //? 만약 클론이면 오리지널 데이터에 따라결정
                     {
                         var clone = facil as Clone_Facility;
                         if (clone.OriginalTarget.GetType() == typeof(Obstacle) || clone.OriginalTarget.GetType() == typeof(Obstacle_Wall) 
@@ -154,6 +154,7 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
             }
 
             view.ViewContents(_title, _detail);
+            view.ViewDetail("");
 
 
             switch (CurrentTile.Original.PlacementType)
@@ -165,6 +166,14 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
                         if (facil.Data == null || facil.GetType() == typeof(SpecialEgg))
                         {
                             return;
+                        }
+                        if (facil is Clone_Facility)
+                        {
+                            var clone = facil as Clone_Facility;
+                            if (clone.OriginalTarget is SpecialEgg)
+                            {
+                                return;
+                            }
                         }
                         view.ViewDetail($"{facil.InteractionOfTimes + facil.IOT_Temp}/{facil.Data.interactionOfTimes}".SetTextColorTag(Define.TextColor.LightYellow));
                     }

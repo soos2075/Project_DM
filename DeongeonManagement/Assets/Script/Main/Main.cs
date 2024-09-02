@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.U2D.Animation;
 using UnityEngine.UI;
 
 public class Main : MonoBehaviour
@@ -283,8 +282,8 @@ public class Main : MonoBehaviour
     public void Init_Player()
     {
         BasementTile tile2 = null;
-        Floor[3].TileMap.TryGetValue(new Vector2Int(3, 2), out tile2);
-        PlacementInfo info2 = new PlacementInfo(Floor[3], tile2);
+        Floor[0].TileMap.TryGetValue(new Vector2Int(3, 2), out tile2);
+        PlacementInfo info2 = new PlacementInfo(Floor[0], tile2);
 
 
         if (GameManager.Placement.Find_Placement("Player") != null)
@@ -359,9 +358,6 @@ public class Main : MonoBehaviour
 
         //? 플레이어랑 알소환
         Init_Player();
-
-        //? 스프라이트 에셋
-        Floor_Initializer.Init_Statue_Sprite();
 
         //? 레벨 적용
         EventManager.Instance.RankUpEvent();
@@ -1577,21 +1573,14 @@ public class Main : MonoBehaviour
             Floor[i].Init_Floor();
 
 
-            if (i == 3)
+            if (i == 0)
             {
                 Floor[i].LabelName = $"{UserData.Instance.LocaleText("숨겨진곳")}";
-            }
-            else if (i < 3)
-            {
-                Floor[i].LabelName = $"{UserData.Instance.LocaleText("지하")} {i + 1} {UserData.Instance.LocaleText("층")}";
             }
             else
             {
                 Floor[i].LabelName = $"{UserData.Instance.LocaleText("지하")} {i} {UserData.Instance.LocaleText("층")}";
             }
-
-
-            //Floor[i].gameObject.SetActive(false);
         }
     }
 
@@ -1621,7 +1610,7 @@ public class Main : MonoBehaviour
 
         if (ActiveFloor_Basement >= 4)
         {
-            Floor[3].Hidden = true;
+            Floor[0].Hidden = true;
         }
         //DungeonExpansionUI();
         //UI_Main.DungeonExpansion();
@@ -1640,7 +1629,7 @@ public class Main : MonoBehaviour
             }
 
             var ui = Managers.Resource.Instantiate("UI/PopUp/Element/UI_Expansion_Floor");
-            ui.transform.position = Floor[ActiveFloor_Basement].transform.position + new Vector3(0, 3, 0);
+            ui.transform.position = Floor[ActiveFloor_Basement].transform.position + new Vector3(0, 5, 0);
 
             ui.GetComponent<UI_Expansion_Floor>().SetContents(ActiveFloor_Basement, 200, 200, 2);
         }
@@ -1673,41 +1662,41 @@ public class Main : MonoBehaviour
 
     public Endings CurrentEndingState { get; set; }
 
-    public GameObject eggObj { get; set; }
-    SpriteResolver EggSprite
-    {
+    GameObject _egg;
+    public GameObject EggObj { 
         get
         {
-            if (eggObj == null)
+            if (_egg == null)
             {
                 //eggObj = GameObject.Find("Special_MagicEgg");
-                eggObj = GameManager.Placement.Find_Placement("Special_MagicEgg").gameObject;
+                _egg = GameManager.Placement.Find_Placement("Special_MagicEgg").gameObject;
             }
-            return eggObj.GetComponentInChildren<SpriteResolver>(); }
-        set { } 
+            return _egg;
+        }
+        set 
+        {
+            _egg = value;
+        } 
     }
 
-    void ChangeEggState()
+void ChangeEggState()
     {
         Debug.Log($"{Turn}일차 종료\nTotal Mana : {GetTotalMana()}\nTotal Gold : {GetTotalGold()}");
 
         if (Turn < 5)
         {
             CurrentEndingState = Endings.Dog;
-            EggSprite.SetCategoryAndLabel("Egg", "Level_1");
-            eggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Lv1"));
+            EggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Lv1"));
         }
         else if (Turn < 10 && Turn >= 5)
         {
             CurrentEndingState = Endings.Dog;
-            EggSprite.SetCategoryAndLabel("Egg", "Level_2");
-            eggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Lv2"));
+            EggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Lv2"));
         }
         else if(Turn < 15 && Turn >= 10)
         {
             CurrentEndingState = Endings.Dog;
-            EggSprite.SetCategoryAndLabel("Egg", "Level_3");
-            eggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Lv3"));
+            EggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Lv3"));
         }
         else if(Turn >= 15)
         {
@@ -1721,9 +1710,16 @@ public class Main : MonoBehaviour
     // 아니면 조건에 선행 엔딩을 보게 만들면 또 억제가 되기도 하고.. 뭐 암튼 데모는 dog엔딩으로 픽스하자.
     void SelectEnding()
     {
-        CurrentEndingState = Endings.Dog;
-        EggSprite.SetCategoryAndLabel("Egg", "Dog");
-        eggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Dog"));
+        if (DangerOfDungeon > PopularityOfDungeon)
+        {
+            CurrentEndingState = Endings.Dragon;
+            EggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Dragon"));
+        }
+        else
+        {
+            CurrentEndingState = Endings.Dog;
+            EggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Dog"));
+        }
 
 
 #if DEMO_BUILD

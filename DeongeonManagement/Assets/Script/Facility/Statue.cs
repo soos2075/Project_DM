@@ -1,24 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D.Animation;
 
 public class Statue : Facility, IWall
 {
     public override void Init_Personal()
     {
         statueType = (StatueType)CategoryIndex;
+
+        if (isInit)
+        {
+            CategorySelect(Data.SLA_category, Data.SLA_label);
+        }
     }
+    void CategorySelect(string category, string label)
+    {
+        var resolver = GetComponentInChildren<SpriteResolver>();
+        resolver.SetCategoryAndLabel(category, label);
+    }
+
+
+    public override void Init_FacilityEgo()
+    {
+        isOnlyOne = false;
+        isClearable = false;
+    }
+
 
     public enum StatueType
     {
-        Gold = 3900,
-        Mana = 3901,
-        Dog = 3902,
-        
+        Statue_Gold = 3901,
+        Statue_Mana = 3902,
+        Statue_Dog = 3903,
+        Statue_Dragon = 3904,
     }
     public StatueType statueType { get; set; }
 
 
+    public void Set_StatueType(StatueType type)
+    {
+        isInit = true;
+        statueType = type;
+        Data = GameManager.Facility.GetData(type.ToString());
+        SetData();
+        CategorySelect(Data.SLA_category, Data.SLA_label);
+    }
 
 
     public override Coroutine NPC_Interaction(NPC npc)
@@ -31,40 +58,13 @@ public class Statue : Facility, IWall
     {
         if (Main.Instance.Management == false) return;
         if (Main.Instance.CurrentAction != null) return;
-
-        switch (statueType)
-        {
-            case StatueType.Gold:
-                SLA_ObjectManager.Instance.SetLabel("Statue_Gold", "Gold", "Interaction");
-                break;
-
-            case StatueType.Mana:
-                SLA_ObjectManager.Instance.SetLabel("Statue_Mana", "Mana", "Interaction");
-                break;
-
-            case StatueType.Dog:
-                SLA_ObjectManager.Instance.SetLabel("Statue_Dog", "Dog", "Interaction");
-                break;
-        }
+        CategorySelect(Data.SLA_category, Data.SLA_label + "_Outline");
     }
     public override void MouseExitEvent()
     {
         if (Main.Instance.Management == false) return;
-
-        switch (statueType)
-        {
-            case StatueType.Gold:
-                SLA_ObjectManager.Instance.SetLabel("Statue_Gold", "Gold", "Entry");
-                break;
-
-            case StatueType.Mana:
-                SLA_ObjectManager.Instance.SetLabel("Statue_Mana", "Mana", "Entry");
-                break;
-
-            case StatueType.Dog:
-                SLA_ObjectManager.Instance.SetLabel("Statue_Dog", "Dog", "Entry");
-                break;
-        }
+        if (Main.Instance.CurrentAction != null) return;
+        CategorySelect(Data.SLA_category, Data.SLA_label);
     }
 
     public override void MouseClickEvent()
@@ -83,16 +83,22 @@ public class Statue : Facility, IWall
 
         switch (statueType)
         {
-            case StatueType.Gold:
-                ui.SetText($"{UserData.Instance.LocaleText("Confirm_GoldStatue")}\n" +
-                    $"<size=25>(1{UserData.Instance.LocaleText("AP")} {UserData.Instance.LocaleText("필요")})",
-                    () => Statue_Gold());
+            //$"<size=25>(1{UserData.Instance.LocaleText("AP")} {UserData.Instance.LocaleText("필요")})
+
+            case StatueType.Statue_Gold:
+                ui.SetText($"{UserData.Instance.LocaleText("Confirm_GoldStatue")}", () => Statue_Gold());
+                ui.SetMode_Calculation(0, "0", "+50~100", "1");
                 break;
 
-            case StatueType.Mana:
-                ui.SetText($"{UserData.Instance.LocaleText("Confirm_ManaStatue")}\n" +
-                    $"<size=25>(1{UserData.Instance.LocaleText("AP")} {UserData.Instance.LocaleText("필요")})",
-                    () => Statue_Mana());
+            case StatueType.Statue_Mana:
+                ui.SetText($"{UserData.Instance.LocaleText("Confirm_ManaStatue")}", () => Statue_Mana());
+                ui.SetMode_Calculation(0, "+75~150", "0", "1");
+                break;
+
+            case StatueType.Statue_Dog:
+                break;
+
+            case StatueType.Statue_Dragon:
                 break;
         }
     }

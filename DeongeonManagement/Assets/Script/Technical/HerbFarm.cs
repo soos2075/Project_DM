@@ -85,14 +85,8 @@ public class HerbFarm : Technical
     {
         float ranValue;
 
-
-        for (int i = 0; i < Main.Instance.ActiveFloor_Basement; i++)
+        for (int i = 1; i < Main.Instance.ActiveFloor_Basement; i++)
         {
-            if (i == 3)
-            {
-                continue;
-            }
-
             for (int k = 0; k < 3; k++)
             {
                 ranValue = UnityEngine.Random.value;

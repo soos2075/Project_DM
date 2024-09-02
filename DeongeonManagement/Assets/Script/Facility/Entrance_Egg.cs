@@ -34,7 +34,7 @@ public class Entrance_Egg : Facility
             dm.SetColor(Color.red);
             Main.Instance.CurrentDay.AddDanger(5);
 
-            npc.FloorPortal(3);
+            npc.FloorPortal(0);
         }
         else
         {

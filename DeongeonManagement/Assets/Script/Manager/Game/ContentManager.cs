@@ -464,8 +464,8 @@ public class ContentManager
                 }
                 else
                 {
-                    var clone = GameManager.Facility.CreateFacility("Clone_Facility", info);
-                    clone.GetObject().GetComponent<Clone_Facility>().OriginalTarget = original;
+                    var clone = GameManager.Facility.CreateFacility("Clone_Facility_Wall", info);
+                    clone.GetObject().GetComponent<Clone_Facility_Wall>().OriginalTarget = original;
                 }
             }
         }

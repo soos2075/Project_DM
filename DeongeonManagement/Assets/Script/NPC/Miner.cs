@@ -63,16 +63,30 @@ public class Miner : NPC
         if (PriorityList != null) PriorityList.Clear();
 
 
-        var list1 = GetPriorityPick(typeof(Mineral));
-        AddList(list1);
+        {//? 메인타겟
+            var main = GetPriorityPick(typeof(Mineral));
+            switch (option)
+            {
+                case PrioritySortOption.SortByDistance:
+                    SortByDistance(main);
+                    break;
+            }
+            AddList(main);
+        }
 
+        {//? 우물 등 모험가 유용 이벤트
+            Add_Wells();
+        }
 
-        {
+        {//? 에그서치
             var add_egg = GetPriorityPick(typeof(SpecialEgg));
             AddList(add_egg);
         }
-        PickToProbability(GetPriorityPick(typeof(Entrance_Egg)), (PlacementInfo.Place_Floor.FloorIndex + Rank) * 0.04f);
-        Add_Wells();
+
+
+        {//? 전이진 서치
+            PickToProbability(GetPriorityPick(typeof(Entrance_Egg)), (PlacementInfo.Place_Floor.FloorIndex + Rank) * 0.04f);
+        }
     }
 
 

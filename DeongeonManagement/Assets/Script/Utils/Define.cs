@@ -82,6 +82,19 @@ public class Define
         L = 99,
     }
 
+    public enum DungeonFloor
+    {
+        Egg = 0,
+        Floor_1 = 1,
+        Floor_2 = 2,
+        Floor_3 = 3,
+        Floor_4 = 4,
+        Floor_5 = 5,
+        Floor_6 = 6,
+        Floor_7 = 7,
+    }
+
+
 
 
 

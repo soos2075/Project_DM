@@ -143,7 +143,6 @@ public class RemoveableObstacle : Facility, IWall
 
     public enum Obj_Label
     {
-
         // Floor_3
         RO_F3_01 = 3531,
         RO_F3_02 = 3532,

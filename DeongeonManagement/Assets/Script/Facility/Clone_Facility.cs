@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Clone_Facility : Facility, IWall
+public class Clone_Facility : Facility
 {
     Facility _original;
-    public Facility OriginalTarget { 
-        get { return _original; } 
-        set 
+    public Facility OriginalTarget
+    {
+        get { return _original; }
+        set
         {
             if (_original != null && _original.isActiveAndEnabled)
             {
@@ -16,9 +17,9 @@ public class Clone_Facility : Facility, IWall
             }
             _original = value;
             _original.OnRemoveEvent += RemoveSelf_Clone;
-        } }
-
-
+            _original.OnDataChangeEvent += Init_Personal;
+        }
+    }
 
     void RemoveSelf_Clone()
     {
@@ -26,13 +27,8 @@ public class Clone_Facility : Facility, IWall
         GameManager.Facility.RemoveFacility(this);
     }
 
-
     public override int InteractionOfTimes { get => OriginalTarget.InteractionOfTimes; }
-    //public override int InteractionOfTimes 
-    //{
-    //    get { return base.InteractionOfTimes; } 
-    //    set { base.InteractionOfTimes = value; } 
-    //}
+
     public override void Init_Personal()
     {
         if (OriginalTarget == null)
@@ -45,9 +41,11 @@ public class Clone_Facility : Facility, IWall
         SetData();
         Data_KeyName = "Clone_Facility";
         instanceIndex = OriginalTarget.instanceIndex;
+        isOnlyOne = false;
+        Name = OriginalTarget.Name;
     }
 
-    IEnumerator GetOriginal()
+    protected virtual IEnumerator GetOriginal()
     {
         yield return null;
         Facility facility = GameManager.Facility.GetInstanceOfIndex(instanceIndex);
@@ -56,14 +54,14 @@ public class Clone_Facility : Facility, IWall
         Data = OriginalTarget.Data;
         SetData();
         Data_KeyName = "Clone_Facility";
+        isOnlyOne = false;
+        Name = OriginalTarget.Name;
     }
 
     public override Coroutine NPC_Interaction(NPC npc)
     {
         return OriginalTarget.NPC_Interaction(npc);
     }
-
-
 
     public override void MouseClickEvent()
     {
@@ -79,5 +77,6 @@ public class Clone_Facility : Facility, IWall
     {
         OriginalTarget.MouseExitEvent();
     }
+
 
 }

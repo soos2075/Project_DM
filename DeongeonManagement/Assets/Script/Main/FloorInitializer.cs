@@ -74,49 +74,23 @@ public class FloorInitializer : MonoBehaviour
         for (int k = 0; k < 8; k++)
         {
 
-            BasementTile tile = Main.Instance.Floor[0].GetRandomTile();
-            var info = new PlacementInfo(Main.Instance.Floor[0], tile);
+            BasementTile tile = Main.Instance.Floor[1].GetRandomTile();
+            var info = new PlacementInfo(Main.Instance.Floor[1], tile);
             var obj = GameManager.Facility.CreateFacility("Herb_Low", info);
         }
         for (int k = 0; k < 2; k++)
         {
-            BasementTile tile = Main.Instance.Floor[1].GetRandomTile();
-            var info = new PlacementInfo(Main.Instance.Floor[1], tile);
+            BasementTile tile = Main.Instance.Floor[2].GetRandomTile();
+            var info = new PlacementInfo(Main.Instance.Floor[2], tile);
             var obj = GameManager.Facility.CreateFacility("Herb_High", info);
         }
         for (int k = 0; k < 5; k++)
         {
-            BasementTile tile = Main.Instance.Floor[2].GetRandomTile();
-            var info = new PlacementInfo(Main.Instance.Floor[2], tile);
+            BasementTile tile = Main.Instance.Floor[3].GetRandomTile();
+            var info = new PlacementInfo(Main.Instance.Floor[3], tile);
             var facil = GameManager.Facility.CreateFacility("Mineral_Rock", info);
         }
     }
-    #endregion
-
-    #region SLA - 스프라이트 에셋 생성(얘네는 저장이 안되서 매번 불러줘야함)
-
-    public void Init_Statue_Sprite()
-    {
-        SLA_ObjectManager.Instance.CreateObject("Statue_Mana", new Vector3(-3.5f, -15f, 0));
-        SLA_ObjectManager.Instance.SetLabel("Statue_Mana", "Mana", "Entry");
-
-        SLA_ObjectManager.Instance.CreateObject("Statue_Gold", new Vector3(-3.5f, -13f, 0));
-        SLA_ObjectManager.Instance.SetLabel("Statue_Gold", "Gold", "Entry");
-
-
-        if (UserData.Instance.FileConfig.Statue_Dog)
-        {
-            SLA_ObjectManager.Instance.CreateObject("Statue_Dog", new Vector3(-5f, -13f, 0));
-            SLA_ObjectManager.Instance.SetLabel("Statue_Dog", "Dog", "Entry");
-        }
-
-        if (UserData.Instance.FileConfig.Statue_Dragon)
-        {
-            SLA_ObjectManager.Instance.CreateObject("Statue_Dragon", new Vector3(-5f, -15f, 0));
-            SLA_ObjectManager.Instance.SetLabel("Statue_Dragon", "Dragon", "Entry");
-        }
-    }
-
     #endregion
 
 
@@ -127,6 +101,7 @@ public class FloorInitializer : MonoBehaviour
     void Init_EggFloor()
     {
         Init_Egg();
+        Init_Obstacle();
         Init_EggEntrance();
         Init_Statue();
     }
@@ -137,15 +112,13 @@ public class FloorInitializer : MonoBehaviour
     }
 
 
-
-
     void Init_3Floor()
     {
         {        
             //? 1번 - 왼쪽 상단
-            var main = CreateObj(2, new Vector2Int(0, 7), "RemoveableObstacle", CreateOption.Return) as RemoveableObstacle;
-            var sub1 = CreateObj(2, new Vector2Int(1, 7), "Clone_Facility", CreateOption.Return) as Clone_Facility;
-            var sub2 = CreateObj(2, new Vector2Int(2, 7), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+            var main = CreateObj(3, new Vector2Int(0, 7), "RemoveableObstacle", CreateOption.Return) as RemoveableObstacle;
+            var sub1 = CreateObj(3, new Vector2Int(1, 7), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+            var sub2 = CreateObj(3, new Vector2Int(2, 7), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
 
             main.Set_ObstacleType(RemoveableObstacle.Obj_Label.RO_F3_01);
             sub1.OriginalTarget = main;
@@ -154,10 +127,10 @@ public class FloorInitializer : MonoBehaviour
 
         {
             //? 2번 - 중앙
-            var main = CreateObj(2, new Vector2Int(4, 2), "RemoveableObstacle", CreateOption.Return) as RemoveableObstacle;
-            var sub1 = CreateObj(2, new Vector2Int(4, 3), "Clone_Facility", CreateOption.Return) as Clone_Facility;
-            var sub2 = CreateObj(2, new Vector2Int(5, 2), "Clone_Facility", CreateOption.Return) as Clone_Facility;
-            var sub3 = CreateObj(2, new Vector2Int(5, 3), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+            var main = CreateObj(3, new Vector2Int(4, 2), "RemoveableObstacle", CreateOption.Return) as RemoveableObstacle;
+            var sub1 = CreateObj(3, new Vector2Int(4, 3), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+            var sub2 = CreateObj(3, new Vector2Int(5, 2), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+            var sub3 = CreateObj(3, new Vector2Int(5, 3), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
 
             main.Set_ObstacleType(RemoveableObstacle.Obj_Label.RO_F3_02);
             sub1.OriginalTarget = main;
@@ -167,8 +140,8 @@ public class FloorInitializer : MonoBehaviour
 
         {
             //? 3번 - 하단 중앙
-            var main = CreateObj(2, new Vector2Int(9, 0), "RemoveableObstacle", CreateOption.Return) as RemoveableObstacle;
-            var sub1 = CreateObj(2, new Vector2Int(9, 1), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+            var main = CreateObj(3, new Vector2Int(9, 0), "RemoveableObstacle", CreateOption.Return) as RemoveableObstacle;
+            var sub1 = CreateObj(3, new Vector2Int(9, 1), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
 
             main.Set_ObstacleType(RemoveableObstacle.Obj_Label.RO_F3_03);
             sub1.OriginalTarget = main;
@@ -176,10 +149,10 @@ public class FloorInitializer : MonoBehaviour
 
         {
             //? 4번 - 오른쪽위
-            var main = CreateObj(2, new Vector2Int(12, 11), "RemoveableObstacle", CreateOption.Return) as RemoveableObstacle;
-            var sub1 = CreateObj(2, new Vector2Int(13, 11), "Clone_Facility", CreateOption.Return) as Clone_Facility;
-            var sub2 = CreateObj(2, new Vector2Int(12, 12), "Clone_Facility", CreateOption.Return) as Clone_Facility;
-            var sub3 = CreateObj(2, new Vector2Int(13, 12), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+            var main = CreateObj(3, new Vector2Int(12, 11), "RemoveableObstacle", CreateOption.Return) as RemoveableObstacle;
+            var sub1 = CreateObj(3, new Vector2Int(13, 11), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+            var sub2 = CreateObj(3, new Vector2Int(12, 12), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+            var sub3 = CreateObj(3, new Vector2Int(13, 12), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
 
             main.Set_ObstacleType(RemoveableObstacle.Obj_Label.RO_F3_04);
             sub1.OriginalTarget = main;
@@ -189,10 +162,10 @@ public class FloorInitializer : MonoBehaviour
 
         {
             //? 5번 - 오른쪽중앙
-            var main = CreateObj(2, new Vector2Int(12, 4), "RemoveableObstacle", CreateOption.Return) as RemoveableObstacle;
-            var sub1 = CreateObj(2, new Vector2Int(13, 4), "Clone_Facility", CreateOption.Return) as Clone_Facility;
-            var sub2 = CreateObj(2, new Vector2Int(12, 5), "Clone_Facility", CreateOption.Return) as Clone_Facility;
-            var sub3 = CreateObj(2, new Vector2Int(13, 5), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+            var main = CreateObj(3, new Vector2Int(12, 4), "RemoveableObstacle", CreateOption.Return) as RemoveableObstacle;
+            var sub1 = CreateObj(3, new Vector2Int(13, 4), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+            var sub2 = CreateObj(3, new Vector2Int(12, 5), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+            var sub3 = CreateObj(3, new Vector2Int(13, 5), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
 
             main.Set_ObstacleType(RemoveableObstacle.Obj_Label.RO_F3_05);
             sub1.OriginalTarget = main;
@@ -202,15 +175,15 @@ public class FloorInitializer : MonoBehaviour
 
         {
             //? 6번 - 오른쪽하단 야자수
-            var main = CreateObj(2, new Vector2Int(14, 0), "RemoveableObstacle", CreateOption.Return) as RemoveableObstacle;
-            var sub1 = CreateObj(2, new Vector2Int(14, 1), "Clone_Facility", CreateOption.Return) as Clone_Facility;
-            var sub2 = CreateObj(2, new Vector2Int(14, 2), "Clone_Facility", CreateOption.Return) as Clone_Facility;
-            var sub3 = CreateObj(2, new Vector2Int(15, 0), "Clone_Facility", CreateOption.Return) as Clone_Facility;
-            var sub4 = CreateObj(2, new Vector2Int(15, 1), "Clone_Facility", CreateOption.Return) as Clone_Facility;
-            var sub5 = CreateObj(2, new Vector2Int(15, 2), "Clone_Facility", CreateOption.Return) as Clone_Facility;
-            var sub6 = CreateObj(2, new Vector2Int(16, 0), "Clone_Facility", CreateOption.Return) as Clone_Facility;
-            var sub7 = CreateObj(2, new Vector2Int(16, 1), "Clone_Facility", CreateOption.Return) as Clone_Facility;
-            var sub8 = CreateObj(2, new Vector2Int(16, 2), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+            var main = CreateObj(3, new Vector2Int(14, 0), "RemoveableObstacle", CreateOption.Return) as RemoveableObstacle;
+            var sub1 = CreateObj(3, new Vector2Int(14, 1), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+            var sub2 = CreateObj(3, new Vector2Int(14, 2), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+            var sub3 = CreateObj(3, new Vector2Int(15, 0), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+            var sub4 = CreateObj(3, new Vector2Int(15, 1), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+            var sub5 = CreateObj(3, new Vector2Int(15, 2), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+            var sub6 = CreateObj(3, new Vector2Int(16, 0), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+            var sub7 = CreateObj(3, new Vector2Int(16, 1), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+            var sub8 = CreateObj(3, new Vector2Int(16, 2), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
 
             main.Set_ObstacleType(RemoveableObstacle.Obj_Label.RO_F3_06);
             sub1.OriginalTarget = main;
@@ -232,89 +205,116 @@ public class FloorInitializer : MonoBehaviour
 
 
 
-    public void Init_Egg()        //? 알 생성
+    public void Init_Egg()        //? 알 생성 (지금은 2*2인데 3*3으로 바꿀지 고민좀)
     {
-        var egg = CreateObj_OnlyOne(3, new Vector2Int(0, 2), "Egg_Lv1");
-        Main.Instance.eggObj = egg.GetObject();
+        var egg = CreateObj_OnlyOne((int)Define.DungeonFloor.Egg, new Vector2Int(0, 2), "Egg_Lv1") as SpecialEgg;
+        Main.Instance.EggObj = egg.GetObject();
+        egg.SetEggData(GameManager.Facility.GetData("Egg_Lv1"));
 
-        Init_Obstacle();
+        var sub1 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(0, 3), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+        var sub2 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(1, 2), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+        var sub3 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(1, 3), "Clone_Facility", CreateOption.Return) as Clone_Facility;
+        sub1.OriginalTarget = egg;
+        sub2.OriginalTarget = egg;
+        sub3.OriginalTarget = egg;
     }
 
     void Init_Obstacle() //? 플레이어와 알 사이에 2칸도 그냥 설치불가능 지역으로 만들기
     {
-        CreateObj(3, new Vector2Int(1, 2), "Obstacle", CreateOption.Return);
-        CreateObj(3, new Vector2Int(2, 2), "Obstacle", CreateOption.Return);
+        //CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(1, 2), "Obstacle", CreateOption.Return);
+        CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(2, 2), "Obstacle", CreateOption.Return);
     }
 
 
-    void Init_EggEntrance()
+    void Init_EggEntrance() //? 전이진이 생길 위치
     {
-        CreateObj(3, new Vector2Int(12, 2), "Obstacle", CreateOption.Return);
-        CreateObj(2, new Vector2Int(0, 0), "Obstacle", CreateOption.Return);
+        CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(12, 2), "Obstacle", CreateOption.Return);
+        CreateObj(3, new Vector2Int(0, 0), "Obstacle", CreateOption.Return);
         CreateObj(4, new Vector2Int(1, 15), "Obstacle", CreateOption.Return);
     }
 
     void Init_Statue()
     {
-        //? 골드 스태츄
-        CreateObj(3, new Vector2Int(10, 4), "Statue_Gold", CreateOption.Return);
-        CreateObj(3, new Vector2Int(10, 5), "Statue_Gold", CreateOption.Return);
-        CreateObj(3, new Vector2Int(11, 4), "Statue_Gold", CreateOption.Return);
-        CreateObj(3, new Vector2Int(11, 5), "Statue_Gold", CreateOption.Return);
+        {
+            //? 스태츄 - 1번자리 (우상단)
+            var main = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(10, 4), "StatueBase", CreateOption.Return) as Statue;
+            var sub1 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(10, 5), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+            var sub2 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(11, 4), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+            var sub3 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(11, 5), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+
+            main.Set_StatueType(Statue.StatueType.Statue_Gold);
+            sub1.OriginalTarget = main;
+            sub2.OriginalTarget = main;
+            sub3.OriginalTarget = main;
+        }
+
+        {
+            //? 스태츄 - 2번자리 (우하단)
+            var main = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(10, 0), "StatueBase", CreateOption.Return) as Statue;
+            var sub1 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(10, 1), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+            var sub2 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(11, 0), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+            var sub3 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(11, 1), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+
+            main.Set_StatueType(Statue.StatueType.Statue_Mana);
+            sub1.OriginalTarget = main;
+            sub2.OriginalTarget = main;
+            sub3.OriginalTarget = main;
+        }
 
 
-        //? 마나 스태츄
-        CreateObj(3, new Vector2Int(10, 0), "Statue_Mana", CreateOption.Return);
-        CreateObj(3, new Vector2Int(10, 1), "Statue_Mana", CreateOption.Return);
-        CreateObj(3, new Vector2Int(11, 0), "Statue_Mana", CreateOption.Return);
-        CreateObj(3, new Vector2Int(11, 1), "Statue_Mana", CreateOption.Return);
-
-        //? 개 스태츄
+        //? 3번 - 개
         if (UserData.Instance.FileConfig.Statue_Dog)
         {
-            CreateObj(3, new Vector2Int(7, 4), "Statue_Dog", CreateOption.Replace);
-            CreateObj(3, new Vector2Int(7, 5), "Statue_Dog", CreateOption.Replace);
-            CreateObj(3, new Vector2Int(8, 4), "Statue_Dog", CreateOption.Replace);
-            CreateObj(3, new Vector2Int(8, 5), "Statue_Dog", CreateOption.Replace);
+            var main = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(7, 4), "StatueBase", CreateOption.Return) as Statue;
+            var sub1 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(7, 5), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+            var sub2 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(8, 4), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+            var sub3 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(8, 5), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+
+            main.Set_StatueType(Statue.StatueType.Statue_Dog);
+            sub1.OriginalTarget = main;
+            sub2.OriginalTarget = main;
+            sub3.OriginalTarget = main;
         }
         else
         {
-            CreateObj(3, new Vector2Int(7, 4), "Obstacle_Wall", CreateOption.Replace);
-            CreateObj(3, new Vector2Int(7, 5), "Obstacle_Wall", CreateOption.Replace);
-            CreateObj(3, new Vector2Int(8, 4), "Obstacle_Wall", CreateOption.Replace);
-            CreateObj(3, new Vector2Int(8, 5), "Obstacle_Wall", CreateOption.Replace);
+            CreateObj(0, new Vector2Int(7, 4), "Obstacle_Wall", CreateOption.Replace);
+            CreateObj(0, new Vector2Int(7, 5), "Obstacle_Wall", CreateOption.Replace);
+            CreateObj(0, new Vector2Int(8, 4), "Obstacle_Wall", CreateOption.Replace);
+            CreateObj(0, new Vector2Int(8, 5), "Obstacle_Wall", CreateOption.Replace);
         }
 
-        //? 드래곤 스태츄
+        //? 4번 - 드래곤마왕
         if (UserData.Instance.FileConfig.Statue_Dragon)
         {
-            CreateObj(3, new Vector2Int(7, 0), "Statue_Dragon", CreateOption.Replace);
-            CreateObj(3, new Vector2Int(7, 1), "Statue_Dragon", CreateOption.Replace);
-            CreateObj(3, new Vector2Int(8, 0), "Statue_Dragon", CreateOption.Replace);
-            CreateObj(3, new Vector2Int(8, 1), "Statue_Dragon", CreateOption.Replace);
+            var main = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(7, 0), "StatueBase", CreateOption.Return) as Statue;
+            var sub1 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(7, 1), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+            var sub2 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(8, 0), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+            var sub3 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(8, 1), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+
+            main.Set_StatueType(Statue.StatueType.Statue_Dragon);
+            sub1.OriginalTarget = main;
+            sub2.OriginalTarget = main;
+            sub3.OriginalTarget = main;
         }
         else
         {
-            CreateObj(3, new Vector2Int(7, 0), "Obstacle_Wall", CreateOption.Replace);
-            CreateObj(3, new Vector2Int(7, 1), "Obstacle_Wall", CreateOption.Replace);
-            CreateObj(3, new Vector2Int(8, 0), "Obstacle_Wall", CreateOption.Replace);
-            CreateObj(3, new Vector2Int(8, 1), "Obstacle_Wall", CreateOption.Replace);
+            CreateObj(0, new Vector2Int(7, 0), "Obstacle_Wall", CreateOption.Replace);
+            CreateObj(0, new Vector2Int(7, 1), "Obstacle_Wall", CreateOption.Replace);
+            CreateObj(0, new Vector2Int(8, 0), "Obstacle_Wall", CreateOption.Replace);
+            CreateObj(0, new Vector2Int(8, 1), "Obstacle_Wall", CreateOption.Replace);
         }
 
-        //? 3번째 조각상 자리
-        CreateObj(3, new Vector2Int(4, 0), "Obstacle_Wall", CreateOption.Replace);
-        CreateObj(3, new Vector2Int(4, 1), "Obstacle_Wall", CreateOption.Replace);
-        CreateObj(3, new Vector2Int(5, 0), "Obstacle_Wall", CreateOption.Replace);
-        CreateObj(3, new Vector2Int(5, 1), "Obstacle_Wall", CreateOption.Replace);
+        //? 5번 자리
+        CreateObj(0, new Vector2Int(4, 0), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(4, 1), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(5, 0), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(5, 1), "Obstacle_Wall", CreateOption.Replace);
 
-        //? 4번째 조각상 자리
-        CreateObj(3, new Vector2Int(4, 4), "Obstacle_Wall", CreateOption.Replace);
-        CreateObj(3, new Vector2Int(4, 5), "Obstacle_Wall", CreateOption.Replace);
-        CreateObj(3, new Vector2Int(5, 4), "Obstacle_Wall", CreateOption.Replace);
-        CreateObj(3, new Vector2Int(5, 5), "Obstacle_Wall", CreateOption.Replace);
-
-
-        Init_Statue_Sprite();
+        //? 6번 자리
+        CreateObj(0, new Vector2Int(4, 4), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(4, 5), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(5, 4), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(5, 5), "Obstacle_Wall", CreateOption.Replace);
     }
 
 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.U2D.Animation;
 
 public class SpecialEgg : Facility
 {
@@ -19,12 +20,20 @@ public class SpecialEgg : Facility
 
     public void SetEggData(SO_Facility SO_data)
     {
-        //EventType = SO_data.Type;
-        Name = SO_data.labelName.SetTextColorTag(Define.TextColor.SkyBlue);
-        Detail_KR = SO_data.detail;
+        Data = SO_data;
+        SetData();
 
+        //EventType = SO_data.Type;
+        //Detail_KR = SO_data.detail;
+        //InteractionOfTimes = SO_data.interactionOfTimes;
+
+        Name = SO_data.labelName.SetTextColorTag(Define.TextColor.SkyBlue);
         Egg = (EggType)SO_data.id;
-        InteractionOfTimes = SO_data.interactionOfTimes;
+
+        var sprite = GetComponentInChildren<SpriteResolver>();
+        sprite.SetCategoryAndLabel(Data.SLA_category, Data.SLA_label);
+
+        DataChangeEvent();
     }
 
 

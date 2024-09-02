@@ -95,37 +95,37 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         {
             case animState.front:
             case animState.left:
-                transform.localScale = new Vector3(-0.5f, 0.5f, 0.5f);
+                transform.localScale = new Vector3(-1, 1, 1);
                 anim.Play("Running");
                 break;
 
             case animState.back:
             case animState.right:
-                transform.localScale = Vector3.one * 0.5f;
+                transform.localScale = Vector3.one;
                 anim.Play("Running");
                 break;
 
             case animState.front_Action:
             case animState.left_Action:
-                transform.localScale = new Vector3(-0.5f, 0.5f, 0.5f);
+                transform.localScale = new Vector3(-1, 1, 1);
                 anim.Play("Interaction");
                 break;
 
             case animState.back_Action:
             case animState.right_Action:
-                transform.localScale = Vector3.one * 0.5f;
+                transform.localScale = Vector3.one;
                 anim.Play("Interaction");
                 break;
 
             case animState.front_Battle:
             case animState.left_Battle:
-                transform.localScale = new Vector3(-0.5f, 0.5f, 0.5f);
+                transform.localScale = new Vector3(-1, 1, 1);
                 anim.Play("Ready");
                 break;
 
             case animState.back_Battle:
             case animState.right_Battle:
-                transform.localScale = Vector3.one * 0.5f;
+                transform.localScale = Vector3.one;
                 anim.Play("Ready");
                 break;
 
@@ -734,7 +734,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         ActionPoint = data.AP;
         Mana = data.MP;
 
-        float speed = data.groundSpeed * UnityEngine.Random.Range(0.9f, 1.1f);
+        float speed = data.groundSpeed * 2 * UnityEngine.Random.Range(0.9f, 1.1f);
         float delay = data.actionDelay * UnityEngine.Random.Range(0.9f, 1.1f);
 
         Speed_Ground = speed;
@@ -788,14 +788,15 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
     public void FloorNext() //? 지하층으로 내려가는 입구에 도착했을 때 호출
     {
-        if (FloorLevel == 3)
-        {
-            FloorLevel++;
-        }
+        //if (FloorLevel == 0)
+        //{
+        //    FloorLevel++;
+        //}
+        FloorLevel++;
 
         if (FloorLevel == Main.Instance.ActiveFloor_Basement)
         {
-            FloorLevel--;
+            //FloorLevel--;
             //Debug.Log($"{name}(이)가 {FloorLevel}층에서 더이상 올라갈 수 없음");
             State = NPCState.Return_Empty;
             isReturn = true;
@@ -819,7 +820,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         var info_Entrance = new PlacementInfo(Main.Instance.Floor[FloorLevel], Main.Instance.Floor[FloorLevel].Exit.PlacementInfo.Place_Tile);
         GameManager.Placement.PlacementConfirm(this, info_Entrance);
 
-        FloorLevel++;
+        //FloorLevel++;
         //Debug.Log($"{name}(이)가 {FloorLevel}층에 도착");
 
         SetPriorityList(PrioritySortOption.Random); //? 우선순위에 맞춰 맵탐색
@@ -836,14 +837,9 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     }
     public void FloorPrevious() //? 지상층으로 올라가는 입구에 도착했을 때 호출
     {
-        if (FloorLevel == 5)
-        {
-            FloorLevel--;
-        }
-
         FloorLevel--;
 
-        if (FloorLevel == 0)
+        if (FloorLevel == 1)
         {
             FloorEscape();
             return;
@@ -1094,25 +1090,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         }
 
 
-        //if (PriorityList[0].Original.GetType() == typeof(Entrance_Egg))
-        //{
-        //    Debug.Log("혹시 에그방 말고 다른거 있나 한번 더 확인");
-        //    SetPriorityList();
-        //    PriorityList.RemoveAll(r => r.tileType_Original == Define.TileType.Empty || r.Original.PlacementState == PlacementState.Busy);
-        //    return NPCState.Priority;
-        //}
 
-        //if (PriorityList.Count == 1)
-        //{
-        //    if (PriorityList[0].GetType() == typeof(NPC))
-        //    {
-        //        SetPriorityList();
-        //    }
-        //}
-
-
-
-        if (PlacementInfo.Place_Floor.FloorIndex != 3 && PriorityList[0].Original == PlacementInfo.Place_Floor.Entrance.PlacementInfo.Place_Tile.Original)
+        if (PlacementInfo.Place_Floor.FloorIndex != 0 && PriorityList[0].Original == PlacementInfo.Place_Floor.Entrance.PlacementInfo.Place_Tile.Original)
         {
             return NPCState.Next;
         }
@@ -1317,6 +1296,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
                 PlacementState = PlacementState.Busy;
                 Cor_Encounter = StartCoroutine(Encounter_Event(tile));
                 return true;
+
 
 
             case Define.PlaceEvent.Avoid:

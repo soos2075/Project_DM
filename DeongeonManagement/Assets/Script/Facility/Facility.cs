@@ -16,12 +16,22 @@ public abstract class Facility : MonoBehaviour, IPlacementable
     }
 
     public event Action OnRemoveEvent;
+    public event Action OnDataChangeEvent;
     public void FacilityRemoveEvent()
     {
         if (OnRemoveEvent != null)
         {
             OnRemoveEvent();
             OnRemoveEvent = null;
+        }
+    }
+
+    public void DataChangeEvent()
+    {
+        if (OnDataChangeEvent != null)
+        {
+            OnDataChangeEvent();
+            OnDataChangeEvent = null;
         }
     }
 

@@ -838,6 +838,14 @@ public class BasementTile
             {
                 return true;
             }
+            if (Original is Clone_Facility) // 에그는 예외처리
+            {
+                var clone = Original as Clone_Facility;
+                if (clone.OriginalTarget is SpecialEgg)
+                {
+                    return true;
+                }
+            }
 
             var fa = Original as Facility;
             switch (fa.EventType)

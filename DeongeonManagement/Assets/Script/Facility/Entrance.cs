@@ -32,7 +32,7 @@ public class Entrance : Facility
         {
             yield return new WaitForSeconds(npc.ActionDelay);
 
-            int applyMana = Mathf.Clamp((npc.PlacementInfo.Place_Floor.FloorIndex * 5), 0, npc.Mana);
+            int applyMana = Mathf.Clamp(((npc.PlacementInfo.Place_Floor.FloorIndex) * 3), 0, npc.Mana);
             applyMana += GameManager.Buff.PortalBonus;
             if (applyMana > 0)
             {
