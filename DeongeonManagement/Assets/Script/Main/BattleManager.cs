@@ -49,7 +49,7 @@ public class BattleManager : MonoBehaviour
 
     public Coroutine ShowBattleField(NPC _npc, Monster _monster, out BattleField.BattleResult result)
     {
-        // 배틀필드 위치 중복되지 않게 정하는 부분
+        // 배틀필드 위치 중복되지 않게 정하는 부분 (레거시)
         //Vector3 bfPos = SetPosition(_monster);
 
         //int whileCount = 0;
@@ -155,12 +155,10 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator Battle(BattleField _field, LineRenderer _line)
     {
-        //Time.timeScale = 0;
         yield return _field.BattlePlay();
         RemoveCor(_field);
         Managers.Resource.Destroy(_field.gameObject);
         Managers.Resource.Destroy(_line.gameObject);
-        //Time.timeScale = 1;
     }
 
 
@@ -252,21 +250,27 @@ public class BattleManager : MonoBehaviour
 
 
         int ranPick = GetRandomField(checkList);
+
+        if (ranPick == -1) //? -1이면 모든 슬롯이 꽉찼으니 적당히 랜덤값
+        {
+            float valueX;
+            float valueY;
+            do
+            {// -10 ~ 10 사이의 값 중 랜덤 추출
+                valueX = Random.Range(-10, 11);
+            } while (valueX > -5 && valueX < 5); // -4~4의 범위를 제외
+            do
+            {// -10 ~ 10 사이의 값 중 랜덤 추출
+                valueY = Random.Range(-10, 11);
+            } while (valueY > -5 && valueY < 5); // -4~4의 범위를 제외
+
+            slotNumber = -1;
+            return FloorBase[floorIndex].position + new Vector3(valueX, valueY, 0);
+        }
+
         slotNumber = ranPick;
         checkList[ranPick] = true;
         return posList[ranPick] + FloorBase[floorIndex].position;
-
-        //for (int i = 0; i < checkList.Length; i++)
-        //{
-        //    if (!checkList[i])
-        //    {
-        //        checkList[i] = true;
-        //        slotNumber = i;
-        //        return posList[i] + FloorBase[floorIndex].position;
-        //    }
-        //}
-        //slotNumber = -1;
-        //return Vector3.zero + FloorBase[floorIndex].position;
     }
 
 
@@ -282,12 +286,17 @@ public class BattleManager : MonoBehaviour
             }
             counter++;
         }
-        return 0;
+        return -1;
     }
 
 
     void AddPos_Field(int floorIndex, int slotIndex)
     {
+        if (slotIndex == -1)
+        {
+            return;
+        }
+
         switch (floorIndex)
         {
             case 0:

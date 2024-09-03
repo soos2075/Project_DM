@@ -18,10 +18,12 @@ public class Orb : MonoBehaviour
     public bool isActive;
 
     SpriteResolver Resolver;
+    Animator anim;
 
     private void Start()
     {
         Resolver = GetComponent<SpriteResolver>();
+        anim = GetComponent<Animator>();
         Init_State();
     }
 
@@ -47,7 +49,10 @@ public class Orb : MonoBehaviour
                 break;
         }
 
-        if (isActive) Resolver.SetCategoryAndLabel(_OrbType.ToString(), "Active");
+        if (isActive)
+        {
+            anim.enabled = true;
+        }
     }
 
 
@@ -77,7 +82,7 @@ public class Orb : MonoBehaviour
 
         if (isActive)
         {
-            Resolver.SetCategoryAndLabel(_OrbType.ToString(), "Active_line");
+            //Resolver.SetCategoryAndLabel(_OrbType.ToString(), "Active_line");
         }
         else
         {
@@ -105,7 +110,7 @@ public class Orb : MonoBehaviour
 
         if (isActive)
         {
-            Resolver.SetCategoryAndLabel(_OrbType.ToString(), "Active");
+            //Resolver.SetCategoryAndLabel(_OrbType.ToString(), "Active");
         }
         else
         {
@@ -143,12 +148,6 @@ public class Orb : MonoBehaviour
             case OrbType.green:
                 var green = $"{UserData.Instance.LocaleText_Tooltip("Orb_Green")}\n" +
                     $"({UserData.Instance.LocaleText_Tooltip("Orb_Green_Detail")})";
-
-                    //$"<size=25>" +
-                    //$"(-2{UserData.Instance.LocaleText("AP")}, " +
-                    //$"-750{UserData.Instance.LocaleText("Mana")}, " +
-                    //$"-250{UserData.Instance.LocaleText("Gold")})"; // + $"{UserData.Instance.LocaleText("ÇÊ¿ä")})");
-
                 ui.SetText(green, () => Confirm(ap: 2, mana: 750, gold: 250));
                 ui.SetMode_Calculation(1, "750", "250", "2");
                 break;
@@ -157,10 +156,6 @@ public class Orb : MonoBehaviour
             case OrbType.yellow:
                 var yellow = $"{UserData.Instance.LocaleText_Tooltip("Orb_Yellow")}\n" +
                     $"({UserData.Instance.LocaleText_Tooltip("Orb_Yellow_Detail")})";
-                //$"<size=25>" +
-                //$"(-2{UserData.Instance.LocaleText("AP")}, " +
-                //$"-750{UserData.Instance.LocaleText("Mana")}, " +
-                //$"-250{UserData.Instance.LocaleText("Gold")})";
                 ui.SetText(yellow, () => Confirm(ap: 2, mana: 750, gold: 250));
                 ui.SetMode_Calculation(1, "750", "250", "2");
                 break;
@@ -169,10 +164,6 @@ public class Orb : MonoBehaviour
             case OrbType.blue:
                 var blue = $"{UserData.Instance.LocaleText_Tooltip("Orb_Blue")}\n" +
                     $"({UserData.Instance.LocaleText_Tooltip("Orb_Blue_Detail")})";
-                //$"<size=25>" +
-                //        $"(-3{UserData.Instance.LocaleText("AP")}, " +
-                //        $"-2000{UserData.Instance.LocaleText("Mana")}, " +
-                //        $"-1000{UserData.Instance.LocaleText("Gold")})";
                 ui.SetText(blue, () => Confirm(ap: 3, mana: 2000, gold: 1000));
                 ui.SetMode_Calculation(2, "2000", "1000", "3");
                 break;
@@ -181,10 +172,6 @@ public class Orb : MonoBehaviour
             case OrbType.red:
                 var red = $"{UserData.Instance.LocaleText_Tooltip("Orb_Red")}\n" +
                     $"({UserData.Instance.LocaleText_Tooltip("Orb_Red_Detail")})";
-                //$"<size=25>" +
-                //        $"(-4{UserData.Instance.LocaleText("AP")}, " +
-                //        $"-1000{UserData.Instance.LocaleText("Mana")}, " +
-                //        $"-2000{UserData.Instance.LocaleText("Gold")})";
                 ui.SetText(red, () => Confirm(ap: 4, mana: 1000, gold: 2000));
                 ui.SetMode_Calculation(3, "1000", "2000", "4");
                 break;
@@ -200,6 +187,7 @@ public class Orb : MonoBehaviour
             Main.Instance.CurrentDay.SubtractMana(mana, Main.DayResult.EventType.Etc);
 
             isActive = true;
+            anim.enabled = true;
             switch (_OrbType)
             {
                 case OrbType.green:

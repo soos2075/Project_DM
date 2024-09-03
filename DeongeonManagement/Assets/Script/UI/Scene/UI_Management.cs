@@ -35,7 +35,7 @@ public class UI_Management : UI_Base
     public enum ButtonEvent
     {
         _1_Facility,
-        _2_Summon,
+        //_2_Summon,
         _3_Management,
         _4_Guild,
         _5_Quest,
@@ -76,7 +76,7 @@ public class UI_Management : UI_Base
     public enum OverlayImages
     {
         OverlayImage_Facility,
-        OverlayImage_Summon,
+        //OverlayImage_Summon,
         OverlayImage_Monster,
         OverlayImage_Guild,
         OverlayImage_Quest,
@@ -183,7 +183,7 @@ public class UI_Management : UI_Base
     void OverlayImageReset()
     {
         GetImage((int)OverlayImages.OverlayImage_Facility).enabled = false;
-        GetImage((int)OverlayImages.OverlayImage_Summon).enabled = false;
+        //GetImage((int)OverlayImages.OverlayImage_Summon).enabled = false;
         GetImage((int)OverlayImages.OverlayImage_Monster).enabled = false;
         GetImage((int)OverlayImages.OverlayImage_Guild).enabled = false;
         GetImage((int)OverlayImages.OverlayImage_Quest).enabled = false;
@@ -228,7 +228,7 @@ public class UI_Management : UI_Base
     void Init_Button()
     {
         GetButton((int)ButtonEvent._1_Facility).gameObject.AddUIEvent((data) => Button_Facility());
-        GetButton((int)ButtonEvent._2_Summon).gameObject.AddUIEvent((data) => Button_Summon());
+        //GetButton((int)ButtonEvent._2_Summon).gameObject.AddUIEvent((data) => Button_Summon());
         GetButton((int)ButtonEvent._3_Management).gameObject.AddUIEvent((data) => Button_MonsterManage());
         GetButton((int)ButtonEvent._4_Guild).gameObject.AddUIEvent((data) => Visit_Guild());
         GetButton((int)ButtonEvent._5_Quest).gameObject.AddUIEvent((data) => Button_Quest());
@@ -294,7 +294,7 @@ public class UI_Management : UI_Base
     }
     void Button_Pedia()
     {
-        Managers.UI.ShowPopUp<UI_Collection>();
+        Managers.UI.ShowPopUp<UI_Collection>("Collection/UI_Collection");
     }
     void Button_Pause()
     {
@@ -302,9 +302,14 @@ public class UI_Management : UI_Base
     }
     void Button_Save()
     {
-        if (!Main.Instance.Management) return;
+        //? 턴진행중은 아예 클릭이 안되게 하거나 클릭했을 때 로드모드로만 열리게 하는 두가지 방법이 있는데 음..
+        //if (!Main.Instance.Management) return;
 
         var save = Managers.UI.ShowPopUp<UI_SaveLoad>();
+        if (!Main.Instance.Management)
+        {
+            save.SetMode(UI_SaveLoad.DataState.Load);
+        }
     }
 
 
@@ -327,7 +332,7 @@ public class UI_Management : UI_Base
         if (!Main.Instance.Management) return;
 
         Managers.UI.ClearAndShowPopUp<UI_Summon_Monster>("Monster/UI_Summon_Monster");
-        SetNotice(OverlayImages.OverlayImage_Summon, false);
+        //SetNotice(OverlayImages.OverlayImage_Summon, false);
     }
     void Button_MonsterManage()
     {
@@ -424,7 +429,7 @@ public class UI_Management : UI_Base
     {
         yield return new WaitForSecondsRealtime(1);
         GetButton((int)ButtonEvent._1_Facility).gameObject.SetActive(true);
-        GetButton((int)ButtonEvent._2_Summon).gameObject.SetActive(true);
+        //GetButton((int)ButtonEvent._2_Summon).gameObject.SetActive(true);
         GetButton((int)ButtonEvent._3_Management).gameObject.SetActive(true);
         GetButton((int)ButtonEvent._4_Guild).gameObject.SetActive(true);
         GetButton((int)ButtonEvent._5_Quest).gameObject.SetActive(true);
@@ -479,7 +484,7 @@ public class UI_Management : UI_Base
     void DayZero()
     {
         GetButton((int)ButtonEvent._1_Facility).gameObject.SetActive(false);
-        GetButton((int)ButtonEvent._2_Summon).gameObject.SetActive(false);
+        //GetButton((int)ButtonEvent._2_Summon).gameObject.SetActive(false);
         GetButton((int)ButtonEvent._3_Management).gameObject.SetActive(false);
         GetButton((int)ButtonEvent._4_Guild).gameObject.SetActive(false);
         GetButton((int)ButtonEvent._5_Quest).gameObject.SetActive(false);
@@ -497,7 +502,7 @@ public class UI_Management : UI_Base
                 break;
 
             case 1:
-                GetButton((int)ButtonEvent._2_Summon).gameObject.SetActive(false);
+                //GetButton((int)ButtonEvent._2_Summon).gameObject.SetActive(false);
                 GetButton((int)ButtonEvent._3_Management).gameObject.SetActive(false);
                 GetButton((int)ButtonEvent._4_Guild).gameObject.SetActive(false);
                 GetButton((int)ButtonEvent._5_Quest).gameObject.SetActive(false);

@@ -45,12 +45,6 @@ public class UI_Collection : UI_PopUp
         TMP_Detail,
         TMP_Point,
 
-        TMP_Option1,
-        TMP_Option2,
-        TMP_Option3,
-        TMP_Option4,
-        TMP_Option5,
-
         TMP_Stat_Main1,
         TMP_Stat_Main2,
         TMP_Stat_Main3,
@@ -257,16 +251,9 @@ public class UI_Collection : UI_PopUp
         StatContentsSet(ShowBoxText.TMP_Stat_Sub3, "", $"");
         StatContentsSet(ShowBoxText.TMP_Stat_Sub4, "", $"");
 
+        ResetOptionBox();
 
-        OptionContentSet(ShowBoxText.TMP_Option1,"", false);
-        OptionContentSet(ShowBoxText.TMP_Option2,"", false);
-        OptionContentSet(ShowBoxText.TMP_Option3,"", false);
-        OptionContentSet(ShowBoxText.TMP_Option4,"", false);
-        OptionContentSet(ShowBoxText.TMP_Option5,"", false);
-
-        //? 만약 내용이 있다면 ???로, 없으면 그냥 공백으로 하면됨. 내용은 Object csv 파일의 Option 내용으로 하면 될듯
-
-        StartCoroutine(WaitContentsizeFilter());
+        //StartCoroutine(WaitContentsizeFilter());
     }
 
     void StatContentsSet(ShowBoxText textBox, string title, string content)
@@ -276,31 +263,84 @@ public class UI_Collection : UI_PopUp
     }
 
 
-    void OptionContentSet(ShowBoxText OptionBox, string content, bool isOn = true)
+    GameObject Add_TraitBox()
+    {
+        var pos = GetObject((int)Objects.VerticalBox).transform;
+        var trait = Managers.Resource.Instantiate("UI/PopUp/Collection/TraitBox", pos);
+        //trait.GetComponent<ContentSizeFitter>().enabled = false;
+        return trait;
+    }
+    GameObject Add_Header(string text = "")
+    {
+        var pos = GetObject((int)Objects.VerticalBox).transform;
+        var header = Managers.Resource.Instantiate("UI/PopUp/Collection/TMP_Header", pos);
+        if (string.IsNullOrEmpty(text) == false)
+        {
+            header.GetComponent<TextMeshProUGUI>().text = text;
+        }
+        return header;
+    }
+    GameObject Add_TextBox()
+    {
+        var pos = GetObject((int)Objects.VerticalBox).transform;
+        var trait = Managers.Resource.Instantiate("UI/PopUp/Collection/TextBox", pos);
+        trait.GetComponentInChildren<TextMeshProUGUI>().text = "";
+        return trait;
+    }
+    void ResetOptionBox()
+    {
+        var pos = GetObject((int)Objects.VerticalBox).transform;
+
+        for (int i = pos.childCount - 1; i >= 0; i--)
+        {
+            Managers.Resource.Destroy(pos.GetChild(i).gameObject);
+        }
+    }
+
+    void TraitContentSet(GameObject traitBox, List<TraitGroup> traitList)
+    {
+        for (int i = 0; i < traitList.Count; i++)
+        {
+            GameManager.Trait.CreateTraitBar(traitList[i], traitBox.transform);
+        }
+        traitBox.GetComponent<Image>().sprite = slot_Unlock;
+        traitBox.GetComponent<ContentSizeFitter>().enabled = true;
+    }
+
+    void HeaderContentSet(TextMeshProUGUI textBox, string content)
+    {
+        textBox.text = content;
+    }
+
+    void OptionContentSet(TextMeshProUGUI textBox, string content, bool isOn = true)
     {
         if (isOn)
         {
-            GetTMP((int)OptionBox).text = content;
-            GetTMP((int)OptionBox).GetComponent<ContentSizeFitter>().enabled = true;
+            textBox.text = content;
+            textBox.GetComponent<ContentSizeFitter>().enabled = true;
 
             if (string.IsNullOrEmpty(content) == false)
             {
-                GetTMP((int)OptionBox).transform.parent.GetComponent<Image>().sprite = slot_Unlock;
+                textBox.transform.parent.GetComponent<Image>().sprite = slot_Unlock;
             }
         }
         else
         {
-            GetTMP((int)OptionBox).text = content;
-            GetTMP((int)OptionBox).GetComponent<ContentSizeFitter>().enabled = false;
-            GetTMP((int)OptionBox).GetComponent<RectTransform>().sizeDelta = new Vector2Int(380, 72);
+            textBox.text = content;
+            textBox.GetComponent<ContentSizeFitter>().enabled = false;
+            textBox.GetComponent<RectTransform>().sizeDelta = new Vector2Int(380, 72);
 
             if (string.IsNullOrEmpty(content))
             {
-                GetTMP((int)OptionBox).transform.parent.GetComponent<Image>().sprite = slot_Lock;
+                textBox.transform.parent.GetComponent<Image>().sprite = slot_Lock;
             }
         }
     }
 
+
+
+
+    //? 박스 채우기
 
     public void ShowBox_Monster(CollectionManager.CollectionUnitRegist<SO_Monster> data)
     {
@@ -325,29 +365,47 @@ public class UI_Collection : UI_PopUp
             StatContentsSet(ShowBoxText.TMP_Stat_Main5, "AGI", $"{SO_Data.agi}");
             StatContentsSet(ShowBoxText.TMP_Stat_Main6, "LUK", $"{SO_Data.luk}");
 
+            var header = Add_Header("획득 가능한 특성");
+            var traitPanel = Add_TraitBox();
+
+            GameObject header2 = null;
+            GameObject textBox1 = null;
+            if (string.IsNullOrEmpty(SO_Data.evolutionHint) == false)
+            {
+                header2 = Add_Header("진화 힌트");
+                textBox1 = Add_TextBox();
+            }
+            GameObject header3 = null;
+            GameObject textBox2 = null;
+            if (string.IsNullOrEmpty(SO_Data.evolutionDetail) == false)
+            {
+                header3 = Add_Header("상세 조건");
+                textBox2 = string.IsNullOrEmpty(SO_Data.evolutionDetail) ? null : Add_TextBox();
+            }
+
             if (data.info.level_1_Unlock)
             {
                 StatContentsSet(ShowBoxText.TMP_Stat_Sub1, $"동시전투", $"{SO_Data.maxBattleCount}");
-                StatContentsSet(ShowBoxText.TMP_Stat_Sub2, $"{UserData.Instance.LocaleText("AP")}", $"{SO_Data.battleAp}");
+                StatContentsSet(ShowBoxText.TMP_Stat_Sub2, $"행동력소모", $"{SO_Data.battleAp}");
                 StatContentsSet(ShowBoxText.TMP_Stat_Sub3, $"Rank", $"{(Define.DungeonRank)SO_Data.unlockRank}");
             }
             if (data.info.level_2_Unlock)
             {
-                string traitString = "";
-
-                foreach (var item in SO_Data.TraitableList)
-                {
-                    traitString += $"[{GameManager.Trait.GetData(item).labelName}]  ";
-                }
-                OptionContentSet(ShowBoxText.TMP_Option1, traitString, true);
+                TraitContentSet(traitPanel, SO_Data.TraitableList);
             }
             if (data.info.level_3_Unlock)
             {
-                OptionContentSet(ShowBoxText.TMP_Option2, SO_Data.evolutionHint, true);
+                if (textBox1 != null)
+                {
+                    OptionContentSet(textBox1.GetComponentInChildren<TextMeshProUGUI>(), SO_Data.evolutionHint, true);
+                }
             }
             if (data.info.level_4_Unlock)
             {
-                OptionContentSet(ShowBoxText.TMP_Option3, SO_Data.evolutionDetail, true);
+                if (textBox2 != null)
+                {
+                    OptionContentSet(textBox2.GetComponentInChildren<TextMeshProUGUI>(), SO_Data.evolutionDetail, true);
+                }
             }
             if (data.info.level_5_Unlock)
             {
@@ -373,6 +431,10 @@ public class UI_Collection : UI_PopUp
             GetTMP((int)ShowBoxText.TMP_Number).text = $"No.{data.CollectionNumber}";
             GetTMP((int)ShowBoxText.TMP_Detail).text = $"{SO_Data.detail}";
 
+
+            var header = Add_Header("고유 특성");
+            var traitPanel = Add_TraitBox();
+
             if (data.info.level_1_Unlock)
             {
                 StatContentsSet(ShowBoxText.TMP_Stat_Main1, "HP", $"{SO_Data.HP}");
@@ -389,12 +451,7 @@ public class UI_Collection : UI_PopUp
             }
             if (data.info.level_3_Unlock)
             {
-                string tag = "";
-                foreach (var item in SO_Data.NPC_TraitList)
-                {
-                    tag += $"[{GameManager.Trait.GetData(item).labelName}]  ";
-                }
-                OptionContentSet(ShowBoxText.TMP_Option1, $"{tag}", true);
+                TraitContentSet(traitPanel, SO_Data.NPC_TraitList);
             }
             if (data.info.level_4_Unlock)
             {
@@ -439,6 +496,13 @@ public class UI_Collection : UI_PopUp
             StatContentsSet(ShowBoxText.TMP_Stat_Main1, $"{UserData.Instance.LocaleText("분류")}", 
                 $"{UserData.Instance.LocaleText_Label(SO_Data.category.ToString())}");
 
+            var header1 = Add_Header("보너스 특성");
+            var traitPanel1 = Add_TraitBox();
+            var header2 = Add_Header("패널티 특성");
+            var traitPanel2 = Add_TraitBox();
+            var header3 = Add_Header("무효화 특성");
+            var traitPanel3 = Add_TraitBox();
+
             if (data.info.level_1_Unlock)
             {
                 StatContentsSet(ShowBoxText.TMP_Stat_Main3, $"{UserData.Instance.LocaleText("Mana")}", $"{SO_Data.mp_value}");
@@ -448,28 +512,13 @@ public class UI_Collection : UI_PopUp
             if (data.info.level_2_Unlock)
             {
                 {
-                    string target = "";
-                    foreach (var item in SO_Data.bonusTarget)
-                    {
-                        target += $"[{GameManager.Trait.GetData(item).labelName}]  ";
-                    }
-                    OptionContentSet(ShowBoxText.TMP_Option1, $"보너스 속성 : {target}", true);
+                    TraitContentSet(traitPanel1, SO_Data.bonusTarget);
                 }
                 {
-                    string target = "";
-                    foreach (var item in SO_Data.weakTarget)
-                    {
-                        target += $"[{GameManager.Trait.GetData(item).labelName}]  ";
-                    }
-                    OptionContentSet(ShowBoxText.TMP_Option2, $"비효율 속성 : {target}", true);
+                    TraitContentSet(traitPanel2, SO_Data.weakTarget);
                 }
                 {
-                    string target = "";
-                    foreach (var item in SO_Data.invalidTarget)
-                    {
-                        target += $"[{GameManager.Trait.GetData(item).labelName}]  ";
-                    }
-                    OptionContentSet(ShowBoxText.TMP_Option3, $"무효 속성 : {target}", true);
+                    TraitContentSet(traitPanel3, SO_Data.invalidTarget);
                 }
             }
             if (data.info.level_3_Unlock)

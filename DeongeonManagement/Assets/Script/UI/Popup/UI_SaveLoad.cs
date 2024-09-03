@@ -49,25 +49,7 @@ public class UI_SaveLoad : UI_PopUp
         base.Init();
 
         Bind<Image>(typeof(Slot));
-        //Bind<Button>(typeof(Buttons));
         Bind<GameObject>(typeof(GameObjects));
-
-        //switch (State)
-        //{
-        //    case Buttons.Close:
-        //        SaveButton();
-        //        break;
-
-        //    case Buttons.Save:
-        //        SaveButton();
-        //        GetButton(((int)Buttons.Load)).gameObject.SetActive(false);
-        //        break;
-
-        //    case Buttons.Load:
-        //        LoadButton();
-        //        GetButton(((int)Buttons.Save)).gameObject.SetActive(false);
-        //        break;
-        //}
 
         GetObject(((int)GameObjects.Close)).gameObject.AddUIEvent((data) => ClosePopUp());
         //GetButton(((int)Buttons.Save)).gameObject.AddUIEvent((data) => SaveButton());

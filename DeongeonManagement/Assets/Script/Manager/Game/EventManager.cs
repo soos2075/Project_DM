@@ -1018,14 +1018,16 @@ public class EventManager : MonoBehaviour
         if (Main.Instance.DungeonRank == 1 && fame + danger >= 100)
         {
             mainUI.SetNotice(UI_Management.OverlayImages.OverlayImage_Facility, true);
-            mainUI.SetNotice(UI_Management.OverlayImages.OverlayImage_Summon, true);
+            //mainUI.SetNotice(UI_Management.OverlayImages.OverlayImage_Summon, true);
+            mainUI.SetNotice(UI_Management.OverlayImages.OverlayImage_Monster, true);
             return true;
         }
 
         if (Main.Instance.DungeonRank == 2 && fame + danger >= 400)
         {
             mainUI.SetNotice(UI_Management.OverlayImages.OverlayImage_Facility, true);
-            mainUI.SetNotice(UI_Management.OverlayImages.OverlayImage_Summon, true);
+            //mainUI.SetNotice(UI_Management.OverlayImages.OverlayImage_Summon, true);
+            mainUI.SetNotice(UI_Management.OverlayImages.OverlayImage_Monster, true);
             return true;
         }
 

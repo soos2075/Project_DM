@@ -417,7 +417,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 172736603435008
-    m_Localized: Fix
+    m_Localized: Fixed
     m_Metadata:
       m_Items: []
   - m_Id: 172850453622784
@@ -603,6 +603,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 62505269990731776
     m_Localized: Edit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64714207733690368
+    m_Localized: Rename
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64714464471232512
+    m_Localized: Reorder
     m_Metadata:
       m_Items: []
   references:

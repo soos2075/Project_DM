@@ -44,6 +44,7 @@ public class SO_Monster : ScriptableObject, I_SO_Collection
     public int battleAp;
     public int maxBattleCount;
     public float battleInterval;
+    public float actionDelay;
 
 
     [Header("CSV(Localization)")] //? external CSV Data

@@ -753,37 +753,6 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
     #region MonsterMove
     Animator anim;
-
-    //protected void SetAnimClip_NewMonster()
-    //{
-    //    AnimatorOverrideController overrideController = new AnimatorOverrideController(anim.runtimeAnimatorController);
-    //    AnimationClip[] clips = Resources.LoadAll<AnimationClip>($"Animation/_Monster_Anim/{Data.keyName}");
-    //    foreach (var item in clips)
-    //    {
-    //        if (item.name.Contains("Attack"))
-    //        {
-    //            overrideController["Attack"] = item;
-    //        }
-    //        else if (item.name.Contains("Idle"))
-    //        {
-    //            overrideController["Idle"] = item;
-    //        }
-    //        else if (item.name.Contains("Ready"))
-    //        {
-    //            overrideController["Ready"] = item;
-    //        }
-    //        else if (item.name.Contains("Dead"))
-    //        {
-    //            overrideController["Dead"] = item;
-    //        }
-    //        else if (item.name.Contains("Running"))
-    //        {
-    //            overrideController["Running"] = item;
-    //        }
-    //    }
-    //    anim.runtimeAnimatorController = overrideController;
-    //}
-
     protected Coroutine Cor_Moving { get; set; }
     Coroutine Cor_moveAnimation;
 
@@ -802,29 +771,30 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         Mode = _moveType;
     }
 
-
     protected IEnumerator MoveCor()
     {
-        yield return new WaitForSeconds(2);
+        float delay = Data.actionDelay; //? 얘가 사실상 이동속도 개념임
+        float interval = Data.battleInterval; //? 얘가 NPC로 치면 ActionDelay
+        yield return new WaitForSeconds(interval);
 
         while (Main.Instance.Management == false && State == MonsterState.Placement)
         {
-            float ranDelay = Random.Range(1.5f, 2.5f);
+            //float delay = Random.Range(1.5f, 2.5f);
             switch (Mode)
             {
                 case MoveType.Fixed:
                     break;
 
                 case MoveType.Wander:
-                    Moving(ranDelay);
+                    Moving(delay);
                     break;
 
                 case MoveType.Attack:
-                    Moving_Attack(ranDelay);
+                    Moving_Attack(delay);
                     break;
             }
             yield return UserData.Instance.Wait_GamePlay;
-            yield return new WaitForSeconds(ranDelay);
+            yield return new WaitForSeconds(delay + interval);
         }
     }
 
@@ -970,7 +940,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         float timer = 0;
 
         anim.Play(Define.ANIM_Running);
-        while (timer < (duration * 0.95f))
+        while (timer < (duration))// * 0.95f))
         {
             //yield return null;
             yield return UserData.Instance.Wait_GamePlay;
@@ -1129,14 +1099,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
             Main.Instance.CurrentDay.AddMana(manaClamp, Main.DayResult.EventType.Monster);
             Main.Instance.ShowDM(manaClamp, Main.TextType.mana, transform);
         }
-        
 
-        //if (BattleStateCor != null && BattleCount == 0) //? 만약 전투가 Interval보다 빨리 끝나고 그게 마지막 전투였을 경우 빠르게 Standby
-        //{
-        //    StopCoroutine(BattleStateCor);
-        //    PlacementState = PlacementState.Standby;
-        //    BattleStateCor = null;
-        //}
+        yield return UserData.Instance.Wait_GamePlay;
     }
 
     //Coroutine BattleStateCor;

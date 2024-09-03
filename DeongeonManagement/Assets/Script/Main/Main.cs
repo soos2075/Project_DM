@@ -1270,10 +1270,10 @@ public class Main : MonoBehaviour
             case 2:
                 Debug.Log("2일차 종료 이벤트 - 몬스터");
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Monster, Player);
-                UI_Main.Active_Button(UI_Management.ButtonEvent._2_Summon);
+                //UI_Main.Active_Button(UI_Management.ButtonEvent._2_Summon);
                 UI_Main.Active_Button(UI_Management.ButtonEvent._3_Management);
                 UI_Main.SetNotice(UI_Management.OverlayImages.OverlayImage_Monster, true);
-                UI_Main.SetNotice(UI_Management.OverlayImages.OverlayImage_Summon, true);
+                //UI_Main.SetNotice(UI_Management.OverlayImages.OverlayImage_Summon, true);
                 break;
 
             case 3:

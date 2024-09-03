@@ -14,8 +14,11 @@ public class UI_TraitBar : UI_Base
     {
         traitName = GetComponentInChildren<TextMeshProUGUI>();
 
-        var tool = gameObject.GetOrAddComponent<UI_Tooltip>();
-        tool.SetTooltipContents("", Data.detail, UI_TooltipBox.ShowPosition.LeftUp);
+        if (string.IsNullOrEmpty(Data.detail) == false)
+        {
+            var tool = gameObject.GetOrAddComponent<UI_Tooltip>();
+            tool.SetTooltipContents("", Data.detail, UI_TooltipBox.ShowPosition.LeftUp);
+        }
     }
 
 

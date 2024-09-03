@@ -90,6 +90,9 @@ public class UI_Monster_Management : UI_PopUp
         Floor_02,
         Floor_03,
         Floor_04,
+        Floor_05,
+        Floor_06,
+        Floor_07,
 
         //? Edit
         Change_Name,
@@ -214,7 +217,7 @@ public class UI_Monster_Management : UI_PopUp
             placeMonsters = Current.monster.PlacementInfo.Place_Floor.monsterList.Count;
             ableMonsters = Current.monster.PlacementInfo.Place_Floor.MaxMonsterSize;
 
-            if (Current.monster.PlacementInfo.Place_Floor.FloorIndex == 3)
+            if (Current.monster.PlacementInfo.Place_Floor.FloorIndex == 0)
             {
                 placeMonsters--;
             }
@@ -225,7 +228,7 @@ public class UI_Monster_Management : UI_PopUp
             placeMonsters = Main.Instance.CurrentFloor.monsterList.Count;
             ableMonsters = Main.Instance.CurrentFloor.MaxMonsterSize;
 
-            if (Main.Instance.CurrentFloor.FloorIndex == 3)
+            if (Main.Instance.CurrentFloor.FloorIndex == 0)
             {
                 placeMonsters--;
             }
@@ -254,7 +257,7 @@ public class UI_Monster_Management : UI_PopUp
         string floorName = Main.Instance.CurrentFloor.LabelName;
         int placeMonsters = Main.Instance.CurrentFloor.monsterList.Count;
         int ableMonsters = Main.Instance.CurrentFloor.MaxMonsterSize;
-        if (Main.Instance.CurrentFloor.FloorIndex == 3)
+        if (Main.Instance.CurrentFloor.FloorIndex == 0)
         {
             placeMonsters--;
         }
@@ -484,13 +487,16 @@ public class UI_Monster_Management : UI_PopUp
 
 
     #region PlacementPanel
-    void Init_FloorButton()
+    void Init_FloorButton() //? UIEvent는 반복문 i 값 넣으면 전부 i따라가서 안됨. 따로 지정해주는수밖에..
     {
-        GetButton(((int)Buttons.Floor_Egg)).gameObject.AddUIEvent(data => PlacePanelUpdate(3));
-        GetButton(((int)Buttons.Floor_01)).gameObject.AddUIEvent(data => PlacePanelUpdate(0));
-        GetButton(((int)Buttons.Floor_02)).gameObject.AddUIEvent(data => PlacePanelUpdate(1));
-        GetButton(((int)Buttons.Floor_03)).gameObject.AddUIEvent(data => PlacePanelUpdate(2));
+        GetButton(((int)Buttons.Floor_Egg)).gameObject.AddUIEvent(data => PlacePanelUpdate(0));
+        GetButton(((int)Buttons.Floor_01)).gameObject.AddUIEvent(data => PlacePanelUpdate(1));
+        GetButton(((int)Buttons.Floor_02)).gameObject.AddUIEvent(data => PlacePanelUpdate(2));
+        GetButton(((int)Buttons.Floor_03)).gameObject.AddUIEvent(data => PlacePanelUpdate(3));
         GetButton(((int)Buttons.Floor_04)).gameObject.AddUIEvent(data => PlacePanelUpdate(4));
+        GetButton(((int)Buttons.Floor_05)).gameObject.AddUIEvent(data => PlacePanelUpdate(5));
+        GetButton(((int)Buttons.Floor_06)).gameObject.AddUIEvent(data => PlacePanelUpdate(6));
+        GetButton(((int)Buttons.Floor_07)).gameObject.AddUIEvent(data => PlacePanelUpdate(7));
 
         GetButton(((int)Buttons.Floor_Egg)).GetComponentInChildren<TextMeshProUGUI>().text =
     $"{UserData.Instance.LocaleText("숨겨진곳")}";
@@ -503,6 +509,22 @@ public class UI_Monster_Management : UI_PopUp
     $"{UserData.Instance.LocaleText("지하")} {3} {UserData.Instance.LocaleText("층")}";
         GetButton(((int)Buttons.Floor_04)).GetComponentInChildren<TextMeshProUGUI>().text =
     $"{UserData.Instance.LocaleText("지하")} {4} {UserData.Instance.LocaleText("층")}";
+        GetButton(((int)Buttons.Floor_05)).GetComponentInChildren<TextMeshProUGUI>().text =
+    $"{UserData.Instance.LocaleText("지하")} {5} {UserData.Instance.LocaleText("층")}";
+        GetButton(((int)Buttons.Floor_06)).GetComponentInChildren<TextMeshProUGUI>().text =
+    $"{UserData.Instance.LocaleText("지하")} {6} {UserData.Instance.LocaleText("층")}";
+        GetButton(((int)Buttons.Floor_07)).GetComponentInChildren<TextMeshProUGUI>().text =
+    $"{UserData.Instance.LocaleText("지하")} {7} {UserData.Instance.LocaleText("층")}";
+
+        for (int i = 0; i < 8; i++)
+        {
+            GetButton((int)Buttons.Floor_Egg + i).gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < Main.Instance.ActiveFloor_Basement; i++)
+        {
+            GetButton((int)Buttons.Floor_Egg + i).gameObject.SetActive(true);
+        }
     }
 
     #endregion
