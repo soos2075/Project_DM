@@ -228,18 +228,17 @@ public class BattleField : MonoBehaviour
 
     void NPC_AttackAnim()
     {
-        Type npcType = npc.GetType();
-        if (npcType == typeof(Elf))
+        switch (npc.AttackOption.AttackAnim)
         {
-            ani_npc.CrossFade(Define.ANIM_Shot, 0.1f);
-        }
-        else if(npcType == typeof(Wizard))
-        {
-            ani_npc.CrossFade(Define.ANIM_Jab, 0.1f);
-        }
-        else
-        {
-            ani_npc.CrossFade(Define.ANIM_Attack, 0.1f);
+            case NPC.AttackType.Normal:
+                ani_npc.CrossFade(Define.ANIM_Attack, 0.1f);
+                break;
+            case NPC.AttackType.Bow:
+                ani_npc.CrossFade(Define.ANIM_Shot, 0.1f);
+                break;
+            case NPC.AttackType.Magic:
+                ani_npc.CrossFade(Define.ANIM_Jab, 0.1f);
+                break;
         }
     }
 
@@ -249,15 +248,7 @@ public class BattleField : MonoBehaviour
         projectile.transform.position = pos_Left.transform.position;
         projectile.GetComponentInChildren<SpriteRenderer>().sortingOrder = sort + 2;
 
-        Type npcType = npc.GetType();
-        if (npcType == typeof(Elf))
-        {
-            projectile.GetComponentInChildren<SpriteResolver>().SetCategoryAndLabel("Elf", "ElfA");
-        }
-        else if (npcType == typeof(Wizard))
-        {
-            projectile.GetComponentInChildren<SpriteResolver>().SetCategoryAndLabel("Wizard", "WizardA");
-        }
+        projectile.GetComponentInChildren<SpriteResolver>().SetCategoryAndLabel(npc.AttackOption.projectile_Category, npc.AttackOption.projectile_Label);
 
         StartCoroutine(Shotting(projectile));
     }

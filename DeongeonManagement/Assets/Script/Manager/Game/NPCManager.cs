@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class NPCManager
 {
@@ -8,6 +10,7 @@ public class NPCManager
     {
         Init_LocalData();
         Init_NPC_Weight();
+        Init_UniqueNPC();
 
         Managers.Scene.BeforeSceneChangeAction = () => StopAllMoving();
     }
@@ -98,7 +101,7 @@ public class NPCManager
             return;
         }
 
-
+        //? 퀘스트 헌터 등 이벤트로 등장하는 적들
         if (EventNPCAction != null)
         {
             EventNPCAction.Invoke();
@@ -121,11 +124,17 @@ public class NPCManager
         //? 실제 인스턴트 생성
         for (Current_Value = 0; Current_Value < Max_NPC_Value;)
         {
-            var npc = InstantiateNPC(WeightPicker());
+            var npc = InstantiateNPC_Normal(WeightPicker().ToString());
             if (npc == null) break;
         }
-        Debug.Log($"생성된 적 숫자 = {Instance_NPC_List.Count}");
+        int normalNPC = Instance_NPC_List.Count;
+        Debug.Log($"생성된 일반 NPC = {Instance_NPC_List.Count}");
 
+
+        //? 희귀 NPC (보너스 역할)
+        //int MaxRareCount = 5;
+        Instantiate_UniqueNPC();
+        Debug.Log($"생성된 유니크 NPC = {Instance_NPC_List.Count - normalNPC}");
 
 
         for (int i = 0; i < Instance_NPC_List.Count; i++)
@@ -133,8 +142,6 @@ public class NPCManager
             float ranValue = Random.Range(1f, Instance_NPC_List.Count + 5);
             Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
         }
-
-
 
         //if (Instance_NPC_List.Count <= 7)
         //{
@@ -199,11 +206,19 @@ public class NPCManager
 
     System.Action EventNPCAction { get; set; }
 
-    public void AddEventNPC(EventNPCType type, float time)
+    public void AddEventNPC(string typeName, float time)
     {
         EventNPCAction += () =>
         {
-            var npc = InstantiateNPC_Event(type);
+            var npc = InstantiateNPC_Event(typeName);
+            Main.Instance.StartCoroutine(ActiveNPC(npc, time));
+        };
+    }
+    public void AddEventNPC(string typeName, float time, NPC_Typeof types)
+    {
+        EventNPCAction += () =>
+        {
+            var npc = InstantiateNPC_Custom(typeName, types);
             Main.Instance.StartCoroutine(ActiveNPC(npc, time));
         };
     }
@@ -211,9 +226,11 @@ public class NPCManager
 
     public bool CustomStage { get; set; }
 
+
+
+
+
     #region New Calculation System
-
-
     int Calculation_MaxValue()
     {
         int ofFame = Main.Instance.PopularityOfDungeon / 10;
@@ -223,25 +240,25 @@ public class NPCManager
         return maxValue;
     }
 
-    Dictionary<NPC_Normal, int> Weight_NPC = new Dictionary<NPC_Normal, int>();
+    Dictionary<NPC_Type_Normal, int> Weight_NPC = new Dictionary<NPC_Type_Normal, int>();
 
     void Init_NPC_Weight() //? 가장 처음 한번만 호출
     {
-        for (int i = 0; i < System.Enum.GetNames(typeof(NPC_Normal)).Length; i++)
+        for (int i = 0; i < System.Enum.GetNames(typeof(NPC_Type_Normal)).Length; i++)
         {
-            Weight_NPC.Add((NPC_Normal)i, 0);
+            Weight_NPC.Add((NPC_Type_Normal)i, 0);
         }
     }
     void Weight_Reset()
     {
-        SetWeightPoint(NPC_Normal.Herbalist0, 0);
-        SetWeightPoint(NPC_Normal.Herbalist1, 0);
-        SetWeightPoint(NPC_Normal.Miner0, 0);
-        SetWeightPoint(NPC_Normal.Miner1, 0);
-        SetWeightPoint(NPC_Normal.Adventurer0, 0);
-        SetWeightPoint(NPC_Normal.Adventurer1, 0);
-        SetWeightPoint(NPC_Normal.Elf, 0);
-        SetWeightPoint(NPC_Normal.Wizard, 0);
+        SetWeightPoint(NPC_Type_Normal.Herbalist0, 0);
+        SetWeightPoint(NPC_Type_Normal.Herbalist1, 0);
+        SetWeightPoint(NPC_Type_Normal.Miner0, 0);
+        SetWeightPoint(NPC_Type_Normal.Miner1, 0);
+        SetWeightPoint(NPC_Type_Normal.Adventurer0, 0);
+        SetWeightPoint(NPC_Type_Normal.Adventurer1, 0);
+        SetWeightPoint(NPC_Type_Normal.Elf, 0);
+        SetWeightPoint(NPC_Type_Normal.Wizard, 0);
     }
 
     void WeightUpdate_Danger() //? 매 턴이 시작될 때 갱신
@@ -320,26 +337,26 @@ public class NPCManager
     }
 
 
-    void SetWeightPoint(NPC_Normal target, int value)
+    void SetWeightPoint(NPC_Type_Normal target, int value)
     {
         Weight_NPC[target] = value;
     }
-    void AddWeightPoint(NPC_Normal target, int value)
+    void AddWeightPoint(NPC_Type_Normal target, int value)
     {
         Weight_NPC[target] += value;
     }
     void AddWeightPoint(int herb0 = 0, int herb1 = 0, int miner0 = 0, int miner1 = 0, int adv0 = 0, int adv1 = 0, int elf = 0, int wizard = 0)
     {
-        AddWeightPoint(NPC_Normal.Herbalist0, herb0);
-        AddWeightPoint(NPC_Normal.Herbalist1, herb1);
-        AddWeightPoint(NPC_Normal.Miner0, miner0);
-        AddWeightPoint(NPC_Normal.Miner1, miner1);
-        AddWeightPoint(NPC_Normal.Adventurer0, adv0);
-        AddWeightPoint(NPC_Normal.Adventurer1, adv1);
-        AddWeightPoint(NPC_Normal.Elf, elf);
-        AddWeightPoint(NPC_Normal.Wizard, wizard);
+        AddWeightPoint(NPC_Type_Normal.Herbalist0, herb0);
+        AddWeightPoint(NPC_Type_Normal.Herbalist1, herb1);
+        AddWeightPoint(NPC_Type_Normal.Miner0, miner0);
+        AddWeightPoint(NPC_Type_Normal.Miner1, miner1);
+        AddWeightPoint(NPC_Type_Normal.Adventurer0, adv0);
+        AddWeightPoint(NPC_Type_Normal.Adventurer1, adv1);
+        AddWeightPoint(NPC_Type_Normal.Elf, elf);
+        AddWeightPoint(NPC_Type_Normal.Wizard, wizard);
     }
-    public void AddWaightPoint_Event(NPC_Normal target, int value)
+    public void AddWaightPoint_Event(NPC_Type_Normal target, int value)
     {
         AddWeightPoint(target, value);
     }
@@ -353,9 +370,9 @@ public class NPCManager
     {
         if (Event_Herb)
         {
-            Weight_NPC[NPC_Normal.Herbalist0] *= 3;
-            Weight_NPC[NPC_Normal.Herbalist1] *= 3;
-            Weight_NPC[NPC_Normal.Elf] *= 3;
+            Weight_NPC[NPC_Type_Normal.Herbalist0] *= 3;
+            Weight_NPC[NPC_Type_Normal.Herbalist1] *= 3;
+            Weight_NPC[NPC_Type_Normal.Elf] *= 3;
         }
 
         if (Event_Mineral)
@@ -369,7 +386,7 @@ public class NPCManager
     }
 
 
-    NPC_Normal WeightPicker() //? 0~1의 랜덤값에 전체 가중치의 합을 곱해줌. 그리고 그값으로 픽하면 됨. 반환값은 랭크 단계
+    NPC_Type_Normal WeightPicker() //? 0~1의 랜덤값에 전체 가중치의 합을 곱해줌. 그리고 그값으로 픽하면 됨. 반환값은 랭크 단계
     {
         int weightMax = 0;
         foreach (var item in Weight_NPC)
@@ -395,16 +412,51 @@ public class NPCManager
     }
 
 
-    public enum NPC_Normal
-    {
-        Herbalist0, Herbalist1,
-        Miner0, Miner1,
-        Adventurer0, Adventurer1,
 
-        Elf,
-        Wizard,
+
+    public Dictionary<NPC_Type_Unique, float> UniqueNPC_Dict;
+
+    void Init_UniqueNPC()
+    {
+        UniqueNPC_Dict = new Dictionary<NPC_Type_Unique, float>();
+
+        for (int i = 0; i < Enum.GetNames(typeof(NPC_Type_Unique)).Length; i++)
+        {
+            UniqueNPC_Dict.Add((NPC_Type_Unique)i, 1);
+        }
     }
 
+    void Add_UniqueChance(NPC_Type_Unique target, float probability)
+    {
+        UniqueNPC_Dict[target] = probability;
+    }
+
+    void Instantiate_UniqueNPC()
+    {
+        foreach (var item in UniqueNPC_Dict)
+        {
+            float ranValue = Random.value;
+            if (item.Value >= ranValue)
+            {
+                InstantiateNPC_Event(item.Key.ToString());
+            }
+        }
+    }
+
+
+
+
+    public Dictionary<NPC_Type_Unique, float> Save_NPCData()
+    {
+        return UniqueNPC_Dict;
+    }
+    public void Load_NPCData(Dictionary<NPC_Type_Unique, float> data)
+    {
+        if (data != null)
+        {
+            UniqueNPC_Dict = data;
+        }
+    }
 
     #endregion
 
@@ -438,22 +490,16 @@ public class NPCManager
     }
 
 
-    NPC InstantiateNPC(NPC_Normal keyName)
-    {
-        string Dict_Key = keyName.ToString();
-        //Debug.Log(Dict_Key);
 
+    NPC InstantiateNPC_Normal(string keyName) //? 얘는 Value값을 더하고 Event애들은 안더함
+    {
         SO_NPC data = null;
-        if (NPC_Dictionary.TryGetValue(Dict_Key, out data))
+        if (NPC_Dictionary.TryGetValue(keyName, out data))
         {
             var obj = GameManager.Placement.CreatePlacementObject(data.prefabPath, null, PlacementType.NPC);
-            obj.GetObject().name = Dict_Key;
-
             NPC _npc = obj as NPC;
             _npc.SetData(data, RandomPicker());
-
             int _value = data.Rank;
-            //Debug.Log($"{_value}랭크 생성");
             Current_Value += _value;
             Instance_NPC_List.Add(_npc);
             return _npc;
@@ -464,22 +510,37 @@ public class NPCManager
             return null;
         }
     }
-
-    public NPC InstantiateNPC_Event(EventNPCType _name)
+    public NPC InstantiateNPC_Event(string keyName)
     {
         SO_NPC data = null;
-        if (NPC_Dictionary.TryGetValue(_name.ToString(), out data))
+        if (NPC_Dictionary.TryGetValue(keyName, out data))
         {
             var obj = GameManager.Placement.CreatePlacementObject(data.prefabPath, null, PlacementType.NPC);
             NPC _npc = obj as NPC;
             _npc.SetData(data, -1);
-            _npc.EventID = (int)_name;
             Instance_EventNPC_List.Add(_npc);
             return _npc;
         }
         else
         {
-            Debug.Log($"이벤트 데이터 없음 : {_name.ToString()}");
+            Debug.Log($"NPC_Data 없음 : {keyName}");
+            return null;
+        }
+    }
+    public NPC InstantiateNPC_Custom(string keyName, NPC_Typeof addScript)
+    {
+        SO_NPC data = null;
+        if (NPC_Dictionary.TryGetValue(keyName, out data))
+        {
+            var obj = GameManager.Placement.CreatePlacementObject(data.prefabPath, null, PlacementType.NPC, addScript);
+            NPC _npc = obj as NPC;
+            _npc.SetData(data, -1);
+            Instance_EventNPC_List.Add(_npc);
+            return _npc;
+        }
+        else
+        {
+            Debug.Log($"NPC_Data 없음 : {keyName}");
             return null;
         }
     }
@@ -527,39 +588,77 @@ public class NPCManager
 
 }
 
-
-public enum EventNPCType
+public enum NPC_Typeof
 {
-    Hunter_Slime = 1100,
-    Hunter_EarthGolem = 1101,
+    NPC_Type_Normal = 0,
+    NPC_Type_MainEvent = 1,
+    NPC_Type_SubEvent = 2,
+    NPC_Type_Unique = 3,
+    NPC_Type_Hunter = 4,
+}
+public enum NPC_Type_Normal
+{
+    Herbalist0 = 1000, Herbalist1 = 1001, Herbalist2 = 1002,
 
-    Event_Day3 = 1903,
-    Event_Day8 = 1908,
+    Miner0 = 1100, Miner1 = 1101,
+
+    Adventurer0 = 1200, Adventurer1 = 1201,
+
+    Elf = 1300,
+
+    Wizard = 1400,
+
+
+    //? 이벤트나 분기 등으로 추가할 타입의 적
+    Goblin,
+
+}
+public enum NPC_Type_Unique //? 등장 랭크 포인트를 안먹음
+{
+    ManaGoblin,     //? 마나 보너스 몹 - 체력 15, 마나 ㅈㄴ많음. 행동횟수 ㅈㄴ많음
+    GoldLizard,     //? 골드 보너스 몹 - 체력 적당히, 방어 많이 높음, 행동횟수 적음(한 10정도), 반사데미지 강함. 잡으면 골드와 적당한 경험치
+    PumpkinHead,    //? 경험치 보너스 몹 - 체력 적당히, 스탯 적당히, 잡으면 많은 경험치
+    Santa,          //? 마나 보너스 몹 - 잡으면 위험도가 많이 오름. 층을 이동할 때 마다 마나를 많이 얻음. 상호작용은 따로 없음 
+    DungeonThief,   //? 마나와 경험치 - 던전털이범 - 체력 15, 경험치 ㅈㄴ많음. 행동횟수 3회, 회피율 95%고정(luk를 99로), 퍼실리티 무시, 몬스터는 싸움, 잡으면 골드
+}
+
+public enum NPC_Type_MainEvent
+{
+    EM_FirstAdventurer = 1903,
+    EM_RedHair = 1908,
 
     Event_Goblin = 1910,
     Event_Goblin_Leader = 1911,
     Event_Goblin_Leader2 = 1912,
 
-    Event_Catastrophe = 1914,
-    Event_RetiredHero = 1915,
+    EM_Catastrophe = 1914,
+    EM_RetiredHero = 1915,
 
+    EM_Blood_Warrior_A = 1920,
+    EM_Blood_Tanker_A,
+    EM_Blood_Wizard_A,
+    EM_Blood_Elf_A,
 
+    EM_Blood_Warrior_B,
+    EM_Blood_Tanker_B,
+    EM_Blood_Wizard_B,
+    EM_Blood_Elf_B,
 
-    A_Warrior = 1920,
-    A_Tanker,
-    A_Wizard,
-    A_Elf,
+    EM_Captine_A = 1930,
+    EM_Captine_B = 1931,
+    EM_Captine_BlueKnight = 1932,
 
-    B_Warrior,
-    B_Tanker,
-    B_Wizard,
-    B_Elf,
-
-    Captine_A = 1930,
-    Captine_B,
-    Captine_C,
-
-    Event_Soldier1 = 1941,
-    Event_Soldier2,
-    Event_Soldier3,
+    EM_Soldier1 = 1941,
+    EM_Soldier2,
+    EM_Soldier3,
+}
+public enum NPC_Type_SubEvent
+{
+    Heroine = 1916,
+    DungeonRacer = 1917,
+}
+public enum NPC_Type_Hunter
+{
+    Hunter_Slime = 1800,
+    Hunter_EarthGolem = 1801,
 }

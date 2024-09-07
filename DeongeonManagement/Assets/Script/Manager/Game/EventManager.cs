@@ -70,8 +70,13 @@ public class EventManager : MonoBehaviour
         }
     }
 
+
+    public Action TurnOverEventReserve;
     public void TurnOver()
     {
+        TurnOverEventReserve?.Invoke();
+        TurnOverEventReserve = null;
+
         TurnOver_EventSchedule();
     }
 
@@ -101,6 +106,7 @@ public class EventManager : MonoBehaviour
         {
             case 8:
                 Add_GuildQuest_Special(2102, false);
+                
                 break;
         }
     }
@@ -234,6 +240,7 @@ public class EventManager : MonoBehaviour
             return false;
         }
 
+        //? 활성화 된 길드원의 메인퀘스트가 있을경우
         foreach (var item in guildData)
         {
             if (item.InstanceQuestList.Count > 0)
@@ -302,6 +309,18 @@ public class EventManager : MonoBehaviour
                             return true;
                         }
                         break;
+                }
+            }
+        }
+
+        //? 길드원 옵션 퀘스트가 2개이상일 때 길드알림
+        foreach (var item in CurrentGuildData)
+        {
+            if (item.Original_Index == 2000)
+            {
+                if (item.OptionList.Count >= 2)
+                {
+                    return true;
                 }
             }
         }
@@ -410,7 +429,7 @@ public class EventManager : MonoBehaviour
     {
         DayEventActionRegister.Add(DayEventLabel.RetiredHero, () => {
             Debug.Log("은퇴한 영웅 이벤트");
-            GameManager.NPC.AddEventNPC(EventNPCType.Event_RetiredHero, 9);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_RetiredHero.ToString(), 9);
         });
 
         //DayEventActionRegister.Add(DayEventLabel.Test1, () => Debug.Log("테스트1 데이이벤트 시작"));
@@ -419,21 +438,21 @@ public class EventManager : MonoBehaviour
 
         DayEventActionRegister.Add(DayEventLabel.Goblin_Appear, () => {
             Debug.Log("고블린 첫등장 이벤트");
-            GameManager.NPC.AddEventNPC(EventNPCType.Event_Goblin_Leader, 9);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Goblin_Leader.ToString(), 9);
         });
 
         DayEventActionRegister.Add(DayEventLabel.Goblin_Party, () => {
             Debug.Log("고블린 파티 이벤트");
-            GameManager.NPC.AddEventNPC(EventNPCType.Event_Goblin_Leader2, 3);
-            GameManager.NPC.AddEventNPC(EventNPCType.Event_Goblin, 3.5f);
-            GameManager.NPC.AddEventNPC(EventNPCType.Event_Goblin, 4);
-            GameManager.NPC.AddEventNPC(EventNPCType.Event_Goblin, 4.5f);
-            GameManager.NPC.AddEventNPC(EventNPCType.Event_Goblin, 5);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Goblin_Leader2.ToString(), 3);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Goblin.ToString(), 3.5f);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Goblin.ToString(), 4);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Goblin.ToString(), 4.5f);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Goblin.ToString(), 5);
         });
 
         DayEventActionRegister.Add(DayEventLabel.Catastrophe, () => {
             Debug.Log("던전의 재앙 이벤트");
-            GameManager.NPC.AddEventNPC(EventNPCType.Event_Catastrophe, 10);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Catastrophe.ToString(), 10);
         });
     }
 
@@ -482,6 +501,20 @@ public class EventManager : MonoBehaviour
             if (item.Original_Index == id)
             {
                 item.RemoveQuest(questIndex);
+            }
+        }
+    }
+
+    public void Clear_GuildQuest(int index)
+    {
+        int id = (index / 1000) * 1000;
+        int questIndex = index - id;
+
+        foreach (var item in CurrentGuildData)
+        {
+            if (item.Original_Index == id)
+            {
+                item.ClearQuest(questIndex);
             }
         }
     }
@@ -588,16 +621,17 @@ public class EventManager : MonoBehaviour
 
     void AddForQuestAction()  //? 실제로 호출할 액션
     {
+
         forQuestAction.Add(1100, () =>
         {
             Debug.Log("퀘스트 - 슬라임토벌 활성화");
-            GameManager.NPC.AddEventNPC(EventNPCType.Hunter_Slime, 12);
+            GameManager.NPC.AddEventNPC(NPC_Type_Hunter.Hunter_Slime.ToString(), 12);
         });
 
         forQuestAction.Add(1101, () =>
         {
             Debug.Log("퀘스트 - 어스골렘 활성화");
-            GameManager.NPC.AddEventNPC(EventNPCType.Hunter_EarthGolem, 13);
+            GameManager.NPC.AddEventNPC(NPC_Type_Hunter.Hunter_EarthGolem.ToString(), 13);
         });
 
 
@@ -609,7 +643,7 @@ public class EventManager : MonoBehaviour
         forQuestAction.Add(1141, () =>
         {
             Debug.Log("지속되는 재앙");
-            GameManager.NPC.AddEventNPC(EventNPCType.Event_Catastrophe, 10);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Catastrophe.ToString(), 10);
         });
 
         forQuestAction.Add(1150, () =>
@@ -621,6 +655,13 @@ public class EventManager : MonoBehaviour
         {
             Debug.Log("은퇴한 영웅 방문 대기중");
         });
+
+        forQuestAction.Add(774020, () =>
+        {
+            GameManager.NPC.AddEventNPC(NPC_Type_SubEvent.Heroine.ToString(), 3, NPC_Typeof.NPC_Type_SubEvent);
+        });
+
+
 
         forQuestAction.Add(772102, () =>
         {
@@ -653,6 +694,21 @@ public class EventManager : MonoBehaviour
         GuildNPCAction.Add(1101, () => { AddQuestAction(1101); });
         GuildNPCAction.Add(1140, () => { AddQuestAction(1140); });
         //GuildNPCAction.Add(1151, () => { AddQuestAction(1151); });
+
+
+        GuildNPCAction.Add(4040, () =>
+        {
+            Managers.Dialogue.ActionReserve(() =>
+            {
+                Debug.Log("히로인 합류");
+                var data = GameManager.Monster.GetData("Heroine");
+                var mon = GameManager.Placement.CreatePlacementObject(data.prefabPath, null, PlacementType.Monster) as Monster;
+                mon.MonsterInit();
+                mon.Initialize_Status();
+                mon.AddCollectionPoint();
+                GameManager.Monster.AddMonster(mon);
+            });
+        });
     }
 
 
@@ -704,7 +760,7 @@ public class EventManager : MonoBehaviour
             var e8 = GameObject.Find("Event_Day8");
             if (e8 != null)
             {
-                GameManager.Placement.Disable(e8.GetComponent<EventNPC>());
+                GameManager.Placement.Disable(e8.GetComponent<NPC_MainEvent>());
 
                 var fade = Managers.UI.ShowPopUp<UI_Fade>();
                 fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 2, true);
@@ -717,7 +773,7 @@ public class EventManager : MonoBehaviour
             var e8 = GameObject.Find("Event_RetiredHero");
             if (e8 != null)
             {
-                GameManager.Placement.Disable(e8.GetComponent<EventNPC>());
+                GameManager.Placement.Disable(e8.GetComponent<NPC_MainEvent>());
 
                 var fade = Managers.UI.ShowPopUp<UI_Fade>();
                 fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 2, true);
@@ -757,14 +813,60 @@ public class EventManager : MonoBehaviour
 
         EventAction.Add("Heroine_Quest_2", () =>
         {
+            AddQuestAction(774020);
             Debug.Log("히로인 대화2");
             var fade = Managers.UI.ShowPopUp<UI_Fade>();
             fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 1, true);
 
             var player = GameObject.Find("Player");
-            //player.GetComponentInChildren<SpriteRenderer>().transform.localScale = new Vector3(-1, 1, 1);
             player.transform.position = GuildHelper.Instance.GetPos(GuildHelper.Pos.Table2).position;
+            FindAnyObjectByType<UI_DialogueBubble>().Bubble_MoveToTarget(player.transform);
+        });
 
+        EventAction.Add("Heroine_Quest_3", () =>
+        {
+            Debug.Log("히로인 대화3");
+            var fade = Managers.UI.ShowPopUp<UI_Fade>();
+            fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 1, true);
+
+            var player = GameObject.Find("Player");
+            player.transform.position = GuildHelper.Instance.GetPos(GuildHelper.Pos.Exit).position;
+            FindAnyObjectByType<UI_DialogueBubble>().Bubble_MoveToTarget(player.transform);
+        });
+
+        EventAction.Add("Heroine_Quest_Prison", () =>
+        {
+            Debug.Log("히로인 붙잡힘");
+            var fade = Managers.UI.ShowPopUp<UI_Fade>();
+            fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 1, true);
+
+            var player = Main.Instance.Player;
+            Transform heroine = null;
+            //player.GetComponentInChildren<SpriteRenderer>().transform.localScale = new Vector3(-1, 1, 1);
+            //player.transform.position = GuildHelper.Instance.GetPos(GuildHelper.Pos.Table2).position;
+
+            FindAnyObjectByType<UI_DialogueBubble>().Bubble_MoveToTarget(player.transform);
+        });
+
+        EventAction.Add("Heroine_Quest_Prison2", () =>
+        {
+            Debug.Log("주인공 독백");
+            var fade = Managers.UI.ShowPopUp<UI_Fade>();
+            fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 1, true);
+
+            var player = Main.Instance.Player;
+            player.position = player.GetComponent<IPlacementable>().PlacementInfo.Place_Tile.worldPosition;
+            FindAnyObjectByType<UI_DialogueBubble>().Bubble_MoveToTarget(player.transform);
+        });
+
+        EventAction.Add("Heroine_Join", () =>
+        {
+            Debug.Log("히로인 동료");
+            var fade = Managers.UI.ShowPopUp<UI_Fade>();
+            fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 1, true);
+
+            var player = GameObject.Find("Player");
+            player.transform.position = GuildHelper.Instance.GetPos(GuildHelper.Pos.Table2).position;
             FindAnyObjectByType<UI_DialogueBubble>().Bubble_MoveToTarget(player.transform);
         });
 
@@ -849,12 +951,15 @@ public class EventManager : MonoBehaviour
 
         Managers.Dialogue.AllowPerfectSkip = false;
         var cam = Camera.main.GetComponent<CameraControl>();
+        Vector3 floor3 = GetTilePosition(Define.DungeonFloor.Floor_3, new Vector2Int(0, 0));
+        Vector3 floorEgg = GetTilePosition(Define.DungeonFloor.Egg, new Vector2Int(12, 2));
 
-        GameObject player = GameObject.Find("Player");
-        GameObject floor3 = GameObject.Find("BasementFloor_3");
+        //Transform player = Main.Instance.Player;
+        //Transform floor3 = GameObject.Find("BasementFloor_3").transform;
 
-        cam.ChasingTarget(floor3.transform.position + new Vector3(-6, -3, 0), 1.5f);
+        cam.ChasingTarget(floor3, 2);
         yield return new WaitForSeconds(2);
+
         {
             var tile = Main.Instance.Floor[(int)Define.DungeonFloor.Floor_3].GetRandomTile();
             Main.Instance.Floor[(int)Define.DungeonFloor.Floor_3].TileMap.TryGetValue(new Vector2Int(0, 0), out tile);
@@ -864,8 +969,9 @@ public class EventManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(2);
-        cam.ChasingTarget(player.transform.position + new Vector3(6, 0, 0), 1.5f);
+        cam.ChasingTarget(floorEgg, 2);
         yield return new WaitForSeconds(2);
+
         {
             var tile = Main.Instance.Floor[(int)Define.DungeonFloor.Egg].GetRandomTile();
             Main.Instance.Floor[(int)Define.DungeonFloor.Egg].TileMap.TryGetValue(new Vector2Int(12, 2), out tile);
@@ -909,7 +1015,11 @@ public class EventManager : MonoBehaviour
 
         Managers.Dialogue.AllowPerfectSkip = false;
 
-        Camera.main.GetComponent<CameraControl>().ChasingTarget(new Vector3(0, -15, 0), 2);
+        var cam = Camera.main.GetComponent<CameraControl>();
+        Vector3 floor3 = GetTilePosition(Define.DungeonFloor.Floor_3, new Vector2Int(0, 0));
+        Vector3 floor4 = GetTilePosition(Define.DungeonFloor.Floor_4, new Vector2Int(1, 15));
+
+        cam.ChasingTarget(floor3, 2);
         yield return new WaitForSecondsRealtime(2);
 
         {
@@ -917,9 +1027,9 @@ public class EventManager : MonoBehaviour
             Main.Instance.Floor[(int)Define.DungeonFloor.Floor_3].TileMap.TryGetValue(new Vector2Int(0, 0), out tile);
             GameManager.Facility.RemoveFacility(tile.Original as Facility);
         }
-        yield return new WaitForSecondsRealtime(2);
 
-        Camera.main.GetComponent<CameraControl>().ChasingTarget(new Vector3(0, -18, 0), 2);
+        yield return new WaitForSecondsRealtime(2);
+        cam.ChasingTarget(floor4, 2);
         yield return new WaitForSecondsRealtime(2);
 
         {
@@ -934,9 +1044,9 @@ public class EventManager : MonoBehaviour
             PlacementInfo info = new PlacementInfo(Main.Instance.Floor[(int)Define.DungeonFloor.Floor_4], tile);
             var obj = GameManager.Facility.CreateFacility_OnlyOne("EggEntrance", info);
         }
-        yield return new WaitForSecondsRealtime(2);
 
-        Camera.main.GetComponent<CameraControl>().ChasingTarget(Main.Instance.Player, 2);
+        yield return new WaitForSecondsRealtime(2);
+        cam.ChasingTarget(Main.Instance.Player, 2);
         yield return new WaitForSecondsRealtime(2);
 
         var ent = Main.Instance.Floor[(int)Define.DungeonFloor.Floor_4].Entrance;
@@ -975,6 +1085,14 @@ public class EventManager : MonoBehaviour
 
     #endregion
 
+
+    Vector3 GetTilePosition(Define.DungeonFloor floor, Vector2Int pos)
+    {
+        BasementTile tile = null;
+        Main.Instance.Floor[(int)floor].TileMap.TryGetValue(pos, out tile);
+
+        return tile.worldPosition;
+    }
 
 
 

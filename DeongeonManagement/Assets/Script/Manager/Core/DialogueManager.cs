@@ -366,8 +366,6 @@ public enum DialogueName
     Catastrophe_Return_First = 142,
 
 
-
-
     Day15_Event = 153,
     Day15_Event_Die = 154,
 
@@ -386,7 +384,7 @@ public enum DialogueName
     Elf_Appear = 410,
     Wizard_Appear = 420,
 
-
+    Heroine_Appear = 490,
     // Main Event = 500~999
     Opening_1 = 501,
     Opening_2 = 502,
@@ -435,6 +433,9 @@ public enum DialogueName
     Heroine_0 = 4000,
     Heroine_10 = 4010,
     Heroine_20 = 4020,
+    Heroine_30 = 4030,
+    Heroine_Prison = 4031,
+    Heroine_40 = 4040,
 
     // πÃ¡§
     Odd_0 = 5000,

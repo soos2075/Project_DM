@@ -73,7 +73,7 @@ public class GuildManager : MonoBehaviour
         foreach (var item in so_data)
         {
             var data = new GuildNPC_Data();
-            data.SetData(item.Original_Index, item.InstanceQuestList, item.OptionList);
+            data.SetData(item.Original_Index, item.InstanceQuestList, item.OptionList, new List<int>());
             EventManager.Instance.CurrentGuildData.Add(data);
         }
     }
@@ -271,6 +271,8 @@ public class GuildNPC_Data
     // 선택지 옵션 리스트
     public List<int> OptionList;
 
+    //? 이미 클리어한 퀘스트 목록
+    public List<int> AlreadyClearList;
 
     //public GuildNPC_Data(int id, List<int> startQuest, List<int> startOption)
     //{
@@ -286,11 +288,11 @@ public class GuildNPC_Data
 
     public void AddQuest(int _questIndex, bool special = true)
     {
-        if (special)
+        if (special && !InstanceQuestList.Contains(_questIndex) && !AlreadyClearList.Contains(_questIndex))
         {
             InstanceQuestList.Add(_questIndex);
         }
-        else
+        else if (!OptionList.Contains(_questIndex))
         {
             OptionList.Add(_questIndex);
         }
@@ -314,12 +316,22 @@ public class GuildNPC_Data
             }
         }
     }
+    public void ClearQuest(int _questIndex)
+    {
+        RemoveQuest(_questIndex);
 
-    public void SetData(int _id, List<int> _questList, List<int> _optionList)
+        if (!AlreadyClearList.Contains(_questIndex))
+        {
+            AlreadyClearList.Add(_questIndex);
+        }
+    }
+
+    public void SetData(int _id, List<int> _questList, List<int> _optionList, List<int> _clearList)
     {
         Original_Index = _id;
         InstanceQuestList = new List<int>(_questList);
         OptionList = new List<int>(_optionList);
+        AlreadyClearList = new List<int>(_clearList);
     }
 
 
@@ -341,8 +353,15 @@ public class GuildNPC_Data
             tempB.Add(item);
         }
 
+        List<int> tempC = new List<int>();
+        foreach (var item in AlreadyClearList)
+        {
+            tempC.Add(item);
+        }
+
         newData.InstanceQuestList = tempA;
         newData.OptionList = tempB;
+        newData.AlreadyClearList = tempC;
 
         return newData;
     }

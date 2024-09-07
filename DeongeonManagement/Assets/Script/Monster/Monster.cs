@@ -773,8 +773,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
     protected IEnumerator MoveCor()
     {
-        float delay = Data.actionDelay; //? 얘가 사실상 이동속도 개념임
-        float interval = Data.battleInterval; //? 얘가 NPC로 치면 ActionDelay
+        float delay = Data.moveSpeed * 0.5f; //? 높을수록 느림. 1칸 이동하는데 걸리는 시간이라고 보면 댐
+        float interval = Data.ActionInterval * 0.5f; //? 얘가 NPC로 치면 ActionDelay
         yield return new WaitForSeconds(interval);
 
         while (Main.Instance.Management == false && State == MonsterState.Placement)

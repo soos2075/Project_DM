@@ -101,7 +101,7 @@ public class Interaction_Guild : MonoBehaviour
             int questCount = data.InstanceQuestList.Count + data.OptionList.Count;
             if (questCount == 0)
             {
-                GetComponent<SpriteRenderer>().sprite = GuildHelper.Instance.board_empty;
+                GetComponent<SpriteRenderer>().sprite = GuildHelper.Instance.board_little;
             }
             else if (questCount == 1)
             {
@@ -111,21 +111,6 @@ public class Interaction_Guild : MonoBehaviour
             {
                 GetComponent<SpriteRenderer>().sprite = GuildHelper.Instance.board_many;
             }
-        }
-    }
-
-
-
-
-    public void AddQuest(int _index)
-    {
-        if (_index / 100 == 0)
-        {
-            data.InstanceQuestList.Add(_index);
-        }
-        else
-        {
-            data.OptionList.Add(_index);
         }
     }
 
@@ -182,14 +167,17 @@ public class Interaction_Guild : MonoBehaviour
         if (data.InstanceQuestList.Count > 0)
         {
             questIndex = data.InstanceQuestList[0];
-            data.InstanceQuestList.RemoveAt(0);
+            data.InstanceQuestList.Remove(questIndex);
+            data.AlreadyClearList.Add(questIndex);
 
             Managers.Dialogue.ShowDialogueUI(data.Original_Index + questIndex, transform);
             return;
         }
 
-        if (data.OptionList.Count > 0)
+        if (data.OptionList.Count > 0) //? 선택지를 띄워줌. id+1이 옵션대화임
         {
+            //questIndex = data.OptionList[0];
+            //data.OptionList.Remove(questIndex);
             Managers.Dialogue.ShowDialogueUI(data.Original_Index + 1, transform);
             return;
         }

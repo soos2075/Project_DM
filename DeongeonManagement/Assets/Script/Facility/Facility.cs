@@ -243,7 +243,7 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         }
         if (npc.gameObject.activeInHierarchy)
         {
-            npc.SetPriorityListForPublic();
+            npc.SetPriorityList_Update();
         }
 
         AddCollectionPoint();

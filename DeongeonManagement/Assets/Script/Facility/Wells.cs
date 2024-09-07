@@ -46,7 +46,7 @@ public class Wells : Facility, IWall
             Debug.Log($"ÀÌ¹Ì ¿ì¹° ¸ÔÀ½ ²¨Á´");
             if (npc.gameObject.activeInHierarchy)
             {
-                npc.SetPriorityListForPublic();
+                npc.SetPriorityList_Update();
             }
             return null;
         }
@@ -69,7 +69,7 @@ public class Wells : Facility, IWall
             npc.isWellsCheck = true;
             if (npc.gameObject.activeInHierarchy)
             {
-                npc.SetPriorityListForPublic();
+                npc.SetPriorityList_Update();
             }
             Debug.Log($"{Name}ÀÇ ÀÌº¥Æ® È½¼ö¾øÀ½");
             return null;
@@ -100,7 +100,7 @@ public class Wells : Facility, IWall
         if (npc.gameObject.activeInHierarchy)
         {
             //npc.OverWell_Interaction();
-            npc.SetPriorityListForPublic();
+            npc.SetPriorityList_Update();
         }
 
         AddCollectionPoint();

@@ -75,7 +75,7 @@ public class Slime : Monster
                 break;
 
             case BattleField.BattleResult.NPC_Die:
-                if (npc.EventID == (int)EventNPCType.Hunter_Slime)
+                if (npc.EventID == (int)NPC_Type_Hunter.Hunter_Slime)
                 {
                     //? 진화진행
                     EvolutionState = Evolution.Complete;

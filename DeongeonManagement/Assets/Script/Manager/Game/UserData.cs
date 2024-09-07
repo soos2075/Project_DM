@@ -553,6 +553,8 @@ public class UserData : MonoBehaviour
         public bool firstAppear_Catastrophe;
         public bool firstReturn_Catastrophe;
 
+        public bool firstAppear_Heroine;
+
         //? Config Option - 각종 개인환경 옵션
         public bool Placement_Continuous;
 
@@ -583,7 +585,10 @@ public class UserData : MonoBehaviour
             newConfig.firstAppear_Catastrophe = firstAppear_Catastrophe;
             newConfig.firstReturn_Catastrophe = firstReturn_Catastrophe;
 
+            newConfig.firstAppear_Heroine = firstAppear_Heroine;
 
+
+            //? 옵션
             newConfig.Placement_Continuous = Placement_Continuous;
 
             return newConfig;
@@ -712,8 +717,12 @@ public enum PrefsKey
 
 public enum Endings
 {
-    // 딱히 결정된게 없으면 노말 혹은 배드
+    //? 딱히 결정된게 없거나 인기도가 더 높으면 발생
     Dog,
+
+    //? 위험도가 더 높으면 드래곤(사실 이 루트는 몰살시켜야되거나 모험가를 잡아야 거의 가능한 정도긴함
     Dragon,
-    Slime,
+
+    //? 위험도가 100보다 작고 인기도가 위험도보다 높을때
+    Rabi,
 }

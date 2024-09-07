@@ -116,7 +116,7 @@ public class BattleManager : MonoBehaviour
 
         var npcType = npc.GetType();
 
-        if (npcType == typeof(Herbalist) || npcType == typeof(Miner))
+        if (npcType == typeof(NPC_Normal))
         {
             Color color = new Color32(243, 185, 211, 255);
 
@@ -124,7 +124,7 @@ public class BattleManager : MonoBehaviour
             line.endColor = color;
             field.sprite_border.color = color;
         }
-        else if (npcType == typeof(Adventurer) || npcType == typeof(Elf) || npcType == typeof(Wizard))
+        else if (npcType == typeof(NPC_Normal))
         {
             Color color = new Color32(0, 120, 60, 255);
 
@@ -132,7 +132,7 @@ public class BattleManager : MonoBehaviour
             line.endColor = color;
             field.sprite_border.color = color;
         }
-        else if (npcType == typeof(QuestHunter))
+        else if (npcType == typeof(NPC_Hunter))
         {
             Color color = new Color32(0, 134, 209, 255);
 
@@ -140,7 +140,7 @@ public class BattleManager : MonoBehaviour
             line.endColor = color;
             field.sprite_border.color = color;
         }
-        else if (npcType == typeof(EventNPC))
+        else if (npcType == typeof(NPC_MainEvent))
         {
             Color color = new Color32(255, 242, 93, 255);
 
@@ -270,7 +270,7 @@ public class BattleManager : MonoBehaviour
 
         slotNumber = ranPick;
         checkList[ranPick] = true;
-        return posList[ranPick] + FloorBase[floorIndex].position;
+        return posList[ranPick] + FloorBase[floorIndex].position + new Vector3(Random.Range(-0.75f, 0.75f), Random.Range(-0.75f, 0.75f), 0);
     }
 
 

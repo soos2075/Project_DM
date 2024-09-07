@@ -247,6 +247,7 @@ public class BasementFloor : MonoBehaviour
 
                 //? 추가한 회피 조건
                 bool avoid = false;
+
                 foreach (var type in avoidType)
                 {
                     if (value.tileType_Original == type)
@@ -267,12 +268,10 @@ public class BasementFloor : MonoBehaviour
                         }
                     }
                 }
-
                 if (avoid)
                 {
                     continue;
                 }
-
 
                 priorityQueue.Push(new PQNode()
                 {
@@ -1096,5 +1095,54 @@ public class TileDistanceComparer : IComparer<BasementTile>
             return 0;
         }
     }
+}
+public class ValueComparer : IComparer<BasementTile> 
+{
+    public enum ValueOption
+    {
+        MonsterLv,
+    }
+
+    public ValueOption Option;
+    public bool AscendingOption;
+
+    public ValueComparer(ValueOption option, bool ascending = true)
+    {
+        Option = option;
+        AscendingOption = ascending;
+    }
+
+
+    public int Compare(BasementTile x, BasementTile y) //? 몬스터 레벨 큰 순서대로 정렬
+    {
+        int valueX = 0;
+        int valueY = 0;
+
+        switch (Option)
+        {
+            case ValueOption.MonsterLv:
+                var monX = x.Original as Monster;
+                var monY = y.Original as Monster;
+                valueX = monX.LV;
+                valueY = monY.LV;
+                break;
+        }
+
+
+
+        if (valueX < valueY)
+        {
+            return AscendingOption ? -1 : 1;
+        }
+        else if (valueX > valueY)
+        {
+            return AscendingOption ? 1 : -1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
 }
 

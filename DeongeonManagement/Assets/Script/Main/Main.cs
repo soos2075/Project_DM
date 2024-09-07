@@ -141,7 +141,7 @@ public class Main : MonoBehaviour
 
         var dm5 = origin.Spawn(_pos, _value);
         dm5.SetColor(_color);
-        dm5.SetScale(0.7f);
+        dm5.SetScale(1.4f);
         dm5.GetComponent<UnityEngine.Rendering.SortingGroup>().sortingOrder = 1000;
     }
 
@@ -992,15 +992,18 @@ public class Main : MonoBehaviour
             case 1:
                 //? 원래 1일차 종료부터 가능했던 정보확인을 1일차 시작때부터 할 수 있도록 변경
                 UI_Main.Active_Floor();
+
+                //EventManager.Instance.AddQuestAction(4020);
+                //GameManager.NPC.AddEventNPC(NPC_Type_SubEvent.Heroine.ToString(), 3, NPC_Typeof.NPC_Type_SubEvent);
                 break;
 
             case 3:
                 Debug.Log("3일차 시작 이벤트 - 모험가 한명 무조건 소환");
-                GameManager.NPC.AddEventNPC(EventNPCType.Event_Day3, 7);
+                GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_FirstAdventurer.ToString(), 7);
                 break;
 
             case 7: //? 모험가 이벤트
-                GameManager.NPC.AddEventNPC(EventNPCType.Event_Day8, 10);
+                GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_RedHair.ToString(), 10);
                 break;
 
 
@@ -1008,18 +1011,15 @@ public class Main : MonoBehaviour
                 //GameManager.NPC.AddEventNPC(EventNPCType.Event_Goblin_Leader, 10);
                 break;
 
-            case 15:
-                //Debug.Log("15일차 시작 이벤트 - 패배 트리거 이벤트 모험가 소환");
-                //GameManager.NPC.AddEventNPC(NPCManager.NPCType.Event_Day15, 9);
-                //GameManager.NPC.AddEventNPC(NPCManager.NPCType.Adventurer_0, 9);
+            case 13:
                 break;
 
             case 20:
                 Debug.Log("20일차 시작 이벤트 - 붉은 모험단 소환");
-                GameManager.NPC.AddEventNPC(EventNPCType.A_Tanker, 10f);
-                GameManager.NPC.AddEventNPC(EventNPCType.A_Warrior, 10.5f);
-                GameManager.NPC.AddEventNPC(EventNPCType.A_Wizard, 11f);
-                GameManager.NPC.AddEventNPC(EventNPCType.A_Elf, 11.5f);
+                GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Blood_Tanker_A.ToString(), 10f);
+                GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Blood_Warrior_A.ToString(), 10.5f);
+                GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Blood_Wizard_A.ToString(), 11f);
+                GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Blood_Elf_A.ToString(), 11.5f);
                 break;
 
             case 25:
@@ -1047,13 +1047,13 @@ public class Main : MonoBehaviour
         List<NPC> sol1List = new List<NPC>();
         List<NPC> sol2List = new List<NPC>();
 
-        var cap_A = GameManager.NPC.InstantiateNPC_Event(EventNPCType.Captine_A);
+        var cap_A = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_A.ToString());
         cap_A.transform.position = Dungeon.transform.position + (Vector3.right * 1.5f);
         GameManager.Placement.Visible(cap_A);
 
         for (int i = 0; i < 7; i++)
         {
-            var sol_1 = GameManager.NPC.InstantiateNPC_Event(EventNPCType.Event_Soldier1);
+            var sol_1 = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier1.ToString());
             sol_1.transform.position = Dungeon.transform.position + (Vector3.right * 0.5f * i) + Vector3.right * 2.5f;
             sol_1.Anim_State = NPC.animState.left;
             sol_1.Anim_State = NPC.animState.Ready;
@@ -1062,7 +1062,7 @@ public class Main : MonoBehaviour
             sol1List.Add(sol_1);
         }
 
-        var cap_B = GameManager.NPC.InstantiateNPC_Event(EventNPCType.Captine_B);
+        var cap_B = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_B.ToString());
         cap_B.transform.position = Dungeon.transform.position + (Vector3.right * -1.5f);
         cap_B.Anim_State = NPC.animState.left;
         cap_B.Anim_State = NPC.animState.Idle;
@@ -1070,7 +1070,7 @@ public class Main : MonoBehaviour
 
         for (int i = 0; i < 7; i++)
         {
-            var sol_1 = GameManager.NPC.InstantiateNPC_Event(EventNPCType.Event_Soldier2);
+            var sol_1 = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier2.ToString());
             sol_1.transform.position = Dungeon.transform.position + (Vector3.right * -0.5f * i) + Vector3.right * -2.5f;
             sol_1.Anim_State = NPC.animState.Ready;
 
@@ -1117,44 +1117,44 @@ public class Main : MonoBehaviour
         List<NPC> bloodSong = new List<NPC>();
         //? 피의노래 파티원 생성
         {
-            var party = GameManager.NPC.InstantiateNPC_Event(EventNPCType.B_Tanker);
+            var party = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Blood_Tanker_B.ToString());
             party.transform.position = Dungeon.transform.position + (Vector3.left * 6.5f);
             GameManager.Placement.Visible(party);
             bloodSong.Add(party);
         }
         {
-            var party = GameManager.NPC.InstantiateNPC_Event(EventNPCType.B_Warrior);
+            var party = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Blood_Warrior_B.ToString());
             party.transform.position = Dungeon.transform.position + (Vector3.left * 7);
             GameManager.Placement.Visible(party);
             bloodSong.Add(party);
         }
         {
-            var party = GameManager.NPC.InstantiateNPC_Event(EventNPCType.B_Wizard);
+            var party = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Blood_Wizard_B.ToString());
             party.transform.position = Dungeon.transform.position + (Vector3.left * 7.5f);
             GameManager.Placement.Visible(party);
             bloodSong.Add(party);
         }
         {
-            var party = GameManager.NPC.InstantiateNPC_Event(EventNPCType.B_Elf);
+            var party = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Blood_Elf_B.ToString());
             party.transform.position = Dungeon.transform.position + (Vector3.left * 8);
             GameManager.Placement.Visible(party);
             bloodSong.Add(party);
         }
 
         //? 대장급 생성
-        var Cap_A = GameManager.NPC.InstantiateNPC_Event(EventNPCType.Captine_A);
+        var Cap_A = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_A.ToString());
         Cap_A.transform.position = Dungeon.transform.position + (Vector3.right * 1);
         Cap_A.Anim_State = NPC.animState.right;
         Cap_A.Anim_State = NPC.animState.Ready;
         GameManager.Placement.Visible(Cap_A);
 
-        var Cap_B = GameManager.NPC.InstantiateNPC_Event(EventNPCType.Captine_B);
+        var Cap_B = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_B.ToString());
         Cap_B.transform.position = Dungeon.transform.position + (Vector3.right * 5);
         Cap_B.Anim_State = NPC.animState.right;
         Cap_B.Anim_State = NPC.animState.Ready;
         GameManager.Placement.Visible(Cap_B);
 
-        var Captine_C = GameManager.NPC.InstantiateNPC_Event(EventNPCType.Captine_C);
+        var Captine_C = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_BlueKnight.ToString());
         Captine_C.transform.position = Dungeon.transform.position + (Vector3.left * 1.5f);
         GameManager.Placement.Visible(Captine_C);
 
@@ -1165,7 +1165,7 @@ public class Main : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
         {
-            var sol = GameManager.NPC.InstantiateNPC_Event(EventNPCType.Event_Soldier1);
+            var sol = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier1.ToString());
             sol.transform.position = Dungeon.transform.position + (Vector3.right * 0.5f * i) + Vector3.right * 2.0f;
             sol.Anim_State = NPC.animState.left;
             sol.Anim_State = NPC.animState.Ready;
@@ -1175,7 +1175,7 @@ public class Main : MonoBehaviour
         }
         for (int i = 0; i < 5; i++)
         {
-            var sol = GameManager.NPC.InstantiateNPC_Event(EventNPCType.Event_Soldier2);
+            var sol = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier2.ToString());
             sol.transform.position = Dungeon.transform.position + (Vector3.right * 0.5f * i) + Vector3.right * 6.0f;
             sol.Anim_State = NPC.animState.left;
             sol.Anim_State = NPC.animState.Ready;
@@ -1185,7 +1185,7 @@ public class Main : MonoBehaviour
         }
         for (int i = 0; i < 5; i++)
         {
-            var sol = GameManager.NPC.InstantiateNPC_Event(EventNPCType.Event_Soldier3);
+            var sol = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier3.ToString());
             sol.transform.position = Dungeon.transform.position + (Vector3.left * 0.5f * i) + Vector3.left * 2.5f;
             sol.Anim_State = NPC.animState.right;
             sol.Anim_State = NPC.animState.Ready;
@@ -1713,12 +1713,21 @@ void ChangeEggState()
         if (DangerOfDungeon > PopularityOfDungeon)
         {
             CurrentEndingState = Endings.Dragon;
-            EggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Dragon"));
+            EggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Dragon"));
         }
         else
         {
-            CurrentEndingState = Endings.Dog;
-            EggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Dog"));
+            if (DangerOfDungeon < 100)
+            {
+                CurrentEndingState = Endings.Rabi;
+                EggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Rabi"));
+            }
+            else
+            {
+                CurrentEndingState = Endings.Dog;
+                EggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Dog"));
+            }
+
         }
 
 

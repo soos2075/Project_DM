@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Assets.PixelFantasy.PixelHeroes.Common.Scripts.CharacterScripts;
@@ -12,6 +11,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     {
         anim = GetComponent<Animator>();
         characterBuilder = GetComponent<CharacterBuilder>();
+        AttackOption = new AttackEffect(AttackType.Normal);
+
         SetRandomClothes();
         Start_Setting();
         Init_Trait();
@@ -19,12 +20,12 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
 
     // 인스펙터 확인용
-    public List<BasementTile> prioList;
-    [System.Obsolete]
-    void Update()
-    {
-        prioList = PriorityList;
-    }
+    //public List<BasementTile> prioList;
+    //[System.Obsolete]
+    //void Update()
+    //{
+    //    prioList = PriorityList;
+    //}
 
 
     protected virtual void Start_Setting()
@@ -42,7 +43,35 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
 
 
+
     #region Animation
+    public class AttackEffect
+    {
+        public AttackType AttackAnim;
+        public string effectName;
+        public string projectile_Category;
+        public string projectile_Label;
+
+        public AttackEffect(AttackType type, string effect = "")
+        {
+
+        }
+
+        public void SetProjectile(AttackType type, string category, string label)
+        {
+            AttackAnim = type;
+            projectile_Category = category;
+            projectile_Label = label;
+        }
+    }
+    public enum AttackType
+    {
+        Normal,
+        Bow,
+        Magic,
+    }
+    public AttackEffect AttackOption { get; set; }
+
     Animator anim;
     public enum animState
     {
@@ -96,42 +125,42 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
             case animState.front:
             case animState.left:
                 transform.localScale = new Vector3(-1, 1, 1);
-                anim.Play("Running");
+                anim.Play(Define.ANIM_Running);
                 break;
 
             case animState.back:
             case animState.right:
                 transform.localScale = Vector3.one;
-                anim.Play("Running");
+                anim.Play(Define.ANIM_Running);
                 break;
 
             case animState.front_Action:
             case animState.left_Action:
                 transform.localScale = new Vector3(-1, 1, 1);
-                anim.Play("Interaction");
+                anim.Play(Define.ANIM_Interaction);
                 break;
 
             case animState.back_Action:
             case animState.right_Action:
                 transform.localScale = Vector3.one;
-                anim.Play("Interaction");
+                anim.Play(Define.ANIM_Interaction);
                 break;
 
             case animState.front_Battle:
             case animState.left_Battle:
                 transform.localScale = new Vector3(-1, 1, 1);
-                anim.Play("Ready");
+                anim.Play(Define.ANIM_Ready);
                 break;
 
             case animState.back_Battle:
             case animState.right_Battle:
                 transform.localScale = Vector3.one;
-                anim.Play("Ready");
+                anim.Play(Define.ANIM_Ready);
                 break;
 
 
             case animState.Idle:
-                anim.SetTrigger("Idle");
+                anim.SetTrigger(Define.ANIM_Idle);
                 //anim.Play(Define.ANIM_Idle);
                 break;
 
@@ -140,52 +169,6 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
                 break;
         }
     }
-
-
-
-    //void SetAnim(moveState state)
-    //{
-    //    if (anim == null)
-    //    {
-    //        return;
-    //    }
-    //    //anim.SetInteger("move", (int)state);
-    //    switch (state)
-    //    {
-    //        case moveState.front:
-    //            anim.Play("walk_f");
-    //            break;
-
-    //        case moveState.left:
-    //            anim.Play("walk_l");
-    //            break;
-
-    //        case moveState.right:
-    //            anim.Play("walk_r");
-    //            break;
-
-    //        case moveState.back:
-    //            anim.Play("walk_b");
-    //            break;
-
-
-    //        case moveState.front_Action:
-    //            anim.Play("ing_f");
-    //            break;
-
-    //        case moveState.left_Action:
-    //            anim.Play("ing_l");
-    //            break;
-
-    //        case moveState.right_Action:
-    //            anim.Play("ing_r");
-    //            break;
-
-    //        case moveState.back_Action:
-    //            anim.Play("ing_b");
-    //            break;
-    //    }
-    //}
 
 
     #region MoveAnimation
@@ -355,7 +338,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
 
     #region PriorityList
-    protected abstract Define.TileType[] AvoidTileType { get; set; }
+    protected abstract Define.TileType[] AvoidTileType { get; }
 
 
     public abstract List<BasementTile> PriorityList { get; set; }
@@ -372,6 +355,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
     protected void SortByDistance(List<BasementTile> targetList)
     {
+        if (targetList == null) return;
+
         TileDistanceComparer comparer = new TileDistanceComparer(PlacementInfo.Place_Tile.worldPosition);
         targetList.Sort(comparer);
     }
@@ -389,7 +374,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         }
     }
 
-    public void SetPriorityListForPublic()
+    public void SetPriorityList_Update()
     {
         if (State == NPCState.Priority)
         {
@@ -429,7 +414,6 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
                 newList.Add(allList[i]);
             }
         }
-
         newList = Util.ListShuffle(newList);
         return RefinementList(newList);
     }
@@ -458,6 +442,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
             PriorityList = new List<BasementTile>();
         }
 
+        if (addList == null) return;
+
         switch (pos)
         {
             case AddPos.Front:
@@ -468,7 +454,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
             case AddPos.Back:
                 PriorityList.AddRange(addList);
-                RefinementList(PriorityList);
+                PriorityList = RefinementList(PriorityList);
                 break;
         }
     }
@@ -476,8 +462,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
     List<BasementTile> RefinementList(List<BasementTile> _list) //? 출입구와 자기자신, 중복참조를 모두 제거하는 작업
     {
-        var newList = _list.Distinct().ToList();
-
+        var newList = Util.ListDistinct<BasementTile>(_list);
         newList.Remove(PlacementInfo.Place_Tile);
         //newList.Remove(PlacementInfo.Place_Floor.Entrance.PlacementInfo.Place_Tile);
         //newList.Remove(PlacementInfo.Place_Floor.Exit.PlacementInfo.Place_Tile);
@@ -735,17 +720,18 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         Mana = data.MP;
 
         float speed = data.groundSpeed * 2 * UnityEngine.Random.Range(0.9f, 1.1f);
-        float delay = data.actionDelay * UnityEngine.Random.Range(0.9f, 1.1f);
+        float delay = data.actionDelay * 0.7f * UnityEngine.Random.Range(0.9f, 1.1f);
 
         Speed_Ground = speed;
         ActionDelay = delay;
 
-        if (GetType() == typeof(EventNPC))
+        if (GetType() == typeof(NPC_MainEvent))
         {
-            Speed_Ground = data.groundSpeed;
+            Speed_Ground = data.groundSpeed * 2;
         }
 
-        KillGold = Data.Rank * Random.Range(15, 31);
+        gameObject.name = data.keyName;
+        EventID = data.id;
     }
 
     #endregion
@@ -824,7 +810,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         //Debug.Log($"{name}(이)가 {FloorLevel}층에 도착");
 
         SetPriorityList(PrioritySortOption.Random); //? 우선순위에 맞춰 맵탐색
-
+        PriorityList.RemoveAll(r => r.tileType_Original == Define.TileType.Empty || r.Original.PlacementState == PlacementState.Busy);
         if (PriorityList.Count > 0)
         {
             State = NPCState.Priority;
@@ -860,7 +846,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
         //SearchPreviousFloor(); // FloorPrevious로 들어오는경우는 Return_Empty 하나임. 나머진 즉시 탈출이라. 그러니까 돌아갈떄도 추가서치하는게 맞음.
         SetPriorityList(PrioritySortOption.Random); //? 우선순위에 맞춰 맵탐색
-
+        PriorityList.RemoveAll(r => r.tileType_Original == Define.TileType.Empty || r.Original.PlacementState == PlacementState.Busy);
         if (PriorityList.Count > 0)
         {
             State = NPCState.Priority;
@@ -1033,11 +1019,11 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         Main.Instance.ShowDM(value, Main.TextType.danger, transform, 1);
     }
 
-    public virtual int KillGold { get; set; }
+    public int KillGold { get; set; }
     protected abstract void NPC_Die();
-    protected abstract void NPC_Captive();
+    //protected abstract void NPC_Captive();
 
-    public virtual int RunawayHpRatio { get; set; } = 4;
+    public int RunawayHpRatio { get; set; } = 4;
 
     public NPCState StateRefresh()
     {
@@ -1171,6 +1157,10 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         Cor_Move = null;
     }
 
+    //? 중복체크. 두번을 같은 목표를 향해 동일한 길찾기를 한다는건 길막이나 그런상황으로 상태는 업데이트 되는데 목적지가 동일해서 무한루프에 빠졌다는것
+    //Vector2Int prevCurrent;
+    //BasementTile prevTarget;
+
     public void MoveToTargetTile(BasementTile target)
     {
         // 만약 목표지점이 내가 있는 타일이라면 여기서 바로 상호작용을 한다음 리턴시켜버리기
@@ -1191,7 +1181,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
         bool pathFind = false;
         bool pathRefind = false;
-        List<BasementTile> path;
+        List<BasementTile> path = null;
 
         //? 길찾기시에 IWall를 상속받은 대상을 포함시킬지 말지에 대한 부분
         if (target.Original != null && target.Original as IWall != null)
@@ -1205,6 +1195,11 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         }
         else
         {
+            //if (prevTarget == null || prevTarget != target || prevCurrent != PlacementInfo.Place_Tile.index)
+            //{
+            //    path = PlacementInfo.Place_Floor.PathFinding(PlacementInfo.Place_Tile, target, AvoidTileType, out pathFind);
+            //}
+
             path = PlacementInfo.Place_Floor.PathFinding(PlacementInfo.Place_Tile, target, AvoidTileType, out pathFind);
 
             //Debug.Log($"우선순위 길찾기 결과 : {pathFind}");
@@ -1215,8 +1210,6 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
                 //Debug.Log($"일반 길찾기 결과 : {pathRefind}");
             }
         }
-
-
 
         if (Cor_Move != null)
         {
@@ -1233,10 +1226,9 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
             //Debug.Log("길찾기 실패 / 방황" + Time.time);
             Cor_Move = StartCoroutine(Wandering());
         }
+        //prevTarget = target;
+        //prevCurrent = PlacementInfo.Place_Tile.index;
     }
-
-
-
 
 
     IEnumerator DungeonMoveToPath(List<BasementTile> path, bool overlap = false)
@@ -1264,6 +1256,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
                 PlacementMove_NPC(this, next, ActionDelay);
             }
         }
+        SetPriorityList_Update();
         yield return new WaitForEndOfFrame();
         Cor_Move = null;
         State = StateRefresh(); //? 모든 경로를 탐색했는데 이벤트가 발생을 안했다? 뭔가 이상이 있는것. 상태업데이트 필요
@@ -1367,6 +1360,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         {
             //Debug.Log("배틀 시작");
             yield return monster.Battle(this);
+            SetPriorityList_Update();
             //Debug.Log("배틀 종료");
             yield return new WaitForEndOfFrame();
             State = StateRefresh();
@@ -1386,6 +1380,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
         //Debug.Log("배틀 시작");
         yield return monster.Battle(this);
+        SetPriorityList_Update();
         //Debug.Log("배틀 종료");
         yield return new WaitForEndOfFrame();
         State = StateRefresh();

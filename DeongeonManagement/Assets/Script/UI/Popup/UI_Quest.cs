@@ -40,16 +40,20 @@ public class UI_Quest : UI_PopUp
 
         for (int i = 0; i < EventManager.Instance.CurrentQuestAction_forSave.Count; i++)
         {
-            var content = Managers.Resource.Instantiate("UI/PopUp/Element/QuestBox", pos).GetComponent<UI_QuestBox>();
-
             int id = EventManager.Instance.CurrentQuestAction_forSave[i];
-
-            //Debug.Log($"Quest ID : {id}");
 
             string title = Managers.Dialogue.GetDialogue((DialogueName)id).dialogueName;
             string detail = Managers.Dialogue.GetDialogue((DialogueName)id).TextDataList[0].mainText;
-
             string day = Managers.Dialogue.GetDialogue((DialogueName)id).TextDataList[0].optionString;
+
+            if (day.Contains("@NoView"))
+            {
+                continue;
+            }
+
+
+            var content = Managers.Resource.Instantiate("UI/PopUp/Element/QuestBox", pos).GetComponent<UI_QuestBox>();
+
             int dayOption = 0;
             if (day.Contains("@Day"))
             {

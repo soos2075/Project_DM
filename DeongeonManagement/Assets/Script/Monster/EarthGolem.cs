@@ -67,7 +67,7 @@ public class EarthGolem : Monster
                 break;
 
             case BattleField.BattleResult.NPC_Die:
-                if (npc.EventID == (int)EventNPCType.Hunter_EarthGolem)
+                if (npc.EventID == (int)NPC_Type_Hunter.Hunter_EarthGolem)
                 {
                     //? 진화진행
                     EvolutionState = Evolution.Complete;
