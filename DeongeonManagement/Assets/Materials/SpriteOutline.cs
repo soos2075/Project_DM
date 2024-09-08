@@ -19,7 +19,7 @@ public class SpriteOutline : MonoBehaviour
 
     public bool Outline;
 
-    void Update()
+    void LateUpdate()
     {
         UpdateOutline(Outline);
     }

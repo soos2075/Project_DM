@@ -1017,11 +1017,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         }
         LookAtTarget(npc.PlacementInfo.Place_Tile);
 
-        var npcType = npc.GetType();
-        npc.ActionPoint -= Data.battleAp;
 
         int battleMP = npc.Rank * 5;
-
         foreach (var item in npc.Data.NPC_TraitList)
         {
             if (item == TraitGroup.Militant)
@@ -1043,7 +1040,10 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         {
             manaClamp = 0;
         }
-        npc.Mana -= manaClamp;
+        //npc.Mana -= manaClamp;
+        //npc.ActionPoint -= Data.battleAp;
+        npc.Change_Mana(-manaClamp);
+        npc.Change_ActionPoint(-Data.battleAp);
 
         //? 전투가 동시에 일어날 때, 죽고 사는 전투가 이전의 Nothing 공방보다 먼저 끝나는 경우가 존재함. 이 때 PlaceInfo가 사라지거나 하는 문제떄문에 먼저 저장
         string floorName = PlacementInfo.Place_Floor.LabelName;

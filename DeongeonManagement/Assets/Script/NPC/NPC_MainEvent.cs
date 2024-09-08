@@ -10,6 +10,55 @@ public class NPC_MainEvent : NPC
     public override List<BasementTile> PriorityList { get; set; }
 
 
+    protected override void TurnOverEventSetting()
+    {
+        switch (NPCType)
+        {
+            case NPC_Type_MainEvent.EM_FirstAdventurer:
+                break;
+            case NPC_Type_MainEvent.EM_RedHair:
+                break;
+            case NPC_Type_MainEvent.Event_Goblin:
+                break;
+            case NPC_Type_MainEvent.Event_Goblin_Leader:
+                break;
+            case NPC_Type_MainEvent.Event_Goblin_Leader2:
+                break;
+            case NPC_Type_MainEvent.EM_Catastrophe:
+                break;
+            case NPC_Type_MainEvent.EM_RetiredHero:
+                EventManager.Instance.AddTurnOverEventReserve(() => 
+                {
+                    GuildManager.Instance.RemoveInstanceGuildNPC(GuildNPC_LabelName.RetiredHero);
+                    EventManager.Instance.RemoveQuestAction(1151);
+                    EventManager.Instance.ReservationToQuest(3, 7010);
+                    EventManager.Instance.ReservationToQuest(13, 7020);
+                    EventManager.Instance.AddDayEvent(DayEventLabel.Guild_Raid_1, 0, 20, 0);
+                    EventManager.Instance.AddDayEvent(DayEventLabel.Guild_Raid_2, 0, 30, 0);
+                });
+                break;
+
+            case NPC_Type_MainEvent.EM_Blood_Warrior_A:
+                EventManager.Instance.AddTurnOverEventReserve(() =>
+                {
+                    Managers.Dialogue.ShowDialogueUI(DialogueName.BloodSong_Return, Main.Instance.Player);
+                });
+
+                break;
+
+            case NPC_Type_MainEvent.EM_Blood_Warrior_B:
+                break;
+
+            case NPC_Type_MainEvent.EM_Captine_A:
+                break;
+            case NPC_Type_MainEvent.EM_Captine_B:
+                break;
+            case NPC_Type_MainEvent.EM_Captine_BlueKnight:
+                break;
+        }
+    }
+
+
     protected override void Start_Setting()
     {
         ////? 공격타입과 투사체 세팅
@@ -33,7 +82,7 @@ public class NPC_MainEvent : NPC
             case NPC_Type_MainEvent.EM_Captine_A:
             case NPC_Type_MainEvent.EM_Captine_B:
             case NPC_Type_MainEvent.EM_Captine_BlueKnight:
-                RunawayHpRatio = 1000;
+                RunawayHpRatio = 10000;
                 break;
 
             case NPC_Type_MainEvent.EM_Blood_Warrior_A:
@@ -168,15 +217,15 @@ public class NPC_MainEvent : NPC
         switch (NPCType)
         {
             case NPC_Type_MainEvent.EM_FirstAdventurer:
-                StartCoroutine(EventCor(DialogueName.Day3_Event));
+                StartCoroutine(EventCor(DialogueName.FirstAdvAppear));
                 break;
 
             case NPC_Type_MainEvent.EM_RedHair:
-                StartCoroutine(EventCor(DialogueName.Day8_Event));
+                StartCoroutine(EventCor(DialogueName.RedHair_Appear));
                 break;
 
             case NPC_Type_MainEvent.EM_RetiredHero:
-                StartCoroutine(EventCor(DialogueName.Day15_Event));
+                StartCoroutine(EventCor(DialogueName.RetiredHero_Appear));
                 break;
 
             case NPC_Type_MainEvent.EM_Catastrophe:
@@ -192,7 +241,7 @@ public class NPC_MainEvent : NPC
                 break;
 
             case NPC_Type_MainEvent.EM_Blood_Warrior_A:
-                StartCoroutine(EventCor(DialogueName.Day20_Event));
+                StartCoroutine(EventCor(DialogueName.BloodSong_Appear));
                 break;
         }
     }
@@ -236,10 +285,14 @@ public class NPC_MainEvent : NPC
             case NPC_Type_MainEvent.Event_Goblin_Leader:
             case NPC_Type_MainEvent.Event_Goblin_Leader2:
                 characterBuilder.Hair = "";
+                characterBuilder.Helmet = "";
+                characterBuilder.Armor = "";
+
                 characterBuilder.Head = "Goblin#FFFFFF/0:0:0";
                 characterBuilder.Ears = "Goblin#FFFFFF/0:0:0";
                 characterBuilder.Eyes = "Goblin#FFFFFF/0:0:0";
                 characterBuilder.Body = "Goblin#FFFFFF/0:0:0";
+
                 characterBuilder.Weapon = "RustedShovel#FFFFFF/0:0:0";
                 characterBuilder.Back = "LargeBackpack#FFFFFF/0:0:0";
                 break;
@@ -588,12 +641,7 @@ public class NPC_MainEvent : NPC
         switch (NPCType)
         {
             case NPC_Type_MainEvent.EM_RedHair:
-                Managers.Dialogue.ShowDialogueUI(DialogueName.Day8_ReturnEvent, transform);
-                break;
-
-            case NPC_Type_MainEvent.EM_RetiredHero:
-                GuildManager.Instance.RemoveInstanceGuildNPC(GuildNPC_LabelName.RetiredHero);
-                EventManager.Instance.RemoveQuestAction(1151);
+                Managers.Dialogue.ShowDialogueUI(DialogueName.RedHair_Return, transform);
                 break;
 
             case NPC_Type_MainEvent.Event_Goblin_Leader2:
@@ -678,13 +726,11 @@ public class NPC_MainEvent : NPC
         switch (NPCType)
         {
             case NPC_Type_MainEvent.EM_RedHair:
-                Managers.Dialogue.ShowDialogueUI(DialogueName.Day8_Event_Die, transform);
+                Managers.Dialogue.ShowDialogueUI(DialogueName.RedHair_Defeat, transform);
                 break;
 
             case NPC_Type_MainEvent.EM_RetiredHero:
-                Managers.Dialogue.ShowDialogueUI(DialogueName.Day15_Event_Die, transform);
-                GuildManager.Instance.RemoveInstanceGuildNPC(GuildNPC_LabelName.RetiredHero);
-                EventManager.Instance.RemoveQuestAction(1151);
+                Managers.Dialogue.ShowDialogueUI(DialogueName.RetiredHero_Defeat, transform);
                 break;
 
             case NPC_Type_MainEvent.Event_Goblin_Leader:

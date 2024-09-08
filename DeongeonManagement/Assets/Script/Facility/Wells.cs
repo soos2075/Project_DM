@@ -83,9 +83,13 @@ public class Wells : Facility, IWall
         //PlacementState = PlacementState.Busy;
         yield return new WaitForSeconds(durationTime);
 
-        npc.ActionPoint -= ap;
-        npc.Mana -= mp;
-        npc.HP -= hp;
+        npc.Change_Mana(mp);
+        npc.Change_ActionPoint(ap);
+        npc.Change_HP(hp);
+
+        //npc.ActionPoint -= ap;
+        //npc.Mana -= mp;
+        //npc.HP -= hp;
 
         Main.Instance.CurrentDay.AddMana(10, Main.DayResult.EventType.Facility);
         Main.Instance.ShowDM(10, Main.TextType.mana, transform);

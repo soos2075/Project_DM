@@ -120,18 +120,19 @@ public class DialogueManager
                 bubble.bubble_Position = pos;
                 break;
         }
+        EventManager.Instance.CurrentClearEventData.AddClear((DialogueName)data.id);
         return currentDialogue;
     }
-    public void ShowDialogueUI(string dialogueName, Transform pos = null)
-    {
-        DialogueData data = GetDialogue(dialogueName);
-        if (data == null)
-        {
-            Debug.Log($"dialogueData 없음 : {dialogueName}");
-            return;
-        }
-        ShowDialogueUI(data, pos);
-    }
+    //public void ShowDialogueUI(string dialogueName, Transform pos = null)
+    //{
+    //    DialogueData data = GetDialogue(dialogueName);
+    //    if (data == null)
+    //    {
+    //        Debug.Log($"dialogueData 없음 : {dialogueName}");
+    //        return;
+    //    }
+    //    ShowDialogueUI(data, pos);
+    //}
     public void ShowDialogueUI(DialogueName dialogueName, Transform pos = null)
     {
         DialogueData data = GetDialogue(dialogueName);
@@ -346,11 +347,11 @@ public enum DialogueName
     Tutorial_Orb = 6,
 
 
-    Day3_Event = 33,
+    FirstAdvAppear = 33,
 
-    Day8_Event = 83,
-    Day8_Event_Die = 84,
-    Day8_ReturnEvent = 85,
+    RedHair_Appear = 83,
+    RedHair_Defeat = 84,
+    RedHair_Return = 85,
 
 
     Goblin_Appear = 90,
@@ -366,15 +367,14 @@ public enum DialogueName
     Catastrophe_Return_First = 142,
 
 
-    Day15_Event = 153,
-    Day15_Event_Die = 154,
+    RetiredHero_Appear = 153,
+    RetiredHero_Defeat = 154,
 
-    Day20_Event = 200,
-    Day20_Over = 201,
+    BloodSong_Appear = 200,
+    BloodSong_Return = 201,
 
-    Day25_Event = 250,
-    Day30_Event = 300,
-
+    Guild_Raid_1 = 250,
+    Guild_Raid_2 = 300,
 
     Day30_Over = 302,
 

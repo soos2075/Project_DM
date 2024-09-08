@@ -78,7 +78,7 @@ public class NPC_Hunter : NPC
                 if (UserData.Instance.FileConfig.firstAppear_Hunter_Slime == false)
                 {
                     UserData.Instance.FileConfig.firstAppear_Hunter_Slime = true;
-                    StartCoroutine(EventCor($"{NPCType.ToString()}"));
+                    StartCoroutine(EventCor(DialogueName.Hunter_Slime));
                 }
                 break;
 
@@ -86,7 +86,7 @@ public class NPC_Hunter : NPC
                 if (UserData.Instance.FileConfig.firstAppear_Hunter_EarthGolem == false)
                 {
                     UserData.Instance.FileConfig.firstAppear_Hunter_EarthGolem = true;
-                    StartCoroutine(EventCor($"{NPCType.ToString()}"));
+                    StartCoroutine(EventCor(DialogueName.Hunter_EarthGolem));
                 }
                 break;
         }

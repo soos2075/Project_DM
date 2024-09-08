@@ -11,6 +11,8 @@ public class Interaction_Guild : MonoBehaviour
 
     void Start()
     {
+        outline = GetComponentInChildren<SpriteOutline>(true);
+
         foreach (var item in EventManager.Instance.CurrentGuildData)
         {
             if (item.Original_Index == (int)label)
@@ -18,6 +20,8 @@ public class Interaction_Guild : MonoBehaviour
                 data = item;
             }
         }
+        DefaultAnimState();
+
 
         int turn = EventManager.Instance.CurrentTurn;
 
@@ -59,8 +63,6 @@ public class Interaction_Guild : MonoBehaviour
                 gameObject.SetActive(true);
             }
         }
-
-        BoardSpriteChange();
     }
 
     private void Update()
@@ -94,23 +96,59 @@ public class Interaction_Guild : MonoBehaviour
     }
 
 
-    void BoardSpriteChange()
+    void DefaultAnimState()
     {
-        if (label == GuildNPC_LabelName.QuestZone)
+        Animator anim;
+        if (TryGetComponent<Animator>(out anim))
         {
-            int questCount = data.InstanceQuestList.Count + data.OptionList.Count;
-            if (questCount == 0)
-            {
-                GetComponent<SpriteRenderer>().sprite = GuildHelper.Instance.board_little;
-            }
-            else if (questCount == 1)
-            {
-                GetComponent<SpriteRenderer>().sprite = GuildHelper.Instance.board_little;
-            }
-            else if(questCount > 1)
-            {
-                GetComponent<SpriteRenderer>().sprite = GuildHelper.Instance.board_many;
-            }
+            anim.speed = Random.Range(0.5f, 0.8f);
+        }
+
+        switch (label)
+        {
+            case GuildNPC_LabelName.QuestZone:
+                int questCount = data.InstanceQuestList.Count + data.OptionList.Count;
+                if (questCount == 0)
+                {
+                    GetComponent<SpriteRenderer>().sprite = GuildHelper.Instance.board_little;
+                }
+                else if (questCount == 1)
+                {
+                    GetComponent<SpriteRenderer>().sprite = GuildHelper.Instance.board_little;
+                }
+                else if (questCount > 1)
+                {
+                    GetComponent<SpriteRenderer>().sprite = GuildHelper.Instance.board_many;
+                }
+                break;
+            case GuildNPC_LabelName.StaffA:
+                break;
+
+            case GuildNPC_LabelName.StaffB:
+                break;
+
+            case GuildNPC_LabelName.Heroine:
+                GetComponent<Animator>().Play(Define.ANIM_Idle_Sit);
+                if (EventManager.Instance.CurrentClearEventData.Check_AlreadyClear(DialogueName.Heroine_Prison))
+                {
+                    gameObject.SetActive(false);
+                }
+                break;
+
+            case GuildNPC_LabelName.DummyA:
+                break;
+
+            case GuildNPC_LabelName.DummyB:
+                break;
+
+            case GuildNPC_LabelName.DummyC:
+                break;
+
+            case GuildNPC_LabelName.DummyD:
+                break;
+
+            case GuildNPC_LabelName.RetiredHero:
+                break;
         }
     }
 
@@ -136,7 +174,7 @@ public class Interaction_Guild : MonoBehaviour
             }
         }
 
-        if (TryGetComponent<SpriteOutline>(out outline))
+        if (outline != null)
         {
             outline.Outline = true;
         }
@@ -149,7 +187,7 @@ public class Interaction_Guild : MonoBehaviour
             key.SetActive(false);
         }
 
-        if (TryGetComponent<SpriteOutline>(out outline))
+        if (outline != null)
         {
             outline.Outline = false;
         }

@@ -1320,6 +1320,10 @@ public class Trait
     {
         public TraitGroup ID { get; } = TraitGroup.Indomitable;
     }
+    public class Void : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Void;
+    }
 
     #endregion
 
@@ -1461,11 +1465,12 @@ public enum TraitGroup
 
 
     //? Special(Category)
-    Militant = 9000,
-    Civilian,
-    Trample,
-    Swiftness,
-    Indomitable,
+    Militant = 9000,    //? 전투 보너스
+    Civilian,           //? 전투 패널티
+    Trample,            //? 퍼실리티 마이너스 속성
+    Swiftness,          //? 상호작용 속도 두배
+    Indomitable,        //? mana,ap 상관없이 죽을때까지 감
+    Void,               //? mana 무시, ap는 필요, 대부분의 행동에서 유의미한 점수를 얻지 못함
 
 
     //? Hunting

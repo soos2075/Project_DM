@@ -58,4 +58,21 @@ public class UI_DayLog : UI_PopUp
 
         ui.TextContents(Main.Instance.DayList[day], current);
     }
+
+
+
+
+    public override bool EscapeKeyAction()
+    {
+        return true;
+    }
+
+    private void OnEnable()
+    {
+        Time.timeScale = 0;
+    }
+    private void OnDestroy()
+    {
+        PopupUI_OnDestroy();
+    }
 }

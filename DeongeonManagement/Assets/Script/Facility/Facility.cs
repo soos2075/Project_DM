@@ -214,9 +214,12 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         int manabonus = mp + GameManager.Buff.FacilityBonus;
         int applyMana = Mathf.Clamp(manabonus, manabonus, npc.Mana); //? 높은 마나회수여도 npc가 가진 마나 이상으로 얻진 못함. - 앵벌이 방지용
 
-        npc.ActionPoint -= ap;
-        npc.Mana -= applyMana;
-        npc.HP -= hp;
+        npc.Change_ActionPoint(-ap);
+        npc.Change_Mana(-applyMana);
+        npc.Change_HP(-hp);
+        //npc.ActionPoint -= ap;
+        //npc.Mana -= applyMana;
+        //npc.HP -= hp;
 
         //? 최대치 이상으로 회복시키고 싶지 않으면 위에 -= 하는 부분에서 Clamp 해주면 됨
 

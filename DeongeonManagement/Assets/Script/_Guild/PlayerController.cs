@@ -14,8 +14,14 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody2D rig;
     Animator anim;
+    SpriteRenderer sprite;
 
     float playerSize;
+
+    private void Awake()
+    {
+        gameObject.name = "Player";
+    }
     void Start()
     {
         transform.position = GuildHelper.Instance.GetPos(GuildHelper.Pos.Start).position;
@@ -23,7 +29,8 @@ public class PlayerController : MonoBehaviour
         GuildManager.Instance.GuildEnter();
 
         rig = GetComponent<Rigidbody2D>();
-        anim = GetComponentInChildren<Animator>();
+        anim = GetComponent<Animator>();
+        sprite = GetComponentInChildren<SpriteRenderer>();
 
         playerSize = transform.localScale.y;
     }
@@ -44,6 +51,21 @@ public class PlayerController : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (Time.timeScale == 0 || Managers.UI._popupStack.Count > 0 || UserData.Instance.GameMode == Define.GameMode.Stop)
+        {
+            return;
+        }
+
+        if (rig.bodyType != RigidbodyType2D.Dynamic)
+        {
+            rig.bodyType = RigidbodyType2D.Dynamic;
+        }
+        if (sprite.flipX || sprite.flipY)
+        {
+            sprite.flipX = false;
+            sprite.flipY = false;
+        }
+
         RunningAnimation();
     }
     void RunningAnimation()

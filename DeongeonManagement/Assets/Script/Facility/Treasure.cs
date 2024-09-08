@@ -124,15 +124,17 @@ public class Treasure : Facility
 
         int applyMana = Mathf.Clamp(changeMP, 0, npc.Mana); //? 높은 마나회수여도 npc가 가진 마나 이상으로 얻진 못함. - 앵벌이 방지용
 
+        npc.Change_Mana(-applyMana);
+        npc.Change_ActionPoint(-ap_value);
+        npc.Change_HP(-hp_value);
+        //npc.ActionPoint -= ap_value;
+        //npc.HP -= hp_value;
+
         if (applyMana > 0)
         {
-            npc.Mana -= applyMana;
             Main.Instance.CurrentDay.AddMana(applyMana, Main.DayResult.EventType.Facility);
             Main.Instance.ShowDM(applyMana, Main.TextType.mana, transform);
         }
-
-        npc.ActionPoint -= ap_value;
-        npc.HP -= hp_value;
 
         if (gold_value != 0) 
         {

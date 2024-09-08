@@ -437,7 +437,7 @@ public class ContentManager
     bool CreatePortal(string prefab, Vector2Int[] boundary)
     {
         if (Main.Instance.CurrentTile == null) return false;
-        if (Main.Instance.CurrentTile.floor.FloorIndex == 3) return false;
+        if (Main.Instance.CurrentTile.floor.FloorIndex == (int)Define.DungeonFloor.Egg) return false;
 
         return CreateUnique(prefab, boundary);
     }

@@ -985,257 +985,34 @@ public class Main : MonoBehaviour
     {
         UI_EventBox.AddEventText($"※{Turn}{UserData.Instance.LocaleText("Event_DayStart")}※");
 
-
         switch (Turn)
         {
 
-            case 1:
-                //? 원래 1일차 종료부터 가능했던 정보확인을 1일차 시작때부터 할 수 있도록 변경
+            case 1: //? 원래 1일차 종료부터 가능했던 정보확인을 1일차 시작때부터 할 수 있도록 변경
                 UI_Main.Active_Floor();
-
-                //EventManager.Instance.AddQuestAction(4020);
-                //GameManager.NPC.AddEventNPC(NPC_Type_SubEvent.Heroine.ToString(), 3, NPC_Typeof.NPC_Type_SubEvent);
                 break;
 
-            case 3:
-                Debug.Log("3일차 시작 이벤트 - 모험가 한명 무조건 소환");
+            case 3: //? FirstAdv Event
                 GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_FirstAdventurer.ToString(), 7);
                 break;
 
-            case 7: //? 모험가 이벤트
+            case 7: //? RedHair Event 
                 GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_RedHair.ToString(), 10);
-                break;
-
-
-            case 9: //? 고블린 임시 이벤트
-                //GameManager.NPC.AddEventNPC(EventNPCType.Event_Goblin_Leader, 10);
                 break;
 
             case 13:
                 break;
 
             case 20:
-                Debug.Log("20일차 시작 이벤트 - 붉은 모험단 소환");
-                GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Blood_Tanker_A.ToString(), 10f);
-                GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Blood_Warrior_A.ToString(), 10.5f);
-                GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Blood_Wizard_A.ToString(), 11f);
-                GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Blood_Elf_A.ToString(), 11.5f);
                 break;
 
             case 25:
-                Debug.Log("25일차 시작 이벤트 - 길드 토벌단 1");
-                Day25Event_Direction();
                 break;
 
             case 30:
-                Debug.Log("30일차 시작 이벤트 - 길드 토벌단2 + 붉은 모험단");
-                Day30Event_Direction();
                 break;
         }
     }
-
-
-    void Day25Event_Direction()
-    {
-        GameManager.NPC.CustomStage = true;
-        UserData.Instance.GameMode = Define.GameMode.Stop;
-
-        var fade = Managers.UI.ShowPopUp<UI_Fade>();
-        fade.SetFadeOption(UI_Fade.FadeMode.WhiteIn, 1, true);
-
-
-        List<NPC> sol1List = new List<NPC>();
-        List<NPC> sol2List = new List<NPC>();
-
-        var cap_A = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_A.ToString());
-        cap_A.transform.position = Dungeon.transform.position + (Vector3.right * 1.5f);
-        GameManager.Placement.Visible(cap_A);
-
-        for (int i = 0; i < 7; i++)
-        {
-            var sol_1 = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier1.ToString());
-            sol_1.transform.position = Dungeon.transform.position + (Vector3.right * 0.5f * i) + Vector3.right * 2.5f;
-            sol_1.Anim_State = NPC.animState.left;
-            sol_1.Anim_State = NPC.animState.Ready;
-
-            GameManager.Placement.Visible(sol_1);
-            sol1List.Add(sol_1);
-        }
-
-        var cap_B = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_B.ToString());
-        cap_B.transform.position = Dungeon.transform.position + (Vector3.right * -1.5f);
-        cap_B.Anim_State = NPC.animState.left;
-        cap_B.Anim_State = NPC.animState.Idle;
-        GameManager.Placement.Visible(cap_B);
-
-        for (int i = 0; i < 7; i++)
-        {
-            var sol_1 = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier2.ToString());
-            sol_1.transform.position = Dungeon.transform.position + (Vector3.right * -0.5f * i) + Vector3.right * -2.5f;
-            sol_1.Anim_State = NPC.animState.Ready;
-
-            GameManager.Placement.Visible(sol_1);
-            sol2List.Add(sol_1);
-        }
-
-        Managers.Dialogue.ShowDialogueUI($"Day25_Event", cap_A.transform);
-        StartCoroutine(Wait_Day25_Dialogue(cap_A, cap_B, sol1List, sol2List));
-    }
-
-
-    IEnumerator Wait_Day25_Dialogue(NPC cap_A, NPC cap_B, List<NPC> sol1, List<NPC> sol2)
-    {
-        yield return null;
-        yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
-
-        cap_A.Departure(cap_A.transform.position, Dungeon.position);
-        foreach (var item in sol1)
-        {
-            item.Departure(item.transform.position, Dungeon.position);
-        }
-
-        yield return new WaitForSeconds(6);
-
-        cap_B.Departure(cap_B.transform.position, Dungeon.position);
-        foreach (var item in sol2)
-        {
-            item.Departure(item.transform.position, Dungeon.position);
-        }
-    }
-
-
-
-    void Day30Event_Direction()
-    {
-        GameManager.NPC.CustomStage = true;
-        UserData.Instance.GameMode = Define.GameMode.Stop;
-
-        var fade = Managers.UI.ShowPopUp<UI_Fade>();
-        fade.SetFadeOption(UI_Fade.FadeMode.WhiteIn, 1, true);
-
-
-        List<NPC> bloodSong = new List<NPC>();
-        //? 피의노래 파티원 생성
-        {
-            var party = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Blood_Tanker_B.ToString());
-            party.transform.position = Dungeon.transform.position + (Vector3.left * 6.5f);
-            GameManager.Placement.Visible(party);
-            bloodSong.Add(party);
-        }
-        {
-            var party = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Blood_Warrior_B.ToString());
-            party.transform.position = Dungeon.transform.position + (Vector3.left * 7);
-            GameManager.Placement.Visible(party);
-            bloodSong.Add(party);
-        }
-        {
-            var party = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Blood_Wizard_B.ToString());
-            party.transform.position = Dungeon.transform.position + (Vector3.left * 7.5f);
-            GameManager.Placement.Visible(party);
-            bloodSong.Add(party);
-        }
-        {
-            var party = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Blood_Elf_B.ToString());
-            party.transform.position = Dungeon.transform.position + (Vector3.left * 8);
-            GameManager.Placement.Visible(party);
-            bloodSong.Add(party);
-        }
-
-        //? 대장급 생성
-        var Cap_A = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_A.ToString());
-        Cap_A.transform.position = Dungeon.transform.position + (Vector3.right * 1);
-        Cap_A.Anim_State = NPC.animState.right;
-        Cap_A.Anim_State = NPC.animState.Ready;
-        GameManager.Placement.Visible(Cap_A);
-
-        var Cap_B = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_B.ToString());
-        Cap_B.transform.position = Dungeon.transform.position + (Vector3.right * 5);
-        Cap_B.Anim_State = NPC.animState.right;
-        Cap_B.Anim_State = NPC.animState.Ready;
-        GameManager.Placement.Visible(Cap_B);
-
-        var Captine_C = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_BlueKnight.ToString());
-        Captine_C.transform.position = Dungeon.transform.position + (Vector3.left * 1.5f);
-        GameManager.Placement.Visible(Captine_C);
-
-
-        List<NPC> sol1List = new List<NPC>();
-        List<NPC> sol2List = new List<NPC>();
-        List<NPC> sol3List = new List<NPC>();
-
-        for (int i = 0; i < 5; i++)
-        {
-            var sol = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier1.ToString());
-            sol.transform.position = Dungeon.transform.position + (Vector3.right * 0.5f * i) + Vector3.right * 2.0f;
-            sol.Anim_State = NPC.animState.left;
-            sol.Anim_State = NPC.animState.Ready;
-
-            GameManager.Placement.Visible(sol);
-            sol1List.Add(sol);
-        }
-        for (int i = 0; i < 5; i++)
-        {
-            var sol = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier2.ToString());
-            sol.transform.position = Dungeon.transform.position + (Vector3.right * 0.5f * i) + Vector3.right * 6.0f;
-            sol.Anim_State = NPC.animState.left;
-            sol.Anim_State = NPC.animState.Ready;
-
-            GameManager.Placement.Visible(sol);
-            sol2List.Add(sol);
-        }
-        for (int i = 0; i < 5; i++)
-        {
-            var sol = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier3.ToString());
-            sol.transform.position = Dungeon.transform.position + (Vector3.left * 0.5f * i) + Vector3.left * 2.5f;
-            sol.Anim_State = NPC.animState.right;
-            sol.Anim_State = NPC.animState.Ready;
-
-            GameManager.Placement.Visible(sol);
-            sol3List.Add(sol);
-        }
-
-
-
-        Managers.Dialogue.ShowDialogueUI($"Day30_Event", Captine_C.transform);
-        StartCoroutine(Wait_Day30_Dialogue(Cap_A, Cap_B, Captine_C, sol1List, sol2List, sol3List, bloodSong));
-    }
-
-    IEnumerator Wait_Day30_Dialogue(NPC cap_A, NPC cap_B, NPC cap_C, List<NPC> sol1, List<NPC> sol2, List<NPC> sol3, List<NPC> bloodSong)
-    {
-        yield return null;
-        yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
-
-        cap_A.Departure(cap_A.transform.position, Dungeon.position);
-        foreach (var item in sol1)
-        {
-            item.Departure(item.transform.position, Dungeon.position);
-        }
-
-        yield return new WaitForSeconds(6);
-
-        cap_B.Departure(cap_B.transform.position, Dungeon.position);
-        foreach (var item in sol2)
-        {
-            item.Departure(item.transform.position, Dungeon.position);
-        }
-
-        yield return new WaitForSeconds(10);
-
-        cap_C.Departure(cap_C.transform.position, Dungeon.position);
-        foreach (var item in sol3)
-        {
-            item.Departure(item.transform.position, Dungeon.position);
-        }
-
-        yield return new WaitForSeconds(8);
-
-        foreach (var item in bloodSong)
-        {
-            item.Departure(item.transform.position, Dungeon.position);
-        }
-
-    }
-
 
 
     [Obsolete]
@@ -1302,10 +1079,6 @@ public class Main : MonoBehaviour
             case 15: //? 데모 종료구간
                 //DEMO_15DAY();
                 //return;
-                break;
-
-            case 20:
-                Managers.Dialogue.ShowDialogueUI(DialogueName.Day20_Over, Player);
                 break;
 
             case 30:
@@ -1444,9 +1217,6 @@ public class Main : MonoBehaviour
 
 
 
-
-
-
     #region Animation
     Animator ani_MainUI;
     Animator ani_Sky;
@@ -1470,10 +1240,6 @@ public class Main : MonoBehaviour
 
 
     #endregion
-
-
-
-
 
 
 
@@ -1656,8 +1422,6 @@ public class Main : MonoBehaviour
 
 
 
-
-
     #region Ending
 
     public Endings CurrentEndingState { get; set; }
@@ -1753,7 +1517,10 @@ void ChangeEggState()
 
 
 
-#endregion
+    #endregion
+
+
+
 }
 public class Save_DayResult
 {

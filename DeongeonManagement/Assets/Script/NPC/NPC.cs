@@ -16,6 +16,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         SetRandomClothes();
         Start_Setting();
         Init_Trait();
+        TurnOverEventSetting();
     }
 
 
@@ -628,18 +629,18 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         renderer.sortingOrder = originLayer;
     }
 
-    protected IEnumerator EventCor(string dialogueName, float dis = 1.5f)
-    {
-        yield return new WaitUntil(() => Vector3.Distance(transform.position, Main.Instance.Dungeon.position) < dis);
-        Managers.Dialogue.ShowDialogueUI(dialogueName, transform);
+    //protected IEnumerator EventCor(string dialogueName, float dis = 1.5f)
+    //{
+    //    yield return new WaitUntil(() => Vector3.Distance(transform.position, Main.Instance.Dungeon.position) < dis);
+    //    Managers.Dialogue.ShowDialogueUI(dialogueName, transform);
 
-        anim.Play(Define.ANIM_Idle);
+    //    anim.Play(Define.ANIM_Idle);
 
-        yield return null;
-        yield return UserData.Instance.Wait_GamePlay;
+    //    yield return null;
+    //    yield return UserData.Instance.Wait_GamePlay;
 
-        Anim_State = Anim_State;
-    }
+    //    Anim_State = Anim_State;
+    //}
 
 
 
@@ -690,11 +691,30 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     [field:SerializeField]
     public int HP { get; set; }
     public int HP_MAX { get; set; }
-    //? HP_Runaway로 도망칠 hp를 따로 정하는것도 방법
+    public void Change_HP(int value)
+    {
+        HP += value;
+    }
+
     [field: SerializeField]
     public int ActionPoint { get; set; }
+    public void Change_ActionPoint(int value)
+    {
+        if (value == 0) return;
+
+        if (TraitCheck(TraitGroup.Void))
+        {
+            value = Mathf.Clamp(value, -1, 1);
+        }
+        ActionPoint += value;
+    }
+
     [field: SerializeField]
     public int Mana { get; set; }
+    public void Change_Mana(int value)
+    {
+        Mana += value;
+    }
 
 
     public float Speed_Ground { get; set; } //? 클수록 빠름
@@ -913,6 +933,10 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         MoveToTargetTile(PriorityList[0]);
     }
 
+    protected virtual void TurnOverEventSetting()
+    {
+
+    }
 
 
     void NPC_Return()
@@ -1039,7 +1063,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
             return NPCState.Die;
         }
 
-        if (ActionPoint <= 0 || Mana <= 0)
+        if (ActionPoint <= 0)
         {
             if (TraitCheck(TraitGroup.Indomitable) == false)
             {
@@ -1047,12 +1071,17 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
             }
         }
 
+        if (Mana <= 0)
+        {
+            if (TraitCheck(TraitGroup.Indomitable) == false && TraitCheck(TraitGroup.Void) == false)
+            {
+                return NPCState.Return_Satisfaction;
+            }
+        }
+
         if (HP < (HP_MAX / RunawayHpRatio))
         {
-            if (TraitCheck(TraitGroup.Indomitable) == false)
-            {
-                return NPCState.Runaway;
-            }
+            return NPCState.Runaway;
         }
 
 

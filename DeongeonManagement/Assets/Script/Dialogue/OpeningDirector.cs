@@ -41,7 +41,7 @@ public class OpeningDirector : MonoBehaviour
         pixelCam.assetsPPU = Scene_1_PPU;
         player.transform.position = Scene_1_Player_Pos;
 
-        Managers.Dialogue.ShowDialogueUI("Opening_1", player.transform);
+        Managers.Dialogue.ShowDialogueUI(DialogueName.Opening_1, player.transform);
 
         StartCoroutine(DialogueOver(() => StartCoroutine(Scene_1_1())));
     }
@@ -70,7 +70,7 @@ public class OpeningDirector : MonoBehaviour
         }
         playerAnim.Play(Define.ANIM_Idle);
 
-        Managers.Dialogue.ShowDialogueUI("Opening_2", player.transform);
+        Managers.Dialogue.ShowDialogueUI(DialogueName.Opening_2, player.transform);
 
         StartCoroutine(DialogueOver(() => StartCoroutine(Scene_1_2())));
     }
@@ -127,7 +127,7 @@ public class OpeningDirector : MonoBehaviour
         }
         playerAnim.Play(Define.ANIM_Idle);
 
-        Managers.Dialogue.ShowDialogueUI("Opening_3", player.transform);
+        Managers.Dialogue.ShowDialogueUI(DialogueName.Opening_3, player.transform);
 
         StartCoroutine(DialogueOver(() => StartCoroutine(Scene2_2())));
     }
@@ -146,7 +146,7 @@ public class OpeningDirector : MonoBehaviour
         playerAnim.Play(Define.ANIM_Idle);
 
 
-        Managers.Dialogue.ShowDialogueUI("Opening_4", player.transform);
+        Managers.Dialogue.ShowDialogueUI(DialogueName.Opening_4, player.transform);
 
         StartCoroutine(DialogueOver(() => GoToGame()));
     }

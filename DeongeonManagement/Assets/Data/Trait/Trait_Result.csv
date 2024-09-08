@@ -51,6 +51,7 @@ ID,TraitName,Name_KR,Detail_KR,Acquire_KR,Name_EN,Detail_EN,Acquire_EN,Name_JP,D
 9002,Trample,짓밟기,,,Trample,,,踏みつけ,,
 9003,Swiftness,신속함,,,Swiftness,,,迅速性,,
 9004,Indomitable,불굴의의지,,,Indomitable,,,不屈の意志,,
+9005,Void,공허,,,Void,,,空虚,,
 ,,,,,,,,,,
 9900,Hunting:Slime,사냥:슬라임,,,Hunting:Slime,,,狩猟:スライム,,
 9901,Hunting:Golem,사냥:골렘,,,Hunting:Golem,,,狩猟:ゴーレム,,

@@ -12,7 +12,7 @@ public class Exit : Facility
     {
         isOnlyOne = true;
         isClearable = true;
-        if (PlacementInfo.Place_Floor.FloorIndex == 3)
+        if (PlacementInfo.Place_Floor.FloorIndex == (int)Define.DungeonFloor.Egg)
         {
             isClearable = false;
         }

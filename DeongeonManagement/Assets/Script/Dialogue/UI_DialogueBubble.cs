@@ -255,7 +255,8 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
                 Transform pos;
                 if (Managers.Scene.GetCurrentScene() == SceneName._2_Management)
                 {
-                    pos = GameManager.Placement.Find_Placement(targetPos);
+                    //pos = GameManager.Placement.Find_Placement(targetPos);
+                    pos = GameObject.Find(targetPos).transform;
                 }
                 else
                 {

@@ -55,11 +55,16 @@ public class EventManager : MonoBehaviour
 
     public void TurnStart()
     {
+        Debug.Log(CurrentClearEventData.ShowClearData());
+
+
         CurrentTurn = Main.Instance.Turn;
         CurrentQuestAction?.Invoke();
 
         TurnStart_EventSchedule();
-        Add_ReservationQuest();
+        Add_ReservationGuildQuest();
+
+        AddDayEventByCondition();
 
         //? 시작이벤트 발생부분
         OneDayAfter();
@@ -69,9 +74,6 @@ public class EventManager : MonoBehaviour
             Run_DayEventAction(TodayEvent.EventIndex);
         }
     }
-
-
-    public Action TurnOverEventReserve;
     public void TurnOver()
     {
         TurnOverEventReserve?.Invoke();
@@ -79,6 +81,21 @@ public class EventManager : MonoBehaviour
 
         TurnOver_EventSchedule();
     }
+
+
+    Action TurnOverEventReserve;
+    public void AddTurnOverEventReserve(Action action)
+    {
+        if (TurnOverEventReserve == null)
+        {
+            TurnOverEventReserve = action;
+        }
+        else
+        {
+            TurnOverEventReserve += action;
+        }
+    }
+
 
 
     void QuestDataReset()
@@ -91,6 +108,8 @@ public class EventManager : MonoBehaviour
         DayEventList = new List<DayEvent>();
 
         Reservation_Quest = new List<Quest_Reservation>();
+        CurrentClearEventData = new ClearEventData();
+        //CurrentClearEventData.Init_List();
     }
 
     public void NewGameReset()
@@ -106,7 +125,6 @@ public class EventManager : MonoBehaviour
         {
             case 8:
                 Add_GuildQuest_Special(2102, false);
-                
                 break;
         }
     }
@@ -126,6 +144,112 @@ public class EventManager : MonoBehaviour
     }
 
 
+
+    #region 조건에 따라 DayEvent 추가하는 곳 (매턴시작시 발동)
+
+    void AddDayEventByCondition()
+    {
+        int pop = Main.Instance.PopularityOfDungeon;
+        int danger = Main.Instance.DangerOfDungeon;
+
+        if (danger >= 300)
+        {
+            DayEventLabel currentEvent = DayEventLabel.BloodSong_Appear;
+            if (CurrentClearEventData.Check_AlreadyClear(currentEvent) == false && Check_AlreadyReserve(currentEvent) == false)
+            {
+                AddDayEvent(currentEvent, priority: 1, embargo: 0, delay: 0);
+            }
+        }
+    }
+
+
+    #endregion
+
+
+
+
+    #region 이벤트 퀘스트 관련 모든 정보 (세이브파일과 연동됨. UserData.SavefileConfig같은거)
+    public ClearEventData CurrentClearEventData { get; set; }
+    public class ClearEventData
+    {
+        public HashSet<DayEventLabel> Clear_DayEventList;
+        public HashSet<DialogueName> Clear_DialogueEventList;
+        //List<int> Clear_EventList;
+
+
+        public ClearEventData()
+        {
+            Clear_DayEventList = new HashSet<DayEventLabel>();
+            Clear_DialogueEventList = new HashSet<DialogueName>();
+        }
+
+        public ClearEventData DeepCopy()
+        {
+            var data = new ClearEventData();
+            data.Clear_DayEventList = new HashSet<DayEventLabel>(Clear_DayEventList);
+            data.Clear_DialogueEventList = new HashSet<DialogueName>(Clear_DialogueEventList);
+            return data;
+        }
+
+
+        public void AddClear(DayEventLabel _DayEventName)
+        {
+            Clear_DayEventList.Add(_DayEventName);
+        }
+        public void AddClear(DialogueName _EventName)
+        {
+            Clear_DialogueEventList.Add(_EventName);
+        }
+
+
+
+        public bool Check_AlreadyClear(DayEventLabel _DayEventName)
+        {
+            foreach (var item in Clear_DayEventList)
+            {
+                if (item == _DayEventName)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool Check_AlreadyClear(DialogueName _EventName)
+        {
+            foreach (var item in Clear_DialogueEventList)
+            {
+                if (item == _EventName)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        public string ShowClearData()
+        {
+            string data = "";
+            foreach (var item in Clear_DayEventList)
+            {
+                data += $"{item.ToString()}\n";
+            }
+            foreach (var item in Clear_DialogueEventList)
+            {
+                data += $"{item.ToString()}\n";
+            }
+            return data;
+        }
+    }
+
+
+
+    #endregion
+
+
+
+
+    #region EventDataSave & Load
     public DataManager.SaveData_EventData Data_SaveEventManager()
     {
         DataManager.SaveData_EventData save = new DataManager.SaveData_EventData();
@@ -166,6 +290,12 @@ public class EventManager : MonoBehaviour
                 save.Reservation_Quest.Add(item.DeepCopy());
             }
         }
+
+        if (CurrentClearEventData != null)
+        {
+            save.CurrentClearEventData = CurrentClearEventData.DeepCopy();
+        }
+
         return save;
     }
 
@@ -226,8 +356,13 @@ public class EventManager : MonoBehaviour
             }
             Reservation_Quest = newData;
         }
-    }
 
+        if (LoadData.eventData.CurrentClearEventData != null)
+        {
+            CurrentClearEventData = LoadData.eventData.CurrentClearEventData.DeepCopy();
+        }
+    }
+    #endregion
 
 
     #region 길드 방문 알림 표시
@@ -370,6 +505,17 @@ public class EventManager : MonoBehaviour
     }
 
     public List<DayEvent> DayEventList { get; set; } = new List<DayEvent>();
+    bool Check_AlreadyReserve(DayEventLabel _eventName)
+    {
+        foreach (var item in DayEventList)
+        {
+            if (item.EventIndex == _eventName)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
     void OneDayAfter()
     {
@@ -378,8 +524,6 @@ public class EventManager : MonoBehaviour
             item.Delay--;
         }
     }
-
-
     DayEvent GetDayEvent()
     {
         List<DayEvent> CurrentAbleEvent = new List<DayEvent>();
@@ -420,6 +564,8 @@ public class EventManager : MonoBehaviour
         }
     }
 
+
+
     public void AddDayEvent(DayEventLabel eventName, int priority, int embargo, int delay)
     {
         DayEventList.Add(new DayEvent(eventName, priority, embargo, delay));
@@ -431,10 +577,6 @@ public class EventManager : MonoBehaviour
             Debug.Log("은퇴한 영웅 이벤트");
             GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_RetiredHero.ToString(), 9);
         });
-
-        //DayEventActionRegister.Add(DayEventLabel.Test1, () => Debug.Log("테스트1 데이이벤트 시작"));
-        //DayEventActionRegister.Add(DayEventLabel.Test2, () => Debug.Log("테스트2 데이이벤트 시작"));
-        //DayEventActionRegister.Add(DayEventLabel.Test3, () => Debug.Log("테스트3 데이이벤트 시작"));
 
         DayEventActionRegister.Add(DayEventLabel.Goblin_Appear, () => {
             Debug.Log("고블린 첫등장 이벤트");
@@ -454,6 +596,25 @@ public class EventManager : MonoBehaviour
             Debug.Log("던전의 재앙 이벤트");
             GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Catastrophe.ToString(), 10);
         });
+
+        DayEventActionRegister.Add(DayEventLabel.BloodSong_Appear, () => {
+            Debug.Log("Blood Song 이벤트");
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Blood_Tanker_A.ToString(), 10f);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Blood_Warrior_A.ToString(), 10.5f);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Blood_Wizard_A.ToString(), 11f);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Blood_Elf_A.ToString(), 11.5f);
+        });
+
+
+        DayEventActionRegister.Add(DayEventLabel.Guild_Raid_1, () => {
+            Debug.Log("길드 토벌대 1 이벤트");
+            Day25Event_Direction();
+        });
+
+        DayEventActionRegister.Add(DayEventLabel.Guild_Raid_2, () => {
+            Debug.Log("길드 토벌대 2 이벤트");
+            Day30Event_Direction();
+        });
     }
 
 
@@ -463,6 +624,7 @@ public class EventManager : MonoBehaviour
         if (DayEventActionRegister.TryGetValue(dayEventName, out act))
         {
             act.Invoke();
+            CurrentClearEventData.AddClear(dayEventName);
         }
     }
 
@@ -527,7 +689,7 @@ public class EventManager : MonoBehaviour
         Reservation_Quest.Add(new Quest_Reservation(day, questIndex));
     }
 
-    public void Add_ReservationQuest() //? 매일 턴이 바뀔때마다
+    public void Add_ReservationGuildQuest() //? 매일 턴이 바뀔때마다
     {
         var removeList = new List<Quest_Reservation>();
         foreach (var item in Reservation_Quest)
@@ -656,17 +818,29 @@ public class EventManager : MonoBehaviour
             Debug.Log("은퇴한 영웅 방문 대기중");
         });
 
+
+
+
+        //? 퀘스트 등록용
+        forQuestAction.Add(772102, () =>
+        {
+            Debug.Log("약초 직업류 방문확률 3배!!");
+            GameManager.NPC.Event_Herb = true;
+        });
+
         forQuestAction.Add(774020, () =>
         {
             GameManager.NPC.AddEventNPC(NPC_Type_SubEvent.Heroine.ToString(), 3, NPC_Typeof.NPC_Type_SubEvent);
         });
 
-
-
-        forQuestAction.Add(772102, () =>
+        forQuestAction.Add(777010, () =>
         {
-            Debug.Log("약초 직업류 방문확률 3배!!");
-            GameManager.NPC.Event_Herb = true;
+            Debug.Log("1차 길드레이드 준비중");
+        });
+
+        forQuestAction.Add(777020, () =>
+        {
+            Debug.Log("2차 길드레이드 준비중");
         });
     }
     void AddDialogueAction() //? 대화를 통해서 호출하는곳. 코드상에는 없고 Dialogue에 Index로만 존재함
@@ -698,9 +872,10 @@ public class EventManager : MonoBehaviour
 
         GuildNPCAction.Add(4040, () =>
         {
-            Managers.Dialogue.ActionReserve(() =>
+            GuildManager.Instance.AddBackAction(() =>
             {
                 Debug.Log("히로인 합류");
+                GameManager.Monster.Resize_MonsterSlot();
                 var data = GameManager.Monster.GetData("Heroine");
                 var mon = GameManager.Placement.CreatePlacementObject(data.prefabPath, null, PlacementType.Monster) as Monster;
                 mon.MonsterInit();
@@ -709,9 +884,12 @@ public class EventManager : MonoBehaviour
                 GameManager.Monster.AddMonster(mon);
             });
         });
+
+        GuildNPCAction.Add(7010, () => { AddQuestAction(777010); });
+        GuildNPCAction.Add(7020, () => { AddQuestAction(777020); });
     }
 
-
+    //? 모든 Main Event를 포함해야함
     void AddEventAction()
     {
         EventAction.Add("Tutorial_Orb", () => {
@@ -747,21 +925,19 @@ public class EventManager : MonoBehaviour
 
 
         //? Diglogue를 통해 호출
-        EventAction.Add("Day8_Event_Die", () => 
+        EventAction.Add("RedHair_Defeat", () =>
         {
-            Debug.Log("혈기왕성모험가 패배 이벤트 - 은퇴한 영웅 이벤트 연계");
-            AddDayEvent(DayEventLabel.RetiredHero, priority: 0, embargo: 10, delay: 0);
+            Debug.Log("RedHair - RetiredHero 이벤트 연계");
+            AddDayEvent(DayEventLabel.RetiredHero, priority: 0, embargo: 12, delay: 0);
             GuildManager.Instance.AddInstanceGuildNPC(GuildNPC_LabelName.RetiredHero);
 
-            //? 모험가 패배하면 딜레이없이 바로 이벤트 추가하기(일단 BIC 오프 임시로 하는거긴함)
-            //ReservationToQuest(1, 15010); 
-            Add_GuildQuest_Special(15010);
+            ReservationToQuest(1, 15010); 
+            //Add_GuildQuest_Special(15010);
 
-            var e8 = GameObject.Find("Event_Day8");
+            var e8 = GameManager.Placement.Find_Placement(NPC_Type_MainEvent.EM_RedHair);
             if (e8 != null)
             {
                 GameManager.Placement.Disable(e8.GetComponent<NPC_MainEvent>());
-
                 var fade = Managers.UI.ShowPopUp<UI_Fade>();
                 fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 2, true);
             }
@@ -770,11 +946,10 @@ public class EventManager : MonoBehaviour
         EventAction.Add("Hero_Die", () =>
         {
             Debug.Log("영웅 패배 이벤트");
-            var e8 = GameObject.Find("Event_RetiredHero");
+            var e8 = GameManager.Placement.Find_Placement(NPC_Type_MainEvent.EM_RetiredHero);
             if (e8 != null)
             {
                 GameManager.Placement.Disable(e8.GetComponent<NPC_MainEvent>());
-
                 var fade = Managers.UI.ShowPopUp<UI_Fade>();
                 fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 2, true);
             }
@@ -819,9 +994,25 @@ public class EventManager : MonoBehaviour
             fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 1, true);
 
             var player = GameObject.Find("Player");
+            player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+            player.GetComponent<Animator>().Play(Define.ANIM_Idle_Sit);
+            //player.GetComponentInChildren<SpriteRenderer>().flipX = true;
+            player.GetComponentInChildren<SpriteRenderer>().transform.localScale = Vector3.one;
+
             player.transform.position = GuildHelper.Instance.GetPos(GuildHelper.Pos.Table2).position;
-            FindAnyObjectByType<UI_DialogueBubble>().Bubble_MoveToTarget(player.transform);
+            //FindAnyObjectByType<UI_DialogueBubble>().Bubble_MoveToTarget(player.transform);
         });
+
+        EventAction.Add("Heroine_EndDialogue", () =>
+        {
+            var fade = Managers.UI.ShowPopUp<UI_Fade>();
+            fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 1, true);
+
+            var player = GameObject.Find("Player");
+            player.GetComponent<Animator>().Play(Define.ANIM_Idle);
+            player.transform.position = GuildHelper.Instance.GetPos(GuildHelper.Pos.Table2).position + Vector3.up;
+        });
+
 
         EventAction.Add("Heroine_Quest_3", () =>
         {
@@ -837,15 +1028,22 @@ public class EventManager : MonoBehaviour
         EventAction.Add("Heroine_Quest_Prison", () =>
         {
             Debug.Log("히로인 붙잡힘");
+            Add_GuildQuest_Special(4040, true);
             var fade = Managers.UI.ShowPopUp<UI_Fade>();
-            fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 1, true);
+            fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 2, true);
 
             var player = Main.Instance.Player;
-            Transform heroine = null;
-            //player.GetComponentInChildren<SpriteRenderer>().transform.localScale = new Vector3(-1, 1, 1);
-            //player.transform.position = GuildHelper.Instance.GetPos(GuildHelper.Pos.Table2).position;
+            GameObject heroine = Managers.Resource.Instantiate("Monster/Heroine");
+            heroine.GetComponent<Heroine>().enabled = false;
+            heroine.GetComponentInChildren<SpriteRenderer>().flipX = true;
+            heroine.GetComponentInChildren<SpriteRenderer>().sortingOrder = -1;
+            Transform prison = GameManager.Technical.Prison.transform;
 
-            FindAnyObjectByType<UI_DialogueBubble>().Bubble_MoveToTarget(player.transform);
+            player.position = prison.position + new Vector3(-1, -1, 0);
+            heroine.transform.position = prison.position + new Vector3(0.5f, 0, 0);
+
+            Camera.main.GetComponent<CameraControl>().ChasingTarget(prison.position, 2);
+            FindAnyObjectByType<UI_DialogueBubble>().Bubble_MoveToTarget(heroine.transform);
         });
 
         EventAction.Add("Heroine_Quest_Prison2", () =>
@@ -854,27 +1052,37 @@ public class EventManager : MonoBehaviour
             var fade = Managers.UI.ShowPopUp<UI_Fade>();
             fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 1, true);
 
+            Managers.Resource.Destroy(GameObject.Find("Heroine"));
+
             var player = Main.Instance.Player;
             player.position = player.GetComponent<IPlacementable>().PlacementInfo.Place_Tile.worldPosition;
+
+            Camera.main.GetComponent<CameraControl>().ChasingTarget(player.position, 2);
             FindAnyObjectByType<UI_DialogueBubble>().Bubble_MoveToTarget(player.transform);
         });
 
         EventAction.Add("Heroine_Join", () =>
         {
             Debug.Log("히로인 동료");
+
             var fade = Managers.UI.ShowPopUp<UI_Fade>();
             fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 1, true);
 
             var player = GameObject.Find("Player");
+            player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+            player.GetComponent<Animator>().Play(Define.ANIM_Idle_Sit);
+
+            player.GetComponentInChildren<SpriteRenderer>().transform.localScale = Vector3.one;
+
             player.transform.position = GuildHelper.Instance.GetPos(GuildHelper.Pos.Table2).position;
-            FindAnyObjectByType<UI_DialogueBubble>().Bubble_MoveToTarget(player.transform);
+            //FindAnyObjectByType<UI_DialogueBubble>().Bubble_MoveToTarget(player.transform);
         });
 
 
 
-        EventAction.Add("Day8_ReturnEvent", () =>
+        EventAction.Add("RedHair_Return", () =>
         {
-            Debug.Log("혈기왕성모험가 리턴 이벤트 - 고블린스토리 연계");
+            Debug.Log("RedHair_Return - Goblin 연계");
             AddDayEvent(DayEventLabel.Goblin_Appear, priority: 0, embargo: 9, delay: 1);
         });
 
@@ -891,7 +1099,7 @@ public class EventManager : MonoBehaviour
         EventAction.Add("Goblin_Pass", () =>
         {
             Debug.Log("고블린 Die or Empty - 던전의 재앙 이벤트");
-            AddDayEvent(DayEventLabel.Catastrophe, priority: 0, embargo: 15, delay: 0);
+            AddDayEvent(DayEventLabel.Catastrophe, priority: 0, embargo: 12, delay: 0);
             Add_GuildQuest_Special(3014); //? 길드원한테 소식듣는 퀘스트 추가 - 이후 1140으로 연결
         });
 
@@ -935,6 +1143,213 @@ public class EventManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(1);
         Managers.Scene.LoadSceneAsync(SceneName._7_NewEnding, false);
     }
+
+    #region MainEvent 상세내용
+
+    void Day25Event_Direction()
+    {
+        var Dungeon = Main.Instance.Dungeon;
+        GameManager.NPC.CustomStage = true;
+        UserData.Instance.GameMode = Define.GameMode.Stop;
+
+        var fade = Managers.UI.ShowPopUp<UI_Fade>();
+        fade.SetFadeOption(UI_Fade.FadeMode.WhiteIn, 1, true);
+
+
+        List<NPC> sol1List = new List<NPC>();
+        List<NPC> sol2List = new List<NPC>();
+
+        var cap_A = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_A.ToString());
+        cap_A.transform.position = Dungeon.transform.position + (Vector3.right * 1.5f);
+        GameManager.Placement.Visible(cap_A);
+
+        for (int i = 0; i < 7; i++)
+        {
+            var sol_1 = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier1.ToString());
+            sol_1.transform.position = Dungeon.transform.position + (Vector3.right * 0.5f * i) + Vector3.right * 2.5f;
+            sol_1.Anim_State = NPC.animState.left;
+            sol_1.Anim_State = NPC.animState.Ready;
+
+            GameManager.Placement.Visible(sol_1);
+            sol1List.Add(sol_1);
+        }
+
+        var cap_B = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_B.ToString());
+        cap_B.transform.position = Dungeon.transform.position + (Vector3.right * -1.5f);
+        cap_B.Anim_State = NPC.animState.left;
+        cap_B.Anim_State = NPC.animState.Idle;
+        GameManager.Placement.Visible(cap_B);
+
+        for (int i = 0; i < 7; i++)
+        {
+            var sol_1 = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier2.ToString());
+            sol_1.transform.position = Dungeon.transform.position + (Vector3.right * -0.5f * i) + Vector3.right * -2.5f;
+            sol_1.Anim_State = NPC.animState.Ready;
+
+            GameManager.Placement.Visible(sol_1);
+            sol2List.Add(sol_1);
+        }
+
+        Managers.Dialogue.ShowDialogueUI(DialogueName.Guild_Raid_1, cap_A.transform);
+        StartCoroutine(Wait_Day25_Dialogue(cap_A, cap_B, sol1List, sol2List));
+    }
+
+    IEnumerator Wait_Day25_Dialogue(NPC cap_A, NPC cap_B, List<NPC> sol1, List<NPC> sol2)
+    {
+        var Dungeon = Main.Instance.Dungeon;
+        yield return null;
+        yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
+
+        cap_A.Departure(cap_A.transform.position, Dungeon.position);
+        foreach (var item in sol1)
+        {
+            item.Departure(item.transform.position, Dungeon.position);
+        }
+
+        yield return new WaitForSeconds(6);
+
+        cap_B.Departure(cap_B.transform.position, Dungeon.position);
+        foreach (var item in sol2)
+        {
+            item.Departure(item.transform.position, Dungeon.position);
+        }
+    }
+    void Day30Event_Direction()
+    {
+        var Dungeon = Main.Instance.Dungeon;
+
+        GameManager.NPC.CustomStage = true;
+        UserData.Instance.GameMode = Define.GameMode.Stop;
+
+        var fade = Managers.UI.ShowPopUp<UI_Fade>();
+        fade.SetFadeOption(UI_Fade.FadeMode.WhiteIn, 1, true);
+
+
+        List<NPC> bloodSong = new List<NPC>();
+        //? 피의노래 파티원 생성
+        {
+            var party = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Blood_Tanker_B.ToString());
+            party.transform.position = Dungeon.transform.position + (Vector3.left * 6.5f);
+            GameManager.Placement.Visible(party);
+            bloodSong.Add(party);
+        }
+        {
+            var party = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Blood_Warrior_B.ToString());
+            party.transform.position = Dungeon.transform.position + (Vector3.left * 7);
+            GameManager.Placement.Visible(party);
+            bloodSong.Add(party);
+        }
+        {
+            var party = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Blood_Wizard_B.ToString());
+            party.transform.position = Dungeon.transform.position + (Vector3.left * 7.5f);
+            GameManager.Placement.Visible(party);
+            bloodSong.Add(party);
+        }
+        {
+            var party = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Blood_Elf_B.ToString());
+            party.transform.position = Dungeon.transform.position + (Vector3.left * 8);
+            GameManager.Placement.Visible(party);
+            bloodSong.Add(party);
+        }
+
+        //? 대장급 생성
+        var Cap_A = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_A.ToString());
+        Cap_A.transform.position = Dungeon.transform.position + (Vector3.right * 1);
+        Cap_A.Anim_State = NPC.animState.right;
+        Cap_A.Anim_State = NPC.animState.Ready;
+        GameManager.Placement.Visible(Cap_A);
+
+        var Cap_B = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_B.ToString());
+        Cap_B.transform.position = Dungeon.transform.position + (Vector3.right * 5);
+        Cap_B.Anim_State = NPC.animState.right;
+        Cap_B.Anim_State = NPC.animState.Ready;
+        GameManager.Placement.Visible(Cap_B);
+
+        var Captine_C = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_BlueKnight.ToString());
+        Captine_C.transform.position = Dungeon.transform.position + (Vector3.left * 1.5f);
+        GameManager.Placement.Visible(Captine_C);
+
+
+        List<NPC> sol1List = new List<NPC>();
+        List<NPC> sol2List = new List<NPC>();
+        List<NPC> sol3List = new List<NPC>();
+
+        for (int i = 0; i < 5; i++)
+        {
+            var sol = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier1.ToString());
+            sol.transform.position = Dungeon.transform.position + (Vector3.right * 0.5f * i) + Vector3.right * 2.0f;
+            sol.Anim_State = NPC.animState.left;
+            sol.Anim_State = NPC.animState.Ready;
+
+            GameManager.Placement.Visible(sol);
+            sol1List.Add(sol);
+        }
+        for (int i = 0; i < 5; i++)
+        {
+            var sol = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier2.ToString());
+            sol.transform.position = Dungeon.transform.position + (Vector3.right * 0.5f * i) + Vector3.right * 6.0f;
+            sol.Anim_State = NPC.animState.left;
+            sol.Anim_State = NPC.animState.Ready;
+
+            GameManager.Placement.Visible(sol);
+            sol2List.Add(sol);
+        }
+        for (int i = 0; i < 5; i++)
+        {
+            var sol = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier3.ToString());
+            sol.transform.position = Dungeon.transform.position + (Vector3.left * 0.5f * i) + Vector3.left * 2.5f;
+            sol.Anim_State = NPC.animState.right;
+            sol.Anim_State = NPC.animState.Ready;
+
+            GameManager.Placement.Visible(sol);
+            sol3List.Add(sol);
+        }
+
+        Managers.Dialogue.ShowDialogueUI(DialogueName.Guild_Raid_2, Captine_C.transform);
+        StartCoroutine(Wait_Day30_Dialogue(Cap_A, Cap_B, Captine_C, sol1List, sol2List, sol3List, bloodSong));
+    }
+
+    IEnumerator Wait_Day30_Dialogue(NPC cap_A, NPC cap_B, NPC cap_C, List<NPC> sol1, List<NPC> sol2, List<NPC> sol3, List<NPC> bloodSong)
+    {
+        var Dungeon = Main.Instance.Dungeon;
+
+        yield return null;
+        yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
+
+        cap_A.Departure(cap_A.transform.position, Dungeon.position);
+        foreach (var item in sol1)
+        {
+            item.Departure(item.transform.position, Dungeon.position);
+        }
+
+        yield return new WaitForSeconds(6);
+
+        cap_B.Departure(cap_B.transform.position, Dungeon.position);
+        foreach (var item in sol2)
+        {
+            item.Departure(item.transform.position, Dungeon.position);
+        }
+
+        yield return new WaitForSeconds(10);
+
+        cap_C.Departure(cap_C.transform.position, Dungeon.position);
+        foreach (var item in sol3)
+        {
+            item.Departure(item.transform.position, Dungeon.position);
+        }
+
+        yield return new WaitForSeconds(8);
+
+        foreach (var item in bloodSong)
+        {
+            item.Departure(item.transform.position, Dungeon.position);
+        }
+
+    }
+
+
+    #endregion
+
 
 
 
@@ -1149,6 +1564,10 @@ public class EventManager : MonoBehaviour
             return true;
         }
 
+        //? 이 다음은 인기도랑 위험도 차이가 300 이상일 때 랭크업 할 수 있도록 (둘다올리는걸 권장하지 않음)
+        //? 물론 수치가 너무 커지면 또 따로 업글해도댐.
+
+
         return false;
     }
 
@@ -1180,6 +1599,10 @@ public enum DayEventLabel
 
     RetiredHero = 153,
 
+    BloodSong_Appear = 200,
+
+    Guild_Raid_1 = 250,
+    Guild_Raid_2 = 300,
 }
 
 

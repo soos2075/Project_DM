@@ -260,7 +260,7 @@ public class GuildManager : MonoBehaviour
 
 
 }
-
+[Serializable]
 public class GuildNPC_Data
 {
     // id
@@ -292,7 +292,8 @@ public class GuildNPC_Data
         {
             InstanceQuestList.Add(_questIndex);
         }
-        else if (!OptionList.Contains(_questIndex))
+
+        if (!special && !OptionList.Contains(_questIndex))
         {
             OptionList.Add(_questIndex);
         }

@@ -13,7 +13,7 @@ public class Entrance : Facility
         isOnlyOne = true;
         isClearable = true;
 
-        if (PlacementInfo.Place_Floor.FloorIndex == 3)
+        if (PlacementInfo.Place_Floor.FloorIndex == (int)Define.DungeonFloor.Egg)
         {
             GameManager.Facility.TurnOverAction += () => GameManager.Facility.RemoveFacility(this);
         }

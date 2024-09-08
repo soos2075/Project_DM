@@ -164,12 +164,20 @@ public class NPC_SubEvent : NPC
         }
         else
         {
-            EventManager.Instance.Add_GuildQuest_Special(4030, true);
+            switch (NPCType)
+            {
+                case NPC_Type_SubEvent.Heroine:
+                    EventManager.Instance.Add_GuildQuest_Special(4030, true);
+                    break;
+
+                case NPC_Type_SubEvent.DungeonRacer:
+                    break;
+            }
         }
 
-
-        UI_EventBox.AddEventText($"¢Â{Name_Color} {UserData.Instance.LocaleText("Event_Defeat")}");
         GameManager.NPC.InactiveNPC(this);
+        UI_EventBox.AddEventText($"¢Â{Name_Color} {UserData.Instance.LocaleText("Event_Defeat")}");
+
         //AddCollectionPoint();
     }
 
@@ -179,8 +187,8 @@ public class NPC_SubEvent : NPC
         switch (NPCType)
         {
             case NPC_Type_SubEvent.Heroine:
-                EventManager.Instance.TurnOverEventReserve = () => Managers.Dialogue.ShowDialogueUI(DialogueName.Heroine_Prison, Main.Instance.Player);
-                EventManager.Instance.RemoveQuestAction(4020);
+                EventManager.Instance.AddTurnOverEventReserve(() => Managers.Dialogue.ShowDialogueUI(DialogueName.Heroine_Prison, Main.Instance.Player));
+                EventManager.Instance.RemoveQuestAction(774020);
                 EventManager.Instance.Clear_GuildQuest(4030);
                 break;
 

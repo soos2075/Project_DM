@@ -76,6 +76,7 @@ public class MonsterManager
         }
 
         list.Sort((a, b) => a.id.CompareTo(b.id));
+        list.Sort((a, b) => a.unlockRank.CompareTo(b.unlockRank));
         return list;
     }
 
@@ -270,12 +271,24 @@ public class MonsterManager
 
     public void Resize_MonsterSlot()
     {
-        Array.Resize(ref Monsters, 10 + (Main.Instance.DungeonRank - 1) * 2 );
+        int size = 10 + (Main.Instance.DungeonRank - 1) * 2;
+        if (EventManager.Instance.CurrentClearEventData.Check_AlreadyClear(DialogueName.Heroine_40))
+        {
+            size++;
+        }
+
+        Array.Resize(ref Monsters, size);
     }
 
     void Init_MonsterSlot()
     {
-        Monsters = new Monster[10 + (Main.Instance.DungeonRank - 1) * 2];
+        int size = 10 + (Main.Instance.DungeonRank - 1) * 2;
+        if (EventManager.Instance.CurrentClearEventData.Check_AlreadyClear(DialogueName.Heroine_40))
+        {
+            size++;
+        }
+
+        Monsters = new Monster[size];
     }
 
     #endregion
@@ -416,7 +429,8 @@ public class Save_MonsterData
 
     //? GameManager가 아닌 세이브파일만으로 데이터를 받아와야 할 경우에 사용할거
     public string savedName;
-    public string spritePath;
+    public string categoryName;
+    public string labelName;
 
 
     //? 몬스터 기록 데이터(특성용으로 쓰는데 도감용으로 써도 무방할듯)
@@ -462,7 +476,8 @@ public class Save_MonsterData
 
 
         savedName = monster.Data.labelName;
-        spritePath = monster.Data.spritePath;
+        categoryName = monster.Data.SLA_category;
+        labelName = monster.Data.SLA_label;
 
         traitCounter = monster.traitCounter;
         currentTraitList = monster.SaveTraitList();

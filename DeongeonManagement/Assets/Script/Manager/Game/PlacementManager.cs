@@ -38,6 +38,10 @@ public class PlacementManager
         }
         return null;
     }
+    public Transform Find_Placement(NPC_Type_MainEvent objectName)
+    {
+        return Find_Placement(objectName.ToString());
+    }
 
     public bool DisableCheck(IPlacementable obj)
     {

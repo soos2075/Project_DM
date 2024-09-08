@@ -480,7 +480,7 @@ public class UI_Monster_Management : UI_PopUp
             GameManager.Trait.CreateTraitBar(Current.monster.TraitList[i].ID, TraitPanel);
         }
         
-        GetObject(((int)Etc.Profile)).GetComponent<Image>().sprite = Managers.Sprite.GetSprite(Current.monster.Data.spritePath);
+        GetObject(((int)Etc.Profile)).GetComponent<Image>().sprite = Managers.Sprite.GetSprite_SLA(Current.monster.Data.SLA_category, Current.monster.Data.SLA_label);
     }
 
     #endregion

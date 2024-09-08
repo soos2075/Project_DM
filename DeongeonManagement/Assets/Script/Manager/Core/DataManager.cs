@@ -396,6 +396,8 @@ public class DataManager
         public List<EventManager.DayEvent> DayEventList;
 
         public List<EventManager.Quest_Reservation> Reservation_Quest;
+
+        public EventManager.ClearEventData CurrentClearEventData;
     }
     #endregion
 
@@ -602,9 +604,6 @@ public class DataManager
 
         int highTurn = Mathf.Max(saveData.turn, UserData.Instance.GetDataInt(PrefsKey.High_Turn, 0));
         UserData.Instance.SetData(PrefsKey.High_Turn, highTurn);
-
-
-
 
         return saveData;
     }
