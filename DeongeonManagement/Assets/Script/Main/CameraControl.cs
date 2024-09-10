@@ -23,16 +23,19 @@ public class CameraControl : MonoBehaviour
 
 
     UI_Management UI_Main;
+    UI_ClearPanel UI_Clear;
 
     void Start()
     {
         UI_Main = FindAnyObjectByType<UI_Management>();
+        UI_Clear = FindAnyObjectByType<UI_ClearPanel>();
 
         mainCam = GetComponent<Camera>();
         pixelCam = GetComponent<PixelPerfectCamera>();
         Move = true;
         doubleDelay = 0.3f;
     }
+
 
 
     private void LateUpdate()
@@ -50,36 +53,50 @@ public class CameraControl : MonoBehaviour
         //? 그리고 그거 구현하고나면 타임스케일 리턴 위로 위치 옮겨야함. 일단은 pause만 구현
         Key_Esc();
 
-
-
         if (Time.timeScale == 0) return;
-
-
-
-
-
-
 
         limit_left = -1500 / (mainCam.orthographicSize * mainCam.orthographicSize);
         limit_right = 1500 / (mainCam.orthographicSize * mainCam.orthographicSize);
 
 
+        PPU_Zoom_Keyboard();
+        KeyboardMove();
+        Keyboard_Shortcut();
+
+        // PointerEventData를 생성하고 현재 마우스 위치를 설정
+        PointerEventData pointerData = new PointerEventData(EventSystem.current)
+        {
+            position = Input.mousePosition
+        };
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerData, results);
+        if (results.Count > 0)
+        {
+            //Debug.Log("현재 마우스가 올라가 있는 UI: " + results[0].gameObject.name);
+            //? 팝업 ui랑 메인 ui 위에선 작동안하도록 변경
+            if (results[0].gameObject.GetComponentInParent<UI_Management>(true)) return;
+            if (results[0].gameObject.GetComponentInParent<UI_PopUp>(true))
+            {
+                if (results[0].gameObject.GetComponentInParent<UI_DungeonPlacement>(true) == null)
+                {
+                    return;
+                }
+            }
+        }
 
 
         ClickAction();
         PixelPerfection_Zoom();
-        PPU_Zoom_Keyboard();
-        KeyboardMove();
 
-
-        // 팝업 ui 있을땐 더블클릭 안되게
-        if (Managers.UI._popupStack.Count > 0) return;
-        if (EventSystem.current.currentSelectedGameObject) // 선택된 ui가 있을경우 리턴 - 이경우엔 버튼같은거 클릭을 의미함
-        {
-            //Debug.Log(EventSystem.current.currentSelectedGameObject);
-            //Debug.Log(EventSystem.current.currentSelectedGameObject.name + "@@name");
-            return;
-        }
+        //// 팝업 ui 있을땐 더블클릭 안되게
+        //if (Managers.UI._popupStack.Count > 0) return;
+        //if (EventSystem.current.currentSelectedGameObject) // 선택된 ui가 있을경우 리턴 - 이경우엔 버튼같은거 클릭을 의미함
+        //{
+        //    //Debug.Log(EventSystem.current.currentSelectedGameObject);
+        //    //Debug.Log(EventSystem.current.currentSelectedGameObject.name + "@@name");
+        //    return;
+        //}
 
         // 더블클릭
         FirstClickEvent();
@@ -89,6 +106,13 @@ public class CameraControl : MonoBehaviour
     public void LimitRefresh()
     {
         limit_down = Main.Instance.Floor[Main.Instance.ActiveFloor_Basement - 1].transform.position.y - 10;
+    }
+
+    public void View_Target(Vector3 targetPos)
+    {
+        transform.position = new Vector3(targetPos.x, targetPos.y, -10);
+        MouseLimit();
+        ResetMousePos();
     }
 
 
@@ -138,7 +162,7 @@ public class CameraControl : MonoBehaviour
     {
         Debug.Log("더블클릭 이벤트");
 
-        transform.position = new Vector3(pos.x, pos.y, transform.position.z);
+        transform.position = new Vector3(pos.x, pos.y, -10);
 
         if (pixelCam.assetsPPU < 16)
         {
@@ -167,34 +191,6 @@ public class CameraControl : MonoBehaviour
             Zoom(-1);
         }
     }
-    //void PPU_Zoom_Keyboard()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Q))
-    //    {
-    //        if (Hide_UI_Cor != null)
-    //        {
-    //            Zoom(1);
-    //            timer = 0;
-    //        }
-    //        else
-    //        {
-    //            Hide_UI_Cor = StartCoroutine(Zoom_UI_Pixel(1));
-    //        }
-    //    }
-
-    //    if (Input.GetKeyDown(KeyCode.E))
-    //    {
-    //        if (Hide_UI_Cor != null)
-    //        {
-    //            Zoom(-1);
-    //            timer = 0;
-    //        }
-    //        else
-    //        {
-    //            Hide_UI_Cor = StartCoroutine(Zoom_UI_Pixel(-1));
-    //        }
-    //    }
-    //}
 
 
     float scrollValue;
@@ -214,46 +210,8 @@ public class CameraControl : MonoBehaviour
         if (Mathf.Abs(scrollValue) > 0)
         {
             Zoom();
-
-            //if (Hide_UI_Cor != null)
-            //{
-            //    Zoom();
-            //    timer = 0;
-            //}
-            //else
-            //{
-            //    Hide_UI_Cor = StartCoroutine(Zoom_UI_Pixel());
-            //}
         }
     }
-
-    //Coroutine Hide_UI_Cor;
-    //float timer = 0;
-    //IEnumerator Zoom_UI_Pixel(int value = 0)
-    //{
-    //    //var mainCanvas = UI_Main.GetComponent<Canvas>();
-    //    ////Managers.UI.HideCanvasAll();
-    //    //mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-
-    //    yield return null;
-
-    //    Zoom(value);
-
-    //    yield return null;
-
-    //    timer = 0;
-    //    while (timer < 0.5f)
-    //    {
-    //        yield return null;
-    //        timer += Time.unscaledDeltaTime;
-    //    }
-
-    //    //Managers.UI.ShowCanvasAll();
-    //    //mainCanvas.renderMode = RenderMode.ScreenSpaceCamera;
-
-    //    Hide_UI_Cor = null;
-    //}
-
 
     void Zoom(int value = 0)
     {
@@ -321,7 +279,7 @@ public class CameraControl : MonoBehaviour
         {
             dis_x = startMousePos.x - mainCam.ScreenToViewportPoint(Input.mousePosition).x;
             dis_y = startMousePos.y - mainCam.ScreenToViewportPoint(Input.mousePosition).y;
-            transform.position = new Vector3(startCameraPos.x + dis_x * CameraSpeed, startCameraPos.y + dis_y * CameraSpeed, startCameraPos.z);
+            transform.position = new Vector3(startCameraPos.x + dis_x * CameraSpeed, startCameraPos.y + dis_y * CameraSpeed, -10);
             MouseLimit();
         }
     }
@@ -331,22 +289,22 @@ public class CameraControl : MonoBehaviour
     {
         if (transform.position.y < limit_down)
         {
-            transform.position = new Vector3(transform.position.x, limit_down, transform.position.z);
+            transform.position = new Vector3(transform.position.x, limit_down, -10);
         }
 
         if (transform.position.y > limit_up)
         {
-            transform.position = new Vector3(transform.position.x, limit_up, transform.position.z);
+            transform.position = new Vector3(transform.position.x, limit_up, -10);
         }
 
         if (transform.position.x < limit_left)
         {
-            transform.position = new Vector3(limit_left, transform.position.y, transform.position.z);
+            transform.position = new Vector3(limit_left, transform.position.y, -10);
         }
 
         if (transform.position.x > limit_right)
         {
-            transform.position = new Vector3(limit_right, transform.position.y, transform.position.z);
+            transform.position = new Vector3(limit_right, transform.position.y, -10);
         }
     }
 
@@ -384,6 +342,37 @@ public class CameraControl : MonoBehaviour
             }
         }
     }
+
+
+    void Keyboard_Shortcut()
+    {
+        if (Input.GetKeyDown(KeyCode.BackQuote))
+        {
+            View_Target(Main.Instance.Player.transform.position);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            View_Target(Main.Instance.Floor[1].transform.position);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            View_Target(Main.Instance.Floor[2].transform.position);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            View_Target(Main.Instance.Floor[3].transform.position);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4) && Main.Instance.ActiveFloor_Basement > 4)
+        {
+            View_Target(Main.Instance.Floor[4].transform.position);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5) && Main.Instance.ActiveFloor_Basement > 5)
+        {
+            View_Target(Main.Instance.Floor[5].transform.position);
+        }
+
+    }
+
 
 
     #endregion
@@ -428,7 +417,7 @@ public class CameraControl : MonoBehaviour
             float t = Mathf.Clamp01(timer / duration);
 
             var movePos2 = Vector3.Lerp(startPos, targetPos, Smoothstep(t));
-            transform.position = new Vector3(movePos2.x, movePos2.y, transform.position.z);
+            transform.position = new Vector3(movePos2.x, movePos2.y, -10);
 
 
             //if (Smoothstep(t) >= 1)
@@ -436,7 +425,7 @@ public class CameraControl : MonoBehaviour
             //    Debug.Log(timer);
             //}
         }
-        transform.position = new Vector3(targetPos.x, targetPos.y, transform.position.z);
+        transform.position = new Vector3(targetPos.x, targetPos.y, -10);
 
         ResetMousePos();
 

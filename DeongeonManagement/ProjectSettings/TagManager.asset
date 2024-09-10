@@ -43,3 +43,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BattleField
+    uniqueID: 4094214119
+    locked: 0
+  - name: Floor
+    uniqueID: 1237781173
+    locked: 0
+  - name: DMP_UI
+    uniqueID: 2442777575
+    locked: 0

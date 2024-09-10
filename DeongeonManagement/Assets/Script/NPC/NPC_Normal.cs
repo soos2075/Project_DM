@@ -311,7 +311,7 @@ public class NPC_Normal : NPC
 
 
         {//? 전이진 서치
-            PickToProbability(GetPriorityPick(typeof(Entrance_Egg)), (PlacementInfo.Place_Floor.FloorIndex + Rank) * 1); //0.04f
+            PickToProbability(GetPriorityPick(typeof(Entrance_Egg)), (PlacementInfo.Place_Floor.FloorIndex + Rank) * 0.04f); //0.04f
         }
     }
 

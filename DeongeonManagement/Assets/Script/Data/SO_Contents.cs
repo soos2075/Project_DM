@@ -34,6 +34,7 @@ public class SO_Contents : ScriptableObject
 
     public Define.Boundary Boundary_All;
     public string area_name;
+    public Sprite area_Sprite;
 
     public List<Option> Options;
 

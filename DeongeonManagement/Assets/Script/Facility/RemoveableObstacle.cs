@@ -7,17 +7,13 @@ public class RemoveableObstacle : Facility, IWall
 {
     public override void Init_Personal()
     {
-        //GetComponentInChildren<SpriteRenderer>().enabled = false;
-        ObstacleType = (Obj_Label)CategoryIndex;
+        Size = (SizeOption)CategoryIndex;
+        //if (isInit)
+        //{
+        //    CategorySelect(categoryName, labelName);
+        //}
 
-        if (isInit)
-        {
-            CategorySelect(Data.SLA_category, Data.SLA_label);
-        }
-        else
-        {
-            //Set_ObstacleType();
-        }
+        Show_Sprite();
     }
     public override void Init_FacilityEgo()
     {
@@ -30,6 +26,27 @@ public class RemoveableObstacle : Facility, IWall
         throw new System.NotImplementedException();
     }
 
+    public override void Load_Data(Save_FacilityData _data)
+    {
+        base.Load_Data(_data);
+        categoryName = _data.categoryName;
+        labelName = _data.labelName;
+        CategorySelect(categoryName, labelName);
+    }
+
+
+    public void Show_Sprite()
+    {
+        if (Main.Instance.ActiveFloor_Basement <= PlacementInfo.Place_Floor.FloorIndex)
+        {
+            GetComponentInChildren<SpriteRenderer>().enabled = false;
+        }
+        else
+        {
+            GetComponentInChildren<SpriteRenderer>().enabled = true;
+        }
+    }
+
 
 
 
@@ -39,54 +56,53 @@ public class RemoveableObstacle : Facility, IWall
         if (Main.Instance.Management == false) return;
         if (Main.Instance.CurrentAction != null) return;
 
-        int ap = 0;
-        int mana = 0;
-        int gold = 0;
+        int ap = 1;
+        //int mana = 0;
+        //int gold = 0;
 
-        switch (ObstacleType)
+        int value = 15 + (PlacementInfo.Place_Floor.FloorIndex * 5);
+
+        switch (Size)
         {
-            case Obj_Label.RO_F3_01:
-                ap = 1; mana = 200; gold = 150;
+            case SizeOption._1x2:
+            case SizeOption._2x1:
+                value *= 2;
+                break;
+            case SizeOption._1x3:
+            case SizeOption._3x1:
+                value *= 3;
                 break;
 
-            case Obj_Label.RO_F3_02:
-                ap = 1; mana = 200; gold = 150;
+            case SizeOption._2x2:
+                value *= 4;
+                ap = 2;
                 break;
 
-            case Obj_Label.RO_F3_03:
-                ap = 1; mana = 200; gold = 150;
+            case SizeOption._2x3:
+            case SizeOption._3x2:
+                value *= 6;
+                ap = 2;
                 break;
 
-            case Obj_Label.RO_F3_04:
-                ap = 1; mana = 200; gold = 150;
-                break;
-
-            case Obj_Label.RO_F3_05:
-                ap = 1; mana = 200; gold = 150;
-                break;
-
-            case Obj_Label.RO_F3_06:
-                ap = 1; mana = 200; gold = 150;
+            case SizeOption._3x3:
+                value *= 8;
+                ap = 3;
                 break;
         }
 
-        //string confirm = $"<size=25>(" +
-        //            $"-{ap}{UserData.Instance.LocaleText("AP")}, " +
-        //            $"-{mana}{UserData.Instance.LocaleText("Mana")}, " +
-        //            $"+{gold}{UserData.Instance.LocaleText("Gold")})";
-
         var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
-        ui.SetText($"{UserData.Instance.LocaleText("Confirm_RemoveObstacle")}", () => ConfirmUI_Action(ap, mana, gold));
-        ui.SetMode_Calculation(1, $"{mana}", $"+{gold}", $"{ap}");
+        ui.SetText($"{UserData.Instance.LocaleText("Confirm_RemoveObstacle")}", () => ConfirmUI_Action(ap, value, value));
+        ui.SetMode_Calculation(0, $"+{value}", $"+{value}", $"{ap}");
     }
 
 
     void ConfirmUI_Action(int _ap, int _mana, int _gold)
     {
-        if (ConfirmCheck(ap: _ap, mana: _mana))
+        if (ConfirmCheck(ap: _ap, gold: _gold))
         {
+            //Main.Instance.CurrentDay.AddGold(_gold, Main.DayResult.EventType.Etc);
             Main.Instance.CurrentDay.AddGold(_gold, Main.DayResult.EventType.Etc);
-            Main.Instance.CurrentDay.SubtractMana(_mana, Main.DayResult.EventType.Etc);
+            Main.Instance.CurrentDay.AddMana(_mana, Main.DayResult.EventType.Etc);
             Main.Instance.Player_AP -= _ap;
 
             GameManager.Facility.RemoveFacility(this);
@@ -94,20 +110,8 @@ public class RemoveableObstacle : Facility, IWall
         }
     }
 
-    bool ConfirmCheck(int mana, int gold = 0, int lv = 0, int ap = 0)
+    bool ConfirmCheck(int mana = 0, int gold = 0, int lv = 0, int ap = 0)
     {
-        if (Main.Instance.Player_Mana < mana)
-        {
-            var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = UserData.Instance.LocaleText("Message_No_Mana");
-            return false;
-        }
-        if (Main.Instance.Player_Gold < gold)
-        {
-            var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-            msg.Message = UserData.Instance.LocaleText("Message_No_Gold");
-            return false;
-        }
         if (Main.Instance.DungeonRank < lv)
         {
             var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
@@ -120,6 +124,18 @@ public class RemoveableObstacle : Facility, IWall
             msg.Message = UserData.Instance.LocaleText("Message_No_AP");
             return false;
         }
+        //if (Main.Instance.Player_Mana < mana)
+        //{
+        //    var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+        //    msg.Message = UserData.Instance.LocaleText("Message_No_Mana");
+        //    return false;
+        //}
+        //if (Main.Instance.Player_Gold < gold)
+        //{
+        //    var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+        //    msg.Message = UserData.Instance.LocaleText("Message_No_Gold");
+        //    return false;
+        //}
 
         return true;
     }
@@ -129,50 +145,130 @@ public class RemoveableObstacle : Facility, IWall
     {
         if (Main.Instance.Management == false) return;
         if (Main.Instance.CurrentAction != null) return;
-        CategorySelect(Data.SLA_category + "_Outline", Data.SLA_label);
+        CategorySelect($"{categoryName}_Outline", labelName);
     }
     public override void MouseExitEvent()
     {
         if (Main.Instance.Management == false) return;
         if (Main.Instance.CurrentAction != null) return;
-        CategorySelect(Data.SLA_category, Data.SLA_label);
-    }
-
-
-
-
-    public enum Obj_Label
-    {
-        // Floor_3
-        RO_F3_01 = 3531,
-        RO_F3_02 = 3532,
-        RO_F3_03 = 3533,
-        RO_F3_04 = 3534,
-        RO_F3_05 = 3535,
-        RO_F3_06 = 3536,
-    }
-
-    Obj_Label ObstacleType { get; set; }
-
-
-    public void Set_ObstacleType(Obj_Label type)
-    {
-        isInit = true;
-        ObstacleType = type;
-
-        Data = GameManager.Facility.GetData(type.ToString());
-        SetData();
-
-        CategorySelect(Data.SLA_category, Data.SLA_label);
+        CategorySelect(categoryName, labelName);
     }
 
 
     void CategorySelect(string category, string label)
     {
-        //GetComponentInChildren<SpriteRenderer>().enabled = true;
-
         var resolver = GetComponentInChildren<SpriteResolver>();
         resolver.SetCategoryAndLabel(category, label);
+    }
+
+
+
+    public enum SizeOption
+    {
+        _1x1 = 3531,
+        _1x2,
+        _1x3,
+        _2x1,
+        _2x2,
+        _2x3,
+        _3x1,
+        _3x2,
+        _3x3,
+    }
+
+    public SizeOption Size;
+
+    public void Set_ObstacleOption(SizeOption _size, string _category, string _label)
+    {
+        Size = _size;
+        categoryName = _category;
+        labelName = _label;
+
+        isInit = true;
+        Data = GameManager.Facility.GetData($"RO{Size.ToString()}");
+        SetData();
+        CategorySelect(categoryName, labelName);
+        Create_Clone();
+    }
+
+
+    void Create_Clone()
+    {
+        switch (Size)
+        {
+            case SizeOption._1x2:
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(0, 1)));
+                break;
+
+            case SizeOption._1x3:
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(0, 1)));
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(0, 2)));
+                break;
+
+            case SizeOption._2x1:
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(1, 0)));
+                break;
+
+            case SizeOption._2x2:
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(1, 0)));
+
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(0, 1)));
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(1, 1)));
+                break;
+
+            case SizeOption._2x3:
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(1, 0)));
+
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(0, 1)));
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(1, 1)));
+
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(0, 2)));
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(1, 2)));
+                break;
+
+            case SizeOption._3x1:
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(1, 0)));
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(2, 0)));
+                break;
+
+            case SizeOption._3x2:
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(1, 0)));
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(2, 0)));
+
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(0, 1)));
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(1, 1)));
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(2, 1)));
+                break;
+
+            case SizeOption._3x3:
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(1, 0)));
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(2, 0)));
+
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(0, 1)));
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(1, 1)));
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(2, 1)));
+
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(0, 2)));
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(1, 2)));
+                SetClone(CreateClone(PlacementInfo, new Vector2Int(2, 2)));
+                break;
+        }
+    }
+
+
+    IPlacementable CreateClone(PlacementInfo data, Vector2Int offset)
+    {
+        BasementTile newTile = null;
+        data.Place_Floor.TileMap.TryGetValue(data.Place_Tile.index + offset, out newTile);
+        PlacementInfo info = new PlacementInfo(data.Place_Floor, newTile);
+        IPlacementable obj = GameManager.Facility.CreateFacility("Clone_Facility_Wall", info);
+        return obj;
+    }
+
+    void SetClone(IPlacementable clone)
+    {
+        var cf = clone as Clone_Facility_Wall;
+        cf.OriginalTarget = this;
     }
 
 }

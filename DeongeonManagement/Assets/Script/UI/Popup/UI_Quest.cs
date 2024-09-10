@@ -10,11 +10,10 @@ public class UI_Quest : UI_PopUp
         Init();
     }
 
-
     enum Images
     {
         Panel,
-        Close,
+        //Close,
     }
 
     public override void Init()
@@ -23,15 +22,9 @@ public class UI_Quest : UI_PopUp
 
         Bind<Image>(typeof(Images));
 
-        GetImage(((int)Images.Close)).gameObject.AddUIEvent((data) => Managers.UI.ClosePopupPick(this));
-
-
+        //GetImage(((int)Images.Close)).gameObject.AddUIEvent((data) => Managers.UI.ClosePopupPick(this));
         Init_Contents();
     }
-
-
-
-
 
 
     void Init_Contents()
@@ -75,10 +68,8 @@ public class UI_Quest : UI_PopUp
         return true;
     }
 
-
-
-    private void OnDestroy()
-    {
-        PopupUI_OnDestroy();
-    }
+    //private void OnDestroy()
+    //{
+    //    PopupUI_OnDestroy();
+    //}
 }

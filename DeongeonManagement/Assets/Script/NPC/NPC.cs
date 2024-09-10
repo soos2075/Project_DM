@@ -616,7 +616,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         int originLayer = renderer.sortingOrder;
         renderer.sortingOrder = 10;
 
-        Camera.main.GetComponent<CameraControl>().ChasingTarget(transform.position, 2); //? 여기서 하는 이유 = 카메라가 다른놈 가르키는거 방지
+        Camera.main.GetComponent<CameraControl>().ChasingTarget(transform.position, 1); //? 여기서 하는 이유 = 카메라가 다른놈 가르키는거 방지
         Managers.Dialogue.ShowDialogueUI(dialogueName, transform);
 
         anim.Play(Define.ANIM_Idle);
@@ -740,7 +740,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         Mana = data.MP;
 
         float speed = data.groundSpeed * 2 * UnityEngine.Random.Range(0.9f, 1.1f);
-        float delay = data.actionDelay * 0.7f * UnityEngine.Random.Range(0.9f, 1.1f);
+        float delay = data.actionDelay * 0.5f * UnityEngine.Random.Range(0.9f, 1.1f);
 
         Speed_Ground = speed;
         ActionDelay = delay;

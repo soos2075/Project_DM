@@ -85,6 +85,10 @@ public class UI_StartMenu : UI_Scene
     void Button_NewGame()
     {
         StartCoroutine(OpeningSkip());
+
+        UserData.Instance.SetData(PrefsKey.NewGameTimes, UserData.Instance.GetDataInt(PrefsKey.NewGameTimes) + 1);
+        UserData.Instance.NewGameConfig();
+        EventManager.Instance.NewGameReset();
     }
 
     IEnumerator OpeningSkip()
@@ -138,13 +142,10 @@ public class UI_StartMenu : UI_Scene
         Debug.Log($"새 게임 시작");
         Main.Instance.NewGame_Init();
 
-
-        //Main.Instance.Test_Init();
     }
     void Opening()
     {
         Debug.Log($"오프닝 재생");
-        //Director_Story.Instance.StartScene_1();
     }
 
 

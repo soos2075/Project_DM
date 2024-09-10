@@ -24,11 +24,14 @@ public class UI_ClearPanel : UI_Scene
         management = FindObjectOfType<UI_Management>();
     }
 
+
+
     void Init_Image()
     {
         GetImage((int)Panels.ClosePanel).gameObject.AddUIEvent((data) => LeftClickEvent(), Define.UIEvent.LeftClick);
         GetImage((int)Panels.ClosePanel).gameObject.AddUIEvent((data) => RightClickEvent(), Define.UIEvent.RightClick);
     }
+
 
 
     UI_Management management;

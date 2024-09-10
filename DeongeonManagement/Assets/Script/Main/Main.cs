@@ -77,7 +77,8 @@ public class Main : MonoBehaviour
 
 
     #region TextMesh
-    public DamageNumber dm_large; // 1
+    public DamageNumber dm_large; // 2
+    public DamageNumber dm_middle; // 1
     public DamageNumber dm_small; // 0
 
     public enum TextType
@@ -91,45 +92,50 @@ public class Main : MonoBehaviour
     }
     public void ShowDM(int _value, TextType _textType, Transform _pos, int _sizeOption = 0)
     {
-        DamageNumber origin = _sizeOption == 0 ? dm_small : dm_large;
+        DamageNumber origin = dm_small;
+        if (_sizeOption == 1) origin = dm_middle;
+        if (_sizeOption == 2) origin = dm_large;
+
         SoundManager.Instance.PlaySound($"SFX/Add_{_textType.ToString()}");
+
+        Vector3 offset = _pos.position + new Vector3(0, 0.5f, 0);
 
         string _msg = _value > 0 ? $"+{_value} " : $"{_value} ";
         switch (_textType)
         {
             case TextType.pop:
                 _msg += "pop";
-                var dm = origin.Spawn(_pos.position, _msg);
+                var dm = origin.Spawn(offset, _msg);
                 dm.SetColor(Color.green);
                 break;
 
             case TextType.danger:
                 _msg += "danger";
-                var dm2 = origin.Spawn(_pos.position, _msg);
+                var dm2 = origin.Spawn(offset, _msg);
                 dm2.SetColor(Color.red);
                 break;
 
             case TextType.mana:
                 _msg += "mana";
-                var dm3 = origin.Spawn(_pos.position, _msg);
+                var dm3 = origin.Spawn(offset, _msg);
                 dm3.SetColor(Color.blue);
                 break;
 
             case TextType.gold:
                 _msg += "gold";
-                var dm4 = origin.Spawn(_pos.position, _msg);
+                var dm4 = origin.Spawn(offset, _msg);
                 dm4.SetColor(Color.yellow);
                 break;
 
             case TextType.exp:
                 _msg += "exp";
-                var dm5 = origin.Spawn(_pos.position, _msg);
+                var dm5 = origin.Spawn(offset, _msg);
                 dm5.SetColor(Color.white);
                 break;
 
             case TextType.hp:
                 _msg += "hp";
-                var dm6 = origin.Spawn(_pos.position, _msg);
+                var dm6 = origin.Spawn(offset, _msg);
                 dm6.SetColor(Color.red);
                 break;
         }
@@ -205,9 +211,9 @@ public class Main : MonoBehaviour
             return;
         }
 
-        UserData.Instance.SetData(PrefsKey.NewGameTimes, UserData.Instance.GetDataInt(PrefsKey.NewGameTimes) + 1);
-        UserData.Instance.NewGameConfig();
-        EventManager.Instance.NewGameReset();
+        //UserData.Instance.SetData(PrefsKey.NewGameTimes, UserData.Instance.GetDataInt(PrefsKey.NewGameTimes) + 1);
+        //UserData.Instance.NewGameConfig();
+        //EventManager.Instance.NewGameReset();
 
 
         ActiveFloor_Basement = 4;
@@ -224,7 +230,7 @@ public class Main : MonoBehaviour
         Init_Animation();
         UI_Main.Start_Main();
         Init_DayResult();
-        ExpansionConfirm();
+        ExpansionConfirm(true);
         GameManager.Technical.Expantion_Technical();
 
         StartCoroutine(NewGameInitAndMessage());
@@ -352,7 +358,7 @@ public class Main : MonoBehaviour
 
         ActiveFloor_Basement = (data.ActiveFloor_Basement);
         ActiveFloor_Technical = (data.ActiveFloor_Technical);
-        ExpansionConfirm();
+        ExpansionConfirm(false);
         GameManager.Technical.Expantion_Technical();
 
 
@@ -398,11 +404,20 @@ public class Main : MonoBehaviour
         if (ActiveFloor_Basement < Floor.Length)
         {
             ActiveFloor_Basement++;
-            ExpansionConfirm();
+            ExpansionConfirm(true);
 
             if (ActiveFloor_Basement == 5)
             {
                 Technical_Expansion();
+                var fa = Floor[4].GetFloorObjectList(Define.TileType.Facility);
+                foreach (var item in fa)
+                {
+                    if (item.Original is RemoveableObstacle)
+                    {
+                        var ro = item.Original as RemoveableObstacle;
+                        ro.Show_Sprite();
+                    }
+                }
             }
         }
     }
@@ -1038,6 +1053,7 @@ public class Main : MonoBehaviour
                 Debug.Log("1일차 종료 이벤트 - 시설배치");
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Facility, Player);
                 UI_Main.Active_Button(UI_Management.ButtonEvent._1_Facility);
+                UI_Main.Active_Button(UI_Management.ButtonEvent._6_DungeonEdit);
                 UI_Main.SetNotice(UI_Management.OverlayImages.OverlayImage_Facility, true);
                 //UI_Main.Active_Floor();
 
@@ -1336,70 +1352,65 @@ public class Main : MonoBehaviour
         for (int i = 0; i < Floor.Length; i++)
         {
             Floor[i].FloorIndex = i;
-            Floor[i].Init_Floor();
-
-
-            if (i == 0)
+            if (i == (int)Define.DungeonFloor.Egg)
             {
+                Floor[i].Hidden = true;
                 Floor[i].LabelName = $"{UserData.Instance.LocaleText("숨겨진곳")}";
             }
             else
             {
                 Floor[i].LabelName = $"{UserData.Instance.LocaleText("지하")} {i} {UserData.Instance.LocaleText("층")}";
             }
+
+            Floor[i].Init_Floor();
         }
     }
 
 
     void Start_Entrance()
     {
-        for (int i = 0; i < ActiveFloor_Basement; i++)
+        for (int i = 1; i < ActiveFloor_Basement; i++)
         {
             Floor[i].Init_Entrance();
         }
     }
 
-
-    void ExpansionConfirm()
+    void ExpansionConfirm(bool init_Entrance)
     {
-        for (int i = 0; i < Floor.Length; i++)
+        for (int i = 1; i < Floor.Length; i++)
         {
             Floor[i].gameObject.SetActive(false);
         }
 
-        for (int i = 0; i < ActiveFloor_Basement; i++)
+        for (int i = 1; i < ActiveFloor_Basement; i++)
         {
             Floor[i].gameObject.SetActive(true);
-            //Floor[i].Init_Entrance();
         }
 
-
-        if (ActiveFloor_Basement >= 4)
+        if (init_Entrance)
         {
-            Floor[0].Hidden = true;
+            Start_Entrance();
         }
-        //DungeonExpansionUI();
-        //UI_Main.DungeonExpansion();
 
         Camera.main.GetComponent<CameraControl>().LimitRefresh();
     }
 
-    public void DungeonExpansionUI()
-    {
-        if (Floor.Length > ActiveFloor_Basement)
-        {
-            var legacy = FindAnyObjectByType<UI_Expansion_Floor>();
-            if (legacy != null)
-            {
-                Destroy(legacy.gameObject);
-            }
+    //public void DungeonExpansionUI()
+    //{
+    //    if (Floor.Length > ActiveFloor_Basement)
+    //    {
+    //        var legacy = FindAnyObjectByType<UI_Expansion_Floor>();
+    //        if (legacy != null)
+    //        {
+    //            Destroy(legacy.gameObject);
+    //        }
 
-            var ui = Managers.Resource.Instantiate("UI/PopUp/Element/UI_Expansion_Floor");
-            ui.transform.position = Floor[ActiveFloor_Basement].transform.position + new Vector3(0, 5, 0);
+    //        var ui = Managers.Resource.Instantiate("UI/PopUp/Element/UI_Expansion_Floor");
+    //        ui.transform.position = Floor[ActiveFloor_Basement].transform.position + new Vector3(0, 5, 0);
 
-            ui.GetComponent<UI_Expansion_Floor>().SetContents(ActiveFloor_Basement, 200, 200, 2);
-        }
-    }
+    //        ui.GetComponent<UI_Expansion_Floor>().SetContents(ActiveFloor_Basement, 200, 200, 2);
+    //    }
+    //}
 
 
 
@@ -1483,7 +1494,7 @@ void ChangeEggState()
         {
             if (DangerOfDungeon < 100)
             {
-                CurrentEndingState = Endings.Rabi;
+                CurrentEndingState = Endings.Ravi;
                 EggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Rabi"));
             }
             else

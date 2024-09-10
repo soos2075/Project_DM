@@ -70,6 +70,11 @@ public class UI_PopUp : UI_Base
             //Debug.Log("타일이라봐준다");
             UserData.Instance.GamePlay();
         }
+        else if (Managers.UI._popupStack.Count == 1 && Managers.UI._popupStack.Peek().GetType() == typeof(UI_DungeonEdit))
+        {
+            //Debug.Log("에딧창이라봐준다");
+            UserData.Instance.GamePlay();
+        }
     }
 
     public virtual bool EscapeKeyAction()

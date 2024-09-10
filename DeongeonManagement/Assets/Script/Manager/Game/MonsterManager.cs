@@ -352,9 +352,11 @@ public class MonsterManager
     #region Sprite Library Asset
 
     SpriteLibraryAsset[] Monster_SLA;
+    SpriteLibraryAsset[] Monster_SLA_New;
     void Init_SLA()
     {
-        Monster_SLA = Resources.LoadAll<SpriteLibraryAsset>("Monster_Animation/SLA_Monster");
+        Monster_SLA = Resources.LoadAll<SpriteLibraryAsset>("Animation/Monster_Animation/SLA_Monster");
+        Monster_SLA_New = Resources.LoadAll<SpriteLibraryAsset>("Animation/_Monstser_Anim/SLA_Monster");
     }
     public void ChangeSLA(Monster _monster, string _SLA)
     {
@@ -366,6 +368,18 @@ public class MonsterManager
             }
         }
     }
+
+    public void ChangeSLA_New(Monster _monster, string _SLA)
+    {
+        foreach (var item in Monster_SLA_New)
+        {
+            if (item.name == _SLA)
+            {
+                _monster.GetComponentInChildren<SpriteLibrary>().spriteLibraryAsset = item;
+            }
+        }
+    }
+
 
     #endregion
 }

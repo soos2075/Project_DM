@@ -39,6 +39,7 @@ public class UI_Management : UI_Base
         _3_Management,
         _4_Guild,
         _5_Quest,
+        _6_DungeonEdit,
 
         DayChange,
 
@@ -80,6 +81,7 @@ public class UI_Management : UI_Base
         OverlayImage_Monster,
         OverlayImage_Guild,
         OverlayImage_Quest,
+        OverlayImage_Dungeon,
     }
 
 
@@ -107,9 +109,7 @@ public class UI_Management : UI_Base
         AP_Refresh();
         SpeedButtonImage();
 
-        OverlayImageReset();
-
-        StartCoroutine(WaitAndUpdate_GuildButton());
+        StartCoroutine(WaitAndNoticeUpdate());
     }
 
 
@@ -182,11 +182,12 @@ public class UI_Management : UI_Base
 
     void OverlayImageReset()
     {
-        GetImage((int)OverlayImages.OverlayImage_Facility).enabled = false;
+        GetImage((int)OverlayImages.OverlayImage_Facility).enabled = UserData.Instance.FileConfig.Notice_Facility;
         //GetImage((int)OverlayImages.OverlayImage_Summon).enabled = false;
-        GetImage((int)OverlayImages.OverlayImage_Monster).enabled = false;
-        GetImage((int)OverlayImages.OverlayImage_Guild).enabled = false;
-        GetImage((int)OverlayImages.OverlayImage_Quest).enabled = false;
+        GetImage((int)OverlayImages.OverlayImage_Monster).enabled = UserData.Instance.FileConfig.Notice_Monster;
+        GetImage((int)OverlayImages.OverlayImage_Guild).enabled = UserData.Instance.FileConfig.Notice_Guild;
+        GetImage((int)OverlayImages.OverlayImage_Quest).enabled = UserData.Instance.FileConfig.Notice_Quest;
+        GetImage((int)OverlayImages.OverlayImage_Dungeon).enabled = UserData.Instance.FileConfig.Notice_DungeonEdit;
     }
 
     public void GuildButtonNotice()
@@ -206,6 +207,26 @@ public class UI_Management : UI_Base
     public void SetNotice(OverlayImages notice, bool onoff)
     {
         GetImage((int)notice).enabled = onoff;
+
+        switch (notice)
+        {
+            case OverlayImages.OverlayImage_Facility:
+                UserData.Instance.FileConfig.Notice_Facility = onoff;
+                break;
+            case OverlayImages.OverlayImage_Monster:
+                UserData.Instance.FileConfig.Notice_Monster = onoff;
+                break;
+            case OverlayImages.OverlayImage_Guild:
+                UserData.Instance.FileConfig.Notice_Guild = onoff;
+                break;
+            case OverlayImages.OverlayImage_Quest:
+                UserData.Instance.FileConfig.Notice_Quest = onoff;
+                break;
+            case OverlayImages.OverlayImage_Dungeon:
+                UserData.Instance.FileConfig.Notice_DungeonEdit = onoff;
+                break;
+        }
+
     }
 
     public void QuestNotice()
@@ -217,9 +238,10 @@ public class UI_Management : UI_Base
     }
 
 
-    IEnumerator WaitAndUpdate_GuildButton()
+    IEnumerator WaitAndNoticeUpdate()
     {
         yield return null;
+        OverlayImageReset();
         GuildButtonNotice();
     }
 
@@ -232,6 +254,9 @@ public class UI_Management : UI_Base
         GetButton((int)ButtonEvent._3_Management).gameObject.AddUIEvent((data) => Button_MonsterManage());
         GetButton((int)ButtonEvent._4_Guild).gameObject.AddUIEvent((data) => Visit_Guild());
         GetButton((int)ButtonEvent._5_Quest).gameObject.AddUIEvent((data) => Button_Quest());
+        GetButton((int)ButtonEvent._6_DungeonEdit).gameObject.AddUIEvent((data) => Button_DungeonEdit());
+
+
 
         GetButton((int)ButtonEvent.DayChange).gameObject.AddUIEvent((data) => DayStart());
 
@@ -341,12 +366,38 @@ public class UI_Management : UI_Base
         Managers.UI.ClearAndShowPopUp<UI_Monster_Management>("Monster/UI_Monster_Management");
         SetNotice(OverlayImages.OverlayImage_Monster, false);
     }
+
+    UI_Quest questUI;
     void Button_Quest()
     {
         if (!Main.Instance.Management) return;
 
-        Managers.UI.ShowPopUpAlone<UI_Quest>();
-        SetNotice(OverlayImages.OverlayImage_Quest, false);
+        if (questUI == null)
+        {
+            questUI = Managers.UI.ClearAndShowPopUp<UI_Quest>();
+            SetNotice(OverlayImages.OverlayImage_Quest, false);
+        }
+        else
+        {
+            Managers.UI.ClosePopupPick(questUI);
+        }
+    }
+
+    UI_DungeonEdit dungeonEdit;
+    void Button_DungeonEdit()
+    {
+        if (!Main.Instance.Management) return;
+
+        if (dungeonEdit == null)
+        {
+            dungeonEdit = Managers.UI.ClearAndShowPopUp<UI_DungeonEdit>();
+            SetNotice(OverlayImages.OverlayImage_Dungeon, false);
+        }
+        else
+        {
+            Managers.UI.ClosePopupPick(dungeonEdit);
+        }
+
     }
 
 
@@ -488,6 +539,7 @@ public class UI_Management : UI_Base
         GetButton((int)ButtonEvent._3_Management).gameObject.SetActive(false);
         GetButton((int)ButtonEvent._4_Guild).gameObject.SetActive(false);
         GetButton((int)ButtonEvent._5_Quest).gameObject.SetActive(false);
+        GetButton((int)ButtonEvent._6_DungeonEdit).gameObject.SetActive(false);
 
         InActive_Floor();
     }
@@ -506,6 +558,7 @@ public class UI_Management : UI_Base
                 GetButton((int)ButtonEvent._3_Management).gameObject.SetActive(false);
                 GetButton((int)ButtonEvent._4_Guild).gameObject.SetActive(false);
                 GetButton((int)ButtonEvent._5_Quest).gameObject.SetActive(false);
+                //GetButton((int)ButtonEvent._6_DungeonEdit).gameObject.SetActive(false);
                 break;
 
             case 2:

@@ -186,13 +186,23 @@ public class NPCManager
 
     IEnumerator ActiveNPC(int index, float delay)
     {
-        yield return new WaitForSeconds(delay);
+        float timer = 0;
+        while (timer < delay)
+        {
+            timer += Time.deltaTime;
+            yield return UserData.Instance.Wait_GamePlay;
+        }
 
         Instance_NPC_List[index].Departure(Main.Instance.Guild.position, Main.Instance.Dungeon.position);
     }
     IEnumerator ActiveNPC(NPC _eventNPC, float delay)
     {
-        yield return new WaitForSeconds(delay);
+        float timer = 0;
+        while (timer < delay)
+        {
+            timer += Time.deltaTime;
+            yield return UserData.Instance.Wait_GamePlay;
+        }
 
         foreach (var item in Instance_EventNPC_List)
         {

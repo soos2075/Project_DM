@@ -26,7 +26,7 @@ public class BattleManager : MonoBehaviour
 
     void Start()
     {
-        
+        Init_BattlePosList();
     }
 
 
@@ -49,23 +49,13 @@ public class BattleManager : MonoBehaviour
 
     public Coroutine ShowBattleField(NPC _npc, Monster _monster, out BattleField.BattleResult result)
     {
-        // 배틀필드 위치 중복되지 않게 정하는 부분 (레거시)
-        //Vector3 bfPos = SetPosition(_monster);
-
-        //int whileCount = 0;
-        //while (FieldOverlapCheck(bfPos) == false && whileCount < 20)
-        //{
-        //    bfPos = SetPosition(_monster);
-        //    whileCount++;
-        //}
-
-
         int slotIndex = 0;
-        Vector3 bfPos = SetPos_Field(_monster.PlacementInfo.Place_Floor.FloorIndex, out slotIndex);
+        Vector3 bfPos = SetPos_Field(_monster.PlacementInfo, out slotIndex);
 
 
         var bf = Managers.Resource.Instantiate("Battle/BattleField").GetComponent<BattleField>();
         bf.sort = BattleCount;
+        bf.GetComponent<UnityEngine.Rendering.SortingGroup>().sortingOrder = BattleCount;
         BattleCount += 2;
         bf.transform.position = bfPos;
         bf.floorIndex = _monster.PlacementInfo.Place_Floor.FloorIndex;
@@ -165,93 +155,107 @@ public class BattleManager : MonoBehaviour
 
     public void RemoveCor(BattleField _field)
     {
-        AddPos_Field(_field.floorIndex, _field.slotIndex);
+        AddPos_Field((Define.DungeonFloor)_field.floorIndex, _field.slotIndex);
         BattleList.Remove(_field);
     }
 
-    Vector3 SetPosition(Monster _monster)
-    {
-        Vector3 bfPos = _monster.PlacementInfo.Place_Floor.transform.position;
+    //Vector3 SetPosition(Monster _monster)
+    //{
+    //    Vector3 bfPos = _monster.PlacementInfo.Place_Floor.transform.position;
 
-        float direction = _monster.PlacementInfo.Place_Tile.worldPosition.x - bfPos.x;
-        if (direction >= 0)
-        {
-            bfPos += new Vector3(Mathf.Clamp(Random.Range(3f, 10f) + direction, 5.0f, 11.0f), Random.Range(-3f, 3f), 0);
-        }
-        else
-        {
-            bfPos += new Vector3(Mathf.Clamp(Random.Range(-3f, -10f) + direction, -11.0f, -5.0f), Random.Range(-3f, 3f), 0);
-        }
+    //    float direction = _monster.PlacementInfo.Place_Tile.worldPosition.x - bfPos.x;
+    //    if (direction >= 0)
+    //    {
+    //        bfPos += new Vector3(Mathf.Clamp(Random.Range(3f, 10f) + direction, 5.0f, 11.0f), Random.Range(-3f, 3f), 0);
+    //    }
+    //    else
+    //    {
+    //        bfPos += new Vector3(Mathf.Clamp(Random.Range(-3f, -10f) + direction, -11.0f, -5.0f), Random.Range(-3f, 3f), 0);
+    //    }
 
-        bfPos.x = Mathf.Clamp(bfPos.x, -13, 13);
+    //    bfPos.x = Mathf.Clamp(bfPos.x, -13, 13);
 
-        return bfPos;
-    }
+    //    return bfPos;
+    //}
 
-    bool FieldOverlapCheck(Vector3 _field)
-    {
-        Vector3[] vectors = new Vector3[BattleList.Count];
+    //bool FieldOverlapCheck(Vector3 _field)
+    //{
+    //    Vector3[] vectors = new Vector3[BattleList.Count];
 
-        for (int i = 0; i < vectors.Length; i++)
-        {
-            vectors[i] = BattleList[i].transform.position;
-        }
+    //    for (int i = 0; i < vectors.Length; i++)
+    //    {
+    //        vectors[i] = BattleList[i].transform.position;
+    //    }
 
-        foreach (var item in vectors)
-        {
-            float minX = item.x - 2.75f;
-            float maxX = item.x + 2.75f;
+    //    foreach (var item in vectors)
+    //    {
+    //        float minX = item.x - 2.75f;
+    //        float maxX = item.x + 2.75f;
 
-            float minY = item.y - 1.5f;
-            float maxY = item.y + 1.5f;
+    //        float minY = item.y - 1.5f;
+    //        float maxY = item.y + 1.5f;
 
-            if (minX < _field.x && _field.x < maxX)
-            {
-                if (minY < _field.y && _field.y < maxY)
-                {
-                    // 위치가 겹침(x,y 가 1by1안에 안에 들어옴)
-                    //Debug.Log(_field + "@@@겹침");
+    //        if (minX < _field.x && _field.x < maxX)
+    //        {
+    //            if (minY < _field.y && _field.y < maxY)
+    //            {
+    //                // 위치가 겹침(x,y 가 1by1안에 안에 들어옴)
+    //                //Debug.Log(_field + "@@@겹침");
 
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
+    //                return false;
+    //            }
+    //        }
+    //    }
+    //    return true;
+    //}
 
 
-    Vector3 SetPos_Field(int floorIndex, out int slotNumber)
+    Vector3 SetPos_Field(PlacementInfo info, out int slotNumber)
     {
         bool[] checkList = floor_egg;
         Vector3[] posList = Floor_Egg_Battle_Pos;
 
-        switch (floorIndex)
+        switch ((Define.DungeonFloor)info.Place_Floor.FloorIndex)
         {
-            case 0:
+            case Define.DungeonFloor.Egg:
                 checkList = floor_egg;
                 posList = Floor_Egg_Battle_Pos;
                 break;
 
-            case 1:
+            case Define.DungeonFloor.Floor_1:
                 checkList = floor_1;
                 posList = Floor_1_Battle_Pos;
                 break;
 
-            case 2:
+            case Define.DungeonFloor.Floor_2:
                 checkList = floor_2;
                 posList = Floor_2_Battle_Pos;
                 break;
 
-            case 3:
+            case Define.DungeonFloor.Floor_3:
                 checkList = floor_3;
                 posList = Floor_3_Battle_Pos;
                 break;
+
+            case Define.DungeonFloor.Floor_4:
+                checkList = floor_4;
+                posList = Floor_4_Battle_Pos;
+                break;
+
+            case Define.DungeonFloor.Floor_5:
+                checkList = floor_5;
+                posList = Floor_5_Battle_Pos;
+                break;
+            //case Define.DungeonFloor.Floor_6:
+            //    break;
+            //case Define.DungeonFloor.Floor_7:
+            //    break;
         }
 
+        int nearPick = GetNearField(info, checkList, posList);
+        //int ranPick = GetRandomField(checkList);
 
-        int ranPick = GetRandomField(checkList);
-
-        if (ranPick == -1) //? -1이면 모든 슬롯이 꽉찼으니 적당히 랜덤값
+        if (nearPick == -1) //? -1이면 모든 슬롯이 꽉찼으니 적당히 랜덤값
         {
             float valueX;
             float valueY;
@@ -265,14 +269,37 @@ public class BattleManager : MonoBehaviour
             } while (valueY > -5 && valueY < 5); // -4~4의 범위를 제외
 
             slotNumber = -1;
-            return FloorBase[floorIndex].position + new Vector3(valueX, valueY, 0);
+            return FloorBase[info.Place_Floor.FloorIndex].position + new Vector3(valueX, valueY, 0);
         }
 
-        slotNumber = ranPick;
-        checkList[ranPick] = true;
-        return posList[ranPick] + FloorBase[floorIndex].position + new Vector3(Random.Range(-0.75f, 0.75f), Random.Range(-0.75f, 0.75f), 0);
+        slotNumber = nearPick;
+        checkList[nearPick] = true;
+        return posList[nearPick] + FloorBase[info.Place_Floor.FloorIndex].position + new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0);
     }
 
+
+    int GetNearField(PlacementInfo info, bool[] checklist, Vector3[] posList)
+    {
+        Vector3 originPos = info.Place_Tile.worldPosition;
+
+        int index = -1;
+        float distance = int.MaxValue;
+
+        for (int i = 0; i < checklist.Length; i++)
+        {
+            if (checklist[i] == false)
+            {
+                float tempDis = Vector3.Distance(originPos, posList[i] + (info.Place_Floor.transform.position));
+                if (tempDis < distance)
+                {
+                    index = i;
+                    distance = tempDis;
+                }
+            }
+        }
+
+        return index;
+    }
 
     int GetRandomField(bool[] target)
     {
@@ -290,7 +317,7 @@ public class BattleManager : MonoBehaviour
     }
 
 
-    void AddPos_Field(int floorIndex, int slotIndex)
+    void AddPos_Field(Define.DungeonFloor floorIndex, int slotIndex)
     {
         if (slotIndex == -1)
         {
@@ -299,72 +326,133 @@ public class BattleManager : MonoBehaviour
 
         switch (floorIndex)
         {
-            case 0:
+            case Define.DungeonFloor.Egg:
                 floor_egg[slotIndex] = false;
                 break;
-
-            case 1:
+            case Define.DungeonFloor.Floor_1:
                 floor_1[slotIndex] = false;
                 break;
-
-            case 2:
+            case Define.DungeonFloor.Floor_2:
                 floor_2[slotIndex] = false;
                 break;
-
-            case 3:
+            case Define.DungeonFloor.Floor_3:
                 floor_3[slotIndex] = false;
                 break;
-
-            case 4:
+            case Define.DungeonFloor.Floor_4:
                 floor_4[slotIndex] = false;
                 break;
+            case Define.DungeonFloor.Floor_5:
+                floor_5[slotIndex] = false;
+                break;
+            //case Define.DungeonFloor.Floor_6:
+            //    break;
+            //case Define.DungeonFloor.Floor_7:
+            //    break;
         }
     }
 
 
 
 
-    bool[] floor_egg = new bool[Floor_Egg_Battle_Pos.Length];
-    bool[] floor_1 = new bool[Floor_1_Battle_Pos.Length];
-    bool[] floor_2 = new bool[Floor_2_Battle_Pos.Length];
-    bool[] floor_3 = new bool[Floor_3_Battle_Pos.Length];
-    bool[] floor_4 = new bool[Floor_4_Battle_Pos.Length];
+    bool[] floor_egg; 
+    bool[] floor_1 ;
+    bool[] floor_2 ;
+    bool[] floor_3 ;
+    bool[] floor_4 ;
+    bool[] floor_5;
+
+    Vector3[] Floor_Egg_Battle_Pos;
+    Vector3[] Floor_1_Battle_Pos;
+    Vector3[] Floor_2_Battle_Pos;
+    Vector3[] Floor_3_Battle_Pos;
+    Vector3[] Floor_4_Battle_Pos;
+    Vector3[] Floor_5_Battle_Pos;
 
 
-    static readonly Vector3[] Floor_Egg_Battle_Pos = new Vector3[]
+    void Init_BattlePosList()
     {
-        new Vector3(6, 1.5f, 0), new Vector3(1, 1.5f, 0), new Vector3(-4, 1.5f, 0), new Vector3(-9, 1.5f, 0),
-        new Vector3(-11, -1.5f, 0), new Vector3(-11, -4.5f, 0),new Vector3(-11, -7.5f, 0),
-        new Vector3(6, -10.5f, 0), new Vector3(1, -10.5f, 0), new Vector3(-4, -10.5f, 0), new Vector3(-9, -10.5f, 0)
-    };
+        Floor_Egg_Battle_Pos = Init_PosList(0);
+        Floor_1_Battle_Pos = Init_PosList(1);
+        Floor_2_Battle_Pos = Init_PosList(2);
+        Floor_3_Battle_Pos = Init_PosList(3);
+        Floor_4_Battle_Pos = Init_PosList(4);
+        Floor_5_Battle_Pos = Init_PosList(5);
 
-    static readonly Vector3[] Floor_1_Battle_Pos = new Vector3[]
+        floor_egg = new bool[Floor_Egg_Battle_Pos.Length];
+        floor_1 = new bool[Floor_1_Battle_Pos.Length];
+        floor_2 = new bool[Floor_2_Battle_Pos.Length];
+        floor_3 = new bool[Floor_3_Battle_Pos.Length];
+        floor_4 = new bool[Floor_4_Battle_Pos.Length];
+        floor_5 = new bool[Floor_5_Battle_Pos.Length];
+    }
+
+
+    Vector3[] Init_PosList(int floorIndex)
     {
-        new Vector3(-7, 7, 0), new Vector3(-2, 7, 0), new Vector3(3, 7, 0), new Vector3(8, 7, 0),
-        new Vector3(-7, -7, 0), new Vector3(-2, -7, 0), new Vector3(3, -7, 0), new Vector3(8, -7, 0)
-    };
+        var list = FloorBase[floorIndex].GetComponent<BasementFloor>().battlePos;
 
-    static readonly Vector3[] Floor_2_Battle_Pos = new Vector3[]
-    {
-        new Vector3(12, 9.5f, 0), new Vector3(7, 9.5f, 0), new Vector3(2, 9.5f, 0), 
-        new Vector3(-3, 9.5f, 0), new Vector3(-8, 9.5f, 0), new Vector3(-13, 9.5f, 0),
-        new Vector3(12, -9.5f, 0), new Vector3(7, -9.5f, 0), new Vector3(2, -9.5f, 0),
-        new Vector3(-3, -9.5f, 0), new Vector3(-8, -9.5f, 0), new Vector3(-13, -9.5f, 0)
-    };
+        Vector3[] posArray = new Vector3[list.Count];
+        for (int i = 0; i < posArray.Length; i++)
+        {
+            posArray[i] = list[i].localPosition;
+        }
+        return posArray;
+    }
 
-    static readonly Vector3[] Floor_3_Battle_Pos = new Vector3[]
-    {
-        new Vector3(15, 7, 0), new Vector3(15, 4, 0), new Vector3(15, 1, 0),
-        new Vector3(15, -2, 0), new Vector3(15, -5, 0), new Vector3(15, -8, 0),
-        new Vector3(10, -9.5f, 0), new Vector3(5, -9.5f, 0), new Vector3(0, -9.5f, 0), new Vector3(-5, -9.5f, 0)
-    };
 
-    static readonly Vector3[] Floor_4_Battle_Pos = new Vector3[]
-    {
-        new Vector3(-14, 9, 0), new Vector3(-14, 6, 0),new Vector3(-14, 3, 0),
-        new Vector3(-14, 0, 0),new Vector3(-14, -3, 0),new Vector3(-14, -6, 0),
-        new Vector3(14, 9, 0), new Vector3(14, 6, 0),new Vector3(14, 3, 0),
-        new Vector3(14, 0, 0),new Vector3(14, -3, 0),new Vector3(14, -6, 0)
-    };
 
+    //static readonly Vector3[] Floor_Egg_Battle_Pos = new Vector3[]
+    //{
+    //    new Vector3(6, 1, 0), new Vector3(0, 1, 0), new Vector3(-6, 1, 0), new Vector3(-12, 1, 0),
+    //    new Vector3(-11, -3, 0), new Vector3(-11, -7, 0),
+    //    new Vector3(6, -11, 0), new Vector3(0, -11, 0), new Vector3(-6, -11, 0), new Vector3(-12,-11 , 0)
+    //};
+
+    //static readonly Vector3[] Floor_1_Battle_Pos = new Vector3[]
+    //{
+    //    new Vector3(-4, 5, 0), new Vector3(-10, 5, 0), new Vector3(6, 5, 0), new Vector3(12, 5, 0),
+    //    new Vector3(-13, 0.5f, 0), new Vector3(-13, -3.5f, 0), new Vector3(12, 0.5f, 0), new Vector3(14, -3.5f, 0),
+    //    new Vector3(0, -7, 0), new Vector3(6, -7, 0), new Vector3(-6, -7, 0), new Vector3(12, -7, 0), new Vector3(-12, -7, 0),
+    //};
+
+    //static readonly Vector3[] Floor_2_Battle_Pos = new Vector3[]
+    //{
+    //    new Vector3(0, 5.5f, 0), new Vector3(6, 5.5f, 0), new Vector3(-6, 5.5f, 0),
+    //    new Vector3(-9, 1.5f, 0), new Vector3(-9, -2.5f, 0),
+    //    new Vector3(9.5f, -2.5f, 0), new Vector3(9.5f, 1.5f, 0),
+    //    new Vector3(-3, -4.5f, 0), new Vector3(3, -4.5f, 0),
+    //};
+
+    //static readonly Vector3[] Floor_3_Battle_Pos = new Vector3[]
+    //{
+    //    new Vector3(3, 4f, 0), new Vector3(3, 8f, 0), new Vector3(-4, 7f, 0),
+    //    new Vector3(-13, 2f, 0), new Vector3(-11.5f, 5.5f, 0), new Vector3(-19f, 4f, 0),
+    //    new Vector3(4.5f, -4f, 0), new Vector3(12f, -4f, 0), new Vector3(14f, 0f, 0),
+    //    new Vector3(16f, 9f, 0), new Vector3(12f, 13f, 0), new Vector3(18f, 12.5f, 0),
+    //    new Vector3(-24.5f, 0, 0), new Vector3(-24.5f, -4, 0),
+    //    new Vector3(-18, -7, 0), new Vector3(-11, -7, 0), new Vector3(-4, -7, 0), new Vector3(18.5f, 4.5f, 0),
+    //};
+
+    //static readonly Vector3[] Floor_4_Battle_Pos = new Vector3[]
+    //{
+    //    new Vector3(-3, 0, 0), new Vector3(4, 0, 0), new Vector3(4, 4, 0), new Vector3(-3, 4, 0), new Vector3(4, 8, 0), new Vector3(-3, 8, 0),
+    //    new Vector3(-10, 8, 0), new Vector3(-20, 7, 0), new Vector3(-13.5f, -1, 0), new Vector3(-20, 0, 0), new Vector3(-12.5f, -8, 0),
+    //    new Vector3(14, -5, 0), new Vector3(14.5f, -1, 0),
+    //    new Vector3(23.5f, 0, 0), new Vector3(23.5f, 4, 0), new Vector3(23.5f, 8, 0), 
+    //    new Vector3(16, 8, 0), new Vector3(10, 5, 0), new Vector3(9, 9, 0),
+    //    new Vector3(-5, -11, 0), new Vector3(2, -11, 0), new Vector3(9, -11, 0), new Vector3(16, -11, 0), new Vector3(23, -11, 0),
+    //};
+
+    //static readonly Vector3[] Floor_5_Battle_Pos = new Vector3[]
+    //{
+    //    new Vector3(0, 11, 0), new Vector3(7, 11, 0), new Vector3(14, 11, 0), new Vector3(21, 11, 0),
+    //    new Vector3(2.5f, -3, 0), new Vector3(-7, 11, 0), new Vector3(-14, 11, 0), new Vector3(-21, 11, 0),
+    //    new Vector3(8, 0, 0), new Vector3(15, -1, 0), new Vector3(15, -5, 0),
+    //    new Vector3(3, -10, 0), new Vector3(-9.5f, -4.5f, 0), 
+    //    new Vector3(-18, 3.5f, 0), new Vector3(-10, 3.5f, 0), new Vector3(4, 4f, 0), new Vector3(12, 5, 0),
+    //    new Vector3(-7, -9, 0),
+    //    new Vector3(-21, -12, 0), new Vector3(-14, -12, 0), new Vector3(10, -12, 0), new Vector3(17, -12, 0),
+    //    new Vector3(23.5f, 4.5f, 0), new Vector3(-27.5f, 3f, 0), new Vector3(-27.5f, -1f, 0), new Vector3(-27.5f, -5f, 0),
+    //    new Vector3(-27.5f, -9f, 0),
+    //};
 }

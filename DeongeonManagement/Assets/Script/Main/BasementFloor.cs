@@ -38,6 +38,8 @@ public class BasementFloor : MonoBehaviour
     public List<Monster> monsterList;
     public List<Facility> facilityList;
 
+    public List<Transform> battlePos;
+
 
     //public BasementTile[,] TileMap { get; set; }
 
@@ -159,10 +161,113 @@ public class BasementFloor : MonoBehaviour
                 }
             }
         }
-
-
         //return tempTile;
     }
+    public BasementTile GetRandomTile_Portal()
+    {
+        Vector2Int randomTile;
+
+        BasementTile tempTile = null;
+        while (true)
+        {
+            randomTile = new Vector2Int(UnityEngine.Random.Range(0, tilemap.cellBounds.size.x), UnityEngine.Random.Range(0, tilemap.cellBounds.size.y));
+            if (TileMap.TryGetValue(randomTile, out tempTile))
+            {
+                if (OriginalCheck(randomTile + new Vector2Int(1, 0)) == false)
+                {
+                    continue;
+                }
+                if (OriginalCheck(randomTile + new Vector2Int(-1, 0)) == false)
+                {
+                    continue;
+                }
+                if (OriginalCheck(randomTile + new Vector2Int(0, 1)) == false)
+                {
+                    continue;
+                }
+                if (OriginalCheck(randomTile + new Vector2Int(0, -1)) == false)
+                {
+                    continue;
+                }
+
+                if (tempTile.Original == null)
+                {
+                    return tempTile;
+                }
+            }
+        }
+    }
+
+
+    bool OriginalCheck(Vector2Int index)
+    {
+        BasementTile temp = null;
+        if (TileMap.TryGetValue(index, out temp))
+        {
+            if (temp.Original == null)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool DirectionCheck_9(Vector2Int index)
+    {
+        //? 키패드 기준 123456789
+        int[] deltaX = { -1, 0, 1, -1, 0, 1, -1, 0, 1 };
+        int[] deltaY = { -1, -1, -1, 0, 0, 0, 1, 1, 1 };
+
+        for (int i = 0; i < 9; i++)
+        {
+            if (OriginalCheck(index + new Vector2Int(deltaX[i], deltaY[i])) == false)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+
+    public BasementTile GetRandomTile_Size(int x, int y)
+    {
+        Vector2Int randomTile;
+        BasementTile tempTile = null;
+
+        int count = 0;
+
+        while (count < 100)
+        {
+            randomTile = new Vector2Int(UnityEngine.Random.Range(0, tilemap.cellBounds.size.x), UnityEngine.Random.Range(0, tilemap.cellBounds.size.y));
+            if (TileMap.TryGetValue(randomTile, out tempTile))
+            {
+                for (int i = 0; i < x; i++)
+                {
+                    for (int j = 0; j < y; j++)
+                    {
+                        if (DirectionCheck_9(randomTile + new Vector2Int(i, j)) == false)
+                        {
+                            //? for문 두개를 다 탈출하고 while문의 처음으로 가기
+                            goto restart;
+                        }
+                    }
+                }
+
+                if (tempTile.Original == null)
+                {
+                    return tempTile;
+                }
+            }
+        restart:;
+        }
+
+        return tempTile;
+    }
+
+
+
 
 
 
@@ -605,7 +710,7 @@ public class BasementFloor : MonoBehaviour
             var obj = PickObjectOfType(typeof(Entrance));
             if (obj == null)
             {
-                var info = new PlacementInfo(this, GetRandomTile());
+                var info = new PlacementInfo(this, GetRandomTile_Portal());
                 obj = GameManager.Facility.CreateFacility_OnlyOne("Entrance", info);
             }
             return obj;
@@ -619,7 +724,7 @@ public class BasementFloor : MonoBehaviour
             var obj = PickObjectOfType(typeof(Exit));
             if (obj == null)
             {
-                var info = new PlacementInfo(this, GetRandomTile());
+                var info = new PlacementInfo(this, GetRandomTile_Portal());
                 obj = GameManager.Facility.CreateFacility_OnlyOne("Exit", info);
             }
             return obj;
@@ -635,28 +740,35 @@ public class BasementFloor : MonoBehaviour
 
         if (PickObjectOfType(typeof(Entrance)) == null)
         {
-            bool isEmpty;
-            var tile = GetRandomTile_Common(out isEmpty);
-            var info = new PlacementInfo(this, tile);
-            if (isEmpty == false)
-            {
-                GameManager.Facility.RemoveFacility(tile.Original as Facility);
-            }
-
+            var info = new PlacementInfo(this, GetRandomTile_Portal());
             GameManager.Facility.CreateFacility_OnlyOne("Entrance", info);
+
+
+            //bool isEmpty;
+            //var tile = GetRandomTile_Common(out isEmpty);
+            //var info = new PlacementInfo(this, tile);
+            //if (isEmpty == false)
+            //{
+            //    GameManager.Facility.RemoveFacility(tile.Original as Facility);
+            //}
+
+            //GameManager.Facility.CreateFacility_OnlyOne("Entrance", info);
         }
 
         if (PickObjectOfType(typeof(Exit)) == null)
         {
-            bool isEmpty;
-            var tile = GetRandomTile_Common(out isEmpty);
-            var info = new PlacementInfo(this, tile);
-            if (isEmpty == false)
-            {
-                GameManager.Facility.RemoveFacility(tile.Original as Facility);
-            }
-
+            var info = new PlacementInfo(this, GetRandomTile_Portal());
             GameManager.Facility.CreateFacility_OnlyOne("Exit", info);
+
+            //bool isEmpty;
+            //var tile = GetRandomTile_Common(out isEmpty);
+            //var info = new PlacementInfo(this, tile);
+            //if (isEmpty == false)
+            //{
+            //    GameManager.Facility.RemoveFacility(tile.Original as Facility);
+            //}
+
+            //GameManager.Facility.CreateFacility_OnlyOne("Exit", info);
         }
     }
 

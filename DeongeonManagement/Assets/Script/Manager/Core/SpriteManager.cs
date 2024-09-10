@@ -50,7 +50,7 @@ public class SpriteManager
 
         ui_Cursor = Resources.LoadAll<Sprite>("Sprite/UI/Cursors");
 
-        SLA_Array = Resources.LoadAll<SpriteLibraryAsset>("SpriteLabraryAsset");
+        SLA_Array = Resources.LoadAll<SpriteLibraryAsset>("SpriteLibraryAsset");
 
         ui_Area = Resources.LoadAll<Sprite>("Sprite/_UI/Area");
         for (int i = 0; i < ui_Area.Length; i++)

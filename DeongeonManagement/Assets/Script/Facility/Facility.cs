@@ -84,7 +84,7 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
 
     #region SaveLoad
-    public void Load_Data(Save_FacilityData _data)
+    public virtual void Load_Data(Save_FacilityData _data)
     {
         InteractionOfTimes = _data.interactionTimes;
         //OptionIndex = _data.OptionIndex;
@@ -118,6 +118,9 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
     public string Data_KeyName { get; set; }
     public int instanceIndex { get; set; }
+
+    public string categoryName;
+    public string labelName;
 
     public void SetData()
     {

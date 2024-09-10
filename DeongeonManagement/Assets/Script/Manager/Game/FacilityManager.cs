@@ -264,10 +264,10 @@ public class Save_FacilityData
 
     public bool isOnlyOne;
 
-    //public bool isUnchange; //? 필요하면 나중에 쓰자. 타일 형태가 안바뀌는놈. 근데 이동 후 상호작용은 전부 OnlyOne이라서 아직은 필요가없음
-
     public int instanceIndex;
 
+    public string categoryName;
+    public string labelName;
 
     public void SetData(Facility facility)
     {
@@ -285,5 +285,8 @@ public class Save_FacilityData
         isOnlyOne = facility.isOnlyOne;
 
         instanceIndex = facility.instanceIndex;
+
+        categoryName = facility.categoryName;
+        labelName = facility.labelName;
     }
 }

@@ -372,13 +372,10 @@ public class UserData : MonoBehaviour
 
     public WaitUntil Wait_GamePlay { get; set; }
 
+
+
     void GameStop()
     {
-        // 연출중인 캐릭터들을 제외한 모든 npc, monster의 움직임 제어
-        // 돌고있는 모든 코루틴 일시정지
-        // 카메라 연출
-        // 버튼 입출력 제어(이건 캔버스를 사라지게 만들어서 괜찮을듯?)
-
         Time.timeScale = 1;
         Wait_GamePlay = new WaitUntil(() => GameMode != Define.GameMode.Stop);
     }
@@ -555,8 +552,18 @@ public class UserData : MonoBehaviour
 
         public bool firstAppear_Heroine;
 
+
+
         //? Config Option - 각종 개인환경 옵션
         public bool Placement_Continuous;
+
+
+        //? 새로운거 알림
+        public bool Notice_Facility;
+        public bool Notice_Monster;
+        public bool Notice_Guild;
+        public bool Notice_Quest;
+        public bool Notice_DungeonEdit;
 
 
         public SavefileConfig DeepCopy()
@@ -566,10 +573,8 @@ public class UserData : MonoBehaviour
             newConfig.PlayRounds = PlayRounds;
             newConfig.PlayTimes = PlayTimes;
 
-
             newConfig.Statue_Dog = Statue_Dog;
             newConfig.Statue_Dragon = Statue_Dragon;
-
 
             newConfig.firstAppear_Herbalist = firstAppear_Herbalist;
             newConfig.firstAppear_Miner = firstAppear_Miner;
@@ -590,6 +595,13 @@ public class UserData : MonoBehaviour
 
             //? 옵션
             newConfig.Placement_Continuous = Placement_Continuous;
+
+            //? 알림
+            newConfig.Notice_Facility = Notice_Facility;
+            newConfig.Notice_Monster = Notice_Monster;
+            newConfig.Notice_Guild = Notice_Guild;
+            newConfig.Notice_Quest = Notice_Quest;
+            newConfig.Notice_DungeonEdit = Notice_DungeonEdit;
 
             return newConfig;
         }
@@ -724,5 +736,5 @@ public enum Endings
     Dragon,
 
     //? 위험도가 100보다 작고 인기도가 위험도보다 높을때
-    Rabi,
+    Ravi,
 }

@@ -504,6 +504,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         }
     }
 
+
+
     public bool TraitCheck(TraitGroup searchTrait)
     {
         var trait = Util.GetTypeToString($"Trait+{searchTrait.ToString()}");

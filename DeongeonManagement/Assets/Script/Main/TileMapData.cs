@@ -30,7 +30,7 @@ public class TileMapData : MonoBehaviour
         {
             if (FloorTileMap.HasTile(pos))
             {
-                if (FloorTileMap.GetTile(pos).name == "_Fix" || FloorTileMap.GetTile(pos).name == "_Changeable")
+                if (FloorTileMap.GetTile(pos).name == "_Fixed" || FloorTileMap.GetTile(pos).name == "_Changeable")
                 {
                     //Debug.Log("@@@@");
                     continue;

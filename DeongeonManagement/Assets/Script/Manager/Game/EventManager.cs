@@ -919,7 +919,7 @@ public class EventManager : MonoBehaviour
 
         EventAction.Add("Entrance_Move_2to4", () =>
         {
-            StartCoroutine(EntranceMove_2to4());
+            StartCoroutine(EntranceMove_3to4());
         });
 
 
@@ -1193,7 +1193,6 @@ public class EventManager : MonoBehaviour
         Managers.Dialogue.ShowDialogueUI(DialogueName.Guild_Raid_1, cap_A.transform);
         StartCoroutine(Wait_Day25_Dialogue(cap_A, cap_B, sol1List, sol2List));
     }
-
     IEnumerator Wait_Day25_Dialogue(NPC cap_A, NPC cap_B, List<NPC> sol1, List<NPC> sol2)
     {
         var Dungeon = Main.Instance.Dungeon;
@@ -1308,7 +1307,6 @@ public class EventManager : MonoBehaviour
         Managers.Dialogue.ShowDialogueUI(DialogueName.Guild_Raid_2, Captine_C.transform);
         StartCoroutine(Wait_Day30_Dialogue(Cap_A, Cap_B, Captine_C, sol1List, sol2List, sol3List, bloodSong));
     }
-
     IEnumerator Wait_Day30_Dialogue(NPC cap_A, NPC cap_B, NPC cap_C, List<NPC> sol1, List<NPC> sol2, List<NPC> sol3, List<NPC> bloodSong)
     {
         var Dungeon = Main.Instance.Dungeon;
@@ -1366,18 +1364,19 @@ public class EventManager : MonoBehaviour
 
         Managers.Dialogue.AllowPerfectSkip = false;
         var cam = Camera.main.GetComponent<CameraControl>();
-        Vector3 floor3 = GetTilePosition(Define.DungeonFloor.Floor_3, new Vector2Int(0, 0));
-        Vector3 floorEgg = GetTilePosition(Define.DungeonFloor.Egg, new Vector2Int(12, 2));
 
-        //Transform player = Main.Instance.Player;
-        //Transform floor3 = GameObject.Find("BasementFloor_3").transform;
+        Vector2Int portalIndex = new Vector2Int(2, 2);
+        Vector2Int eggExit = new Vector2Int(11, 2);
+
+        Vector3 floor3 = GetTilePosition(Define.DungeonFloor.Floor_3, portalIndex);
+        Vector3 floorEgg = GetTilePosition(Define.DungeonFloor.Egg, eggExit);
 
         cam.ChasingTarget(floor3, 2);
         yield return new WaitForSeconds(2);
 
         {
             var tile = Main.Instance.Floor[(int)Define.DungeonFloor.Floor_3].GetRandomTile();
-            Main.Instance.Floor[(int)Define.DungeonFloor.Floor_3].TileMap.TryGetValue(new Vector2Int(0, 0), out tile);
+            Main.Instance.Floor[(int)Define.DungeonFloor.Floor_3].TileMap.TryGetValue(portalIndex, out tile);
             GameManager.Facility.RemoveFacility(tile.Original as Facility);
             PlacementInfo info = new PlacementInfo(Main.Instance.Floor[(int)Define.DungeonFloor.Floor_3], tile);
             var obj = GameManager.Facility.CreateFacility_OnlyOne("EggEntrance", info);
@@ -1389,7 +1388,7 @@ public class EventManager : MonoBehaviour
 
         {
             var tile = Main.Instance.Floor[(int)Define.DungeonFloor.Egg].GetRandomTile();
-            Main.Instance.Floor[(int)Define.DungeonFloor.Egg].TileMap.TryGetValue(new Vector2Int(12, 2), out tile);
+            Main.Instance.Floor[(int)Define.DungeonFloor.Egg].TileMap.TryGetValue(eggExit, out tile);
             GameManager.Facility.RemoveFacility(tile.Original as Facility);
             PlacementInfo info = new PlacementInfo(Main.Instance.Floor[(int)Define.DungeonFloor.Egg], tile);
             var obj = GameManager.Facility.CreateFacility_OnlyOne("Exit", info);
@@ -1398,19 +1397,21 @@ public class EventManager : MonoBehaviour
         yield return new WaitForSeconds(2);
         Managers.Dialogue.AllowPerfectSkip = true;
     }
-
     void FirstPortalAppearSkip()
     {
+        Vector2Int portalIndex = new Vector2Int(2, 2);
+        Vector2Int eggExit = new Vector2Int(11, 2);
+
         {
             var tile = Main.Instance.Floor[(int)Define.DungeonFloor.Floor_3].GetRandomTile();
-            Main.Instance.Floor[(int)Define.DungeonFloor.Floor_3].TileMap.TryGetValue(new Vector2Int(0, 0), out tile);
+            Main.Instance.Floor[(int)Define.DungeonFloor.Floor_3].TileMap.TryGetValue(portalIndex, out tile);
             GameManager.Facility.RemoveFacility(tile.Original as Facility);
             PlacementInfo info = new PlacementInfo(Main.Instance.Floor[(int)Define.DungeonFloor.Floor_3], tile);
             var obj = GameManager.Facility.CreateFacility_OnlyOne("EggEntrance", info);
         }
         {
             var tile = Main.Instance.Floor[(int)Define.DungeonFloor.Egg].GetRandomTile();
-            Main.Instance.Floor[(int)Define.DungeonFloor.Egg].TileMap.TryGetValue(new Vector2Int(12, 2), out tile);
+            Main.Instance.Floor[(int)Define.DungeonFloor.Egg].TileMap.TryGetValue(eggExit, out tile);
             GameManager.Facility.RemoveFacility(tile.Original as Facility);
             PlacementInfo info = new PlacementInfo(Main.Instance.Floor[(int)Define.DungeonFloor.Egg], tile);
             var obj = GameManager.Facility.CreateFacility_OnlyOne("Exit", info);
@@ -1418,28 +1419,33 @@ public class EventManager : MonoBehaviour
     }
 
 
-    IEnumerator EntranceMove_2to4()
+    IEnumerator EntranceMove_3to4()
     {
         yield return null;
         yield return new WaitForEndOfFrame();
         if (Managers.Dialogue.GetState() == DialogueManager.DialogueState.None)
         {
-            EntranceMove_2to4_Skip();
+            EntranceMove_3to4_Skip();
             yield break;
         }
 
         Managers.Dialogue.AllowPerfectSkip = false;
 
         var cam = Camera.main.GetComponent<CameraControl>();
-        Vector3 floor3 = GetTilePosition(Define.DungeonFloor.Floor_3, new Vector2Int(0, 0));
-        Vector3 floor4 = GetTilePosition(Define.DungeonFloor.Floor_4, new Vector2Int(1, 15));
+
+        Vector2Int portal_3 = new Vector2Int(2, 2);
+        Vector2Int portal_4 = new Vector2Int(2, 2);
+
+
+        Vector3 floor3 = GetTilePosition(Define.DungeonFloor.Floor_3, portal_3);
+        Vector3 floor4 = GetTilePosition(Define.DungeonFloor.Floor_4, portal_4);
 
         cam.ChasingTarget(floor3, 2);
         yield return new WaitForSecondsRealtime(2);
 
         {
             var tile = Main.Instance.Floor[(int)Define.DungeonFloor.Floor_3].GetRandomTile();
-            Main.Instance.Floor[(int)Define.DungeonFloor.Floor_3].TileMap.TryGetValue(new Vector2Int(0, 0), out tile);
+            Main.Instance.Floor[(int)Define.DungeonFloor.Floor_3].TileMap.TryGetValue(portal_3, out tile);
             GameManager.Facility.RemoveFacility(tile.Original as Facility);
         }
 
@@ -1449,7 +1455,7 @@ public class EventManager : MonoBehaviour
 
         {
             var tile = Main.Instance.Floor[(int)Define.DungeonFloor.Floor_4].GetRandomTile();
-            Main.Instance.Floor[(int)Define.DungeonFloor.Floor_4].TileMap.TryGetValue(new Vector2Int(1, 15), out tile);
+            Main.Instance.Floor[(int)Define.DungeonFloor.Floor_4].TileMap.TryGetValue(portal_4, out tile);
             // 로드파일에서 테스트할 때
             if (tile.Original != null)
             {
@@ -1464,25 +1470,23 @@ public class EventManager : MonoBehaviour
         cam.ChasingTarget(Main.Instance.Player, 2);
         yield return new WaitForSecondsRealtime(2);
 
-        var ent = Main.Instance.Floor[(int)Define.DungeonFloor.Floor_4].Entrance;
-        var exi = Main.Instance.Floor[(int)Define.DungeonFloor.Floor_4].Exit;
-
         Managers.Dialogue.AllowPerfectSkip = true;
     }
-
-
-    void EntranceMove_2to4_Skip()
+    void EntranceMove_3to4_Skip()
     {
         if (Managers.Dialogue.GetState() == DialogueManager.DialogueState.None)
         {
+            Vector2Int portal_3 = new Vector2Int(2, 2);
+            Vector2Int portal_4 = new Vector2Int(2, 2);
+
             {
                 var tile = Main.Instance.Floor[(int)Define.DungeonFloor.Floor_3].GetRandomTile();
-                Main.Instance.Floor[(int)Define.DungeonFloor.Floor_3].TileMap.TryGetValue(new Vector2Int(0, 0), out tile);
+                Main.Instance.Floor[(int)Define.DungeonFloor.Floor_3].TileMap.TryGetValue(portal_3, out tile);
                 GameManager.Facility.RemoveFacility(tile.Original as Facility);
             }
             {
                 var tile = Main.Instance.Floor[(int)Define.DungeonFloor.Floor_4].GetRandomTile();
-                Main.Instance.Floor[(int)Define.DungeonFloor.Floor_4].TileMap.TryGetValue(new Vector2Int(1, 15), out tile);
+                Main.Instance.Floor[(int)Define.DungeonFloor.Floor_4].TileMap.TryGetValue(portal_4, out tile);
                 // 로드파일에서 테스트할 때
                 if (tile.Original != null)
                 {
@@ -1492,11 +1496,29 @@ public class EventManager : MonoBehaviour
                 PlacementInfo info = new PlacementInfo(Main.Instance.Floor[(int)Define.DungeonFloor.Floor_4], tile);
                 var obj = GameManager.Facility.CreateFacility_OnlyOne("EggEntrance", info);
             }
-
-            var ent = Main.Instance.Floor[(int)Define.DungeonFloor.Floor_4].Entrance;
-            var exi = Main.Instance.Floor[(int)Define.DungeonFloor.Floor_4].Exit;
         }
     }
+
+    public void EntranceMove_4to5()
+    {
+        Vector2Int portal_4 = new Vector2Int(2, 2);
+        Vector2Int portal_5 = new Vector2Int(6, 19);
+
+        {
+            var tile = Main.Instance.Floor[(int)Define.DungeonFloor.Floor_4].GetRandomTile();
+            Main.Instance.Floor[(int)Define.DungeonFloor.Floor_4].TileMap.TryGetValue(portal_4, out tile);
+            GameManager.Facility.RemoveFacility(tile.Original as Facility);
+        }
+        {
+            var tile = Main.Instance.Floor[(int)Define.DungeonFloor.Floor_5].GetRandomTile();
+            Main.Instance.Floor[(int)Define.DungeonFloor.Floor_5].TileMap.TryGetValue(portal_5, out tile);
+            GameManager.Facility.RemoveFacility(tile.Original as Facility);
+
+            PlacementInfo info = new PlacementInfo(Main.Instance.Floor[(int)Define.DungeonFloor.Floor_5], tile);
+            var obj = GameManager.Facility.CreateFacility_OnlyOne("EggEntrance", info);
+        }
+    }
+
 
     #endregion
 
@@ -1575,13 +1597,16 @@ public class EventManager : MonoBehaviour
     public void RankUpEvent()
     {
         FindObjectOfType<Player>().Level_Stat(Main.Instance.DungeonRank);
-        Camera.main.GetComponent<CameraControl>().LimitRefresh();
         GameManager.Monster.Resize_MonsterSlot();
 
-        if (Main.Instance.DungeonRank >= 2)
-        {
-            Main.Instance.DungeonExpansionUI();
-        }
+        //if (Main.Instance.DungeonRank >= (int)Define.DungeonRank.D && Main.Instance.ActiveFloor_Basement < 5)
+        //{
+        //    FindAnyObjectByType<UI_Management>().SetNotice(UI_Management.OverlayImages.OverlayImage_Dungeon, true);
+        //}
+        //else if (Main.Instance.DungeonRank >= (int)Define.DungeonRank.C && Main.Instance.ActiveFloor_Basement < 6)
+        //{
+        //    FindAnyObjectByType<UI_Management>().SetNotice(UI_Management.OverlayImages.OverlayImage_Dungeon, true);
+        //}
     }
 
 }
