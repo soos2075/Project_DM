@@ -496,6 +496,8 @@ public class DataManager
             UserData.Instance.CurrentSaveData = data;
             UserData.Instance.isClear = data.isClear;
             UserData.Instance.EndingState = data.endgins;
+            UserData.Instance.FileConfig = data.savefileConfig.DeepCopy();
+            UserData.Instance.FileConfig.Init_CurrentPlayTime();
 
             LoadGuildData(data);
             LoadFileApply(data);
@@ -659,9 +661,6 @@ public class DataManager
 
     void LoadFileApply(SaveData loadData)
     {
-        UserData.Instance.FileConfig = loadData.savefileConfig.DeepCopy();
-        UserData.Instance.FileConfig.Init_CurrentPlayTime();
-
         GameManager.Buff.Load_Buff(loadData.buffList);
 
         Main.Instance.SetLoadData(loadData);

@@ -49,11 +49,11 @@ public class Herb : Facility
             switch (TagCheck(npc))
             {
                 case Target.Bonus:
-                    changeMP = Mathf.RoundToInt(mp_value * 1.3f);
+                    changeMP = Mathf.RoundToInt(mp_value * 1.2f);
                     break;
 
                 case Target.Weak:
-                    changeMP = Mathf.RoundToInt(mp_value * 0.7f);
+                    changeMP = Mathf.RoundToInt(mp_value * 0.5f);
                     break;
 
                 case Target.Invalid:

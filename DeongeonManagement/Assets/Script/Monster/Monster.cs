@@ -777,7 +777,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     {
         float delay = Data.moveSpeed * 0.5f; //? 높을수록 느림. 1칸 이동하는데 걸리는 시간이라고 보면 댐
         float interval = Data.ActionInterval * 0.5f; //? 얘가 NPC로 치면 ActionDelay
-        yield return new WaitForSeconds(interval);
+        yield return new WaitForSeconds(1); //? 가장 처음 동작은 npc가 도망칠 시간은 줘야되서 1초정도 기다리기(일반액션은 상관없음)
 
         while (Main.Instance.Management == false && State == MonsterState.Placement)
         {
@@ -1071,7 +1071,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
                 UI_EventBox.AddEventText($"★{floorName} - {Name_Color} {UserData.Instance.LocaleText("Battle_Lose")}");
                 MonsterOutFloor();
 
-                Main.Instance.CurrentDay.AddDefeat(1);
+                Main.Instance.CurrentDay.AddDefeatMonster(1);
                 break;
 
             case BattleField.BattleResult.NPC_Die:

@@ -382,12 +382,20 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
             SetPriorityList(PrioritySortOption.SortByDistance);
         }
     }
-    
-    //public void OverWell_Interaction()
-    //{
-    //    SetPriorityList();
-    //    State = StateRefresh();
-    //}
+
+    protected void AddPriorityList(List<BasementTile> list, AddPos pos, PrioritySortOption option)
+    {
+        switch (option)
+        {
+            case PrioritySortOption.Random:
+                break;
+            case PrioritySortOption.SortByDistance:
+                SortByDistance(list);
+                break;
+        }
+
+        AddList(list, pos);
+    }
 
 
 
@@ -628,6 +636,51 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
         renderer.sortingOrder = originLayer;
     }
+
+    protected IEnumerator EventCor(DialogueName dialogueName, Action action, float dis = 1.5f)
+    {
+        yield return new WaitUntil(() => Vector3.Distance(transform.position, Main.Instance.Dungeon.position) < dis);
+
+        action.Invoke();
+
+        var renderer = GetComponentInChildren<SpriteRenderer>();
+        int originLayer = renderer.sortingOrder;
+        renderer.sortingOrder = 10;
+
+        Camera.main.GetComponent<CameraControl>().ChasingTarget(transform.position, 1); //? 여기서 하는 이유 = 카메라가 다른놈 가르키는거 방지
+        Managers.Dialogue.ShowDialogueUI(dialogueName, transform);
+
+        anim.Play(Define.ANIM_Idle);
+
+        yield return null;
+        yield return UserData.Instance.Wait_GamePlay;
+
+        Anim_State = Anim_State;
+        renderer.sortingOrder = originLayer;
+    }
+
+
+
+    protected void Dialogue_Highlight(string _labelName)
+    {
+        var npc = GameObject.Find(_labelName);
+        if (npc != null)
+        {
+            var renderer = npc.GetComponentInChildren<SpriteRenderer>();
+            int originLayer = renderer.sortingOrder;
+            renderer.sortingOrder = 10;
+            var npcScript = npc.GetComponentInChildren<NPC>(true);
+            npcScript.anim.Play(Define.ANIM_Idle);
+
+            Managers.Dialogue.ActionReserve(() => Highlight_Return(renderer, originLayer, npcScript));
+        }
+    }
+    void Highlight_Return(SpriteRenderer renderer, int layer, NPC scr)
+    {
+        scr.Anim_State = scr.Anim_State;
+        renderer.sortingOrder = layer;
+    }
+
 
     //protected IEnumerator EventCor(string dialogueName, float dis = 1.5f)
     //{
@@ -954,7 +1007,6 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
                 break;
 
             case NPCState.Return_Satisfaction:
-                UI_EventBox.AddEventText($"◆{Name_Color} {UserData.Instance.LocaleText("Event_Exit_Satisfaction")}");
                 Satisfaction_Base();
                 break;
         }
@@ -997,6 +1049,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
             var emotion = Managers.Resource.Instantiate("NPC/Emotions", transform);
             emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.GetSprite_SLA("Element_State", "Perfect");
+            UI_EventBox.AddEventText($"◆{Name_Color} {UserData.Instance.LocaleText("Event_Exit_Satisfaction")}");
         }
         else
         {
@@ -1005,11 +1058,12 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
             var emotion = Managers.Resource.Instantiate("NPC/Emotions", transform);
             emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.GetSprite_SLA("Element_State", "Good");
+            UI_EventBox.AddEventText($"◆{Name_Color} {UserData.Instance.LocaleText("Event_Exit_Normal")}");
         }
     }
     void Die_Base()
     {
-        Main.Instance.CurrentDay.AddKill(1);
+        Main.Instance.CurrentDay.AddDefeatNPC(1);
         NPC_Die();
     }
 

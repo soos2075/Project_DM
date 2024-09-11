@@ -59,6 +59,7 @@ public class SpriteManager
         }
 
         Technical = Resources.LoadAll<Sprite>("Sprite/_Object/Technical");
+        npcLib = Resources.Load<SpriteLibraryAsset>("SpriteLibraryAsset/SLA_NPC");
     }
 
 
@@ -166,6 +167,19 @@ public class SpriteManager
             }
         }
 
+        return null;
+    }
+
+    SpriteLibraryAsset npcLib;
+    public Sprite Get_NPC(string category, string label)
+    {
+        foreach (var _category in npcLib.GetCategoryNames())
+        {
+            if (category == _category)
+            {
+                return npcLib.GetSprite(_category, label);
+            }
+        }
         return null;
     }
 

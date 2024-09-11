@@ -86,13 +86,13 @@ public class UI_DungeonEdit : UI_PopUp
 
         if (Main.Instance.ActiveFloor_Basement == 4 && floorIndex == 4)
         {
-            ExpansionCheck(Define.DungeonFloor.Floor_4, (int)Define.DungeonRank.D, 300, 300, 2);
+            ExpansionCheck(Define.DungeonFloor.Floor_4, (int)Define.DungeonRank.D, 500, 250, 2);
             return;
         }
 
         if (Main.Instance.ActiveFloor_Basement == 5 && floorIndex == 5)
         {
-            ExpansionCheck(Define.DungeonFloor.Floor_5, (int)Define.DungeonRank.C, 500, 500, 3);
+            ExpansionCheck(Define.DungeonFloor.Floor_5, (int)Define.DungeonRank.C, 1500, 750, 3);
             return;
         }
     }
@@ -121,7 +121,7 @@ public class UI_DungeonEdit : UI_PopUp
     }
 
 
-    bool ConfirmCheck(int mana, int gold, int ap, int rank = 0)
+    bool ConfirmCheck(int mana, int gold, int ap, int rank)
     {
         if (Main.Instance.DungeonRank < rank)
         {
@@ -155,7 +155,7 @@ public class UI_DungeonEdit : UI_PopUp
 
     IEnumerator WaitForAnswer(int mana, int gold, int ap, int rank, Define.DungeonFloor floor)
     {
-        if (ConfirmCheck(mana, gold, rank))
+        if (ConfirmCheck(mana, gold, ap, rank))
         {
             Main.Instance.CurrentDay.SubtractMana(mana, Main.DayResult.EventType.Etc);
             Main.Instance.CurrentDay.SubtractGold(gold, Main.DayResult.EventType.Etc);

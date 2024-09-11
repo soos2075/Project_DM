@@ -31,7 +31,7 @@ public class NPC_Normal : NPC
             case NPC_Type_Normal.Herbalist2:
             case NPC_Type_Normal.Miner0:
             case NPC_Type_Normal.Miner1:
-                KillGold = Data.Rank * Random.Range(10, 21);
+                KillGold = Data.Rank * Random.Range(5, 11);
                 RunawayHpRatio = 2;
                 break;
 
@@ -39,12 +39,12 @@ public class NPC_Normal : NPC
             case NPC_Type_Normal.Adventurer1:
             case NPC_Type_Normal.Elf:
             case NPC_Type_Normal.Wizard:
-                KillGold = Data.Rank * Random.Range(15, 31);
+                KillGold = Data.Rank * Random.Range(10, 21);
                 RunawayHpRatio = 4;
                 break;
 
             case NPC_Type_Normal.Goblin:
-                KillGold = Data.Rank * Random.Range(20, 41);
+                KillGold = Data.Rank * Random.Range(15, 31);
                 RunawayHpRatio = 3;
                 break;
         }
@@ -239,66 +239,43 @@ public class NPC_Normal : NPC
     {
         if (PriorityList != null) PriorityList.Clear();
 
-
-        List<BasementTile> main = null;
-        List<BasementTile> sub1 = null;
-        List<BasementTile> sub2 = null;
-
         switch (NPCType)
         {
             case NPC_Type_Normal.Herbalist0:
             case NPC_Type_Normal.Herbalist1:
             case NPC_Type_Normal.Herbalist2:
-                main = GetPriorityPick(typeof(Herb));
+                AddPriorityList(GetPriorityPick(typeof(Herb)), AddPos.Front, option);
                 break;
 
             case NPC_Type_Normal.Miner0:
             case NPC_Type_Normal.Miner1:
-                main = GetPriorityPick(typeof(Mineral));
+                AddPriorityList(GetPriorityPick(typeof(Mineral)), AddPos.Front, option);
                 break;
 
             case NPC_Type_Normal.Adventurer0:
             case NPC_Type_Normal.Adventurer1:
-                main = GetPriorityPick(typeof(Monster));
-                sub1 = GetPriorityPick(typeof(Treasure));
+                AddPriorityList(GetPriorityPick(typeof(Monster)), AddPos.Front, option);
+                AddPriorityList(GetPriorityPick(typeof(Treasure)), AddPos.Front, option);
                 break;
 
             case NPC_Type_Normal.Elf:
-                main = GetPriorityPick(typeof(Herb));
-                sub1 = GetPriorityPick(typeof(Monster));
+                AddPriorityList(GetPriorityPick(typeof(Monster)), AddPos.Front, option);
+                AddPriorityList(GetPriorityPick(typeof(Herb)), AddPos.Front, option);
                 break;
 
             case NPC_Type_Normal.Wizard:
-                main = GetPriorityPick(typeof(Mineral));
-                sub1 = GetPriorityPick(typeof(Monster));
+                AddPriorityList(GetPriorityPick(typeof(Monster)), AddPos.Front, option);
+                AddPriorityList(GetPriorityPick(typeof(Mineral)), AddPos.Front, option);
                 break;
 
             case NPC_Type_Normal.Goblin:
+                
                 var herb = GetPriorityPick(typeof(Herb));
                 var mineral = GetPriorityPick(typeof(Mineral));
                 herb.AddRange(mineral);
-                main = herb;
+                AddPriorityList(herb, AddPos.Front, option);
                 break;
         }
-
-
-
-        //? 메인이랑 서브는 위에서 결정
-        switch (option)
-        {
-            case PrioritySortOption.Random:
-                break;
-            case PrioritySortOption.SortByDistance:
-                SortByDistance(main); 
-                SortByDistance(sub1); 
-                SortByDistance(sub2); 
-                break;
-        }
-
-        AddList(main);
-        AddList(sub1);
-        AddList(sub2);
-
 
         {//? 우물 등 모험가 유용 이벤트
             Add_Wells();
@@ -308,7 +285,6 @@ public class NPC_Normal : NPC
             var add_egg = GetPriorityPick(typeof(SpecialEgg));
             AddList(add_egg);
         }
-
 
         {//? 전이진 서치
             PickToProbability(GetPriorityPick(typeof(Entrance_Egg)), (PlacementInfo.Place_Floor.FloorIndex + Rank) * 0.04f); //0.04f
@@ -503,7 +479,7 @@ public class NPC_Normal : NPC
         {
             UI_EventBox.AddEventText($"◈{Name_Color} {UserData.Instance.LocaleText("Event_Prison")}");
             Main.Instance.CurrentDay.AddPrisoner(1);
-            Main.Instance.CurrentDay.AddKill(-1);
+            //Main.Instance.CurrentDay.AddDefeatNPC(-1);
         }
         else
         {
@@ -545,12 +521,22 @@ public class NPC_Normal : NPC
         }
 
 
-        int goldValue = isCaptive ? KillGold * 2 : KillGold;
-        if (goldValue > 0)
+        //int goldValue = isCaptive ? KillGold * 2 : KillGold;
+        //if (goldValue > 0)
+        //{
+        //    Main.Instance.CurrentDay.AddGold(goldValue, Main.DayResult.EventType.Monster);
+        //    Main.Instance.ShowDM(goldValue, Main.TextType.gold, transform);
+        //}
+        int goldValue = KillGold;
+
+        if (isCaptive)
         {
-            Main.Instance.CurrentDay.AddGold(goldValue, Main.DayResult.EventType.Monster);
+            Main.Instance.CurrentDay.AddGold(goldValue, Main.DayResult.EventType.Technical);
             Main.Instance.ShowDM(goldValue, Main.TextType.gold, transform);
         }
+
+        Main.Instance.CurrentDay.AddGold(goldValue, Main.DayResult.EventType.Monster);
+        Main.Instance.ShowDM(goldValue, Main.TextType.gold, transform);
     }
 
 }

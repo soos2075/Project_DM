@@ -129,7 +129,7 @@ public class Interaction_Guild : MonoBehaviour
 
             case GuildNPC_LabelName.Heroine:
                 GetComponent<Animator>().Play(Define.ANIM_Idle_Sit);
-                if (EventManager.Instance.CurrentClearEventData.Check_AlreadyClear(DialogueName.Heroine_Prison))
+                if (EventManager.Instance.CurrentClearEventData.Check_AlreadyClear(DialogueName.Heroine_40))
                 {
                     gameObject.SetActive(false);
                 }

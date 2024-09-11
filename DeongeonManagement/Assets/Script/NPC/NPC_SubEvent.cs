@@ -92,50 +92,16 @@ public class NPC_SubEvent : NPC
     {
         if (PriorityList != null) PriorityList.Clear();
 
-        List<BasementTile> main = null;
-        //List<BasementTile> sub1 = null;
-        //List<BasementTile> sub2 = null;
-
         switch (NPCType)
         {
             case NPC_Type_SubEvent.Heroine:
-                main = GetPriorityPick(typeof(Monster));
+                AddPriorityList(GetPriorityPick(typeof(Monster)), AddPos.Front, option);
                 break;
 
             case NPC_Type_SubEvent.DungeonRacer:
                 PriorityList = new List<BasementTile>();
                 break;
-                //case NPC_Type_Hunter.Hunter_Slime:
-                //    main = GetPriorityPick(typeof(Slime));
-                //    break;
         }
-
-        //? 메인이랑 서브는 위에서 결정
-        switch (option)
-        {
-            case PrioritySortOption.Random:
-                break;
-            case PrioritySortOption.SortByDistance:
-                SortByDistance(main);
-                //SortByDistance(sub1);
-                //SortByDistance(sub2);
-                break;
-        }
-
-        AddList(main);
-        //AddList(sub1);
-        //AddList(sub2);
-
-        //{//? 우물 등 모험가 유용 이벤트
-        //    Add_Wells();
-        //}
-        //{//? 에그서치
-        //    var add_egg = GetPriorityPick(typeof(SpecialEgg));
-        //    AddList(add_egg);
-        //}
-        //{//? 전이진 서치
-        //    PickToProbability(GetPriorityPick(typeof(Entrance_Egg)), (PlacementInfo.Place_Floor.FloorIndex + Rank) * 0.04f);
-        //}
     }
 
 

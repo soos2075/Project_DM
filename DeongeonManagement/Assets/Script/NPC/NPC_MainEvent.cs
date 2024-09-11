@@ -241,7 +241,12 @@ public class NPC_MainEvent : NPC
                 break;
 
             case NPC_Type_MainEvent.EM_Blood_Warrior_A:
-                StartCoroutine(EventCor(DialogueName.BloodSong_Appear));
+                StartCoroutine(EventCor(DialogueName.BloodSong_Appear, () => 
+                {
+                    Dialogue_Highlight(NPC_Type_MainEvent.EM_Blood_Elf_A.ToString());
+                    Dialogue_Highlight(NPC_Type_MainEvent.EM_Blood_Wizard_A.ToString());
+                    Dialogue_Highlight(NPC_Type_MainEvent.EM_Blood_Tanker_A.ToString());
+                }));
                 break;
         }
     }
@@ -377,10 +382,6 @@ public class NPC_MainEvent : NPC
     {
         if (PriorityList != null) PriorityList.Clear();
 
-        List<BasementTile> main = null;
-        List<BasementTile> sub1 = null;
-        List<BasementTile> sub2 = null;
-
         switch (NPCType)
         {
             case NPC_Type_MainEvent.Event_Goblin:
@@ -390,23 +391,32 @@ public class NPC_MainEvent : NPC
                     var herb = GetPriorityPick(typeof(Herb));
                     var mineral = GetPriorityPick(typeof(Mineral));
                     herb.AddRange(mineral);
-                    main = herb;
+                    AddPriorityList(herb, AddPos.Front, option);
+                    AddPriorityList(GetPriorityPick(typeof(Treasure)), AddPos.Back, option);
                 }
-                sub1 = GetPriorityPick(typeof(Treasure));
                 break;
 
+            case NPC_Type_MainEvent.EM_Soldier1:
+            case NPC_Type_MainEvent.EM_Soldier2:
+            case NPC_Type_MainEvent.EM_Soldier3:
+            case NPC_Type_MainEvent.EM_Catastrophe:
+                {
+                    AddPriorityList(GetPriorityPick(typeof(Monster)), AddPos.Front, option);
+                    AddPriorityList(GetPriorityPick(typeof(Treasure)), AddPos.Back, option);
+                    AddPriorityList(GetPriorityPick(typeof(Herb)), AddPos.Back, option);
+                    AddPriorityList(GetPriorityPick(typeof(Mineral)), AddPos.Back, option);
+                }
+                break;
 
             case NPC_Type_MainEvent.EM_FirstAdventurer:
             case NPC_Type_MainEvent.EM_RedHair:
-            case NPC_Type_MainEvent.EM_RetiredHero:
+            case NPC_Type_MainEvent.EM_RetiredHero: //? 얘는 나중에 위에 솔져로 바꿔야할지도 모르겠음
             case NPC_Type_MainEvent.EM_Captine_A:
             case NPC_Type_MainEvent.EM_Captine_B:
             case NPC_Type_MainEvent.EM_Captine_BlueKnight:
-                main = GetPriorityPick(typeof(Monster));
-                sub1 = GetPriorityPick(typeof(Treasure));
+                AddPriorityList(GetPriorityPick(typeof(Monster)), AddPos.Front, option);
+                //AddPriorityList(GetPriorityPick(typeof(Treasure)), AddPos.Front, option);
                 break;
-
-
 
             case NPC_Type_MainEvent.EM_Blood_Warrior_A:
             case NPC_Type_MainEvent.EM_Blood_Warrior_B:
@@ -416,51 +426,10 @@ public class NPC_MainEvent : NPC
             case NPC_Type_MainEvent.EM_Blood_Wizard_B:
             case NPC_Type_MainEvent.EM_Blood_Elf_A:
             case NPC_Type_MainEvent.EM_Blood_Elf_B:
-                main = GetPriorityPick(typeof(Monster));
-                sub1 = GetPriorityPick(typeof(Treasure));
-                break;
-
-
-            case NPC_Type_MainEvent.EM_Soldier1:
-            case NPC_Type_MainEvent.EM_Soldier2:
-            case NPC_Type_MainEvent.EM_Soldier3:
-                main = GetPriorityPick(typeof(Monster));
-                {
-                    var herb = GetPriorityPick(typeof(Herb));
-                    var mineral = GetPriorityPick(typeof(Mineral));
-                    herb.AddRange(mineral);
-                    sub1 = herb;
-                }
-                break;
-
-            case NPC_Type_MainEvent.EM_Catastrophe:
-                main = GetPriorityPick(typeof(Monster));
-                {
-                    var herb = GetPriorityPick(typeof(Herb));
-                    var mineral = GetPriorityPick(typeof(Mineral));
-                    herb.AddRange(mineral);
-                    sub1 = herb;
-                }
-                sub2 = GetPriorityPick(typeof(Treasure));
+                AddPriorityList(GetPriorityPick(typeof(Monster)), AddPos.Front, option);
+                AddPriorityList(GetPriorityPick(typeof(Treasure)), AddPos.Front, option);
                 break;
         }
-
-        //? 메인이랑 서브는 위에서 결정
-        switch (option)
-        {
-            case PrioritySortOption.Random:
-                break;
-            case PrioritySortOption.SortByDistance:
-                SortByDistance(main);
-                SortByDistance(sub1);
-                SortByDistance(sub2);
-                break;
-        }
-
-        AddList(main);
-        AddList(sub1);
-        AddList(sub2);
-
 
         {//? 우물 등 모험가 유용 이벤트
             Add_Wells();
@@ -528,6 +497,12 @@ public class NPC_MainEvent : NPC
         {
             case NPC_Type_MainEvent.Event_Goblin_Leader:
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Goblin_Empty, transform);
+                break;
+
+            case NPC_Type_MainEvent.EM_Soldier1:
+            case NPC_Type_MainEvent.EM_Soldier2:
+            case NPC_Type_MainEvent.EM_Soldier3:
+                AddValue(5, Main.TextType.danger);
                 break;
         }
     }

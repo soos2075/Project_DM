@@ -402,6 +402,10 @@ public enum DialogueName
     Dog_3 = 713,
     Dog_4 = 714,
 
+    Dragon_1 = 721,
+    Dragon_2 = 722,
+    Dragon_3 = 723,
+
     // Dungeon Expension
     Expansion_4 = 990,
 

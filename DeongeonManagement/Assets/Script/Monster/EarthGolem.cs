@@ -50,7 +50,8 @@ public class EarthGolem : Monster
         {
             EvolutionState = Evolution.Progress;
             Debug.Log("Äù½ºÆ® Ãß°¡");
-            EventManager.Instance.Add_GuildQuest_Special(1101);
+            EventManager.Instance.Add_GuildQuest_Special(1101, false);
+            FindAnyObjectByType<UI_Management>().SetNotice(UI_Management.OverlayImages.OverlayImage_Guild, true);
         }
     }
 

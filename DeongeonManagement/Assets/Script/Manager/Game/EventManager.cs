@@ -608,12 +608,14 @@ public class EventManager : MonoBehaviour
 
         DayEventActionRegister.Add(DayEventLabel.Guild_Raid_1, () => {
             Debug.Log("길드 토벌대 1 이벤트");
-            Day25Event_Direction();
+            Guild_Raid_First();
+            RemoveQuestAction(777010);
         });
 
         DayEventActionRegister.Add(DayEventLabel.Guild_Raid_2, () => {
             Debug.Log("길드 토벌대 2 이벤트");
-            Day30Event_Direction();
+            Guild_Raid_Second();
+            RemoveQuestAction(777020);
         });
     }
 
@@ -1146,7 +1148,7 @@ public class EventManager : MonoBehaviour
 
     #region MainEvent 상세내용
 
-    void Day25Event_Direction()
+    void Guild_Raid_First()
     {
         var Dungeon = Main.Instance.Dungeon;
         GameManager.NPC.CustomStage = true;
@@ -1160,13 +1162,13 @@ public class EventManager : MonoBehaviour
         List<NPC> sol2List = new List<NPC>();
 
         var cap_A = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_A.ToString());
-        cap_A.transform.position = Dungeon.transform.position + (Vector3.right * 1.5f);
+        cap_A.transform.position = Dungeon.transform.position + (Vector3.right * 3);
         GameManager.Placement.Visible(cap_A);
 
         for (int i = 0; i < 7; i++)
         {
             var sol_1 = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier1.ToString());
-            sol_1.transform.position = Dungeon.transform.position + (Vector3.right * 0.5f * i) + Vector3.right * 2.5f;
+            sol_1.transform.position = Dungeon.transform.position + (Vector3.right * 1 * i) + Vector3.right * 5;
             sol_1.Anim_State = NPC.animState.left;
             sol_1.Anim_State = NPC.animState.Ready;
 
@@ -1175,7 +1177,7 @@ public class EventManager : MonoBehaviour
         }
 
         var cap_B = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_B.ToString());
-        cap_B.transform.position = Dungeon.transform.position + (Vector3.right * -1.5f);
+        cap_B.transform.position = Dungeon.transform.position + (Vector3.right * -3);
         cap_B.Anim_State = NPC.animState.left;
         cap_B.Anim_State = NPC.animState.Idle;
         GameManager.Placement.Visible(cap_B);
@@ -1183,7 +1185,7 @@ public class EventManager : MonoBehaviour
         for (int i = 0; i < 7; i++)
         {
             var sol_1 = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier2.ToString());
-            sol_1.transform.position = Dungeon.transform.position + (Vector3.right * -0.5f * i) + Vector3.right * -2.5f;
+            sol_1.transform.position = Dungeon.transform.position + (Vector3.right * -1 * i) + Vector3.right * -5;
             sol_1.Anim_State = NPC.animState.Ready;
 
             GameManager.Placement.Visible(sol_1);
@@ -1191,9 +1193,9 @@ public class EventManager : MonoBehaviour
         }
 
         Managers.Dialogue.ShowDialogueUI(DialogueName.Guild_Raid_1, cap_A.transform);
-        StartCoroutine(Wait_Day25_Dialogue(cap_A, cap_B, sol1List, sol2List));
+        StartCoroutine(Wait_Guild_Raid_First(cap_A, cap_B, sol1List, sol2List));
     }
-    IEnumerator Wait_Day25_Dialogue(NPC cap_A, NPC cap_B, List<NPC> sol1, List<NPC> sol2)
+    IEnumerator Wait_Guild_Raid_First(NPC cap_A, NPC cap_B, List<NPC> sol1, List<NPC> sol2)
     {
         var Dungeon = Main.Instance.Dungeon;
         yield return null;
@@ -1205,7 +1207,12 @@ public class EventManager : MonoBehaviour
             item.Departure(item.transform.position, Dungeon.position);
         }
 
-        yield return new WaitForSeconds(6);
+        float timer = 0;
+        while (timer < 6)
+        {
+            timer += Time.deltaTime;
+            yield return UserData.Instance.Wait_GamePlay;
+        }
 
         cap_B.Departure(cap_B.transform.position, Dungeon.position);
         foreach (var item in sol2)
@@ -1213,7 +1220,7 @@ public class EventManager : MonoBehaviour
             item.Departure(item.transform.position, Dungeon.position);
         }
     }
-    void Day30Event_Direction()
+    void Guild_Raid_Second()
     {
         var Dungeon = Main.Instance.Dungeon;
 
@@ -1228,44 +1235,44 @@ public class EventManager : MonoBehaviour
         //? 피의노래 파티원 생성
         {
             var party = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Blood_Tanker_B.ToString());
-            party.transform.position = Dungeon.transform.position + (Vector3.left * 6.5f);
+            party.transform.position = Dungeon.transform.position + (Vector3.left * 13);
             GameManager.Placement.Visible(party);
             bloodSong.Add(party);
         }
         {
             var party = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Blood_Warrior_B.ToString());
-            party.transform.position = Dungeon.transform.position + (Vector3.left * 7);
+            party.transform.position = Dungeon.transform.position + (Vector3.left * 14);
             GameManager.Placement.Visible(party);
             bloodSong.Add(party);
         }
         {
             var party = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Blood_Wizard_B.ToString());
-            party.transform.position = Dungeon.transform.position + (Vector3.left * 7.5f);
+            party.transform.position = Dungeon.transform.position + (Vector3.left * 15);
             GameManager.Placement.Visible(party);
             bloodSong.Add(party);
         }
         {
             var party = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Blood_Elf_B.ToString());
-            party.transform.position = Dungeon.transform.position + (Vector3.left * 8);
+            party.transform.position = Dungeon.transform.position + (Vector3.left * 16);
             GameManager.Placement.Visible(party);
             bloodSong.Add(party);
         }
 
         //? 대장급 생성
         var Cap_A = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_A.ToString());
-        Cap_A.transform.position = Dungeon.transform.position + (Vector3.right * 1);
+        Cap_A.transform.position = Dungeon.transform.position + (Vector3.right * 2);
         Cap_A.Anim_State = NPC.animState.right;
         Cap_A.Anim_State = NPC.animState.Ready;
         GameManager.Placement.Visible(Cap_A);
 
         var Cap_B = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_B.ToString());
-        Cap_B.transform.position = Dungeon.transform.position + (Vector3.right * 5);
+        Cap_B.transform.position = Dungeon.transform.position + (Vector3.right * 10);
         Cap_B.Anim_State = NPC.animState.right;
         Cap_B.Anim_State = NPC.animState.Ready;
         GameManager.Placement.Visible(Cap_B);
 
         var Captine_C = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_BlueKnight.ToString());
-        Captine_C.transform.position = Dungeon.transform.position + (Vector3.left * 1.5f);
+        Captine_C.transform.position = Dungeon.transform.position + (Vector3.left * 3);
         GameManager.Placement.Visible(Captine_C);
 
 
@@ -1276,7 +1283,7 @@ public class EventManager : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             var sol = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier1.ToString());
-            sol.transform.position = Dungeon.transform.position + (Vector3.right * 0.5f * i) + Vector3.right * 2.0f;
+            sol.transform.position = Dungeon.transform.position + (Vector3.right * 1 * i) + Vector3.right * 4;
             sol.Anim_State = NPC.animState.left;
             sol.Anim_State = NPC.animState.Ready;
 
@@ -1286,7 +1293,7 @@ public class EventManager : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             var sol = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier2.ToString());
-            sol.transform.position = Dungeon.transform.position + (Vector3.right * 0.5f * i) + Vector3.right * 6.0f;
+            sol.transform.position = Dungeon.transform.position + (Vector3.right * 1 * i) + Vector3.right * 12;
             sol.Anim_State = NPC.animState.left;
             sol.Anim_State = NPC.animState.Ready;
 
@@ -1296,7 +1303,7 @@ public class EventManager : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             var sol = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier3.ToString());
-            sol.transform.position = Dungeon.transform.position + (Vector3.left * 0.5f * i) + Vector3.left * 2.5f;
+            sol.transform.position = Dungeon.transform.position + (Vector3.left * 1 * i) + Vector3.left * 5;
             sol.Anim_State = NPC.animState.right;
             sol.Anim_State = NPC.animState.Ready;
 
@@ -1305,9 +1312,9 @@ public class EventManager : MonoBehaviour
         }
 
         Managers.Dialogue.ShowDialogueUI(DialogueName.Guild_Raid_2, Captine_C.transform);
-        StartCoroutine(Wait_Day30_Dialogue(Cap_A, Cap_B, Captine_C, sol1List, sol2List, sol3List, bloodSong));
+        StartCoroutine(Wait_Guild_Raid_Second(Cap_A, Cap_B, Captine_C, sol1List, sol2List, sol3List, bloodSong));
     }
-    IEnumerator Wait_Day30_Dialogue(NPC cap_A, NPC cap_B, NPC cap_C, List<NPC> sol1, List<NPC> sol2, List<NPC> sol3, List<NPC> bloodSong)
+    IEnumerator Wait_Guild_Raid_Second(NPC cap_A, NPC cap_B, NPC cap_C, List<NPC> sol1, List<NPC> sol2, List<NPC> sol3, List<NPC> bloodSong)
     {
         var Dungeon = Main.Instance.Dungeon;
 
@@ -1320,7 +1327,12 @@ public class EventManager : MonoBehaviour
             item.Departure(item.transform.position, Dungeon.position);
         }
 
-        yield return new WaitForSeconds(6);
+        float timer = 0;
+        while (timer < 6)
+        {
+            timer += Time.deltaTime;
+            yield return UserData.Instance.Wait_GamePlay;
+        }
 
         cap_B.Departure(cap_B.transform.position, Dungeon.position);
         foreach (var item in sol2)
@@ -1328,7 +1340,12 @@ public class EventManager : MonoBehaviour
             item.Departure(item.transform.position, Dungeon.position);
         }
 
-        yield return new WaitForSeconds(10);
+        timer = 0;
+        while (timer < 10)
+        {
+            timer += Time.deltaTime;
+            yield return UserData.Instance.Wait_GamePlay;
+        }
 
         cap_C.Departure(cap_C.transform.position, Dungeon.position);
         foreach (var item in sol3)
@@ -1336,7 +1353,12 @@ public class EventManager : MonoBehaviour
             item.Departure(item.transform.position, Dungeon.position);
         }
 
-        yield return new WaitForSeconds(8);
+        timer = 0;
+        while (timer < 8)
+        {
+            timer += Time.deltaTime;
+            yield return UserData.Instance.Wait_GamePlay;
+        }
 
         foreach (var item in bloodSong)
         {
@@ -1599,14 +1621,14 @@ public class EventManager : MonoBehaviour
         FindObjectOfType<Player>().Level_Stat(Main.Instance.DungeonRank);
         GameManager.Monster.Resize_MonsterSlot();
 
-        //if (Main.Instance.DungeonRank >= (int)Define.DungeonRank.D && Main.Instance.ActiveFloor_Basement < 5)
-        //{
-        //    FindAnyObjectByType<UI_Management>().SetNotice(UI_Management.OverlayImages.OverlayImage_Dungeon, true);
-        //}
-        //else if (Main.Instance.DungeonRank >= (int)Define.DungeonRank.C && Main.Instance.ActiveFloor_Basement < 6)
-        //{
-        //    FindAnyObjectByType<UI_Management>().SetNotice(UI_Management.OverlayImages.OverlayImage_Dungeon, true);
-        //}
+        if (Main.Instance.DungeonRank >= (int)Define.DungeonRank.D && Main.Instance.ActiveFloor_Basement < 5)
+        {
+            FindAnyObjectByType<UI_Management>().SetNotice(UI_Management.OverlayImages.OverlayImage_Dungeon, true);
+        }
+        else if (Main.Instance.DungeonRank >= (int)Define.DungeonRank.C && Main.Instance.ActiveFloor_Basement < 6)
+        {
+            FindAnyObjectByType<UI_Management>().SetNotice(UI_Management.OverlayImages.OverlayImage_Dungeon, true);
+        }
     }
 
 }

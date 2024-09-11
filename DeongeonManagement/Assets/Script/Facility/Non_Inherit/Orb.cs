@@ -124,9 +124,6 @@ public class Orb : MonoBehaviour
     {
         if (ReturnCheck()) return;
 
-        //? 이미 활성화되있으면 리턴
-        if (isActive) return;
-
         //Debug.Log(_OrbType + "Click");
         StartCoroutine(WaitFrame());
     }
@@ -135,8 +132,43 @@ public class Orb : MonoBehaviour
     IEnumerator WaitFrame() //? ClearPanel이 타일 이외의 지역 좌클릭 = CloseAll 로 해놨기때문에 1프레임 기다려야함
     {
         yield return new WaitForEndOfFrame();
-        MouseClickEvent();
+        if (isActive)
+        {
+            AlreadyActive();
+        }
+        else
+        {
+            MouseClickEvent();
+        }
+
     }
+
+
+    void AlreadyActive()
+    {
+        UI_Confirm ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
+        string msg = "";
+        switch (_OrbType)
+        {
+            case OrbType.green:
+                msg = $"{UserData.Instance.LocaleText_Tooltip("Orb_Green_Detail")}";
+                break;
+
+            case OrbType.yellow:
+                msg = $"{UserData.Instance.LocaleText_Tooltip("Orb_Yellow_Detail")}";
+                break;
+
+            case OrbType.blue:
+                msg = $"{UserData.Instance.LocaleText_Tooltip("Orb_Blue_Detail")}";
+                break;
+
+            case OrbType.red:
+                msg = $"{UserData.Instance.LocaleText_Tooltip("Orb_Red_Detail")}";
+                break;
+        }
+        ui.SetText(msg, () => { });
+    }
+
 
 
     void MouseClickEvent()
@@ -149,7 +181,7 @@ public class Orb : MonoBehaviour
                 var green = $"{UserData.Instance.LocaleText_Tooltip("Orb_Green")}\n" +
                     $"({UserData.Instance.LocaleText_Tooltip("Orb_Green_Detail")})";
                 ui.SetText(green, () => Confirm(ap: 2, mana: 750, gold: 250));
-                ui.SetMode_Calculation(1, "750", "250", "2");
+                ui.SetMode_Calculation((int)Define.DungeonRank.F, "750", "250", "2");
                 break;
 
 
@@ -157,23 +189,23 @@ public class Orb : MonoBehaviour
                 var yellow = $"{UserData.Instance.LocaleText_Tooltip("Orb_Yellow")}\n" +
                     $"({UserData.Instance.LocaleText_Tooltip("Orb_Yellow_Detail")})";
                 ui.SetText(yellow, () => Confirm(ap: 2, mana: 750, gold: 250));
-                ui.SetMode_Calculation(1, "750", "250", "2");
+                ui.SetMode_Calculation((int)Define.DungeonRank.F, "750", "250", "2");
                 break;
 
 
             case OrbType.blue:
                 var blue = $"{UserData.Instance.LocaleText_Tooltip("Orb_Blue")}\n" +
                     $"({UserData.Instance.LocaleText_Tooltip("Orb_Blue_Detail")})";
-                ui.SetText(blue, () => Confirm(ap: 3, mana: 2000, gold: 1000));
-                ui.SetMode_Calculation(2, "2000", "1000", "3");
+                ui.SetText(blue, () => Confirm(mana: 3000, gold: 0, ap: 3));
+                ui.SetMode_Calculation((int)Define.DungeonRank.D, "3000", "0", "3");
                 break;
 
 
             case OrbType.red:
                 var red = $"{UserData.Instance.LocaleText_Tooltip("Orb_Red")}\n" +
                     $"({UserData.Instance.LocaleText_Tooltip("Orb_Red_Detail")})";
-                ui.SetText(red, () => Confirm(ap: 4, mana: 1000, gold: 2000));
-                ui.SetMode_Calculation(3, "1000", "2000", "4");
+                ui.SetText(red, () => Confirm(mana: 1000, gold: 2000, ap: 4));
+                ui.SetMode_Calculation((int)Define.DungeonRank.C, "1000", "2000", "4");
                 break;
         }
     }

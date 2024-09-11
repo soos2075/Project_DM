@@ -2,6 +2,7 @@ using DamageNumbersPro;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -580,6 +581,7 @@ public class Main : MonoBehaviour
         //? ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ골드
         public int Gold_Get_Facility;
         public int Gold_Get_Monster;
+        public int Gold_Get_Technical;
         public int Gold_Get_Etc;
         public int Gold_Get_Bonus;
         public void AddGold(int value, EventType eventType)
@@ -592,6 +594,10 @@ public class Main : MonoBehaviour
 
                 case EventType.Monster:
                     Gold_Get_Monster += value;
+                    break;
+
+                case EventType.Technical:
+                    Gold_Get_Technical += value;
                     break;
 
                 case EventType.Etc:
@@ -643,7 +649,7 @@ public class Main : MonoBehaviour
         //? ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ모험가
         public int NPC_Visit;
         public int NPC_Prisoner;
-        public int NPC_Kill;
+        public int NPC_Defeat;
         public int NPC_Satisfaction;
         public int NPC_NonSatisfaction;
         public int NPC_Empty;
@@ -652,7 +658,7 @@ public class Main : MonoBehaviour
 
         public void AddVisit(int value) { NPC_Visit += value; }
         public void AddPrisoner(int value) { NPC_Prisoner += value; }
-        public void AddKill(int value) { NPC_Kill += value; }
+        public void AddDefeatNPC(int value) { NPC_Defeat += value; }
         public void AddSatisfaction(int value) { NPC_Satisfaction += value; }
         public void AddNonSatisfaction(int value) { NPC_NonSatisfaction += value; }
         public void AddEmpty(int value) { NPC_Empty += value; }
@@ -669,7 +675,7 @@ public class Main : MonoBehaviour
 
         public void AddBattle(int value) { Monster_Battle += value; }
         public void AddVictory(int value) { Monster_Victory += value; }
-        public void AddDefeat(int value) { Monster_Defeat += value; }
+        public void AddDefeatMonster(int value) { Monster_Defeat += value; }
         public void AddLvUp(int value) { Monster_LvUp += value; }
         public void AddTrait(int value) { Monster_Trait += value; }
         public void AddEvolution(int value) { Monster_Evolution += value; }
@@ -683,62 +689,25 @@ public class Main : MonoBehaviour
         public void AddDanger(int _value) { GetDanger += _value; }
 
 
-
         public DayResult()
         {
 
         }
         public DayResult(Save_DayResult result)
         {
-            Origin_Mana = result.Origin_Mana;
-            Origin_Gold = result.Origin_Gold;
-            Origin_Pop = result.Origin_Pop;
-            Origin_Danger = result.Origin_Danger;
-            Origin_Rank = result.Origin_Rank;
-
-            Mana_Get_Facility = result.Mana_Get_Facility;
-            Mana_Get_Artifacts = result.Mana_Get_Artifacts;
-            Mana_Get_Monster = result.Mana_Get_Monster;
-            Mana_Get_Etc = result.Mana_Get_Etc;
-            Mana_Get_Bonus = result.Mana_Get_Bonus;
-
-            Mana_Use_Facility = result.Mana_Use_Facility;
-            Mana_Use_Monster = result.Mana_Use_Monster;
-            Mana_Use_Etc = result.Mana_Use_Etc;
-            Mana_Use_Technical = result.Mana_Use_Technical;
-
-
-
-            Gold_Get_Facility = result.Gold_Get_Facility;
-            Gold_Get_Monster = result.Gold_Get_Monster;
-            Gold_Get_Etc = result.Gold_Get_Etc;
-            Gold_Get_Bonus = result.Gold_Get_Bonus;
-
-            Gold_Use_Facility = result.Gold_Use_Facility;
-            Gold_Use_Monster = result.Gold_Use_Monster;
-            Gold_Use_Etc = result.Gold_Use_Etc;
-            Gold_Use_Technical = result.Gold_Use_Technical;
-
-
-
-
-            NPC_Visit = result.NPC_Visit;
-            NPC_Prisoner = result.NPC_Prisoner;
-            NPC_Kill = result.NPC_Kill;
-            NPC_Satisfaction = result.NPC_Satisfaction;
-            NPC_NonSatisfaction = result.NPC_NonSatisfaction;
-            NPC_Empty = result.NPC_Empty;
-            NPC_Runaway = result.NPC_Runaway;
-
-            Monster_Battle = result.Monster_Battle;
-            Monster_Victory = result.Monster_Victory;
-            Monster_Defeat = result.Monster_Defeat;
-            Monster_LvUp = result.Monster_LvUp;
-            Monster_Trait = result.Monster_Trait;
-            Monster_Evolution = result.Monster_Evolution;
-
-            GetPopularity = result.GetPopularity;
-            GetDanger = result.GetDanger;
+            CopyFields(result, this);
+        }
+        private void CopyFields(object source, object destination)
+        {
+            // Source와 Destination의 필드를 가져와 같은 이름의 필드를 매핑
+            foreach (FieldInfo field in source.GetType().GetFields())
+            {
+                FieldInfo destField = destination.GetType().GetField(field.Name);
+                if (destField != null)
+                {
+                    destField.SetValue(destination, field.GetValue(source));
+                }
+            }
         }
     }
 
@@ -850,11 +819,11 @@ public class Main : MonoBehaviour
         int kill = 0;
         foreach (var item in DayList)
         {
-            kill += item.NPC_Kill;
+            kill += item.NPC_Defeat;
         }
         if (CurrentDay != null)
         {
-            kill += CurrentDay.NPC_Kill;
+            kill += CurrentDay.NPC_Defeat;
         }
         return kill;
     }
@@ -964,7 +933,9 @@ public class Main : MonoBehaviour
                 //? 대사 이벤트 등 턴 이벤트
                 Main_TurnOverEvent();
                 //? 결과창과 저장
-                DayOver_Dayresult(); 
+                DayOver_Dayresult();
+                //? 엔딩변경 (어차피 이거 로드할 떄 부르니까 턴종료 마지막에 하는게 맞음)
+                ChangeEggState();
             }
         }
     }
@@ -1045,8 +1016,6 @@ public class Main : MonoBehaviour
     void Main_TurnOverEvent()
     {
         UI_EventBox.AddEventText($"※{Turn}{UserData.Instance.LocaleText("Event_DayOver")}※");
-        ChangeEggState();
-
         switch (Turn)
         {
             case 1:
@@ -1555,6 +1524,7 @@ public class Save_DayResult
 
     public int Gold_Get_Facility;
     public int Gold_Get_Monster;
+    public int Gold_Get_Technical;
     public int Gold_Get_Etc;
     public int Gold_Get_Bonus;
 
@@ -1566,7 +1536,7 @@ public class Save_DayResult
 
     public int NPC_Visit;
     public int NPC_Prisoner;
-    public int NPC_Kill;
+    public int NPC_Defeat;
     public int NPC_Satisfaction;
     public int NPC_NonSatisfaction;
     public int NPC_Empty;
@@ -1589,53 +1559,71 @@ public class Save_DayResult
     }
     public Save_DayResult(Main.DayResult result)
     {
-        Origin_Mana = result.Origin_Mana;
-        Origin_Gold = result.Origin_Gold;
-        Origin_Pop = result.Origin_Pop;
-        Origin_Danger = result.Origin_Danger;
-        Origin_Rank = result.Origin_Rank;
-
-        Mana_Get_Facility = result.Mana_Get_Facility;
-        Mana_Get_Artifacts = result.Mana_Get_Artifacts;
-        Mana_Get_Monster = result.Mana_Get_Monster;
-        Mana_Get_Etc = result.Mana_Get_Etc;
-        Mana_Get_Bonus = result.Mana_Get_Bonus;
-
-        Mana_Use_Facility = result.Mana_Use_Facility;
-        Mana_Use_Monster = result.Mana_Use_Monster;
-        Mana_Use_Etc = result.Mana_Use_Monster;
-        Mana_Use_Technical = result.Mana_Use_Technical;
-
-
-        Gold_Get_Facility = result.Gold_Get_Facility;
-        Gold_Get_Monster = result.Gold_Get_Monster;
-        Gold_Get_Etc = result.Gold_Get_Etc;
-        Gold_Get_Bonus = result.Gold_Get_Bonus;
-
-        Gold_Use_Facility = result.Gold_Use_Facility;
-        Gold_Use_Monster = result.Gold_Use_Monster;
-        Gold_Use_Etc = result.Gold_Use_Etc;
-        Gold_Use_Technical = result.Gold_Use_Technical;
-
-
-        NPC_Visit = result.NPC_Visit;
-        NPC_Prisoner = result.NPC_Prisoner;
-        NPC_Kill = result.NPC_Kill;
-        NPC_Satisfaction = result.NPC_Satisfaction;
-        NPC_NonSatisfaction = result.NPC_NonSatisfaction;
-        NPC_Empty = result.NPC_Empty;
-        NPC_Runaway = result.NPC_Runaway;
-
-        Monster_Battle = result.Monster_Battle;
-        Monster_Victory = result.Monster_Victory;
-        Monster_Defeat = result.Monster_Defeat;
-        Monster_LvUp = result.Monster_LvUp;
-        Monster_Trait = result.Monster_Trait;
-        Monster_Evolution = result.Monster_Evolution;
-
-        GetPopularity = result.GetPopularity;
-        GetDanger = result.GetDanger;
+        CopyFields(result, this);
     }
+
+    private void CopyFields(object source, object destination)
+    {
+        // Source와 Destination의 필드를 가져와 같은 이름의 필드를 매핑
+        foreach (FieldInfo field in source.GetType().GetFields())
+        {
+            FieldInfo destField = destination.GetType().GetField(field.Name);
+            if (destField != null)
+            {
+                destField.SetValue(destination, field.GetValue(source));
+            }
+        }
+    }
+    //public Save_DayResult(Main.DayResult result)
+    //{
+    //    Origin_Mana = result.Origin_Mana;
+    //    Origin_Gold = result.Origin_Gold;
+    //    Origin_Pop = result.Origin_Pop;
+    //    Origin_Danger = result.Origin_Danger;
+    //    Origin_Rank = result.Origin_Rank;
+
+    //    Mana_Get_Facility = result.Mana_Get_Facility;
+    //    Mana_Get_Artifacts = result.Mana_Get_Artifacts;
+    //    Mana_Get_Monster = result.Mana_Get_Monster;
+    //    Mana_Get_Etc = result.Mana_Get_Etc;
+    //    Mana_Get_Bonus = result.Mana_Get_Bonus;
+
+    //    Mana_Use_Facility = result.Mana_Use_Facility;
+    //    Mana_Use_Monster = result.Mana_Use_Monster;
+    //    Mana_Use_Etc = result.Mana_Use_Monster;
+    //    Mana_Use_Technical = result.Mana_Use_Technical;
+
+
+    //    Gold_Get_Facility = result.Gold_Get_Facility;
+    //    Gold_Get_Monster = result.Gold_Get_Monster;
+    //    Gold_Get_Technical = result.Gold_Get_Technical;
+    //    Gold_Get_Etc = result.Gold_Get_Etc;
+    //    Gold_Get_Bonus = result.Gold_Get_Bonus;
+
+    //    Gold_Use_Facility = result.Gold_Use_Facility;
+    //    Gold_Use_Monster = result.Gold_Use_Monster;
+    //    Gold_Use_Etc = result.Gold_Use_Etc;
+    //    Gold_Use_Technical = result.Gold_Use_Technical;
+
+
+    //    NPC_Visit = result.NPC_Visit;
+    //    NPC_Prisoner = result.NPC_Prisoner;
+    //    NPC_Kill = result.NPC_Kill;
+    //    NPC_Satisfaction = result.NPC_Satisfaction;
+    //    NPC_NonSatisfaction = result.NPC_NonSatisfaction;
+    //    NPC_Empty = result.NPC_Empty;
+    //    NPC_Runaway = result.NPC_Runaway;
+
+    //    Monster_Battle = result.Monster_Battle;
+    //    Monster_Victory = result.Monster_Victory;
+    //    Monster_Defeat = result.Monster_Defeat;
+    //    Monster_LvUp = result.Monster_LvUp;
+    //    Monster_Trait = result.Monster_Trait;
+    //    Monster_Evolution = result.Monster_Evolution;
+
+    //    GetPopularity = result.GetPopularity;
+    //    GetDanger = result.GetDanger;
+    //}
 
 }
 

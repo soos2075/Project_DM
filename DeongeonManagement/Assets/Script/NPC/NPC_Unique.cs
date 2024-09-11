@@ -112,43 +112,39 @@ public class NPC_Unique : NPC
     {
         if (PriorityList != null) PriorityList.Clear();
 
-        List<BasementTile> main = null; 
-        List<BasementTile> sub1 = null;
-        List<BasementTile> sub2 = null;
-
         switch (NPCType)
         {
-            //case NPC_Type_Hunter.Hunter_Slime:
-            //    main = GetPriorityPick(typeof(Slime));
-            //    break;
-        }
-
-        //? 메인이랑 서브는 위에서 결정
-        switch (option)
-        {
-            case PrioritySortOption.Random:
+            case NPC_Type_Unique.ManaGoblin:
+                var herb = GetPriorityPick(typeof(Herb));
+                var mineral = GetPriorityPick(typeof(Mineral));
+                herb.AddRange(mineral);
+                AddPriorityList(herb, AddPos.Front, option);
+                AddPriorityList(GetPriorityPick(typeof(Treasure)), AddPos.Back, option);
                 break;
-            case PrioritySortOption.SortByDistance:
-                SortByDistance(main);
-                SortByDistance(sub1);
-                SortByDistance(sub2);
+
+            case NPC_Type_Unique.GoldLizard:
+                break;
+
+            case NPC_Type_Unique.PumpkinHead:
+                break;
+
+            case NPC_Type_Unique.Santa:
+                break;
+
+            case NPC_Type_Unique.DungeonThief:
                 break;
         }
-
-        AddList(main);
-        AddList(sub1);
-        AddList(sub2);
 
         {//? 우물 등 모험가 유용 이벤트
             Add_Wells();
         }
-        {//? 에그서치
-            var add_egg = GetPriorityPick(typeof(SpecialEgg));
-            AddList(add_egg);
-        }
-        {//? 전이진 서치
-            PickToProbability(GetPriorityPick(typeof(Entrance_Egg)), (PlacementInfo.Place_Floor.FloorIndex + Rank) * 0.04f);
-        }
+        //{//? 에그서치
+        //    var add_egg = GetPriorityPick(typeof(SpecialEgg));
+        //    AddList(add_egg);
+        //}
+        //{//? 전이진 서치
+        //    PickToProbability(GetPriorityPick(typeof(Entrance_Egg)), (PlacementInfo.Place_Floor.FloorIndex + Rank) * 0.04f);
+        //}
     }
 
 
