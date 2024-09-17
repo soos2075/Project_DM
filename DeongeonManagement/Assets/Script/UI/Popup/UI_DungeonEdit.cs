@@ -64,7 +64,7 @@ public class UI_DungeonEdit : UI_PopUp
         }
 
 
-        for (int i = 0; i < Main.Instance.ActiveFloor_Basement + 1; i++)
+        for (int i = 0; i < Mathf.Max(Main.Instance.ActiveFloor_Basement, Main.Instance.DungeonRank + 3); i++)
         {
             if (i == 6)
             {

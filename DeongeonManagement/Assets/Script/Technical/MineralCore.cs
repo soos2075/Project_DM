@@ -44,7 +44,7 @@ public class MineralCore : Technical
     void SetLevel()
     {
         var sprite = GetComponentInChildren<SpriteRenderer>();
-        sprite.sprite = Managers.Sprite.Get_Technical(Data.spritePath);
+        sprite.sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.Technical, Data.SLA_categoty, Data.SLA_label);
 
         switch (Data.techLv)
         {

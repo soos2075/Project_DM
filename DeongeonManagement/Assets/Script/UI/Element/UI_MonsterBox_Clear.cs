@@ -61,7 +61,8 @@ public class UI_MonsterBox_Clear : UI_Base
             return;
         }
 
-        GetObject(((int)Contents.Sprite)).GetComponent<Image>().sprite = Managers.Sprite.GetSprite_SLA(monster.categoryName, monster.labelName);
+        GetObject(((int)Contents.Sprite)).GetComponent<Image>().sprite = 
+            Managers.Sprite.Get_SLA(SpriteManager.Library.Monster, monster.categoryName, monster.labelName);
         GetObject(((int)Contents.Name)).GetComponent<TextMeshProUGUI>().text = monster.savedName;
         GetObject(((int)Contents.State)).GetComponent<TextMeshProUGUI>().text = "";
         GetObject(((int)Contents.Lv)).GetComponent<TextMeshProUGUI>().text = $"Lv.{monster.LV}";

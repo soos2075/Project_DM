@@ -9,6 +9,10 @@ public static class Extension
         UI_Base.AddUIEvent(go, act, event_type);
     }
 
+    public static void RemoveUIEvent(this GameObject go, Action<PointerEventData> act, Define.UIEvent event_type = Define.UIEvent.LeftClick)
+    {
+        UI_Base.RemoveUIEvent(go, act, event_type);
+    }
     public static void RemoveUIEventAll(this GameObject go)
     {
         UI_Base.RemoveUIEventAll(go);

@@ -240,6 +240,7 @@ public class BasementFloor : MonoBehaviour
 
         while (count < 100)
         {
+            count++;
             randomTile = new Vector2Int(UnityEngine.Random.Range(0, tilemap.cellBounds.size.x), UnityEngine.Random.Range(0, tilemap.cellBounds.size.y));
             if (TileMap.TryGetValue(randomTile, out tempTile))
             {

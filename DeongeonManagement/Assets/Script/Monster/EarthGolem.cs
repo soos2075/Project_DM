@@ -51,7 +51,8 @@ public class EarthGolem : Monster
             EvolutionState = Evolution.Progress;
             Debug.Log("퀘스트 추가");
             EventManager.Instance.Add_GuildQuest_Special(1101, false);
-            FindAnyObjectByType<UI_Management>().SetNotice(UI_Management.OverlayImages.OverlayImage_Guild, true);
+            UserData.Instance.FileConfig.Notice_Guild = true;
+            FindAnyObjectByType<UI_Management>().OverlayImageReset();
         }
     }
 
@@ -72,7 +73,7 @@ public class EarthGolem : Monster
                 {
                     //? 진화진행
                     EvolutionState = Evolution.Complete;
-                    EventManager.Instance.RemoveQuestAction(1101);
+                    EventManager.Instance.ClearQuestAction(1101);
                     var ui = Managers.UI.ShowPopUp<UI_StatusUp>("Monster/UI_StatusUp");
                     ui.TargetMonster(this);
                     ui.StateText = $"{GameManager.Monster.GetData("EarthGolem").labelName} → " +

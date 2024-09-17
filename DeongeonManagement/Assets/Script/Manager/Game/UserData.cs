@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
 
@@ -552,8 +553,6 @@ public class UserData : MonoBehaviour
 
         public bool firstAppear_Heroine;
 
-
-
         //? Config Option - 각종 개인환경 옵션
         public bool Placement_Continuous;
 
@@ -565,46 +564,79 @@ public class UserData : MonoBehaviour
         public bool Notice_Quest;
         public bool Notice_DungeonEdit;
 
+        //? 2단계 UI 알림
+        public bool Notice_Summon;
+        public bool Notice_Ex4;
+        public bool Notice_Ex5;
+
+        public void SetBoolValue(string boolName, bool value)
+        {
+            // 필드 정보를 가져옴
+            var field = this.GetType().GetField(boolName);
+
+            if (field != null && field.FieldType == typeof(bool))
+            {
+                field.SetValue(this, value);
+            }
+            else
+            {
+                Debug.LogError("Invalid field name or type: " + boolName);
+            }
+        }
 
         public SavefileConfig DeepCopy()
         {
-            SavefileConfig newConfig = new SavefileConfig();
+            //SavefileConfig newConfig = new SavefileConfig();
 
-            newConfig.PlayRounds = PlayRounds;
-            newConfig.PlayTimes = PlayTimes;
+            //? 아래 메서드는 어디까지나 필드를 얕은복사 하는 메서드임. 다만 현재 모든 필드값이 값타입이라 값복사가 될뿐임.
+            SavefileConfig newConfig = (SavefileConfig)this.MemberwiseClone();
 
-            newConfig.Statue_Dog = Statue_Dog;
-            newConfig.Statue_Dragon = Statue_Dragon;
+            //newConfig.PlayRounds = PlayRounds;
+            //newConfig.PlayTimes = PlayTimes;
 
-            newConfig.firstAppear_Herbalist = firstAppear_Herbalist;
-            newConfig.firstAppear_Miner = firstAppear_Miner;
-            newConfig.firstAppear_Adventurer = firstAppear_Adventurer;
-            newConfig.firstAppear_Elf = firstAppear_Elf;
-            newConfig.firstAppear_Wizard = firstAppear_Wizard;
+            //newConfig.Statue_Dog = Statue_Dog;
+            //newConfig.Statue_Dragon = Statue_Dragon;
 
-
-            newConfig.firstAppear_Hunter_Slime = firstAppear_Hunter_Slime;
-            newConfig.firstAppear_Hunter_EarthGolem = firstAppear_Hunter_EarthGolem;
-
-
-            newConfig.firstAppear_Catastrophe = firstAppear_Catastrophe;
-            newConfig.firstReturn_Catastrophe = firstReturn_Catastrophe;
-
-            newConfig.firstAppear_Heroine = firstAppear_Heroine;
+            //newConfig.firstAppear_Herbalist = firstAppear_Herbalist;
+            //newConfig.firstAppear_Miner = firstAppear_Miner;
+            //newConfig.firstAppear_Adventurer = firstAppear_Adventurer;
+            //newConfig.firstAppear_Elf = firstAppear_Elf;
+            //newConfig.firstAppear_Wizard = firstAppear_Wizard;
 
 
-            //? 옵션
-            newConfig.Placement_Continuous = Placement_Continuous;
+            //newConfig.firstAppear_Hunter_Slime = firstAppear_Hunter_Slime;
+            //newConfig.firstAppear_Hunter_EarthGolem = firstAppear_Hunter_EarthGolem;
 
-            //? 알림
-            newConfig.Notice_Facility = Notice_Facility;
-            newConfig.Notice_Monster = Notice_Monster;
-            newConfig.Notice_Guild = Notice_Guild;
-            newConfig.Notice_Quest = Notice_Quest;
-            newConfig.Notice_DungeonEdit = Notice_DungeonEdit;
+
+            //newConfig.firstAppear_Catastrophe = firstAppear_Catastrophe;
+            //newConfig.firstReturn_Catastrophe = firstReturn_Catastrophe;
+
+            //newConfig.firstAppear_Heroine = firstAppear_Heroine;
+
+
+            ////? 옵션
+            //newConfig.Placement_Continuous = Placement_Continuous;
+
+            ////? 알림
+            //newConfig.Notice_Facility = Notice_Facility;
+            //newConfig.Notice_Monster = Notice_Monster;
+            //newConfig.Notice_Guild = Notice_Guild;
+            //newConfig.Notice_Quest = Notice_Quest;
+            //newConfig.Notice_DungeonEdit = Notice_DungeonEdit;
 
             return newConfig;
         }
+
+        //? 일단 위에 MemberwiseClone 테스트좀해보고
+        //private SavefileConfig CopyFields(SavefileConfig newConfig)
+        //{
+        //    // 현재 인스턴스의 모든 필드를 가져와서 복사
+        //    foreach (FieldInfo field in typeof(SavefileConfig).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+        //    {
+        //        field.SetValue(newConfig, field.GetValue(this));
+        //    }
+        //    return newConfig;
+        //}
 
 
 

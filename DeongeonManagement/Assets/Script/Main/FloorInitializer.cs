@@ -137,15 +137,16 @@ public class FloorInitializer : MonoBehaviour
     void Init_1Floor()
     {
         //CreateObstacle(Define.DungeonFloor.Floor_1, RemoveableObstacle.SizeOption._1x1, 1, 1, "Floor1", "2");
-        CreateObstacle(Define.DungeonFloor.Floor_1, RemoveableObstacle.SizeOption._1x1, 1, 1, "Floor1", "2");
+        CreateObstacle(Define.DungeonFloor.Floor_1, RemoveableObstacle.SizeOption._3x3, 3, 3, "Floor1", "5");
+
+        CreateObstacle(Define.DungeonFloor.Floor_1, RemoveableObstacle.SizeOption._2x2, 2, 2, "Floor1", "4");
 
         CreateObstacle(Define.DungeonFloor.Floor_1, RemoveableObstacle.SizeOption._1x2, 1, 2, "Floor1", "1");
 
         CreateObstacle(Define.DungeonFloor.Floor_1, RemoveableObstacle.SizeOption._1x2, 1, 2, "Floor1", "3");
 
-        CreateObstacle(Define.DungeonFloor.Floor_1, RemoveableObstacle.SizeOption._2x2, 2, 2, "Floor1", "4");
+        CreateObstacle(Define.DungeonFloor.Floor_1, RemoveableObstacle.SizeOption._1x1, 1, 1, "Floor1", "2");
 
-        CreateObstacle(Define.DungeonFloor.Floor_1, RemoveableObstacle.SizeOption._3x3, 3, 3, "Floor1", "5");
     }
     void Init_2Floor()
     {
@@ -154,12 +155,8 @@ public class FloorInitializer : MonoBehaviour
 
 
     void Init_3Floor()
-    {                                                                                      
-        CreateObstacle(Define.DungeonFloor.Floor_3, RemoveableObstacle.SizeOption._2x1, 2, 1, "Floor3", "5");
-        //CreateObstacle(Define.DungeonFloor.Floor_3, RemoveableObstacle.SizeOption._2x1, 2, 1, "Floor3", "5");
-
-        CreateObstacle(Define.DungeonFloor.Floor_3, RemoveableObstacle.SizeOption._1x2, 1, 2, "Floor3", "4");
-        //CreateObstacle(Define.DungeonFloor.Floor_3, RemoveableObstacle.SizeOption._1x2, 1, 2, "Floor3", "4");
+    {
+        CreateObstacle(Define.DungeonFloor.Floor_3, RemoveableObstacle.SizeOption._3x3, 3, 3, "Floor3", "7");
 
         CreateObstacle(Define.DungeonFloor.Floor_3, RemoveableObstacle.SizeOption._2x2, 2, 2, "Floor3", "3");
         //CreateObstacle(Define.DungeonFloor.Floor_3, RemoveableObstacle.SizeOption._2x2, 2, 2, "Floor3", "3");
@@ -167,14 +164,20 @@ public class FloorInitializer : MonoBehaviour
         CreateObstacle(Define.DungeonFloor.Floor_3, RemoveableObstacle.SizeOption._2x2, 2, 2, "Floor3", "6");
         //CreateObstacle(Define.DungeonFloor.Floor_3, RemoveableObstacle.SizeOption._2x2, 2, 2, "Floor3", "6");
 
-        CreateObstacle(Define.DungeonFloor.Floor_3, RemoveableObstacle.SizeOption._3x3, 3, 3, "Floor3", "7");
+        CreateObstacle(Define.DungeonFloor.Floor_3, RemoveableObstacle.SizeOption._2x1, 2, 1, "Floor3", "5");
+        //CreateObstacle(Define.DungeonFloor.Floor_3, RemoveableObstacle.SizeOption._2x1, 2, 1, "Floor3", "5");
+
+        CreateObstacle(Define.DungeonFloor.Floor_3, RemoveableObstacle.SizeOption._1x2, 1, 2, "Floor3", "4");
+        //CreateObstacle(Define.DungeonFloor.Floor_3, RemoveableObstacle.SizeOption._1x2, 1, 2, "Floor3", "4");
     }
 
     void Init_4Floor()
     {
-        CreateObstacle(Define.DungeonFloor.Floor_4, RemoveableObstacle.SizeOption._1x1, 1, 1, "Floor4", "3");
-        CreateObstacle(Define.DungeonFloor.Floor_4, RemoveableObstacle.SizeOption._1x1, 1, 1, "Floor4", "3");
-        //CreateObstacle(Define.DungeonFloor.Floor_4, RemoveableObstacle.SizeOption._1x1, 1, 1, "Floor4", "3");
+        CreateObstacle(Define.DungeonFloor.Floor_4, RemoveableObstacle.SizeOption._3x3, 3, 3, "Floor4", "5");
+        CreateObstacle(Define.DungeonFloor.Floor_4, RemoveableObstacle.SizeOption._3x3, 3, 3, "Floor4", "5");
+
+        //CreateObstacle(Define.DungeonFloor.Floor_4, RemoveableObstacle.SizeOption._2x2, 2, 2, "Floor4", "2");
+        CreateObstacle(Define.DungeonFloor.Floor_4, RemoveableObstacle.SizeOption._2x2, 2, 2, "Floor4", "2");
 
         CreateObstacle(Define.DungeonFloor.Floor_4, RemoveableObstacle.SizeOption._2x1, 2, 1, "Floor4", "4");
         //CreateObstacle(Define.DungeonFloor.Floor_4, RemoveableObstacle.SizeOption._2x1, 2, 1, "Floor4", "4");
@@ -182,25 +185,25 @@ public class FloorInitializer : MonoBehaviour
         CreateObstacle(Define.DungeonFloor.Floor_4, RemoveableObstacle.SizeOption._1x2, 1, 2, "Floor4", "1");
         //CreateObstacle(Define.DungeonFloor.Floor_4, RemoveableObstacle.SizeOption._1x2, 1, 2, "Floor4", "1");
 
-        //CreateObstacle(Define.DungeonFloor.Floor_4, RemoveableObstacle.SizeOption._2x2, 2, 2, "Floor4", "2");
-        CreateObstacle(Define.DungeonFloor.Floor_4, RemoveableObstacle.SizeOption._2x2, 2, 2, "Floor4", "2");
 
-        //CreateObstacle(Define.DungeonFloor.Floor_4, RemoveableObstacle.SizeOption._3x3, 3, 3, "Floor4", "5");
-        CreateObstacle(Define.DungeonFloor.Floor_4, RemoveableObstacle.SizeOption._3x3, 3, 3, "Floor4", "5");
+        CreateObstacle(Define.DungeonFloor.Floor_4, RemoveableObstacle.SizeOption._1x1, 1, 1, "Floor4", "3");
+        CreateObstacle(Define.DungeonFloor.Floor_4, RemoveableObstacle.SizeOption._1x1, 1, 1, "Floor4", "3");
+        //CreateObstacle(Define.DungeonFloor.Floor_4, RemoveableObstacle.SizeOption._1x1, 1, 1, "Floor4", "3");
     }
     void Init_5Floor()
     {
-        CreateObstacle(Define.DungeonFloor.Floor_5, RemoveableObstacle.SizeOption._1x2, 1, 2, "Floor5", "1");
-        CreateObstacle(Define.DungeonFloor.Floor_5, RemoveableObstacle.SizeOption._1x2, 1, 2, "Floor5", "1");
-
-        CreateObstacle(Define.DungeonFloor.Floor_5, RemoveableObstacle.SizeOption._1x2, 1, 2, "Floor5", "3");
-        CreateObstacle(Define.DungeonFloor.Floor_5, RemoveableObstacle.SizeOption._1x2, 1, 2, "Floor5", "3");
+        CreateObstacle(Define.DungeonFloor.Floor_5, RemoveableObstacle.SizeOption._3x3, 3, 3, "Floor5", "4");
+        CreateObstacle(Define.DungeonFloor.Floor_5, RemoveableObstacle.SizeOption._3x3, 3, 3, "Floor5", "4");
 
         //CreateObstacle(Define.DungeonFloor.Floor_5, RemoveableObstacle.SizeOption._2x2, 2, 2, "Floor5", "2");
         CreateObstacle(Define.DungeonFloor.Floor_5, RemoveableObstacle.SizeOption._2x2, 2, 2, "Floor5", "2");
 
-        //CreateObstacle(Define.DungeonFloor.Floor_5, RemoveableObstacle.SizeOption._3x3, 3, 3, "Floor5", "4");
-        CreateObstacle(Define.DungeonFloor.Floor_5, RemoveableObstacle.SizeOption._3x3, 3, 3, "Floor5", "4");
+
+        CreateObstacle(Define.DungeonFloor.Floor_5, RemoveableObstacle.SizeOption._1x2, 1, 2, "Floor5", "1");
+        CreateObstacle(Define.DungeonFloor.Floor_5, RemoveableObstacle.SizeOption._1x2, 1, 2, "Floor5", "1");
+
+        CreateObstacle(Define.DungeonFloor.Floor_5, RemoveableObstacle.SizeOption._1x2, 1, 2, "Floor5", "3");
+        CreateObstacle(Define.DungeonFloor.Floor_5, RemoveableObstacle.SizeOption._1x2, 1, 2, "Floor5", "3");
     }
 
 

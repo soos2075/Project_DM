@@ -26,5 +26,6 @@ public class SO_Ending : ScriptableObject, I_SO_Collection
         //public int index;
         public Sprite sprite;
         public string dialogueName;
+        public UI_EndingCanvas.Preset preset;
     }
 }

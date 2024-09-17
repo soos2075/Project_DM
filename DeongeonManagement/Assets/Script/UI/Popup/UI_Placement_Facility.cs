@@ -224,7 +224,8 @@ public class UI_Placement_Facility : UI_PopUp
 
     void PreviewRefresh(SO_Contents content)
     {
-        GetObject((int)Preview.Preview_Image).GetComponent<Image>().sprite = Managers.Sprite.GetSprite(content.spritePath);
+        GetObject((int)Preview.Preview_Image).GetComponent<Image>().sprite = 
+            Managers.Sprite.Get_SLA(SpriteManager.Library.Contents, content.SLA_category, content.SLA_label);
         GetObject((int)Preview.Preview_Text_Title).GetComponent<TextMeshProUGUI>().text = content.labelName;
         GetObject((int)Preview.Preview_Text_Contents).GetComponent<TextMeshProUGUI>().text = content.detail;
 

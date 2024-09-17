@@ -212,20 +212,20 @@ public class UI_Dialogue : UI_PopUp, IDialogue
                 }
             }
 
-            if (option.Contains("@Sprite"))
-            {
-                string spritePath = option.Substring(option.IndexOf("@Sprite::") + 9, option.IndexOf("::Sprite") - (option.IndexOf("@Sprite::") + 9));
-                if (string.IsNullOrEmpty(spritePath))
-                {
-                    GetImage(0).sprite = null;
-                    GetImage(0).enabled = false;
-                }
-                else
-                {
-                    GetImage(0).sprite = Managers.Sprite.GetSprite(spritePath);
-                    GetImage(0).enabled = true;
-                }
-            }
+            //if (option.Contains("@Sprite"))
+            //{
+            //    string spritePath = option.Substring(option.IndexOf("@Sprite::") + 9, option.IndexOf("::Sprite") - (option.IndexOf("@Sprite::") + 9));
+            //    if (string.IsNullOrEmpty(spritePath))
+            //    {
+            //        GetImage(0).sprite = null;
+            //        GetImage(0).enabled = false;
+            //    }
+            //    else
+            //    {
+            //        GetImage(0).sprite = Managers.Sprite.GetSprite(spritePath);
+            //        GetImage(0).enabled = true;
+            //    }
+            //}
 
             if (option.Contains("@Action"))
             {

@@ -37,12 +37,12 @@ public class UI_SteamLink : UI_PopUp
         Bind<TMPro.TextMeshProUGUI>(typeof(TMP_Texts));
 
 
-        //GetButton((int)Buttons.SteamLink).gameObject.AddUIEvent(data => OpenWebPageButton());
+        GetButton((int)Buttons.SteamLink).gameObject.AddUIEvent(data => OpenWebPageButton());
         //GetButton((int)Buttons.Record).gameObject.AddUIEvent(data => ShowPlayRecord());
 
-        GetButton((int)Buttons.KR).gameObject.AddUIEvent(data => Lan_KR());
-        GetButton((int)Buttons.EN).gameObject.AddUIEvent(data => Lan_EN());
-        GetButton((int)Buttons.JP).gameObject.AddUIEvent(data => Lan_JP());
+        //GetButton((int)Buttons.KR).gameObject.AddUIEvent(data => Lan_KR());
+        //GetButton((int)Buttons.EN).gameObject.AddUIEvent(data => Lan_EN());
+        //GetButton((int)Buttons.JP).gameObject.AddUIEvent(data => Lan_JP());
 
         GetTMP((int)TMP_Texts.VersionText).text = $"v_{Application.version}";
     }

@@ -142,46 +142,6 @@ public class NPCManager
             float ranValue = Random.Range(1f, Instance_NPC_List.Count + 5);
             Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
         }
-
-        //if (Instance_NPC_List.Count <= 7)
-        //{
-        //    for (int i = 0; i < Instance_NPC_List.Count; i++)
-        //    {
-        //        float ranValue = Random.Range(1f, 8f);
-        //        Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
-        //    }
-        //}
-        //else
-        //{
-        //    for (int i = 0; i < 7; i++)
-        //    {
-        //        float ranValue = Random.Range(1f, 8f);
-        //        Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
-        //    }
-
-        //    if (Instance_NPC_List.Count <= 15)
-        //    {
-        //        for (int i = 7; i < Instance_NPC_List.Count; i++)
-        //        {
-        //            float ranValue = Random.Range(8f, 14f);
-        //            Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
-        //        }
-        //    }
-        //    else
-        //    {
-        //        for (int i = 7; i < 15; i++)
-        //        {
-        //            float ranValue = Random.Range(8f, 14f);
-        //            Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
-        //        }
-
-        //        for (int i = 15; i < Instance_NPC_List.Count; i++)
-        //        {
-        //            float ranValue = Random.Range(14f, 20f);
-        //            Main.Instance.StartCoroutine(ActiveNPC(i, ranValue));
-        //        }
-        //    }
-        //}
     }
 
     IEnumerator ActiveNPC(int index, float delay)
@@ -216,19 +176,11 @@ public class NPCManager
 
     System.Action EventNPCAction { get; set; }
 
-    public void AddEventNPC(string typeName, float time)
-    {
-        EventNPCAction += () =>
-        {
-            var npc = InstantiateNPC_Event(typeName);
-            Main.Instance.StartCoroutine(ActiveNPC(npc, time));
-        };
-    }
     public void AddEventNPC(string typeName, float time, NPC_Typeof types)
     {
         EventNPCAction += () =>
         {
-            var npc = InstantiateNPC_Custom(typeName, types);
+            var npc = InstantiateNPC_Event(typeName, types);
             Main.Instance.StartCoroutine(ActiveNPC(npc, time));
         };
     }
@@ -430,13 +382,18 @@ public class NPCManager
     {
         UniqueNPC_Dict = new Dictionary<NPC_Type_Unique, float>();
 
-        for (int i = 0; i < Enum.GetNames(typeof(NPC_Type_Unique)).Length; i++)
+        foreach (NPC_Type_Unique npcType in Enum.GetValues(typeof(NPC_Type_Unique)))
         {
-            UniqueNPC_Dict.Add((NPC_Type_Unique)i, 1);
+            UniqueNPC_Dict.Add(npcType, 0);
         }
+
+        //for (int i = 0; i < Enum.GetNames(typeof(NPC_Type_Unique)).Length; i++)
+        //{
+        //    UniqueNPC_Dict.Add((NPC_Type_Unique)i, 1);
+        //}
     }
 
-    void Add_UniqueChance(NPC_Type_Unique target, float probability)
+    public void Set_UniqueChance(NPC_Type_Unique target, float probability)
     {
         UniqueNPC_Dict[target] = probability;
     }
@@ -448,7 +405,7 @@ public class NPCManager
             float ranValue = Random.value;
             if (item.Value >= ranValue)
             {
-                InstantiateNPC_Event(item.Key.ToString());
+                InstantiateNPC_Unique(item.Key.ToString());
             }
         }
     }
@@ -458,13 +415,13 @@ public class NPCManager
 
     public Dictionary<NPC_Type_Unique, float> Save_NPCData()
     {
-        return UniqueNPC_Dict;
+        return new Dictionary<NPC_Type_Unique, float>(UniqueNPC_Dict);
     }
     public void Load_NPCData(Dictionary<NPC_Type_Unique, float> data)
     {
         if (data != null)
         {
-            UniqueNPC_Dict = data;
+            UniqueNPC_Dict = new Dictionary<NPC_Type_Unique, float>(data);
         }
     }
 
@@ -506,7 +463,7 @@ public class NPCManager
         SO_NPC data = null;
         if (NPC_Dictionary.TryGetValue(keyName, out data))
         {
-            var obj = GameManager.Placement.CreatePlacementObject(data.prefabPath, null, PlacementType.NPC);
+            var obj = GameManager.Placement.CreateNPC(data.prefabPath, null, NPC_Typeof.NPC_Type_Normal);
             NPC _npc = obj as NPC;
             _npc.SetData(data, RandomPicker());
             int _value = data.Rank;
@@ -520,40 +477,39 @@ public class NPCManager
             return null;
         }
     }
-    public NPC InstantiateNPC_Event(string keyName)
+    public NPC InstantiateNPC_Event(string keyName, NPC_Typeof addScript = NPC_Typeof.NPC_Type_MainEvent)
+    {
+        return InstantiateNPC(keyName, -1, Instance_EventNPC_List, addScript);
+    }
+    public NPC InstantiateNPC_Unique(string keyName)
+    {
+        return InstantiateNPC(keyName, -1, Instance_NPC_List, NPC_Typeof.NPC_Type_Unique);
+    }
+    //public NPC InstantiateNPC_Custom(string keyName, NPC_Typeof addScript)
+    //{
+    //    return InstantiateNPC(keyName, -1, Instance_EventNPC_List, addScript);
+    //}
+
+    NPC InstantiateNPC(string keyName, int index, List<NPC> addList, NPC_Typeof type)
     {
         SO_NPC data = null;
         if (NPC_Dictionary.TryGetValue(keyName, out data))
         {
-            var obj = GameManager.Placement.CreatePlacementObject(data.prefabPath, null, PlacementType.NPC);
+            var obj = GameManager.Placement.CreateNPC(data.prefabPath, null, type);
             NPC _npc = obj as NPC;
-            _npc.SetData(data, -1);
-            Instance_EventNPC_List.Add(_npc);
+            _npc.SetData(data, index);
+            addList.Add(_npc);
             return _npc;
         }
         else
         {
-            Debug.Log($"NPC_Data 없음 : {keyName}");
+            Debug.Log($"NPC_EventData 없음 : {keyName}");
             return null;
         }
     }
-    public NPC InstantiateNPC_Custom(string keyName, NPC_Typeof addScript)
-    {
-        SO_NPC data = null;
-        if (NPC_Dictionary.TryGetValue(keyName, out data))
-        {
-            var obj = GameManager.Placement.CreatePlacementObject(data.prefabPath, null, PlacementType.NPC, addScript);
-            NPC _npc = obj as NPC;
-            _npc.SetData(data, -1);
-            Instance_EventNPC_List.Add(_npc);
-            return _npc;
-        }
-        else
-        {
-            Debug.Log($"NPC_Data 없음 : {keyName}");
-            return null;
-        }
-    }
+
+
+
 
 
     public void InactiveNPC(NPC npc)
@@ -625,11 +581,11 @@ public enum NPC_Type_Normal
 }
 public enum NPC_Type_Unique //? 등장 랭크 포인트를 안먹음
 {
-    ManaGoblin,     //? 마나 보너스 몹 - 체력 15, 마나 ㅈㄴ많음. 행동횟수 ㅈㄴ많음
-    GoldLizard,     //? 골드 보너스 몹 - 체력 적당히, 방어 많이 높음, 행동횟수 적음(한 10정도), 반사데미지 강함. 잡으면 골드와 적당한 경험치
-    PumpkinHead,    //? 경험치 보너스 몹 - 체력 적당히, 스탯 적당히, 잡으면 많은 경험치
-    Santa,          //? 마나 보너스 몹 - 잡으면 위험도가 많이 오름. 층을 이동할 때 마다 마나를 많이 얻음. 상호작용은 따로 없음 
-    DungeonThief,   //? 마나와 경험치 - 던전털이범 - 체력 15, 경험치 ㅈㄴ많음. 행동횟수 3회, 회피율 95%고정(luk를 99로), 퍼실리티 무시, 몬스터는 싸움, 잡으면 골드
+    ManaGoblin      = 1700,   //? 마나 보너스 몹 - 체력 15, 마나 ㅈㄴ많음. 행동횟수 ㅈㄴ많음
+    GoldLizard      = 1701,   //? 골드 보너스 몹 - 체력 적당히, 방어 많이 높음, 행동횟수 적음(한 10정도), 반사데미지 강함. 잡으면 골드와 적당한 경험치
+    PumpkinHead     = 1702,   //? 경험치 보너스 몹 - 체력 적당히, 스탯 적당히, 잡으면 많은 경험치
+    Santa           = 1703,   //? 마나 보너스 몹 - 잡으면 위험도가 많이 오름. 층을 이동할 때 마다 마나를 많이 얻음. 상호작용은 따로 없음 
+    DungeonThief    = 1704,   //? 마나와 경험치 - 던전털이범 - 체력 15, 경험치 ㅈㄴ많음. 행동횟수 3회, 회피율 95%고정(luk를 99로), 퍼실리티 무시, 몬스터는 싸움, 잡으면 골드
 }
 
 public enum NPC_Type_MainEvent

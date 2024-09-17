@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,37 +14,36 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
     }
 
 
-    enum Texts
-    {
-        MainText,
-        //TempText,
-    }
-
     enum Images
     {
         BackGround,
-        MainImage,
+        //MainImage,
     }
 
+    public enum Preset
+    {
+        Preset_Center,
+        Preset_Left,
+        Preset_Right,
+    }
+
+    Image mainImage;
+    TextMeshProUGUI mainText;
 
 
     public override void Init()
     {
-        Bind<TextMeshProUGUI>(typeof(Texts));
+        //Bind<TextMeshProUGUI>(typeof(Texts));
         Bind<Image>(typeof(Images));
-
+        Bind<GameObject>(typeof(Preset));
 
         //gameObject.AddUIEvent(data => SkipText(), Define.UIEvent.LeftClick);
+        Select_Preset(Preset.Preset_Center);
 
         SelectEnding();
         Init_Conversation();
     }
 
-
-    
-
-
-    //public Endings EndingState;
 
     SO_Ending EndingData;
 
@@ -53,7 +53,20 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
     }
 
 
+    void Select_Preset(Preset preset)
+    {
+        for (int i = 0; i < Enum.GetNames(typeof(Preset)).Length; i++)
+        {
+            GetObject(i).SetActive(false);
+        }
 
+        var obj = GetObject((int)preset);
+        mainImage = obj.GetComponentInChildren<Image>(true);
+        mainText = obj.GetComponentInChildren<TextMeshProUGUI>(true);
+        mainImage.sprite = Managers.Sprite.GetClear();
+        mainText.text = "";
+        obj.SetActive(true);
+    }
 
 
 
@@ -83,18 +96,17 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
 
     IEnumerator Ending(SO_Ending data)
     {
-        Image mainImage = GetImage((int)Images.MainImage);
-        var mainText = GetTMP((int)Texts.MainText);
-        mainText.text = "";
-
         for (int i = 0; i < data.cutSceneList.Count; i++)
         {
+            Select_Preset(data.cutSceneList[i].preset);
+
             mainImage.sprite = data.cutSceneList[i].sprite;
+            //mainText.text = "";
 
             var textData = Managers.Dialogue.GetDialogue(data.cutSceneList[i].dialogueName);
             yield return StartCoroutine(SceneFadeAndShowText(mainImage, mainText, textData));
 
-            GetTMP((int)Texts.MainText).text = "";
+            mainText.text = "";
             mainText.color = Color.white;
 
             yield return new WaitForSeconds(1);
@@ -102,44 +114,6 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
 
         var ui = Managers.UI.ShowPopUp<UI_Ending>();
     }
-
-
-
-
-    //IEnumerator Ending()
-    //{
-    //    Image mainImage = GetImage((int)Images.MainImage);
-    //    var mainText = GetTMP((int)Texts.MainText);
-
-    //    string main_1 = GetTMP((int)Texts.MainText).text;
-    //    mainText.text = "";
-
-    //    //? Image 1
-    //    //GetTMP((int)Texts.TempText).text = "Image 1 (공통)";
-    //    yield return StartCoroutine(SceneFadeOnce(mainImage, mainText, main_1));
-
-
-    //    GetTMP((int)Texts.MainText).text = "";
-    //    mainText.color = Color.white;
-
-    //    yield return new WaitForSeconds(1);
-
-    //    //? Image 2
-    //    //GetTMP((int)Texts.TempText).text = "Image 2 (엔딩별 이미지)";
-    //    yield return StartCoroutine(SceneFadeOnce(mainImage, mainText, "그곳에서 깨어난 것은 ---- 였다.\n\n그리고 나는 123123 그래서 asdfasdf\n\n그렇게 모험은 끝이 났다."));
-
-
-    //    GetTMP((int)Texts.MainText).text = "";
-    //    mainText.color = Color.white;
-    //    yield return new WaitForSeconds(1);
-
-    //    //? Image 3
-    //    //GetTMP((int)Texts.TempText).text = "End (여긴 이미지 넣을지 말지 고민중)";
-
-
-    //    //? ending
-    //    var ui = Managers.UI.ShowPopUp<UI_Ending>();
-    //}
 
 
     //IEnumerator SceneFadeOnce(Image targetImage, TextMeshProUGUI targetText, string main_1)
@@ -249,16 +223,12 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
 
 
 
-
-
-
-
-    void Conversation(string _mainText)
-    {
-        Data = new DialogueData();
-        Data.TextDataList.Add(new DialogueData.TextData("", _mainText));
-        StartCoroutine(ContentsRoofWithType(Data));
-    }
+    //void Conversation(string _mainText)
+    //{
+    //    Data = new DialogueData();
+    //    Data.TextDataList.Add(new DialogueData.TextData("", _mainText));
+    //    StartCoroutine(ContentsRoofWithType(Data));
+    //}
 
 
     IEnumerator ContentsRoofWithType(DialogueData textData)
@@ -310,21 +280,21 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
 
     void SpeakSomething(string contents)
     {
-        GetTMP((int)Texts.MainText).text = contents;
+        mainText.text = contents;
     }
 
 
-    void SkipText()
-    {
-        if (isTyping)
-        {
-            isSkip = true;
-        }
-        else
-        {
-            isTyping = true;
-        }
-    }
+    //void SkipText()
+    //{
+    //    if (isTyping)
+    //    {
+    //        isSkip = true;
+    //    }
+    //    else
+    //    {
+    //        isTyping = true;
+    //    }
+    //}
 
 
 

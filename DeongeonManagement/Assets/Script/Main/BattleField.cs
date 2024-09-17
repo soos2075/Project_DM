@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using DamageNumbersPro;
 using UnityEngine.U2D.Animation;
+using UnityEngine.Rendering;
 
 public class BattleField : MonoBehaviour
 {
@@ -15,28 +16,23 @@ public class BattleField : MonoBehaviour
     public int sort = 10;
     void Start()
     {
-        //BattlePlay();
-        sprite_BG.sortingOrder = sort;
-        sprite_border.sortingOrder = sort;
+        ////BattlePlay();
+        //sprite_BG.sortingOrder = sort;
+        //sprite_border.sortingOrder = sort;
 
-        //Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
+        ////Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
 
-        hpBar_npc.sortingOrder = sort + 1;
-        hpBar_monster.sortingOrder = sort + 1;
+        //hpBar_npc.sortingOrder = sort + 1;
+        //hpBar_monster.sortingOrder = sort + 1;
 
-        GetComponentInChildren<SpriteMask>().frontSortingOrder = sort;
+        GetComponentInChildren<SortingGroup>().sortingOrder = sort;
     }
 
-    [Header("Field Sprite")]
-    public Sprite field_1;
-    public Sprite field_2;
-    public Sprite field_3;
-
-    [Space(10)]
-
+    readonly float hpFillOffset = 0.83f;
 
     public SpriteRenderer sprite_BG;
     public SpriteRenderer sprite_border;
+    public SpriteRenderer sprite_Icon;
 
     public Transform pos_Left;
     public Transform pos_Right;
@@ -50,8 +46,8 @@ public class BattleField : MonoBehaviour
     NPC npc;
     Monster monster;
 
-    public SpriteRenderer hpBar_npc;
-    public SpriteRenderer hpBar_monster;
+    public Transform hpBar_Left;
+    public Transform hpBar_Right;
 
     int leftHPMax;
     int rightHPMax;
@@ -71,11 +67,11 @@ public class BattleField : MonoBehaviour
         leftCurrent -= _leftChange;
         rightCurrent -= _rightChange;
 
-        float leftValue = Mathf.Clamp01((float)leftCurrent / (float)leftHPMax);
-        hpBar_npc.transform.localScale = new Vector3(leftValue, 1, 1);
+        float leftValue = Mathf.Clamp01((float)leftCurrent / (float)leftHPMax) * hpFillOffset;
+        hpBar_Left.transform.localScale = new Vector3(leftValue, 1, 1);
 
-        float rightValue = Mathf.Clamp01((float)rightCurrent / (float)rightHPMax);
-        hpBar_monster.transform.localScale = new Vector3(rightValue, 1, 1);
+        float rightValue = Mathf.Clamp01((float)rightCurrent / (float)rightHPMax) * hpFillOffset;
+        hpBar_Right.transform.localScale = new Vector3(rightValue, 1, 1);
     }
 
     public Coroutine BattlePlay()
@@ -388,21 +384,21 @@ public class BattleField : MonoBehaviour
         renderer.material.SetFloat("_FlashIntensity", 0);
     }
 
-    [Obsolete]
-    public void _AddAction(int _dam, Transform parent) //? 데미지프로안쓰는버전
-    {
-        Call_Damage = () =>
-        {
-            var pos = parent.GetChild(0);
-            pos.localPosition = new Vector3(UnityEngine.Random.Range(-0.25f, 0.25f), UnityEngine.Random.Range(0.25f, 0.5f), 0);
+    //[Obsolete]
+    //public void _AddAction(int _dam, Transform parent) //? 데미지프로안쓰는버전
+    //{
+    //    Call_Damage = () =>
+    //    {
+    //        var pos = parent.GetChild(0);
+    //        pos.localPosition = new Vector3(UnityEngine.Random.Range(-0.25f, 0.25f), UnityEngine.Random.Range(0.25f, 0.5f), 0);
 
-            var mesh = Managers.Resource.Instantiate("Battle/DamageMesh", pos);
-            mesh.transform.position = pos.transform.position;
+    //        var mesh = Managers.Resource.Instantiate("Battle/DamageMesh", pos);
+    //        mesh.transform.position = pos.transform.position;
 
-            mesh.GetComponent<TextMeshPro>().sortingOrder = (sprite_BG.sortingOrder + 1);
-            mesh.GetComponent<TextMeshPro>().text = _dam.ToString();
-        };
-    }
+    //        mesh.GetComponent<TextMeshPro>().sortingOrder = (sprite_BG.sortingOrder + 1);
+    //        mesh.GetComponent<TextMeshPro>().text = _dam.ToString();
+    //    };
+    //}
 
 
     #endregion
@@ -486,27 +482,21 @@ public class BattleField : MonoBehaviour
         obj_Left = Instantiate(npc.gameObject, pos_Left);
         Destroy(obj_Left.GetComponent<NPC>());
         obj_Left.transform.localPosition = Vector3.zero;
-        obj_Left.transform.localScale = Vector3.one;
+        obj_Left.transform.localScale = Vector3.one * 2;
         obj_Left.GetComponentInChildren<SpriteRenderer>().sortingOrder = sort + 1;
         obj_Left.GetComponentInChildren<SpriteRenderer>().material = mat_npc;
         ani_npc = obj_Left.GetComponent<Animator>();
         this.npc = npc;
 
-
         obj_Right = Instantiate(monster.gameObject, pos_Right);
         Destroy(obj_Right.GetComponent<Monster>());
         obj_Right.transform.localPosition = Vector3.zero;
-        obj_Right.transform.localScale = new Vector3(-1, 1, 1);
+        obj_Right.transform.localScale = Vector3.one * 2;
+        obj_Right.GetComponentInChildren<SpriteRenderer>().flipX = true;
         obj_Right.GetComponentInChildren<SpriteRenderer>().sortingOrder = sort + 1;
         obj_Right.GetComponentInChildren<SpriteRenderer>().material = mat_monster;
         ani_monster = obj_Right.GetComponent<Animator>();
         this.monster = monster;
-
-
-        //obj_Right = Managers.Resource.Instantiate($"Battle/{monster.name}_Avatar", pos_Right);
-        //obj_Right.GetComponentInChildren<SpriteRenderer>().sortingOrder = sort;
-        //ani_monster = obj_Right.GetComponentInChildren<Animator>();
-
 
 
         if (!npc || !monster)

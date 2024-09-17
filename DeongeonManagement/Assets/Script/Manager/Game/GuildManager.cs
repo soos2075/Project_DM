@@ -393,5 +393,7 @@ public enum GuildNPC_LabelName
     DummyC = 7000,
     DummyD = 8000,
 
+    DeathMagician = 10000,
+
     RetiredHero = 15000,
 }

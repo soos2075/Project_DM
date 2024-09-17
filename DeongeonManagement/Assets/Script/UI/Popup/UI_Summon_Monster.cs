@@ -243,7 +243,8 @@ public class UI_Summon_Monster : UI_PopUp
 
     void PreviewRefresh(SO_Monster content)
     {
-        GetObject((int)Preview.Preview_Image).GetComponent<Image>().sprite = Managers.Sprite.GetSprite_SLA(content.SLA_category, content.SLA_label);
+        GetObject((int)Preview.Preview_Image).GetComponent<Image>().sprite = 
+            Managers.Sprite.Get_SLA(SpriteManager.Library.Monster, content.SLA_category, content.SLA_label);
         GetObject((int)Preview.Preview_Text_Title).GetComponent<TextMeshProUGUI>().text = content.labelName;
         GetObject((int)Preview.Preview_Text_Contents).GetComponent<TextMeshProUGUI>().text = content.detail;
 

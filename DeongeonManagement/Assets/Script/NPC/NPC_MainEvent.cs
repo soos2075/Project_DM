@@ -25,12 +25,17 @@ public class NPC_MainEvent : NPC
             case NPC_Type_MainEvent.Event_Goblin_Leader2:
                 break;
             case NPC_Type_MainEvent.EM_Catastrophe:
+                if (GameManager.Technical.Get_Technical<BarrierOfSealing>() != null)
+                {
+                    HP -= 555;
+                }
                 break;
+
             case NPC_Type_MainEvent.EM_RetiredHero:
                 EventManager.Instance.AddTurnOverEventReserve(() => 
                 {
                     GuildManager.Instance.RemoveInstanceGuildNPC(GuildNPC_LabelName.RetiredHero);
-                    EventManager.Instance.RemoveQuestAction(1151);
+                    EventManager.Instance.ClearQuestAction(1151);
                     EventManager.Instance.ReservationToQuest(3, 7010);
                     EventManager.Instance.ReservationToQuest(13, 7020);
                     EventManager.Instance.AddDayEvent(DayEventLabel.Guild_Raid_1, 0, 20, 0);
@@ -399,7 +404,6 @@ public class NPC_MainEvent : NPC
             case NPC_Type_MainEvent.EM_Soldier1:
             case NPC_Type_MainEvent.EM_Soldier2:
             case NPC_Type_MainEvent.EM_Soldier3:
-            case NPC_Type_MainEvent.EM_Catastrophe:
                 {
                     AddPriorityList(GetPriorityPick(typeof(Monster)), AddPos.Front, option);
                     AddPriorityList(GetPriorityPick(typeof(Treasure)), AddPos.Back, option);
@@ -410,10 +414,11 @@ public class NPC_MainEvent : NPC
 
             case NPC_Type_MainEvent.EM_FirstAdventurer:
             case NPC_Type_MainEvent.EM_RedHair:
-            case NPC_Type_MainEvent.EM_RetiredHero: //? 얘는 나중에 위에 솔져로 바꿔야할지도 모르겠음
+            case NPC_Type_MainEvent.EM_RetiredHero: //? 얘는 나중에 위에 솔져로 바꿔야할지도 모르겠음 - 인기도쪽 퀘스트가 좀 더 구현되면 바꾸자
             case NPC_Type_MainEvent.EM_Captine_A:
             case NPC_Type_MainEvent.EM_Captine_B:
             case NPC_Type_MainEvent.EM_Captine_BlueKnight:
+            case NPC_Type_MainEvent.EM_Catastrophe:
                 AddPriorityList(GetPriorityPick(typeof(Monster)), AddPos.Front, option);
                 //AddPriorityList(GetPriorityPick(typeof(Treasure)), AddPos.Front, option);
                 break;
@@ -620,7 +625,7 @@ public class NPC_MainEvent : NPC
                 break;
 
             case NPC_Type_MainEvent.Event_Goblin_Leader2:
-                EventManager.Instance.RemoveQuestAction(1150);
+                EventManager.Instance.ClearQuestAction(1150);
                 break;
 
             case NPC_Type_MainEvent.EM_Catastrophe:
@@ -713,18 +718,29 @@ public class NPC_MainEvent : NPC
                 break;
 
             case NPC_Type_MainEvent.Event_Goblin_Leader2:
-                EventManager.Instance.RemoveQuestAction(1150);
+                EventManager.Instance.ClearQuestAction(1150);
                 break;
 
             case NPC_Type_MainEvent.EM_Catastrophe:
-                if (UserData.Instance.FileConfig.firstReturn_Catastrophe == false)
+                if (GameManager.Technical.Get_Technical<BarrierOfSealing>() != null)
                 {
-                    UserData.Instance.FileConfig.firstReturn_Catastrophe = true;
-                    Managers.Dialogue.ShowDialogueUI(DialogueName.Catastrophe_Return_First, transform);
+                    //? 봉인결계로 이동해서 이벤트 발생시키기
+                    EventManager.Instance.ClearQuestAction(1140);
+                    EventManager.Instance.ClearQuestAction(1141);
+                    EventManager.Instance.ClearQuestAction(771141);
+                    Managers.Dialogue.ShowDialogueUI(DialogueName.Catastrophe_Seal, transform);
                 }
                 else
                 {
-                    Managers.Dialogue.ShowDialogueUI(DialogueName.Catastrophe_Return, transform);
+                    if (UserData.Instance.FileConfig.firstReturn_Catastrophe == false)
+                    {
+                        UserData.Instance.FileConfig.firstReturn_Catastrophe = true;
+                        Managers.Dialogue.ShowDialogueUI(DialogueName.Catastrophe_Return_First, transform);
+                    }
+                    else
+                    {
+                        Managers.Dialogue.ShowDialogueUI(DialogueName.Catastrophe_Return, transform);
+                    }
                 }
                 break;
         }

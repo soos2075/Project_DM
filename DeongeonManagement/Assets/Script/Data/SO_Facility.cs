@@ -9,8 +9,9 @@ public class SO_Facility : ScriptableObject, I_SO_Collection
     public int id;
     public string keyName;
     public string prefabPath;
-    public string spritePath;
+    //public string spritePath;
 
+    [Header("Sprite_SLA")]
     public string SLA_category;
     public string SLA_label;
 

@@ -206,7 +206,7 @@ public class DialogueManager
     }
 
 
-    Action ReserveAction;
+    public Action ReserveAction { get; set; }
     Coroutine WaitCor;
 
     public void ActionReserve(Action action) //? 대화 끝나고 바로 시작할 액션을 예약해놓는곳
@@ -365,6 +365,7 @@ public enum DialogueName
     Catastrophe_Appear = 140,
     Catastrophe_Return = 141,
     Catastrophe_Return_First = 142,
+    Catastrophe_Seal = 143,
 
 
     RetiredHero_Appear = 153,
@@ -372,6 +373,9 @@ public enum DialogueName
 
     BloodSong_Appear = 200,
     BloodSong_Return = 201,
+
+    Dragon_First = 210,
+    Dragon_Second = 211,
 
     Guild_Raid_1 = 250,
     Guild_Raid_2 = 300,
@@ -451,6 +455,9 @@ public enum DialogueName
     Hunter_Slime = 9000,
     Hunter_EarthGolem = 9001,
 
+    DeathMagician = 10000,
+    DeathMagician_Catastrophe = 10001,
+    DeathMagician_DevilStatue = 10002,
 
     RetiredHero_0 = 15000,
     RetiredHero_10 = 15010,

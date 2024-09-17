@@ -15,17 +15,6 @@ public class UI_Management : UI_Base
     {
         Init();
     }
-    void Update()
-    {
-        //if (Managers.UI._popupStack.Count > 0)
-        //{
-        //    canvas.sortingOrder = 5;
-        //}
-        //else
-        //{
-        //    canvas.sortingOrder = 9;
-        //}
-    }
     private void LateUpdate()
     {
         Texts_Refresh();
@@ -48,7 +37,6 @@ public class UI_Management : UI_Base
         Pedia,
         DayLog,
 
-
         Speed1x,
         Speed2x,
         Speed3x,
@@ -56,10 +44,18 @@ public class UI_Management : UI_Base
 
     enum Texts
     {
-        Default,
-        Value,
+        TMP_Mana,
+        TMP_Gold,
+        TMP_Pop,
+        TMP_Danger,
+    }
+    enum Images
+    {
+        GameSpeed,
 
-        Day,
+        Image_Day_NX,
+        Image_Day_XN,
+        Image_Rank,
     }
 
     enum Objects
@@ -71,17 +67,6 @@ public class UI_Management : UI_Base
         pop_Tooltip,
         danger_Tooltip,
         rank_Tooltip,
-
-    }
-
-    public enum OverlayImages
-    {
-        OverlayImage_Facility,
-        //OverlayImage_Summon,
-        OverlayImage_Monster,
-        OverlayImage_Guild,
-        OverlayImage_Quest,
-        OverlayImage_Dungeon,
     }
 
 
@@ -93,14 +78,16 @@ public class UI_Management : UI_Base
     {
         //Managers.UI.SetCanvas(gameObject, RenderMode.ScreenSpaceCamera, false);
         canvas = GetComponent<Canvas>();
-        eventBox = Managers.UI.ShowSceneUI<UI_EventBox>("UI_EventBox");
+
+        eventBox = FindAnyObjectByType<UI_EventBox>();
+        //eventBox = Managers.UI.ShowSceneUI<UI_EventBox>("UI_EventBox");
 
         GenerateSceneFloorUI();
 
         Bind<Button>(typeof(ButtonEvent));
         Bind<TextMeshProUGUI>(typeof(Texts));
+        Bind<Image>(typeof(Images));
         Bind<GameObject>(typeof(Objects));
-        Bind<Image>(typeof(OverlayImages));
 
         Init_Tooltip();
         Texts_Refresh();
@@ -126,7 +113,6 @@ public class UI_Management : UI_Base
         var ap = GetObject((int)Objects.AP).GetOrAddComponent<UI_Tooltip>();
         ap.SetTooltipContents(UserData.Instance.LocaleText_Tooltip("AP"), UserData.Instance.LocaleText_Tooltip("AP_Detail"));
 
-
         var pop = GetObject((int)Objects.pop_Tooltip).GetOrAddComponent<UI_Tooltip>();
         pop.SetTooltipContents(UserData.Instance.LocaleText_Tooltip("Popularity"), UserData.Instance.LocaleText_Tooltip("Pop_Detail"));
 
@@ -150,90 +136,71 @@ public class UI_Management : UI_Base
             Destroy(pos.GetChild(i).gameObject);
         }
 
-
         for (int i = 0; i < Main.Instance.Player_AP; i++)
         {
             Managers.Resource.Instantiate("UI/PopUp/Element/behaviour", pos);
-        }
-
-        if (Main.Instance.Player_AP <= 2)
-        {
-            GetObject(((int)Objects.AP)).GetComponent<ContentSizeFitter>().enabled = false;
-            GetObject(((int)Objects.AP)).GetComponent<RectTransform>().sizeDelta = new Vector2(110, 70);
-        }
-        else
-        {
-            GetObject(((int)Objects.AP)).GetComponent<ContentSizeFitter>().enabled = true;
         }
     }
 
 
     public void Texts_Refresh()
     {
-        GetTMP(((int)Texts.Day)).text = $"{Main.Instance.Turn} {UserData.Instance.LocaleText("Day")}";
-        GetTMP(((int)Texts.Value)).text = $"{Main.Instance.Player_Mana}";
-        GetTMP(((int)Texts.Value)).text += $"\n{Main.Instance.Player_Gold}";
-        GetTMP(((int)Texts.Value)).text += $"\n{Main.Instance.PopularityOfDungeon}";
-        GetTMP(((int)Texts.Value)).text += $"\n{Main.Instance.DangerOfDungeon}";
-        GetTMP(((int)Texts.Value)).text += $"\n{(Define.DungeonRank)Main.Instance.DungeonRank}";
+        int tens = Main.Instance.Turn / 10;
+        int ones = Main.Instance.Turn % 10;
+
+        GetImage((int)Images.Image_Day_NX).sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Number", $"{tens}");
+        GetImage((int)Images.Image_Day_XN).sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Number", $"{ones}");
+
+        GetImage((int)Images.Image_Rank).sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Rank", 
+            $"{(Define.DungeonRank)Main.Instance.DungeonRank}");
+
+
+        GetTMP(((int)Texts.TMP_Mana)).text = $"{Main.Instance.Player_Mana}";
+        GetTMP(((int)Texts.TMP_Gold)).text = $"{Main.Instance.Player_Gold}";
+        GetTMP(((int)Texts.TMP_Pop)).text = $"{Main.Instance.PopularityOfDungeon}";
+        GetTMP(((int)Texts.TMP_Danger)).text = $"{Main.Instance.DangerOfDungeon}";
     }
 
 
 
-    void OverlayImageReset()
+    public void OverlayImageReset()
     {
-        GetImage((int)OverlayImages.OverlayImage_Facility).enabled = UserData.Instance.FileConfig.Notice_Facility;
-        //GetImage((int)OverlayImages.OverlayImage_Summon).enabled = false;
-        GetImage((int)OverlayImages.OverlayImage_Monster).enabled = UserData.Instance.FileConfig.Notice_Monster;
-        GetImage((int)OverlayImages.OverlayImage_Guild).enabled = UserData.Instance.FileConfig.Notice_Guild;
-        GetImage((int)OverlayImages.OverlayImage_Quest).enabled = UserData.Instance.FileConfig.Notice_Quest;
-        GetImage((int)OverlayImages.OverlayImage_Dungeon).enabled = UserData.Instance.FileConfig.Notice_DungeonEdit;
+        if (UserData.Instance.FileConfig.Notice_Facility)
+        {
+            AddNotice_UI("New", this, ButtonEvent._1_Facility.ToString(), "Notice_Facility");
+        }
+        if (UserData.Instance.FileConfig.Notice_Monster)
+        {
+            AddNotice_UI("New", this, ButtonEvent._3_Management.ToString(), "Notice_Monster");
+        }
+        if (UserData.Instance.FileConfig.Notice_Guild)
+        {
+            AddNotice_UI("Notice", this, ButtonEvent._4_Guild.ToString(), "Notice_Guild");
+        }
+        if (UserData.Instance.FileConfig.Notice_Quest)
+        {
+            AddNotice_UI("Notice", this, ButtonEvent._5_Quest.ToString(), "Notice_Quest");
+        }
+        if (UserData.Instance.FileConfig.Notice_DungeonEdit)
+        {
+            AddNotice_UI("Notice", this, ButtonEvent._6_DungeonEdit.ToString(), "Notice_DungeonEdit");
+        }
     }
+
+
 
     public void GuildButtonNotice()
     {
-        if (EventManager.Instance.CheckGuildNotice())// || EventManager.Instance.CheckGuildNotice_Wating())
+        if (EventManager.Instance.CheckGuildNotice())
         {
-            //Debug.Log("길드 알림!!");
-            GetImage((int)OverlayImages.OverlayImage_Guild).enabled = true;
+            if (UserData.Instance.FileConfig.Notice_Guild == false)
+            {
+                UserData.Instance.FileConfig.Notice_Guild = true;
+            }
         }
         else
         {
-            //Debug.Log("길드 알림 없음!!");
-            GetImage((int)OverlayImages.OverlayImage_Guild).enabled = false;
-        }
-    }
-
-    public void SetNotice(OverlayImages notice, bool onoff)
-    {
-        GetImage((int)notice).enabled = onoff;
-
-        switch (notice)
-        {
-            case OverlayImages.OverlayImage_Facility:
-                UserData.Instance.FileConfig.Notice_Facility = onoff;
-                break;
-            case OverlayImages.OverlayImage_Monster:
-                UserData.Instance.FileConfig.Notice_Monster = onoff;
-                break;
-            case OverlayImages.OverlayImage_Guild:
-                UserData.Instance.FileConfig.Notice_Guild = onoff;
-                break;
-            case OverlayImages.OverlayImage_Quest:
-                UserData.Instance.FileConfig.Notice_Quest = onoff;
-                break;
-            case OverlayImages.OverlayImage_Dungeon:
-                UserData.Instance.FileConfig.Notice_DungeonEdit = onoff;
-                break;
-        }
-
-    }
-
-    public void QuestNotice()
-    {
-        if (EventManager.Instance.CurrentQuestAction_forSave.Count > 0)
-        {
-            SetNotice(OverlayImages.OverlayImage_Quest, true);
+            UserData.Instance.FileConfig.Notice_Guild = false;
         }
     }
 
@@ -241,9 +208,13 @@ public class UI_Management : UI_Base
     IEnumerator WaitAndNoticeUpdate()
     {
         yield return null;
-        OverlayImageReset();
+
         GuildButtonNotice();
+        OverlayImageReset();
     }
+
+
+
 
 
 
@@ -290,20 +261,6 @@ public class UI_Management : UI_Base
             return;
         }
 
-        //if (Managers.UI.CurrentCanvasList != null)
-        //{
-        //    Canvas main = GetComponent<Canvas>();
-
-        //    foreach (var item in Managers.UI.CurrentCanvasList)
-        //    {
-        //        if (item == main)
-        //        {
-        //            return;
-        //        }
-        //    }
-        //}
-
-
         GetComponent<Canvas>().enabled = true;
     }
 
@@ -338,16 +295,11 @@ public class UI_Management : UI_Base
     }
 
 
-
-
-
-
     public void Button_Facility()
     {
         if (!Main.Instance.Management) return;
 
         var facility = Managers.UI.ClearAndShowPopUp<UI_Placement_Facility>("Facility/UI_Placement_Facility");
-        SetNotice(OverlayImages.OverlayImage_Facility, false);
 
         FloorPanelClear();
     }
@@ -357,15 +309,19 @@ public class UI_Management : UI_Base
         if (!Main.Instance.Management) return;
 
         Managers.UI.ClearAndShowPopUp<UI_Summon_Monster>("Monster/UI_Summon_Monster");
-        //SetNotice(OverlayImages.OverlayImage_Summon, false);
     }
     void Button_MonsterManage()
     {
         if (!Main.Instance.Management) return;
 
-        Managers.UI.ClearAndShowPopUp<UI_Monster_Management>("Monster/UI_Monster_Management");
-        SetNotice(OverlayImages.OverlayImage_Monster, false);
+        var monster = Managers.UI.ClearAndShowPopUp<UI_Monster_Management>("Monster/UI_Monster_Management");
+        if (UserData.Instance.FileConfig.Notice_Summon)
+        {
+            AddNotice_UI("New", monster, "Summon", "Notice_Summon");
+        }
     }
+
+
 
     UI_Quest questUI;
     void Button_Quest()
@@ -375,7 +331,6 @@ public class UI_Management : UI_Base
         if (questUI == null)
         {
             questUI = Managers.UI.ClearAndShowPopUp<UI_Quest>();
-            SetNotice(OverlayImages.OverlayImage_Quest, false);
         }
         else
         {
@@ -391,7 +346,14 @@ public class UI_Management : UI_Base
         if (dungeonEdit == null)
         {
             dungeonEdit = Managers.UI.ClearAndShowPopUp<UI_DungeonEdit>();
-            SetNotice(OverlayImages.OverlayImage_Dungeon, false);
+            if (UserData.Instance.FileConfig.Notice_Ex4)
+            {
+                AddNotice_UI("Notice", dungeonEdit, "Floor_4", "Notice_Ex4");
+            }
+            if (UserData.Instance.FileConfig.Notice_Ex5)
+            {
+                AddNotice_UI("Notice", dungeonEdit, "Floor_5", "Notice_Ex5");
+            }
         }
         else
         {
@@ -411,7 +373,6 @@ public class UI_Management : UI_Base
         {
             var ui = Managers.UI.ShowPopUp<UI_SystemMessage>();
             ui.Message = UserData.Instance.LocaleText("Message_No_AP");
-            //Debug.Log("훈련횟수 없음");
         }
         else
         {
@@ -434,6 +395,21 @@ public class UI_Management : UI_Base
     }
 
 
+    public void AddNotice_UI(string label, UI_Base parent, string findName, string setBoolName)
+    {
+        UserData.Instance.FileConfig.SetBoolValue(setBoolName, true);
+        StartCoroutine(WaitFrame(label, parent, findName, setBoolName));
+    }
+    IEnumerator WaitFrame(string label, UI_Base parent, string findName, string setBoolName)
+    {
+        yield return null;
+
+        var obj = Util.FindChild(parent.gameObject, findName, true);
+
+        var overlay = Managers.Resource.Instantiate("UI/PopUp/Element/OverlayImage", obj.transform);
+        var ui = overlay.GetComponent<UI_Overlay>();
+        ui.SetOverlay(Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Overlay_Icon", label), obj, setBoolName);
+    }
     #endregion
 
 
@@ -446,26 +422,7 @@ public class UI_Management : UI_Base
 
     public void SpeedButtonImage()
     {
-        switch (UserData.Instance.GameSpeed)
-        {
-            case 1:
-                GetButton((int)ButtonEvent.Speed1x).GetComponent<Image>().enabled = true;
-                GetButton((int)ButtonEvent.Speed2x).GetComponent<Image>().enabled = false;
-                GetButton((int)ButtonEvent.Speed3x).GetComponent<Image>().enabled = false;
-                break;
-
-            case 2:
-                GetButton((int)ButtonEvent.Speed1x).GetComponent<Image>().enabled = false;
-                GetButton((int)ButtonEvent.Speed2x).GetComponent<Image>().enabled = true;
-                GetButton((int)ButtonEvent.Speed3x).GetComponent<Image>().enabled = false;
-                break;
-
-            case 3:
-                GetButton((int)ButtonEvent.Speed1x).GetComponent<Image>().enabled = false;
-                GetButton((int)ButtonEvent.Speed2x).GetComponent<Image>().enabled = false;
-                GetButton((int)ButtonEvent.Speed3x).GetComponent<Image>().enabled = true;
-                break;
-        }
+        GetImage((int)Images.GameSpeed).sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "GameSpeed", $"{UserData.Instance.GameSpeed}");
     }
 
 
@@ -500,6 +457,7 @@ public class UI_Management : UI_Base
         Texts_Refresh();
         GuildButtonNotice();
         EventBoxClose();
+        OverlayImageReset();
     }
 
 
@@ -576,6 +534,27 @@ public class UI_Management : UI_Base
     public void Active_Button(ButtonEvent button) //? 메인에서 하나씩 풀면 됨
     {
         GetButton((int)button).gameObject.SetActive(true);
+
+        switch (button)
+        {
+            case ButtonEvent._1_Facility:
+                UserData.Instance.FileConfig.Notice_Facility = true;
+                break;
+            case ButtonEvent._3_Management:
+                UserData.Instance.FileConfig.Notice_Monster = true;
+                UserData.Instance.FileConfig.Notice_Summon = true;
+                break;
+            case ButtonEvent._4_Guild:
+                UserData.Instance.FileConfig.Notice_Guild = true;
+                break;
+            case ButtonEvent._5_Quest:
+                UserData.Instance.FileConfig.Notice_Quest = true;
+                break;
+            case ButtonEvent._6_DungeonEdit:
+                UserData.Instance.FileConfig.Notice_DungeonEdit = true;
+                break;
+        }
+        OverlayImageReset();
     }
     public void Active_Floor()
     {

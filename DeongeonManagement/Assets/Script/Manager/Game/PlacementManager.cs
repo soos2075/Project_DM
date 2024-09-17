@@ -73,30 +73,30 @@ public class PlacementManager
         return newObj;
     }
 
-    public IPlacementable CreatePlacementObject(string path, PlacementInfo info, PlacementType type, NPC_Typeof addType)
+    public IPlacementable CreateNPC(string path, PlacementInfo info, NPC_Typeof addType)
     {
         var gameobj = Managers.Resource.Instantiate(path, Placement_Root);
 
         switch (addType)
         {
             case NPC_Typeof.NPC_Type_Normal:
-                gameobj.AddComponent<NPC_Normal>();
+                gameobj.GetOrAddComponent<NPC_Normal>();
                 break;
             case NPC_Typeof.NPC_Type_MainEvent:
-                gameobj.AddComponent<NPC_MainEvent>();
+                gameobj.GetOrAddComponent<NPC_MainEvent>();
                 break;
             case NPC_Typeof.NPC_Type_SubEvent:
-                gameobj.AddComponent<NPC_SubEvent>();
+                gameobj.GetOrAddComponent<NPC_SubEvent>();
                 break;
             case NPC_Typeof.NPC_Type_Unique:
-                gameobj.AddComponent<NPC_Unique>();
+                gameobj.GetOrAddComponent<NPC_Unique>();
                 break;
             case NPC_Typeof.NPC_Type_Hunter:
-                gameobj.AddComponent<NPC_Hunter>();
+                gameobj.GetOrAddComponent<NPC_Hunter>();
                 break;
         }
         var obj = gameobj.GetComponent<IPlacementable>();
-        obj.PlacementType = type;
+        obj.PlacementType = PlacementType.NPC;
         obj.PlacementInfo = info;
         Disable(obj);
         return obj;

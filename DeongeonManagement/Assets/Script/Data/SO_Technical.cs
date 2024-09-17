@@ -9,7 +9,10 @@ public class SO_Technical : ScriptableObject, I_SO_Collection
     public string keyName;
 
     public string prefabPath;
-    public string spritePath;
+
+    [Header("SLA")]
+    public string SLA_categoty;
+    public string SLA_label;
 
 
     [Header("Option")]

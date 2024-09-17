@@ -85,7 +85,8 @@ public class UI_CollectionUnit : UI_Base
         if (data.info.isRegist)
         {
             GetObject((int)Objects.UnitSprite).GetComponent<Image>().color = Color.white;
-            GetObject((int)Objects.UnitSprite).GetComponent<Image>().sprite = Managers.Sprite.GetSprite_SLA(data.unit.SLA_category, data.unit.SLA_label);
+            GetObject((int)Objects.UnitSprite).GetComponent<Image>().sprite = 
+                Managers.Sprite.Get_SLA(SpriteManager.Library.Monster, data.unit.SLA_category, data.unit.SLA_label);
             GetObject((int)Objects.UnitName).GetComponent<TextMeshProUGUI>().text = data.unit.labelName;
         }
     }
@@ -97,7 +98,8 @@ public class UI_CollectionUnit : UI_Base
         if (data.info.isRegist)
         {
             GetObject((int)Objects.UnitSprite).GetComponent<Image>().color = Color.white;
-            GetObject((int)Objects.UnitSprite).GetComponent<Image>().sprite = Managers.Sprite.GetSprite(data.unit.spritePath);
+            GetObject((int)Objects.UnitSprite).GetComponent<Image>().sprite = 
+                Managers.Sprite.Get_SLA(SpriteManager.Library.Facility, data.unit.SLA_category, data.unit.SLA_label);
             GetObject((int)Objects.UnitName).GetComponent<TextMeshProUGUI>().text = data.unit.labelName;
         }
     }
@@ -109,8 +111,8 @@ public class UI_CollectionUnit : UI_Base
         if (data.info.isRegist)
         {
             GetObject((int)Objects.UnitSprite).GetComponent<Image>().color = Color.white;
-            GetObject((int)Objects.UnitSprite).GetComponent<Image>().sprite = Managers.Sprite.GetSprite_SLA(data.unit.SLA_category, data.unit.SLA_label);
-            //GetObject((int)Objects.UnitSprite).GetComponent<Image>().sprite = Managers.Sprite.GetSprite(data.unit.SLA_category);
+            GetObject((int)Objects.UnitSprite).GetComponent<Image>().sprite = 
+                Managers.Sprite.Get_SLA(SpriteManager.Library.NPC, data.unit.SLA_category, data.unit.SLA_label);
             GetObject((int)Objects.UnitName).GetComponent<TextMeshProUGUI>().text = data.unit.labelName;
         }
     }
@@ -122,7 +124,8 @@ public class UI_CollectionUnit : UI_Base
         if (data.info.isRegist)
         {
             GetObject((int)Objects.UnitSprite).GetComponent<Image>().color = Color.white;
-            GetObject((int)Objects.UnitSprite).GetComponent<Image>().sprite = Managers.Sprite.GetSprite(data.unit.spritePath);
+            GetObject((int)Objects.UnitSprite).GetComponent<Image>().sprite = 
+                Managers.Sprite.Get_SLA(SpriteManager.Library.Technical, data.unit.SLA_categoty, data.unit.SLA_label);
             GetObject((int)Objects.UnitName).GetComponent<TextMeshProUGUI>().text = data.unit.labelName;
         }
     }

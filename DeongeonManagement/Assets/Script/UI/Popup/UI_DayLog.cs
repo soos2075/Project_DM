@@ -52,6 +52,11 @@ public class UI_DayLog : UI_PopUp
 
     void Show_DayResult(int day)
     {
+        if (day == 0 && Main.Instance.Management == false)
+        {
+            return;
+        }
+
         var ui = Managers.UI.ShowPopUp<UI_DayResult>();
 
         Main.DayResult current = (day == Main.Instance.Turn - 1) ? Main.Instance.CurrentDay : Main.Instance.DayList[day + 1];

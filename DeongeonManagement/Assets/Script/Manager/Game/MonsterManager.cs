@@ -214,10 +214,13 @@ public class MonsterManager
     #endregion
 
     #region 실제 인스턴트
-    public Monster[] Monsters;
+    Monster[] Monsters;
     //public int TrainingCount { get; set; } = 2;
 
-
+    public int GetSlotSize()
+    {
+        return Monsters.Length;
+    }
     public int GetCurrentMonster()
     {
         int count = 0;
@@ -244,6 +247,32 @@ public class MonsterManager
         Debug.Log("Monster Maximum");
         return false;
     }
+
+    public Monster GetMonster(int slotNumber)
+    {
+        if (Monsters.Length > slotNumber && Monsters[slotNumber] != null)
+        {
+            return Monsters[slotNumber];
+        }
+
+        return null;
+    }
+    public List<Monster> GetMonsterAll()
+    {
+        List<Monster> monsterList = new List<Monster>();
+
+        foreach (var monster in Monsters)
+        {
+            if (monster != null)
+            {
+                monsterList.Add(monster);
+            }
+        }
+
+        return monsterList;
+    }
+
+
     public void AddMonster(Monster mon)
     {
         for (int i = 0; i < Monsters.Length; i++)
@@ -290,6 +319,24 @@ public class MonsterManager
 
         Monsters = new Monster[size];
     }
+
+
+    public void ChangeMonsterSlot(int first, int second)
+    {
+        var mon = Monsters[first];
+        Monsters[first] = Monsters[second];
+        Monsters[second] = mon;
+
+        if (GetMonster(first) != null)
+        {
+            GetMonster(first).MonsterID = first;
+        }
+        if (GetMonster(second) != null)
+        {
+            GetMonster(second).MonsterID = second;
+        }
+    }
+
 
     #endregion
 

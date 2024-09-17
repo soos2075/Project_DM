@@ -1064,7 +1064,15 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
             case BattleField.BattleResult.Nothing:
                 UI_EventBox.AddEventText($"¡Ú{floorName} - " +
                     $"{npc.Name_Color} vs {Name_Color} {UserData.Instance.LocaleText("Battle_End")}");
-                GetBattlePoint(npc.Rank);
+
+                if (npc.TraitCheck(TraitGroup.Instructor))
+                {
+                    GetBattlePoint(npc.Rank * 2);
+                }
+                else
+                {
+                    GetBattlePoint(npc.Rank);
+                }
                 break;
 
             case BattleField.BattleResult.Monster_Die:

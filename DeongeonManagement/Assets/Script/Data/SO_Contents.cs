@@ -9,7 +9,11 @@ public class SO_Contents : ScriptableObject
     [Header("Default")]
     public int id;
     public string keyName;
-    public string spritePath;
+    //public string spritePath;
+
+    [Header("Sprite_SLA")]
+    public string SLA_category;
+    public string SLA_label;
 
 
     [Header("Create")]

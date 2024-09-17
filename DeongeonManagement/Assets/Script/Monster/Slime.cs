@@ -59,7 +59,8 @@ public class Slime : Monster
         {
             EvolutionState = Evolution.Progress;
             EventManager.Instance.Add_GuildQuest_Special(1100, false);
-            FindAnyObjectByType<UI_Management>().SetNotice(UI_Management.OverlayImages.OverlayImage_Guild, true);
+            UserData.Instance.FileConfig.Notice_Guild = true;
+            FindAnyObjectByType<UI_Management>().OverlayImageReset();
         }
     }
 
@@ -80,7 +81,7 @@ public class Slime : Monster
                 {
                     //? 진화진행
                     EvolutionState = Evolution.Complete;
-                    EventManager.Instance.RemoveQuestAction(1100);
+                    EventManager.Instance.ClearQuestAction(1100);
                     var ui = Managers.UI.ShowPopUp<UI_StatusUp>("Monster/UI_StatusUp");
                     ui.TargetMonster(this);
                     ui.StateText = $"{GameManager.Monster.GetData("Slime").labelName} → " +

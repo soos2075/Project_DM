@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D.Animation;
 
 public class BattleManager : MonoBehaviour
 {
@@ -39,6 +40,7 @@ public class BattleManager : MonoBehaviour
     public Material flash_Monster;
     public Material flash_NPC;
 
+    public SpriteLibraryAsset Battle_SLA;
 
 
     public int BattleCount { get; set; } = 10;
@@ -84,61 +86,82 @@ public class BattleManager : MonoBehaviour
             case 0:
             case 3:
             case 6:
-                field.sprite_BG.sprite = field.field_1;
+                field.sprite_BG.sprite = Battle_SLA.GetSprite("Field", "1");
                 break;
 
             case 1:
             case 4:
             case 7:
-                field.sprite_BG.sprite = field.field_2;
+                field.sprite_BG.sprite = Battle_SLA.GetSprite("Field", "2");
                 break;
 
             case 2:
             case 5:
             case 8:
-                field.sprite_BG.sprite = field.field_3;
+                field.sprite_BG.sprite = Battle_SLA.GetSprite("Field", "3");
                 break;
 
             default:
-                field.sprite_BG.sprite = field.field_1;
+                field.sprite_BG.sprite = Battle_SLA.GetSprite("Field", "1");
                 break;
         }
 
         var npcType = npc.GetType();
 
-        if (npcType == typeof(NPC_Normal))
+        if (npcType == typeof(NPC_Normal) && npc.TraitCheck(TraitGroup.Civilian))
         {
-            Color color = new Color32(243, 185, 211, 255);
+            field.sprite_border.sprite = Battle_SLA.GetSprite("Frame", "1");
+            field.sprite_Icon.sprite = Battle_SLA.GetSprite("Icon", "1");
 
+            Color color = new Color32(187, 227, 36, 255);
             line.startColor = color;
             line.endColor = color;
-            field.sprite_border.color = color;
         }
         else if (npcType == typeof(NPC_Normal))
         {
-            Color color = new Color32(0, 120, 60, 255);
+            field.sprite_border.sprite = Battle_SLA.GetSprite("Frame", "2");
+            field.sprite_Icon.sprite = Battle_SLA.GetSprite("Icon", "2");
 
+            Color color = new Color32(35, 145, 255, 255);
             line.startColor = color;
             line.endColor = color;
-            field.sprite_border.color = color;
-        }
-        else if (npcType == typeof(NPC_Hunter))
-        {
-            Color color = new Color32(0, 134, 209, 255);
-
-            line.startColor = color;
-            line.endColor = color;
-            field.sprite_border.color = color;
         }
         else if (npcType == typeof(NPC_MainEvent))
         {
-            Color color = new Color32(255, 242, 93, 255);
+            field.sprite_border.sprite = Battle_SLA.GetSprite("Frame", "3");
+            field.sprite_Icon.sprite = Battle_SLA.GetSprite("Icon", "3");
 
+            Color color = new Color32(255, 54, 67, 255);
             line.startColor = color;
             line.endColor = color;
-            field.sprite_border.color = color;
         }
-        // 이거보다 더 위험한 타입은 red쓰면 될듯
+        else if (npcType == typeof(NPC_SubEvent))
+        {
+            field.sprite_border.sprite = Battle_SLA.GetSprite("Frame", "6");
+            field.sprite_Icon.sprite = Battle_SLA.GetSprite("Icon", "6");
+
+            Color color = new Color32(246, 183, 72, 255);
+            line.startColor = color;
+            line.endColor = color;
+        }
+        else if (npcType == typeof(NPC_Hunter))
+        {
+            field.sprite_border.sprite = Battle_SLA.GetSprite("Frame", "5");
+            field.sprite_Icon.sprite = Battle_SLA.GetSprite("Icon", "5");
+
+            Color color = new Color32(246, 183, 72, 255);
+            line.startColor = color;
+            line.endColor = color;
+        }
+        else if (npcType == typeof(NPC_Unique))
+        {
+            field.sprite_border.sprite = Battle_SLA.GetSprite("Frame", "4");
+            field.sprite_Icon.sprite = Battle_SLA.GetSprite("Icon", "4");
+
+            Color color = new Color32(204, 106, 255, 255);
+            line.startColor = color;
+            line.endColor = color;
+        }
     }
 
 
@@ -158,57 +181,6 @@ public class BattleManager : MonoBehaviour
         AddPos_Field((Define.DungeonFloor)_field.floorIndex, _field.slotIndex);
         BattleList.Remove(_field);
     }
-
-    //Vector3 SetPosition(Monster _monster)
-    //{
-    //    Vector3 bfPos = _monster.PlacementInfo.Place_Floor.transform.position;
-
-    //    float direction = _monster.PlacementInfo.Place_Tile.worldPosition.x - bfPos.x;
-    //    if (direction >= 0)
-    //    {
-    //        bfPos += new Vector3(Mathf.Clamp(Random.Range(3f, 10f) + direction, 5.0f, 11.0f), Random.Range(-3f, 3f), 0);
-    //    }
-    //    else
-    //    {
-    //        bfPos += new Vector3(Mathf.Clamp(Random.Range(-3f, -10f) + direction, -11.0f, -5.0f), Random.Range(-3f, 3f), 0);
-    //    }
-
-    //    bfPos.x = Mathf.Clamp(bfPos.x, -13, 13);
-
-    //    return bfPos;
-    //}
-
-    //bool FieldOverlapCheck(Vector3 _field)
-    //{
-    //    Vector3[] vectors = new Vector3[BattleList.Count];
-
-    //    for (int i = 0; i < vectors.Length; i++)
-    //    {
-    //        vectors[i] = BattleList[i].transform.position;
-    //    }
-
-    //    foreach (var item in vectors)
-    //    {
-    //        float minX = item.x - 2.75f;
-    //        float maxX = item.x + 2.75f;
-
-    //        float minY = item.y - 1.5f;
-    //        float maxY = item.y + 1.5f;
-
-    //        if (minX < _field.x && _field.x < maxX)
-    //        {
-    //            if (minY < _field.y && _field.y < maxY)
-    //            {
-    //                // 위치가 겹침(x,y 가 1by1안에 안에 들어옴)
-    //                //Debug.Log(_field + "@@@겹침");
-
-    //                return false;
-    //            }
-    //        }
-    //    }
-    //    return true;
-    //}
-
 
     Vector3 SetPos_Field(PlacementInfo info, out int slotNumber)
     {

@@ -52,8 +52,6 @@ public class UI_SaveLoad : UI_PopUp
         Bind<GameObject>(typeof(GameObjects));
 
         GetObject(((int)GameObjects.Close)).gameObject.AddUIEvent((data) => ClosePopUp());
-        //GetButton(((int)Buttons.Save)).gameObject.AddUIEvent((data) => SaveButton());
-        //GetButton(((int)Buttons.Load)).gameObject.AddUIEvent((data) => LoadButton());
 
 
         GetObject((int)GameObjects.MainPanel).AddUIEvent((data) => ClosePopUp(), Define.UIEvent.RightClick);

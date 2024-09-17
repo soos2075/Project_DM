@@ -231,7 +231,7 @@ public class Main : MonoBehaviour
         Init_Animation();
         UI_Main.Start_Main();
         Init_DayResult();
-        ExpansionConfirm(true);
+        ExpansionConfirm(false);
         GameManager.Technical.Expantion_Technical();
 
         StartCoroutine(NewGameInitAndMessage());
@@ -278,9 +278,8 @@ public class Main : MonoBehaviour
     void Instantiate_DayOne()
     {
         Floor_Initializer.NewGame_Init();
-
+        Start_Entrance();
         Init_Player();
-
         Floor_Initializer.Init_FirstPlay_Bonus();
 
         Managers.Dialogue.ShowDialogueUI(DialogueName.Prologue, Player);
@@ -460,7 +459,6 @@ public class Main : MonoBehaviour
     {
         DungeonRank++;
         AP_MAX = DungeonRank + 1;
-        EventManager.Instance.RankUpEvent();
     }
 
     public int Player_Mana { get; private set; }
@@ -729,10 +727,7 @@ public class Main : MonoBehaviour
         PopularityOfDungeon += CurrentDay.GetPopularity;
         DangerOfDungeon += CurrentDay.GetDanger;
 
-        if (EventManager.Instance.TryRankUp(PopularityOfDungeon, DangerOfDungeon))
-        {
-            Dungeon_RankUP();
-        }
+        EventManager.Instance.TurnOver();
 
         Player_AP = AP_MAX;
 
@@ -926,9 +921,6 @@ public class Main : MonoBehaviour
                 DayMonsterEvent();
                 GameManager.Monster.MonsterTurnOverEvent();
                 GameManager.Facility.TurnOverEvent();
-                EventManager.Instance.TurnOver();
-                UI_Main.TurnOverEvent();
-
 
                 //? 대사 이벤트 등 턴 이벤트
                 Main_TurnOverEvent();
@@ -936,6 +928,10 @@ public class Main : MonoBehaviour
                 DayOver_Dayresult();
                 //? 엔딩변경 (어차피 이거 로드할 떄 부르니까 턴종료 마지막에 하는게 맞음)
                 ChangeEggState();
+
+                //? 메인 UI 업데이트
+                UI_Main.TurnOverEvent();
+                DayChangeAnimation();
             }
         }
     }
@@ -961,7 +957,7 @@ public class Main : MonoBehaviour
     {
         Managers.UI.CloseAll();
         Management = true;
-        DayChangeAnimation();
+        //DayChangeAnimation();
     }
 
 
@@ -979,20 +975,27 @@ public class Main : MonoBehaviour
                 break;
 
             case 3: //? FirstAdv Event
-                GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_FirstAdventurer.ToString(), 7);
+                GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_FirstAdventurer.ToString(), 7, NPC_Typeof.NPC_Type_MainEvent);
                 break;
 
+            //case 5:
+            //    GameManager.NPC.Set_UniqueChance(NPC_Type_Unique.Santa, 1);
+            //    break;
+
             case 7: //? RedHair Event 
-                GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_RedHair.ToString(), 10);
+                GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_RedHair.ToString(), 10, NPC_Typeof.NPC_Type_MainEvent);
                 break;
 
             case 13:
                 break;
 
-            case 20:
-                break;
+            //case 20:
+            //    GuildManager.Instance.AddInstanceGuildNPC(GuildNPC_LabelName.DeathMagician);
+            //    EventManager.Instance.Add_GuildQuest_Special(10001, true);
+            //    break;
 
-            case 25:
+            case 21:
+                GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Catastrophe.ToString(), 1, NPC_Typeof.NPC_Type_MainEvent);
                 break;
 
             case 30:
@@ -1023,8 +1026,7 @@ public class Main : MonoBehaviour
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Facility, Player);
                 UI_Main.Active_Button(UI_Management.ButtonEvent._1_Facility);
                 UI_Main.Active_Button(UI_Management.ButtonEvent._6_DungeonEdit);
-                UI_Main.SetNotice(UI_Management.OverlayImages.OverlayImage_Facility, true);
-                //UI_Main.Active_Floor();
+
 
                 StartCoroutine(Wait_AP_Tutorial());
                 break;
@@ -1032,10 +1034,7 @@ public class Main : MonoBehaviour
             case 2:
                 Debug.Log("2일차 종료 이벤트 - 몬스터");
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Monster, Player);
-                //UI_Main.Active_Button(UI_Management.ButtonEvent._2_Summon);
                 UI_Main.Active_Button(UI_Management.ButtonEvent._3_Management);
-                UI_Main.SetNotice(UI_Management.OverlayImages.OverlayImage_Monster, true);
-                //UI_Main.SetNotice(UI_Management.OverlayImages.OverlayImage_Summon, true);
                 break;
 
             case 3:
@@ -1086,9 +1085,9 @@ public class Main : MonoBehaviour
                 clear.monsterCount = GameManager.Monster.GetCurrentMonster();
                 int highestLv = 0;
                 string highestMonster = "";
-                foreach (var mon in GameManager.Monster.Monsters)
+                foreach (var mon in GameManager.Monster.GetMonsterAll())
                 {
-                    if (mon != null && mon.LV > highestLv)
+                    if (mon.LV > highestLv)
                     {
                         highestMonster = mon.Name;
                         highestLv = mon.LV;
@@ -1205,20 +1204,16 @@ public class Main : MonoBehaviour
     #region Animation
     Animator ani_MainUI;
     Animator ani_Sky;
-    VerticalLayoutGroup layout;
 
     void Init_Animation()
     {
         ani_MainUI = UI_Main.GetComponent<Animator>();
         ani_Sky = GameObject.Find("SkyBackground").GetComponent<Animator>();
-        layout = UI_Main.GetComponentInChildren<VerticalLayoutGroup>();
     }
 
 
     public void DayChangeAnimation()
     {
-        layout.enabled = false;
-
         ani_MainUI.SetBool("Management", Management);
         ani_Sky.SetBool("Management", Management);
     }
@@ -1454,7 +1449,7 @@ void ChangeEggState()
     // 아니면 조건에 선행 엔딩을 보게 만들면 또 억제가 되기도 하고.. 뭐 암튼 데모는 dog엔딩으로 픽스하자.
     void SelectEnding()
     {
-        if (DangerOfDungeon > PopularityOfDungeon)
+        if (DangerOfDungeon > PopularityOfDungeon && DangerOfDungeon >= 500)
         {
             CurrentEndingState = Endings.Dragon;
             EggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Dragon"));
@@ -1574,56 +1569,6 @@ public class Save_DayResult
             }
         }
     }
-    //public Save_DayResult(Main.DayResult result)
-    //{
-    //    Origin_Mana = result.Origin_Mana;
-    //    Origin_Gold = result.Origin_Gold;
-    //    Origin_Pop = result.Origin_Pop;
-    //    Origin_Danger = result.Origin_Danger;
-    //    Origin_Rank = result.Origin_Rank;
-
-    //    Mana_Get_Facility = result.Mana_Get_Facility;
-    //    Mana_Get_Artifacts = result.Mana_Get_Artifacts;
-    //    Mana_Get_Monster = result.Mana_Get_Monster;
-    //    Mana_Get_Etc = result.Mana_Get_Etc;
-    //    Mana_Get_Bonus = result.Mana_Get_Bonus;
-
-    //    Mana_Use_Facility = result.Mana_Use_Facility;
-    //    Mana_Use_Monster = result.Mana_Use_Monster;
-    //    Mana_Use_Etc = result.Mana_Use_Monster;
-    //    Mana_Use_Technical = result.Mana_Use_Technical;
-
-
-    //    Gold_Get_Facility = result.Gold_Get_Facility;
-    //    Gold_Get_Monster = result.Gold_Get_Monster;
-    //    Gold_Get_Technical = result.Gold_Get_Technical;
-    //    Gold_Get_Etc = result.Gold_Get_Etc;
-    //    Gold_Get_Bonus = result.Gold_Get_Bonus;
-
-    //    Gold_Use_Facility = result.Gold_Use_Facility;
-    //    Gold_Use_Monster = result.Gold_Use_Monster;
-    //    Gold_Use_Etc = result.Gold_Use_Etc;
-    //    Gold_Use_Technical = result.Gold_Use_Technical;
-
-
-    //    NPC_Visit = result.NPC_Visit;
-    //    NPC_Prisoner = result.NPC_Prisoner;
-    //    NPC_Kill = result.NPC_Kill;
-    //    NPC_Satisfaction = result.NPC_Satisfaction;
-    //    NPC_NonSatisfaction = result.NPC_NonSatisfaction;
-    //    NPC_Empty = result.NPC_Empty;
-    //    NPC_Runaway = result.NPC_Runaway;
-
-    //    Monster_Battle = result.Monster_Battle;
-    //    Monster_Victory = result.Monster_Victory;
-    //    Monster_Defeat = result.Monster_Defeat;
-    //    Monster_LvUp = result.Monster_LvUp;
-    //    Monster_Trait = result.Monster_Trait;
-    //    Monster_Evolution = result.Monster_Evolution;
-
-    //    GetPopularity = result.GetPopularity;
-    //    GetDanger = result.GetDanger;
-    //}
 
 }
 

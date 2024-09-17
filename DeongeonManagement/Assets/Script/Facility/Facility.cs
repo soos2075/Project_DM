@@ -214,16 +214,18 @@ public abstract class Facility : MonoBehaviour, IPlacementable
 
 
         yield return new WaitForSeconds(durationTime);
-        int manabonus = mp + GameManager.Buff.FacilityBonus;
-        int applyMana = Mathf.Clamp(manabonus, manabonus, npc.Mana); //? 높은 마나회수여도 npc가 가진 마나 이상으로 얻진 못함. - 앵벌이 방지용
+        //? 배율 보너스
+        float trait_Ratio = npc.TraitCheck(TraitGroup.Overflow) ? 1.2f : 1;
+        //? 고정값 보너스
+        int manabonus = GameManager.Buff.FacilityBonus;
+        //? 최종 계산
+        int tempMP = (int)(mp * trait_Ratio) + manabonus;
+        //? npc에 적용할 수 있는 최대값 계산
+        int applyMana = Mathf.Clamp(tempMP, tempMP, npc.Mana);
 
         npc.Change_ActionPoint(-ap);
         npc.Change_Mana(-applyMana);
         npc.Change_HP(-hp);
-        //npc.ActionPoint -= ap;
-        //npc.Mana -= applyMana;
-        //npc.HP -= hp;
-
         //? 최대치 이상으로 회복시키고 싶지 않으면 위에 -= 하는 부분에서 Clamp 해주면 됨
 
         if (applyMana > 0)

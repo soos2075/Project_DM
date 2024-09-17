@@ -41,6 +41,9 @@ public class UI_TooltipBox : UI_PopUp
     public enum ShowPosition
     {
         RightDown,
+        RightUp,
+
+        LeftDown,
         LeftUp,
     }
     ShowPosition BoxPosition;
@@ -60,6 +63,15 @@ public class UI_TooltipBox : UI_PopUp
                 panel.localPosition = new Vector3(centeredMousePosition.x + (57600 / Screen.width), centeredMousePosition.y - (32400 / Screen.height), 0);
                 break;
 
+            case ShowPosition.RightUp:
+                panel.pivot = Vector2.zero;
+                panel.localPosition = new Vector3(centeredMousePosition.x, centeredMousePosition.y, 0);
+                break;
+
+            case ShowPosition.LeftDown:
+                panel.pivot = Vector2.one;
+                panel.localPosition = new Vector3(centeredMousePosition.x, centeredMousePosition.y, 0);
+                break;
 
             case ShowPosition.LeftUp:
                 panel.pivot = Vector2.right;

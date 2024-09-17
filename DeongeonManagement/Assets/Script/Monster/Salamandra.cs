@@ -43,7 +43,7 @@ public class Salamandra : Monster
 
     void EvolutionCheck()
     {
-        if (LV >= 20 && State == MonsterState.Placement && PlacementInfo.Place_Floor.FloorIndex == 5)
+        if (EvolutionState == Evolution.Ready && LV >= 20 && State == MonsterState.Placement && PlacementInfo.Place_Floor.FloorIndex == 5)
         {
             //? 진화진행
             EvolutionState = Evolution.Complete;

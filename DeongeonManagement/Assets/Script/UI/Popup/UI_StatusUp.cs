@@ -76,7 +76,8 @@ public class UI_StatusUp : UI_PopUp
 
     void ShowDefault()
     {
-        GetImage(((int)Images.Profile)).sprite = Managers.Sprite.GetSprite_SLA(monster.Data.SLA_category, monster.Data.SLA_label);
+        GetImage(((int)Images.Profile)).sprite = 
+            Managers.Sprite.Get_SLA(SpriteManager.Library.Monster, monster.Data.SLA_category, monster.Data.SLA_label);
         GetTMP(((int)Texts.Name)).text = monster.Data.labelName;
     }
     void ShowUpStatus()

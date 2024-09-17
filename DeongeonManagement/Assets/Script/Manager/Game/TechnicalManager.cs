@@ -86,7 +86,7 @@ public class TechnicalManager
 
 
 
-
+    #region Technical 角力 按眉
     Prison _prison;
     public Prison Prison 
     { 
@@ -130,6 +130,31 @@ public class TechnicalManager
     }
 
     public Transform Donation_Pos { get; set; }
+
+
+
+
+
+    public T Get_Technical<T>() where T : Technical
+    {
+        foreach (var item in currentTechnicalList)
+        {
+            if (item.GetType() == typeof(T))
+            {
+                var tech = item as T;
+                return tech;
+            }
+        }
+
+        return null;
+    }
+
+
+
+    #endregion
+
+
+
 
 
     #region 扒汲备开 / Floor
@@ -243,7 +268,13 @@ public class TechnicalManager
                     removeList.Add(item);
                 }
             }
+
+            if (currentTechnicalList[i].GetType() == typeof(BarrierOfSealing))
+            {
+                removeList.Add(GetData("BarrierOfSealing"));
+            }
         }
+
 
         foreach (var item in removeList)
         {

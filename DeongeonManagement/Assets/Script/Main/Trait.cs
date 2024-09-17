@@ -1324,6 +1324,17 @@ public class Trait
     {
         public TraitGroup ID { get; } = TraitGroup.Void;
     }
+    public class Instructor : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Instructor;
+    }
+    public class Overflow : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Overflow;
+    }
+
+
+
 
     #endregion
 
@@ -1458,6 +1469,7 @@ public enum TraitGroup
     Herbalism = 7000,
     Mineralogy,
     Collector,
+    Overflow,           //? 모든 퍼실리티와 상호작용시 보너스(다른거랑 별개)
 
     //? Weak
     Weed = 8000,
@@ -1471,6 +1483,8 @@ public enum TraitGroup
     Swiftness,          //? 상호작용 속도 두배
     Indomitable,        //? mana,ap 상관없이 죽을때까지 감
     Void,               //? mana 무시, ap는 필요, 대부분의 행동에서 유의미한 점수를 얻지 못함
+    Instructor,         //? 전투경험치 더욱 보너스
+
 
 
     //? Hunting

@@ -127,6 +127,7 @@ public class CollectionManager : MonoBehaviour
         Register_NPC = new List<CollectionUnitRegist<SO_NPC>>();
         for (int i = 0; i < NpcData.Length; i++)
         {
+            if (NpcData[i].View_Collection == false) continue;
             Register_NPC.Add(new CollectionUnitRegist<SO_NPC>(NpcData[i], new Regist_Info(), i+1));
         }
 

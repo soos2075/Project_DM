@@ -1028,7 +1028,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         NPC_Runaway();
 
         var emotion = Managers.Resource.Instantiate("NPC/Emotions", transform);
-        emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.GetSprite_SLA("Element_State", "Runaway");
+        emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Element_State", "Runaway");
     }
     void Empty_Base()
     {
@@ -1036,7 +1036,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         NPC_Return_Empty();
 
         var emotion = Managers.Resource.Instantiate("NPC/Emotions", transform);
-        emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.GetSprite_SLA("Element_State", "Bad");
+        emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Element_State", "Bad");
     }
     void Satisfaction_Base()
     {
@@ -1048,7 +1048,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
             NPC_Return_Satisfaction();
 
             var emotion = Managers.Resource.Instantiate("NPC/Emotions", transform);
-            emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.GetSprite_SLA("Element_State", "Perfect");
+            emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Element_State", "Perfect");
             UI_EventBox.AddEventText($"¡ß{Name_Color} {UserData.Instance.LocaleText("Event_Exit_Satisfaction")}");
         }
         else
@@ -1057,7 +1057,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
             NPC_Return_NonSatisfaction();
 
             var emotion = Managers.Resource.Instantiate("NPC/Emotions", transform);
-            emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.GetSprite_SLA("Element_State", "Good");
+            emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Element_State", "Good");
             UI_EventBox.AddEventText($"¡ß{Name_Color} {UserData.Instance.LocaleText("Event_Exit_Normal")}");
         }
     }

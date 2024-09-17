@@ -16,7 +16,7 @@ public class UI_Monster_Management : UI_PopUp
 
     public bool isQuickMode { get; set; }
 
-    enum Panels
+    enum Images
     {
         Panel,
         ClosePanel,
@@ -35,6 +35,10 @@ public class UI_Monster_Management : UI_PopUp
         ModePanel,
 
         EditPanel,
+
+        Tooltip_Fix,
+        Tooltip_Wander,
+        Tooltip_Attack,
     }
 
     enum Texts
@@ -103,7 +107,7 @@ public class UI_Monster_Management : UI_PopUp
     {
         Managers.UI.SetCanvas(gameObject);
 
-        Bind<Image>(typeof(Panels));
+        Bind<Image>(typeof(Images));
         Bind<TextMeshProUGUI>(typeof(Texts));
         Bind<GameObject>(typeof(Etc));
         Bind<Button>(typeof(Buttons));
@@ -130,9 +134,9 @@ public class UI_Monster_Management : UI_PopUp
 
     void Init_Panels()
     {
-        GetImage(((int)Panels.ClosePanel)).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.LeftClick);
-        GetImage(((int)Panels.ClosePanel)).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.RightClick);
-        GetImage(((int)Panels.Panel)).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.RightClick);
+        GetImage(((int)Images.ClosePanel)).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.LeftClick);
+        GetImage(((int)Images.ClosePanel)).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.RightClick);
+        GetImage(((int)Images.Panel)).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.RightClick);
 
         GetObject((int)Etc.Return).gameObject.AddUIEvent(data => CloseAll());
     }
@@ -140,22 +144,22 @@ public class UI_Monster_Management : UI_PopUp
 
     void PanelClear()
     {
-        GetImage(((int)Panels.ProfilePanel)).gameObject.SetActive(false);
-        GetImage(((int)Panels.ButtonPanel)).gameObject.SetActive(false);
-        GetImage(((int)Panels.CommandPanel)).gameObject.SetActive(false);
-        GetImage(((int)Panels.SummonPanel)).gameObject.SetActive(false);
-        GetImage(((int)Panels.PlacementPanel)).gameObject.SetActive(false);
-        GetImage(((int)Panels.FloorPanel)).gameObject.SetActive(false);
-        GetImage(((int)Panels.EditPanel)).gameObject.SetActive(false);
+        GetImage(((int)Images.ProfilePanel)).gameObject.SetActive(false);
+        GetImage(((int)Images.ButtonPanel)).gameObject.SetActive(false);
+        GetImage(((int)Images.CommandPanel)).gameObject.SetActive(false);
+        GetImage(((int)Images.SummonPanel)).gameObject.SetActive(false);
+        GetImage(((int)Images.PlacementPanel)).gameObject.SetActive(false);
+        GetImage(((int)Images.FloorPanel)).gameObject.SetActive(false);
+        GetImage(((int)Images.EditPanel)).gameObject.SetActive(false);
 
-        GetImage(((int)Panels.ModePanel)).gameObject.SetActive(true);
+        GetImage(((int)Images.ModePanel)).gameObject.SetActive(true);
         GetButton(((int)Buttons.Recover_Floor)).gameObject.SetActive(false);
 
 
         switch (Mode)
         {
             case Unit_Mode.Management:
-                GetImage(((int)Panels.SummonPanel)).gameObject.SetActive(true);
+                GetImage(((int)Images.SummonPanel)).gameObject.SetActive(true);
                 GetButton((int)Buttons.Summon).gameObject.AddUIEvent((data) => Show_SummonUI());
 
                 GetButton(((int)Buttons.Mode_Managed)).transform.parent.GetComponent<Image>().color = Color.white;
@@ -164,8 +168,8 @@ public class UI_Monster_Management : UI_PopUp
                 break;
 
             case Unit_Mode.Placement:
-                GetImage(((int)Panels.PlacementPanel)).gameObject.SetActive(true);
-                GetImage(((int)Panels.FloorPanel)).gameObject.SetActive(true);
+                GetImage(((int)Images.PlacementPanel)).gameObject.SetActive(true);
+                GetImage(((int)Images.FloorPanel)).gameObject.SetActive(true);
                 PlacePanelUpdate();
 
                 GetButton(((int)Buttons.Mode_Managed)).transform.parent.GetComponent<Image>().color = Color.clear;
@@ -175,7 +179,7 @@ public class UI_Monster_Management : UI_PopUp
 
             case Unit_Mode.Edit:
                 Init_EditPanel();
-                GetImage(((int)Panels.EditPanel)).gameObject.SetActive(true);
+                GetImage(((int)Images.EditPanel)).gameObject.SetActive(true);
 
                 GetButton(((int)Buttons.Mode_Managed)).transform.parent.GetComponent<Image>().color = Color.clear;
                 GetButton(((int)Buttons.Mode_Placement)).transform.parent.GetComponent<Image>().color = Color.clear;
@@ -190,6 +194,11 @@ public class UI_Monster_Management : UI_PopUp
         var summon = Managers.UI.ShowPopUpAlone<UI_Summon_Monster>("Monster/UI_Summon_Monster");
         summon.OnPopupCloseEvent += () => Show_This();
         //SetNotice(OverlayImages.OverlayImage_Summon, false);
+
+        if (GetComponentInChildren<UI_Overlay>() != null)
+        {
+
+        }
     }
 
     void Hide_This()
@@ -277,12 +286,12 @@ public class UI_Monster_Management : UI_PopUp
     {
         childList = new List<UI_MonsterBox>();
 
-        for (int i = 0; i < GameManager.Monster.Monsters.Length; i++)
+        for (int i = 0; i < GameManager.Monster.GetSlotSize(); i++)
         {
-            var obj = Managers.Resource.Instantiate("UI/PopUp/Monster/MonsterBox", GetImage(((int)Panels.GridPanel)).transform);
+            var obj = Managers.Resource.Instantiate("UI/PopUp/Monster/MonsterBox", GetImage(((int)Images.GridPanel)).transform);
 
             var box = obj.GetComponent<UI_MonsterBox>();
-            box.monster = GameManager.Monster.Monsters[i];
+            box.monster = GameManager.Monster.GetMonster(i);
             box.parent = this;
             childList.Add(box);
         }
@@ -391,7 +400,7 @@ public class UI_Monster_Management : UI_PopUp
 
     void AddFloorInfo()
     {
-        GetImage(((int)Panels.FloorPanel)).gameObject.SetActive(true);
+        GetImage(((int)Images.FloorPanel)).gameObject.SetActive(true);
         GetTMP((int)Texts.DetailInfo_AP).text = $"{UserData.Instance.LocaleText("AP")} : {Main.Instance.Player_AP}";
         GetTMP((int)Texts.DetailInfo_Floor).text = "";
         GetTMP((int)Texts.DetailInfo_Unit).text = "";
@@ -447,7 +456,7 @@ public class UI_Monster_Management : UI_PopUp
     {
         if (Current == null || Current.monster == null) return;
 
-        GetImage((int)Panels.ProfilePanel).gameObject.SetActive(true);
+        GetImage((int)Images.ProfilePanel).gameObject.SetActive(true);
 
         GetTMP((int)Texts.Lv).text = $"Lv.{Current.monster.LV} / {Current.monster.Data.maxLv}";
         GetTMP((int)Texts.Name).text = Current.monster.CallName;
@@ -468,7 +477,7 @@ public class UI_Monster_Management : UI_PopUp
             $"{Util.SetTextColorTag($"(+{Current.monster.B_LUK - Current.monster.LUK})", Define.TextColor.npc_red)}";
 
 
-        var TraitPanel = GetImage((int)Panels.TraitPanel).transform;
+        var TraitPanel = GetImage((int)Images.TraitPanel).transform;
         //? 특성 초기화
         for (int i = TraitPanel.childCount - 1; i >= 0; i--)
         {
@@ -480,7 +489,8 @@ public class UI_Monster_Management : UI_PopUp
             GameManager.Trait.CreateTraitBar(Current.monster.TraitList[i].ID, TraitPanel);
         }
         
-        GetObject(((int)Etc.Profile)).GetComponent<Image>().sprite = Managers.Sprite.GetSprite_SLA(Current.monster.Data.SLA_category, Current.monster.Data.SLA_label);
+        GetObject(((int)Etc.Profile)).GetComponent<Image>().sprite = 
+            Managers.Sprite.Get_SLA(SpriteManager.Library.Monster, Current.monster.Data.SLA_category, Current.monster.Data.SLA_label);
     }
 
     #endregion
@@ -554,14 +564,14 @@ public class UI_Monster_Management : UI_PopUp
         GetButton(((int)Buttons.Command_Wander)).gameObject.AddUIEvent(data => ChangeMoveMode(Monster.MoveType.Wander));
         GetButton(((int)Buttons.Command_Attack)).gameObject.AddUIEvent(data => ChangeMoveMode(Monster.MoveType.Attack));
 
-        var fix = GetButton(((int)Buttons.Command_Fixed)).gameObject.GetOrAddComponent<UI_Tooltip>();
-        fix.SetTooltipContents("", UserData.Instance.LocaleText_Tooltip("Command_Fixed"), UI_TooltipBox.ShowPosition.LeftUp);
+        var fix = GetImage(((int)Images.Tooltip_Fix)).gameObject.GetOrAddComponent<UI_Tooltip>();
+        fix.SetTooltipContents("", UserData.Instance.LocaleText_Tooltip("Command_Fixed"), UI_TooltipBox.ShowPosition.LeftDown);
 
-        var wander = GetButton(((int)Buttons.Command_Wander)).gameObject.GetOrAddComponent<UI_Tooltip>();
-        wander.SetTooltipContents("", UserData.Instance.LocaleText_Tooltip("Command_Wander"), UI_TooltipBox.ShowPosition.LeftUp);
+        var wander = GetImage(((int)Images.Tooltip_Wander)).gameObject.GetOrAddComponent<UI_Tooltip>();
+        wander.SetTooltipContents("", UserData.Instance.LocaleText_Tooltip("Command_Wander"), UI_TooltipBox.ShowPosition.LeftDown);
 
-        var attack = GetButton(((int)Buttons.Command_Attack)).gameObject.GetOrAddComponent<UI_Tooltip>();
-        attack.SetTooltipContents("", UserData.Instance.LocaleText_Tooltip("Command_Attack"), UI_TooltipBox.ShowPosition.LeftUp);
+        var attack = GetImage(((int)Images.Tooltip_Attack)).gameObject.GetOrAddComponent<UI_Tooltip>();
+        attack.SetTooltipContents("", UserData.Instance.LocaleText_Tooltip("Command_Attack"), UI_TooltipBox.ShowPosition.LeftDown);
     }
 
     void ChangeMoveMode(Monster.MoveType _mode)
@@ -571,13 +581,18 @@ public class UI_Monster_Management : UI_PopUp
         Current.monster.SetMoveType(_mode);
         //Debug.Log("change");
         SelectedImage();
+
+        for (int i = 0; i < childList.Count; i++)
+        {
+            childList[i].ShowContents();
+        }
     }
 
     void AddCommandPanel()
     {
         if (Current == null || Current.monster == null) return;
 
-        GetImage(((int)Panels.CommandPanel)).gameObject.SetActive(true);
+        GetImage(((int)Images.CommandPanel)).gameObject.SetActive(true);
         SelectedImage();
     }
     void SelectedImage()
@@ -613,13 +628,13 @@ public class UI_Monster_Management : UI_PopUp
     {
         GetButton((int)Buttons.Change_Name).gameObject.SetActive(false);
         GetButton((int)Buttons.Change_Slot).gameObject.SetActive(false);
-        GetImage((int)Panels.EditPanel).gameObject.SetActive(false);
+        GetImage((int)Images.EditPanel).gameObject.SetActive(false);
     }
 
 
     void AddEditButtonEvent()
     {
-        GetImage((int)Panels.EditPanel).gameObject.SetActive(true);
+        GetImage((int)Images.EditPanel).gameObject.SetActive(true);
 
         GetButton((int)Buttons.Change_Name).gameObject.SetActive(true);
         GetButton((int)Buttons.Change_Name).gameObject.RemoveUIEventAll();
@@ -667,9 +682,7 @@ public class UI_Monster_Management : UI_PopUp
         yield return new WaitUntil(() => isChanging);
         int second = childList.IndexOf(Current);
 
-        var mon = GameManager.Monster.Monsters[first];
-        GameManager.Monster.Monsters[first] = GameManager.Monster.Monsters[second];
-        GameManager.Monster.Monsters[second] = mon;
+        GameManager.Monster.ChangeMonsterSlot(first, second);
 
         foreach (var item in childList)
         {
@@ -724,8 +737,8 @@ public class UI_Monster_Management : UI_PopUp
             return;
         }
 
-        GetImage(((int)Panels.ButtonPanel)).gameObject.SetActive(true);
-        GetImage(((int)Panels.SummonPanel)).gameObject.SetActive(false);
+        GetImage(((int)Images.ButtonPanel)).gameObject.SetActive(true);
+        GetImage(((int)Images.SummonPanel)).gameObject.SetActive(false);
         Init_ButtonEvent();
 
         switch (Current.monster.State)
@@ -746,7 +759,8 @@ public class UI_Monster_Management : UI_PopUp
                     AddUIEvent((data) => GameManager.Monster.ReleaseMonster(Current.monster.MonsterID));
 
                 GetTMP((int)Texts.DetailInfo_State).text = $"{UserData.Instance.LocaleText("대기중")}\n";
-                GetObject((int)Etc.Icon_Face_State).GetComponent<Image>().sprite = Managers.Sprite.GetSprite_SLA("Element_State", "Perfect");
+                GetObject((int)Etc.Icon_Face_State).GetComponent<Image>().sprite = 
+                    Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Element_State", "Perfect");
                 GetTMP((int)Texts.DetailInfo_AP).text = $"{UserData.Instance.LocaleText("AP")} : {Main.Instance.Player_AP}";
                 GetTMP((int)Texts.DetailInfo_Floor).text = "";
                 GetTMP((int)Texts.DetailInfo_Unit).text = "";
@@ -770,7 +784,8 @@ public class UI_Monster_Management : UI_PopUp
                 GetTMP((int)Texts.DetailInfo_State).text = $"{UserData.Instance.LocaleText("배치중")}";
                 GetTMP((int)Texts.DetailInfo_Floor).text = $"{Current.monster.PlacementInfo.Place_Floor.LabelName}";
                 GetTMP((int)Texts.DetailInfo_Unit).text = "";
-                GetObject((int)Etc.Icon_Face_State).GetComponent<Image>().sprite = Managers.Sprite.GetSprite_SLA("Element_State", "Good");
+                GetObject((int)Etc.Icon_Face_State).GetComponent<Image>().sprite = 
+                    Managers.Sprite.Get_SLA(SpriteManager.Library.UI,"Element_State", "Good");
                 GetTMP((int)Texts.DetailInfo_AP).text = $"{UserData.Instance.LocaleText("AP")} : {Main.Instance.Player_AP}";
                 
                 break;
@@ -812,7 +827,8 @@ public class UI_Monster_Management : UI_PopUp
             
         targetButton.AddUIEvent((data) => Current.monster.Recover(RecoverCost));
         targetButton.GetComponentInChildren<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText("회복")}({RecoverCost})";
-        GetObject((int)Etc.Icon_Face_State).GetComponent<Image>().sprite = Managers.Sprite.GetSprite_SLA("Element_State", "Bad");
+        GetObject((int)Etc.Icon_Face_State).GetComponent<Image>().sprite = 
+            Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Element_State", "Bad");
         GetTMP((int)Texts.DetailInfo_State).text = $"{UserData.Instance.LocaleText("회복")} {UserData.Instance.LocaleText("Mana")} : {RecoverCost}";
         GetTMP((int)Texts.DetailInfo_Floor).text = "";
         GetTMP((int)Texts.DetailInfo_Unit).text = "";
@@ -906,7 +922,7 @@ public class UI_Monster_Management : UI_PopUp
             BasementTile temp = null;
             if (tile.floor.TileMap.TryGetValue(delta, out temp))
             {
-                var obj = GameManager.Monster.Monsters[monsterID];
+                var obj = GameManager.Monster.GetMonster(monsterID);
                 GameManager.Placement.PlacementConfirm(obj, new PlacementInfo(tile.floor, temp));
 
                 obj.PlacementInfo.Place_Floor.MaxMonsterSize--;
@@ -978,7 +994,12 @@ public class UI_Monster_Management : UI_PopUp
     }
 
 
+
     #endregion
+
+
+    
+
 
 
 

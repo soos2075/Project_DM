@@ -11,6 +11,29 @@ public class NPC_Unique : NPC
 
     protected override void Start_Setting()
     {
+        switch (NPCType)
+        {
+            case NPC_Type_Unique.ManaGoblin:
+                RunawayHpRatio = 2;
+                break;
+
+            case NPC_Type_Unique.GoldLizard:
+                RunawayHpRatio = 2;
+                break;
+
+            case NPC_Type_Unique.PumpkinHead:
+                RunawayHpRatio = 4;
+                break;
+
+            case NPC_Type_Unique.Santa:
+                RunawayHpRatio = 3;
+                break;
+
+            case NPC_Type_Unique.DungeonThief:
+                RunawayHpRatio = 2;
+                break;
+        }
+
         //RunawayHpRatio = 1000;
         //KillGold = 0;
     }
@@ -24,14 +47,14 @@ public class NPC_Unique : NPC
         {
             case NPCState.Runaway:
             case NPCState.Return_Satisfaction:
-                return new Define.TileType[] { Define.TileType.Facility };
+                return new Define.TileType[] { Define.TileType.Facility, Define.TileType.Monster };
 
             default:
                 switch (NPCType)
                 {
 
                     default:
-                        return new Define.TileType[] { Define.TileType.Facility };
+                        return new Define.TileType[] { Define.TileType.NPC };
                 }
         }
     }
@@ -77,13 +100,6 @@ public class NPC_Unique : NPC
                 characterBuilder.Weapon = "Stick#FFFFFF/0:0:0";
                 characterBuilder.Back = "LargeBackpack#FFFFFF/0:0:0";
                 break;
-
-                //case NPC_Type_Hunter.Hunter_Slime:
-                //    characterBuilder.Armor = "ThiefTunic";
-                //    characterBuilder.Weapon = "Butcher";
-                //    characterBuilder.Helmet = "HornsHelmet";
-                //    characterBuilder.Back = "BackSword";
-                //    break;
         }
 
 
@@ -94,16 +110,16 @@ public class NPC_Unique : NPC
     {
         base.Departure(startPoint, endPoint);
 
-        switch (NPCType)
-        {
-            //case NPC_Type_Hunter.Hunter_Slime:
-            //    if (UserData.Instance.FileConfig.firstAppear_Hunter_Slime == false)
-            //    {
-            //        UserData.Instance.FileConfig.firstAppear_Hunter_Slime = true;
-            //        StartCoroutine(EventCor($"{NPCType.ToString()}"));
-            //    }
-            //    break;
-        }
+        //switch (NPCType)
+        //{
+        //    //case NPC_Type_Hunter.Hunter_Slime:
+        //    //    if (UserData.Instance.FileConfig.firstAppear_Hunter_Slime == false)
+        //    //    {
+        //    //        UserData.Instance.FileConfig.firstAppear_Hunter_Slime = true;
+        //    //        StartCoroutine(EventCor($"{NPCType.ToString()}"));
+        //    //    }
+        //    //    break;
+        //}
     }
 
 
@@ -115,23 +131,38 @@ public class NPC_Unique : NPC
         switch (NPCType)
         {
             case NPC_Type_Unique.ManaGoblin:
-                var herb = GetPriorityPick(typeof(Herb));
-                var mineral = GetPriorityPick(typeof(Mineral));
-                herb.AddRange(mineral);
-                AddPriorityList(herb, AddPos.Front, option);
-                AddPriorityList(GetPriorityPick(typeof(Treasure)), AddPos.Back, option);
+                {
+                    var herb = GetPriorityPick(typeof(Herb));
+                    var mineral = GetPriorityPick(typeof(Mineral));
+                    herb.AddRange(mineral);
+                    AddPriorityList(herb, AddPos.Front, option);
+                    AddPriorityList(GetPriorityPick(typeof(Treasure)), AddPos.Back, option);
+                }
                 break;
 
             case NPC_Type_Unique.GoldLizard:
+                AddPriorityList(GetPriorityPick(typeof(Monster)), AddPos.Front, option);
                 break;
 
             case NPC_Type_Unique.PumpkinHead:
+                AddPriorityList(GetPriorityPick(typeof(Monster)), AddPos.Front, option);
                 break;
 
             case NPC_Type_Unique.Santa:
+                {
+                    var herb = GetPriorityPick(typeof(Herb));
+                    var mineral = GetPriorityPick(typeof(Mineral));
+                    var monster = GetPriorityPick(typeof(Monster));
+                    herb.AddRange(mineral);
+                    herb.AddRange(monster);
+                    AddPriorityList(herb, AddPos.Front, option);
+                }
                 break;
 
             case NPC_Type_Unique.DungeonThief:
+                {
+                    AddPriorityList(GetPriorityPick(typeof(Treasure)), AddPos.Front, option);
+                }
                 break;
         }
 
@@ -170,6 +201,32 @@ public class NPC_Unique : NPC
         UI_EventBox.AddEventText($"¢Â{Name_Color} {UserData.Instance.LocaleText("Event_Defeat")}");
         GameManager.NPC.InactiveNPC(this);
         //AddCollectionPoint();
+
+
+
+        switch (NPCType)
+        {
+            case NPC_Type_Unique.ManaGoblin:
+                break;
+
+            case NPC_Type_Unique.GoldLizard:
+                Main.Instance.CurrentDay.AddGold(1000, Main.DayResult.EventType.Monster);
+                Main.Instance.ShowDM(1000, Main.TextType.gold, transform);
+                break;
+
+            case NPC_Type_Unique.PumpkinHead:
+                break;
+
+            case NPC_Type_Unique.Santa:
+                break;
+
+            case NPC_Type_Unique.DungeonThief:
+                Main.Instance.CurrentDay.AddGold(500, Main.DayResult.EventType.Monster);
+                Main.Instance.ShowDM(500, Main.TextType.gold, transform);
+                Main.Instance.CurrentDay.AddMana(500, Main.DayResult.EventType.Monster);
+                Main.Instance.ShowDM(500, Main.TextType.mana, transform);
+                break;
+        }
     }
 
 

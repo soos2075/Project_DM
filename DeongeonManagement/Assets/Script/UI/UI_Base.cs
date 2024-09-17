@@ -113,6 +113,13 @@ public abstract class UI_Base : MonoBehaviour
 		}
     }
 
+
+	public static void RemoveUIEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.LeftClick)
+    {
+		UI_EventHandler evt = Util.GetOrAddComponent<UI_EventHandler>(go);
+
+		evt.OnLeftClickHandler -= action;
+	}
 	public static void RemoveUIEventAll(GameObject go)
     {
 		UI_EventHandler evt = go.GetComponent<UI_EventHandler>();
@@ -121,5 +128,17 @@ public abstract class UI_Base : MonoBehaviour
 	}
 
 
+	public event Action CallbackAction;
+	public void InteractionCallback(bool isOnlyOnetiem)
+    {
+        if (CallbackAction != null)
+        {
+			CallbackAction.Invoke();
+		}
 
+        if (isOnlyOnetiem)
+        {
+			CallbackAction = null;
+		}
+    }
 }

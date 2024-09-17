@@ -351,7 +351,8 @@ public class UI_Collection : UI_PopUp
 
         if (data.info.isRegist)
         {
-            GetImage((int)ShowBoxImage.MainSprite).sprite = Managers.Sprite.GetSprite_SLA(SO_Data.SLA_category, SO_Data.SLA_label);
+            GetImage((int)ShowBoxImage.MainSprite).sprite = 
+                Managers.Sprite.Get_SLA(SpriteManager.Library.Monster, SO_Data.SLA_category, SO_Data.SLA_label);
 
             GetTMP((int)ShowBoxText.TMP_Name).text = SO_Data.labelName;
             GetTMP((int)ShowBoxText.TMP_Point).text = $"Point : {data.info.UnlockPoint}";
@@ -424,7 +425,7 @@ public class UI_Collection : UI_PopUp
 
         if (data.info.isRegist)
         {
-            GetImage((int)ShowBoxImage.MainSprite).sprite = Managers.Sprite.Get_NPC(data.unit.SLA_category, data.unit.SLA_label);
+            GetImage((int)ShowBoxImage.MainSprite).sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.NPC, data.unit.SLA_category, data.unit.SLA_label);
 
             GetTMP((int)ShowBoxText.TMP_Name).text = SO_Data.labelName;
             GetTMP((int)ShowBoxText.TMP_Point).text = $"Point : {data.info.UnlockPoint}";
@@ -486,7 +487,8 @@ public class UI_Collection : UI_PopUp
 
         if (data.info.isRegist)
         {
-            GetImage((int)ShowBoxImage.MainSprite).sprite = Managers.Sprite.GetSprite_SLA(data.unit.SLA_category, data.unit.SLA_label);
+            GetImage((int)ShowBoxImage.MainSprite).sprite = 
+                Managers.Sprite.Get_SLA(SpriteManager.Library.Facility, data.unit.SLA_category, data.unit.SLA_label);
 
             GetTMP((int)ShowBoxText.TMP_Name).text = SO_Data.labelName;
             GetTMP((int)ShowBoxText.TMP_Point).text = $"Point : {data.info.UnlockPoint}";

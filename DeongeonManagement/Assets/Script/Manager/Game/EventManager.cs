@@ -51,20 +51,21 @@ public class EventManager : MonoBehaviour
     }
 
 
-
+    int Pop { get; set; }
+    int Danger { get; set; }
 
     public void TurnStart()
     {
-        Debug.Log(CurrentClearEventData.ShowClearData());
-
-
         CurrentTurn = Main.Instance.Turn;
+        Pop = Main.Instance.PopularityOfDungeon;
+        Danger = Main.Instance.DangerOfDungeon;
+
         CurrentQuestAction?.Invoke();
 
         TurnStart_EventSchedule();
         Add_ReservationGuildQuest();
 
-        AddDayEventByCondition();
+        AddDayEventByCondition_Start();
 
         //? 시작이벤트 발생부분
         OneDayAfter();
@@ -76,24 +77,28 @@ public class EventManager : MonoBehaviour
     }
     public void TurnOver()
     {
+        Pop = Main.Instance.PopularityOfDungeon;
+        Danger = Main.Instance.DangerOfDungeon;
+
         TurnOverEventReserve?.Invoke();
         TurnOverEventReserve = null;
 
         TurnOver_EventSchedule();
+
+        if (TryRankUp(Pop, Danger))
+        {
+            Main.Instance.Dungeon_RankUP();
+            RankUpEvent();
+        }
+
+        AddDayEventByCondition_Over();
     }
 
 
     Action TurnOverEventReserve;
     public void AddTurnOverEventReserve(Action action)
     {
-        if (TurnOverEventReserve == null)
-        {
-            TurnOverEventReserve = action;
-        }
-        else
-        {
-            TurnOverEventReserve += action;
-        }
+        TurnOverEventReserve += action;
     }
 
 
@@ -109,7 +114,8 @@ public class EventManager : MonoBehaviour
 
         Reservation_Quest = new List<Quest_Reservation>();
         CurrentClearEventData = new ClearEventData();
-        //CurrentClearEventData.Init_List();
+        TurnOverEventReserve = null;
+        Managers.Dialogue.ReserveAction = null;
     }
 
     public void NewGameReset()
@@ -119,6 +125,8 @@ public class EventManager : MonoBehaviour
     }
 
 
+
+    #region 턴 시작 / 종료시 조건에 따라 여러 이벤트 추가하는곳
     void TurnStart_EventSchedule()
     {
         switch (CurrentTurn)
@@ -134,7 +142,7 @@ public class EventManager : MonoBehaviour
         {
             case 11:
                 Remove_GuildQuest(2102);
-                RemoveQuestAction(772102);
+                ClearQuestAction(772102);
                 break;
 
             default:
@@ -143,16 +151,9 @@ public class EventManager : MonoBehaviour
         }
     }
 
-
-
-    #region 조건에 따라 DayEvent 추가하는 곳 (매턴시작시 발동)
-
-    void AddDayEventByCondition()
+    void AddDayEventByCondition_Start()
     {
-        int pop = Main.Instance.PopularityOfDungeon;
-        int danger = Main.Instance.DangerOfDungeon;
-
-        if (danger >= 300)
+        if (Danger >= 300)
         {
             DayEventLabel currentEvent = DayEventLabel.BloodSong_Appear;
             if (CurrentClearEventData.Check_AlreadyClear(currentEvent) == false && Check_AlreadyReserve(currentEvent) == false)
@@ -162,6 +163,108 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    void AddDayEventByCondition_Over()
+    {
+        TryAddUnique(Pop, Danger);
+
+        if (Danger >= 500 && Danger > Pop && CurrentTurn >= 15 && Main.Instance.DungeonRank == (int)Define.DungeonRank.C &&
+            CurrentClearEventData.Check_AlreadyClear(DialogueName.Dragon_First) == false)
+        {
+            UserData.Instance.FileConfig.Notice_Facility = true;
+            //UserData.Instance.FileConfig.Notice_Monster = true;
+            //UserData.Instance.FileConfig.Notice_Summon = true;
+            Main.Instance.Dungeon_RankUP();
+            RankUpEvent();
+
+            Managers.Dialogue.ActionReserve(() =>
+            {
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Dragon_First, Main.Instance.Player);
+            });
+        }
+
+        if (Danger >= 800 && Danger > Pop && CurrentTurn >= 15 && 
+            CurrentClearEventData.Check_AlreadyClear(DialogueName.Dragon_First) && 
+            CurrentClearEventData.Check_AlreadyClear(DialogueName.Dragon_Second) == false)
+        {
+            Managers.Dialogue.ActionReserve(() =>
+            {
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Dragon_Second, Main.Instance.Player);
+            });
+        }
+    }
+
+
+
+
+    void TryAddUnique(int fame, int danger)
+    {
+        if (fame >= 200)
+        {
+            GameManager.NPC.Set_UniqueChance(NPC_Type_Unique.Santa, 0.05f);
+        }
+
+        if (fame >= 300)
+        {
+            GameManager.NPC.Set_UniqueChance(NPC_Type_Unique.GoldLizard, 0.05f);
+        }
+
+        if (danger >= 200)
+        {
+            GameManager.NPC.Set_UniqueChance(NPC_Type_Unique.DungeonThief, 0.05f);
+        }
+
+        if (danger >= 300)
+        {
+            GameManager.NPC.Set_UniqueChance(NPC_Type_Unique.PumpkinHead, 0.05f);
+        }
+    }
+
+    bool TryRankUp(int fame, int danger)
+    {
+        if (Main.Instance.DungeonRank == 1 && fame + danger >= 100)
+        {
+            UserData.Instance.FileConfig.Notice_Facility = true;
+            UserData.Instance.FileConfig.Notice_Monster = true;
+            UserData.Instance.FileConfig.Notice_Summon = true;
+            return true;
+        }
+
+        if (Main.Instance.DungeonRank == 2 && fame + danger >= 400)
+        {
+            UserData.Instance.FileConfig.Notice_Facility = true;
+            UserData.Instance.FileConfig.Notice_Monster = true;
+            UserData.Instance.FileConfig.Notice_Summon = true;
+            return true;
+        }
+
+        //if (Main.Instance.DungeonRank == (int)Define.DungeonRank.C && danger >= 500 && CurrentClearEventData.Check_AlreadyClear(DialogueName.Dragon_First))
+        //{
+        //    UserData.Instance.FileConfig.Notice_Facility = true;
+        //    UserData.Instance.FileConfig.Notice_Monster = true;
+        //    UserData.Instance.FileConfig.Notice_Summon = true;
+        //    return true;
+        //}
+
+        return false;
+    }
+
+
+    public void RankUpEvent()
+    {
+        FindObjectOfType<Player>().Level_Stat(Main.Instance.DungeonRank);
+        GameManager.Monster.Resize_MonsterSlot();
+
+        if (Main.Instance.DungeonRank >= (int)Define.DungeonRank.D && Main.Instance.ActiveFloor_Basement < 5)
+        {
+            UserData.Instance.FileConfig.Notice_DungeonEdit = true;
+            UserData.Instance.FileConfig.Notice_Ex4 = true;
+        }
+        else if (Main.Instance.DungeonRank >= (int)Define.DungeonRank.C && Main.Instance.ActiveFloor_Basement < 6)
+        {
+            UserData.Instance.FileConfig.Notice_DungeonEdit = true;
+            UserData.Instance.FileConfig.Notice_Ex5 = true;
+        }
+    }
 
     #endregion
 
@@ -174,13 +277,14 @@ public class EventManager : MonoBehaviour
     {
         public HashSet<DayEventLabel> Clear_DayEventList;
         public HashSet<DialogueName> Clear_DialogueEventList;
-        //List<int> Clear_EventList;
+        public HashSet<int> Clear_QuestList;
 
 
         public ClearEventData()
         {
             Clear_DayEventList = new HashSet<DayEventLabel>();
             Clear_DialogueEventList = new HashSet<DialogueName>();
+            Clear_QuestList = new HashSet<int>();
         }
 
         public ClearEventData DeepCopy()
@@ -188,6 +292,7 @@ public class EventManager : MonoBehaviour
             var data = new ClearEventData();
             data.Clear_DayEventList = new HashSet<DayEventLabel>(Clear_DayEventList);
             data.Clear_DialogueEventList = new HashSet<DialogueName>(Clear_DialogueEventList);
+            data.Clear_QuestList = new HashSet<int>(Clear_QuestList);
             return data;
         }
 
@@ -199,6 +304,10 @@ public class EventManager : MonoBehaviour
         public void AddClear(DialogueName _EventName)
         {
             Clear_DialogueEventList.Add(_EventName);
+        }
+        public void AddClear(int _EventName)
+        {
+            Clear_QuestList.Add(_EventName);
         }
 
 
@@ -225,6 +334,19 @@ public class EventManager : MonoBehaviour
             }
             return false;
         }
+        public bool Check_AlreadyClear(int _EventName)
+        {
+            foreach (var item in Clear_QuestList)
+            {
+                if (item == _EventName)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
 
 
         public string ShowClearData()
@@ -235,6 +357,10 @@ public class EventManager : MonoBehaviour
                 data += $"{item.ToString()}\n";
             }
             foreach (var item in Clear_DialogueEventList)
+            {
+                data += $"{item.ToString()}\n";
+            }
+            foreach (var item in Clear_QuestList)
             {
                 data += $"{item.ToString()}\n";
             }
@@ -575,47 +701,48 @@ public class EventManager : MonoBehaviour
     {
         DayEventActionRegister.Add(DayEventLabel.RetiredHero, () => {
             Debug.Log("은퇴한 영웅 이벤트");
-            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_RetiredHero.ToString(), 9);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_RetiredHero.ToString(), 9, NPC_Typeof.NPC_Type_MainEvent);
         });
 
         DayEventActionRegister.Add(DayEventLabel.Goblin_Appear, () => {
             Debug.Log("고블린 첫등장 이벤트");
-            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Goblin_Leader.ToString(), 9);
+            GameManager.NPC.Set_UniqueChance(NPC_Type_Unique.ManaGoblin, 0.05f);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Goblin_Leader.ToString(), 9, NPC_Typeof.NPC_Type_MainEvent);
         });
 
         DayEventActionRegister.Add(DayEventLabel.Goblin_Party, () => {
             Debug.Log("고블린 파티 이벤트");
-            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Goblin_Leader2.ToString(), 3);
-            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Goblin.ToString(), 3.5f);
-            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Goblin.ToString(), 4);
-            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Goblin.ToString(), 4.5f);
-            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Goblin.ToString(), 5);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Goblin_Leader2.ToString(), 3, NPC_Typeof.NPC_Type_MainEvent);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Goblin.ToString(), 3.5f, NPC_Typeof.NPC_Type_MainEvent);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Goblin.ToString(), 4, NPC_Typeof.NPC_Type_MainEvent);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Goblin.ToString(), 4.5f, NPC_Typeof.NPC_Type_MainEvent);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Goblin.ToString(), 5, NPC_Typeof.NPC_Type_MainEvent);
         });
 
         DayEventActionRegister.Add(DayEventLabel.Catastrophe, () => {
             Debug.Log("던전의 재앙 이벤트");
-            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Catastrophe.ToString(), 10);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Catastrophe.ToString(), 10, NPC_Typeof.NPC_Type_MainEvent);
         });
 
         DayEventActionRegister.Add(DayEventLabel.BloodSong_Appear, () => {
             Debug.Log("Blood Song 이벤트");
-            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Blood_Tanker_A.ToString(), 10f);
-            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Blood_Warrior_A.ToString(), 10.5f);
-            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Blood_Wizard_A.ToString(), 11f);
-            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Blood_Elf_A.ToString(), 11.5f);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Blood_Tanker_A.ToString(), 10f, NPC_Typeof.NPC_Type_MainEvent);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Blood_Warrior_A.ToString(), 10.5f, NPC_Typeof.NPC_Type_MainEvent);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Blood_Wizard_A.ToString(), 11f, NPC_Typeof.NPC_Type_MainEvent);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Blood_Elf_A.ToString(), 11.5f, NPC_Typeof.NPC_Type_MainEvent);
         });
 
 
         DayEventActionRegister.Add(DayEventLabel.Guild_Raid_1, () => {
             Debug.Log("길드 토벌대 1 이벤트");
             Guild_Raid_First();
-            RemoveQuestAction(777010);
+            ClearQuestAction(777010);
         });
 
         DayEventActionRegister.Add(DayEventLabel.Guild_Raid_2, () => {
             Debug.Log("길드 토벌대 2 이벤트");
             Guild_Raid_Second();
-            RemoveQuestAction(777020);
+            ClearQuestAction(777020);
         });
     }
 
@@ -756,14 +883,12 @@ public class EventManager : MonoBehaviour
         CurrentQuestAction += GetQuestAction(_index);
         CurrentQuestAction_forSave.Add(_index);
 
-        if (Managers.Scene.GetCurrentScene() == SceneName._2_Management)
-        {
-            FindAnyObjectByType<UI_Management>().QuestNotice();
-        }
-        else if (Managers.Scene.GetCurrentScene() == SceneName._3_Guild)
-        {
-            GuildManager.Instance.AddBackAction(() => FindAnyObjectByType<UI_Management>().QuestNotice());
-        }
+        UserData.Instance.FileConfig.Notice_Quest = true;
+    }
+    public void ClearQuestAction(int _index)
+    {
+        CurrentClearEventData.AddClear(_index);
+        RemoveQuestAction(_index);
     }
     public void RemoveQuestAction(int _index)
     {
@@ -789,13 +914,13 @@ public class EventManager : MonoBehaviour
         forQuestAction.Add(1100, () =>
         {
             Debug.Log("퀘스트 - 슬라임토벌 활성화");
-            GameManager.NPC.AddEventNPC(NPC_Type_Hunter.Hunter_Slime.ToString(), 12);
+            GameManager.NPC.AddEventNPC(NPC_Type_Hunter.Hunter_Slime.ToString(), 12, NPC_Typeof.NPC_Type_Hunter);
         });
 
         forQuestAction.Add(1101, () =>
         {
             Debug.Log("퀘스트 - 어스골렘 활성화");
-            GameManager.NPC.AddEventNPC(NPC_Type_Hunter.Hunter_EarthGolem.ToString(), 13);
+            GameManager.NPC.AddEventNPC(NPC_Type_Hunter.Hunter_EarthGolem.ToString(), 13, NPC_Typeof.NPC_Type_Hunter);
         });
 
 
@@ -807,7 +932,12 @@ public class EventManager : MonoBehaviour
         forQuestAction.Add(1141, () =>
         {
             Debug.Log("지속되는 재앙");
-            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Catastrophe.ToString(), 10);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Catastrophe.ToString(), 10, NPC_Typeof.NPC_Type_MainEvent);
+        });
+
+        forQuestAction.Add(771141, () =>
+        {
+            Debug.Log("해결의 실마리");
         });
 
         forQuestAction.Add(1150, () =>
@@ -905,6 +1035,33 @@ public class EventManager : MonoBehaviour
             Transform child = Main.Instance.Player.GetComponentInChildren<SpriteRenderer>().transform;
             child.localScale = Vector3.one;
         });
+
+        EventAction.Add("Player_FlipX_True", () =>
+        {
+            Main.Instance.Player.GetComponentInChildren<SpriteRenderer>().flipX = true;
+            Camera.main.GetComponent<CameraControl>().ChasingTarget(Main.Instance.Player.position, 2);
+
+        });
+
+        EventAction.Add("Player_FlipX_False", () =>
+        {
+            Main.Instance.Player.GetComponentInChildren<SpriteRenderer>().flipX = false;
+            Camera.main.GetComponent<CameraControl>().ChasingTarget(Main.Instance.Player.position, 1);
+        });
+
+        EventAction.Add("Player_Guild_PosReset", () =>
+        {
+            var fade = Managers.UI.ShowPopUp<UI_Fade>();
+            fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 1, true);
+
+            var player = GameObject.Find("Player");
+            player.GetComponentInChildren<SpriteRenderer>().flipX = false;
+            player.GetComponentInChildren<SpriteRenderer>().transform.localScale = Vector3.one;
+            player.transform.position = GuildHelper.Instance.GetPos(GuildHelper.Pos.Exit).position;
+
+            FindAnyObjectByType<UI_DialogueBubble>().Bubble_MoveToTarget(player.transform);
+        });
+
 
 
         EventAction.Add("EggMessage", () =>
@@ -1109,11 +1266,48 @@ public class EventManager : MonoBehaviour
         EventAction.Add("Catastrophe_Refeat", () =>
         {
             Debug.Log("던전의 재앙 - 해결할 때 까지 지속 이벤트");
-            RemoveQuestAction(1140);
+            ClearQuestAction(1140);
             AddQuestAction(1141); //? 해결되기전까지 1141은 지속발생되는 이벤트(퀘스트헌터마냥)
+
+            GuildManager.Instance.AddInstanceGuildNPC(GuildNPC_LabelName.DeathMagician);
+            Add_GuildQuest_Special(10001, true);
+        });
+
+        EventAction.Add("DeathMagician_Catastrophe", () =>
+        {
+            Debug.Log("던전의 재앙 - 데스매지션 - 실마리 제공");
+            var fade = Managers.UI.ShowPopUp<UI_Fade>();
+            fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 1, true);
+
+            var player = GameObject.Find("Player");
+            player.GetComponentInChildren<SpriteRenderer>().flipX = true;
+            player.GetComponentInChildren<SpriteRenderer>().transform.localScale = Vector3.one;
+            player.transform.position = GuildHelper.Instance.GetPos(GuildHelper.Pos.DeathMagician).position;
+
+            AddQuestAction(771141);
+            GuildManager.Instance.RemoveInstanceGuildNPC(GuildNPC_LabelName.DeathMagician);
+        });
+
+        EventAction.Add("Catastrophe_Sealing", () =>
+        {
+            Debug.Log("던전의 재앙 - 봉인");
+
+            GameManager.Technical.Get_Technical<BarrierOfSealing>().Set_Seal();
         });
 
 
+        EventAction.Add("DeathMagician_DevilStatue", () =>
+        {
+            Debug.Log("데스매지션 - 주인공 마왕 루트");
+            var fade = Managers.UI.ShowPopUp<UI_Fade>();
+            fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 1, true);
+
+            var player = GameObject.Find("Player");
+            player.GetComponentInChildren<SpriteRenderer>().flipX = true;
+            player.GetComponentInChildren<SpriteRenderer>().transform.localScale = Vector3.one;
+            player.transform.position = GuildHelper.Instance.GetPos(GuildHelper.Pos.DeathMagician).position;
+            GuildManager.Instance.RemoveInstanceGuildNPC(GuildNPC_LabelName.DeathMagician);
+        });
 
 
 
@@ -1161,13 +1355,13 @@ public class EventManager : MonoBehaviour
         List<NPC> sol1List = new List<NPC>();
         List<NPC> sol2List = new List<NPC>();
 
-        var cap_A = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_A.ToString());
+        var cap_A = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_A.ToString(), NPC_Typeof.NPC_Type_MainEvent);
         cap_A.transform.position = Dungeon.transform.position + (Vector3.right * 3);
         GameManager.Placement.Visible(cap_A);
 
         for (int i = 0; i < 7; i++)
         {
-            var sol_1 = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier1.ToString());
+            var sol_1 = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier1.ToString(), NPC_Typeof.NPC_Type_MainEvent);
             sol_1.transform.position = Dungeon.transform.position + (Vector3.right * 1 * i) + Vector3.right * 5;
             sol_1.Anim_State = NPC.animState.left;
             sol_1.Anim_State = NPC.animState.Ready;
@@ -1176,7 +1370,7 @@ public class EventManager : MonoBehaviour
             sol1List.Add(sol_1);
         }
 
-        var cap_B = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_B.ToString());
+        var cap_B = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_B.ToString(), NPC_Typeof.NPC_Type_MainEvent);
         cap_B.transform.position = Dungeon.transform.position + (Vector3.right * -3);
         cap_B.Anim_State = NPC.animState.left;
         cap_B.Anim_State = NPC.animState.Idle;
@@ -1184,7 +1378,7 @@ public class EventManager : MonoBehaviour
 
         for (int i = 0; i < 7; i++)
         {
-            var sol_1 = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier2.ToString());
+            var sol_1 = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier2.ToString(), NPC_Typeof.NPC_Type_MainEvent);
             sol_1.transform.position = Dungeon.transform.position + (Vector3.right * -1 * i) + Vector3.right * -5;
             sol_1.Anim_State = NPC.animState.Ready;
 
@@ -1234,44 +1428,44 @@ public class EventManager : MonoBehaviour
         List<NPC> bloodSong = new List<NPC>();
         //? 피의노래 파티원 생성
         {
-            var party = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Blood_Tanker_B.ToString());
+            var party = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Blood_Tanker_B.ToString(), NPC_Typeof.NPC_Type_MainEvent);
             party.transform.position = Dungeon.transform.position + (Vector3.left * 13);
             GameManager.Placement.Visible(party);
             bloodSong.Add(party);
         }
         {
-            var party = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Blood_Warrior_B.ToString());
+            var party = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Blood_Warrior_B.ToString(), NPC_Typeof.NPC_Type_MainEvent);
             party.transform.position = Dungeon.transform.position + (Vector3.left * 14);
             GameManager.Placement.Visible(party);
             bloodSong.Add(party);
         }
         {
-            var party = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Blood_Wizard_B.ToString());
+            var party = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Blood_Wizard_B.ToString(), NPC_Typeof.NPC_Type_MainEvent);
             party.transform.position = Dungeon.transform.position + (Vector3.left * 15);
             GameManager.Placement.Visible(party);
             bloodSong.Add(party);
         }
         {
-            var party = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Blood_Elf_B.ToString());
+            var party = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Blood_Elf_B.ToString(), NPC_Typeof.NPC_Type_MainEvent);
             party.transform.position = Dungeon.transform.position + (Vector3.left * 16);
             GameManager.Placement.Visible(party);
             bloodSong.Add(party);
         }
 
         //? 대장급 생성
-        var Cap_A = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_A.ToString());
+        var Cap_A = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_A.ToString(), NPC_Typeof.NPC_Type_MainEvent);
         Cap_A.transform.position = Dungeon.transform.position + (Vector3.right * 2);
         Cap_A.Anim_State = NPC.animState.right;
         Cap_A.Anim_State = NPC.animState.Ready;
         GameManager.Placement.Visible(Cap_A);
 
-        var Cap_B = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_B.ToString());
+        var Cap_B = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_B.ToString(), NPC_Typeof.NPC_Type_MainEvent);
         Cap_B.transform.position = Dungeon.transform.position + (Vector3.right * 10);
         Cap_B.Anim_State = NPC.animState.right;
         Cap_B.Anim_State = NPC.animState.Ready;
         GameManager.Placement.Visible(Cap_B);
 
-        var Captine_C = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_BlueKnight.ToString());
+        var Captine_C = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Captine_BlueKnight.ToString(), NPC_Typeof.NPC_Type_MainEvent);
         Captine_C.transform.position = Dungeon.transform.position + (Vector3.left * 3);
         GameManager.Placement.Visible(Captine_C);
 
@@ -1282,7 +1476,7 @@ public class EventManager : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
         {
-            var sol = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier1.ToString());
+            var sol = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier1.ToString(), NPC_Typeof.NPC_Type_MainEvent);
             sol.transform.position = Dungeon.transform.position + (Vector3.right * 1 * i) + Vector3.right * 4;
             sol.Anim_State = NPC.animState.left;
             sol.Anim_State = NPC.animState.Ready;
@@ -1292,7 +1486,7 @@ public class EventManager : MonoBehaviour
         }
         for (int i = 0; i < 5; i++)
         {
-            var sol = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier2.ToString());
+            var sol = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier2.ToString(), NPC_Typeof.NPC_Type_MainEvent);
             sol.transform.position = Dungeon.transform.position + (Vector3.right * 1 * i) + Vector3.right * 12;
             sol.Anim_State = NPC.animState.left;
             sol.Anim_State = NPC.animState.Ready;
@@ -1302,7 +1496,7 @@ public class EventManager : MonoBehaviour
         }
         for (int i = 0; i < 5; i++)
         {
-            var sol = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier3.ToString());
+            var sol = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Soldier3.ToString(), NPC_Typeof.NPC_Type_MainEvent);
             sol.transform.position = Dungeon.transform.position + (Vector3.left * 1 * i) + Vector3.left * 5;
             sol.Anim_State = NPC.animState.right;
             sol.Anim_State = NPC.animState.Ready;
@@ -1588,48 +1782,7 @@ public class EventManager : MonoBehaviour
 
 
 
-    public bool TryRankUp(int fame, int danger)
-    {
-        UI_Management mainUI = FindAnyObjectByType<UI_Management>();
-
-        if (Main.Instance.DungeonRank == 1 && fame + danger >= 100)
-        {
-            mainUI.SetNotice(UI_Management.OverlayImages.OverlayImage_Facility, true);
-            //mainUI.SetNotice(UI_Management.OverlayImages.OverlayImage_Summon, true);
-            mainUI.SetNotice(UI_Management.OverlayImages.OverlayImage_Monster, true);
-            return true;
-        }
-
-        if (Main.Instance.DungeonRank == 2 && fame + danger >= 400)
-        {
-            mainUI.SetNotice(UI_Management.OverlayImages.OverlayImage_Facility, true);
-            //mainUI.SetNotice(UI_Management.OverlayImages.OverlayImage_Summon, true);
-            mainUI.SetNotice(UI_Management.OverlayImages.OverlayImage_Monster, true);
-            return true;
-        }
-
-        //? 이 다음은 인기도랑 위험도 차이가 300 이상일 때 랭크업 할 수 있도록 (둘다올리는걸 권장하지 않음)
-        //? 물론 수치가 너무 커지면 또 따로 업글해도댐.
-
-
-        return false;
-    }
-
-
-    public void RankUpEvent()
-    {
-        FindObjectOfType<Player>().Level_Stat(Main.Instance.DungeonRank);
-        GameManager.Monster.Resize_MonsterSlot();
-
-        if (Main.Instance.DungeonRank >= (int)Define.DungeonRank.D && Main.Instance.ActiveFloor_Basement < 5)
-        {
-            FindAnyObjectByType<UI_Management>().SetNotice(UI_Management.OverlayImages.OverlayImage_Dungeon, true);
-        }
-        else if (Main.Instance.DungeonRank >= (int)Define.DungeonRank.C && Main.Instance.ActiveFloor_Basement < 6)
-        {
-            FindAnyObjectByType<UI_Management>().SetNotice(UI_Management.OverlayImages.OverlayImage_Dungeon, true);
-        }
-    }
+    
 
 }
 
