@@ -26,7 +26,9 @@ public class Heroine : Monster
 
     void EvolutionCheck()
     {
-        if (EvolutionState != Evolution.Complete && CustomName == "Rena" || CustomName == "레나" || CustomName == "レナ")
+        if (EvolutionState == Evolution.Complete) return;
+
+        if (CustomName == "Rena" || CustomName == "레나" || CustomName == "レナ")
         {
             //? 진화진행
             EvolutionState = Evolution.Complete;

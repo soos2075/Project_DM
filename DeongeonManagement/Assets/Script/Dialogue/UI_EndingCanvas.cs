@@ -10,6 +10,7 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
 
     void Start()
     {
+        Time.timeScale = 1;
         Init();
     }
 

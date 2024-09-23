@@ -742,12 +742,23 @@ public class Main : MonoBehaviour
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
 
+        //? 데모 종료시점. 저장하기전에 해야함.
+        if (Turn == 20)
+        {
+            DEMO_Ending();
+            yield break;
+        }
+        if (Turn == 30)
+        {
+            Managers.Dialogue.ShowDialogueUI(DialogueName.Day30_Over, Player);
+            yield break;
+        }
+
         Managers.UI.Popup_Reservation(() =>
         {
             var ui = Managers.UI.ShowPopUp<UI_DayResult>();
             ui.TextContents(DayList[Turn - 1], CurrentDay);
         });
-
 
         StartCoroutine(AutoSave());
     }
@@ -994,9 +1005,6 @@ public class Main : MonoBehaviour
             //    EventManager.Instance.Add_GuildQuest_Special(10001, true);
             //    break;
 
-            case 21:
-                GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Catastrophe.ToString(), 1, NPC_Typeof.NPC_Type_MainEvent);
-                break;
 
             case 30:
                 break;
@@ -1068,39 +1076,36 @@ public class Main : MonoBehaviour
             case 30:
 #if DEMO_BUILD
                 Debug.Log("데모클리어");
-                var clear = new CollectionManager.ClearDataLog();
-                clear.mana = GetTotalMana();
-                clear.gold = GetTotalGold();
+                //var clear = new CollectionManager.ClearDataLog();
+                //clear.mana = GetTotalMana();
+                //clear.gold = GetTotalGold();
+                //clear.visit = GetTotalVisit();
+                //clear.kill = GetTotalKill();
+                //clear.satisfaction = GetTotalSatisfaction();
+                //clear.return_Empty = GetTotalReturn();
 
-                clear.visit = GetTotalVisit();
-                clear.kill = GetTotalKill();
-                clear.satisfaction = GetTotalSatisfaction();
-                clear.return_Empty = GetTotalReturn();
+                //clear.pop = PopularityOfDungeon;
+                //clear.danger = DangerOfDungeon;
+                //clear.rank = DungeonRank;
+                //UserData.Instance.FileConfig.PlayTimeApply();
+                //clear.clearTime = UserData.Instance.FileConfig.PlayTimes;
+                //clear.monsterCount = GameManager.Monster.GetCurrentMonster();
+                //int highestLv = 0;
+                //string highestMonster = "";
+                //foreach (var mon in GameManager.Monster.GetMonsterAll())
+                //{
+                //    if (mon.LV > highestLv)
+                //    {
+                //        highestMonster = mon.Name;
+                //        highestLv = mon.LV;
+                //    }
+                //}
+                //clear.highestMonster = highestMonster;
+                //clear.highestMonsterLv = highestLv;
 
-                clear.pop = PopularityOfDungeon;
-                clear.danger = DangerOfDungeon;
-                clear.rank = DungeonRank;
-                UserData.Instance.FileConfig.PlayTimeApply();
-                clear.clearTime = UserData.Instance.FileConfig.PlayTimes;
-                clear.monsterCount = GameManager.Monster.GetCurrentMonster();
-                int highestLv = 0;
-                string highestMonster = "";
-                foreach (var mon in GameManager.Monster.GetMonsterAll())
-                {
-                    if (mon.LV > highestLv)
-                    {
-                        highestMonster = mon.Name;
-                        highestLv = mon.LV;
-                    }
-                }
-                clear.highestMonster = highestMonster;
-                clear.highestMonsterLv = highestLv;
-
-                DemoManager.Instance.DemoClearData(clear);
-                AutoSave_Instant();
+                //DemoManager.Instance.DemoClearData(clear);
+                //AutoSave_Instant();
 #endif
-
-                Managers.Dialogue.ShowDialogueUI(DialogueName.Day30_Over, Player);
                 break;
 
             default:
@@ -1144,7 +1149,7 @@ public class Main : MonoBehaviour
 
 
     [Obsolete]
-    void DEMO_15DAY()
+    void DEMO_Ending()
     {
         Managers.Resource.Instantiate($"UI/_UI_BIC_DEMO_CLEAR");
     }

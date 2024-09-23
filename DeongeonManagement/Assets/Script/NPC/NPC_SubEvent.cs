@@ -155,6 +155,7 @@ public class NPC_SubEvent : NPC
             case NPC_Type_SubEvent.Heroine:
                 EventManager.Instance.AddTurnOverEventReserve(() => Managers.Dialogue.ShowDialogueUI(DialogueName.Heroine_Prison, Main.Instance.Player));
                 EventManager.Instance.ClearQuestAction(774020);
+                EventManager.Instance.ClearQuestAction(774030);
                 EventManager.Instance.Clear_GuildQuest(4030);
                 break;
 

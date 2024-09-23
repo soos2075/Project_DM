@@ -45,6 +45,10 @@ public class DialogueManager
             case Define.Language.JP:
                 currentData = Managers.Data.Dialogue_JP;
                 break;
+
+            case Define.Language.SCC:
+                currentData = Managers.Data.Dialogue_SCC;
+                break;
         }
     }
 
@@ -409,10 +413,14 @@ public enum DialogueName
     Dragon_1 = 721,
     Dragon_2 = 722,
     Dragon_3 = 723,
+    Dragon_4 = 724,
+
+    Ravi_1 = 731,
+    Ravi_2 = 732,
+    Ravi_3 = 733,
 
     // Dungeon Expension
     Expansion_4 = 990,
-
 
 
     // QuestBoard ID = 1000

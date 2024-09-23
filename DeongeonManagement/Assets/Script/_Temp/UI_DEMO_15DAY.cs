@@ -7,6 +7,7 @@ public class UI_DEMO_15DAY : UI_Base
 {
     void Start()
     {
+        //Time.timeScale = 0;
         Init();
     }
 
@@ -15,6 +16,8 @@ public class UI_DEMO_15DAY : UI_Base
         Time,
         ToMain,
         Fade,
+
+        SteamLink,
     }
 
 
@@ -33,6 +36,15 @@ public class UI_DEMO_15DAY : UI_Base
 
         fade = GetObject((int)Objects.Fade).GetComponent<Image>();
         StartCoroutine(WaitDelay());
+
+        GetObject((int)Objects.SteamLink).AddUIEvent(data => OpenWebPageButton());
+    }
+
+
+    public string webpageURL = "https://store.steampowered.com/app/2886090/Novice_Dungeon_Master/";
+    public void OpenWebPageButton()
+    {
+        Application.OpenURL(webpageURL);
     }
 
 

@@ -21,22 +21,8 @@ public class TraitManager
         foreach (var item in so_data)
         {
             //(string, string) datas = ("", "");
-            string[] datas = null;
+            string[] datas = Managers.Data.GetTextData_Trait(item.id);
 
-            switch (UserData.Instance.Language)
-            {
-                case Define.Language.EN:
-                    Managers.Data.Trait_EN.TryGetValue((TraitGroup)item.id, out datas);
-                    break;
-
-                case Define.Language.KR:
-                    Managers.Data.Trait_KR.TryGetValue((TraitGroup)item.id, out datas);
-                    break;
-
-                case Define.Language.JP:
-                    Managers.Data.Trait_JP.TryGetValue((TraitGroup)item.id, out datas);
-                    break;
-            }
             if (datas == null)
             {
                 Debug.Log($"{item.id} : CSV Data Not Exist");

@@ -1,0 +1,43 @@
+﻿Key,English(en),Korean(ko),Japanese(ja),Chinese (Simplified)(zh-Hans)
+AP,AP,행동력,AP,行动力
+AP_Detail,The AP available for use this turn.,이번 턴에 사용할 수 있는 행동력입니다.,このターンに使用できるAPです。,本回合可用的行动力。
+AP_Need,AP is required.,행동력이 필요합니다.,APが必要です。,需要行动力。
+Gold,Gold,골드,ゴールド,金币
+Gold_Detail,You can get it by defeating Adventurers.,모험가를 쓰러트리면 얻을 수 있습니다.,冒険者を倒すと入手できます。,击败冒险者可获得。
+Gold_Need,Gold is required.,골드가 필요합니다.,ゴールドが必要です。,需要金币。
+Mana,Mana,마나,マナ,魔力
+Mana_Detail,This happens in most interactions in dungeons.,던전에서 일어나는 대부분의 상호작용에서 발생합니다.,ダンジョンで行われるほとんどのインタラクションで発生します。,在地下城中大多数互动中产生。
+Mana_Need,Mana is required.,마나가 필요합니다.,マナが必要です。,需要魔力。
+Popularity,Popularity,인기도,人気度,人气度
+Pop_Detail,"The more popular it is, the more adventurers come to it.",인기도가 높을수록 많은 모험가가 찾아옵니다.,人気度が高ければ高いほど、多くの冒険者が訪れます。,人气越高- 越多冒险者会来访。
+Danger,Danger,위험도,危険度,危险度
+Danger_Detail,"The higher the danger, the stronger the adventurer.",위험도가 높을수록 강한 모험가가 찾아옵니다.,危険度が高いほど強い冒険者がやってきます。,危险度越高- 来访的冒险者越强。
+Rank,Rank,랭크,ランク,等级
+Rank_Detail,"Indicates the rank of the dungeon.
+You are promoted when you meet certain conditions.","던전의 등급을 나타냅니다.
+특정 조건을 충족하면 승급됩니다.","ダンジョンのランクを表します。
+特定の条件を満たすと昇格します。",表示地下城的等级。\满足特定条件时可以晋升。
+Day,Day,일차,日,天
+Command_Fixed,They don't move from where they are placed.,배치된 위치에서 움직이지 않습니다.,配置された位置から動きません。,不会离开放置的位置。
+Command_Wander,Move around randomly.,무작위로 주변을 이동합니다.,ランダムに周囲を移動します。,随机在周围移动。
+Command_Attack,"When it finds an intruder, it tracks it down and attacks it.",침입자를 발견하면 추적하여 공격합니다.,侵入者を見つけたら、追跡して攻撃します。,发现入侵者时- 会追踪并攻击。
+Orb_Green,Activate Crystal of Herb?,약초의 수정을 활성화할까요?,薬草の結晶を活性化しますか？,激活草药水晶？
+Orb_Blue,Activate Crystal of Mana?,마나의 수정을 활성화할까요?,マナの結晶を活性化しますか？,激活魔力水晶？
+Orb_Red,Activate Crystal of Battle?,전투의 수정을 활성화할까요?,バトルの結晶を活性化させるか？,激活战斗水晶？
+Orb_Yellow,Activate Crystal of Mineral?,광물의 수정을 활성화할까요?,鉱物の結晶を活性化しますか？,激活矿物水晶？
+던전,Dungeon,던전,ダンジョン,地下城
+전투횟수,Battle count,전투횟수,戦闘回数,战斗次数
+패배,Defeat,패배,敗北,失败
+레벨업,Level Up,레벨업,レベルアップ,升级
+방문한 모험가,Visit Count,방문한 모험가,訪れた冒険家,到访冒险者
+만족,Satisfied,만족,満足,满意
+그럭저럭,So-so,그럭저럭,まあまあ,一般
+실망,Disappointed,실망,失望,失望
+도망,Flee,도망,逃走,逃跑
+획득,Gain,획득,獲得,获得
+소비,Spent,소비,消費,消耗
+수익,Profit,수익,収益,收益
+Orb_Green_Detail,+1 to all Herb Gathering,모든 약초 채집횟수 +1,すべての薬草採集回数+1,所有草药采集次数+1
+Orb_Yellow_Detail,+1 to all minerals mined,모든 광물 채굴횟수 +1,すべての鉱物採掘回数+1,所有矿物开采次数+1
+Orb_Blue_Detail,20% Mana Gain,마나 획득 +20%,マナ獲得+20%アップ,魔力获取+20%
+Orb_Red_Detail,All unit stats +5,모든 유닛 스탯 +5,すべてのユニットステータス+5,所有单位属性+5

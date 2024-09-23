@@ -1,0 +1,14 @@
+﻿Key,English(en),Korean(ko),Japanese(ja),Chinese (Simplified)(zh-Hans)
+NPC_Herbalist,Herbalist,약초꾼,薬草師,草药采集者
+NPC_Miner,Miner,광부,鉱山労働者,矿工
+NPC_Adventurer,Adventurer,모험가,冒険家,冒险者
+NPC_Elf,Elf,엘프,エルフ,精灵
+NPC_Wizard,Wizard,위저드,ウィザード,法师
+Interaction_Monster,Monster,몬스터,モンスター,怪物
+Interaction_Herb,Herb,약초,薬草,草药
+Interaction_Mineral,Mineral,광물,鉱物,矿物
+Interaction_Treasure,Treasure,보물,宝物,宝物
+Interaction_Trap,Trap,함정,罠,陷阱
+Interaction_Artifact,Artifact,아티팩트,アーティファクト,神器
+Interaction_Dungeon,Dungeon,던전,ダンジョン,地下城
+Interaction_Etc,Etc,기타,など,其他

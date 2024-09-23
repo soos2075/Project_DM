@@ -18,6 +18,7 @@ MonoBehaviour:
   - rid: 3996727165436559385
   - rid: 3996727165436559384
   - rid: 3996727165436559362
+  - rid: 8083692477963304961
   m_AvailableLocales:
     rid: 3996727165436559363
   m_AssetDatabase:
@@ -204,3 +205,8 @@ MonoBehaviour:
       data:
         m_LocaleId:
           m_Code: ko
+    - rid: 8083692477963304961
+      type: {class: SpecificLocaleSelector, ns: UnityEngine.Localization.Settings, asm: Unity.Localization}
+      data:
+        m_LocaleId:
+          m_Code: zh-Hans

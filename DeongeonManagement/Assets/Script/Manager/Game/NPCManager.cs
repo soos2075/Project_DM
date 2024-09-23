@@ -25,21 +25,8 @@ public class NPCManager
         so_data = Resources.LoadAll<SO_NPC>("Data/NPC");
         foreach (var item in so_data)
         {
-            string[] datas = null;
-            switch (UserData.Instance.Language)
-            {
-                case Define.Language.EN:
-                    Managers.Data.ObjectsLabel_EN.TryGetValue(item.id, out datas);
-                    break;
+            string[] datas = Managers.Data.GetTextData_Object(item.id);
 
-                case Define.Language.KR:
-                    Managers.Data.ObjectsLabel_KR.TryGetValue(item.id, out datas);
-                    break;
-
-                case Define.Language.JP:
-                    Managers.Data.ObjectsLabel_JP.TryGetValue(item.id, out datas);
-                    break;
-            }
             if (datas == null)
             {
                 Debug.Log($"{item.id} : CSV Data Not Exist");

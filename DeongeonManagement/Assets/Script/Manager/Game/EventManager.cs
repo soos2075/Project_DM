@@ -1182,6 +1182,9 @@ public class EventManager : MonoBehaviour
             var player = GameObject.Find("Player");
             player.transform.position = GuildHelper.Instance.GetPos(GuildHelper.Pos.Exit).position;
             FindAnyObjectByType<UI_DialogueBubble>().Bubble_MoveToTarget(player.transform);
+
+            ClearQuestAction(774020);
+            AddQuestAction(774030);
         });
 
         EventAction.Add("Heroine_Quest_Prison", () =>

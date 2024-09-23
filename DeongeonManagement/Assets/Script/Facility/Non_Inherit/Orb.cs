@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.U2D.Animation;
 
 public class Orb : MonoBehaviour
@@ -66,6 +67,28 @@ public class Orb : MonoBehaviour
 
 
         if (Main.Instance.Turn <= 5) return true;
+
+        // PointerEventData를 생성하고 현재 마우스 위치를 설정
+        PointerEventData pointerData = new PointerEventData(EventSystem.current)
+        {
+            position = Input.mousePosition
+        };
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerData, results);
+        if (results.Count > 0)
+        {
+            //Debug.Log("현재 마우스가 올라가 있는 UI: " + results[0].gameObject.name);
+            //? 팝업 ui랑 메인 ui 위에선 작동안하도록 변경
+            if (results[0].gameObject.GetComponentInParent<UI_Management>(true)) return true;
+            if (results[0].gameObject.GetComponentInParent<UI_PopUp>(true))
+            {
+                if (results[0].gameObject.GetComponentInParent<UI_DungeonPlacement>(true) == null)
+                {
+                    return true;
+                }
+            }
+        }
 
         return false;
     }

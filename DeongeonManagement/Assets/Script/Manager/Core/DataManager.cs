@@ -31,16 +31,6 @@ public class DataManager
         Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Dialogue/Dialogue_Result.csv").Completed +=
 (handle) => { CSV_File_Parsing_DialogueAll(OnCSVLoaded(handle)); };
 
-        //    Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Dialogue/Dialogue_KR.csv").Completed +=
-        //(handle) => { CSV_File_Parsing_Dialogue(OnCSVLoaded(handle), Dialogue_KR); };
-
-        //    Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Dialogue/Dialogue_EN.csv").Completed +=
-        //(handle) => { CSV_File_Parsing_Dialogue(OnCSVLoaded(handle), Dialogue_EN); };
-
-        //    Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Dialogue/Dialogue_JP.csv").Completed +=
-        //(handle) => { CSV_File_Parsing_Dialogue(OnCSVLoaded(handle), Dialogue_JP); };
-
-
         //? Trait - 한영일 하나의 파일로 파싱
         Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Trait/Trait_Result.csv").Completed +=
     (handle) => { CSV_File_Parsing_Trait(OnCSVLoaded(handle)); };
@@ -69,15 +59,69 @@ public class DataManager
 
 
 
+    public string[] GetTextData_Object(int id)
+    {
+        string[] datas = null;
+        switch (UserData.Instance.Language)
+        {
+            case Define.Language.EN:
+                Managers.Data.ObjectsLabel_EN.TryGetValue(id, out datas);
+                break;
+
+            case Define.Language.KR:
+                Managers.Data.ObjectsLabel_KR.TryGetValue(id, out datas);
+                break;
+
+            case Define.Language.JP:
+                Managers.Data.ObjectsLabel_JP.TryGetValue(id, out datas);
+                break;
+
+            case Define.Language.SCC:
+                Managers.Data.ObjectsLabel_SCC.TryGetValue(id, out datas);
+                break;
+        }
+        return datas;
+    }
+    public string[] GetTextData_Trait(int id)
+    {
+        string[] datas = null;
+        switch (UserData.Instance.Language)
+        {
+            case Define.Language.EN:
+                Managers.Data.Trait_EN.TryGetValue((TraitGroup)id, out datas);
+                break;
+
+            case Define.Language.KR:
+                Managers.Data.Trait_KR.TryGetValue((TraitGroup)id, out datas);
+                break;
+
+            case Define.Language.JP:
+                Managers.Data.Trait_JP.TryGetValue((TraitGroup)id, out datas);
+                break;
+
+            case Define.Language.SCC:
+                Managers.Data.Trait_SCC.TryGetValue((TraitGroup)id, out datas);
+                break;
+        }
+        return datas;
+    }
+
+
+
+
+
+
     public Dictionary<TraitGroup, string[]> Trait_KR = new Dictionary<TraitGroup, string[]>();
     public Dictionary<TraitGroup, string[]> Trait_EN = new Dictionary<TraitGroup, string[]>();
     public Dictionary<TraitGroup, string[]> Trait_JP = new Dictionary<TraitGroup, string[]>();
-    
+    public Dictionary<TraitGroup, string[]> Trait_SCC = new Dictionary<TraitGroup, string[]>();
+
     //? csv 데이터 항목
     // 0 ID, 1 TraitName,
     // 2 Name_KR, 3 Detail_KR, 4 Acquire_KR,
     // 5 Name_EN, 6 Detail_EN, 7 Acquire_EN,
     // 8 Name_JP, 9 Detail_JP, 10 Acquire_JP,
+    // 9 Name_SCC, 10 Detail_SCC, 11 Acquire_SCC,
     void CSV_File_Parsing_Trait(string _stringData)
     {
         if (string.IsNullOrEmpty(_stringData)) return;
@@ -97,19 +141,22 @@ public class DataManager
             Trait_KR.Add((TraitGroup)int.Parse(datas[0]), new string[] { datas[2], datas[3], datas[4] });
             Trait_EN.Add((TraitGroup)int.Parse(datas[0]), new string[] { datas[5], datas[6], datas[7] });
             Trait_JP.Add((TraitGroup)int.Parse(datas[0]), new string[] { datas[8], datas[9], datas[10] });
+            Trait_SCC.Add((TraitGroup)int.Parse(datas[0]), new string[] { datas[11], datas[12], datas[13] });
         }
     }
 
 
-    public Dictionary<int, string[]> ObjectsLabel_KR { get; } = new Dictionary<int, string[]>();
-    public Dictionary<int, string[]> ObjectsLabel_EN { get; } = new Dictionary<int, string[]>();
-    public Dictionary<int, string[]> ObjectsLabel_JP { get; } = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> ObjectsLabel_KR = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> ObjectsLabel_EN = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> ObjectsLabel_JP = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> ObjectsLabel_SCC = new Dictionary<int, string[]>();
 
     //? csv 데이터 항목 - Option은 좀 더 상세분류로 나뉨 - @Op1::Op1  가 존재하면 옵션이 존재하는것
     // 0 KeyName / 1 id /
     // 2 Label_KR / 3 Detail_KR / 4 Option_KR
-    // 5 Label_KR / 6 Detail_KR / 7 Option_KR
-    // 8 Label_KR / 9 Detail_KR / 10 Option_KR
+    // 5 Label_EN / 6 Detail_EN / 7 Option_EN
+    // 8 Label_JP / 9 Detail_JP / 10 Option_JP
+    // 11 Label_SCC / 12 Detail_SCC / 13 Option_SCC
     void CSV_File_Parsing_ObjectAll(string _stringData)
     {
         if (string.IsNullOrEmpty(_stringData)) return;
@@ -157,19 +204,22 @@ public class DataManager
             ObjectsLabel_KR.Add(int.Parse(datas[1]), new string[] { datas[2], datas[3], datas[4] });
             ObjectsLabel_EN.Add(int.Parse(datas[1]), new string[] { datas[5], datas[6], datas[7] });
             ObjectsLabel_JP.Add(int.Parse(datas[1]), new string[] { datas[8], datas[9], datas[10] });
+            ObjectsLabel_SCC.Add(int.Parse(datas[1]), new string[] { datas[11], datas[12], datas[13] });
         }
     }
 
 
-    public Dictionary<DialogueName, DialogueData> Dialogue_KR = new Dictionary<DialogueName, DialogueData>();
-    public Dictionary<DialogueName, DialogueData> Dialogue_EN = new Dictionary<DialogueName, DialogueData>();
-    public Dictionary<DialogueName, DialogueData> Dialogue_JP = new Dictionary<DialogueName, DialogueData>();
+    public Dictionary<DialogueName, DialogueData> Dialogue_KR { get; } = new Dictionary<DialogueName, DialogueData>();
+    public Dictionary<DialogueName, DialogueData> Dialogue_EN { get; } = new Dictionary<DialogueName, DialogueData>();
+    public Dictionary<DialogueName, DialogueData> Dialogue_JP { get; } = new Dictionary<DialogueName, DialogueData>();
+    public Dictionary<DialogueName, DialogueData> Dialogue_SCC { get; } = new Dictionary<DialogueName, DialogueData>();
 
     //? csv 데이터 항목
     // 0 Type(Bubble/Quest) / 1 ID / 2 KeyName / 3 Index / 4 optionString
     // 5 mainText_KR / 11 Title_KR
     // 6 mainText_EN / 12 Title_EN
     // 7 mainText_JP / 13 Title_JP
+    // 8 mainText_SCC / 14 Title_SCC (간체자)
 
     void CSV_File_Parsing_DialogueAll(string _stringData)
     {
@@ -192,6 +242,7 @@ public class DataManager
             var dialogue_KR = new DialogueData(id, type, spl_comma[11]);
             var dialogue_EN = new DialogueData(id, type, spl_comma[12]);
             var dialogue_JP = new DialogueData(id, type, spl_comma[13]);
+            var dialogue_SCC = new DialogueData(id, type, spl_comma[14]);
 
             while (string.IsNullOrEmpty(spl_comma[3]) == false)
             {
@@ -201,6 +252,7 @@ public class DataManager
                 string mainText_KR = ContainsAndJoin(spl_comma[5]);
                 string mainText_EN = ContainsAndJoin(spl_comma[6]);
                 string mainText_JP = ContainsAndJoin(spl_comma[7]);
+                string mainText_SCC = ContainsAndJoin(spl_comma[8]);
 
                 //var textData = new DialogueData.TextData(optionString, mainText);
                 //dialogue.TextDataList.Add(textData);
@@ -209,10 +261,12 @@ public class DataManager
                 var textData_KR = new DialogueData.TextData(optionString, mainText_KR);
                 var textData_EN = new DialogueData.TextData(optionString, mainText_EN);
                 var textData_JP = new DialogueData.TextData(optionString, mainText_JP);
+                var textData_SCC = new DialogueData.TextData(optionString, mainText_SCC);
 
                 dialogue_KR.TextDataList.Add(textData_KR);
                 dialogue_EN.TextDataList.Add(textData_EN);
                 dialogue_JP.TextDataList.Add(textData_JP);
+                dialogue_SCC.TextDataList.Add(textData_SCC);
 
 
                 i++;
@@ -226,6 +280,7 @@ public class DataManager
             Dialogue_KR.Add((DialogueName)id, dialogue_KR);
             Dialogue_EN.Add((DialogueName)id, dialogue_EN);
             Dialogue_JP.Add((DialogueName)id, dialogue_JP);
+            Dialogue_SCC.Add((DialogueName)id, dialogue_SCC);
         }
     }
 

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ResourceManager
 {
+
+    //? 지금 오브젝트 풀링을 안하고있어서 얜 따로 필요가 없는데 필요하면 다시 쓰면 댐
     public T Load<T>(string path) where T : Object
     {
         if (typeof(T) == typeof(GameObject))
@@ -21,9 +23,29 @@ public class ResourceManager
         return Resources.Load<T>(path);
     }
 
+
+
+    Dictionary<string, GameObject> gameObjectCaching = new Dictionary<string, GameObject>();
+    public GameObject Load(string path)
+    {
+        GameObject obj = null;
+
+        gameObjectCaching.TryGetValue(path, out obj);
+
+        if (obj == null)
+        {
+            obj = Resources.Load<GameObject>(path);
+            gameObjectCaching.Add(path, obj);
+        }
+
+        return obj;
+    }
+
+
+
     public GameObject Instantiate(string path, Transform parent = null)
     {
-        GameObject original = Load<GameObject>($"Prefabs/{path}");
+        GameObject original = Load($"Prefabs/{path}");
         if (original == null)
         {
             Debug.Log($"Failed to load prefab : {path}");

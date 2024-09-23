@@ -56,11 +56,11 @@ public class RemoveableObstacle : Facility, IWall
         if (Main.Instance.Management == false) return;
         if (Main.Instance.CurrentAction != null) return;
 
-        int ap = 1;
+        int ap = 0;
         //int mana = 0;
         //int gold = 0;
 
-        int value = 15 + (PlacementInfo.Place_Floor.FloorIndex * 5);
+        int value = 45 + (PlacementInfo.Place_Floor.FloorIndex * 5);
 
         switch (Size)
         {
@@ -75,7 +75,7 @@ public class RemoveableObstacle : Facility, IWall
 
             case SizeOption._2x2:
                 value *= 4;
-                ap = 2;
+                ap = 1;
                 break;
 
             case SizeOption._2x3:
@@ -86,23 +86,23 @@ public class RemoveableObstacle : Facility, IWall
 
             case SizeOption._3x3:
                 value *= 8;
-                ap = 3;
+                ap = 2;
                 break;
         }
 
         var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
         ui.SetText($"{UserData.Instance.LocaleText("Confirm_RemoveObstacle")}", () => ConfirmUI_Action(ap, value, value));
-        ui.SetMode_Calculation(0, $"+{value}", $"+{value}", $"{ap}");
+        ui.SetMode_Calculation(0, $"{value}", $"+{value}", $"{ap}");
     }
 
 
     void ConfirmUI_Action(int _ap, int _mana, int _gold)
     {
-        if (ConfirmCheck(ap: _ap, gold: _gold))
+        if (ConfirmCheck(ap: _ap, gold: _gold, mana: _mana))
         {
             //Main.Instance.CurrentDay.AddGold(_gold, Main.DayResult.EventType.Etc);
             Main.Instance.CurrentDay.AddGold(_gold, Main.DayResult.EventType.Etc);
-            Main.Instance.CurrentDay.AddMana(_mana, Main.DayResult.EventType.Etc);
+            Main.Instance.CurrentDay.SubtractMana(_mana, Main.DayResult.EventType.Etc);
             Main.Instance.Player_AP -= _ap;
 
             GameManager.Facility.RemoveFacility(this);
@@ -124,12 +124,12 @@ public class RemoveableObstacle : Facility, IWall
             msg.Message = UserData.Instance.LocaleText("Message_No_AP");
             return false;
         }
-        //if (Main.Instance.Player_Mana < mana)
-        //{
-        //    var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
-        //    msg.Message = UserData.Instance.LocaleText("Message_No_Mana");
-        //    return false;
-        //}
+        if (Main.Instance.Player_Mana < mana)
+        {
+            var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+            msg.Message = UserData.Instance.LocaleText("Message_No_Mana");
+            return false;
+        }
         //if (Main.Instance.Player_Gold < gold)
         //{
         //    var msg = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();

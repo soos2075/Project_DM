@@ -10,36 +10,34 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Localization-Locales
+  m_Name: Localization-String-Tables-Chinese (Simplified) (zh-Hans)
   m_EditorClassIdentifier: 
-  m_GroupName: Localization-Locales
+  m_GroupName: Localization-String-Tables-Chinese (Simplified) (zh-Hans)
   m_Data:
     m_SerializedData: []
-  m_GUID: 87bbc309454cc7f4889550dbf1cbc9ef
+  m_GUID: 423107d1545b5c847ab36a69ac57da36
   m_SerializeEntries:
-  - m_GUID: 25e2a49419aed384c86fa2ebc0ba7688
-    m_Address: English (en)
+  - m_GUID: ab88f0cfafffde041b4bac9e4dff947f
+    m_Address: UI Table_zh-Hans
     m_ReadOnly: 1
     m_SerializedLabels:
-    - Locale
-  - m_GUID: 39f2ac4a327167e4d874e3ed30d2ec9e
-    m_Address: Japanese (ja)
+    - Locale-zh-Hans
+    - Preload
+  - m_GUID: d60e454cecb630a43b4574d15b55c478
+    m_Address: Label Group_zh-Hans
     m_ReadOnly: 1
     m_SerializedLabels:
-    - Locale
-  - m_GUID: c7b5837a2b4978244a11c76f57a7361e
-    m_Address: Korean (ko)
+    - Locale-zh-Hans
+    - Preload
+  - m_GUID: c87866d6e92ec6d40890efe6579f6c92
+    m_Address: UI_Tooltip_zh-Hans
     m_ReadOnly: 1
     m_SerializedLabels:
-    - Locale
-  - m_GUID: 6b4003f4e503e7e4fbd352f83694d344
-    m_Address: Chinese (Simplified) (zh-Hans)
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale
+    - Locale-zh-Hans
+    - Preload
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: ee98e609717972e4589234052e5caa8a, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 12c1a6517bc7b824eb4ee15430a83d84, type: 2}
-    - {fileID: 11400000, guid: 38446cd5ffad2d7459ca0385b09d088f, type: 2}
+    - {fileID: 11400000, guid: 41d6a56d8575fb34a85e84b119412d9f, type: 2}
+    - {fileID: 11400000, guid: 3c8c4d054ff80cd4899a888e2338c95c, type: 2}

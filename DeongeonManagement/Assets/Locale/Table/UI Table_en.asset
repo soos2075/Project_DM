@@ -86,18 +86,6 @@ MonoBehaviour:
     m_Localized: Day
     m_Metadata:
       m_Items: []
-  - m_Id: 80545784737792
-    m_Localized: 'Mana
-
-      Gold
-
-      Popularity
-
-      Danger
-
-      Rank'
-    m_Metadata:
-      m_Items: []
   - m_Id: 98926592208898
     m_Localized: Summon Monster
     m_Metadata:
@@ -207,13 +195,16 @@ MonoBehaviour:
     m_Localized: 'Place various facilities and monsters in your dungeon to give your
       adventurers mana!
 
+      
 
-      Mana is basically earned from most of the actions
-      your adventurers take in the dungeon.
+      Mana is basically earned from most of the
+      actions your adventurers take in the dungeon.
 
+      
 
-      Once you''re done managing your
-      dungeon, you can end your day by hitting End Turn in the top left corner.'
+      Once you''re
+      done managing your dungeon, you can end your day by hitting End Turn in the
+      top left corner.'
     m_Metadata:
       m_Items: []
   - m_Id: 125754480472066
@@ -479,13 +470,15 @@ MonoBehaviour:
   - m_Id: 43749063683944448
     m_Localized: 'AP is restored to full each turn.
 
+      
 
-      AP is used to train monsters,
-      visit guilds, interact with statues, and more.
+      AP is used to
+      train monsters, visit guilds, interact with statues, and more.
 
+      
 
-      For now, click on the
-      statues!'
+      For
+      now, click on the statues!'
     m_Metadata:
       m_Items: []
   - m_Id: 44085068026818560
@@ -623,6 +616,12 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 67562914627923968
     m_Localized: is go back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70087181932376064
+    m_Localized: 'This is the end of the demo version.
+
+      Thanks for playing!'
     m_Metadata:
       m_Items: []
   references:

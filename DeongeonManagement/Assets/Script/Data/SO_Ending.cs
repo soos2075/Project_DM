@@ -11,7 +11,7 @@ public class SO_Ending : ScriptableObject, I_SO_Collection
 
 
     [Header("CutSceneInfo")]
-    public int page;
+    //public int page;
     public List<CutScene> cutSceneList;
 
 

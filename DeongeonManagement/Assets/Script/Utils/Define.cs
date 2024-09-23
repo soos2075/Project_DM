@@ -11,6 +11,7 @@ public class Define
         EN = 0,
         KR = 1,
         JP = 2,
+        SCC = 3,
     }
 
     public enum GameMode

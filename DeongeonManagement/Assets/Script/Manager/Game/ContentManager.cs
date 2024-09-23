@@ -25,21 +25,7 @@ public class ContentManager
         so_data = Resources.LoadAll<SO_Contents>("Data/Contents");
         foreach (var item in so_data)
         {
-            string[] datas = null;
-            switch (UserData.Instance.Language)
-            {
-                case Define.Language.EN:
-                    Managers.Data.ObjectsLabel_EN.TryGetValue(item.id, out datas);
-                    break;
-
-                case Define.Language.KR:
-                    Managers.Data.ObjectsLabel_KR.TryGetValue(item.id, out datas);
-                    break;
-
-                case Define.Language.JP:
-                    Managers.Data.ObjectsLabel_JP.TryGetValue(item.id, out datas);
-                    break;
-            }
+            string[] datas = Managers.Data.GetTextData_Object(item.id);
 
             if (datas == null)
             {

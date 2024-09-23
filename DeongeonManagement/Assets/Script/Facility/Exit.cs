@@ -6,7 +6,11 @@ public class Exit : Facility
 {
     public override void Init_Personal()
     {
-
+        if (PlacementInfo.Place_Floor.FloorIndex == (int)Define.DungeonFloor.Egg)
+        {
+            transform.Find("Exit").gameObject.SetActive(false);
+            transform.Find("Warp").gameObject.SetActive(true);
+        }
     }
     public override void Init_FacilityEgo()
     {
