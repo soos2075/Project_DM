@@ -72,6 +72,10 @@ public class UI_StatusUp : UI_PopUp
         {
             GetTMP(((int)Texts.State)).text = StateText;
         }
+        else
+        {
+            GetTMP(((int)Texts.State)).text = "";
+        }
     }
 
     void ShowDefault()

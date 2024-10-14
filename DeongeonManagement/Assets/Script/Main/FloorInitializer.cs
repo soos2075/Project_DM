@@ -15,7 +15,7 @@ public class FloorInitializer : MonoBehaviour
     {
         Init_EggFloor();
         Init_1Floor();
-        //Init_2Floor();
+        Init_2Floor();
         Init_3Floor();
         Init_4Floor();
         Init_5Floor();
@@ -136,8 +136,7 @@ public class FloorInitializer : MonoBehaviour
 
     void Init_1Floor()
     {
-        //CreateObstacle(Define.DungeonFloor.Floor_1, RemoveableObstacle.SizeOption._1x1, 1, 1, "Floor1", "2");
-        CreateObstacle(Define.DungeonFloor.Floor_1, RemoveableObstacle.SizeOption._3x3, 3, 3, "Floor1", "5");
+        //CreateObstacle(Define.DungeonFloor.Floor_1, RemoveableObstacle.SizeOption._3x3, 3, 3, "Floor1", "5");
 
         CreateObstacle(Define.DungeonFloor.Floor_1, RemoveableObstacle.SizeOption._2x2, 2, 2, "Floor1", "4");
 
@@ -146,7 +145,8 @@ public class FloorInitializer : MonoBehaviour
         CreateObstacle(Define.DungeonFloor.Floor_1, RemoveableObstacle.SizeOption._1x2, 1, 2, "Floor1", "3");
 
         CreateObstacle(Define.DungeonFloor.Floor_1, RemoveableObstacle.SizeOption._1x1, 1, 1, "Floor1", "2");
-
+        CreateObstacle(Define.DungeonFloor.Floor_1, RemoveableObstacle.SizeOption._1x1, 1, 1, "Floor1", "2");
+        CreateObstacle(Define.DungeonFloor.Floor_1, RemoveableObstacle.SizeOption._1x1, 1, 1, "Floor1", "2");
     }
     void Init_2Floor()
     {
@@ -193,10 +193,11 @@ public class FloorInitializer : MonoBehaviour
     void Init_5Floor()
     {
         CreateObstacle(Define.DungeonFloor.Floor_5, RemoveableObstacle.SizeOption._3x3, 3, 3, "Floor5", "4");
-        CreateObstacle(Define.DungeonFloor.Floor_5, RemoveableObstacle.SizeOption._3x3, 3, 3, "Floor5", "4");
+        //CreateObstacle(Define.DungeonFloor.Floor_5, RemoveableObstacle.SizeOption._3x3, 3, 3, "Floor5", "4");
+        //CreateObstacle(Define.DungeonFloor.Floor_5, RemoveableObstacle.SizeOption._3x3, 3, 3, "Floor5", "4");
 
-        //CreateObstacle(Define.DungeonFloor.Floor_5, RemoveableObstacle.SizeOption._2x2, 2, 2, "Floor5", "2");
         CreateObstacle(Define.DungeonFloor.Floor_5, RemoveableObstacle.SizeOption._2x2, 2, 2, "Floor5", "2");
+        //CreateObstacle(Define.DungeonFloor.Floor_5, RemoveableObstacle.SizeOption._2x2, 2, 2, "Floor5", "2");
 
 
         CreateObstacle(Define.DungeonFloor.Floor_5, RemoveableObstacle.SizeOption._1x2, 1, 2, "Floor5", "1");
@@ -232,11 +233,11 @@ public class FloorInitializer : MonoBehaviour
     void Init_EggEntrance() //? 전이진이 생길 위치
     {
         CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(12, 2), "Obstacle_Wall", CreateOption.Return);
-        CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(11, 2), "Obstacle", CreateOption.Return);
+        //CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(11, 2), "Obstacle", CreateOption.Return);
 
         CreateObj((int)Define.DungeonFloor.Floor_3, new Vector2Int(2, 2), "Obstacle", CreateOption.Return);
         CreateObj((int)Define.DungeonFloor.Floor_4, new Vector2Int(2, 2), "Obstacle", CreateOption.Return);
-        CreateObj((int)Define.DungeonFloor.Floor_5, new Vector2Int(6, 19), "Obstacle", CreateOption.Return);
+        CreateObj((int)Define.DungeonFloor.Floor_5, new Vector2Int(10, 24), "Obstacle", CreateOption.Return);
     }
 
     void Init_Statue()

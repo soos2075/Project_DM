@@ -171,6 +171,30 @@ MonoBehaviour:
     m_Key: Orb_Red_Detail
     m_Metadata:
       m_Items: []
+  - m_Id: 44245981308596224
+    m_Key: "\uBB34\uC2B9\uBD80"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44919874486743040
+    m_Key: Stat_HP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44919896993378304
+    m_Key: Stat_ATK
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44919898343944192
+    m_Key: Stat_DEF
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44919899497377792
+    m_Key: Stat_AGI
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44919902466945024
+    m_Key: Stat_LUK
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

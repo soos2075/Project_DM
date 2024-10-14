@@ -123,46 +123,9 @@ public class BasementFloor : MonoBehaviour
 
         Debug.Log("빈 공간을 못찾음");
         findEmpty = false;
-        return tempTile;
+        return null;
     }
 
-    public BasementTile GetRandomTile_Common(out bool findEmpty)
-    {
-        int whileCount = 0; //? 무한루프 방지용
-        Vector2Int randomTile;
-
-        BasementTile tempTile = null;
-        while (whileCount < 100)
-        {
-            whileCount++;
-            randomTile = new Vector2Int(UnityEngine.Random.Range(0, tilemap.cellBounds.size.x), UnityEngine.Random.Range(0, tilemap.cellBounds.size.y));
-            if (TileMap.TryGetValue(randomTile, out tempTile))
-            {
-                if (tempTile.Original == null)
-                {
-                    findEmpty = true;
-                    return tempTile;
-                }
-            }
-        }
-
-        Debug.Log("빈 공간 없음 - 약초나 광물 제거");
-        findEmpty = false;
-
-
-        while (true)
-        {
-            randomTile = new Vector2Int(UnityEngine.Random.Range(0, tilemap.cellBounds.size.x), UnityEngine.Random.Range(0, tilemap.cellBounds.size.y));
-            if (TileMap.TryGetValue(randomTile, out tempTile))
-            {
-                if (tempTile.Original.GetType() == typeof(Herb) || tempTile.Original.GetType() == typeof(Mineral))
-                {
-                    return tempTile;
-                }
-            }
-        }
-        //return tempTile;
-    }
     public BasementTile GetRandomTile_Portal()
     {
         Vector2Int randomTile;
@@ -264,7 +227,7 @@ public class BasementFloor : MonoBehaviour
         restart:;
         }
 
-        return tempTile;
+        return null;
     }
 
 

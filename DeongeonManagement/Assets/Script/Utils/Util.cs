@@ -203,20 +203,20 @@ public class Util
 
 
             case Define.TextColor.npc_red:
-                return $"<color=#ff4444ff>{text}</color>";
+                return $"<color=#992222ff>{text}</color>";
 
             case Define.TextColor.monster_green:
-                return $"<color=#44ff44ff>{text}</color>";
+                return $"<color=#229922ff>{text}</color>";
 
 
             case Define.TextColor.SkyBlue:
                 return $"<color=#55bbffff>{text}</color>";
 
-            case Define.TextColor.LightGreen:
-                return $"<color=#55ff55ff>{text}</color>";
+            case Define.TextColor.HeavyGreen:
+                return $"<color=#007700ff>{text}</color>";
 
-            case Define.TextColor.LightYellow:
-                return $"<color=#ffff55ff>{text}</color>";
+            case Define.TextColor.HeavyYellow:
+                return $"<color=#bb7700ff>{text}</color>";
 
             case Define.TextColor.Plus_Green:
                 return $"<color=#4c7c48ff>{text}</color>";
@@ -227,6 +227,16 @@ public class Util
             case Define.TextColor.Plus_Red:
                 return $"<color=#e24242ff>{text}</color>";
 
+
+            case Define.TextColor.New_Brown:
+                return $"<color=#975135ff>{text}</color>";
+            case Define.TextColor.New_BrownLight:
+                return $"<color=#d0a187ff>{text}</color>";
+            case Define.TextColor.New_Beige:
+                return $"<color=#ffe2caff>{text}</color>";
+
+            case Define.TextColor.LightYellow:
+                return $"<color=#FFFED0ff>{text}</color>";
 
 
             default:

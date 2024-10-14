@@ -402,6 +402,13 @@ public class NPC_MainEvent : NPC
                 break;
 
             case NPC_Type_MainEvent.EM_Soldier1:
+                {
+                    AddPriorityList(GetPriorityPick(typeof(Monster)), AddPos.Front, option);
+                    AddPriorityList(GetPriorityPick(typeof(Treasure)), AddPos.Back, option);
+                    AddPriorityList(GetPriorityPick(typeof(Herb)), AddPos.Back, option);
+                    AddPriorityList(GetPriorityPick(typeof(Mineral)), AddPos.Back, option);
+                }
+                break;
             case NPC_Type_MainEvent.EM_Soldier2:
             case NPC_Type_MainEvent.EM_Soldier3:
                 {

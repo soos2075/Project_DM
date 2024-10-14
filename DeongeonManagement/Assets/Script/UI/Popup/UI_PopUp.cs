@@ -61,7 +61,7 @@ public class UI_PopUp : UI_Base
 
     protected void PopupUI_OnDestroy()
     {
-        if (Managers.UI._popupStack.Count == 0)
+        if (Managers.UI._popupStack.Count == 0 && FindAnyObjectByType<UI_Stop>() == null)
         {
             UserData.Instance.GamePlay();
         }

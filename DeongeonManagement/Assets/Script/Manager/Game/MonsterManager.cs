@@ -13,6 +13,9 @@ public class MonsterManager
         Init_MonsterSlot();
 
         Managers.Scene.BeforeSceneChangeAction = () => StopAllMoving();
+
+        Init_UnitEventRoom();
+        Init_UnitEventAction();
     }
 
     #region SO_Data
@@ -415,7 +418,133 @@ public class MonsterManager
 
 
     #endregion
+
+
+    #region Unit Dialogue Event
+
+    Dictionary<string, Action<Monster>> UnitEventAction = new Dictionary<string, Action<Monster>>();
+
+    void Init_UnitEventAction()
+    {
+        UnitEventAction.Add("HP_UP", (unit) => { unit.StatUP(StatEnum.HP, 5, true); });
+        UnitEventAction.Add("ATK_UP", (unit) => { unit.StatUP(StatEnum.ATK, 1, true); });
+        UnitEventAction.Add("DEF_UP", (unit) => { unit.StatUP(StatEnum.DEF, 1, true); });
+        UnitEventAction.Add("AGI_UP", (unit) => { unit.StatUP(StatEnum.AGI, 1, true); });
+        UnitEventAction.Add("LUK_UP", (unit) => { unit.StatUP(StatEnum.LUK, 1, true); });
+    }
+    public UnitEventRoom Room;
+    public Transform PlayerPos;
+    public Transform UnitPos;
+
+    void Init_UnitEventRoom()
+    {
+        Room = GameManager.FindAnyObjectByType<UnitEventRoom>();
+        PlayerPos = Room.transform.GetChild(0);
+        UnitPos = Room.transform.GetChild(1);
+        Room.gameObject.SetActive(false);
+    }
+
+
+    public void StartUnitEventAction(int DialogueID, Monster target)
+    {
+        Action<Monster> statUp = null;
+        switch ((UnitDialogueEventLabel)DialogueID)
+        {
+            //case UnitDialogueEventLabel.Slime_First:
+            //    break;
+
+            //case UnitDialogueEventLabel.Heroin_First:
+            //    break;
+
+            //case UnitDialogueEventLabel.Heroin_Defeat:
+            //    break;
+
+            default:
+                UnitEventAction.TryGetValue("HP_UP", out statUp);
+                break;
+        }
+
+
+        Room.gameObject.SetActive(true);
+        GameManager.Instance.StartCoroutine(UnitEvent(DialogueID, target, statUp));
+        //? 클리어는 호출과 동시에 바로 진행
+        //target.UnitDialogueEvent.ClearEvent(DialogueID);
+    }
+
+
+    IEnumerator UnitEvent(int DialogueID, Monster target, Action<Monster> OverCallback)
+    {
+        //? 페이드인아웃
+        var fade = Managers.UI.ShowPopUp<UI_Fade>();
+        fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 1, true);
+
+
+        //? 카메라 대화방으로 이동
+        var Cam = Camera.main.GetComponent<CameraControl>();
+        Cam.SaveCurrentState();
+        Cam.transform.position = new Vector3(Room.transform.position.x, Room.transform.position.y, Cam.transform.position.z);
+        Cam.pixelCam.assetsPPU = 30;
+
+        //? 플레이어와 유닛 대화의방으로 이동
+        var player = Main.Instance.Player;
+
+        var UnitOriginPos = target.transform.position;
+        var PlayerOriginPos = player.position;
+
+        player.position = PlayerPos.position;
+        target.transform.position = UnitPos.position;
+        target.transform.localScale = new Vector3(-1, 1, 1);
+        if (target.State == Monster.MonsterState.Standby)
+        {
+            target.GetComponentInChildren<SpriteRenderer>().enabled = true;
+        }
+
+        //? 실제 대화 호출 및 진행 (ui를 없애야되서 먼저 시작)
+        Managers.Dialogue.ShowDialogueUI(DialogueID, player);
+
+
+        //? 세팅시간 1초 기다리기
+        yield return new WaitForSeconds(1);
+
+
+        //? 대화끝날때까지 기다리기
+        yield return null;
+        yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
+
+        //? 페이드인아웃
+        var fade2 = Managers.UI.ShowPopUp<UI_Fade>();
+        fade2.SetFadeOption(UI_Fade.FadeMode.WhiteIn, 1, true);
+
+        //? 대화 끝나고 이것저것 세팅 (플레이어와 유닛 위치 되돌리기, 카메라 되돌리기)
+        player.position = PlayerOriginPos;
+        target.transform.position = UnitOriginPos;
+        target.transform.localScale = Vector3.one;
+        if (target.State == Monster.MonsterState.Standby)
+        {
+            target.GetComponentInChildren<SpriteRenderer>().enabled = false;
+        }
+        Cam.SetOriginState();
+        Room.gameObject.SetActive(false);
+
+        OverCallback?.Invoke(target);
+    }
+
+    #endregion
+
+
 }
+//? Dialogue ID 규칙 : 1 + Monster Key ID(3자리) + 이벤트번호 (낮은 이벤트가 항상 먼저 발생하므로 00~09 까지는 특수이벤트용, 일반 이벤트는 10부터 시작
+public enum UnitDialogueEventLabel
+{
+    Slime_First = 100100,
+
+    Heroin_First = 190100,
+    Heroin_Defeat = 190101,
+
+
+}
+
+
 
 public class MonsterStatusTemporary
 {
@@ -486,6 +615,9 @@ public class Save_MonsterData
     //? 특성리스트
     public List<int> currentTraitList;
 
+    //? 이벤트 리스트
+    public Monster.UnitEvent unitEvent;
+
     public void SetData(Monster monster)
     {
         CustomName = monster.CustomName;
@@ -528,6 +660,7 @@ public class Save_MonsterData
 
         traitCounter = monster.traitCounter;
         currentTraitList = monster.SaveTraitList();
+        unitEvent = monster.UnitDialogueEvent.DeepCopy();
     }
 }
 

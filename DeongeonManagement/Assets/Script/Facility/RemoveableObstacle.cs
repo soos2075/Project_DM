@@ -64,18 +64,24 @@ public class RemoveableObstacle : Facility, IWall
 
         switch (Size)
         {
+            case SizeOption._1x1:
+                ap = 0;
+                break;
+
             case SizeOption._1x2:
             case SizeOption._2x1:
+                ap = 1;
                 value *= 2;
                 break;
             case SizeOption._1x3:
             case SizeOption._3x1:
+                ap = 1;
                 value *= 3;
                 break;
 
             case SizeOption._2x2:
-                value *= 4;
                 ap = 1;
+                value *= 4;
                 break;
 
             case SizeOption._2x3:
@@ -91,14 +97,14 @@ public class RemoveableObstacle : Facility, IWall
         }
 
         var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
-        ui.SetText($"{UserData.Instance.LocaleText("Confirm_RemoveObstacle")}", () => ConfirmUI_Action(ap, value, value));
-        ui.SetMode_Calculation(0, $"{value}", $"+{value}", $"{ap}");
+        ui.SetText($"{UserData.Instance.LocaleText("Confirm_RemoveObstacle")}", () => ConfirmUI_Action(ap, value / 2, value));
+        ui.SetMode_Calculation(Define.DungeonRank.F, $"{value / 2}", $"+{value}", $"{ap}");
     }
 
 
     void ConfirmUI_Action(int _ap, int _mana, int _gold)
     {
-        if (ConfirmCheck(ap: _ap, gold: _gold, mana: _mana))
+        if (ConfirmCheck(ap: _ap, mana: _mana, gold: _gold))
         {
             //Main.Instance.CurrentDay.AddGold(_gold, Main.DayResult.EventType.Etc);
             Main.Instance.CurrentDay.AddGold(_gold, Main.DayResult.EventType.Etc);

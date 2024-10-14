@@ -10,6 +10,8 @@ public class Succubus : Monster
     {
         Data = GameManager.Monster.GetData("Succubus");
         Trait_Original();
+
+        //UnitDialogueEvent.AddEvent(102001);
     }
 
 

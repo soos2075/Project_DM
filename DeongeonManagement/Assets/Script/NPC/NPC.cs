@@ -308,8 +308,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         return this.gameObject;
     }
     public string Name_Color { get { return $"{name_Tag_Start}{Name}{Name_Index}{name_Tag_End}"; } }
-    string name_Tag_Start = "<color=#ff4444ff>";
-    string name_Tag_End = "</color>";
+    string name_Tag_Start = "<i>";//"<color=#ff4444ff>";
+    string name_Tag_End = "</i>";//"</color>";
 
     public string Detail_KR { get { return Data.detail; } }
 

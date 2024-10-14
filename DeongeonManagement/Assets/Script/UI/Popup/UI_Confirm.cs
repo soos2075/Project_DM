@@ -110,7 +110,7 @@ public class UI_Confirm : UI_PopUp
 
     bool View_CalcPanel = false;
 
-    public void SetMode_Calculation(int rank, string mana, string gold, string ap)
+    public void SetMode_Calculation(Define.DungeonRank rank, string mana, string gold, string ap)
     {
         View_CalcPanel = true;
 

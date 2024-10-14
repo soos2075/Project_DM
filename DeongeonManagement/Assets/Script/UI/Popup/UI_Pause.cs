@@ -47,7 +47,7 @@ public class UI_Pause : UI_PopUp
         GetButton(((int)Buttons.Language)).gameObject.AddUIEvent((data) => SetLanguage());
         GetButton(((int)Buttons.DataReset)).gameObject.AddUIEvent((data) => DataReset());
 
-        GetButton(((int)Buttons.Manual)).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_Tutorial>());
+        //GetButton(((int)Buttons.Manual)).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_Tutorial>());
     }
 
 

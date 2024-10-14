@@ -16,7 +16,7 @@ public class UI_TooltipBox : UI_PopUp
         SetCanvas();
         Init();
 
-        ViewContents(contents);
+        ViewContents(name, contents);
 
         BoxPosition = position;
     }
@@ -32,7 +32,7 @@ public class UI_TooltipBox : UI_PopUp
     {
         Bind<GameObject>(typeof(Contents));
 
-        //text_Name = GetObject((int)Contents.Title).GetComponent<TextMeshProUGUI>();
+        text_Title = GetObject((int)Contents.Title).GetComponent<TextMeshProUGUI>();
         text_Contents = GetObject((int)Contents.Contents).GetComponent<TextMeshProUGUI>();
     }
 
@@ -85,17 +85,21 @@ public class UI_TooltipBox : UI_PopUp
     enum Contents
     {
         Panel,
-        //Title,
+        Title,
         Contents,
-        //Detail,
     }
 
     RectTransform panel;
-    //TextMeshProUGUI text_Name;
+    TextMeshProUGUI text_Title;
     TextMeshProUGUI text_Contents;
 
-    public void ViewContents(string contents)
+    public void ViewContents(string title, string contents)
     {
+        text_Title.text = title;
+        if (string.IsNullOrEmpty(title))
+        {
+            GetObject((int)Contents.Title).SetActive(false);
+        }
         text_Contents.text = contents;
     }
 

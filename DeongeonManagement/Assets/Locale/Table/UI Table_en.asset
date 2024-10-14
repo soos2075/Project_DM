@@ -195,16 +195,15 @@ MonoBehaviour:
     m_Localized: 'Place various facilities and monsters in your dungeon to give your
       adventurers mana!
 
-      
 
-      Mana is basically earned from most of the
-      actions your adventurers take in the dungeon.
 
-      
+      Mana is basically earned from most of the actions
+      your adventurers take in the dungeon.
 
-      Once you''re
-      done managing your dungeon, you can end your day by hitting End Turn in the
-      top left corner.'
+
+
+      Once you''re done managing your
+      dungeon, you can end your day by hitting End Turn in the top left corner.'
     m_Metadata:
       m_Items: []
   - m_Id: 125754480472066
@@ -470,15 +469,15 @@ MonoBehaviour:
   - m_Id: 43749063683944448
     m_Localized: 'AP is restored to full each turn.
 
-      
 
-      AP is used to
-      train monsters, visit guilds, interact with statues, and more.
 
-      
+      AP is used to train
+      monsters, visit guilds, interact with statues, and more.
 
-      For
-      now, click on the statues!'
+
+
+      For now,
+      click on the statues!'
     m_Metadata:
       m_Items: []
   - m_Id: 44085068026818560
@@ -622,6 +621,42 @@ MonoBehaviour:
     m_Localized: 'This is the end of the demo version.
 
       Thanks for playing!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74451103154122752
+    m_Localized: Acquirable Traits
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74451116328431616
+    m_Localized: Fatigue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74451112478060544
+    m_Localized: Evolution Condition
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74451110376714240
+    m_Localized: Evolution Hint
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74451113702797312
+    m_Localized: Battles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74470872322355200
+    m_Localized: Bonus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74470886645903360
+    m_Localized: Penalty
+    m_Metadata:
+      m_Items: []
+  - m_Id: 74470888411705344
+    m_Localized: Invalidate
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75239382761811968
+    m_Localized: Talk
     m_Metadata:
       m_Items: []
   references:

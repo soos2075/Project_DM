@@ -78,7 +78,7 @@ public class UI_CurrentTechnical : UI_PopUp
                 $"{nextTech.labelName}",
                 () => Upgrade_Confirm(nextTech.Mana, nextTech.Gold, nextTech.UnlockRank, nextTech.Ap, nextTech.action));
 
-            confirm.SetMode_Calculation(nextTech.UnlockRank, $"{nextTech.Mana}", $"{nextTech.Gold}", $"{nextTech.Ap}");
+            confirm.SetMode_Calculation((Define.DungeonRank)nextTech.UnlockRank, $"{nextTech.Mana}", $"{nextTech.Gold}", $"{nextTech.Ap}");
         }
     }
 

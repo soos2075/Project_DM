@@ -68,6 +68,11 @@ public class ContentManager
                             Vector2Int[] boundary = Util.GetBoundary(item.Options[0].Boundary);
                             customFuncList.Add(() => CreateBigOne(item.Options[0].FacilityKeyName, boundary));
                         }
+                        else if (item.Options[0].createType == Contents_CreateType.CreateWall)
+                        {
+                            //Vector2Int[] boundary = Util.GetBoundary(item.Options[0].Boundary);
+                            customFuncList.Add(() => CreateWall(item.Options[0].FacilityKeyName, item.Options[0].Boundary));
+                        }
                     }
                 }
                 if (item.Options.Count > 1)
@@ -426,6 +431,23 @@ public class ContentManager
         if (Main.Instance.CurrentTile.floor.FloorIndex == (int)Define.DungeonFloor.Egg) return false;
 
         return CreateUnique(prefab, boundary);
+    }
+
+    bool CreateWall(string _keyName, Define.Boundary boundary)
+    {
+        if (Main.Instance.CurrentTile == null) return false;
+
+        var tile = Main.Instance.CurrentTile;
+        BasementTile temp = null;
+        if (Main.Instance.CurrentTile.floor.TileMap.TryGetValue(tile.index, out temp))
+        {
+            var info = new PlacementInfo(Main.Instance.CurrentTile.floor, temp);
+            var fa = GameManager.Facility.CreateFacility(_keyName, info);
+            var wall = fa as Custom_Wall;
+            wall.Set_ObstacleOption(boundary);
+        }
+
+        return true;
     }
 
 

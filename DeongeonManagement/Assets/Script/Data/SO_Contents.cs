@@ -64,6 +64,7 @@ public enum Contents_CreateType
 {
     CreateAll,
     CreateOne,
+    CreateWall,
 }
 
 

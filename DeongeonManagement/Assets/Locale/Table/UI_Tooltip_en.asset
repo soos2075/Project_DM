@@ -177,6 +177,42 @@ MonoBehaviour:
     m_Localized: All unit stats +5
     m_Metadata:
       m_Items: []
+  - m_Id: 44245981308596224
+    m_Localized: Draw
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44919874486743040
+    m_Localized: 'Unit''s health.
+
+      When it reaches 0, the unit is injured and
+      retreats.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44919896993378304
+    m_Localized: 'Unit''s attack power.
+
+      Inflicts damage equal to this value.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44919898343944192
+    m_Localized: 'Unit''s defense power.
+
+      Offsets opponent''s attack power
+      by this value.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44919899497377792
+    m_Localized: 'Unit''s speed.
+
+      Affects initiative and number of attacks.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44919902466945024
+    m_Localized: 'Unit''s luck.
+
+      Affects hit rate and evasion rate.'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

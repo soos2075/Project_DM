@@ -27,7 +27,6 @@ public class UI_MonsterBox : UI_Base
     enum Contents
     {
         BG,
-        Line,
         Sprite,
         Name,
         State,
@@ -46,8 +45,6 @@ public class UI_MonsterBox : UI_Base
         ShowContents();
 
         gameObject.AddUIEvent((data) => ParentUpdate());
-
-        GetObject(((int)Contents.Line)).GetComponent<Image>().enabled = false;
     }
 
     
@@ -121,7 +118,6 @@ public class UI_MonsterBox : UI_Base
         GetObject(((int)Contents.State)).GetComponent<TextMeshProUGUI>().text = "";
         GetObject(((int)Contents.Lv)).GetComponent<TextMeshProUGUI>().text = "";
 
-        GetObject(((int)Contents.Line)).GetComponent<Image>().enabled = false;
         GetObject((int)Contents.Face).GetComponent<Image>().sprite = Managers.Sprite.GetClear();
         GetObject((int)Contents.Command).GetComponent<Image>().sprite = Managers.Sprite.GetClear();
     }
@@ -130,17 +126,12 @@ public class UI_MonsterBox : UI_Base
     {
         if (parent.Current == this)
         {
-            GetObject(((int)Contents.Line)).GetComponent<Image>().enabled = true;
             GetObject(((int)Contents.BG)).GetComponent<Image>().sprite = Select;
             return;
         }
 
-
-        GetObject(((int)Contents.Line)).GetComponent<Image>().enabled = false;
         GetObject(((int)Contents.BG)).GetComponent<Image>().sprite = NonSelect;
-
-
-        GetObject(((int)Contents.BG)).GetComponent<Image>().color = color;
+        //GetObject(((int)Contents.BG)).GetComponent<Image>().color = color;
     }
 
 

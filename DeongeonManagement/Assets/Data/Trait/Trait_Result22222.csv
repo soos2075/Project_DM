@@ -1,0 +1,60 @@
+ID,TraitName,Name_KR,Detail_KR,Acquire_KR,Name_EN,Detail_EN,Acquire_EN,Name_JP,Detail_JP,Acquire_JP,Name_SCC,Detail_SCC,Acquire_SCC
+,,,,,,,,,,,,,
+1,Reconfigure,Àç±¸¼º,ºÎ»ó ÇÏ·ç µÚ È¸º¹,°íÀ¯ Æ¯¼º,Reconfigure,Recover after 1 day,Unique Trait,î¢Ï°à÷,1ìíı­ªËüŞÜÖ,Í³êó÷åàõ,ñì?,ìéô¸ı¨üá???,Í³êó÷åàõ
+2,Vitality,È°·Â,ÀüÅõ ½ÃÀÛ ½Ã ÃÖ´ë HPÀÇ 10% È¸º¹,°íÀ¯ Æ¯¼º,Vitality,Heal 10% max HP at battle start,Unique Trait,üÀÕô,??ËÒã·ãÁ - õÌÓŞHPªÎ10%üŞÜÖ,Í³êó÷åàõ,üÀÕô,?Ôà?ã·?üá?õÌÓŞßæÙ¤?îÜ10%,Í³êó÷åàõ
+3,Predation,Æ÷½Ä,ÀûÀ» ¾²·¯Æ®¸± ½Ã HP°¡ ¿µ±¸ÀûÀ¸·Î 1¸¸Å­ Áõ°¡,°íÀ¯ Æ¯¼º,Predation,Permanent +1 HP on kill,Unique Trait,øÚãİ,îØ?÷òãÁ - HPçµÎù+1,Í³êó÷åàõ,øÚãİ,?Óî?ìÑ?çµÎùñòÊ¥1ïÃßæÙ¤?,Í³êó÷åàõ
+4,IronSkin,Ã¶ÇÇºÎ,°ø°İ ½Ã DEFÀÇ 25%¸¸Å­ ¹æ¾î¹«½Ãµ¥¹ÌÁö,°íÀ¯ Æ¯¼º,IronSkin,25% DEF as true damage,Unique Trait,?ù«,Íô?ãÁ - DEFªÎ25%ªòÎ»÷×«À«á?«¸,Í³êó÷åàõ,??ù«?,Íô??ğãà÷ßÓ?éÍÛÁåÙÕô25%îÜ???úª,Í³êó÷åàõ
+5,Friend,Ä£±¸,Ãş¿¡ ÀÖ´Â ´Ù¸¥ À¯´Ö¸¶´Ù ¸ğµç ½ºÅÈ +1,°íÀ¯ Æ¯¼º,Friend,+1 all stats per unit on floor,Unique Trait,éÒ,Í­öµ?ªÎöâ«æ«Ë«Ã«È?ªËîï«¹«Æ?«¿«¹+1,Í³êó÷åàõ,éÒ?,??ß¾Øßêóìé?Ğìöâ?êÈ- á¶êó?àõ+1,Í³êó÷åàõ
+6,Overwhelm,¾Ğµµ,ÀüÅõ ½ÃÀÛ ½Ã »ó´ëÀÇ ÇöÀçÃ¼·Â -20%,°íÀ¯ Æ¯¼º,Overwhelm,-20% enemy current HP at battle start,Unique Trait,?Óî,??ËÒã·ãÁ - îØªÎúŞî¤HPªò20%Êõá´,Í³êó÷åàõ,?Óî,?Ôà?ã·?Ë½î¸?ìÑ20%?îñßæÙ¤?,Í³êó÷åàõ
+7,Nimble,Àçºü¸§,°ø°İ ½Ã µ¥¹ÌÁöÀÇ 50%ÀÇ Ãß°¡°ø°İ,°íÀ¯ Æ¯¼º,Nimble,50% extra attack on hit,Unique Trait,ãöáÜ,Íô?ãÁ - 50%ªÎõÚÊ¥Íô?,Í³êó÷åàõ,ÚÂôß,Íô??ğãà÷50%?èâÍô?,Í³êó÷åàõ
+,,,,,,,,,,,,,
+20,LifeDrain,Á¤±âÈí¼ö,°ø°İ ½Ã µ¥¹ÌÁöÀÇ 25%¸¸Å­ Ã¼·ÂÈí¼ö,°íÀ¯ Æ¯¼º,LifeDrain,Absorb 25% of damage dealt as health,Unique Trait,ßæ?ıå?,Íô?ãÁ - «À«á?«¸ªÎ25%ªòıå?,Í³êó÷åàõ,ßæÙ¤ıåö¢,Íô??ıåâ¥ğãà÷?úªîÜ25%?ûù?ßæÙ¤?,Í³êó÷åàõ
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+201,VeteranC,º£Å×¶ûC,¸ğµç ½ºÅÈ +1,ÀüÅõ È½¼ö 10È¸,VeteranC,All stats +1,Battle 10 times,«Ù«Æ«é«óC,îï«¹«Æ?«¿«¹+1,??üŞ?10üŞ,ÖÕÜ²C,á¶êó?àõ+1,?Ôà10ó­
+202,VeteranB,º£Å×¶ûB,¸ğµç ½ºÅÈ +2,ÀüÅõ È½¼ö 15È¸,VeteranB,All stats +2,Battle 15 times,«Ù«Æ«é«óB,îï«¹«Æ?«¿«¹+2,??üŞ?10üŞ,ÖÕÜ²B,á¶êó?àõ+2,?Ôà15ó­
+203,VeteranA,º£Å×¶ûA,¸ğµç ½ºÅÈ +3,ÀüÅõ È½¼ö 20È¸,VeteranA,All stats +3,Battle 20 times,«Ù«Æ«é«óA,îï«¹«Æ?«¿«¹+3,??üŞ?10üŞ,ÖÕÜ²A,á¶êó?àõ+3,?Ôà20ó­
+,,,,,,,,,,,,,
+301,EliteC,¿¤¸®Æ®C,·¹º§ ¾÷ ½Ã ½ºÅÈ »ó½Â·ü UP,ÈÆ·Ã È½¼ö 5È¸,EliteC,Stat growth UP on level up,Training 5 times,«¨«ê?«ÈC,«ì«Ù«ë«¢«Ã«×ãÁªÎ«¹«Æ?«¿«¹ß¾ã°áãUP,ıºÖ£üŞ?5üŞ,ïñçÈC,ã®???àõğ«ã®áãñòÊ¥,??5ó­
+302,EliteB,¿¤¸®Æ®B,·¹º§ ¾÷ ½Ã ½ºÅÈ »ó½Â·ü UP+,ÈÆ·Ã È½¼ö 10È¸,EliteB,Stat growth UP+ on level up,Training 10 times,«¨«ê?«ÈB,«ì«Ù«ë«¢«Ã«×ãÁªÎ«¹«Æ?«¿«¹ß¾ã°áãUP+,ıºÖ£üŞ?10üŞ,ïñçÈB,ã®???àõğ«ã®áãÓŞøëñòÊ¥,??10ó­
+303,EliteA,¿¤¸®Æ®A,·¹º§ ¾÷ ½Ã ½ºÅÈ »ó½Â·ü UP++,ÈÆ·Ã È½¼ö 15È¸,EliteA,Stat growth UP++ on level up,Training 15 times,«¨«ê?«ÈA,«ì«Ù«ë«¢«Ã«×ãÁªÎ«¹«Æ?«¿«¹ß¾ã°áãUP++,ıºÖ£üŞ?15üŞ,ïñçÈA,ã®???àõğ«ã®áã?îÊñòÊ¥,??15ó­
+,,,,,,,,,,,,,
+401,ShirkingC,²Òº´C,ºÎ»ó È¸º¹ ¸¶³ª -10%,ºÎ»ó 3È¸,ShirkingC,-10% mana for injury heal,Injured 3 times,«µ«ÜªêC,İ¶ß¿üŞÜÖ«Ş«Ê-10%,İ¶ß¿3üŞ,Ô±ù­C,üá???á¶âÍØªÕô^10%,áô?3ó­
+402,ShirkingB,²Òº´B,ºÎ»ó È¸º¹ ¸¶³ª -20%,ºÎ»ó 4È¸,ShirkingB,-20% mana for injury heal,Injured 4 times,«µ«ÜªêB,İ¶ß¿üŞÜÖ«Ş«Ê-20%,İ¶ß¿4üŞ,Ô±ù­B,üá???á¶âÍØªÕô^20%,áô?4ó­
+403,ShirkingA,²Òº´A,ºÎ»ó È¸º¹ ¸¶³ª -30%,ºÎ»ó 5È¸,ShirkingA,-30% mana for injury heal,Injured 5 times,«µ«ÜªêA,İ¶ß¿üŞÜÖ«Ş«Ê-30%,İ¶ß¿5üŞ,Ô±ù­A,üá???á¶âÍØªÕô^30%,áô?5ó­
+,,,,,,,,,,,,,
+501,SurvivabilityC,»ıÁ¸·ÂC,HP +15,¹èÄ¡»óÅÂ·Î 4ÀÏ »ıÁ¸,SurvivabilityC,HP +15,Survive 4 days on placement,ßæğíÕôC,HP+15,ÛÕöÇ?÷¾ªÇ4ìíÊàßæğí,ßæğíÒöÕôC,ßæÙ¤?+15,İ»ßş??ù»ğíüÀ4ô¸
+502,SurvivabilityB,»ıÁ¸·ÂB,HP +30,¹èÄ¡»óÅÂ·Î 7ÀÏ »ıÁ¸,SurvivabilityB,HP +30,Survive 7 days on placement,ßæğíÕôB,HP+30,ÛÕöÇ?÷¾ªÇ7ìíÊàßæğí,ßæğíÒöÕôB,ßæÙ¤?+30,İ»ßş??ù»ğíüÀ7ô¸
+503,SurvivabilityA,»ıÁ¸·ÂA,HP +50,¹èÄ¡»óÅÂ·Î 10ÀÏ »ıÁ¸,SurvivabilityA,HP +50,Survive 10 days on placement,ßæğíÕôA,HP+50,ÛÕöÇ?÷¾ªÇ10ìíÊàßæğí,ßæğíÒöÕôA,ßæÙ¤?+50,İ»ßş??ù»ğíüÀ10ô¸
+504,SurvivabilityS,»ıÁ¸·ÂS,ºÎ»ó´çÇÏÁö ¾ÊÀ½,¹èÄ¡»óÅÂ·Î 15ÀÏ »ıÁ¸,SurvivabilityS,Immune to injuries,Survive 15 days on placement,ßæğíÕôS,İ¶ß¿ª·ªÊª¤,ÛÕöÇ?÷¾ªÇ15ìíÊàßæğí,ßæğíÒöÕôS,Øóæ¹?úª,İ»ßş??ù»ğíüÀ15ô¸
+,,,,,,,,,,,,,
+601,DiscreetC,½ÅÁßÇÔC,ÀüÅõ·Î ¾ò´Â °æÇèÄ¡ +20%,´ë±â»óÅÂ·Î 4ÀÏ,DiscreetC,+20% combat EXP,4 days on standby,?ñìªµC,????ö·+20%,ÓâÑ¦?÷¾ªÇ4ìíÊà,??C,?Ôà?ÔğîÜ???+20%,ÓâÏõ??4ô¸
+602,DiscreetB,½ÅÁßÇÔB,ÀüÅõ·Î ¾ò´Â °æÇèÄ¡ +40%,´ë±â»óÅÂ·Î 6ÀÏ,DiscreetB,+40% combat EXP,6 days on standby,?ñìªµB,????ö·+40%,ÓâÑ¦?÷¾ªÇ6ìíÊà,??B,?Ôà?ÔğîÜ???+40%,ÓâÏõ??6ô¸
+603,DiscreetA,½ÅÁßÇÔA,ÀüÅõ·Î ¾ò´Â °æÇèÄ¡ +60%,´ë±â»óÅÂ·Î 8ÀÏ,DiscreetA,+60% combat EXP,8 days on standby,?ñìªµA,????ö·+60%,ÓâÑ¦?÷¾ªÇ8ìíÊà,??A,?Ôà?ÔğîÜ???+60%,ÓâÏõ??8ô¸
+,,,,,,,,,,,,,
+701,RuthlessC,¹«ÀÚºñC,ATK +3,ÀüÅõ ½Â¸® 10È¸,RuthlessC,ATK +3,Battle Victory 10 times,Ùíí±İèC,ATK +3,??ã­××10üŞ,Ùéï×C,Íô?Õô+3,?Ôà?××10ó­
+702,RuthlessB,¹«ÀÚºñB,ATK +6,ÀüÅõ ½Â¸® 15È¸,RuthlessB,ATK +6,Battle Victory 15 times,Ùíí±İèB,ATK +6,??ã­××15üŞ,Ùéï×B,Íô?Õô+6,?Ôà?××15ó­
+703,RuthlessA,¹«ÀÚºñA,ATK +9,ÀüÅõ ½Â¸® 20È¸,RuthlessA,ATK +9,Battle Victory 20 times,Ùíí±İèA,ATK +9,??ã­××20üŞ,Ùéï×A,Íô?Õô+9,?Ôà?××20ó­
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+7000,Herbalism,¾àÃÊÇĞ,,,Herbalism,,,?õ®?,,,õ®??,,
+7001,Mineralogy,±¤¹°ÇĞ,,,Mineralogy,,,?Úª?,,,?Úª?,,
+7002,Collector,º¸¹°»ç³É²Û,,,Collector,,,?÷®ª·,,,â¥íúÊ«,,
+7003,Overflow,Èê·¯³ÑÄ§,,,Overflow,,,«ª?«Ğ?«Õ«í?,,,ìîõó,,
+,,,,,,,,,,,,,
+8000,Weed,ÀâÃÊ,,,Weed,,,?õ®,,,?õ®,,
+8001,Stone,µ¹¸æÀÌ,,,Stone,,,à´?,,,à´?,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+9000,Militant,ÀüÅõ¿ø,,,Militant,,,?ŞÍ,,,?ÔàìÑ?,,
+9001,Civilian,ºñÀüÅõ¿ø,,,Civilian,,,ìéÚõìÑ,,,Şª?ÔàìÑ?,,
+9002,Trample,Áş¹â±â,,,Trample,,,ÓÎªßªÄª±,,,?ÓÎ,,
+9003,Swiftness,½Å¼ÓÇÔ,,,Swiftness,,,ãöáÜàõ,,,ãöôß,,
+9004,Indomitable,ºÒ±¼ÀÇÀÇÁö,,,Indomitable,,,ÜôÏİªÎëòò¤,,,ÜôÏİëòò¤,,
+9005,Void,°øÇã,,,Void,,,Íö?,,,?Íö,,
+9006,Instructor,±³°ü,,,Instructor,,,?Î¯,,,ò¦??,,
+,,,,,,,,,,,,,
+9900,Hunting:Slime,»ç³É:½½¶óÀÓ,,,Hunting:Slime,,,â­?:«¹«é«¤«à,,,â­?:ŞÈ?Ùµ,,
+9901,Hunting:Golem,»ç³É:°ñ·½,,,Hunting:Golem,,,â­?:«´?«ì«à,,,â­?:ØªßÀ,,
+,,,,,,,,,,,,,

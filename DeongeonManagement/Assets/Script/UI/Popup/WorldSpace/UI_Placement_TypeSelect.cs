@@ -43,12 +43,21 @@ public class UI_Placement_TypeSelect : UI_PopUp, IWorldSpaceUI
         {
             ClosePopUp();
             var monster = Managers.UI.ShowPopUpAlone<UI_Monster_Management>("Monster/UI_Monster_Management");
-            monster.Mode = UI_Monster_Management.Unit_Mode.Placement;
+            //monster.Mode = UI_Monster_Management.Unit_Mode.Placement;
             FindObjectOfType<UI_Management>().FloorPanelClear();
 
         });
 
         GetObject((int)Objects.Place).GetComponent<TextMeshProUGUI>().text = Main.Instance.CurrentFloor.LabelName;
+
+        int nowMonster = Main.Instance.CurrentFloor.monsterList.Count;
+        if (Main.Instance.CurrentFloor.FloorIndex == 0)
+        {
+            nowMonster--;
+        }
+        int maxMonster = nowMonster + Main.Instance.CurrentFloor.MaxMonsterSize;
+
+        GetObject((int)Objects.Monster).GetComponentInChildren<TextMeshProUGUI>().text += $"\n{nowMonster}/{maxMonster}";
 
 
         if (Main.Instance.Turn < 2)

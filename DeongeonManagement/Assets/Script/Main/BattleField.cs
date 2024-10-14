@@ -154,7 +154,7 @@ public class BattleField : MonoBehaviour
                     }
 
                     yield return new WaitUntil(() => ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Idle);
-                    Main.Instance.ShowDM_MSG("Win!", transform.position + (Vector3.up), Color.blue, 1);
+                    Main.Instance.ShowDM_MSG("Win!", transform.position + (Vector3.up), new Color32(0, 255, 136, 255), 1);
                     yield return new WaitForSeconds(0.5f);
                     break;
                 }
@@ -193,7 +193,7 @@ public class BattleField : MonoBehaviour
                     }
 
                     yield return new WaitUntil(() => ani_npc.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Idle);
-                    Main.Instance.ShowDM_MSG("Lose...", transform.position + (Vector3.up), Color.red, 1);
+                    Main.Instance.ShowDM_MSG("Lose...", transform.position + (Vector3.up), new Color32(255, 150, 150, 255), 1);
                     yield return new WaitForSeconds(0.5f);
                     break;
                 }

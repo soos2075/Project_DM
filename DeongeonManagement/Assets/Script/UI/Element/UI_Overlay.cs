@@ -36,9 +36,15 @@ public class UI_Overlay : UI_Base
         autoDest = data => { AutoDestroy(setboolName); };
 
         GetComponent<Image>().sprite = _sprite;
+        //GetComponent<Image>().SetNativeSize();
+        GetComponent<RectTransform>().sizeDelta = new Vector2(_sprite.rect.width * 2, _sprite.rect.height * 2);
+
         parent = _parent;
         parent.AddUIEvent(autoDest);
     }
+
+
+
 
     void AutoDestroy(string setboolName)
     {
@@ -47,4 +53,6 @@ public class UI_Overlay : UI_Base
         parent.RemoveUIEvent(autoDest);
         Managers.Resource.Destroy(this.gameObject);
     }
+
+
 }

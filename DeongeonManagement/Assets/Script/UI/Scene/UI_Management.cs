@@ -18,6 +18,17 @@ public class UI_Management : UI_Base
     private void LateUpdate()
     {
         Texts_Refresh();
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (Main.Instance.Management) return;
+
+            if (Managers.UI._popupStack.Count == 0 && FindAnyObjectByType<UI_Stop>() == null)
+            {
+                Managers.Resource.Instantiate("UI/PopUp/UI_Stop");
+                //Managers.UI.ShowPopUp<UI_Stop>();
+            }
+        }
     }
 
 
@@ -51,6 +62,8 @@ public class UI_Management : UI_Base
     }
     enum Images
     {
+        MainUI,
+
         GameSpeed,
 
         Image_Day_NX,
@@ -317,7 +330,7 @@ public class UI_Management : UI_Base
         var monster = Managers.UI.ClearAndShowPopUp<UI_Monster_Management>("Monster/UI_Monster_Management");
         if (UserData.Instance.FileConfig.Notice_Summon)
         {
-            AddNotice_UI("New", monster, "Summon", "Notice_Summon");
+            AddNotice_UI("New_Small", monster, "Summon", "Notice_Summon");
         }
     }
 
@@ -348,11 +361,11 @@ public class UI_Management : UI_Base
             dungeonEdit = Managers.UI.ClearAndShowPopUp<UI_DungeonEdit>();
             if (UserData.Instance.FileConfig.Notice_Ex4)
             {
-                AddNotice_UI("Notice", dungeonEdit, "Floor_4", "Notice_Ex4");
+                AddNotice_UI("New_Small", dungeonEdit, "Floor_4", "Notice_Ex4");
             }
             if (UserData.Instance.FileConfig.Notice_Ex5)
             {
-                AddNotice_UI("Notice", dungeonEdit, "Floor_5", "Notice_Ex5");
+                AddNotice_UI("New_Small", dungeonEdit, "Floor_5", "Notice_Ex5");
             }
         }
         else
@@ -446,9 +459,14 @@ public class UI_Management : UI_Base
     }
 
 
-    public void EventBoxClose()
+    void EventBoxClose()
     {
         eventBox.BoxActive(false);
+    }
+    void EventBoxOpen()
+    {
+        eventBox.BoxActive(true);
+        eventBox.TextClear();
     }
 
 
@@ -456,7 +474,7 @@ public class UI_Management : UI_Base
     {
         Texts_Refresh();
         GuildButtonNotice();
-        EventBoxClose();
+        //EventBoxClose();
         OverlayImageReset();
     }
 
@@ -465,7 +483,7 @@ public class UI_Management : UI_Base
     {
         if (!Main.Instance.Management) return;
 
-        eventBox.BoxActive(true);
+        //EventBoxOpen();
         eventBox.TextClear();
         Main.Instance.DayChange_Start();
         Texts_Refresh();

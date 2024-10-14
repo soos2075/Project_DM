@@ -269,9 +269,7 @@ public class EventManager : MonoBehaviour
     #endregion
 
 
-
-
-    #region 이벤트 퀘스트 관련 모든 정보 (세이브파일과 연동됨. UserData.SavefileConfig같은거)
+    #region 이벤트 퀘스트 관련 데이터 (세이브파일과 연동됨. UserData.SavefileConfig같은거)
     public ClearEventData CurrentClearEventData { get; set; }
     public class ClearEventData
     {
@@ -371,8 +369,6 @@ public class EventManager : MonoBehaviour
 
 
     #endregion
-
-
 
 
     #region EventDataSave & Load
@@ -591,9 +587,6 @@ public class EventManager : MonoBehaviour
     #endregion
 
 
-
-
-
     #region DayEventPriorityQueue
 
     Dictionary<DayEventLabel, Action> DayEventActionRegister = new Dictionary<DayEventLabel, Action>();
@@ -760,9 +753,7 @@ public class EventManager : MonoBehaviour
     #endregion
 
 
-
-
-    #region 길드 관련
+    #region 모든 이벤트 액션 관련 (길드 포함)
     public int CurrentTurn { get; set; }
 
     //? 길드정보 저장용 - 모든 길드관련 데이터를 가지고있고 씬 변경시에도 사라지지않음. 저장과 불러오기에도 동일하게 사용
@@ -1585,7 +1576,7 @@ public class EventManager : MonoBehaviour
         var cam = Camera.main.GetComponent<CameraControl>();
 
         Vector2Int portalIndex = new Vector2Int(2, 2);
-        Vector2Int eggExit = new Vector2Int(11, 2);
+        Vector2Int eggExit = new Vector2Int(12, 2);
 
         Vector3 floor3 = GetTilePosition(Define.DungeonFloor.Floor_3, portalIndex);
         Vector3 floorEgg = GetTilePosition(Define.DungeonFloor.Egg, eggExit);
@@ -1619,7 +1610,7 @@ public class EventManager : MonoBehaviour
     void FirstPortalAppearSkip()
     {
         Vector2Int portalIndex = new Vector2Int(2, 2);
-        Vector2Int eggExit = new Vector2Int(11, 2);
+        Vector2Int eggExit = new Vector2Int(12, 2);
 
         {
             var tile = Main.Instance.Floor[(int)Define.DungeonFloor.Floor_3].GetRandomTile();
@@ -1721,7 +1712,7 @@ public class EventManager : MonoBehaviour
     public void EntranceMove_4to5()
     {
         Vector2Int portal_4 = new Vector2Int(2, 2);
-        Vector2Int portal_5 = new Vector2Int(6, 19);
+        Vector2Int portal_5 = new Vector2Int(10, 24);
 
         {
             var tile = Main.Instance.Floor[(int)Define.DungeonFloor.Floor_4].GetRandomTile();

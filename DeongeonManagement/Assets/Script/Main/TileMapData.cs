@@ -30,13 +30,14 @@ public class TileMapData : MonoBehaviour
         {
             if (FloorTileMap.HasTile(pos))
             {
+                //Debug.Log($"{gameObject.name} + {FloorTileMap.GetTile(pos).name}");
+
                 if (FloorTileMap.GetTile(pos).name == "_Fixed" || FloorTileMap.GetTile(pos).name == "_Changeable")
                 {
                     //Debug.Log("@@@@");
                     continue;
                 }
                 
-
                 var saveKey = new Vector2Int(pos.x - offset_X, pos.y - offset_Y);
                 dic.Add(saveKey, new BasementTile(saveKey, FloorTileMap.CellToWorld(pos) + new Vector3(0.5f, 0.5f, 0), Define.TileType.Empty, floor));
                 //Debug.Log(saveKey + "@@@@" + pos + "////");

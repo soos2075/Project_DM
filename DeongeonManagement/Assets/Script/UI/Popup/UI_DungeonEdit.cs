@@ -92,7 +92,7 @@ public class UI_DungeonEdit : UI_PopUp
 
         if (Main.Instance.ActiveFloor_Basement == 5 && floorIndex == 5)
         {
-            ExpansionCheck(Define.DungeonFloor.Floor_5, (int)Define.DungeonRank.C, 1500, 750, 3);
+            ExpansionCheck(Define.DungeonFloor.Floor_5, (int)Define.DungeonRank.C, 1000, 500, 3);
             return;
         }
     }
@@ -117,7 +117,7 @@ public class UI_DungeonEdit : UI_PopUp
 
         var ui = Managers.UI.ShowPopUp<UI_Confirm>();
         ui.SetText(UserData.Instance.LocaleText("Confirm_Expansion"), () => StartCoroutine(WaitForAnswer(mana, gold, ap, rank, targetFloor)));
-        ui.SetMode_Calculation(rank, mana.ToString(), gold.ToString(), ap.ToString());
+        ui.SetMode_Calculation((Define.DungeonRank)rank, mana.ToString(), gold.ToString(), ap.ToString());
     }
 
 

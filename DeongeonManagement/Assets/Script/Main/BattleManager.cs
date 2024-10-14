@@ -83,22 +83,22 @@ public class BattleManager : MonoBehaviour
         //Debug.Log(floor + "@@");
         switch (floor)
         {
-            case 0:
+            case 1:
+            case 2:
             case 3:
-            case 6:
+                field.sprite_BG.sprite = Battle_SLA.GetSprite("Field", "3");
+                break;
+
+            case 0:
+            case 4:
+            case 5:
                 field.sprite_BG.sprite = Battle_SLA.GetSprite("Field", "1");
                 break;
 
-            case 1:
-            case 4:
-            case 7:
-                field.sprite_BG.sprite = Battle_SLA.GetSprite("Field", "2");
-                break;
-
-            case 2:
-            case 5:
-            case 8:
-                field.sprite_BG.sprite = Battle_SLA.GetSprite("Field", "3");
+            //case 2:
+            //case 5:
+            //case 8:
+            //    field.sprite_BG.sprite = Battle_SLA.GetSprite("Field", "3");
                 break;
 
             default:

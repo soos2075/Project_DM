@@ -306,7 +306,7 @@ public class UIManager
             SceneUIRefresh();
         }
 
-        if (Time.timeScale == 0)
+        if (Time.timeScale == 0 && Managers.FindAnyObjectByType<UI_Stop>() == null)
         {
             UserData.Instance.GamePlay();
         }

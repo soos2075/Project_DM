@@ -204,7 +204,7 @@ public class Orb : MonoBehaviour
                 var green = $"{UserData.Instance.LocaleText_Tooltip("Orb_Green")}\n" +
                     $"({UserData.Instance.LocaleText_Tooltip("Orb_Green_Detail")})";
                 ui.SetText(green, () => Confirm(ap: 2, mana: 750, gold: 250));
-                ui.SetMode_Calculation((int)Define.DungeonRank.F, "750", "250", "2");
+                ui.SetMode_Calculation(Define.DungeonRank.F, "750", "250", "2");
                 break;
 
 
@@ -212,7 +212,7 @@ public class Orb : MonoBehaviour
                 var yellow = $"{UserData.Instance.LocaleText_Tooltip("Orb_Yellow")}\n" +
                     $"({UserData.Instance.LocaleText_Tooltip("Orb_Yellow_Detail")})";
                 ui.SetText(yellow, () => Confirm(ap: 2, mana: 750, gold: 250));
-                ui.SetMode_Calculation((int)Define.DungeonRank.F, "750", "250", "2");
+                ui.SetMode_Calculation(Define.DungeonRank.F, "750", "250", "2");
                 break;
 
 
@@ -220,7 +220,7 @@ public class Orb : MonoBehaviour
                 var blue = $"{UserData.Instance.LocaleText_Tooltip("Orb_Blue")}\n" +
                     $"({UserData.Instance.LocaleText_Tooltip("Orb_Blue_Detail")})";
                 ui.SetText(blue, () => Confirm(mana: 3000, gold: 0, ap: 3));
-                ui.SetMode_Calculation((int)Define.DungeonRank.D, "3000", "0", "3");
+                ui.SetMode_Calculation(Define.DungeonRank.D, "3000", "0", "3");
                 break;
 
 
@@ -228,7 +228,7 @@ public class Orb : MonoBehaviour
                 var red = $"{UserData.Instance.LocaleText_Tooltip("Orb_Red")}\n" +
                     $"({UserData.Instance.LocaleText_Tooltip("Orb_Red_Detail")})";
                 ui.SetText(red, () => Confirm(mana: 1000, gold: 2000, ap: 4));
-                ui.SetMode_Calculation((int)Define.DungeonRank.C, "1000", "2000", "4");
+                ui.SetMode_Calculation(Define.DungeonRank.C, "1000", "2000", "4");
                 break;
         }
     }

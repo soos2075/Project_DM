@@ -31,6 +31,7 @@ public class UI_Summon_Monster : UI_PopUp
     {
         Return,
         Confirm,
+        Management,
     }
     enum Info
     {
@@ -41,6 +42,8 @@ public class UI_Summon_Monster : UI_PopUp
         NeedMana,
         NeedGold,
         NeedAp,
+
+        UnitCount,
     }
 
     enum Panels
@@ -64,6 +67,8 @@ public class UI_Summon_Monster : UI_PopUp
         Init_Texts();
         Clear_NeedText();
         Init_Contents();
+
+        GetTMP((int)Info.UnitCount).GetComponent<TextMeshProUGUI>().text = $"{GameManager.Monster.GetCurrentMonster()}/{GameManager.Monster.GetSlotSize()}";
     }
 
     void Init_Panels()
@@ -92,6 +97,7 @@ public class UI_Summon_Monster : UI_PopUp
     void Init_Buttons()
     {
         GetButton((int)Buttons.Return).gameObject.AddUIEvent(data => ClosePopUp());
+        GetButton((int)Buttons.Management).gameObject.AddUIEvent(data => ClosePopUp());
     }
 
     void Init_Contents()
@@ -262,6 +268,7 @@ public class UI_Summon_Monster : UI_PopUp
             if (ConfirmCheck(data.manaCost))
             {
                 SummonConfirm(data);
+                GetTMP((int)Info.UnitCount).GetComponent<TextMeshProUGUI>().text = $"{GameManager.Monster.GetCurrentMonster()}/{GameManager.Monster.GetSlotSize()}";
             }
         }
         else

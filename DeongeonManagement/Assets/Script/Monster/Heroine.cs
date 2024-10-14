@@ -10,6 +10,8 @@ public class Heroine : Monster
     {
         Data = GameManager.Monster.GetData("Heroine");
         Trait_Original();
+
+        UnitDialogueEvent.AddEvent(190100);
     }
 
     void Trait_Original()

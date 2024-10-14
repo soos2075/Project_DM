@@ -174,12 +174,18 @@ public class Define
         monster_green,
 
         SkyBlue,
-        LightGreen,
-        LightYellow,
+        HeavyGreen,
+        HeavyYellow,
 
         Plus_Green,
         Plus_Blue,
         Plus_Red,
+
+        New_Brown,
+        New_BrownLight,
+        New_Beige,
+
+        LightYellow,
     }
 
 

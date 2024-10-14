@@ -82,11 +82,14 @@ public class UI_CollectionUnit : UI_Base
         InitAndSetData(parent);
         Data_Monster = data;
 
+        GetObject((int)Objects.UnitSprite).GetComponent<Image>().sprite =
+            Managers.Sprite.Get_SLA(SpriteManager.Library.Monster, data.unit.SLA_category, data.unit.SLA_label);
+        GetObject((int)Objects.UnitSprite).GetComponent<Image>().color = Color.black;
+        GetObject((int)Objects.UnitName).GetComponent<TextMeshProUGUI>().text = "? ? ?";
+
         if (data.info.isRegist)
         {
             GetObject((int)Objects.UnitSprite).GetComponent<Image>().color = Color.white;
-            GetObject((int)Objects.UnitSprite).GetComponent<Image>().sprite = 
-                Managers.Sprite.Get_SLA(SpriteManager.Library.Monster, data.unit.SLA_category, data.unit.SLA_label);
             GetObject((int)Objects.UnitName).GetComponent<TextMeshProUGUI>().text = data.unit.labelName;
         }
     }
@@ -95,11 +98,14 @@ public class UI_CollectionUnit : UI_Base
         InitAndSetData(parent);
         Data_Facility = data;
 
+        GetObject((int)Objects.UnitSprite).GetComponent<Image>().sprite =
+            Managers.Sprite.Get_SLA(SpriteManager.Library.Facility, data.unit.SLA_category, data.unit.SLA_label);
+        GetObject((int)Objects.UnitSprite).GetComponent<Image>().color = Color.black;
+        GetObject((int)Objects.UnitName).GetComponent<TextMeshProUGUI>().text = "? ? ?";
+
         if (data.info.isRegist)
         {
             GetObject((int)Objects.UnitSprite).GetComponent<Image>().color = Color.white;
-            GetObject((int)Objects.UnitSprite).GetComponent<Image>().sprite = 
-                Managers.Sprite.Get_SLA(SpriteManager.Library.Facility, data.unit.SLA_category, data.unit.SLA_label);
             GetObject((int)Objects.UnitName).GetComponent<TextMeshProUGUI>().text = data.unit.labelName;
         }
     }
@@ -108,11 +114,14 @@ public class UI_CollectionUnit : UI_Base
         InitAndSetData(parent);
         Data_NPC = data;
 
+        GetObject((int)Objects.UnitSprite).GetComponent<Image>().sprite =
+            Managers.Sprite.Get_SLA(SpriteManager.Library.NPC, data.unit.SLA_category, data.unit.SLA_label);
+        GetObject((int)Objects.UnitSprite).GetComponent<Image>().color = Color.black;
+        GetObject((int)Objects.UnitName).GetComponent<TextMeshProUGUI>().text = "? ? ?";
+
         if (data.info.isRegist)
         {
             GetObject((int)Objects.UnitSprite).GetComponent<Image>().color = Color.white;
-            GetObject((int)Objects.UnitSprite).GetComponent<Image>().sprite = 
-                Managers.Sprite.Get_SLA(SpriteManager.Library.NPC, data.unit.SLA_category, data.unit.SLA_label);
             GetObject((int)Objects.UnitName).GetComponent<TextMeshProUGUI>().text = data.unit.labelName;
         }
     }
@@ -121,11 +130,14 @@ public class UI_CollectionUnit : UI_Base
         InitAndSetData(parent);
         Data_Technical = data;
 
+        GetObject((int)Objects.UnitSprite).GetComponent<Image>().sprite =
+            Managers.Sprite.Get_SLA(SpriteManager.Library.Technical, data.unit.SLA_categoty, data.unit.SLA_label);
+        GetObject((int)Objects.UnitSprite).GetComponent<Image>().color = Color.black;
+        GetObject((int)Objects.UnitName).GetComponent<TextMeshProUGUI>().text = "? ? ?";
+
         if (data.info.isRegist)
         {
             GetObject((int)Objects.UnitSprite).GetComponent<Image>().color = Color.white;
-            GetObject((int)Objects.UnitSprite).GetComponent<Image>().sprite = 
-                Managers.Sprite.Get_SLA(SpriteManager.Library.Technical, data.unit.SLA_categoty, data.unit.SLA_label);
             GetObject((int)Objects.UnitName).GetComponent<TextMeshProUGUI>().text = data.unit.labelName;
         }
     }

@@ -27,8 +27,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     }
 
     public string Name_Color { get { return $"{name_Tag_Start}{CallName}{name_Tag_End}"; } }
-    private string name_Tag_Start = "<color=#44ff44ff>";
-    private string name_Tag_End = "</color>";
+    private string name_Tag_Start = "<b>";//"<color=#44ff44ff>";
+    private string name_Tag_End = "</b>";//"</color>";
 
     public virtual string Detail_KR { get { return Data.detail; } }
 
@@ -165,6 +165,11 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         LoadTraitList(_LoadData.currentTraitList);
 
         //Debug.Log($"훈련카운트 : {traitCounter.TrainingCounter}");
+
+        if (_LoadData.unitEvent != null)
+        {
+            UnitDialogueEvent = _LoadData.unitEvent.DeepCopy();
+        }
     }
 
     #endregion
@@ -270,8 +275,12 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
 
 
-    int HP_Final { get { return HP + Trait_HP; } }
-    int HPMax_Final { get { return HP_Max + Trait_HP; } }
+    int HP_Final { get { return HP + Trait_HP + HP_Bonus; } }
+    int HPMax_Final { get { return HP_Max + Trait_HP + HP_Bonus; } }
+
+
+    int HP_Bonus { get { return HP_Hospital; } }
+
 
 
     int ATK_Final { get { return ATK + AllStat_Bonus + Trait_ATK + ATK_Bonus; } }
@@ -290,6 +299,9 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     int AllStat_Bonus { get { return Orb_Bonus + Floor_Bonus + Trait_Friend + Trait_Veteran; } }
 
 
+
+    //? Technical Bonus
+    int HP_Hospital { get { return GameManager.Technical.Get_Technical<Hospital>() != null ? 15 : 0; } }
 
     //? 전투의 오브 활성화 보너스
     int Orb_Bonus { get { return GameManager.Buff.CurrentBuff.Orb_red > 0 ? 5 : 0; } }
@@ -1268,6 +1280,73 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
 
 
+    #region Management - 관리 UI에서 하는 작업들 (레벨업, 이벤트, 훈련 부상 회복 등등)
+
+    //? 몬스터 대화 리스트 / 저장 및 로드 해야되고 이게 있으면 이벤트 활성화하면댐
+    public UnitEvent UnitDialogueEvent { get; set; } = new UnitEvent();
+
+    public class UnitEvent
+    {
+        public HashSet<int> CurrentEventList;
+        public HashSet<int> ClearEventList;
+
+
+        public UnitEvent()
+        {
+            CurrentEventList = new HashSet<int>();
+            ClearEventList = new HashSet<int>();
+        }
+
+        public UnitEvent DeepCopy()
+        {
+            var newEvent = new UnitEvent();
+
+            newEvent.CurrentEventList = new HashSet<int>(CurrentEventList);
+            newEvent.ClearEventList = new HashSet<int>(ClearEventList);
+
+            return newEvent;
+        }
+
+        public void AddEvent(int dialogueNumber)
+        {
+            if (ClearEventList.Contains(dialogueNumber) == false)
+            {
+                CurrentEventList.Add(dialogueNumber);
+            }
+        }
+        public void ClearEvent(int dialogueNumber)
+        {
+            CurrentEventList.Remove(dialogueNumber);
+            ClearEventList.Add(dialogueNumber);
+        }
+
+        public bool ExistCurrentEvent()
+        {
+            return CurrentEventList.Count > 0 ? true : false;
+        }
+
+        public int GetDialogue(bool Callback_Clear)
+        {
+            int number = int.MaxValue;
+
+            foreach (var item in CurrentEventList)
+            {
+                if (item < number)
+                {
+                    number = item;
+                }
+            }
+
+            if (Callback_Clear) //? 호출과 동시에 클리어할꺼면 이 값을 true로
+            {
+                ClearEvent(number);
+            }
+
+            return number;
+        }
+    }
+
+
 
     public void Recover(int mana)
     {
@@ -1407,7 +1486,54 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
 
 
+    public void StatUP(StatEnum stat, int value, bool uiOpen)
+    {
+        if (uiOpen)
+        {
+            var ui = Managers.UI.ShowPopUp<UI_StatusUp>("Monster/UI_StatusUp");
+            ui.TargetMonster(this);
+        }
+
+        switch (stat)
+        {
+            case StatEnum.HP:
+                HP += value;
+                HP_Max += value;
+                break;
+
+            case StatEnum.ATK:
+                ATK += value;
+                break;
+
+            case StatEnum.DEF:
+                DEF += value;
+                break;
+
+            case StatEnum.AGI:
+                AGI += value;
+                break;
+
+            case StatEnum.LUK:
+                LUK += value;
+                break;
+
+            case StatEnum.LV:
+                LV += value;
+                break;
+        }
+    }
+    #endregion
+
 
 }
 
+public enum StatEnum
+{
+    HP,
+    ATK,
+    DEF,
+    AGI,
+    LUK,
+    LV,
+}
 

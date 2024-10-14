@@ -15,12 +15,12 @@ public class UI_DayResult : UI_PopUp
 
     enum ResultText
     {
-        Mana_Result_Get,
-        Mana_Result_Use,
+        //Mana_Result_Get,
+        //Mana_Result_Use,
         Mana_Result,
 
-        Gold_Result_Get,
-        Gold_Result_Use,
+        //Gold_Result_Get,
+        //Gold_Result_Use,
         Gold_Result,
 
 
@@ -35,11 +35,13 @@ public class UI_DayResult : UI_PopUp
 
         //? 몬스터
         Monster_Battle,
-        Monster_Victory,
-        Monster_Defeat,
         Monster_LvUp,
         Monster_Trait,
         Monster_Evolution,
+
+        Monster_Victory,
+        Monster_Draw,
+        Monster_Defeat,
 
 
         //? 던전
@@ -50,17 +52,10 @@ public class UI_DayResult : UI_PopUp
 
     enum SubTitle  //? (GridLayoutGroup) / 각 항목은 최대 6개까지.
     {
-        //? 항목 이름 
-        SubTitle_Mana_Get,
-        SubTitle_Mana_Use,
-        SubTitle_Gold_Get,
-        SubTitle_Gold_Use,
 
-        //? 실제 입력값
-        Value_Mana_Get,
-        Value_Mana_Use,
-        Value_Gold_Get,
-        Value_Gold_Use,
+        //? 마나랑 골드 필드
+        ManaGroup,
+        GoldGroup,
     }
 
     enum Etcs
@@ -109,10 +104,11 @@ public class UI_DayResult : UI_PopUp
     void ShowResult()
     {
         //? 마나 획득ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-        ResultCheckAndShow(Result.Mana_Get_Facility, SubTitle.Value_Mana_Get, SubTitle.SubTitle_Mana_Get, "시설");
-        ResultCheckAndShow(Result.Mana_Get_Artifacts, SubTitle.Value_Mana_Get, SubTitle.SubTitle_Mana_Get, "아티팩트");
-        ResultCheckAndShow(Result.Mana_Get_Monster, SubTitle.Value_Mana_Get, SubTitle.SubTitle_Mana_Get, "전투");
-        ResultCheckAndShow(Result.Mana_Get_Etc, SubTitle.Value_Mana_Get, SubTitle.SubTitle_Mana_Get, "기타등등");
+        Add_ValueBox(SubTitle.ManaGroup, "Facility", "시설", Result.Mana_Get_Facility, Result.Mana_Use_Facility);
+        Add_ValueBox(SubTitle.ManaGroup, "Battle", "유닛", Result.Mana_Get_Monster, Result.Mana_Use_Monster);
+        Add_ValueBox(SubTitle.ManaGroup, "Etc", "기타등등", Result.Mana_Get_Etc, Result.Mana_Use_Etc);
+        Add_ValueBox(SubTitle.ManaGroup, "Artifact", "아티팩트", Result.Mana_Get_Artifacts);
+
 
         //? 마나 보너스 처리
         int mana_Temp = Result.Mana_Get_Etc + Result.Mana_Get_Facility + Result.Mana_Get_Monster + Result.Mana_Get_Artifacts;
@@ -123,31 +119,37 @@ public class UI_DayResult : UI_PopUp
         Debug.Log($"비율은{ratio} @@ 보너스는 {mana_bonus}");
 
         Result.AddMana(mana_bonus, Main.DayResult.EventType.ResultBonus);
-        ResultCheckAndShow(Result.Mana_Get_Bonus, SubTitle.Value_Mana_Get, SubTitle.SubTitle_Mana_Get, "보너스");
-
-
-        //? 마나 사용ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-        ResultCheckAndShow(Result.Mana_Use_Facility, SubTitle.Value_Mana_Use, SubTitle.SubTitle_Mana_Use, "시설 배치");
-        ResultCheckAndShow(Result.Mana_Use_Monster, SubTitle.Value_Mana_Use, SubTitle.SubTitle_Mana_Use, "유닛");
-        ResultCheckAndShow(Result.Mana_Use_Etc, SubTitle.Value_Mana_Use, SubTitle.SubTitle_Mana_Use, "기타등등");
+        Add_ValueBox(SubTitle.ManaGroup, "Bonus", "보너스", Result.Mana_Get_Bonus);
+        //ResultCheckAndShow(Result.Mana_Get_Bonus, SubTitle.Value_Mana_Get, SubTitle.SubTitle_Mana_Get, "보너스");
 
 
         //? 마나 최종 계산ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
         int get_Mana = mana_Temp + mana_bonus;
         int use_Mana = Result.Mana_Use_Etc + Result.Mana_Use_Facility + Result.Mana_Use_Monster;
 
-        GetTMP((int)ResultText.Mana_Result_Get).text = $"{get_Mana}";
-        GetTMP((int)ResultText.Mana_Result_Use).text = $"{use_Mana * -1}";
-        GetTMP((int)ResultText.Mana_Result).text = $"{get_Mana - use_Mana}";
+        //GetTMP((int)ResultText.Mana_Result_Get).text = $"{get_Mana}";
+        //GetTMP((int)ResultText.Mana_Result_Use).text = $"{use_Mana * -1}";
+        int manaResult = get_Mana - use_Mana;
+        if (manaResult > 0)
+        {
+            GetTMP((int)ResultText.Mana_Result).text = $"+{manaResult}";
+        }
+        else
+        {
+            GetTMP((int)ResultText.Mana_Result).text = $"{manaResult}";
+        }
+
+
 
 
 
 
         //? 골드 획득ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-        ResultCheckAndShow(Result.Gold_Get_Facility, SubTitle.Value_Gold_Get, SubTitle.SubTitle_Gold_Get, "시설");
-        ResultCheckAndShow(Result.Gold_Get_Monster, SubTitle.Value_Gold_Get, SubTitle.SubTitle_Gold_Get, "전투");
-        ResultCheckAndShow(Result.Gold_Get_Technical, SubTitle.Value_Gold_Get, SubTitle.SubTitle_Gold_Get, "특수 시설");
-        ResultCheckAndShow(Result.Gold_Get_Etc, SubTitle.Value_Gold_Get, SubTitle.SubTitle_Gold_Get, "기타등등");
+        Add_ValueBox(SubTitle.GoldGroup, "Facility", "시설", Result.Gold_Get_Facility, Result.Gold_Use_Facility);
+        Add_ValueBox(SubTitle.GoldGroup, "Battle", "유닛", Result.Gold_Get_Monster, Result.Gold_Use_Monster);
+        Add_ValueBox(SubTitle.GoldGroup, "Etc", "기타등등", Result.Gold_Get_Etc, Result.Gold_Use_Etc);
+        Add_ValueBox(SubTitle.GoldGroup, "Technical", "특수 시설", Result.Gold_Get_Technical, Result.Gold_Use_Technical);
+
 
         //? 골드 보너스 처리
         int gold_Temp = Result.Gold_Get_Etc + Result.Gold_Get_Facility + Result.Gold_Get_Monster + Result.Gold_Get_Technical;
@@ -157,24 +159,27 @@ public class UI_DayResult : UI_PopUp
         Debug.Log($"골드비율은{ratio_gold} @@ 골드보너스는 {gold_bonus}");
 
         Result.AddGold(gold_bonus, Main.DayResult.EventType.ResultBonus);
-        ResultCheckAndShow(Result.Gold_Get_Bonus, SubTitle.Value_Gold_Get, SubTitle.SubTitle_Gold_Get, "보너스");
-
-
-        //? 골드 사용ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-        ResultCheckAndShow(Result.Gold_Use_Facility, SubTitle.Value_Gold_Use, SubTitle.SubTitle_Gold_Use, "시설 배치");
-        ResultCheckAndShow(Result.Gold_Use_Monster, SubTitle.Value_Gold_Use, SubTitle.SubTitle_Gold_Use, "유닛");
-        ResultCheckAndShow(Result.Gold_Use_Etc, SubTitle.Value_Gold_Use, SubTitle.SubTitle_Gold_Use, "기타등등");
-
+        Add_ValueBox(SubTitle.ManaGroup, "Bonus", "보너스", Result.Gold_Get_Bonus);
+        //ResultCheckAndShow(Result.Gold_Get_Bonus, SubTitle.Value_Gold_Get, SubTitle.SubTitle_Gold_Get, "보너스");
 
 
         //? 골드 최종 계산 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
         int get_Gold = gold_Temp + gold_bonus;
         int use_Gold = Result.Gold_Use_Etc + Result.Gold_Use_Facility + Result.Gold_Use_Monster;
 
-        GetTMP((int)ResultText.Gold_Result_Get).text = $"{get_Gold}";
-        GetTMP((int)ResultText.Gold_Result_Use).text = $"{use_Gold * -1}";
-        GetTMP((int)ResultText.Gold_Result).text = $"{get_Gold - use_Gold}";
+        //GetTMP((int)ResultText.Gold_Result_Get).text = $"{get_Gold}";
+        //GetTMP((int)ResultText.Gold_Result_Use).text = $"{use_Gold * -1}";
 
+        int goldResult = get_Gold - use_Gold;
+        if (goldResult > 0)
+        {
+            GetTMP((int)ResultText.Gold_Result).text = $"+{goldResult}";
+        }
+        else
+        {
+            GetTMP((int)ResultText.Gold_Result).text = $"{goldResult}";
+        }
+        GetTMP((int)ResultText.Gold_Result).text = $"{get_Gold - use_Gold}";
 
 
 
@@ -191,12 +196,14 @@ public class UI_DayResult : UI_PopUp
 
         //? ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ몬스터
         GetTMP((int)ResultText.Monster_Battle).text = $"{Result.Monster_Battle}";
-        GetTMP((int)ResultText.Monster_Victory).text = $"{Result.Monster_Victory}";
-        GetTMP((int)ResultText.Monster_Defeat).text = $"{Result.Monster_Defeat}";
         GetTMP((int)ResultText.Monster_LvUp).text = $"{Result.Monster_LvUp}";
         GetTMP((int)ResultText.Monster_Trait).text = $"{Result.Monster_Trait}";
         GetTMP((int)ResultText.Monster_Evolution).text = $"{Result.Monster_Evolution}";
 
+        GetTMP((int)ResultText.Monster_Victory).text = $"{Result.Monster_Victory}";
+        GetTMP((int)ResultText.Monster_Defeat).text = $"{Result.Monster_Defeat}";
+        int draw = Result.Monster_Battle - (Result.Monster_Victory + Result.Monster_Defeat);
+        GetTMP((int)ResultText.Monster_Draw).text = $"{draw}";
 
         //? ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ던전
         GetTMP((int)ResultText.Dungeon_Pop).text = $"{Result.Origin_Pop} → {Current.Origin_Pop}";
@@ -211,14 +218,6 @@ public class UI_DayResult : UI_PopUp
     }
 
 
-    void ResultCheckAndShow(int value, SubTitle valueBox, SubTitle titleBox, string localText)
-    {
-        if (value > 0)
-        {
-            Show_SubTitle($"{value}", valueBox);
-            Show_SubTitle(UserData.Instance.LocaleText(localText), titleBox);
-        }
-    }
 
     void Init_SubTitle()
     {
@@ -227,24 +226,46 @@ public class UI_DayResult : UI_PopUp
             var sub = Get<GridLayoutGroup>(i);
             for (int j = 0; j < sub.transform.childCount; j++)
             {
-                sub.transform.GetChild(j).GetComponent<TextMeshProUGUI>().text = "";
+                sub.transform.GetChild(i).Find("Image").GetComponent<Image>().sprite = Managers.Sprite.GetClear();
+                sub.transform.GetChild(i).Find("Title").GetComponent<TextMeshProUGUI>().text = "";
+                sub.transform.GetChild(i).Find("Value").GetComponent<TextMeshProUGUI>().text = "";
                 sub.transform.GetChild(j).gameObject.SetActive(false);
             }
         }
     }
-    void Show_SubTitle(string titleName, SubTitle boxName)
+
+
+    void Add_ValueBox(SubTitle boxName, string imageName, string titleName, int value_Add, int value_Sub = 0)
     {
+        if (value_Sub == 0 && value_Add == 0)
+        {
+            return;
+        }
+
         var sub = Get<GridLayoutGroup>((int)boxName);
+
         for (int i = 0; i < sub.transform.childCount; i++)
         {
             if (sub.transform.GetChild(i).gameObject.activeInHierarchy == false)
             {
                 sub.transform.GetChild(i).gameObject.SetActive(true);
-                sub.transform.GetChild(i).GetComponent<TextMeshProUGUI>().text = titleName;
+                sub.transform.GetChild(i).Find("Image").GetComponent<Image>().sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "DayResult", imageName);
+                sub.transform.GetChild(i).Find("Title").GetComponent<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText(titleName)}";
+
+                if (value_Sub != 0)
+                {
+                    sub.transform.GetChild(i).Find("Value").GetComponent<TextMeshProUGUI>().text = $"{value_Add} - {value_Sub} = {value_Add - value_Sub}";
+                }
+                else
+                {
+                    sub.transform.GetChild(i).Find("Value").GetComponent<TextMeshProUGUI>().text = $"{value_Add}";
+                }
+
                 break;
             }
         }
     }
+
 
 
 

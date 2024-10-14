@@ -22,6 +22,7 @@ public class UI_CheatInput : UI_PopUp
         Input_AP,
         Input_Popular,
         Input_Danger,
+        Input_Rank,
     }
 
     enum Buttons
@@ -124,6 +125,15 @@ public class UI_CheatInput : UI_PopUp
             {
                 var value = int.Parse(input);
                 Main.Instance.Player_AP = (value);
+            }
+        }
+
+        {
+            var input = GetObject((int)InputField.Input_Rank).GetComponent<TMP_InputField>().text;
+            if (string.IsNullOrEmpty(input) == false)
+            {
+                var value = int.Parse(input);
+                Main.Instance.DungeonRank = (value);
             }
         }
 

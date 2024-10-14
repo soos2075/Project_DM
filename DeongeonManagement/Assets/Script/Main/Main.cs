@@ -113,13 +113,13 @@ public class Main : MonoBehaviour
             case TextType.danger:
                 _msg += "danger";
                 var dm2 = origin.Spawn(offset, _msg);
-                dm2.SetColor(Color.red);
+                dm2.SetColor(new Color32(255, 60, 60, 255));
                 break;
 
             case TextType.mana:
                 _msg += "mana";
                 var dm3 = origin.Spawn(offset, _msg);
-                dm3.SetColor(Color.blue);
+                dm3.SetColor(new Color32(50, 208, 255, 255));
                 break;
 
             case TextType.gold:
@@ -419,6 +419,19 @@ public class Main : MonoBehaviour
                     }
                 }
             }
+            if (ActiveFloor_Basement == 6)
+            {
+                Technical_Expansion();
+                var fa = Floor[5].GetFloorObjectList(Define.TileType.Facility);
+                foreach (var item in fa)
+                {
+                    if (item.Original is RemoveableObstacle)
+                    {
+                        var ro = item.Original as RemoveableObstacle;
+                        ro.Show_Sprite();
+                    }
+                }
+            }
         }
     }
     public void Technical_Expansion()
@@ -453,7 +466,7 @@ public class Main : MonoBehaviour
 
 
     //private int _dungeonRank;
-    public int DungeonRank { get; private set; } = 1;
+    public int DungeonRank { get; set; } = 1;
     //public string DungeonRank_Alphabet { get { return ((Define.DungeonRank)_dungeonRank).ToString(); } }
     public void Dungeon_RankUP()
     {
@@ -739,6 +752,7 @@ public class Main : MonoBehaviour
 
     IEnumerator Show_DayResult()
     {
+        yield return null;
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
 

@@ -78,7 +78,7 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
         {
             case PlacementType.Monster:
                 var monster = current as Monster;
-                view.ViewDetail($"{monster.HP}/{monster.HP_Max}".SetTextColorTag(Define.TextColor.LightGreen));
+                view.ViewDetail($"{monster.HP}/{monster.HP_Max}".SetTextColorTag(Define.TextColor.HeavyGreen));
                 break;
 
             case PlacementType.NPC:
@@ -132,7 +132,8 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
 
                 case PlacementType.Facility:
                     var facil = CurrentTile.Original as Facility;
-                    if (facil.GetType() == typeof(Obstacle) || facil.GetType() == typeof(Obstacle_Wall) || facil.GetType() == typeof(RemoveableObstacle))
+                    if (facil.GetType() == typeof(Obstacle) || facil.GetType() == typeof(Obstacle_Wall) 
+                        || facil.GetType() == typeof(RemoveableObstacle) || facil.GetType() == typeof(Custom_Wall))
                     {
                         Managers.UI.ClosePopupPick(view);
                         return;
@@ -142,14 +143,14 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
                     {
                         var clone = facil as Clone_Facility;
                         if (clone.OriginalTarget.GetType() == typeof(Obstacle) || clone.OriginalTarget.GetType() == typeof(Obstacle_Wall) 
-                            || clone.OriginalTarget.GetType() == typeof(RemoveableObstacle))
+                            || clone.OriginalTarget.GetType() == typeof(RemoveableObstacle) || clone.OriginalTarget.GetType() == typeof(Custom_Wall))
                         {
                             Managers.UI.ClosePopupPick(view);
                             return;
                         }
                     }
 
-                    _title = _title.SetTextColorTag(Define.TextColor.white);
+                    //_title = _title.SetTextColorTag(Define.TextColor.white);
                     break;
             }
 
@@ -175,13 +176,13 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
                                 return;
                             }
                         }
-                        view.ViewDetail($"{facil.InteractionOfTimes + facil.IOT_Temp}/{facil.Data.interactionOfTimes}".SetTextColorTag(Define.TextColor.LightYellow));
+                        view.ViewDetail($"{facil.InteractionOfTimes + facil.IOT_Temp}/{facil.Data.interactionOfTimes}".SetTextColorTag(Define.TextColor.HeavyYellow));
                     }
                     break;
 
                 case PlacementType.Monster:
                     var monster = CurrentTile.Original as Monster;
-                    view.ViewDetail($"{monster.B_HP}/{monster.HP_Max}".SetTextColorTag(Define.TextColor.LightGreen));
+                    view.ViewDetail($"{monster.B_HP}/{monster.HP_Max}".SetTextColorTag(Define.TextColor.HeavyGreen));
                     break;
 
                 case PlacementType.NPC:

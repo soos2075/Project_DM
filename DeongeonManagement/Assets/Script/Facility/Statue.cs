@@ -87,12 +87,12 @@ public class Statue : Facility, IWall
 
             case StatueType.Statue_Gold:
                 ui.SetText($"{UserData.Instance.LocaleText("Confirm_GoldStatue")}", () => Statue_Gold());
-                ui.SetMode_Calculation(0, "0", "+50~100", "1");
+                ui.SetMode_Calculation(Define.DungeonRank.F, "0", "+50~100", "1");
                 break;
 
             case StatueType.Statue_Mana:
                 ui.SetText($"{UserData.Instance.LocaleText("Confirm_ManaStatue")}", () => Statue_Mana());
-                ui.SetMode_Calculation(0, "+75~150", "0", "1");
+                ui.SetMode_Calculation(Define.DungeonRank.F, "+75~150", "0", "1");
                 break;
 
             case StatueType.Statue_Dog:

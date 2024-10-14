@@ -18,7 +18,7 @@ public class CameraControl : MonoBehaviour
 
 
     Camera mainCam;
-    PixelPerfectCamera pixelCam;
+    public PixelPerfectCamera pixelCam;
     public bool Move { get; set; }
 
 
@@ -53,7 +53,7 @@ public class CameraControl : MonoBehaviour
         //? 그리고 그거 구현하고나면 타임스케일 리턴 위로 위치 옮겨야함. 일단은 pause만 구현
         Key_Esc();
 
-        if (Time.timeScale == 0) return;
+        if (Time.timeScale == 0 && FindObjectOfType<UI_Stop>() == null) return;
 
         limit_left = -1500 / (mainCam.orthographicSize * mainCam.orthographicSize);
         limit_right = 1500 / (mainCam.orthographicSize * mainCam.orthographicSize);
@@ -438,4 +438,19 @@ public class CameraControl : MonoBehaviour
     }
 
     #endregion
+
+    Vector3 CurrentCamPos;
+    int CurrentPPU;
+
+    public void SaveCurrentState()
+    {
+        CurrentCamPos = transform.position;
+        CurrentPPU = pixelCam.assetsPPU;
+    }
+    public void SetOriginState()
+    {
+        transform.position = CurrentCamPos;
+        pixelCam.assetsPPU = CurrentPPU;
+    }
+
 }
