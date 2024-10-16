@@ -68,6 +68,10 @@ public class UserData : MonoBehaviour
             {
                 ChangeLanguage(2);
             }
+            else if (country.Name.Contains("zh-"))
+            {
+                ChangeLanguage(3);
+            }
             else
             {
                 ChangeLanguage(0);
@@ -769,4 +773,9 @@ public enum Endings
 
     //? 위험도가 100보다 작고 인기도가 위험도보다 높을때
     Ravi,
+
+    //? 히로인 엔딩
+    Cat,
+
+
 }

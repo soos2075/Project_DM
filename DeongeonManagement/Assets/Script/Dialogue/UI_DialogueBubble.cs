@@ -52,6 +52,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
         Bubble,
         Text,
         Bubble_tail,
+        Emoji,
     }
 
     TextMeshProUGUI mainText;
@@ -93,7 +94,17 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
 
     void BubbleSizeFitter()
     {
-        bubbleImage.sizeDelta = textTransform.sizeDelta;
+        if (textTransform.sizeDelta == Vector2.zero)
+        {
+            bubbleImage.sizeDelta = Vector2.zero;
+        }
+        else
+        { //? 꼬리의 크기가 변하지 않는 가장 작은 말풍선 크기 값이 65임
+            Vector2 offset = new Vector2(Mathf.Clamp(textTransform.sizeDelta.x, 65, textTransform.sizeDelta.x) , textTransform.sizeDelta.y);
+            bubbleImage.sizeDelta = offset;
+        }
+
+        
         if (bubbleImage.sizeDelta == Vector2.zero)
         {
             bubbleImage.GetComponent<Image>().enabled = false;
@@ -125,6 +136,17 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
 
     void ShowText(string _text)
     {
+        if (_text.Contains('{')) //? 이모지 전용
+        {
+            mainText.text = "\t";
+            SoundManager.Instance.PlaySound("SFX/Speech1");
+            if (GetObject(((int)Contents.Bubble)).activeSelf == false)
+            {
+                GetObject(((int)Contents.Bubble)).SetActive(true);
+            }
+            return;
+        }
+
         if (_text.Length <= 1)
         {
             //Debug.Log("1글자임" + _text.Length);
@@ -141,6 +163,16 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
                 GetObject(((int)Contents.Bubble)).SetActive(true);
             }
         }
+    }
+    void ClearEmoji()
+    {
+        GetObject(((int)Contents.Emoji)).GetComponent<Image>().enabled = false;
+        GetObject(((int)Contents.Emoji)).GetComponent<Image>().sprite = Managers.Sprite.GetClear();
+    }
+    void ShowEmoji(string emojiCode)
+    {
+        GetObject(((int)Contents.Emoji)).GetComponent<Image>().enabled = true;
+        GetObject(((int)Contents.Emoji)).GetComponent<Image>().sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Emoji", emojiCode);
     }
 
     void Init_BubblePosition()
@@ -316,7 +348,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
 
 
 
-
+            //? Option은 길드에서만 가능. 만약 게임씬에서 선택지를 쓰고싶으면 새로 다른이름으로 새로 만들어야함.
             Action optionAction = null;
             if (option.Contains("@Option")) //? ID를 받아서 퀘스트만큼의 선택지를 제공
             {
@@ -326,7 +358,20 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
             }
 
 
-            //? 위의 Option은 길드에서만 가능. 만약 게임씬에서 선택지를 쓰고싶으면 새로 다른이름으로 새로 만들어야함.
+
+
+            if (option.Contains("@Select")) //? 대화 중 선택지
+            {
+                string selection = option.Substring(option.IndexOf("@Select::") + 9, option.IndexOf("::Select") - (option.IndexOf("@Select::") + 9));
+                var dialogueList = selection.Split(':');
+                int[] intList = new int[dialogueList.Length];
+                for (int i = 0; i < dialogueList.Length; i++)
+                {
+                    intList[i] = int.Parse(dialogueList[i]);
+                }
+
+                Managers.Dialogue.Show_SelectOption(intList);
+            }
 
 
             textCount++;
@@ -346,6 +391,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
     IEnumerator TypingEffect(string contents, Action action = null)
     {
         int charIndexer = 0;
+        ClearEmoji();
 
         while (!isSkip && contents.Length >= charIndexer)
         {
@@ -363,6 +409,14 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
                 charIndexer += (offset + 1);
                 //Debug.Log(contents.Substring(0, charIndexer));
                 nowText = contents.Substring(0, charIndexer);
+            }
+
+            //? 이모지 치환
+            if (nowText.Length > 0 && nowText[nowText.Length - 1] == '{')
+            {
+                string emo = contents.Substring(contents.IndexOf('{') + 1, contents.IndexOf('}') - (contents.IndexOf('{') + 1));
+                ShowEmoji(emo);
+                charIndexer = contents.Length;
             }
 
             ShowText(nowText);
@@ -438,6 +492,11 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
             return;
         }
 
+        if (optionBox != null)
+        {
+            return;
+        }
+
 
         DialogueData textData = Data;
 
@@ -484,6 +543,19 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
             //    textCount++;
             //    return;
             //}
+            if (option.Contains("@Select")) //? 대화 중 선택지
+            {
+                string selection = option.Substring(option.IndexOf("@Select::") + 9, option.IndexOf("::Select") - (option.IndexOf("@Select::") + 9));
+                var dialogueList = selection.Split(':');
+                int[] intList = new int[dialogueList.Length];
+                for (int i = 0; i < dialogueList.Length; i++)
+                {
+                    intList[i] = int.Parse(dialogueList[i]);
+                }
+
+                Managers.Dialogue.Show_SelectOption(intList);
+                return;
+            }
 
             textCount++;
         }
@@ -511,8 +583,11 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
 
     public void CloseOptionBox()
     {
-        Managers.UI.ClosePopUp(optionBox);
-        optionBox = null;
+        if (optionBox != null)
+        {
+            Managers.UI.ClosePopUp(optionBox);
+            optionBox = null;
+        }
     }
 
 

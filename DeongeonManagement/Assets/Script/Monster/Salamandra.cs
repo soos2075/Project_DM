@@ -11,6 +11,8 @@ public class Salamandra : Monster
         Data = GameManager.Monster.GetData("Salamandra");
         Trait_Original();
 
+        UnitDialogueEvent.AddEvent(100600);
+
         if (GameManager.Monster.Check_Evolution("Salinu"))
         {
             StartCoroutine(Init_Evolution());
@@ -61,6 +63,8 @@ public class Salamandra : Monster
         Evolution_Status();
         GameManager.Monster.ChangeSLA_New(this, "Salinu");
         GameManager.Monster.Regist_Evolution("Salamandra");
+
+        UnitDialogueEvent.AddEvent(150600);
     }
 
     public override void MonsterInit_Evolution()

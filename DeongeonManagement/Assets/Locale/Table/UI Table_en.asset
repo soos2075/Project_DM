@@ -659,6 +659,10 @@ MonoBehaviour:
     m_Localized: Talk
     m_Metadata:
       m_Items: []
+  - m_Id: 79795567468949504
+    m_Localized: Locked
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

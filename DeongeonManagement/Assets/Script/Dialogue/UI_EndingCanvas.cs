@@ -303,4 +303,9 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
     {
         throw new System.NotImplementedException();
     }
+
+    public void CloseOptionBox()
+    {
+        throw new NotImplementedException();
+    }
 }

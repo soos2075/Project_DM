@@ -273,6 +273,34 @@ public class DialogueManager
     }
 
 
+
+    public void Show_SelectOption(int[] dialogueList)
+    {
+        currentDialogue.CloseOptionBox();
+
+        for (int i = 0; i < dialogueList.Length; i++)
+        {
+            DialogueData data = GetDialogue(dialogueList[i]);
+            if (data == null)
+            {
+                Debug.Log($"선택지 없음 : ID {dialogueList[i]}");
+                continue;
+            }
+
+            var btn = Managers.Resource.Instantiate("UI/PopUp/Element/OptionButton");
+            btn.GetComponent<UI_OptionButton>().SetAction((pointer) => Select_NewDialogue(data), data.dialogueName);
+            currentDialogue.AddOption(btn);
+        }
+    }
+
+    void Select_NewDialogue(DialogueData data)
+    {
+        currentDialogue.CloseOptionBox();
+        ShowDialogueUI(data);
+    }
+
+
+
     //public void ShowOption(string diaID)
     //{
     //    DialogueData data = GetDialogue(diaID);
@@ -418,6 +446,15 @@ public enum DialogueName
     Ravi_1 = 731,
     Ravi_2 = 732,
     Ravi_3 = 733,
+
+    Cat_1 = 741,
+    Cat_2 = 742,
+    Cat_3 = 743,
+    Cat_4 = 744,
+    Cat_5 = 745,
+    Cat_6 = 746,
+    Cat_7 = 747,
+    Cat_8 = 748,
 
     // Dungeon Expension
     Expansion_4 = 990,

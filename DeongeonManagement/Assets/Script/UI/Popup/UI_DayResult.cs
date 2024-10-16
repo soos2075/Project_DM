@@ -179,8 +179,6 @@ public class UI_DayResult : UI_PopUp
         {
             GetTMP((int)ResultText.Gold_Result).text = $"{goldResult}";
         }
-        GetTMP((int)ResultText.Gold_Result).text = $"{get_Gold - use_Gold}";
-
 
 
 

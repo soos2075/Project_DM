@@ -102,6 +102,8 @@ public class Slime : Monster
         GameManager.Monster.Regist_Evolution("Slime");
 
         ChangeTrait_Evolution();
+
+        UnitDialogueEvent.AddEvent(150100);
     }
 
     void ChangeTrait_Evolution()

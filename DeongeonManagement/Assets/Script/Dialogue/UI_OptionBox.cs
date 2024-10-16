@@ -17,12 +17,10 @@ public class UI_OptionBox : UI_PopUp
 
     public override void Init()
     {
-        base.Init();
-
+        Managers.UI.SetCanvas(gameObject);
         Bind<GameObject>(typeof(Contents));
 
-        GetObject((int)Contents.Panel).AddUIEvent((data) => CloseBox(), Define.UIEvent.RightClick);
-
+        //GetObject((int)Contents.Panel).AddUIEvent((data) => CloseBox(), Define.UIEvent.RightClick);
     }
 
     void CloseBox()

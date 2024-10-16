@@ -1437,7 +1437,7 @@ public class Main : MonoBehaviour
         } 
     }
 
-void ChangeEggState()
+    void ChangeEggState()
     {
         Debug.Log($"{Turn}일차 종료\nTotal Mana : {GetTotalMana()}\nTotal Gold : {GetTotalGold()}");
 
@@ -1466,8 +1466,20 @@ void ChangeEggState()
 
     // 각 조건을 독립되게 할지, 아님 state하나로만 할지는 고민중. 독립되게 한다면 여러 조건을 달성했을 때, 선택지를 줄 수 있음.
     // 아니면 조건에 선행 엔딩을 보게 만들면 또 억제가 되기도 하고.. 뭐 암튼 데모는 dog엔딩으로 픽스하자.
-    void SelectEnding()
+    public void SelectEnding()
     {
+        //? 히로인엔딩은 조건만 맞다면 1순위
+        if (GameManager.Monster.Check_ExistUnit<Heroine>())
+        {
+            if (GameManager.Monster.GetMonster<Heroine>().UnitDialogueEvent.ClearCheck((int)UnitDialogueEventLabel.Heroin_Root_Ture))
+            {
+                CurrentEndingState = Endings.Cat;
+                EggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Cat"));
+                return;
+            }
+        }
+
+
         if (DangerOfDungeon > PopularityOfDungeon && DangerOfDungeon >= 500)
         {
             CurrentEndingState = Endings.Dragon;
@@ -1493,20 +1505,6 @@ void ChangeEggState()
         // 데모버전이면 무조건 Dog엔딩
         return;
 #endif
-
-        //if (DangerOfDungeon > 500)
-        //{
-        //    CurrentEndingState = Endings.Dragon;
-        //    EggSprite.SetCategoryAndLabel("Egg", "Dragon");
-        //    eggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Dragon"));
-        //}
-
-        //if (GetTotalMana() >= 10000)
-        //{
-        //    CurrentEndingState = Endings.Slime;
-        //    EggSprite.SetCategoryAndLabel("Egg", "Slime");
-        //    eggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Slime"));
-        //}
     }
 
 

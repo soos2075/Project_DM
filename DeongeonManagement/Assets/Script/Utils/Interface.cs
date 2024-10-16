@@ -19,6 +19,35 @@ public interface IWorldSpaceUI
 }
 
 
+public interface I_Projectile
+{
+    public class AttackEffect
+    {
+        public AttackType AttackAnim;
+        public string effectName;
+        public string projectile_Category;
+        public string projectile_Label;
+
+        public AttackEffect(AttackType type, string effect = "")
+        {
+
+        }
+
+        public void SetProjectile(AttackType type, string category, string label)
+        {
+            AttackAnim = type;
+            projectile_Category = category;
+            projectile_Label = label;
+        }
+    }
+    public enum AttackType
+    {
+        Normal,
+        Bow,
+        Magic,
+    }
+    public AttackEffect AttackOption { get; set; }
+}
 public interface I_BattleStat
 {
     int B_HP { get; }
@@ -98,4 +127,6 @@ public interface IDialogue
     public float TextDelay { get; set; }
 
     public void AddOption(GameObject button);
+
+    public void CloseOptionBox();
 }

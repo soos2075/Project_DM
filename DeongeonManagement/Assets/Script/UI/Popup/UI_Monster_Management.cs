@@ -699,8 +699,20 @@ public class UI_Monster_Management : UI_PopUp
         }
         else
         {
+            GetTMP((int)Texts.Value_eventAP).text = "1";
             GetButton(((int)Buttons.UnitEvent)).gameObject.AddUIEvent(data =>
             {
+                if (Main.Instance.Player_AP <= 0)
+                {
+                    var ui = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
+                    ui.Message = UserData.Instance.LocaleText("Message_No_AP");
+                    return;
+                }
+                else
+                {
+                    Main.Instance.Player_AP--;
+                }
+
                 Debug.Log($"{Current.monster.UnitDialogueEvent.GetDialogue(false)}");
                 GameManager.Monster.StartUnitEventAction(Current.monster.UnitDialogueEvent.GetDialogue(true), Current.monster);
             });
@@ -761,7 +773,7 @@ public class UI_Monster_Management : UI_PopUp
 
     void AddEvent_Recover(GameObject targetButton)
     {
-        int RecoverCost = (int)(((Current.monster.LV * 0.08f) + 0.3f) * Current.monster.Data.manaCost);
+        int RecoverCost = (int)(((Current.monster.LV * 0.08f) + 0.2f) * Current.monster.Data.manaCost);
 
         if (Current.monster.TraitCheck(TraitGroup.ShirkingC))
         {

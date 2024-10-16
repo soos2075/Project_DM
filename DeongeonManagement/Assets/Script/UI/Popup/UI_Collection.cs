@@ -301,7 +301,7 @@ public class UI_Collection : UI_PopUp
     {
         var pos = GetObject((int)Objects.VerticalBox).transform;
         var trait = Managers.Resource.Instantiate("UI/PopUp/Collection/TextBox", pos);
-        trait.GetComponentInChildren<TextMeshProUGUI>().text = "";
+        trait.GetComponentInChildren<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText("¿·±Ë")}";
         return trait;
     }
     void ResetOptionBox()

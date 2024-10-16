@@ -159,7 +159,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
         if (_LoadData.traitCounter != null)
         {
-            traitCounter = _LoadData.traitCounter;
+            traitCounter = _LoadData.traitCounter.DeepCopy();
             traitCounter.monster = this;
         }
         LoadTraitList(_LoadData.currentTraitList);
@@ -346,15 +346,37 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         public int PlacementDays;
         public int StandbyDays;
 
+        public int Days;
+
 
         [Newtonsoft.Json.JsonIgnore]
         public Monster monster;
 
 
+        public TraitCounter DeepCopy()
+        {
+            var copy = (TraitCounter)this.MemberwiseClone();
+            return copy;
+        }
+
+
+
+        void ChangeValue()
+        {
+            monster.ChangeValue_TraitCounter();
+        }
+
+        public void AddDays()
+        {
+            Days++;
+            ChangeValue();
+        }
+
 
         public void AddBattleCounter()
         {
             BattleCounter++;
+            ChangeValue();
             if (BattleCounter >= 10 && monster.Data.TraitableList.Contains(TraitGroup.VeteranC))
             {
                 monster.AddTrait_Runtime(TraitGroup.VeteranC);
@@ -372,6 +394,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         public void AddTrainingCounter()
         {
             TrainingCounter++;
+            ChangeValue();
             if (TrainingCounter >= 5 && monster.Data.TraitableList.Contains(TraitGroup.EliteC))
             {
                 monster.AddTrait_Runtime(TraitGroup.EliteC);
@@ -389,6 +412,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         public void AddInjuryCounter()
         {
             InjuryCounter++;
+            ChangeValue();
             if (InjuryCounter >= 3 && monster.Data.TraitableList.Contains(TraitGroup.ShirkingC))
             {
                 monster.AddTrait_Runtime(TraitGroup.ShirkingC);
@@ -404,7 +428,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         }
         public void AddKillCounter()
         {
-            KillCounter++;            
+            KillCounter++;
+            ChangeValue();
             if (KillCounter >= 10 && monster.Data.TraitableList.Contains(TraitGroup.RuthlessC))
             {
                 monster.AddTrait_Runtime(TraitGroup.RuthlessC);
@@ -422,6 +447,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         {
             StandbyDays = 0;
             PlacementDays++;
+            ChangeValue();
             if (PlacementDays >= 4 && monster.Data.TraitableList.Contains(TraitGroup.SurvivabilityC))
             {
                 monster.AddTrait_Runtime(TraitGroup.SurvivabilityC);
@@ -443,6 +469,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         {
             PlacementDays = 0;
             StandbyDays++;
+            ChangeValue();
             if (StandbyDays >= 4 && monster.Data.TraitableList.Contains(TraitGroup.DiscreetC))
             {
                 monster.AddTrait_Runtime(TraitGroup.DiscreetC);
@@ -470,6 +497,11 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         }
     }
 
+
+    public virtual void ChangeValue_TraitCounter() //? TraitCounter가 변화할 때 마다 호출되는 함수
+    {
+
+    }
     #endregion
 
 
@@ -731,6 +763,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
     public virtual void TurnStart()
     {
+        traitCounter.AddDays();
+
         switch (State)
         {
             case MonsterState.Standby:
@@ -765,7 +799,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         Cor_Moving = StartCoroutine(MoveCor());
     }
 
-    #region MonsterMove
+    #region Animation
+
     Animator anim;
     protected Coroutine Cor_Moving { get; set; }
     Coroutine Cor_moveAnimation;
@@ -1314,10 +1349,24 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
                 CurrentEventList.Add(dialogueNumber);
             }
         }
+        public void AddEvent(UnitDialogueEventLabel dialogueNumber)
+        {
+            AddEvent((int)dialogueNumber);
+        }
+
         public void ClearEvent(int dialogueNumber)
         {
             CurrentEventList.Remove(dialogueNumber);
             ClearEventList.Add(dialogueNumber);
+        }
+        public void ClearEvent(UnitDialogueEventLabel dialogueNumber)
+        {
+            ClearEvent((int)dialogueNumber);
+        }
+
+        public bool ClearCheck(int dialogueNumber)
+        {
+            return ClearEventList.Contains(dialogueNumber);
         }
 
         public bool ExistCurrentEvent()
@@ -1384,7 +1433,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         Main.Instance.Player_AP--;
         Debug.Log($"{Name_Color} 훈련진행");
         LevelUpEvent(LevelUpEventType.Training);
-        LevelUp(true); ;
+        LevelUp(true);
 
         traitCounter.AddTrainingCounter();
 

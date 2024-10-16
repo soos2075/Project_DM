@@ -627,6 +627,10 @@ MonoBehaviour:
     m_Key: "\uB300\uD654"
     m_Metadata:
       m_Items: []
+  - m_Id: 79795567468949504
+    m_Key: "\uC7A0\uAE40"
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

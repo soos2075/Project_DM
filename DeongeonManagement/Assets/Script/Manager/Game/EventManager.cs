@@ -184,7 +184,8 @@ public class EventManager : MonoBehaviour
 
         if (Danger >= 800 && Danger > Pop && CurrentTurn >= 15 && 
             CurrentClearEventData.Check_AlreadyClear(DialogueName.Dragon_First) && 
-            CurrentClearEventData.Check_AlreadyClear(DialogueName.Dragon_Second) == false)
+            CurrentClearEventData.Check_AlreadyClear(DialogueName.Dragon_Second) == false &&
+            Main.Instance.CurrentEndingState != Endings.Cat)
         {
             Managers.Dialogue.ActionReserve(() =>
             {
@@ -1229,6 +1230,14 @@ public class EventManager : MonoBehaviour
 
             player.transform.position = GuildHelper.Instance.GetPos(GuildHelper.Pos.Table2).position;
             //FindAnyObjectByType<UI_DialogueBubble>().Bubble_MoveToTarget(player.transform);
+        });
+
+        EventAction.Add("Heroine_Ending", () =>
+        {
+            Debug.Log("히로인 엔딩 루트 확정");
+
+            GameManager.Monster.GetMonster<Heroine>().UnitDialogueEvent.ClearEvent((int)UnitDialogueEventLabel.Heroin_Root_Ture);
+            Main.Instance.SelectEnding();
         });
 
 

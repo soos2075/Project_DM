@@ -223,6 +223,18 @@ public class MonsterManager
         return count;
     }
 
+    public bool Check_ExistUnit<T>() where T : Monster
+    {
+        foreach (var monster in Monsters)
+        {
+            if (monster != null && monster is T)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public bool MaximumCheck()
     {
         foreach (var monster in Monsters)
@@ -246,6 +258,20 @@ public class MonsterManager
 
         return null;
     }
+    public Monster GetMonster<T>()
+    {
+        foreach (var monster in Monsters)
+        {
+            if (monster != null && monster is T)
+            {
+                return monster;
+            }
+        }
+        return null;
+    }
+
+
+
     public List<Monster> GetMonsterAll()
     {
         List<Monster> monsterList = new List<Monster>();
@@ -426,11 +452,101 @@ public class MonsterManager
 
     void Init_UnitEventAction()
     {
+        UnitEventAction.Add("Evolution_Rena", (unit) => {
+            unit.GetComponent<Heroine>().Evolution_Rena();
+        });
+
+
+        
+
+
+
+        UnitEventAction.Add("Random_UP", (unit) => {
+            int ran = UnityEngine.Random.Range(0, 5);
+            switch (ran)
+            {
+                case 1:
+                    unit.StatUP(StatEnum.ATK, 1, true);
+                    break;
+
+                case 2:
+                    unit.StatUP(StatEnum.DEF, 1, true);
+                    break;
+
+                case 3:
+                    unit.StatUP(StatEnum.AGI, 1, true);
+                    break;
+
+                case 4:
+                    unit.StatUP(StatEnum.LUK, 1, true);
+                    break;
+
+                default:
+                    unit.StatUP(StatEnum.HP, 5, true);
+                    break;
+            }
+        });
+
+        UnitEventAction.Add("Random_UP2", (unit) => {
+            int ran = UnityEngine.Random.Range(0, 5);
+            switch (ran)
+            {
+                case 1:
+                    unit.StatUP(StatEnum.ATK, 2, true);
+                    break;
+
+                case 2:
+                    unit.StatUP(StatEnum.DEF, 2, true);
+                    break;
+
+                case 3:
+                    unit.StatUP(StatEnum.AGI, 2, true);
+                    break;
+
+                case 4:
+                    unit.StatUP(StatEnum.LUK, 2, true);
+                    break;
+
+                default:
+                    unit.StatUP(StatEnum.HP, 10, true);
+                    break;
+            }
+        });
+
+
         UnitEventAction.Add("HP_UP", (unit) => { unit.StatUP(StatEnum.HP, 5, true); });
         UnitEventAction.Add("ATK_UP", (unit) => { unit.StatUP(StatEnum.ATK, 1, true); });
         UnitEventAction.Add("DEF_UP", (unit) => { unit.StatUP(StatEnum.DEF, 1, true); });
         UnitEventAction.Add("AGI_UP", (unit) => { unit.StatUP(StatEnum.AGI, 1, true); });
         UnitEventAction.Add("LUK_UP", (unit) => { unit.StatUP(StatEnum.LUK, 1, true); });
+
+        UnitEventAction.Add("HP_UP2", (unit) => { unit.StatUP(StatEnum.HP, 10, true); });
+        UnitEventAction.Add("ATK_UP2", (unit) => { unit.StatUP(StatEnum.ATK, 2, true); });
+        UnitEventAction.Add("DEF_UP2", (unit) => { unit.StatUP(StatEnum.DEF, 2, true); });
+        UnitEventAction.Add("AGI_UP2", (unit) => { unit.StatUP(StatEnum.AGI, 2, true); });
+        UnitEventAction.Add("LUK_UP2", (unit) => { unit.StatUP(StatEnum.LUK, 2, true); });
+
+        UnitEventAction.Add("HP_UP3", (unit) => { unit.StatUP(StatEnum.HP, 15, true); });
+        UnitEventAction.Add("ATK_UP3", (unit) => { unit.StatUP(StatEnum.ATK, 3, true); });
+        UnitEventAction.Add("DEF_UP3", (unit) => { unit.StatUP(StatEnum.DEF, 3, true); });
+        UnitEventAction.Add("AGI_UP3", (unit) => { unit.StatUP(StatEnum.AGI, 3, true); });
+        UnitEventAction.Add("LUK_UP3", (unit) => { unit.StatUP(StatEnum.LUK, 3, true); });
+
+        UnitEventAction.Add("Player_UP", (unit) => { 
+            Main.Instance.Player.GetComponent<Monster>().StatUP(StatEnum.HP, 5, true);
+            Main.Instance.Player.GetComponent<Monster>().StatUP(StatEnum.ATK, 1, false);
+            Main.Instance.Player.GetComponent<Monster>().StatUP(StatEnum.DEF, 1, false);
+            Main.Instance.Player.GetComponent<Monster>().StatUP(StatEnum.AGI, 1, false);
+            Main.Instance.Player.GetComponent<Monster>().StatUP(StatEnum.LUK, 1, false);
+        });
+
+        UnitEventAction.Add("All_UP", (unit) => {
+            unit.StatUP(StatEnum.HP, 5, true);
+            unit.StatUP(StatEnum.ATK, 1, false);
+            unit.StatUP(StatEnum.DEF, 1, false);
+            unit.StatUP(StatEnum.AGI, 1, false);
+            unit.StatUP(StatEnum.LUK, 1, false);
+        });
     }
     public UnitEventRoom Room;
     public Transform PlayerPos;
@@ -450,17 +566,42 @@ public class MonsterManager
         Action<Monster> statUp = null;
         switch ((UnitDialogueEventLabel)DialogueID)
         {
-            //case UnitDialogueEventLabel.Slime_First:
-            //    break;
+            case UnitDialogueEventLabel.BloodySlime_First:
+            case UnitDialogueEventLabel.Heroin_First:
+                UnitEventAction.TryGetValue("HP_UP2", out statUp);
+                break;
 
-            //case UnitDialogueEventLabel.Heroin_First:
-            //    break;
+
+            case UnitDialogueEventLabel.Heroin_Defeat:
+                UnitEventAction.TryGetValue("All_UP", out statUp);
+                break;
+
+            case UnitDialogueEventLabel.Heroin_Training:
+            case UnitDialogueEventLabel.Heroin_Lv18:
+            case UnitDialogueEventLabel.Heroin_Day15:
+                UnitEventAction.TryGetValue("Player_UP", out statUp);
+                if (UnitEventAction.TryGetValue("All_UP", out Action<Monster> tempA)) statUp += tempA;
+                break;
 
             //case UnitDialogueEventLabel.Heroin_Defeat:
             //    break;
 
+            case UnitDialogueEventLabel.Heroin_Day3:
+            case UnitDialogueEventLabel.Heroin_Day6:
+            case UnitDialogueEventLabel.Heroin_Day9:
+            case UnitDialogueEventLabel.Heroin_Lv5:
+            case UnitDialogueEventLabel.Heroin_Lv10:
+            case UnitDialogueEventLabel.Heroin_Lv15:
+                UnitEventAction.TryGetValue("Random_UP2", out statUp);
+                break;
+
+            case UnitDialogueEventLabel.Heroin_CallName:
+                UnitEventAction.TryGetValue("Evolution_Rena", out statUp);
+                break;
+
+
             default:
-                UnitEventAction.TryGetValue("HP_UP", out statUp);
+                UnitEventAction.TryGetValue("Random_UP", out statUp);
                 break;
         }
 
@@ -537,11 +678,34 @@ public class MonsterManager
 public enum UnitDialogueEventLabel
 {
     Slime_First = 100100,
+    BloodySlime_First = 150100,
+
+    Salamandra_First = 100600,
+    Salinu_First = 150600,
+
 
     Heroin_First = 190100,
     Heroin_Defeat = 190101,
+    Heroin_Training = 190102,
+
+    //? 엔딩조건 00,01,02, 11,12,13, 21,22,23 이벤트를 모두 볼 것
+    Heroin_EndingRoot = 190103,
+    Heroin_Root_Ture = 190104,
+    Heroin_Root_False = 190105,
+
+    Heroin_CallName = 190109,
 
 
+
+    Heroin_Day3 = 190111,
+    Heroin_Day6 = 190112,
+    Heroin_Day9 = 190113,
+    Heroin_Day15 = 190114,
+
+    Heroin_Lv5 = 190121,
+    Heroin_Lv10 = 190122,
+    Heroin_Lv15 = 190123,
+    Heroin_Lv18 = 190124,
 }
 
 
@@ -658,7 +822,7 @@ public class Save_MonsterData
         categoryName = monster.Data.SLA_category;
         labelName = monster.Data.SLA_label;
 
-        traitCounter = monster.traitCounter;
+        traitCounter = monster.traitCounter.DeepCopy();
         currentTraitList = monster.SaveTraitList();
         unitEvent = monster.UnitDialogueEvent.DeepCopy();
     }

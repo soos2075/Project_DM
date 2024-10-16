@@ -53,9 +53,11 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         public string projectile_Category;
         public string projectile_Label;
 
-        public AttackEffect(AttackType type, string effect = "")
+        public AttackEffect(AttackType type, string category = "", string label = "")
         {
-
+            AttackAnim = type;
+            projectile_Category = category;
+            projectile_Label = label;
         }
 
         public void SetProjectile(AttackType type, string category, string label)

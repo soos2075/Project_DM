@@ -267,6 +267,29 @@ public class BattleField : MonoBehaviour
         _projectile.SetActive(false);
         Call_Mash();
     }
+    public void Projectile_Launch_Right()
+    {
+        var projectile = Managers.Resource.Instantiate("Battle/Projectile", pos_Right);
+        projectile.transform.position = pos_Right.transform.position;
+        projectile.GetComponentInChildren<SpriteRenderer>().flipX = true;
+        projectile.GetComponentInChildren<SpriteRenderer>().sortingOrder = sort + 2;
+
+        var attackOp = monster as I_Projectile;
+        projectile.GetComponentInChildren<SpriteResolver>().SetCategoryAndLabel(attackOp.AttackOption.projectile_Category, attackOp.AttackOption.projectile_Label);
+
+        StartCoroutine(Shotting_Right(projectile));
+    }
+    IEnumerator Shotting_Right(GameObject _projectile)
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            float interval = 0.05f;
+            _projectile.transform.position += Vector3.left * interval * 4;
+            yield return new WaitForSeconds(interval);
+        }
+        _projectile.SetActive(false);
+        Call_Mash();
+    }
 
 
     public void Call_Mash()
