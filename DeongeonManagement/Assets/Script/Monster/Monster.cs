@@ -1072,11 +1072,11 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         {
             if (item == TraitGroup.Militant)
             {
-                battleMP += npc.Rank * 2;
+                battleMP = npc.Rank * 8;
             }
             if (item == TraitGroup.Civilian)
             {
-                battleMP -= npc.Rank * 2;
+                battleMP = npc.Rank * 4;
             }
             if (item == TraitGroup.Trample)
             {

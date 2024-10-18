@@ -757,11 +757,13 @@ public class Main : MonoBehaviour
         yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
 
         //? 데모 종료시점. 저장하기전에 해야함.
+#if !CHEAT_BUILD
         if (Turn == 20)
         {
             DEMO_Ending();
             yield break;
         }
+#endif
         if (Turn == 30)
         {
             Managers.Dialogue.ShowDialogueUI(DialogueName.Day30_Over, Player);

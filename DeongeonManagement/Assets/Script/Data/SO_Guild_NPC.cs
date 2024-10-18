@@ -17,6 +17,7 @@ public class SO_Guild_NPC : ScriptableObject
 
     [Header("ActiveDay")]
     public Guild_DayOption DayOption;
+    public int FirstDay;
 
 
     // 퀘스트가 있다면 더해줄 번호

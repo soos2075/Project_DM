@@ -128,7 +128,9 @@ public class CollectionManager : MonoBehaviour
         for (int i = 0; i < NpcData.Length; i++)
         {
             if (NpcData[i].View_Collection == false) continue;
-            Register_NPC.Add(new CollectionUnitRegist<SO_NPC>(NpcData[i], new Regist_Info(), i+1));
+            var regist = new Regist_Info();
+            regist.Set_LevelCap(NpcData[i].levelCaps);
+            Register_NPC.Add(new CollectionUnitRegist<SO_NPC>(NpcData[i], regist, i + 1));
         }
 
         Register_Technical = new List<CollectionUnitRegist<SO_Technical>>();
@@ -173,83 +175,6 @@ public class CollectionManager : MonoBehaviour
         return null;
     }
 
-    //public void Change_Collection<T>(CollectionUnitRegist<T> collection) where T : ScriptableObject
-    //{
-
-    //}
-
-
-    //public void Add_Collection<T>(T SO_Data) where T : ScriptableObject
-    //{
-    //    foreach (var item in Register_Monster)
-    //    {
-    //        if (item.unit == SO_Data)
-    //        {
-    //            item.isRegist = true;
-    //            return;
-    //        }
-    //    }
-    //    foreach (var item in Register_Facility)
-    //    {
-    //        if (item.unit == SO_Data)
-    //        {
-    //            item.isRegist = true;
-    //            return;
-    //        }
-    //    }
-    //    foreach (var item in Register_NPC)
-    //    {
-    //        if (item.unit == SO_Data)
-    //        {
-    //            item.isRegist = true;
-    //            return;
-    //        }
-    //    }
-    //    foreach (var item in Register_Technical)
-    //    {
-    //        if (item.unit == SO_Data)
-    //        {
-    //            item.isRegist = true;
-    //            return;
-    //        }
-    //    }
-    //    foreach (var item in Register_Ending)
-    //    {
-    //        if (item.unit == SO_Data)
-    //        {
-    //            item.isRegist = true;
-    //            return;
-    //        }
-    //    }
-    //}
-
-    //public void Add_Collection(string label_Name)
-    //{
-    //    foreach (var item in Register_Monster)
-    //    {
-    //        if (item.unit.labelName == label_Name)
-    //        {
-    //            item.isRegist = true;
-    //            return;
-    //        }
-    //    }
-
-    //}
-    //public void Add_Collection(int dataIndex)
-    //{
-    //    foreach (var item in Register_Monster)
-    //    {
-    //        if (item.unit.id == dataIndex)
-    //        {
-    //            item.isRegist = true;
-    //            return;
-    //        }
-    //    }
-    //}
-
-
-
-
 
 
     public void LoadCollectionData(Dictionary<int, Regist_Info> data)
@@ -259,7 +184,7 @@ public class CollectionManager : MonoBehaviour
             Regist_Info isRegist;
             if (data.TryGetValue(item.unit.id, out isRegist))
             {
-                item.Apply_Info(isRegist);
+                item.Apply_Info(isRegist.DeepCopy());
             }
         }
         foreach (var item in Register_Facility)
@@ -267,7 +192,7 @@ public class CollectionManager : MonoBehaviour
             Regist_Info isRegist;
             if (data.TryGetValue(item.unit.id, out isRegist))
             {
-                item.Apply_Info(isRegist);
+                item.Apply_Info(isRegist.DeepCopy());
             }
         }
         foreach (var item in Register_NPC)
@@ -275,7 +200,7 @@ public class CollectionManager : MonoBehaviour
             Regist_Info isRegist;
             if (data.TryGetValue(item.unit.id, out isRegist))
             {
-                item.Apply_Info(isRegist);
+                item.Apply_Info(isRegist.DeepCopy());
             }
         }
         foreach (var item in Register_Technical)
@@ -283,7 +208,7 @@ public class CollectionManager : MonoBehaviour
             Regist_Info isRegist;
             if (data.TryGetValue(item.unit.id, out isRegist))
             {
-                item.Apply_Info(isRegist);
+                item.Apply_Info(isRegist.DeepCopy());
             }
         }
         foreach (var item in Register_Ending)
@@ -291,7 +216,7 @@ public class CollectionManager : MonoBehaviour
             Regist_Info isRegist;
             if (data.TryGetValue(item.unit.id, out isRegist))
             {
-                item.Apply_Info(isRegist);
+                item.Apply_Info(isRegist.DeepCopy());
             }
         }
     }
@@ -301,58 +226,68 @@ public class CollectionManager : MonoBehaviour
         var Register = new Dictionary<int, Regist_Info>();
         for (int i = 0; i < Register_Facility.Count; i++)
         {
-            Register.Add(Register_Facility[i].unit.id, new Regist_Info(
-                Register_Facility[i].info.isRegist,
-                Register_Facility[i].info.UnlockPoint,
-                Register_Facility[i].info.level_1_Unlock,
-                Register_Facility[i].info.level_2_Unlock,
-                Register_Facility[i].info.level_3_Unlock,
-                Register_Facility[i].info.level_4_Unlock,
-                Register_Facility[i].info.level_5_Unlock));
+            Register.Add(Register_Facility[i].unit.id, Register_Facility[i].info.DeepCopy());
+
+            //Register.Add(Register_Facility[i].unit.id, new Regist_Info(
+            //    Register_Facility[i].info.isRegist,
+            //    Register_Facility[i].info.UnlockPoint,
+            //    Register_Facility[i].info.level_1_Unlock,
+            //    Register_Facility[i].info.level_2_Unlock,
+            //    Register_Facility[i].info.level_3_Unlock,
+            //    Register_Facility[i].info.level_4_Unlock,
+            //    Register_Facility[i].info.level_5_Unlock));
         }
         for (int i = 0; i < Register_Monster.Count; i++)
         {
-            Register.Add(Register_Monster[i].unit.id, new Regist_Info(
-                Register_Monster[i].info.isRegist,
-                Register_Monster[i].info.UnlockPoint,
-                Register_Monster[i].info.level_1_Unlock,
-                Register_Monster[i].info.level_2_Unlock,
-                Register_Monster[i].info.level_3_Unlock,
-                Register_Monster[i].info.level_4_Unlock,
-                Register_Monster[i].info.level_5_Unlock));
+            Register.Add(Register_Monster[i].unit.id, Register_Monster[i].info.DeepCopy());
+
+            //Register.Add(Register_Monster[i].unit.id, new Regist_Info(
+            //    Register_Monster[i].info.isRegist,
+            //    Register_Monster[i].info.UnlockPoint,
+            //    Register_Monster[i].info.level_1_Unlock,
+            //    Register_Monster[i].info.level_2_Unlock,
+            //    Register_Monster[i].info.level_3_Unlock,
+            //    Register_Monster[i].info.level_4_Unlock,
+            //    Register_Monster[i].info.level_5_Unlock));
         }
         for (int i = 0; i < Register_NPC.Count; i++)
         {
-            Register.Add(Register_NPC[i].unit.id, new Regist_Info(
-                Register_NPC[i].info.isRegist,
-                Register_NPC[i].info.UnlockPoint,
-                Register_NPC[i].info.level_1_Unlock,
-                Register_NPC[i].info.level_2_Unlock,
-                Register_NPC[i].info.level_3_Unlock,
-                Register_NPC[i].info.level_4_Unlock,
-                Register_NPC[i].info.level_5_Unlock));
+            Register.Add(Register_NPC[i].unit.id, Register_NPC[i].info.DeepCopy());
+
+            //Register.Add(Register_NPC[i].unit.id, new Regist_Info(
+            //    Register_NPC[i].info.isRegist,
+            //    Register_NPC[i].info.UnlockPoint,
+            //    Register_NPC[i].info.level_1_Unlock,
+            //    Register_NPC[i].info.level_2_Unlock,
+            //    Register_NPC[i].info.level_3_Unlock,
+            //    Register_NPC[i].info.level_4_Unlock,
+            //    Register_NPC[i].info.level_5_Unlock));
         }
         for (int i = 0; i < Register_Technical.Count; i++)
         {
-            Register.Add(Register_Technical[i].unit.id, new Regist_Info(
-                Register_Technical[i].info.isRegist,
-                Register_Technical[i].info.UnlockPoint,
-                Register_Technical[i].info.level_1_Unlock,
-                Register_Technical[i].info.level_2_Unlock,
-                Register_Technical[i].info.level_3_Unlock,
-                Register_Technical[i].info.level_4_Unlock,
-                Register_Technical[i].info.level_5_Unlock));
+            Register.Add(Register_Technical[i].unit.id, Register_Technical[i].info.DeepCopy());
+
+            //Register.Add(Register_Technical[i].unit.id, new Regist_Info(
+            //    Register_Technical[i].info.isRegist,
+            //    Register_Technical[i].info.UnlockPoint,
+            //    Register_Technical[i].info.level_1_Unlock,
+            //    Register_Technical[i].info.level_2_Unlock,
+            //    Register_Technical[i].info.level_3_Unlock,
+            //    Register_Technical[i].info.level_4_Unlock,
+            //    Register_Technical[i].info.level_5_Unlock));
         }
         for (int i = 0; i < Register_Ending.Count; i++)
         {
-            Register.Add(Register_Ending[i].unit.id, new Regist_Info(
-                Register_Ending[i].info.isRegist,
-                Register_Ending[i].info.UnlockPoint,
-                Register_Ending[i].info.level_1_Unlock,
-                Register_Ending[i].info.level_2_Unlock,
-                Register_Ending[i].info.level_3_Unlock,
-                Register_Ending[i].info.level_4_Unlock,
-                Register_Ending[i].info.level_5_Unlock));
+            Register.Add(Register_Ending[i].unit.id, Register_Ending[i].info.DeepCopy());
+
+            //Register.Add(Register_Ending[i].unit.id, new Regist_Info(
+            //    Register_Ending[i].info.isRegist,
+            //    Register_Ending[i].info.UnlockPoint,
+            //    Register_Ending[i].info.level_1_Unlock,
+            //    Register_Ending[i].info.level_2_Unlock,
+            //    Register_Ending[i].info.level_3_Unlock,
+            //    Register_Ending[i].info.level_4_Unlock,
+            //    Register_Ending[i].info.level_5_Unlock));
         }
 
         return Register;
@@ -544,21 +479,39 @@ public class Regist_Info
     public int UnlockPoint;
 
 
+    public int[] levelCap;
+
     public Regist_Info()
     {
-
+        levelCap = new int[5] { 5, 15, 30, 50, 100 };
     }
-    public Regist_Info(bool regist, int count, bool level1, bool level2, bool level3, bool level4, bool level5)
+    //public Regist_Info(bool regist, int count, bool level1, bool level2, bool level3, bool level4, bool level5)
+    //{
+    //    isRegist = regist;
+
+    //    UnlockPoint = count;
+
+    //    level_1_Unlock = level1;
+    //    level_2_Unlock = level2;
+    //    level_3_Unlock = level3;
+    //    level_4_Unlock = level4;
+    //    level_5_Unlock = level5;
+    //}
+
+    public Regist_Info DeepCopy()
     {
-        isRegist = regist;
+        Regist_Info newInfo = (Regist_Info)this.MemberwiseClone();
+        return newInfo;
+    }
 
-        UnlockPoint = count;
 
-        level_1_Unlock = level1;
-        level_2_Unlock = level2;
-        level_3_Unlock = level3;
-        level_4_Unlock = level4;
-        level_5_Unlock = level5;
+    public void Set_LevelCap(int[] caps)
+    {
+        if (caps == null || caps.Length == 0)
+        {
+            return;
+        }
+        levelCap = caps;
     }
 
     public void Unlocking()
@@ -567,23 +520,23 @@ public class Regist_Info
         {
             isRegist = true;
         }
-        if (UnlockPoint > 5)
+        if (UnlockPoint >= levelCap[0])
         {
             level_1_Unlock = true;
         }
-        if (UnlockPoint > 15)
+        if (UnlockPoint >= levelCap[1])
         {
             level_2_Unlock = true;
         }
-        if (UnlockPoint > 30)
+        if (UnlockPoint >= levelCap[2])
         {
             level_3_Unlock = true;
         }
-        if (UnlockPoint > 50)
+        if (UnlockPoint >= levelCap[3])
         {
             level_4_Unlock = true;
         }
-        if (UnlockPoint > 100)
+        if (UnlockPoint >= levelCap[4])
         {
             level_5_Unlock = true;
         }

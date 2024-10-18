@@ -12,7 +12,7 @@ public class Treasure : Facility
         Rings = 2210,
         Hats = 2220,
         Scrolls = 2230,
-        Artifacts = 2240,
+        //Artifacts = 2240,
         Crowns = 2250,
         Chests = 2260,
     }
@@ -39,10 +39,10 @@ public class Treasure : Facility
             First_Instantiate();
         }
 
-        if (treasureType == TreasureCategory.Artifacts)
-        {
-            AddEvent_Artifact();
-        }
+        //if (treasureType == TreasureCategory.Artifacts)
+        //{
+        //    AddEvent_Artifact();
+        //}
     }
 
     public void First_Instantiate()
@@ -159,10 +159,10 @@ public class Treasure : Facility
     protected override void OverCor(NPC npc, bool isRemove)
     {
         base.OverCor(npc, isRemove);
-        if (treasureType == TreasureCategory.Artifacts)
-        {
-            RemoveEvent_Artifact();
-        }
+        //if (treasureType == TreasureCategory.Artifacts)
+        //{
+        //    RemoveEvent_Artifact();
+        //}
     }
 
 
@@ -179,111 +179,111 @@ public class Treasure : Facility
 
 
 
-    Action<int> ArtifactAction;
-    void AddEvent_Artifact()
-    {
-        ArtifactAction = (value) => Artifacts_AddMana(Data.id);
-        AddTurnEvent(ArtifactAction, DayType.Day);
+    //Action<int> ArtifactAction;
+    //void AddEvent_Artifact()
+    //{
+    //    ArtifactAction = (value) => Artifacts_AddMana(Data.id);
+    //    AddTurnEvent(ArtifactAction, DayType.Day);
 
-        switch (Data.id)
-        {
-            case 2240:
-                GameManager.Buff.FacilityBonus += 1;
-                break;
+    //    switch (Data.id)
+    //    {
+    //        case 2240:
+    //            GameManager.Buff.FacilityBonus += 1;
+    //            break;
 
-            case 2241:
-                GameManager.Buff.BattleBonus += 5;
-                break;
+    //        case 2241:
+    //            GameManager.Buff.BattleBonus += 5;
+    //            break;
 
-            case 2242:
-                GameManager.Buff.HerbBonus += 2;
-                break;
+    //        case 2242:
+    //            GameManager.Buff.HerbBonus += 2;
+    //            break;
 
-            case 2243:
-                GameManager.Buff.MineralBonus += 2;
-                break;
+    //        case 2243:
+    //            GameManager.Buff.MineralBonus += 2;
+    //            break;
 
-            case 2244:
-                GameManager.Buff.PortalBonus += 3;
-                break;
+    //        case 2244:
+    //            GameManager.Buff.PortalBonus += 3;
+    //            break;
 
-            case 2245:
-                GameManager.Buff.ManaBonus += 5;
-                break;
+    //        case 2245:
+    //            GameManager.Buff.ManaBonus += 5;
+    //            break;
 
-            case 2246:
-                GameManager.Buff.ManaBonus += 5;
-                break;
+    //        case 2246:
+    //            GameManager.Buff.ManaBonus += 5;
+    //            break;
 
-            case 2247:
-                GameManager.Buff.GoldBonus += 5;
-                break;
+    //        case 2247:
+    //            GameManager.Buff.GoldBonus += 5;
+    //            break;
 
-            case 2248:
-                GameManager.Buff.GoldBonus += 5;
-                break;
+    //        case 2248:
+    //            GameManager.Buff.GoldBonus += 5;
+    //            break;
 
-            case 2249:
-                GameManager.Buff.APBonus += 1;
-                break;
-        }
-    }
+    //        case 2249:
+    //            GameManager.Buff.APBonus += 1;
+    //            break;
+    //    }
+    //}
 
-    void RemoveEvent_Artifact()
-    {
-        RemoveTurnEvent(ArtifactAction, DayType.Day);
+    //void RemoveEvent_Artifact()
+    //{
+    //    RemoveTurnEvent(ArtifactAction, DayType.Day);
 
-        switch (Data.id)
-        {
-            case 2240:
-                GameManager.Buff.FacilityBonus -= 1;
-                break;
+    //    switch (Data.id)
+    //    {
+    //        case 2240:
+    //            GameManager.Buff.FacilityBonus -= 1;
+    //            break;
 
-            case 2241:
-                GameManager.Buff.BattleBonus -= 5;
-                break;
+    //        case 2241:
+    //            GameManager.Buff.BattleBonus -= 5;
+    //            break;
 
-            case 2242:
-                GameManager.Buff.HerbBonus -= 2;
-                break;
+    //        case 2242:
+    //            GameManager.Buff.HerbBonus -= 2;
+    //            break;
 
-            case 2243:
-                GameManager.Buff.MineralBonus -= 2;
-                break;
+    //        case 2243:
+    //            GameManager.Buff.MineralBonus -= 2;
+    //            break;
 
-            case 2244:
-                GameManager.Buff.PortalBonus -= 3;
-                break;
+    //        case 2244:
+    //            GameManager.Buff.PortalBonus -= 3;
+    //            break;
 
-            case 2245:
-                GameManager.Buff.ManaBonus -= 5;
-                break;
+    //        case 2245:
+    //            GameManager.Buff.ManaBonus -= 5;
+    //            break;
 
-            case 2246:
-                GameManager.Buff.ManaBonus -= 5;
-                break;
+    //        case 2246:
+    //            GameManager.Buff.ManaBonus -= 5;
+    //            break;
 
-            case 2247:
-                GameManager.Buff.GoldBonus -= 5;
-                break;
+    //        case 2247:
+    //            GameManager.Buff.GoldBonus -= 5;
+    //            break;
 
-            case 2248:
-                GameManager.Buff.GoldBonus -= 5;
-                break;
+    //        case 2248:
+    //            GameManager.Buff.GoldBonus -= 5;
+    //            break;
 
-            case 2249:
-                GameManager.Buff.APBonus -= 1;
-                break;
-        }
-    }
+    //        case 2249:
+    //            GameManager.Buff.APBonus -= 1;
+    //            break;
+    //    }
+    //}
 
 
-    void Artifacts_AddMana(int value)
-    {
-        //? 기본적으로 아티팩트는 부셔지지않으면 매턴 마나를 주는걸로
-        Main.Instance.CurrentDay.AddMana(100, Main.DayResult.EventType.Artifacts);
-        Main.Instance.ShowDM(100, Main.TextType.mana, transform);
-    }
+    //void Artifacts_AddMana(int value)
+    //{
+    //    //? 기본적으로 아티팩트는 부셔지지않으면 매턴 마나를 주는걸로
+    //    Main.Instance.CurrentDay.AddMana(100, Main.DayResult.EventType.Artifacts);
+    //    Main.Instance.ShowDM(100, Main.TextType.mana, transform);
+    //}
 
 
 }

@@ -427,6 +427,9 @@ public class DataManager
         //? 유니크 NPC 정보
         public Dictionary<NPC_Type_Unique, float> uniqueNPC_List;
 
+        //? 아티팩트 정보
+        public List<ArtifactManager.Artifact> artifactList;
+
 
         public UserData.SavefileConfig savefileConfig;
 
@@ -648,6 +651,7 @@ public class DataManager
         saveData.tachnicalList = GameManager.Technical.GetSaveData_Technical();
         saveData.facilityList = GameManager.Facility.GetSaveData_Facility();
         saveData.uniqueNPC_List = GameManager.NPC.Save_NPCData();
+        saveData.artifactList = GameManager.Artifact.Save_ArtifactData();
 
 
         //? 아래 두개는 실제로 쓰는 데이터를 저장하는 관계로 저장할때와 로드할 때 각각 다 딥카피를 따로 해줘야함.
@@ -728,6 +732,7 @@ public class DataManager
         GameManager.Technical.Load_TechnicalData(loadData.tachnicalList);
         GameManager.Facility.Load_FacilityData(loadData.facilityList);
         GameManager.NPC.Load_NPCData(loadData.uniqueNPC_List);
+        GameManager.Artifact.Load_ArtifactData(loadData.artifactList);
     }
     void LoadGuildData(SaveData loadData)
     {

@@ -43,6 +43,7 @@ public class SpriteManager
         UI_library = Resources.Load<SpriteLibraryAsset>("SpriteLibraryAsset/SLA_UI");
         Technical_library = Resources.Load<SpriteLibraryAsset>("SpriteLibraryAsset/SLA_Technical");
         Contents_library = Resources.Load<SpriteLibraryAsset>("SpriteLibraryAsset/SLA_Contents");
+        Artifacts_Library = Resources.Load<SpriteLibraryAsset>("SpriteLibraryAsset/SLA_Artifact");
     }
 
 
@@ -120,11 +121,15 @@ public class SpriteManager
     SpriteLibraryAsset NPC_Library;
     SpriteLibraryAsset UI_library;
     SpriteLibraryAsset Contents_library;
+    SpriteLibraryAsset Artifacts_Library;
 
     public Sprite Get_SLA(Library type, string category, string label)
     {
         switch (type)
         {
+            case Library.Artifact:
+                return Get_SLA(Artifacts_Library, category, label);
+
             case Library.Contents:
                 return Get_SLA(Contents_library, category, label);
 
@@ -187,6 +192,7 @@ public class SpriteManager
         Technical,
         Facility,
         Contents,
+        Artifact,
     }
 
 

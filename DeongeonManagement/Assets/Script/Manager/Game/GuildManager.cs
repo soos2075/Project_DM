@@ -281,6 +281,17 @@ public class GuildNPC_Data
     //    OptionList = startOption;
     //}
 
+    public void Remove_Option(int index)
+    {
+        if (OptionList[index] % 100 == 99)
+        {
+            return;
+        }
+
+        OptionList.RemoveAt(index);
+    }
+
+
     public void OneTimeOptionButton()
     {
         Managers.Dialogue.OneTimeOption(OptionList, Original_Index);
@@ -394,6 +405,8 @@ public enum GuildNPC_LabelName
     DummyD = 8000,
 
     DeathMagician = 10000,
+
+    Peddler = 11000,
 
     RetiredHero = 15000,
 }

@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     TraitManager _trait = new TraitManager();
     PixelHeroManager _pixel = new PixelHeroManager();
     BuffManager _buff = new BuffManager();
+    ArtifactManager _artifact = new ArtifactManager();
 
 
 
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
     public static TraitManager Trait { get { return Instance._trait; } }
     public static PixelHeroManager Pixel { get { return Instance._pixel; } }
     public static BuffManager Buff { get { return Instance._buff; } }
+    public static ArtifactManager Artifact { get { return Instance._artifact; } }
 
 
 
@@ -60,6 +62,7 @@ public class GameManager : MonoBehaviour
         _trait.Init();
         _pixel.Init();
         _buff.Init();
+        _artifact.Init();
     }
 
     void Start()

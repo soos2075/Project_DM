@@ -1026,6 +1026,13 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
     void Runaway_Base()
     {
+        //? 도망이긴한데 마나를 충분히 썼으면
+        if (Mana <= Data.MP / 4)
+        {
+            Satisfaction_Base();
+            return;
+        }
+
         Main.Instance.CurrentDay.AddRunaway(1);
         NPC_Runaway();
 

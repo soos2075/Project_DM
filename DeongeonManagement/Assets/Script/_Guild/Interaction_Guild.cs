@@ -56,6 +56,11 @@ public class Interaction_Guild : MonoBehaviour
                 break;
         }
 
+        if (GuildManager.Instance.GetData(data.Original_Index).FirstDay > turn)
+        {
+            gameObject.SetActive(false);
+        }
+
         foreach (var instance in GuildManager.Instance.Instance_GuildNPC)
         {
             if (label == instance)
@@ -67,23 +72,27 @@ public class Interaction_Guild : MonoBehaviour
 
     private void Update()
     {
+        GuildHelper.Icon icon = GuildHelper.Icon.Question_Yellow;
+
         if (data.InstanceQuestList.Count > 0)
         {
-            if (eventKey == null)
-            {
-                //eventKey = Managers.Resource.Instantiate("Guild/Event", transform);
-                eventKey = GuildHelper.Instance.GetIcon(GuildHelper.Icon.Question_Yellow);
-                eventKey.transform.position = transform.position + Vector3.up;
-            }
+            icon = GuildHelper.Icon.Question_Yellow;
+            //if (eventKey == null)
+            //{
+            //    //eventKey = Managers.Resource.Instantiate("Guild/Event", transform);
+            //    eventKey = GuildHelper.Instance.GetIcon(GuildHelper.Icon.Question_Yellow);
+            //    eventKey.transform.position = transform.position + Vector3.up;
+            //}
         }
         else if (data.OptionList.Count > 0)
         {
-            if (eventKey == null)
-            {
-                //eventKey = Managers.Resource.Instantiate("Guild/Event", transform);
-                eventKey = GuildHelper.Instance.GetIcon(GuildHelper.Icon.Question_Blue);
-                eventKey.transform.position = transform.position + Vector3.up;
-            }
+            icon = GuildHelper.Icon.Question_Blue;
+            //if (eventKey == null)
+            //{
+            //    //eventKey = Managers.Resource.Instantiate("Guild/Event", transform);
+            //    eventKey = GuildHelper.Instance.GetIcon(GuildHelper.Icon.Question_Blue);
+            //    eventKey.transform.position = transform.position + Vector3.up;
+            //}
         }
         else if(data.InstanceQuestList.Count == 0 && data.OptionList.Count == 0)
         {
@@ -92,6 +101,18 @@ public class Interaction_Guild : MonoBehaviour
                 Managers.Resource.Destroy(eventKey);
                 eventKey = null;
             }
+            return;
+        }
+
+
+        if (eventKey == null)
+        {
+            eventKey = GuildHelper.Instance.GetIcon(icon);
+            eventKey.transform.position = transform.position + Vector3.up;
+        }
+        else
+        {
+            eventKey.GetComponentInChildren<SpriteRenderer>().sprite = GuildHelper.Instance.GetIconSprite(icon);
         }
     }
 
@@ -205,8 +226,9 @@ public class Interaction_Guild : MonoBehaviour
         if (data.InstanceQuestList.Count > 0)
         {
             questIndex = data.InstanceQuestList[0];
-            data.InstanceQuestList.Remove(questIndex);
-            data.AlreadyClearList.Add(questIndex);
+            data.ClearQuest(questIndex);
+            //data.InstanceQuestList.Remove(questIndex);
+            //data.AlreadyClearList.Add(questIndex);
 
             Managers.Dialogue.ShowDialogueUI(data.Original_Index + questIndex, transform);
             return;

@@ -1016,6 +1016,11 @@ public class EventManager : MonoBehaviour
     //? 모든 Main Event를 포함해야함
     void AddEventAction()
     {
+        EventAction.Add("Dialogue_Close", () => {
+            Managers.Dialogue.Close_CurrentDialogue();
+        });
+
+
         EventAction.Add("Tutorial_Orb", () => {
             Transform child = Main.Instance.Player.GetComponentInChildren<SpriteRenderer>().transform;
             child.localScale = new Vector3(-1, 1, 1);
@@ -1313,6 +1318,33 @@ public class EventManager : MonoBehaviour
         });
 
 
+
+        EventAction.Add("RandomArtifact", () =>
+        {
+            Debug.Log("랜덤 유물 구매");
+
+            var saveData = Managers.Data.GetData("Temp_GuildSave");
+
+            if (saveData.Player_Gold < 1000) //? 골드가 부족하다면 시스템 메세지 혹은 돈부족 대화
+            {
+                Managers.Dialogue.ShowDialogueUI(11011);
+                return;
+            }
+
+            saveData.Player_Gold -= 1000;
+            GuildManager.Instance.AddBackAction(() =>
+            {
+                GameManager.Artifact.Add_RandomArtifact();
+            });
+        });
+        EventAction.Add("Artifact_ID", () =>
+        {
+            Debug.Log("유물 ID 구매");
+            GuildManager.Instance.AddBackAction(() =>
+            {
+                GameManager.Artifact.AddArtifact(ArtifactLabel.Pearl); //? 추가한 아티팩트로 바꾸면 댐
+            });
+        });
 
 
         //EventAction.Add("Ending", () =>

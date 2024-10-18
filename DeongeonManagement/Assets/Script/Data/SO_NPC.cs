@@ -18,6 +18,7 @@ public class SO_NPC : ScriptableObject, I_SO_Collection
     [Header("Option")]
     //public bool View_Store;
     public bool View_Collection;
+    public int[] levelCaps;
 
     [Header("Spawn")]
     public int Rank;
@@ -53,4 +54,5 @@ public class SO_NPC : ScriptableObject, I_SO_Collection
 
     //[Header("FacilityTag")] //? 상호작용시 보너스효과와 마이너스효과
     //public List<TagGroup> FacilityTagList;
+
 }

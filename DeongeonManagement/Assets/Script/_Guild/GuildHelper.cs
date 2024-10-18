@@ -46,6 +46,10 @@ public class GuildHelper : MonoBehaviour
 
         return ui;
     }
+    public Sprite GetIconSprite(Icon icon)
+    {
+        return event_Icon[(int)icon];
+    }
 
 
     public Transform[] posList;

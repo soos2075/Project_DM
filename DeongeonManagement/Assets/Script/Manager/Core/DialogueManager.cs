@@ -186,6 +186,20 @@ public class DialogueManager
 
 
 
+
+    public void Close_CurrentDialogue()
+    {
+        if (currentDialogue == null)
+        {
+            return;
+        }
+
+        UserData.Instance.GameMode = Define.GameMode.Normal;
+        Managers.UI.ClosePopupPickType(typeof(UI_DialogueBubble));
+        currentDialogue = null;
+    }
+
+
     public bool AllowPerfectSkip { get; set; } = true;
 
 
@@ -269,7 +283,8 @@ public class DialogueManager
         Managers.UI.CloseAll();
         ShowDialogueUI(data);
         var npc = GuildManager.Instance.GetInteraction(id);
-        npc.OptionList.RemoveAt(pointer.pointerCurrentRaycast.gameObject.transform.GetSiblingIndex());
+        //npc.OptionList.RemoveAt(pointer.pointerCurrentRaycast.gameObject.transform.GetSiblingIndex());
+        npc.Remove_Option(pointer.pointerCurrentRaycast.gameObject.transform.GetSiblingIndex());
     }
 
 

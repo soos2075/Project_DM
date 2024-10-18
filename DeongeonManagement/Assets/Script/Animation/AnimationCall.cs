@@ -18,9 +18,14 @@ public class AnimationCall : MonoBehaviour
         SoundManager.Instance.PlaySound("SFX/Battle_npc");
         GetComponentInParent<BattleField>().Projectile_Launch();
     }
-    public void Projectile_Shot()
+    public void Projectile_Shot() //? 플레이어가 얘를 써서 따로 해줘야함
     {
-        //Debug.Log("anim_Cilp_Call");
+        if (name.Contains("Player"))
+        {
+            Call_Mash();
+            return;
+        }
+
         SoundManager.Instance.PlaySound("SFX/Battle_npc");
         GetComponentInParent<BattleField>().Projectile_Launch();
     }
