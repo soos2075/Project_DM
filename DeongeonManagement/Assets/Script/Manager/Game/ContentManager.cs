@@ -52,7 +52,7 @@ public class ContentManager
                         }
                         else
                         {
-                            Vector2Int[] boundary = Util.GetBoundary(Define.Boundary.Boundary_1x1);
+                            Vector2Int[] boundary = Util.GetBoundary(item.Options[0].Boundary);
                             customFuncList.Add(() => CreateUnique(item.Options[0].FacilityKeyName, boundary));
                         }
                     }
@@ -411,17 +411,36 @@ public class ContentManager
         if (Main.Instance.CurrentTile == null) return false;
 
         var tile = Main.Instance.CurrentTile;
-        foreach (var item in boundary)
+        //foreach (var item in boundary)
+        //{
+        //    Vector2Int delta = tile.index + item;
+        //    BasementTile temp = null;
+        //    if (Main.Instance.CurrentTile.floor.TileMap.TryGetValue(delta, out temp))
+        //    {
+        //        var info = new PlacementInfo(Main.Instance.CurrentTile.floor, temp);
+        //        GameManager.Facility.CreateFacility_OnlyOne(prefab, info);
+        //    }
+        //}
+
+        Facility original = null;
+        for (int i = 0; i < boundary.Length; i++)
         {
-            Vector2Int delta = tile.index + item;
+            Vector2Int delta = tile.index + boundary[i];
             BasementTile temp = null;
             if (Main.Instance.CurrentTile.floor.TileMap.TryGetValue(delta, out temp))
             {
                 var info = new PlacementInfo(Main.Instance.CurrentTile.floor, temp);
-                GameManager.Facility.CreateFacility_OnlyOne(prefab, info);
+                if (i == 0)
+                {
+                    original = GameManager.Facility.CreateFacility_OnlyOne(prefab, info) as Facility;
+                }
+                else
+                {
+                    var clone = GameManager.Facility.CreateFacility("Clone_Facility_Wall", info);
+                    clone.GetObject().GetComponent<Clone_Facility_Wall>().OriginalTarget = original;
+                }
             }
         }
-
         return true;
     }
 

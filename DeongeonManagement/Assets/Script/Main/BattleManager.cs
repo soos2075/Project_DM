@@ -81,30 +81,17 @@ public class BattleManager : MonoBehaviour
     {
         var floor = monster.PlacementInfo.Place_Floor.FloorIndex;
         //Debug.Log(floor + "@@");
-        switch (floor)
+
+        //? 배틀필드 배경이미지
+        if (floor > 0)
         {
-            case 1:
-            case 2:
-            case 3:
-                field.sprite_BG.sprite = Battle_SLA.GetSprite("Field", "3");
-                break;
-
-            case 0:
-            case 4:
-            case 5:
-                field.sprite_BG.sprite = Battle_SLA.GetSprite("Field", "1");
-                break;
-
-            //case 2:
-            //case 5:
-            //case 8:
-            //    field.sprite_BG.sprite = Battle_SLA.GetSprite("Field", "3");
-                break;
-
-            default:
-                field.sprite_BG.sprite = Battle_SLA.GetSprite("Field", "1");
-                break;
+            field.sprite_BG.sprite = Battle_SLA.GetSprite("Field", $"{floor}");
         }
+        else
+        {
+            field.sprite_BG.sprite = Battle_SLA.GetSprite("Field", "3");
+        }
+
 
         var npcType = npc.GetType();
 

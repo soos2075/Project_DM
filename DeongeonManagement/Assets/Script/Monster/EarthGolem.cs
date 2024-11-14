@@ -21,6 +21,14 @@ public class EarthGolem : Monster
         //}
     }
 
+    public override void EvolutionMonster_Init()
+    {
+        Data = GameManager.Monster.GetData("EarthGolem");
+        Initialize_Status();
+        EvolutionState = Evolution.Complete;
+        EvolutionComplete();
+    }
+
     void Trait_Original()
     {
         AddTrait(new Trait.Vitality());

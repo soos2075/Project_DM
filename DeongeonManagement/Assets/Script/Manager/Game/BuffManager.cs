@@ -27,8 +27,8 @@ public class BuffManager
     public int GoldBonus { get; set; }      //? 최종 골드 계산시 보너스 - 1당 1퍼센트
 
 
-    public int PlayerHpBonus { get; set; }  //? 플레이어 체력 보너스
-    public int PlayerStatBonus { get; set; }//? 플레이어 올스탯 보너스
+    public int HpBonus { get; set; }  //? 플레이어 체력 보너스
+    public int StatBonus { get; set; }//? 플레이어 올스탯 보너스
     //public int APBonus { get; set; }        //? 턴 시작시 행동력 보너스 - 정수
 
 

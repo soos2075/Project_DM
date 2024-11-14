@@ -63,6 +63,8 @@ public class PlacementManager
         var objList = info.Place_Floor.GetFloorObjectList();
         foreach (var item in objList)
         {
+            if (item.Original == null) continue;
+
             if (newObj.GetType() == item.Original.GetType())
             {
                 //? 퍼실리티가 아닌 유일하게 존재해야하는게 있다면 오류 / 유일하게 존재해야하는 몬스터같은게 있으면 나중에 수정해야함
@@ -260,6 +262,11 @@ public class PlacementManager
     {
         SpriteRenderer renderer = obj.GetObject().GetComponentInChildren<SpriteRenderer>();
         if (renderer) renderer.enabled = false;
+
+        //if (obj is Facility)
+        //{
+        //    Managers.Resource.Destroy(obj.GetObject());
+        //}
     }
 
 }

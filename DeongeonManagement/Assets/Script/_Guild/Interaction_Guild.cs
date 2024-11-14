@@ -156,7 +156,7 @@ public class Interaction_Guild : MonoBehaviour
                 }
                 break;
 
-            case GuildNPC_LabelName.DummyA:
+            case GuildNPC_LabelName.DogGirl:
                 break;
 
             case GuildNPC_LabelName.DummyB:

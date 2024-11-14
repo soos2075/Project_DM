@@ -304,12 +304,9 @@ public class BasementFloor : MonoBehaviour
                 }
                 else if (findType == PathFindingType.Allow_Wall)
                 {
-                    if (value.Original != null)
+                    if (Check_IWall(value))
                     {
-                        if (value.Original.GetType() == typeof(Obstacle_Wall))
-                        {
-                            continue;
-                        }
+                        if (!Interaction_Wall_Facility(value)) continue;
                     }
                 }
 
@@ -415,12 +412,9 @@ public class BasementFloor : MonoBehaviour
                 }
                 else if (findType == PathFindingType.Allow_Wall)
                 {
-                    if (value.Original != null)
+                    if (Check_IWall(value))
                     {
-                        if (value.Original.GetType() == typeof(Obstacle_Wall))
-                        {
-                            continue;
-                        }
+                        if (!Interaction_Wall_Facility(value)) continue;
                     }
                 }
 
@@ -482,6 +476,28 @@ public class BasementFloor : MonoBehaviour
         {
             return false;
         }
+    }
+
+    bool Interaction_Wall_Facility(BasementTile tile)
+    {
+        if (tile.Original != null)
+        {
+            if (tile.Original is Wells) //? 여기 이제 Well말고도 상호작용 가능한 Wall Object가 있으면 추가해야함
+            {
+                return true;
+            }
+
+            if (tile.Original is Clone_Facility_Wall)
+            {
+                var clone = tile.Original as Clone_Facility_Wall;
+                if (clone.OriginalTarget is Wells)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
 
@@ -672,7 +688,7 @@ public class BasementFloor : MonoBehaviour
         get
         {
             var obj = PickObjectOfType(typeof(Entrance));
-            if (obj == null)
+            if (obj == null && FloorIndex != (int)Define.DungeonFloor.Egg)
             {
                 var info = new PlacementInfo(this, GetRandomTile_Portal());
                 obj = GameManager.Facility.CreateFacility_OnlyOne("Entrance", info);
@@ -686,7 +702,7 @@ public class BasementFloor : MonoBehaviour
         get
         {
             var obj = PickObjectOfType(typeof(Exit));
-            if (obj == null)
+            if (obj == null && FloorIndex != (int)Define.DungeonFloor.Egg)
             {
                 var info = new PlacementInfo(this, GetRandomTile_Portal());
                 obj = GameManager.Facility.CreateFacility_OnlyOne("Exit", info);
@@ -1085,6 +1101,19 @@ public class BasementTile
                     if (Original.GetType() == typeof(Entrance) || Original.GetType() == typeof(Exit))
                     {
                         return Define.PlaceEvent.Event;
+                    }
+
+                    if (Original.GetType() == typeof(Entrance_Egg))
+                    {
+                        var npc = _placementable as NPC;
+                        if (npc.PriorityList[0].Original == Original) //? 진짜 원해서 이자리에 있는 애들만 비밀방으로 이동
+                        {
+                            return Define.PlaceEvent.Event;
+                        }
+                        else
+                        {
+                            return Define.PlaceEvent.Placement;
+                        }
                     }
 
 

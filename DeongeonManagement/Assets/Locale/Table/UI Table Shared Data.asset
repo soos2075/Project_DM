@@ -631,6 +631,34 @@ MonoBehaviour:
     m_Key: "\uC7A0\uAE40"
     m_Metadata:
       m_Items: []
+  - m_Id: 82174795892076544
+    m_Key: "\uC9C0\uB09C \uAE30\uB85D"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89309935005020160
+    m_Key: "Confirm_Pray_\uC2E0\uB8B0\uC758\uC0C1"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89310464867250176
+    m_Key: "Confirm_Pray_\uD30C\uBA78\uC758\uC0C1"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89310467086036992
+    m_Key: "Confirm_Pray_\uD3C9\uC628\uC758\uC0C1"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89310468210110464
+    m_Key: "Confirm_Pray_\uCE5C\uD654\uC758\uC0C1"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89310469397098496
+    m_Key: "Confirm_Pray_\uACF5\uD3EC\uC758\uC0C1"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89310472475717632
+    m_Key: "Confirm_Pray_\uC601\uC6C5\uC758\uC0C1"
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

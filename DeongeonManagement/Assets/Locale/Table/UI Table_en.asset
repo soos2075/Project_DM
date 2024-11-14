@@ -467,17 +467,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 43749063683944448
-    m_Localized: 'AP is restored to full each turn.
+    m_Localized: 'AP is fully restored every turn.
 
 
+      AP is used in various
+      activities such as interacting with units, visiting guilds, removing dungeon
+      obstacles, and praying at statues.
 
-      AP is used to train
-      monsters, visit guilds, interact with statues, and more.
 
-
-
-      For now,
-      click on the statues!'
+      Try clicking on a statue first!'
     m_Metadata:
       m_Items: []
   - m_Id: 44085068026818560
@@ -661,6 +659,34 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 79795567468949504
     m_Localized: Locked
+    m_Metadata:
+      m_Items: []
+  - m_Id: 82174795892076544
+    m_Localized: Historical record
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89309935005020160
+    m_Localized: Would you like to pray to the Statue of Trust?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89310464867250176
+    m_Localized: Would you like to pray to the Statue of Ruin?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89310467086036992
+    m_Localized: Would you like to pray to the Statue of Tranquility?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89310468210110464
+    m_Localized: Would you like to pray to the Statue of Harmony?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89310469397098496
+    m_Localized: Would you like to pray to the Statue of Terror?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89310472475717632
+    m_Localized: Would you like to pray to the Statue of Heroes?
     m_Metadata:
       m_Items: []
   references:

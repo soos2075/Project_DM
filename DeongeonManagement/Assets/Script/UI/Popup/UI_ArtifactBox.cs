@@ -71,7 +71,9 @@ public class UI_ArtifactBox : UI_PopUp
                 $"{current[i].Count}");
 
             var tool = itemArray[i].gameObject.GetOrAddComponent<UI_Tooltip>();
-            tool.SetTooltipContents(current[i].Data.labelName, current[i].Data.tooltip_Effect, UI_TooltipBox.ShowPosition.RightDown);
+            string content = $"{current[i].Data.tooltip_Effect}\n<i><color=#395A2Cff>{current[i].Data.detail}</color></i>";
+
+            tool.SetTooltipContents(current[i].Data.labelName, content, UI_TooltipBox.ShowPosition.RightDown);
         }
     }
 

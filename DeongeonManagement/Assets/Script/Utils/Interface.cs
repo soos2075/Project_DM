@@ -60,6 +60,8 @@ public interface I_BattleStat
     int HP { get; set; }
 }
 
+
+
 public interface I_TraitSystem
 {
     public bool TraitCheck(TraitGroup searchTrait);

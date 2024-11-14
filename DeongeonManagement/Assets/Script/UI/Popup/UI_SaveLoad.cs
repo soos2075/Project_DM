@@ -131,7 +131,7 @@ public class UI_SaveLoad : UI_PopUp
         {
             if (data.isClear) // 클리어 데이터면 걍 몬스터만 고르고 바로 끝 or 나중에 무한모드로 가든지 말든지(도전과제같은거?)
             {
-                UserData.Instance.GameClear(data);
+                //UserData.Instance.GameClear(data);
                 return;
             }
 
@@ -212,15 +212,15 @@ public class UI_SaveLoad : UI_PopUp
                     {
                         if (autodata.isClear) // 클리어 데이터면 걍 몬스터만 고르고 바로 끝 or 나중에 무한모드로 가든지 말든지
                         {
-                            UserData.Instance.GameClear(autodata);
+                            //UserData.Instance.GameClear(autodata);
                             return;
                         }
 
                         // 클리어 데이터가 아니면 정상로드
-                        Managers.Scene.AddLoadAction_OneTime(() => Main.Instance.Default_Init());
-                        Managers.Scene.AddLoadAction_OneTime(() => Managers.Data.LoadGame($"AutoSave"));
+                        Managers.Scene.AddLoadAction_OneTime(() => LoadAction($"AutoSave"));
+                        //Managers.Scene.AddLoadAction_OneTime(() => Managers.Data.LoadGame($"AutoSave"));
                         Managers.Scene.LoadSceneAsync(SceneName._2_Management);
-                        UserData.Instance.GameMode = Define.GameMode.Normal;
+                        //UserData.Instance.GameMode = Define.GameMode.Normal;
                         return;
                     }
                 }
@@ -235,7 +235,7 @@ public class UI_SaveLoad : UI_PopUp
                 {
                     if (data.isClear) // 클리어 데이터면 걍 몬스터만 고르고 바로 끝 or 나중에 무한모드로 가든지 말든지(도전과제같은거?)
                     {
-                        UserData.Instance.GameClear(data);
+                        //UserData.Instance.GameClear(data);
                         return;
                     }
 
@@ -321,6 +321,12 @@ public class UI_SaveLoad : UI_PopUp
         Main.Instance.Default_Init();
         Managers.Data.LoadGame($"DM_Save_{index}");
         //Managers.Data.LoadGame_ToFile(index);
+    }
+
+    void LoadAction(string slotName)
+    {
+        Main.Instance.Default_Init();
+        Managers.Data.LoadGame(slotName);
     }
 
 

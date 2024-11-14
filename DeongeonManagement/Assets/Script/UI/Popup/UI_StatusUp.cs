@@ -57,7 +57,7 @@ public class UI_StatusUp : UI_PopUp
 
         StartCoroutine(WaitFrame());
 
-        SoundManager.Instance.PlaySound($"SFX/LevelUp");
+        //SoundManager.Instance.PlaySound($"SFX/LevelUp");
     }
 
 
@@ -82,7 +82,7 @@ public class UI_StatusUp : UI_PopUp
     {
         GetImage(((int)Images.Profile)).sprite = 
             Managers.Sprite.Get_SLA(SpriteManager.Library.Monster, monster.Data.SLA_category, monster.Data.SLA_label);
-        GetTMP(((int)Texts.Name)).text = monster.Data.labelName;
+        GetTMP(((int)Texts.Name)).text = monster.CallName; //monster.Data.labelName;
     }
     void ShowUpStatus()
     {
@@ -259,6 +259,7 @@ public class UI_StatusUp : UI_PopUp
     private void OnEnable()
     {
         Time.timeScale = 0;
+        SoundManager.Instance.PlaySound($"SFX/LevelUp");
     }
     private void OnDestroy()
     {

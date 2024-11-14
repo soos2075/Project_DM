@@ -176,6 +176,22 @@ public class FacilityManager
     }
 
 
+    public int GetFacilityCount<T>() where T : Facility
+    {
+        int count = 0;
+
+        foreach (var item in facilityList)
+        {
+            if (item is T)
+            {
+                count++;
+            }
+        }
+
+
+        return count;
+    }
+
     #endregion
 
 

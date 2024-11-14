@@ -28,6 +28,25 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     //    prioList = PriorityList;
     //}
 
+    protected virtual void Difficulty_Setting()
+    {
+        //switch (UserData.Instance.FileConfig.Difficulty)
+        //{
+        //    case Define.DifficultyLevel.Easy:
+        //        break;
+        //    case Define.DifficultyLevel.Normal:
+        //        break;
+        //    case Define.DifficultyLevel.Hard:
+        //        break;
+        //    case Define.DifficultyLevel.VeryHard:
+        //        break;
+        //    case Define.DifficultyLevel.Master:
+        //        break;
+        //    default:
+        //        break;
+        //}
+    }
+
 
     protected virtual void Start_Setting()
     {
@@ -364,6 +383,13 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         targetList.Sort(comparer);
     }
 
+    #region 층 이동시마다 초기화 or 체크 해야되는 것들 ex) 우물, 카지노, 기타 층마다 하나만 있는 시설물들
+
+    public void NewFloor_Check_Reset()
+    {
+        isWellsCheck = false;
+    }
+
 
     public bool isWellsCheck { get; set; }
     protected virtual void Add_Wells()
@@ -376,6 +402,11 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
             AddList(list, AddPos.Front);
         }
     }
+
+
+    #endregion
+
+
 
     public void SetPriorityList_Update()
     {
@@ -638,6 +669,28 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
         renderer.sortingOrder = originLayer;
     }
+    protected IEnumerator EventCor(DialogueName dialogueName, Func<bool> condition, float dis = 1.5f)
+    {
+        yield return new WaitUntil(() => Vector3.Distance(transform.position, Main.Instance.Dungeon.position) < dis);
+
+        if (condition()) yield break;
+
+        var renderer = GetComponentInChildren<SpriteRenderer>();
+        int originLayer = renderer.sortingOrder;
+        renderer.sortingOrder = 10;
+
+        Camera.main.GetComponent<CameraControl>().ChasingTarget(transform.position, 1); //? 여기서 하는 이유 = 카메라가 다른놈 가르키는거 방지
+        Managers.Dialogue.ShowDialogueUI(dialogueName, transform);
+
+        anim.Play(Define.ANIM_Idle);
+
+        yield return null;
+        yield return UserData.Instance.Wait_GamePlay;
+
+        Anim_State = Anim_State;
+
+        renderer.sortingOrder = originLayer;
+    }
 
     protected IEnumerator EventCor(DialogueName dialogueName, Action action, float dis = 1.5f)
     {
@@ -706,14 +759,85 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
     #region I_Battle Stat
 
-    public int B_HP { get => HP; }
-    public int B_HP_Max { get => HP_MAX; }
-    public int B_ATK { get => ATK; }
-    public int B_DEF { get => DEF; }
-    public int B_AGI { get => AGI; }
-    public int B_LUK { get => LUK; }
+    public int B_HP { get => HP_Final; }
+    public int B_HP_Max { get => HPMax_Final; }
+    public int B_ATK { get => ATK_Final; }
+    public int B_DEF { get => DEF_Final; }
+    public int B_AGI { get => AGI_Final; }
+    public int B_LUK { get => LUK_Final; }
 
     #endregion
+
+    #region Stat Bonus
+
+    int HP_Final { get { return Mathf.RoundToInt((HP + HP_Bonus) * HP_Ratio); } }
+    int HPMax_Final { get { return Mathf.RoundToInt((HP_MAX + HP_Bonus) * HP_Ratio); } }
+
+    int HP_Bonus { get { return 0; } }
+
+
+    int ATK_Final { get { return ATK + AllStat_Bonus + ATK_Bonus; } }
+    int DEF_Final { get { return DEF + AllStat_Bonus + DEF_Bonus; } }
+    int AGI_Final { get { return AGI + AllStat_Bonus + AGI_Bonus; } }
+    int LUK_Final { get { return LUK + AllStat_Bonus + LUK_Bonus; } }
+
+
+    int ATK_Bonus { get { return 0; } }
+    int DEF_Bonus { get { return 0; } }
+    int AGI_Bonus { get { return 0; } }
+    int LUK_Bonus { get { return 0; } }
+
+
+    int AllStat_Bonus
+    {
+        get
+        {
+            return 0;
+        }
+    }
+
+    float HP_Ratio
+    {
+        get
+        {
+            return 1 + Artifact_Decay;
+        }
+    }
+    float AllStat_Ratio
+    {
+        get
+        {
+            return 1;
+        }
+    }
+
+
+    float Artifact_Decay { get { return GameManager.Artifact.GetArtifact(ArtifactLabel.TouchOfDecay).Count > 0 ? -0.2f : 0; } }
+
+    //float Difficulty_HP_Ratio //? 이건 그냥 start 같은곳에서 일괄적용하는게 나을듯. hp말고 다른것도 다 달라져야되니까
+    //{
+    //    get
+    //    {
+    //        switch (UserData.Instance.FileConfig.Difficulty)
+    //        {
+    //            case Define.DifficultyLevel.Easy:
+    //                return 0;
+    //            case Define.DifficultyLevel.Normal:
+    //                return 0.5f;
+    //            case Define.DifficultyLevel.Hard:
+    //                return 1.0f;
+    //            case Define.DifficultyLevel.VeryHard:
+    //                return 1.5f;
+    //            case Define.DifficultyLevel.Master:
+    //                return 2.0f;
+
+    //            default:
+    //                return 0;
+    //        }
+    //    }
+    //}
+    #endregion
+
 
 
     #region Npc Status Property
@@ -881,6 +1005,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         var info_Entrance = new PlacementInfo(Main.Instance.Floor[FloorLevel], Main.Instance.Floor[FloorLevel].Exit.PlacementInfo.Place_Tile);
         GameManager.Placement.PlacementConfirm(this, info_Entrance);
 
+        NewFloor_Check_Reset();
+
         //FloorLevel++;
         //Debug.Log($"{name}(이)가 {FloorLevel}층에 도착");
 
@@ -985,7 +1111,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
         PriorityList.Clear();
         PriorityList.Add(PlacementInfo.Place_Floor.Exit.PlacementInfo.Place_Tile);
-        MoveToTargetTile(PriorityList[0]);
+        MoveToTargetTile(PriorityList[0], true);
     }
 
     protected virtual void TurnOverEventSetting()
@@ -1253,7 +1379,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     //Vector2Int prevCurrent;
     //BasementTile prevTarget;
 
-    public void MoveToTargetTile(BasementTile target)
+    public void MoveToTargetTile(BasementTile target, bool isOverlap = false)
     {
         // 만약 목표지점이 내가 있는 타일이라면 여기서 바로 상호작용을 한다음 리턴시켜버리기
         if (target == PlacementInfo.Place_Tile)
@@ -1287,11 +1413,6 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         }
         else
         {
-            //if (prevTarget == null || prevTarget != target || prevCurrent != PlacementInfo.Place_Tile.index)
-            //{
-            //    path = PlacementInfo.Place_Floor.PathFinding(PlacementInfo.Place_Tile, target, AvoidTileType, out pathFind);
-            //}
-
             path = PlacementInfo.Place_Floor.PathFinding(PlacementInfo.Place_Tile, target, AvoidTileType, out pathFind);
 
             //Debug.Log($"우선순위 길찾기 결과 : {pathFind}");
@@ -1311,7 +1432,14 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
         if (pathFind || pathRefind)
         {
-            Cor_Move = StartCoroutine(DungeonMoveToPath(path, pathRefind));
+            if (isOverlap)
+            {
+                Cor_Move = StartCoroutine(DungeonMoveToPath(path, true));
+            }
+            else
+            {
+                Cor_Move = StartCoroutine(DungeonMoveToPath(path, pathRefind));
+            }
         }
         else
         {

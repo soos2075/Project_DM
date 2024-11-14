@@ -181,6 +181,11 @@ public class MonsterManager
         foreach (var mon in sameList)
         {
             mon.EvolutionState = Monster.Evolution.Exclude;
+
+            if (mon is GreyHound)
+            {
+                mon.UnitDialogueEvent.ClearEvent(UnitDialogueEventLabel.GreyHound_Evolution);
+            }
         }
     }
 
@@ -270,6 +275,18 @@ public class MonsterManager
         return null;
     }
 
+    public int GetMonsterSlotIndex(Monster mon)
+    {
+        for (int i = 0; i < Monsters.Length; i++)
+        {
+            if (Monsters[i] == mon)
+            {
+                return i;
+            }
+        }
+        return 0;
+    }
+
 
 
     public List<Monster> GetMonsterAll()
@@ -286,6 +303,30 @@ public class MonsterManager
 
         return monsterList;
     }
+
+
+    public void CreateMonster(string keyName, bool isEvolution = false)
+    {
+        var data = GetData(keyName);
+        if (data != null)
+        {
+            var mon = GameManager.Placement.CreatePlacementObject(data.prefabPath, null, PlacementType.Monster) as Monster;
+
+            if (isEvolution) //? 새로 생성하려는 몹이 진화상태인 몹이라면
+            {
+                mon.EvolutionMonster_Init();
+            }
+            else
+            {
+                mon.MonsterInit();
+                mon.Initialize_Status();
+            }
+
+            //mon.AddCollectionPoint();
+            AddMonster(mon);
+        }
+    }
+
 
 
     public void AddMonster(Monster mon)
@@ -358,16 +399,22 @@ public class MonsterManager
     #region 세이브 데이터
     public Save_MonsterData[] GetSaveData_Monster()
     {
-        Save_MonsterData[] savedata = new Save_MonsterData[Monsters.Length];
+        Save_MonsterData[] savedata = new Save_MonsterData[Monsters.Length + 1];
+
+        {        //? 플레이어 데이터를 첫번째로 저장
+            var playerData = new Save_MonsterData();
+            playerData.SetData(Main.Instance.Player.GetComponent<Monster>());
+            savedata[0] = playerData;
+        }
 
 
-        for (int i = 0; i < savedata.Length; i++)
+        for (int i = 0; i < savedata.Length - 1; i++)
         {
             if (Monsters[i] != null)
             {
                 var newData = new Save_MonsterData();
                 newData.SetData(Monsters[i]);
-                savedata[i] = newData;
+                savedata[i + 1] = newData;
             }
         }
 
@@ -378,6 +425,15 @@ public class MonsterManager
     {
         for (int i = 0; i < data.Length; i++)
         {
+            if (i == 0)
+            {
+                var player = Main.Instance.Player.GetComponent<Player>();
+                player.Player_DataLoad(data[0]);
+                continue;
+            }
+
+
+
             if (data[i] != null)
             {
                 var mon = GameManager.Placement.CreatePlacementObject($"{data[i].PrefabPath}", null, PlacementType.Monster) as Monster;
@@ -403,8 +459,8 @@ public class MonsterManager
                     }
                 }
 
-                Monsters[i] = mon;
-                Monsters[i].MonsterID = i;
+                Monsters[data[i].SlotIndex] = mon;
+                mon.MonsterID = data[i].SlotIndex;
             }
         }
     }
@@ -456,8 +512,11 @@ public class MonsterManager
             unit.GetComponent<Heroine>().Evolution_Rena();
         });
 
+        UnitEventAction.Add("Evolution_Hound", (unit) => {
+            unit.GetComponent<GreyHound>().Evolution_Hound();
+        });
 
-        
+
 
 
 
@@ -599,6 +658,10 @@ public class MonsterManager
                 UnitEventAction.TryGetValue("Evolution_Rena", out statUp);
                 break;
 
+            case UnitDialogueEventLabel.GreyHound_Evolution:
+                UnitEventAction.TryGetValue("Evolution_Hound", out statUp);
+                break;
+
 
             default:
                 UnitEventAction.TryGetValue("Random_UP", out statUp);
@@ -678,6 +741,12 @@ public class MonsterManager
 public enum UnitDialogueEventLabel
 {
     Slime_First = 100100,
+
+    GreyHound_First = 100700,
+    GreyHound_Lv20 = 100701,
+    GreyHound_Evolution = 100702,
+
+
     BloodySlime_First = 150100,
 
     Salamandra_First = 100600,
@@ -762,6 +831,7 @@ public class Save_MonsterData
     public int BattleCount;
     public int BattlePoint;
 
+    public int SlotIndex;
 
     public int FloorIndex { get; set; }
     public Vector2Int PosIndex { get; set; }
@@ -803,6 +873,8 @@ public class Save_MonsterData
         Evolution = monster.EvolutionState;
         BattleCount = monster.BattlePoint_Count;
         BattlePoint = monster.BattlePoint_Rank;
+
+        SlotIndex = monster.MonsterID;
 
         State = monster.State;
         MoveMode = monster.Mode;

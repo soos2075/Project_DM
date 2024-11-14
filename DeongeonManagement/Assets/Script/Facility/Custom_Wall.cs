@@ -110,8 +110,8 @@ public class Custom_Wall : Facility, IWall
                 break;
             case Define.Boundary.Boundary_2x2:
                 Size = SizeOption._2x2;
-                categoryName = "Floor3";
-                labelName = "6";
+                categoryName = "CustomWall";
+                labelName = "22";
                 break;
             case Define.Boundary.Boundary_2x3:
                 break;
@@ -127,15 +127,16 @@ public class Custom_Wall : Facility, IWall
                     GameManager.Placement.PlacementConfirm(this, newInfo, true);
                 }
                 Size = SizeOption._3x3;
-                categoryName = "Floor3";
-                labelName = "7";
+                categoryName = "CustomWall";
+                labelName = "33";
                 break;
         }
 
 
 
         isInit = true;
-        Data = GameManager.Facility.GetData($"RO{Size.ToString()}");
+        //Data = GameManager.Facility.GetData($"RO{Size.ToString()}");
+        Data = GameManager.Facility.GetData($"Custom_Wall");
         SetData();
         CategorySelect(categoryName, labelName);
         Create_Clone();

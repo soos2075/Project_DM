@@ -2,15 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.U2D.Animation;
 
 public class ArtifactBox : MonoBehaviour
 {
-    //SpriteResolver Resolver;
+    SpriteResolver Resolver;
 
     private void Start()
     {
-        //Resolver = GetComponent<SpriteResolver>();
+        Resolver = GetComponent<SpriteResolver>();
+        Init_State();
     }
+
+    string categoty = "Bronze";
+
+    void Init_State()
+    {
+        int artifactCount = GameManager.Artifact.GetCurrentArtifact().Count;
+
+        if (artifactCount > 0)
+        {
+            categoty = "Silver";
+        }
+        if (artifactCount > 5)
+        {
+            categoty = "Gold";
+        }
+
+        Resolver.SetCategoryAndLabel(categoty, "Inactive");
+    }
+
 
 
     bool ReturnCheck() //? 이벤트 발생 조건
@@ -47,57 +68,82 @@ public class ArtifactBox : MonoBehaviour
     }
 
 
-    //private void OnMouseEnter()
-    //{
-    //    EnterReserve = StartCoroutine(Wait_Enter());
-    //}
+    #region ShowBox
 
-    //IEnumerator Wait_Enter()
-    //{
-    //    yield return new WaitUntil(() => ReturnCheck() == false);
+    UI_TileView view;
+    void MoveEvent()
+    {
+        if (Managers.UI._popupStack.Count > 0) return;
+        if (view == null)
+        {
+            view = Managers.UI.ShowPopUpAlone<UI_TileView>();
 
-    //    if (isActive)
-    //    {
-    //        //Resolver.SetCategoryAndLabel(_OrbType.ToString(), "Active_line");
-    //    }
-    //    else
-    //    {
-    //        Resolver.SetCategoryAndLabel(_OrbType.ToString(), "Inactive_line");
-    //    }
-    //}
+            string title = $"{UserData.Instance.LocaleText_Tooltip("아티팩트보관함")}";
+            string detile = $"{UserData.Instance.LocaleText_Tooltip("아티팩트보관함_설명")}" +
+                $"\n{UserData.Instance.LocaleText_Tooltip("보유한아티팩트")} : <b>{GameManager.Artifact.GetArtifactCountAll()}</b>" +
+                $"\n{UserData.Instance.LocaleText_Tooltip("마나획득량")} : <b>{50 * GameManager.Artifact.GetArtifactCountAll()}</b>";
 
-    //Coroutine EnterReserve;
+            view.ViewContents(title, detile);
+        }
 
-    //private void OnMouseExit()
-    //{
-    //    if (EnterReserve != null)
-    //    {
-    //        StopCoroutine(EnterReserve);
-    //    }
-    //    StartCoroutine(Wait_Exit());
-    //}
 
-    //IEnumerator Wait_Exit()
-    //{
-    //    yield return new WaitUntil(() => ReturnCheck() == false);
+    }
+    void CloseView()
+    {
+        if (view)
+        {
+            Managers.UI.ClosePopupPick(view);
+            view = null;
+        }
+    }
 
-    //    if (isActive)
-    //    {
-    //        //Resolver.SetCategoryAndLabel(_OrbType.ToString(), "Active");
-    //    }
-    //    else
-    //    {
-    //        Resolver.SetCategoryAndLabel(_OrbType.ToString(), "Inactive");
-    //    }
-    //}
+    #endregion
+
+    private void OnMouseOver()
+    {
+        if (Main.Instance.Management == false) return;
+        MoveEvent();
+        //Debug.Log("무브");
+    }
+
+
+
+    private void OnMouseEnter()
+    {
+        EnterReserve = StartCoroutine(Wait_Enter());
+
+    }
+
+    IEnumerator Wait_Enter()
+    {
+        yield return new WaitUntil(() => ReturnCheck() == false);
+        Resolver.SetCategoryAndLabel(categoty, "Inactive_line");
+    }
+
+    Coroutine EnterReserve;
+
+    private void OnMouseExit()
+    {
+        if (EnterReserve != null)
+        {
+            StopCoroutine(EnterReserve);
+        }
+        StartCoroutine(Wait_Exit());
+    }
+
+    IEnumerator Wait_Exit()
+    {
+        yield return new WaitUntil(() => ReturnCheck() == false);
+        Resolver.SetCategoryAndLabel(categoty, "Inactive");
+        CloseView();
+        //Debug.Log("나감");
+    }
 
 
 
     private void OnMouseUpAsButton()
     {
         if (ReturnCheck()) return;
-
-        //Debug.Log(_OrbType + "Click");
         StartCoroutine(WaitFrame());
     }
 
@@ -109,16 +155,11 @@ public class ArtifactBox : MonoBehaviour
     }
 
 
-
-
     void MouseClickEvent()
     {
         var ui = Managers.UI.ShowPopUpAlone<UI_ArtifactBox>();
     }
 
-
-
-   
 
 
 }

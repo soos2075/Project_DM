@@ -27,6 +27,30 @@ MonoBehaviour:
     m_Key: AP_Need
     m_Metadata:
       m_Items: []
+  - m_Id: 171247349764
+    m_Key: Command_Attack
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171247349762
+    m_Key: Command_Fixed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171247349763
+    m_Key: Command_Wander
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171243155463
+    m_Key: Danger
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171243155464
+    m_Key: Danger_Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171247349761
+    m_Key: Day
+    m_Metadata:
+      m_Items: []
   - m_Id: 171238961153
     m_Key: Gold
     m_Metadata:
@@ -51,20 +75,60 @@ MonoBehaviour:
     m_Key: Mana_Need
     m_Metadata:
       m_Items: []
-  - m_Id: 171243155461
-    m_Key: Popularity
+  - m_Id: 49772527553294336
+    m_Key: Orb_B
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49772529587531776
+    m_Key: Orb_G
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49772531340750848
+    m_Key: Orb_R
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49772532510961664
+    m_Key: Orb_Y
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14443166239502336
+    m_Key: Orb_Blue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30062950574403584
+    m_Key: Orb_Blue_Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14443102418972672
+    m_Key: Orb_Green
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30062598764572672
+    m_Key: Orb_Green_Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14443169452339200
+    m_Key: Orb_Red
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30063477735501824
+    m_Key: Orb_Red_Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14443171813732352
+    m_Key: Orb_Yellow
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30062832676712448
+    m_Key: Orb_Yellow_Detail
     m_Metadata:
       m_Items: []
   - m_Id: 171243155462
     m_Key: Pop_Detail
     m_Metadata:
       m_Items: []
-  - m_Id: 171243155463
-    m_Key: Danger
-    m_Metadata:
-      m_Items: []
-  - m_Id: 171243155464
-    m_Key: Danger_Detail
+  - m_Id: 171243155461
+    m_Key: Popularity
     m_Metadata:
       m_Items: []
   - m_Id: 171243155465
@@ -75,108 +139,8 @@ MonoBehaviour:
     m_Key: Rank_Detail
     m_Metadata:
       m_Items: []
-  - m_Id: 171247349761
-    m_Key: Day
-    m_Metadata:
-      m_Items: []
-  - m_Id: 171247349762
-    m_Key: Command_Fixed
-    m_Metadata:
-      m_Items: []
-  - m_Id: 171247349763
-    m_Key: Command_Wander
-    m_Metadata:
-      m_Items: []
-  - m_Id: 171247349764
-    m_Key: Command_Attack
-    m_Metadata:
-      m_Items: []
-  - m_Id: 14443102418972672
-    m_Key: Orb_Green
-    m_Metadata:
-      m_Items: []
-  - m_Id: 14443166239502336
-    m_Key: Orb_Blue
-    m_Metadata:
-      m_Items: []
-  - m_Id: 14443169452339200
-    m_Key: Orb_Red
-    m_Metadata:
-      m_Items: []
-  - m_Id: 14443171813732352
-    m_Key: Orb_Yellow
-    m_Metadata:
-      m_Items: []
-  - m_Id: 22870784026554368
-    m_Key: "\uB358\uC804"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 22871157340581888
-    m_Key: "\uC804\uD22C\uD69F\uC218"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 22871926475272192
-    m_Key: "\uD328\uBC30"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 22872292914835456
-    m_Key: "\uB808\uBCA8\uC5C5"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 22873009863995392
-    m_Key: "\uBC29\uBB38\uD55C \uBAA8\uD5D8\uAC00"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 22873927397355520
-    m_Key: "\uB9CC\uC871"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 22874769395494912
-    m_Key: "\uADF8\uB7ED\uC800\uB7ED"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 22874880456470528
-    m_Key: "\uC2E4\uB9DD"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 22875270379941888
-    m_Key: "\uB3C4\uB9DD"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 22880734295568384
-    m_Key: "\uD68D\uB4DD"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 22881084150853632
-    m_Key: "\uC18C\uBE44"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 22881208881065984
-    m_Key: "\uC218\uC775"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 30062598764572672
-    m_Key: Orb_Green_Detail
-    m_Metadata:
-      m_Items: []
-  - m_Id: 30062832676712448
-    m_Key: Orb_Yellow_Detail
-    m_Metadata:
-      m_Items: []
-  - m_Id: 30062950574403584
-    m_Key: Orb_Blue_Detail
-    m_Metadata:
-      m_Items: []
-  - m_Id: 30063477735501824
-    m_Key: Orb_Red_Detail
-    m_Metadata:
-      m_Items: []
-  - m_Id: 44245981308596224
-    m_Key: "\uBB34\uC2B9\uBD80"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 44919874486743040
-    m_Key: Stat_HP
+  - m_Id: 44919899497377792
+    m_Key: Stat_AGI
     m_Metadata:
       m_Items: []
   - m_Id: 44919896993378304
@@ -187,12 +151,104 @@ MonoBehaviour:
     m_Key: Stat_DEF
     m_Metadata:
       m_Items: []
-  - m_Id: 44919899497377792
-    m_Key: Stat_AGI
+  - m_Id: 44919874486743040
+    m_Key: Stat_HP
     m_Metadata:
       m_Items: []
   - m_Id: 44919902466945024
     m_Key: Stat_LUK
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22874769395494912
+    m_Key: "\uADF8\uB7ED\uC800\uB7ED"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22870784026554368
+    m_Key: "\uB358\uC804"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22875270379941888
+    m_Key: "\uB3C4\uB9DD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22872292914835456
+    m_Key: "\uB808\uBCA8\uC5C5"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49761108086697984
+    m_Key: "\uB9C8\uB098\uD68D\uB4DD\uB7C9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22873927397355520
+    m_Key: "\uB9CC\uC871"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44245981308596224
+    m_Key: "\uBB34\uC2B9\uBD80"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22873009863995392
+    m_Key: "\uBC29\uBB38\uD55C \uBAA8\uD5D8\uAC00"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49761064117809152
+    m_Key: "\uBCF4\uC720\uD55C\uC544\uD2F0\uD329\uD2B8"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22881084150853632
+    m_Key: "\uC18C\uBE44"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22881208881065984
+    m_Key: "\uC218\uC775"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22874880456470528
+    m_Key: "\uC2E4\uB9DD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49761790017613824
+    m_Key: "\uC544\uD2F0\uD329\uD2B8\uBCF4\uAD00\uD568"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49760264125624320
+    m_Key: "\uC544\uD2F0\uD329\uD2B8\uBCF4\uAD00\uD568_\uC124\uBA85"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22871157340581888
+    m_Key: "\uC804\uD22C\uD69F\uC218"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22871926475272192
+    m_Key: "\uD328\uBC30"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22880734295568384
+    m_Key: "\uD68D\uB4DD"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51453992020160512
+    m_Key: FloorEffect_0
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51454192243650560
+    m_Key: FloorEffect_1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51457196405501952
+    m_Key: FloorEffect_2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51457197852536832
+    m_Key: FloorEffect_3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51457198993387520
+    m_Key: FloorEffect_4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51457226206031872
+    m_Key: FloorEffect_5
     m_Metadata:
       m_Items: []
   m_Metadata:

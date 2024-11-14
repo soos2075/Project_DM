@@ -9,7 +9,11 @@ public class AnimationCall : MonoBehaviour
     {
         //Debug.Log("anim_Cilp_Call");
         SoundManager.Instance.PlaySound("SFX/Battle_npc");
-        GetComponentInParent<BattleField>().Call_Mash();
+
+        if (GetComponentInParent<BattleField>())
+        {
+            GetComponentInParent<BattleField>().Call_Mash();
+        }
     }
 
     public void Projectile_Jab()

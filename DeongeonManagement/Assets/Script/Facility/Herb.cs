@@ -44,25 +44,42 @@ public class Herb : Facility
     {
         if (InteractionOfTimes > 0)
         {
-            int changeMP = mp_value + GameManager.Buff.HerbBonus;
+            //? 고정수치 보너스 (가장 마지막에 더함)
+            int addMP = GameManager.Buff.HerbBonus;
+            //? 배율수치 보너스 (모든 배율 수치를 더한 뒤 가장 먼저 곱함)
+            float multipleMP = 1;
 
             switch (TagCheck(npc))
             {
                 case Target.Bonus:
-                    changeMP = Mathf.RoundToInt(mp_value * 1.2f);
+                    multipleMP += 0.2f;
                     break;
 
                 case Target.Weak:
-                    changeMP = Mathf.RoundToInt(mp_value * 0.5f);
+                    multipleMP -= 0.5f;
                     break;
 
                 case Target.Invalid:
-                    changeMP = Mathf.RoundToInt(mp_value * 0.1f);
+                    multipleMP -= 0.9f;
                     break;
 
                 case Target.Normal:
                     break;
             }
+
+            if (PlacementInfo.Place_Floor.FloorIndex == (int)Define.DungeonFloor.Floor_1)
+            {
+                multipleMP += 0.15f;
+            }
+            if (PlacementInfo.Place_Floor.FloorIndex == (int)Define.DungeonFloor.Floor_4)
+            {
+                multipleMP += 0.3f;
+            }
+
+
+            int changeMP = Mathf.RoundToInt(mp_value * multipleMP) + addMP;
+
+
 
             if (IOT_Temp > 0)
             {

@@ -226,6 +226,8 @@ public class Main : MonoBehaviour
         AP_MAX = 2;
         Player_AP = 0;
 
+        UserData.Instance.isClear = false;
+        NewGamePlus();
 
         Init_BasementFloor();
         Init_Animation();
@@ -234,34 +236,116 @@ public class Main : MonoBehaviour
         ExpansionConfirm(false);
         GameManager.Technical.Expantion_Technical();
 
-        StartCoroutine(NewGameInitAndMessage());
+        if (UserData.Instance.FileConfig.PlayRounds > 1)
+        {
+            StartCoroutine(NewGameInit_SecondTime());
+            Technical_Expansion(1);
+        }
+        else
+        {
+            StartCoroutine(NewGameInit_FirstTime());
+        }
+
+
 
         _DefaultSetting = true;
-
-        UserData.Instance.isClear = false;
-
-        NewGame_GetClearBonus();
     }
 
-    void NewGame_GetClearBonus()
+    void NewGamePlus()
     {
-        if (CollectionManager.Instance.RoundClearData != null)
+        if (UserData.Instance.FileConfig.Buff_ApBonusOne)
         {
-            if (CollectionManager.Instance.RoundClearData.dataApply)
-            {
-                Debug.Log("클리어 데이터 적용");
-                GameManager.Monster.Load_MonsterData(CollectionManager.Instance.RoundClearData.MonsterList);
-            }
+            AP_MAX++;
+        }
+        if (UserData.Instance.FileConfig.Buff_ApBonusTwo)
+        {
+            AP_MAX++;
+        }
+
+        if (UserData.Instance.FileConfig.Buff_PopBonus)
+        {
+            PopularityOfDungeon += 100;
+        }
+        if (UserData.Instance.FileConfig.Buff_DangerBonus)
+        {
+            DangerOfDungeon += 100;
+        }
+
+        if (UserData.Instance.FileConfig.Buff_ManaBonus)
+        {
+            Player_Mana += 500;
+        }
+        if (UserData.Instance.FileConfig.Buff_GoldBonus)
+        {
+            Player_Gold += 500;
+        }
+
+        StartCoroutine(Wait_NewGamePlus());
+    }
+
+    IEnumerator Wait_NewGamePlus()
+    {
+        yield return null;
+
+        //? 유닛
+        if (UserData.Instance.FileConfig.Unit_BloodySlime)
+        {
+            GameManager.Monster.CreateMonster("BloodySlime", true);
+        }
+        if (UserData.Instance.FileConfig.Unit_FlameGolem)
+        {
+            GameManager.Monster.CreateMonster("FlameGolem", true);
+        }
+        if (UserData.Instance.FileConfig.Unit_HellHound)
+        {
+            GameManager.Monster.CreateMonster("HellHound", true);
+        }
+        if (UserData.Instance.FileConfig.Unit_Salinu)
+        {
+            GameManager.Monster.CreateMonster("Salinu", true);
+        }
+        if (UserData.Instance.FileConfig.Unit_Griffin)
+        {
+            GameManager.Monster.CreateMonster("Griffin", true);
+        }
+        if (UserData.Instance.FileConfig.Unit_Ravi)
+        {
+            GameManager.Monster.CreateMonster("Ravi");
+        }
+        if (UserData.Instance.FileConfig.Unit_Rena)
+        {
+            GameManager.Monster.CreateMonster("Rena");
+        }
+
+
+        //? 아티팩트
+        GameManager.Artifact.AddArtifact(ArtifactLabel.DungeonMaster_Temp);
+
+        if (UserData.Instance.FileConfig.Arti_Hero)
+        {
+            GameManager.Artifact.AddArtifact(ArtifactLabel.ProofOfHero);
+        }
+        if (UserData.Instance.FileConfig.Arti_Decay)
+        {
+            GameManager.Artifact.AddArtifact(ArtifactLabel.TouchOfDecay);
+        }
+        if (UserData.Instance.FileConfig.Arti_Pop)
+        {
+            GameManager.Artifact.AddArtifact(ArtifactLabel.OrbOfPopularity);
+        }
+        if (UserData.Instance.FileConfig.Arti_Danger)
+        {
+            GameManager.Artifact.AddArtifact(ArtifactLabel.OrbOfDanger);
         }
     }
 
 
 
-    IEnumerator NewGameInitAndMessage()
+
+
+    IEnumerator NewGameInit_FirstTime()
     {
-        yield return null;
-        yield return new WaitForEndOfFrame();
-        Instantiate_DayOne();
+        yield return StartCoroutine(Instantiate_DayOne());
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
 
@@ -275,8 +359,18 @@ public class Main : MonoBehaviour
         yield return new WaitUntil(() => Managers.UI._popupStack.Count == 0);
         var tutorial = Managers.UI.ShowPopUpNonPush<UI_GuidanceArrow>();
     }
-    void Instantiate_DayOne()
+
+    IEnumerator NewGameInit_SecondTime()
     {
+        yield return StartCoroutine(Instantiate_DayOne());
+        EventManager.Instance.FirstPortalAppearSkip();
+    }
+
+    IEnumerator Instantiate_DayOne()
+    {
+        yield return null;
+        yield return new WaitForEndOfFrame();
+
         Floor_Initializer.NewGame_Init();
         Start_Entrance();
         Init_Player();
@@ -314,8 +408,7 @@ public class Main : MonoBehaviour
         //? 처음생성(아예 Player가 없는경우 - 새게임 or 로드게임)
         var player = GameManager.Placement.CreatePlacementObject("Player", info2, PlacementType.Monster);
         var component = player as Player;
-        component.MonsterInit();
-        component.Level_Stat(DungeonRank);
+        component.Player_FirstInit();
         component.State = Monster.MonsterState.Placement;
         GameManager.Placement.PlacementConfirm(player, info2);
 
@@ -437,6 +530,14 @@ public class Main : MonoBehaviour
     public void Technical_Expansion()
     {
         if (ActiveFloor_Technical < GameManager.Technical.Floor_Technical.Length)
+        {
+            ActiveFloor_Technical++;
+            GameManager.Technical.Expantion_Technical();
+        }
+    }
+    public void Technical_Expansion(int floor)
+    {
+        if (ActiveFloor_Technical < floor)
         {
             ActiveFloor_Technical++;
             GameManager.Technical.Expantion_Technical();
@@ -699,6 +800,8 @@ public class Main : MonoBehaviour
         public void AddPop(int _value) { GetPopularity += _value; }
         public void AddDanger(int _value) { GetDanger += _value; }
 
+        public void AddPop_Directly(int _value) { Main.Instance.PopularityOfDungeon += _value; }
+        public void AddDanger_Directly(int _value) { Main.Instance.DangerOfDungeon += _value; }
 
         public DayResult()
         {
@@ -743,6 +846,10 @@ public class Main : MonoBehaviour
         EventManager.Instance.TurnOver();
 
         Player_AP = AP_MAX;
+        if (GameManager.Technical.Get_Technical<ApOrb>() != null)
+        {
+            Player_AP++;
+        }
 
         //? 위가 적용 아래가 새로교체
         Init_DayResult();
@@ -940,6 +1047,7 @@ public class Main : MonoBehaviour
                 GameManager.NPC.TurnStart();
                 GameManager.Monster.MonsterTurnStartEvent();
                 GameManager.Facility.TurnStartEvent();
+                GameManager.Artifact.TurnStartEvent_Artifact();
             }
             else
             {
@@ -955,6 +1063,8 @@ public class Main : MonoBehaviour
                 DayOver_Dayresult();
                 //? 엔딩변경 (어차피 이거 로드할 떄 부르니까 턴종료 마지막에 하는게 맞음)
                 ChangeEggState();
+
+
 
                 //? 메인 UI 업데이트
                 UI_Main.TurnOverEvent();
@@ -1043,6 +1153,12 @@ public class Main : MonoBehaviour
     void Main_TurnOverEvent()
     {
         UI_EventBox.AddEventText($"※{Turn}{UserData.Instance.LocaleText("Event_DayOver")}※");
+
+        //if (UserData.Instance.FileConfig.PlayRounds > 1) //? 초회차가 아니면 턴종료 이벤트는 스킵
+        //{
+        //    return;
+        //}
+
         switch (Turn)
         {
             case 1:
@@ -1063,7 +1179,7 @@ public class Main : MonoBehaviour
 
             case 3:
                 Debug.Log("3일차 종료 이벤트 - 테크니컬");
-                Technical_Expansion();
+                Technical_Expansion(1);
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Technical, Player);
                 break;
 
@@ -1195,6 +1311,7 @@ public class Main : MonoBehaviour
                     for (int i = 0; i < item.times; i++)
                     {
                         item.monster.LevelUp(false);
+                        item.monster.AddCollectionPoint();
                     }
                     var ui = Managers.UI.ShowPopUp<UI_StatusUp>("Monster/UI_StatusUp");
                     ui.TargetMonster(item.monster, item.lv, item.hpMax, item.atk, item.def, item.agi, item.luk);
@@ -1225,11 +1342,13 @@ public class Main : MonoBehaviour
     #region Animation
     Animator ani_MainUI;
     Animator ani_Sky;
+    Animator ani_Dungeon;
 
     void Init_Animation()
     {
         ani_MainUI = UI_Main.GetComponent<Animator>();
         ani_Sky = GameObject.Find("SkyBackground").GetComponent<Animator>();
+        ani_Dungeon = GameObject.Find("DungeonSprite").GetComponent<Animator>();
     }
 
 
@@ -1237,6 +1356,7 @@ public class Main : MonoBehaviour
     {
         ani_MainUI.SetBool("Management", Management);
         ani_Sky.SetBool("Management", Management);
+        ani_Dungeon.SetBool("Management", Management);
     }
 
 
@@ -1470,7 +1590,18 @@ public class Main : MonoBehaviour
     // 아니면 조건에 선행 엔딩을 보게 만들면 또 억제가 되기도 하고.. 뭐 암튼 데모는 dog엔딩으로 픽스하자.
     public void SelectEnding()
     {
-        //? 히로인엔딩은 조건만 맞다면 1순위
+        //? 엔딩 우선순위 = 드래곤 / 마왕 / 히로인 / 토끼 / 멍멍이
+
+        //? 1순위 - 드래곤 or 마왕
+        if (DangerOfDungeon > PopularityOfDungeon && DangerOfDungeon >= 500)
+        {
+            CurrentEndingState = Endings.Dragon;
+            EggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Dragon"));
+            return;
+        }
+
+
+        //? 2순위 - 히로인
         if (GameManager.Monster.Check_ExistUnit<Heroine>())
         {
             if (GameManager.Monster.GetMonster<Heroine>().UnitDialogueEvent.ClearCheck((int)UnitDialogueEventLabel.Heroin_Root_Ture))
@@ -1481,32 +1612,19 @@ public class Main : MonoBehaviour
             }
         }
 
-
-        if (DangerOfDungeon > PopularityOfDungeon && DangerOfDungeon >= 500)
+        //? 3순위 - 토끼
+        if (DangerOfDungeon < 300 && DangerOfDungeon < PopularityOfDungeon)
         {
-            CurrentEndingState = Endings.Dragon;
-            EggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Dragon"));
-        }
-        else
-        {
-            if (DangerOfDungeon < 100)
-            {
-                CurrentEndingState = Endings.Ravi;
-                EggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Rabi"));
-            }
-            else
-            {
-                CurrentEndingState = Endings.Dog;
-                EggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Dog"));
-            }
-
+            CurrentEndingState = Endings.Ravi;
+            EggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Ravi"));
+            return;
         }
 
 
-#if DEMO_BUILD
-        // 데모버전이면 무조건 Dog엔딩
-        return;
-#endif
+
+        //? 가장 후순위 - 아무것도 걸리지 않았으면 노말엔딩(멍멍이)
+        CurrentEndingState = Endings.Dog;
+        EggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Dog"));
     }
 
 

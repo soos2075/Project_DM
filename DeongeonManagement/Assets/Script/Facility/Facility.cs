@@ -35,10 +35,10 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         }
     }
 
-    private void OnDestroy()
-    {
+    //private void OnDestroy()
+    //{
         
-    }
+    //}
 
     //protected void Update()
     //{

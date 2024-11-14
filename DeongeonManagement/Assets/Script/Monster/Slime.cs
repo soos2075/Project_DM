@@ -34,11 +34,19 @@ public class Slime : Monster
     public override void MonsterInit_Evolution()
     {
         Data = GameManager.Monster.GetData("BloodySlime");
-        GameManager.Monster.ChangeSLA(this, "BloodyJelly");
+        GameManager.Monster.ChangeSLA_New(this, "Slime_Bloody");
 
         GameManager.Monster.Regist_Evolution("Slime");
 
         Trait_Original();
+    }
+
+    public override void EvolutionMonster_Init()
+    {
+        Data = GameManager.Monster.GetData("Slime");
+        Initialize_Status();
+        EvolutionState = Evolution.Complete;
+        EvolutionComplete();
     }
 
 
@@ -98,12 +106,12 @@ public class Slime : Monster
     {
         Data = GameManager.Monster.GetData("BloodySlime");
         Evolution_Status();
-        GameManager.Monster.ChangeSLA(this, "BloodyJelly");
+        GameManager.Monster.ChangeSLA_New(this, "Slime_Bloody");
         GameManager.Monster.Regist_Evolution("Slime");
 
         ChangeTrait_Evolution();
 
-        UnitDialogueEvent.AddEvent(150100);
+        UnitDialogueEvent.AddEvent(UnitDialogueEventLabel.BloodySlime_First);
     }
 
     void ChangeTrait_Evolution()

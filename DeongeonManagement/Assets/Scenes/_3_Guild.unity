@@ -48340,7 +48340,7 @@ GameObject:
   - component: {fileID: 1802803379}
   - component: {fileID: 1802803378}
   m_Layer: 6
-  m_Name: ExtraA
+  m_Name: DogGirl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

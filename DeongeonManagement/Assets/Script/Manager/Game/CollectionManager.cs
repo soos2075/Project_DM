@@ -174,6 +174,31 @@ public class CollectionManager : MonoBehaviour
 
         return null;
     }
+    public CollectionUnitRegist<T> Get_Collection_KeyName<T>(string _keyName) where T : ScriptableObject, I_SO_Collection
+    {
+        foreach (var item in Register_Monster)
+        {
+            if (item.unit.keyName == _keyName) return item as CollectionUnitRegist<T>;
+        }
+        foreach (var item in Register_Facility)
+        {
+            if (item.unit.keyName == _keyName) return item as CollectionUnitRegist<T>;
+        }
+        foreach (var item in Register_NPC)
+        {
+            if (item.unit.keyName == _keyName) return item as CollectionUnitRegist<T>;
+        }
+        foreach (var item in Register_Technical)
+        {
+            if (item.unit.keyName == _keyName) return item as CollectionUnitRegist<T>;
+        }
+        foreach (var item in Register_Ending)
+        {
+            if (item.unit.keyName == _keyName) return item as CollectionUnitRegist<T>;
+        }
+
+        return null;
+    }
 
 
 
@@ -227,54 +252,18 @@ public class CollectionManager : MonoBehaviour
         for (int i = 0; i < Register_Facility.Count; i++)
         {
             Register.Add(Register_Facility[i].unit.id, Register_Facility[i].info.DeepCopy());
-
-            //Register.Add(Register_Facility[i].unit.id, new Regist_Info(
-            //    Register_Facility[i].info.isRegist,
-            //    Register_Facility[i].info.UnlockPoint,
-            //    Register_Facility[i].info.level_1_Unlock,
-            //    Register_Facility[i].info.level_2_Unlock,
-            //    Register_Facility[i].info.level_3_Unlock,
-            //    Register_Facility[i].info.level_4_Unlock,
-            //    Register_Facility[i].info.level_5_Unlock));
         }
         for (int i = 0; i < Register_Monster.Count; i++)
         {
             Register.Add(Register_Monster[i].unit.id, Register_Monster[i].info.DeepCopy());
-
-            //Register.Add(Register_Monster[i].unit.id, new Regist_Info(
-            //    Register_Monster[i].info.isRegist,
-            //    Register_Monster[i].info.UnlockPoint,
-            //    Register_Monster[i].info.level_1_Unlock,
-            //    Register_Monster[i].info.level_2_Unlock,
-            //    Register_Monster[i].info.level_3_Unlock,
-            //    Register_Monster[i].info.level_4_Unlock,
-            //    Register_Monster[i].info.level_5_Unlock));
         }
         for (int i = 0; i < Register_NPC.Count; i++)
         {
             Register.Add(Register_NPC[i].unit.id, Register_NPC[i].info.DeepCopy());
-
-            //Register.Add(Register_NPC[i].unit.id, new Regist_Info(
-            //    Register_NPC[i].info.isRegist,
-            //    Register_NPC[i].info.UnlockPoint,
-            //    Register_NPC[i].info.level_1_Unlock,
-            //    Register_NPC[i].info.level_2_Unlock,
-            //    Register_NPC[i].info.level_3_Unlock,
-            //    Register_NPC[i].info.level_4_Unlock,
-            //    Register_NPC[i].info.level_5_Unlock));
         }
         for (int i = 0; i < Register_Technical.Count; i++)
         {
             Register.Add(Register_Technical[i].unit.id, Register_Technical[i].info.DeepCopy());
-
-            //Register.Add(Register_Technical[i].unit.id, new Regist_Info(
-            //    Register_Technical[i].info.isRegist,
-            //    Register_Technical[i].info.UnlockPoint,
-            //    Register_Technical[i].info.level_1_Unlock,
-            //    Register_Technical[i].info.level_2_Unlock,
-            //    Register_Technical[i].info.level_3_Unlock,
-            //    Register_Technical[i].info.level_4_Unlock,
-            //    Register_Technical[i].info.level_5_Unlock));
         }
         for (int i = 0; i < Register_Ending.Count; i++)
         {
@@ -352,92 +341,166 @@ public class CollectionManager : MonoBehaviour
 
 
     #region Multi Play
+
+    public void GameClear(DataManager.SaveData data)
+    {
+        if (RoundClearData == null)
+        {
+            RoundClearData = new RoundData();
+        }
+
+        RoundClearData.Init_Data(data);
+        Managers.Data.SaveClearData();
+    }
+
+
+
+
     public RoundData RoundClearData { get; set; }
 
 
     public class RoundData
     {
-        public bool dataApply;
+        //? 클리어 횟수
+        public int clearCounter;
+        //? 최고 클리어 난이도 (0~4)
+        public int highestDifficultyLevel;
 
-        public int multiplayCount;
+        //? 엔딩별 클리어 카운트
+        public Dictionary<Endings, int> endingClearCount;
 
-        public Save_MonsterData[] MonsterList;
+        ////? 시작 몬스터 해금조건 - 진화 / 컬렉션포인트 / 엔딩 등 특정 조건 달성하기
+        ////public Dictionary<StartUnit, bool> startUnitList;
 
-        //public Save_MonsterData multiSavedMonster1;
-        //public Save_MonsterData multiSavedMonster2;
-        //public Save_MonsterData multiSavedMonster3;
-
-        public string[] BonusList;
-
-        //public string Bonus_Monster1;
-        //public string Bonus_Monster2;
-        //public string Bonus_Monster3;
+        ////? 시작 아티팩트 해금조건 - 이하동문
+        ////public Dictionary<StartArtifact, bool> startArtifactList;
 
 
-        int monsterCount;
-        int bonusCount;
+        //? 클리어 회차의 데이터
+        public Dictionary<int, ClearDataLog> dataLog;
+
 
         public RoundData()
         {
-            MonsterList = new Save_MonsterData[3];
-            BonusList = new string[3];
+            endingClearCount = new Dictionary<Endings, int>();
+            dataLog = new Dictionary<int, ClearDataLog>();
 
-            monsterCount = 0;
-            bonusCount = 0;
+            for (int i = 0; i < Enum.GetNames(typeof(Endings)).Length; i++)
+            {
+                endingClearCount.Add((Endings)i, 0);
+            }
         }
 
 
-        public ClearDataLog dataLog;
-        public void Init_LogData(DataManager.SaveData saveData)
+        public int GetClearPoint()
         {
-            //? 데모말고 정식버전에서는 저장할 때 받아온 saveData의 DayResult에서 이것저것 수치를 뽑아와서 dataLog에 넣어주면 됨
+            int point = 0;
+
+            point += clearCounter * 5;
+            point += highestDifficultyLevel * 10;
+
+            int anotherEnding = 0;
+            foreach (var item in endingClearCount)
+            {
+                if (item.Value > 0)
+                {
+                    anotherEnding++;
+                }
+            }
+
+            point += anotherEnding * 10;
+
+            return point;
         }
 
-        public void Init_Count(int multiCount)
+        public bool EndingClearCheck(Endings ending)
         {
-            multiplayCount = multiCount;
+            if (endingClearCount[ending] > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
-        public void Init_Monster(Save_MonsterData monster)
+
+
+
+        public void Init_Data(DataManager.SaveData saveData)
         {
-            MonsterList[monsterCount] = monster;
+            //? 만약 이미 같은 ID로 클리어 데이터가 존재한다면 클리어 기록만 업데이트하고 나머지는 스킵 / 반대로 말하면 클리어 보상은 최초 한번만 인정
+            ClearDataLog result = null;
+            if (dataLog.TryGetValue(saveData.savefileConfig.fileID, out result))
+            {
+                Update_LogData(saveData);
+                return;
+            }
 
-            // 딱히 필요없는 과정일수도 있음 그냥 불러올 때 초기화 해주면 되는 부분이라
-            monster.State = Monster.MonsterState.Standby;
-            monster.FloorIndex = -1;
-            monster.PosIndex = Vector2Int.zero;
-
-            monsterCount++;
+            clearCounter++;
+            Add_LogData(saveData);
+            OverwriteDifficulty(saveData);
+            Add_Ending(saveData);
         }
-        public void Init_Bonus(string monsterDataName)
+
+
+        void Add_LogData(DataManager.SaveData saveData)
         {
-            BonusList[bonusCount] = monsterDataName;
-
-            bonusCount++;
+            var clear = new ClearDataLog();
+            clear.Set_Data(saveData);
+            dataLog.Add(saveData.savefileConfig.fileID, clear);
         }
+        void Update_LogData(DataManager.SaveData saveData)
+        {
+            var clear = new ClearDataLog();
+            clear.Set_Data(saveData);
+            dataLog[saveData.savefileConfig.fileID] = clear;
+        }
+
+        void OverwriteDifficulty(DataManager.SaveData saveData)
+        {
+            var dif = saveData.savefileConfig.Difficulty;
+            if (highestDifficultyLevel < (int)dif)
+            {
+                highestDifficultyLevel = (int)dif;
+            }
+        }
+        void Add_Ending(DataManager.SaveData saveData)
+        {
+            endingClearCount[saveData.endgins] += 1;
+        }
+
     }
+
+    
 
     public class ClearDataLog
     {
         public int mana;
         public int gold;
 
-
-        public int visit;
-        public int satisfaction;
-        public int return_Empty;
-        public int kill;
-        //public int prisoner;
-
-
         public int rank;
         public int pop;
         public int danger;
 
-        public float clearTime;
+        public int visit;
+        //public int satisfaction;
+        //public int return_Empty;
+        //public int kill;
+        //public int prisoner;
 
-        public int monsterCount;
-        public string highestMonster;
-        public int highestMonsterLv;
+
+        public float clearTime;
+        public Endings endings;
+
+        //public int monsterCount;
+        //public string highestMonster;
+        //public int highestMonsterLv;
+
+        public void Set_Data(DataManager.SaveData data)
+        {
+
+        }
     }
 
 

@@ -35,6 +35,10 @@ public class DataManager
         Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Trait/Trait_Result.csv").Completed +=
     (handle) => { CSV_File_Parsing_Trait(OnCSVLoaded(handle)); };
 
+        //? Artifact
+        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Artifact/Artifact_Result.csv").Completed +=
+    (handle) => { CSV_File_Parsing_Artifact(OnCSVLoaded(handle)); };
+
     }
 
 
@@ -106,44 +110,35 @@ public class DataManager
         return datas;
     }
 
-
-
-
-
-
-    public Dictionary<TraitGroup, string[]> Trait_KR = new Dictionary<TraitGroup, string[]>();
-    public Dictionary<TraitGroup, string[]> Trait_EN = new Dictionary<TraitGroup, string[]>();
-    public Dictionary<TraitGroup, string[]> Trait_JP = new Dictionary<TraitGroup, string[]>();
-    public Dictionary<TraitGroup, string[]> Trait_SCC = new Dictionary<TraitGroup, string[]>();
-
-    //? csv 데이터 항목
-    // 0 ID, 1 TraitName,
-    // 2 Name_KR, 3 Detail_KR, 4 Acquire_KR,
-    // 5 Name_EN, 6 Detail_EN, 7 Acquire_EN,
-    // 8 Name_JP, 9 Detail_JP, 10 Acquire_JP,
-    // 9 Name_SCC, 10 Detail_SCC, 11 Acquire_SCC,
-    void CSV_File_Parsing_Trait(string _stringData)
+    public string[] GetTextData_Artifact(int id)
     {
-        if (string.IsNullOrEmpty(_stringData)) return;
-
-        var spl_n = _stringData.Split('\n');
-
-        for (int i = 1; i < spl_n.Length; i++)
+        string[] datas = null;
+        switch (UserData.Instance.Language)
         {
-            var spl_comma = spl_n[i].Split(',');
+            case Define.Language.EN:
+                Managers.Data.Artifact_EN.TryGetValue((ArtifactLabel)id, out datas);
+                break;
 
-            if (spl_comma.Length < 2 || string.IsNullOrEmpty(spl_comma[1])) //? 빈칸이면 다음으로
-            {
-                continue;
-            }
-            string[] datas = spl_comma;
+            case Define.Language.KR:
+                Managers.Data.Artifact_KR.TryGetValue((ArtifactLabel)id, out datas);
+                break;
 
-            Trait_KR.Add((TraitGroup)int.Parse(datas[0]), new string[] { datas[2], datas[3], datas[4] });
-            Trait_EN.Add((TraitGroup)int.Parse(datas[0]), new string[] { datas[5], datas[6], datas[7] });
-            Trait_JP.Add((TraitGroup)int.Parse(datas[0]), new string[] { datas[8], datas[9], datas[10] });
-            Trait_SCC.Add((TraitGroup)int.Parse(datas[0]), new string[] { datas[11], datas[12], datas[13] });
+            case Define.Language.JP:
+                Managers.Data.Artifact_JP.TryGetValue((ArtifactLabel)id, out datas);
+                break;
+
+            case Define.Language.SCC:
+                Managers.Data.Artifact_SCC.TryGetValue((ArtifactLabel)id, out datas);
+                break;
         }
+        return datas;
     }
+
+
+
+
+
+    
 
 
     public Dictionary<int, string[]> ObjectsLabel_KR = new Dictionary<int, string[]>();
@@ -306,69 +301,140 @@ public class DataManager
     }
 
 
+    public Dictionary<TraitGroup, string[]> Trait_KR = new Dictionary<TraitGroup, string[]>();
+    public Dictionary<TraitGroup, string[]> Trait_EN = new Dictionary<TraitGroup, string[]>();
+    public Dictionary<TraitGroup, string[]> Trait_JP = new Dictionary<TraitGroup, string[]>();
+    public Dictionary<TraitGroup, string[]> Trait_SCC = new Dictionary<TraitGroup, string[]>();
 
-
-    void CSV_File_Parsing_Dialogue(string _stringData, Dictionary<DialogueName, DialogueData> _dict)
+    //? csv 데이터 항목
+    // 0 ID, 1 TraitName,
+    // 2 Name_KR, 3 Detail_KR, 4 Acquire_KR,
+    // 5 Name_EN, 6 Detail_EN, 7 Acquire_EN,
+    // 8 Name_JP, 9 Detail_JP, 10 Acquire_JP,
+    // 9 Name_SCC, 10 Detail_SCC, 11 Acquire_SCC,
+    void CSV_File_Parsing_Trait(string _stringData)
     {
         if (string.IsNullOrEmpty(_stringData)) return;
-        //var obj_kr = FileOperation(FileMode.Open, $"{Application.streamingAssetsPath}/{_filePath}.csv");
+
         var spl_n = _stringData.Split('\n');
 
-        for (int i = 6; i < spl_n.Length; i++)
+        for (int i = 1; i < spl_n.Length; i++)
         {
             var spl_comma = spl_n[i].Split(',');
 
-            if (spl_comma.Length < 2 || string.IsNullOrEmpty(spl_comma[1]))
+            if (spl_comma.Length < 2 || string.IsNullOrEmpty(spl_comma[1])) //? 빈칸이면 다음으로
             {
                 continue;
             }
+            string[] datas = spl_comma;
 
-
-            int id = int.Parse(spl_comma[1]);
-            //DialogueName keyName = (DialogueName)Enum.Parse(typeof(DialogueName), spl_comma[2]);
-
-            var dialogue = new DialogueData();
-            dialogue.id = id;
-            dialogue.Type = (DialogueData.DialogueType)Enum.Parse(typeof(DialogueData.DialogueType), spl_comma[3]);
-            dialogue.dialogueName = spl_comma[4];
-
-            while (string.IsNullOrEmpty(spl_comma[6]) == false)
-            {
-                int index = int.Parse(spl_comma[6]);
-                string optionString = spl_comma[7];
-                string mainText = spl_comma[8];
-
-                if (mainText.Contains('\\'))
-                {
-                    var split = mainText.Split('\\');
-                    mainText = string.Join("\n", split);
-                }
-                if (mainText.Contains('-'))
-                {
-                    var split = mainText.Split('-');
-                    mainText = string.Join(',', split);
-                }
-                if (mainText.Contains('^'))
-                {
-                    var split = mainText.Split('^');
-                    mainText = string.Join('-', split);
-                }
-
-                var textData = new DialogueData.TextData(optionString, mainText);
-                dialogue.TextDataList.Add(textData);
-                //Debug.Log(mainText);
-
-                i++;
-                spl_comma = spl_n[i].Split(',');
-                if (spl_comma.Length < 2)
-                {
-                    break;
-                }
-            }
-
-            _dict.Add((DialogueName)id, dialogue);
+            Trait_KR.Add((TraitGroup)int.Parse(datas[0]), new string[] { datas[2], datas[3], datas[4] });
+            Trait_EN.Add((TraitGroup)int.Parse(datas[0]), new string[] { datas[5], datas[6], datas[7] });
+            Trait_JP.Add((TraitGroup)int.Parse(datas[0]), new string[] { datas[8], datas[9], datas[10] });
+            Trait_SCC.Add((TraitGroup)int.Parse(datas[0]), new string[] { datas[11], datas[12], datas[13] });
         }
     }
+
+
+
+    //? Artifact
+    public Dictionary<ArtifactLabel, string[]> Artifact_KR = new Dictionary<ArtifactLabel, string[]>();
+    public Dictionary<ArtifactLabel, string[]> Artifact_EN = new Dictionary<ArtifactLabel, string[]>();
+    public Dictionary<ArtifactLabel, string[]> Artifact_JP = new Dictionary<ArtifactLabel, string[]>();
+    public Dictionary<ArtifactLabel, string[]> Artifact_SCC = new Dictionary<ArtifactLabel, string[]>();
+
+    //? csv 데이터 항목 - 이름 / 설명 / 효과
+    // 0 ID, 1 KeyName,
+    // 2 Name_KR, 3 Detail_KR, 4 Acquire_KR,
+    // 5 Name_EN, 6 Detail_EN, 7 Acquire_EN,
+    // 8 Name_JP, 9 Detail_JP, 10 Acquire_JP,
+    // 9 Name_SCC, 10 Detail_SCC, 11 Acquire_SCC,
+    void CSV_File_Parsing_Artifact(string _stringData)
+    {
+        if (string.IsNullOrEmpty(_stringData)) return;
+
+        var spl_n = _stringData.Split('\n');
+
+        for (int i = 1; i < spl_n.Length; i++)
+        {
+            var spl_comma = spl_n[i].Split(',');
+
+            if (spl_comma.Length < 2 || string.IsNullOrEmpty(spl_comma[1])) //? 빈칸이면 다음으로
+            {
+                continue;
+            }
+            string[] datas = spl_comma;
+
+            Artifact_KR.Add((ArtifactLabel)int.Parse(datas[0]), new string[] { datas[2], ContainsAndJoin(datas[3]), datas[4] });
+            Artifact_EN.Add((ArtifactLabel)int.Parse(datas[0]), new string[] { datas[5], ContainsAndJoin(datas[6]), datas[7] });
+            Artifact_JP.Add((ArtifactLabel)int.Parse(datas[0]), new string[] { datas[8], ContainsAndJoin(datas[9]), datas[10] });
+            Artifact_SCC.Add((ArtifactLabel)int.Parse(datas[0]), new string[] { datas[11], ContainsAndJoin(datas[12]), datas[13] });
+        }
+    }
+
+
+
+    //void CSV_File_Parsing_Dialogue(string _stringData, Dictionary<DialogueName, DialogueData> _dict)
+    //{
+    //    if (string.IsNullOrEmpty(_stringData)) return;
+    //    //var obj_kr = FileOperation(FileMode.Open, $"{Application.streamingAssetsPath}/{_filePath}.csv");
+    //    var spl_n = _stringData.Split('\n');
+
+    //    for (int i = 6; i < spl_n.Length; i++)
+    //    {
+    //        var spl_comma = spl_n[i].Split(',');
+
+    //        if (spl_comma.Length < 2 || string.IsNullOrEmpty(spl_comma[1]))
+    //        {
+    //            continue;
+    //        }
+
+
+    //        int id = int.Parse(spl_comma[1]);
+    //        //DialogueName keyName = (DialogueName)Enum.Parse(typeof(DialogueName), spl_comma[2]);
+
+    //        var dialogue = new DialogueData();
+    //        dialogue.id = id;
+    //        dialogue.Type = (DialogueData.DialogueType)Enum.Parse(typeof(DialogueData.DialogueType), spl_comma[3]);
+    //        dialogue.dialogueName = spl_comma[4];
+
+    //        while (string.IsNullOrEmpty(spl_comma[6]) == false)
+    //        {
+    //            int index = int.Parse(spl_comma[6]);
+    //            string optionString = spl_comma[7];
+    //            string mainText = spl_comma[8];
+
+    //            if (mainText.Contains('\\'))
+    //            {
+    //                var split = mainText.Split('\\');
+    //                mainText = string.Join("\n", split);
+    //            }
+    //            if (mainText.Contains('-'))
+    //            {
+    //                var split = mainText.Split('-');
+    //                mainText = string.Join(',', split);
+    //            }
+    //            if (mainText.Contains('^'))
+    //            {
+    //                var split = mainText.Split('^');
+    //                mainText = string.Join('-', split);
+    //            }
+
+    //            var textData = new DialogueData.TextData(optionString, mainText);
+    //            dialogue.TextDataList.Add(textData);
+    //            //Debug.Log(mainText);
+
+    //            i++;
+    //            spl_comma = spl_n[i].Split(',');
+    //            if (spl_comma.Length < 2)
+    //            {
+    //                break;
+    //            }
+    //        }
+
+    //        _dict.Add((DialogueName)id, dialogue);
+    //    }
+    //}
 
 
 
@@ -740,6 +806,24 @@ public class DataManager
         EventManager.Instance.Data_LoadEventManager(loadData);
     }
 
+
+
+
+
+    public bool Contains_FileID(int fileNumber)
+    {
+        if (SaveFileList != null)
+        {
+            foreach (var item in SaveFileList)
+            {
+                if (item.Value.savefileConfig.fileID == fileNumber)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     #endregion
 
 

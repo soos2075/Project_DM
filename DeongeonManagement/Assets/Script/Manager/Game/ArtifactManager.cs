@@ -19,32 +19,20 @@ public class ArtifactManager
     public void Init_LocalData()
     {
         so_data = Resources.LoadAll<SO_Artifact>("Data/Artifact");
-        //foreach (var item in so_data)
-        //{
-        //    string[] datas = Managers.Data.GetTextData_Object(item.id);
+        foreach (var item in so_data)
+        {
+            string[] datas = Managers.Data.GetTextData_Artifact(item.id);
 
-        //    if (datas == null)
-        //    {
-        //        Debug.Log($"{item.id} : CSV Data Not Exist");
-        //        continue;
-        //    }
+            if (datas == null)
+            {
+                Debug.Log($"{item.id} : CSV Data Not Exist");
+                continue;
+            }
 
-        //    item.labelName = datas[0];
-        //    item.detail = datas[1];
-
-
-        //    if (datas[2].Contains("@Op1::"))
-        //    {
-        //        string op1 = datas[2].Substring(datas[2].IndexOf("@Op1::") + 6, datas[2].IndexOf("::Op1") - (datas[2].IndexOf("@Op1::") + 6));
-        //        item.evolutionHint = op1;
-        //    }
-
-        //    if (datas[2].Contains("@Op2::"))
-        //    {
-        //        string op2 = datas[2].Substring(datas[2].IndexOf("@Op2::") + 6, datas[2].IndexOf("::Op2") - (datas[2].IndexOf("@Op2::") + 6));
-        //        item.evolutionDetail = op2;
-        //    }
-        //}
+            item.labelName = datas[0];
+            item.detail = datas[1];
+            item.tooltip_Effect = datas[2];
+        }
     }
 
     public SO_Artifact GetData(string _keyName)
@@ -164,6 +152,17 @@ public class ArtifactManager
         return artiList;
     }
 
+    public int GetArtifactCountAll()
+    {
+        int artifactCountAll = 0;
+        foreach (var item in artifacts)
+        {
+            artifactCountAll += item.Count;
+        }
+        return artifactCountAll;
+    }
+
+
     public Artifact GetArtifact(ArtifactLabel label)
     {
         foreach (var item in artifacts)
@@ -195,7 +194,7 @@ public class ArtifactManager
     #endregion
 
 
-    public Transform ArtifactBox;
+    public Transform ArtifactBox { get { return GameObject.FindAnyObjectByType<ArtifactBox>().transform; } }
 
 
     #region 아티팩트 효과
@@ -239,11 +238,11 @@ public class ArtifactManager
                     break;
 
                 case ArtifactLabel.Cross:
-                    GameManager.Buff.PlayerHpBonus = item.Count * 5;
+                    GameManager.Buff.HpBonus = item.Count * 10;
                     break;
 
                 case ArtifactLabel.Dice:
-                    GameManager.Buff.PlayerStatBonus = item.Count * 1;
+                    GameManager.Buff.StatBonus = item.Count * 1;
                     break;
             }
         }
@@ -251,16 +250,34 @@ public class ArtifactManager
 
     public void TurnStartEvent_Artifact()
     {
-        int artifactCountAll = 0;
-        foreach (var item in artifacts)
-        {
-            artifactCountAll += item.Count;
-        }
-
+        int artifactCountAll = GetArtifactCountAll();
         if (artifactCountAll > 0)
         {
             Main.Instance.CurrentDay.AddMana(artifactCountAll * 50, Main.DayResult.EventType.Artifacts);
-            Main.Instance.ShowDM(artifactCountAll * 50, Main.TextType.mana, ArtifactBox);
+            Main.Instance.ShowDM(artifactCountAll * 50, Main.TextType.mana, ArtifactBox, 2);
+        }
+
+        if (GetArtifact(ArtifactLabel.OrbOfPopularity).Count > 0)
+        {
+            Main.Instance.CurrentDay.AddPop(10);
+            Main.Instance.ShowDM(10, Main.TextType.pop, ArtifactBox, 2);
+        }
+        if (GetArtifact(ArtifactLabel.OrbOfDanger).Count > 0)
+        {
+            Main.Instance.CurrentDay.AddDanger(10);
+            Main.Instance.ShowDM(10, Main.TextType.danger, ArtifactBox, 2);
+        }
+
+        if (GetArtifact(ArtifactLabel.MarbleOfReassurance).Count > 0)
+        {
+            Main.Instance.CurrentDay.AddDanger(-5);
+            Main.Instance.ShowDM(-5, Main.TextType.danger, ArtifactBox, 2);
+        }
+        if (GetArtifact(ArtifactLabel.MarbleOfOblivion).Count > 0)
+        {
+
+            Main.Instance.CurrentDay.AddPop(-5);
+            Main.Instance.ShowDM(-5, Main.TextType.pop, ArtifactBox, 2);
         }
     }
 
@@ -269,7 +286,15 @@ public class ArtifactManager
 
 public enum ArtifactLabel
 {
-    Harp = 2240,
+    //? 키아이템
+    DungeonMaster_Temp = 0,
+
+    //? 진화재료 (효과없음)
+    BananaBone = 100,
+
+
+    //? 제 10대 비보
+    Harp = 200,
     Hourglass,
     Lamp,
     Mirror,
@@ -278,7 +303,22 @@ public enum ArtifactLabel
     Cup,
     Coin,
     Cross,
-    Dice,
+    Dice = 209,
+
+
+    //? 플레이어 강화
+    ProofOfHero = 300,
+    //? 모험가 약화
+    TouchOfDecay = 301,
+
+    //? 매일 인기도 / 위험도 +10
+    OrbOfPopularity = 400,
+    OrbOfDanger = 401,
+
+    //? 매일 위험도 / 인기도 -5
+    MarbleOfReassurance = 410,
+    MarbleOfOblivion = 411,
+
 
 }
 
@@ -287,4 +327,5 @@ public enum ArtifactGroup
     Buff,
     Evolution,
     KeyItem,
+    Special,
 }

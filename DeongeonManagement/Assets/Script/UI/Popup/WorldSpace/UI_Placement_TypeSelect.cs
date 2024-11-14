@@ -60,7 +60,7 @@ public class UI_Placement_TypeSelect : UI_PopUp, IWorldSpaceUI
         GetObject((int)Objects.Monster).GetComponentInChildren<TextMeshProUGUI>().text += $"\n{nowMonster}/{maxMonster}";
 
 
-        if (Main.Instance.Turn < 2)
+        if (Main.Instance.Turn < 2 && UserData.Instance.FileConfig.PlayRounds < 2)
         {
             GetObject((int)Objects.Monster).SetActive(false);
         }

@@ -24,6 +24,14 @@ public class Salamandra : Monster
         AddTrait(new Trait.Overwhelm());
     }
 
+    public override void EvolutionMonster_Init()
+    {
+        Data = GameManager.Monster.GetData("Salamandra");
+        Trait_Original();
+        Initialize_Status();
+        EvolutionState = Evolution.Complete;
+        EvolutionComplete();
+    }
 
 
 

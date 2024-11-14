@@ -42,6 +42,7 @@ public class UserData : MonoBehaviour
 
     private void Start()
     {
+        Application.runInBackground = true;
         Init_Resolution();
         Init_Cursor();
         Init_Language();
@@ -150,6 +151,16 @@ public class UserData : MonoBehaviour
         }
 
         return LocalizationSettings.StringDatabase.GetLocalizedString("Label Group", keyString, LocalizationSettings.SelectedLocale);
+    }
+    public string LocaleText_NGP(string keyString)
+    {
+        if (LocalizationSettings.InitializationOperation.Status != UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+        {
+            Debug.Log("작업중");
+            return null;
+        }
+
+        return LocalizationSettings.StringDatabase.GetLocalizedString("NewGamePlus", keyString, LocalizationSettings.SelectedLocale);
     }
 
 
@@ -439,7 +450,7 @@ public class UserData : MonoBehaviour
     public bool isClear { get; set; }
     public Endings EndingState { get; set; }
     public Save_MonsterData SelectedMonster { get; set; }
-    public void GameClear(DataManager.SaveData data = null)
+    public void GameClear(DataManager.SaveData data)
     {
         //? 데모판은 이 함수를 호출하지 않음. 
         //? 이 함수는 각 엔딩이 끝나고 난 뒤에 공통적으로 호출됨(엔딩 종류와 관계없음)
@@ -449,50 +460,41 @@ public class UserData : MonoBehaviour
 
         Debug.Log("Regular Game Clear");
 
-
-        Save_MonsterData[] monsterDAta;
-        if (data != null)
-        {
-            monsterDAta = data.monsterList;
-        }
-        else
-        {
-            monsterDAta = CurrentSaveData.monsterList;
-        }
-
-        StartCoroutine(Init_MultiData(monsterDAta));
+        isClear = true;
+        CollectionManager.Instance.GameClear(data);
     }
 
-    IEnumerator Init_MultiData(Save_MonsterData[] data)
-    {
-        var fade = Managers.UI.ShowPopUp<UI_Fade>();
-        fade.SetFadeOption(UI_Fade.FadeMode.BlackOut, 2, false);
 
-        yield return new WaitForSecondsRealtime(2);
+    //IEnumerator Init_MultiData(Save_MonsterData[] data)
+    //{
+    //    var fade = Managers.UI.ShowPopUp<UI_Fade>();
+    //    fade.SetFadeOption(UI_Fade.FadeMode.BlackOut, 2, false);
 
-
-        SelectedMonster = null;
-
-        var monster = Managers.UI.ShowPopUp<UI_Ending_Monster>("Monster/UI_Ending_Monster");
-        monster.datas = data;
+    //    yield return new WaitForSecondsRealtime(2);
 
 
-        yield return new WaitUntil(() => SelectedMonster != null);
+    //    SelectedMonster = null;
 
-        //Debug.Break();
-        var ClearSaveData = new CollectionManager.RoundData();
-        ClearSaveData.Init_Count(UserData.Instance.GetDataInt(PrefsKey.ClearTimes, 0) + 1);
-        ClearSaveData.Init_Bonus("SuperBonus");
-        ClearSaveData.Init_Monster(SelectedMonster);
+    //    var monster = Managers.UI.ShowPopUp<UI_Ending_Monster>("Monster/UI_Ending_Monster");
+    //    monster.datas = data;
 
-        CollectionManager.Instance.RoundClearData = ClearSaveData;
 
-        Managers.Data.SaveClearData();
+    //    yield return new WaitUntil(() => SelectedMonster != null);
 
-        yield return null;
+    //    //Debug.Break();
+    //    var ClearSaveData = new CollectionManager.RoundData();
+    //    ClearSaveData.Init_Count(UserData.Instance.GetDataInt(PrefsKey.ClearTimes, 0) + 1);
+    //    ClearSaveData.Init_Bonus("SuperBonus");
+    //    ClearSaveData.Init_Monster(SelectedMonster);
 
-        Managers.Scene.LoadSceneAsync(SceneName._1_Start);
-    }
+    //    CollectionManager.Instance.RoundClearData = ClearSaveData;
+
+    //    Managers.Data.SaveClearData();
+
+    //    yield return null;
+
+    //    Managers.Scene.LoadSceneAsync(SceneName._1_Start);
+    //}
 
 
 
@@ -528,6 +530,12 @@ public class UserData : MonoBehaviour
 
     public class SavefileConfig
     {
+        //? 고유넘버(클리어 데이터를 중복해서 적용시키지 않게 하기 위함. 뉴게임시 새롭게 부여)
+        public int fileID;
+
+        //? 난이도
+        public Define.DifficultyLevel Difficulty;
+
         // 몇회차인지에 대한 정보
         public int PlayRounds;
 
@@ -536,10 +544,6 @@ public class UserData : MonoBehaviour
 
         // 새시작 or 세이브파일을 로드했을 때의 시간 = Time.unscaledTime을 받음 - 저장할 때 가져온 현재시간에서 이 값을 빼기 위함
         float PlayTime_Current;
-
-        // 어떤 엔딩을 봤는지에 대한 정보(클리어 특전 = 조각상 인터렉션)
-        public bool Statue_Dog;
-        public bool Statue_Dragon;
 
 
         // 첫 등장 이벤트 확인용 Bool
@@ -573,6 +577,43 @@ public class UserData : MonoBehaviour
         public bool Notice_Ex4;
         public bool Notice_Ex5;
 
+
+        #region 클리어 특전
+        //? 조각상
+        public bool Statue_Mana;
+        public bool Statue_Gold;
+        public bool Statue_Dog;
+        public bool Statue_Cat;
+        public bool Statue_Dragon;
+        public bool Statue_Ravi;
+        public bool Statue_Demon;
+        public bool Statue_Hero;
+
+
+        //? 고유효과
+        public bool Buff_ApBonusOne;
+        public bool Buff_ApBonusTwo;
+        public bool Buff_PopBonus;
+        public bool Buff_DangerBonus;
+        public bool Buff_ManaBonus;
+        public bool Buff_GoldBonus;
+
+        //? 유닛
+        public bool Unit_BloodySlime;
+        public bool Unit_FlameGolem;
+        public bool Unit_Salinu;
+        public bool Unit_HellHound;
+        public bool Unit_Griffin;
+        public bool Unit_Rena;
+        public bool Unit_Ravi;
+
+        //? 아티팩트
+        public bool Arti_Hero;
+        public bool Arti_Decay;
+        public bool Arti_Pop;
+        public bool Arti_Danger;
+        #endregion
+
         public void SetBoolValue(string boolName, bool value)
         {
             // 필드 정보를 가져옴
@@ -590,44 +631,8 @@ public class UserData : MonoBehaviour
 
         public SavefileConfig DeepCopy()
         {
-            //SavefileConfig newConfig = new SavefileConfig();
-
             //? 아래 메서드는 어디까지나 필드를 얕은복사 하는 메서드임. 다만 현재 모든 필드값이 값타입이라 값복사가 될뿐임.
             SavefileConfig newConfig = (SavefileConfig)this.MemberwiseClone();
-
-            //newConfig.PlayRounds = PlayRounds;
-            //newConfig.PlayTimes = PlayTimes;
-
-            //newConfig.Statue_Dog = Statue_Dog;
-            //newConfig.Statue_Dragon = Statue_Dragon;
-
-            //newConfig.firstAppear_Herbalist = firstAppear_Herbalist;
-            //newConfig.firstAppear_Miner = firstAppear_Miner;
-            //newConfig.firstAppear_Adventurer = firstAppear_Adventurer;
-            //newConfig.firstAppear_Elf = firstAppear_Elf;
-            //newConfig.firstAppear_Wizard = firstAppear_Wizard;
-
-
-            //newConfig.firstAppear_Hunter_Slime = firstAppear_Hunter_Slime;
-            //newConfig.firstAppear_Hunter_EarthGolem = firstAppear_Hunter_EarthGolem;
-
-
-            //newConfig.firstAppear_Catastrophe = firstAppear_Catastrophe;
-            //newConfig.firstReturn_Catastrophe = firstReturn_Catastrophe;
-
-            //newConfig.firstAppear_Heroine = firstAppear_Heroine;
-
-
-            ////? 옵션
-            //newConfig.Placement_Continuous = Placement_Continuous;
-
-            ////? 알림
-            //newConfig.Notice_Facility = Notice_Facility;
-            //newConfig.Notice_Monster = Notice_Monster;
-            //newConfig.Notice_Guild = Notice_Guild;
-            //newConfig.Notice_Quest = Notice_Quest;
-            //newConfig.Notice_DungeonEdit = Notice_DungeonEdit;
-
             return newConfig;
         }
 
@@ -653,24 +658,40 @@ public class UserData : MonoBehaviour
         {
             PlayTime_Current = Time.unscaledTime;
         }
+
+        public void Apply_ClearInfo()
+        {
+            //? 클리어 데이터 관련
+            if (CollectionManager.Instance.RoundClearData != null)
+            {
+                PlayRounds = CollectionManager.Instance.RoundClearData.clearCounter + 1;
+            }
+            else
+            {
+                PlayRounds = 1;
+            }
+        }
     }
 
     public SavefileConfig FileConfig { get; set; }
 
-
     public void NewGameConfig()
     {
         var config = new SavefileConfig();
+
+        var ranID = UnityEngine.Random.Range(0, int.MaxValue);
+        while (Managers.Data.Contains_FileID(ranID))
+        {
+            ranID = UnityEngine.Random.Range(0, int.MaxValue);
+        }
+
+        config.fileID = ranID;
+
         config.Init_CurrentPlayTime();
 
-        if (GetDataInt(PrefsKey.Clear_Dog) == 1)
-        {
-            config.Statue_Dog = true;
-        }
-        if (GetDataInt(PrefsKey.Clear_Dragon) == 1)
-        {
-            config.Statue_Dragon = true;
-        }
+        //? 현재 클리어 데이터에 따라서 SavefileConfig 값을 넣어줘야함
+        config.Apply_ClearInfo();
+
         FileConfig = config;
     }
 
@@ -736,8 +757,6 @@ public enum PrefsKey
     Full_Screen,
 
 
-
-
     FirstStart,
     FirstClear,
 
@@ -756,26 +775,25 @@ public enum PrefsKey
 
     SaveTimes,
     LoadTimes,
-
-
-    Clear_Dog,
-    Clear_Dragon,
-    //Clear_Slime,
 }
 
 public enum Endings
 {
-    //? 딱히 결정된게 없거나 인기도가 더 높으면 발생
+    //? 딱히 결정된게 없으면 발생
     Dog,
 
     //? 위험도가 더 높으면 드래곤(사실 이 루트는 몰살시켜야되거나 모험가를 잡아야 거의 가능한 정도긴함
     Dragon,
 
-    //? 위험도가 100보다 작고 인기도가 위험도보다 높을때
+    //? 위험도가 300보다 작고 인기도가 위험도보다 높을때
     Ravi,
 
     //? 히로인 엔딩
     Cat,
 
+    //? 주인공 마왕 엔딩
+    Demon,
 
+    //? 주인공 용사 엔딩
+    Hero,
 }

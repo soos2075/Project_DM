@@ -21,13 +21,23 @@ public class NPC_MainEvent : NPC
             case NPC_Type_MainEvent.Event_Goblin:
                 break;
             case NPC_Type_MainEvent.Event_Goblin_Leader:
+                if (Main.Instance.Turn == 10)
+                {
+                    EventManager.Instance.ReservationToQuest(5, 8010);
+                    EventManager.Instance.ReservationToQuest(15, 8020);
+                    EventManager.Instance.AddDayEvent(DayEventLabel.Forest_Raid_1, 0, 20, 0);
+                    EventManager.Instance.AddDayEvent(DayEventLabel.Forest_Raid_2, 0, 30, 0);
+                }
+                if (Main.Instance.Turn == 14)
+                {
+                    EventManager.Instance.ClearQuestAction(1150);
+                }
                 break;
-            case NPC_Type_MainEvent.Event_Goblin_Leader2:
-                break;
+
             case NPC_Type_MainEvent.EM_Catastrophe:
                 if (GameManager.Technical.Get_Technical<BarrierOfSealing>() != null)
                 {
-                    HP -= 555;
+                    HP -= 600;
                 }
                 break;
 
@@ -99,8 +109,8 @@ public class NPC_MainEvent : NPC
             case NPC_Type_MainEvent.EM_Blood_Elf_A:
             case NPC_Type_MainEvent.EM_Blood_Elf_B:
             case NPC_Type_MainEvent.Event_Goblin_Leader:
-            case NPC_Type_MainEvent.Event_Goblin_Leader2:
             case NPC_Type_MainEvent.Event_Goblin:
+            case NPC_Type_MainEvent.Event_Goblin_Knight:
                 RunawayHpRatio = 2;
                 break;
 
@@ -113,24 +123,30 @@ public class NPC_MainEvent : NPC
         switch (NPCType)
         {
             case NPC_Type_MainEvent.EM_FirstAdventurer:
-                KillGold = 50;
+                KillGold = 100;
                 break;
 
             case NPC_Type_MainEvent.EM_RedHair:
-                KillGold = 100;
+                KillGold = 150;
                 break;
 
             case NPC_Type_MainEvent.Event_Goblin:
+            case NPC_Type_MainEvent.Event_Orc:
+            case NPC_Type_MainEvent.Event_Goblin_Knight:
                 KillGold = 100;
                 break;
 
+            case NPC_Type_MainEvent.Event_Lizard:
+                KillGold = 150;
+                break;
+
             case NPC_Type_MainEvent.Event_Goblin_Leader:
-            case NPC_Type_MainEvent.Event_Goblin_Leader2:
+            case NPC_Type_MainEvent.Event_Orc_Leader:
                 KillGold = 200;
                 break;
 
             case NPC_Type_MainEvent.EM_Catastrophe:
-                KillGold = 200;
+                KillGold = 666;
                 break;
 
             case NPC_Type_MainEvent.EM_RetiredHero:
@@ -189,7 +205,7 @@ public class NPC_MainEvent : NPC
                 {
                     case NPC_Type_MainEvent.Event_Goblin:
                     case NPC_Type_MainEvent.Event_Goblin_Leader:
-                    case NPC_Type_MainEvent.Event_Goblin_Leader2:
+                    case NPC_Type_MainEvent.Event_Goblin_Knight:
                         return new Define.TileType[] { Define.TileType.NPC, Define.TileType.Monster };
 
                     case NPC_Type_MainEvent.EM_Blood_Warrior_A:
@@ -238,11 +254,20 @@ public class NPC_MainEvent : NPC
                 break;
 
             case NPC_Type_MainEvent.Event_Goblin_Leader:
-                StartCoroutine(EventCor(DialogueName.Goblin_Appear));
+                if (Main.Instance.Turn == 10)
+                {
+                    StartCoroutine(EventCor(DialogueName.Goblin_Appear, () => EventManager.Instance.CurrentClearEventData.Check_AlreadyClear(DialogueName.Goblin_Appear)));
+                }
+                if (Main.Instance.Turn == 14)
+                {
+                    StartCoroutine(EventCor(DialogueName.Goblin_Party, () => EventManager.Instance.CurrentClearEventData.Check_AlreadyClear(DialogueName.Goblin_Party)));
+                }
                 break;
 
-            case NPC_Type_MainEvent.Event_Goblin_Leader2:
-                StartCoroutine(EventCor(DialogueName.Goblin_Party));
+
+            case NPC_Type_MainEvent.Event_Orc:
+                StartCoroutine(EventCor(DialogueName.Orc_First, () => EventManager.Instance.CurrentClearEventData.Check_AlreadyClear(DialogueName.Orc_First)));
+                //if (Main.Instance.Turn == 14) //? 이걸 안해도 되는게 14일날 안봐도 20일날 처음보는데 그 때 대사 해도 나름 괜찮더라.
                 break;
 
             case NPC_Type_MainEvent.EM_Blood_Warrior_A:
@@ -293,7 +318,6 @@ public class NPC_MainEvent : NPC
 
             case NPC_Type_MainEvent.Event_Goblin:
             case NPC_Type_MainEvent.Event_Goblin_Leader:
-            case NPC_Type_MainEvent.Event_Goblin_Leader2:
                 characterBuilder.Hair = "";
                 characterBuilder.Helmet = "";
                 characterBuilder.Armor = "";
@@ -306,6 +330,62 @@ public class NPC_MainEvent : NPC
                 characterBuilder.Weapon = "RustedShovel#FFFFFF/0:0:0";
                 characterBuilder.Back = "LargeBackpack#FFFFFF/0:0:0";
                 break;
+
+            case NPC_Type_MainEvent.Event_Goblin_Knight:
+                characterBuilder.Hair = "Hair3#1E6F50/0:0:0";
+                characterBuilder.Helmet = "";
+                characterBuilder.Armor = "BanditTunic#FFFFFF/0:0:0";
+
+                characterBuilder.Head = "Goblin#FFFFFF/0:0:0";
+                characterBuilder.Ears = "Goblin#FFFFFF/0:0:0";
+                characterBuilder.Eyes = "Goblin#FFFFFF/0:0:0";
+                characterBuilder.Body = "Goblin#FFFFFF/0:0:0";
+
+                characterBuilder.Weapon = "Sickle#FFFFFF/0:0:0";
+                characterBuilder.Back = "LargeBackpack#FFFFFF/0:0:0";
+                break;
+
+            case NPC_Type_MainEvent.Event_Orc:
+                characterBuilder.Hair = "";
+                characterBuilder.Helmet = "";
+                characterBuilder.Armor = "";
+
+                characterBuilder.Head = "Orc#FFFFFF/0:0:0";
+                characterBuilder.Ears = "Orc#FFFFFF/0:0:0";
+                characterBuilder.Eyes = "Orc#FFFFFF/0:0:0";
+                characterBuilder.Body = "Orc#FFFFFF/0:0:0";
+
+                characterBuilder.Weapon = "Greataxe#FFFFFF/0:0:0";
+                break;
+
+            case NPC_Type_MainEvent.Event_Orc_Leader:
+                characterBuilder.Hair = "";
+                characterBuilder.Helmet = "";
+                characterBuilder.Armor = "";
+
+                characterBuilder.Head = "Orc#FFFFFF/0:0:0";
+                characterBuilder.Ears = "Orc#FFFFFF/0:0:0";
+                characterBuilder.Eyes = "Orc#FFFFFF/0:0:0";
+                characterBuilder.Body = "Orc#FFFFFF/0:0:0";
+
+                characterBuilder.Weapon = "Dagger#FFFFFF/0:0:0";
+                characterBuilder.Mask = "BanditMask#FFFFFF/0:0:0";
+                break;
+
+            case NPC_Type_MainEvent.Event_Lizard:
+                characterBuilder.Hair = "";
+                characterBuilder.Helmet = "";
+                characterBuilder.Armor = "";
+
+                characterBuilder.Head = "Lizard#FFFFFF/0:0:0";
+                characterBuilder.Ears = "Lizard#FFFFFF/0:0:0";
+                characterBuilder.Eyes = "Lizard#FFFFFF/0:0:0";
+                characterBuilder.Body = "Lizard#FFFFFF/0:0:0";
+
+                characterBuilder.Weapon = "Bident#FFFFFF/0:0:0";
+                break;
+
+
 
             case NPC_Type_MainEvent.EM_Blood_Warrior_A:
             case NPC_Type_MainEvent.EM_Blood_Warrior_B:
@@ -391,16 +471,19 @@ public class NPC_MainEvent : NPC
         {
             case NPC_Type_MainEvent.Event_Goblin:
             case NPC_Type_MainEvent.Event_Goblin_Leader:
-            case NPC_Type_MainEvent.Event_Goblin_Leader2:
+            case NPC_Type_MainEvent.Event_Goblin_Knight:
                 {
                     var herb = GetPriorityPick(typeof(Herb));
                     var mineral = GetPriorityPick(typeof(Mineral));
                     herb.AddRange(mineral);
                     AddPriorityList(herb, AddPos.Front, option);
-                    AddPriorityList(GetPriorityPick(typeof(Treasure)), AddPos.Back, option);
+                    AddPriorityList(GetPriorityPick(typeof(Treasure)), AddPos.Front, option);
                 }
                 break;
 
+            case NPC_Type_MainEvent.Event_Orc:
+            case NPC_Type_MainEvent.Event_Orc_Leader:
+            case NPC_Type_MainEvent.Event_Lizard:
             case NPC_Type_MainEvent.EM_Soldier1:
                 {
                     AddPriorityList(GetPriorityPick(typeof(Monster)), AddPos.Front, option);
@@ -420,6 +503,10 @@ public class NPC_MainEvent : NPC
                 break;
 
             case NPC_Type_MainEvent.EM_FirstAdventurer:
+                AddPriorityList(GetPriorityPick(typeof(Monster)), AddPos.Front, option);
+                AddPriorityList(GetPriorityPick(typeof(Treasure)), AddPos.Back, option);
+                break;
+
             case NPC_Type_MainEvent.EM_RedHair:
             case NPC_Type_MainEvent.EM_RetiredHero: //? 얘는 나중에 위에 솔져로 바꿔야할지도 모르겠음 - 인기도쪽 퀘스트가 좀 더 구현되면 바꾸자
             case NPC_Type_MainEvent.EM_Captine_A:
@@ -430,6 +517,7 @@ public class NPC_MainEvent : NPC
                 //AddPriorityList(GetPriorityPick(typeof(Treasure)), AddPos.Front, option);
                 break;
 
+            
             case NPC_Type_MainEvent.EM_Blood_Warrior_A:
             case NPC_Type_MainEvent.EM_Blood_Warrior_B:
             case NPC_Type_MainEvent.EM_Blood_Tanker_A:
@@ -497,8 +585,12 @@ public class NPC_MainEvent : NPC
         switch (NPCType)
         {
             case NPC_Type_MainEvent.Event_Goblin_Leader:
-                Managers.Dialogue.ShowDialogueUI(DialogueName.Goblin_Empty, transform);
+                if (Main.Instance.Turn == 10)
+                {
+                    Managers.Dialogue.ShowDialogueUI(DialogueName.Goblin_Empty, transform);
+                }
                 break;
+
         }
     }
     protected override void NPC_Runaway()
@@ -508,14 +600,17 @@ public class NPC_MainEvent : NPC
         switch (NPCType)
         {
             case NPC_Type_MainEvent.Event_Goblin_Leader:
-                Managers.Dialogue.ShowDialogueUI(DialogueName.Goblin_Empty, transform);
+                if (Main.Instance.Turn == 10)
+                {
+                    Managers.Dialogue.ShowDialogueUI(DialogueName.Goblin_Empty, transform);
+                }
                 break;
 
-            case NPC_Type_MainEvent.EM_Soldier1:
-            case NPC_Type_MainEvent.EM_Soldier2:
-            case NPC_Type_MainEvent.EM_Soldier3:
-                AddValue(5, Main.TextType.danger);
-                break;
+            //case NPC_Type_MainEvent.EM_Soldier1:
+            //case NPC_Type_MainEvent.EM_Soldier2:
+            //case NPC_Type_MainEvent.EM_Soldier3:
+            //    AddValue(5, Main.TextType.danger);
+            //    break;
         }
     }
     protected override void NPC_Return_Satisfaction()
@@ -529,74 +624,27 @@ public class NPC_MainEvent : NPC
                 break;
 
             case NPC_Type_MainEvent.Event_Goblin_Leader:
-                Managers.Dialogue.ShowDialogueUI(DialogueName.Goblin_Satisfiction, transform);
-                AddValue(30, Main.TextType.pop);
+                if (Main.Instance.Turn == 10)
+                {
+                    Managers.Dialogue.ShowDialogueUI(DialogueName.Goblin_Satisfiction, transform);
+                }
+                AddValue(7, Main.TextType.pop);
                 break;
 
             case NPC_Type_MainEvent.Event_Goblin:
-            case NPC_Type_MainEvent.Event_Goblin_Leader2:
+            case NPC_Type_MainEvent.Event_Goblin_Knight:
+                AddValue(7, Main.TextType.pop);
+                break;
+
+            case NPC_Type_MainEvent.EM_Blood_Warrior_A:
+            case NPC_Type_MainEvent.EM_Blood_Warrior_B:
+            case NPC_Type_MainEvent.EM_Blood_Tanker_A:
+            case NPC_Type_MainEvent.EM_Blood_Tanker_B:
+            case NPC_Type_MainEvent.EM_Blood_Wizard_A:
+            case NPC_Type_MainEvent.EM_Blood_Wizard_B:
+            case NPC_Type_MainEvent.EM_Blood_Elf_A:
+            case NPC_Type_MainEvent.EM_Blood_Elf_B:
                 AddValue(15, Main.TextType.pop);
-                break;
-
-            case NPC_Type_MainEvent.EM_Blood_Warrior_A:
-            case NPC_Type_MainEvent.EM_Blood_Warrior_B:
-            case NPC_Type_MainEvent.EM_Blood_Tanker_A:
-            case NPC_Type_MainEvent.EM_Blood_Tanker_B:
-            case NPC_Type_MainEvent.EM_Blood_Wizard_A:
-            case NPC_Type_MainEvent.EM_Blood_Wizard_B:
-            case NPC_Type_MainEvent.EM_Blood_Elf_A:
-            case NPC_Type_MainEvent.EM_Blood_Elf_B:
-                AddValue(25, Main.TextType.pop);
-                break;
-
-
-            case NPC_Type_MainEvent.EM_Captine_A:
-            case NPC_Type_MainEvent.EM_Captine_B:
-            case NPC_Type_MainEvent.EM_Captine_BlueKnight:
-                AddValue(50, Main.TextType.pop);
-                break;
-
-
-            case NPC_Type_MainEvent.EM_Soldier1:
-            case NPC_Type_MainEvent.EM_Soldier2:
-            case NPC_Type_MainEvent.EM_Soldier3:
-                AddValue(10, Main.TextType.pop);
-                break;
-
-            default:
-                AddValue(10, Main.TextType.pop);
-                break;
-        }
-    }
-    protected override void NPC_Return_NonSatisfaction()
-    {
-        Return();
-
-        switch (NPCType)
-        {
-            case NPC_Type_MainEvent.EM_RedHair:
-                AddValue(75, Main.TextType.pop);
-                break;
-
-            case NPC_Type_MainEvent.Event_Goblin_Leader:
-                Managers.Dialogue.ShowDialogueUI(DialogueName.Goblin_Satisfiction, transform);
-                Main.Instance.CurrentDay.AddPop(15);
-                break;
-
-            case NPC_Type_MainEvent.Event_Goblin:
-            case NPC_Type_MainEvent.Event_Goblin_Leader2:
-                AddValue(10, Main.TextType.pop);
-                break;
-
-            case NPC_Type_MainEvent.EM_Blood_Warrior_A:
-            case NPC_Type_MainEvent.EM_Blood_Warrior_B:
-            case NPC_Type_MainEvent.EM_Blood_Tanker_A:
-            case NPC_Type_MainEvent.EM_Blood_Tanker_B:
-            case NPC_Type_MainEvent.EM_Blood_Wizard_A:
-            case NPC_Type_MainEvent.EM_Blood_Wizard_B:
-            case NPC_Type_MainEvent.EM_Blood_Elf_A:
-            case NPC_Type_MainEvent.EM_Blood_Elf_B:
-                AddValue(10, Main.TextType.pop);
                 break;
 
 
@@ -618,6 +666,58 @@ public class NPC_MainEvent : NPC
                 break;
         }
     }
+    protected override void NPC_Return_NonSatisfaction()
+    {
+        Return();
+
+        switch (NPCType)
+        {
+            case NPC_Type_MainEvent.EM_RedHair:
+                AddValue(75, Main.TextType.pop);
+                break;
+
+            case NPC_Type_MainEvent.Event_Goblin_Leader:
+                if (Main.Instance.Turn == 10)
+                {
+                    Managers.Dialogue.ShowDialogueUI(DialogueName.Goblin_Satisfiction, transform);
+                }
+                AddValue(4, Main.TextType.pop);
+                break;
+
+            case NPC_Type_MainEvent.Event_Goblin:
+            case NPC_Type_MainEvent.Event_Goblin_Knight:
+                AddValue(4, Main.TextType.pop);
+                break;
+
+            case NPC_Type_MainEvent.EM_Blood_Warrior_A:
+            case NPC_Type_MainEvent.EM_Blood_Warrior_B:
+            case NPC_Type_MainEvent.EM_Blood_Tanker_A:
+            case NPC_Type_MainEvent.EM_Blood_Tanker_B:
+            case NPC_Type_MainEvent.EM_Blood_Wizard_A:
+            case NPC_Type_MainEvent.EM_Blood_Wizard_B:
+            case NPC_Type_MainEvent.EM_Blood_Elf_A:
+            case NPC_Type_MainEvent.EM_Blood_Elf_B:
+                AddValue(10, Main.TextType.pop);
+                break;
+
+
+            case NPC_Type_MainEvent.EM_Captine_A:
+            case NPC_Type_MainEvent.EM_Captine_B:
+            case NPC_Type_MainEvent.EM_Captine_BlueKnight:
+                AddValue(15, Main.TextType.pop);
+                break;
+
+            case NPC_Type_MainEvent.EM_Soldier1:
+            case NPC_Type_MainEvent.EM_Soldier2:
+            case NPC_Type_MainEvent.EM_Soldier3:
+                AddValue(3, Main.TextType.pop);
+                break;
+
+            default:
+                AddValue(3, Main.TextType.pop);
+                break;
+        }
+    }
 
 
 
@@ -631,9 +731,6 @@ public class NPC_MainEvent : NPC
                 Managers.Dialogue.ShowDialogueUI(DialogueName.RedHair_Return, transform);
                 break;
 
-            case NPC_Type_MainEvent.Event_Goblin_Leader2:
-                EventManager.Instance.ClearQuestAction(1150);
-                break;
 
             case NPC_Type_MainEvent.EM_Catastrophe:
                 if (UserData.Instance.FileConfig.firstReturn_Catastrophe == false)
@@ -656,25 +753,23 @@ public class NPC_MainEvent : NPC
 
         switch (NPCType)
         {
-            case NPC_Type_MainEvent.EM_FirstAdventurer:
-                AddValue(5, Main.TextType.danger);
-                break;
-
             case NPC_Type_MainEvent.EM_RedHair:
                 AddValue(75, Main.TextType.danger);
                 break;
 
             case NPC_Type_MainEvent.Event_Goblin:
-                AddValue(15, Main.TextType.danger);
+            case NPC_Type_MainEvent.Event_Goblin_Leader:
+            case NPC_Type_MainEvent.Event_Goblin_Knight:
+            case NPC_Type_MainEvent.Event_Orc:
+            case NPC_Type_MainEvent.Event_Orc_Leader:
+            case NPC_Type_MainEvent.Event_Lizard:
+                AddValue(-3, Main.TextType.danger);
                 break;
 
-            case NPC_Type_MainEvent.Event_Goblin_Leader:
-            case NPC_Type_MainEvent.Event_Goblin_Leader2:
-                AddValue(30, Main.TextType.danger);
-                break;
 
             case NPC_Type_MainEvent.EM_Catastrophe:
-                AddValue(25, Main.TextType.danger);
+                AddValue(-10, Main.TextType.pop);
+                AddValue(-10, Main.TextType.danger);
                 break;
 
             case NPC_Type_MainEvent.EM_RetiredHero:
@@ -694,15 +789,15 @@ public class NPC_MainEvent : NPC
 
             case NPC_Type_MainEvent.EM_Captine_A:
             case NPC_Type_MainEvent.EM_Captine_B:
-                AddValue(20, Main.TextType.danger);
+                AddValue(15, Main.TextType.danger);
                 break;
 
             case NPC_Type_MainEvent.EM_Captine_BlueKnight:
-                AddValue(100, Main.TextType.danger);
+                AddValue(50, Main.TextType.danger);
                 break;
 
             default:
-                AddValue(10, Main.TextType.danger);
+                AddValue(5, Main.TextType.danger);
                 break;
         }
     }
@@ -721,12 +816,12 @@ public class NPC_MainEvent : NPC
                 break;
 
             case NPC_Type_MainEvent.Event_Goblin_Leader:
-                Managers.Dialogue.ShowDialogueUI(DialogueName.Goblin_Die, transform);
+                if (Main.Instance.Turn == 10)
+                {
+                    Managers.Dialogue.ShowDialogueUI(DialogueName.Goblin_Die, transform);
+                }
                 break;
 
-            case NPC_Type_MainEvent.Event_Goblin_Leader2:
-                EventManager.Instance.ClearQuestAction(1150);
-                break;
 
             case NPC_Type_MainEvent.EM_Catastrophe:
                 if (GameManager.Technical.Get_Technical<BarrierOfSealing>() != null)

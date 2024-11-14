@@ -319,14 +319,16 @@ public class NPCManager
     {
         if (Event_Herb)
         {
-            Weight_NPC[NPC_Type_Normal.Herbalist0] *= 3;
-            Weight_NPC[NPC_Type_Normal.Herbalist1] *= 3;
-            Weight_NPC[NPC_Type_Normal.Elf] *= 3;
+            Weight_NPC[NPC_Type_Normal.Herbalist0] *= 4;
+            Weight_NPC[NPC_Type_Normal.Herbalist1] *= 4;
+            Weight_NPC[NPC_Type_Normal.Elf] *= 4;
         }
 
         if (Event_Mineral)
         {
-
+            Weight_NPC[NPC_Type_Normal.Miner0] *= 4;
+            Weight_NPC[NPC_Type_Normal.Miner1] *= 4;
+            Weight_NPC[NPC_Type_Normal.Wizard] *= 4;
         }
         if (Event_Monster)
         {
@@ -582,10 +584,14 @@ public enum NPC_Type_MainEvent
 
     Event_Goblin = 1910,
     Event_Goblin_Leader = 1911,
-    Event_Goblin_Leader2 = 1912,
+    Event_Goblin_Knight = 1912,
 
-    EM_Catastrophe = 1914,
-    EM_RetiredHero = 1915,
+    Event_Orc = 1913,
+    Event_Orc_Leader = 1914,
+    Event_Lizard = 1915,
+
+    EM_Catastrophe = 1918,
+    EM_RetiredHero = 1919,
 
     EM_Blood_Warrior_A = 1920,
     EM_Blood_Tanker_A,

@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
                 //transform.localScale = new Vector3(-1, 1, 1) * playerSize;
                 transform.GetChild(0).localScale = new Vector3(-1, 1, 1) * playerSize;
             }
-            else
+            else if (rig.velocity.x > 0)
             {
                 //transform.localScale = Vector3.one * playerSize;
                 transform.GetChild(0).localScale = Vector3.one * playerSize;
@@ -99,8 +99,9 @@ public class PlayerController : MonoBehaviour
                 StopCoroutine(MoveCor_A);
                 MoveCor_A = null;
             }
-            current.StartDialogue();
+            anim.Play(Define.ANIM_Idle);
             rig.velocity = Vector2.zero;
+            current.StartDialogue();
             return;
         }
 
@@ -220,8 +221,9 @@ public class PlayerController : MonoBehaviour
                     MoveCor_A = null;
                 }
                 //Debug.Log("Ãæµ¹ÇÑ °´Ã¼: " + hit.collider.gameObject.name);
-                current.StartDialogue();
+                anim.Play(Define.ANIM_Idle);
                 rig.velocity = Vector2.zero;
+                current.StartDialogue();
                 return;
             }
         }

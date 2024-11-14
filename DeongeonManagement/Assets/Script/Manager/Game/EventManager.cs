@@ -44,9 +44,9 @@ public class EventManager : MonoBehaviour
     }
     public void Init_Event()
     {
-        AddDialogueAction();
-        AddEventAction();
-        AddForQuestAction();
+        Init_DialogueAction();
+        Init_EventAction();
+        Init_ForQuestAction();
         RegistDayEvent();
     }
 
@@ -134,6 +134,10 @@ public class EventManager : MonoBehaviour
             case 8:
                 Add_GuildQuest_Special(2102, false);
                 break;
+
+            case 15:
+                Add_GuildQuest_Special(2103, false);
+                break;
         }
     }
     void TurnOver_EventSchedule()
@@ -143,6 +147,13 @@ public class EventManager : MonoBehaviour
             case 11:
                 Remove_GuildQuest(2102);
                 ClearQuestAction(772102);
+                GameManager.NPC.Event_Herb = false;
+                break;
+
+            case 18:
+                Remove_GuildQuest(2103);
+                ClearQuestAction(772103);
+                GameManager.NPC.Event_Mineral = false;
                 break;
 
             default:
@@ -191,6 +202,15 @@ public class EventManager : MonoBehaviour
             {
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Dragon_Second, Main.Instance.Player);
             });
+        }
+
+
+        //? 2회차 이상 / 인기도위험도합이 1000이상일 때 
+        if (UserData.Instance.FileConfig.PlayRounds > 1 && Danger + Pop >= 1000 &&
+            CurrentClearEventData.Check_AlreadyClear(DayEventLabel.Catastrophe) == false && Check_AlreadyReserve(DayEventLabel.Catastrophe) == false)
+        {
+            AddDayEvent(DayEventLabel.Catastrophe, priority: 1, embargo: 0, delay: 3);
+            Add_GuildQuest_Special(3014); //? 길드원한테 소식듣는 퀘스트 추가 - 이후 1140으로 연결
         }
     }
 
@@ -252,7 +272,7 @@ public class EventManager : MonoBehaviour
 
     public void RankUpEvent()
     {
-        FindObjectOfType<Player>().Level_Stat(Main.Instance.DungeonRank);
+        FindObjectOfType<Player>().Player_RankUp(Main.Instance.DungeonRank);
         GameManager.Monster.Resize_MonsterSlot();
 
         if (Main.Instance.DungeonRank >= (int)Define.DungeonRank.D && Main.Instance.ActiveFloor_Basement < 5)
@@ -517,6 +537,10 @@ public class EventManager : MonoBehaviour
                         break;
 
                     case Guild_DayOption.Always:
+                        if (GuildManager.Instance.GetData(item.Original_Index).FirstDay > CurrentTurn)
+                        {
+                            return false;
+                        }
                         Debug.Log($"길드 퀘스트 발생중 : {item.Original_Index}");
                         return true;
 
@@ -706,11 +730,20 @@ public class EventManager : MonoBehaviour
 
         DayEventActionRegister.Add(DayEventLabel.Goblin_Party, () => {
             Debug.Log("고블린 파티 이벤트");
-            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Goblin_Leader2.ToString(), 3, NPC_Typeof.NPC_Type_MainEvent);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Goblin_Leader.ToString(), 3, NPC_Typeof.NPC_Type_MainEvent);
             GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Goblin.ToString(), 3.5f, NPC_Typeof.NPC_Type_MainEvent);
             GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Goblin.ToString(), 4, NPC_Typeof.NPC_Type_MainEvent);
             GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Goblin.ToString(), 4.5f, NPC_Typeof.NPC_Type_MainEvent);
             GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Goblin.ToString(), 5, NPC_Typeof.NPC_Type_MainEvent);
+        });
+
+        DayEventActionRegister.Add(DayEventLabel.Orc_Party, () => {
+            Debug.Log("오크 파티 이벤트");
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Orc.ToString(), 3, NPC_Typeof.NPC_Type_MainEvent);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Orc.ToString(), 3.5f, NPC_Typeof.NPC_Type_MainEvent);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Orc.ToString(), 4, NPC_Typeof.NPC_Type_MainEvent);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Orc.ToString(), 4.5f, NPC_Typeof.NPC_Type_MainEvent);
+            GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.Event_Orc.ToString(), 5, NPC_Typeof.NPC_Type_MainEvent);
         });
 
         DayEventActionRegister.Add(DayEventLabel.Catastrophe, () => {
@@ -737,6 +770,24 @@ public class EventManager : MonoBehaviour
             Debug.Log("길드 토벌대 2 이벤트");
             Guild_Raid_Second();
             ClearQuestAction(777020);
+        });
+
+        DayEventActionRegister.Add(DayEventLabel.Forest_Raid_1, () => {
+            Debug.Log("숲레이드 1 이벤트");
+            Forest_Raid_1();
+            ClearQuestAction(778010);
+        });
+
+        DayEventActionRegister.Add(DayEventLabel.Forest_Raid_2, () => {
+            Debug.Log("숲레이드 2 이벤트");
+            Forest_Raid_2();
+            ClearQuestAction(778020);
+        });
+
+        DayEventActionRegister.Add(DayEventLabel.Last_Judgment, () => {
+            Debug.Log("마왕엔딩 최후결전");
+            Last_Judgment();
+            ClearQuestAction(7710003);
         });
     }
 
@@ -900,7 +951,7 @@ public class EventManager : MonoBehaviour
     //? 단순히 CurrentQuestEvent에 add / remove 하는 용도로만 사용되어야함. 또 GuildAction과 중복되서 사용될 수도, 독립적으로 사용될 수도 있음.
     Dictionary<int, Action> forQuestAction = new Dictionary<int, Action>();
 
-    void AddForQuestAction()  //? 실제로 호출할 액션
+    void Init_ForQuestAction()  //? 실제로 호출할 액션
     {
 
         forQuestAction.Add(1100, () =>
@@ -951,10 +1002,19 @@ public class EventManager : MonoBehaviour
             Debug.Log("약초 직업류 방문확률 3배!!");
             GameManager.NPC.Event_Herb = true;
         });
+        forQuestAction.Add(772103, () =>
+        {
+            Debug.Log("광물 직업류 방문확률 3배!!");
+            GameManager.NPC.Event_Mineral = true;
+        });
 
         forQuestAction.Add(774020, () =>
         {
-            GameManager.NPC.AddEventNPC(NPC_Type_SubEvent.Heroine.ToString(), 3, NPC_Typeof.NPC_Type_SubEvent);
+            GameManager.NPC.AddEventNPC(NPC_Type_SubEvent.Heroine.ToString(), 7, NPC_Typeof.NPC_Type_SubEvent);
+        });
+        forQuestAction.Add(774030, () =>
+        {
+            GameManager.NPC.AddEventNPC(NPC_Type_SubEvent.Heroine.ToString(), 7, NPC_Typeof.NPC_Type_SubEvent);
         });
 
         forQuestAction.Add(777010, () =>
@@ -966,8 +1026,23 @@ public class EventManager : MonoBehaviour
         {
             Debug.Log("2차 길드레이드 준비중");
         });
+
+        forQuestAction.Add(778010, () =>
+        {
+            Debug.Log("1차 숲의습격 준비중");
+        });
+
+        forQuestAction.Add(778020, () =>
+        {
+            Debug.Log("2차 숲의습격 준비중");
+        });
+
+        forQuestAction.Add(7710003, () =>
+        {
+            Debug.Log("최후의 심판 준비중");
+        });
     }
-    void AddDialogueAction() //? 대화를 통해서 호출하는곳. 코드상에는 없고 Dialogue에 Index로만 존재함
+    void Init_DialogueAction() //? 대화를 통해서 호출하는곳. 코드상에는 없고 Dialogue에 Index로만 존재함
     {
         GuildNPCAction.Add(2100, () =>
         {
@@ -985,6 +1060,7 @@ public class EventManager : MonoBehaviour
         });
 
         GuildNPCAction.Add(2102, () => { AddQuestAction(772102); });
+        GuildNPCAction.Add(2103, () => { AddQuestAction(772103); });
 
 
 
@@ -1001,7 +1077,7 @@ public class EventManager : MonoBehaviour
                 Debug.Log("히로인 합류");
                 GameManager.Monster.Resize_MonsterSlot();
                 var data = GameManager.Monster.GetData("Heroine");
-                var mon = GameManager.Placement.CreatePlacementObject(data.prefabPath, null, PlacementType.Monster) as Monster;
+                var mon = GameManager.Placement.CreatePlacementObject(data.prefabPath, null, PlacementType.Monster) as Heroine;
                 mon.MonsterInit();
                 mon.Initialize_Status();
                 mon.AddCollectionPoint();
@@ -1011,10 +1087,15 @@ public class EventManager : MonoBehaviour
 
         GuildNPCAction.Add(7010, () => { AddQuestAction(777010); });
         GuildNPCAction.Add(7020, () => { AddQuestAction(777020); });
+        GuildNPCAction.Add(8010, () => { AddQuestAction(778010); });
+        GuildNPCAction.Add(8020, () => { AddQuestAction(778020); });
+
+        GuildNPCAction.Add(100701, () => { Add_GuildQuest_Special(5010); });
+        GuildNPCAction.Add(5010, () => { Add_GuildQuest_Special(5199, false); Add_GuildQuest_Special(5299, false); });
     }
 
     //? 모든 Main Event를 포함해야함
-    void AddEventAction()
+    void Init_EventAction()
     {
         EventAction.Add("Dialogue_Close", () => {
             Managers.Dialogue.Close_CurrentDialogue();
@@ -1250,13 +1331,13 @@ public class EventManager : MonoBehaviour
         EventAction.Add("RedHair_Return", () =>
         {
             Debug.Log("RedHair_Return - Goblin 연계");
-            AddDayEvent(DayEventLabel.Goblin_Appear, priority: 0, embargo: 9, delay: 1);
+            AddDayEvent(DayEventLabel.Goblin_Appear, priority: 0, embargo: 10, delay: 0);
         });
 
         EventAction.Add("Goblin_Satisfiction", () =>
         {
             Debug.Log("고블린 만족 - 고블린 파티 이벤트 연계");
-            AddDayEvent(DayEventLabel.Goblin_Party, priority: 0, embargo: 12, delay: 0);
+            AddDayEvent(DayEventLabel.Goblin_Party, priority: 0, embargo: 14, delay: 0);
             AddQuestAction(1150); //? 고블린파티 바로 퀘스트에 추가
 
             var fade = Managers.UI.ShowPopUp<UI_Fade>();
@@ -1265,10 +1346,29 @@ public class EventManager : MonoBehaviour
 
         EventAction.Add("Goblin_Pass", () =>
         {
-            Debug.Log("고블린 Die or Empty - 던전의 재앙 이벤트");
-            AddDayEvent(DayEventLabel.Catastrophe, priority: 0, embargo: 12, delay: 0);
-            Add_GuildQuest_Special(3014); //? 길드원한테 소식듣는 퀘스트 추가 - 이후 1140으로 연결
+            Debug.Log("고블린 Die or Empty - 오크파티");
+            AddDayEvent(DayEventLabel.Orc_Party, priority: 0, embargo: 14, delay: 0);
+
+
+            //AddDayEvent(DayEventLabel.Catastrophe, priority: 0, embargo: 12, delay: 0);
+            //Add_GuildQuest_Special(3014); //? 길드원한테 소식듣는 퀘스트 추가 - 이후 1140으로 연결
         });
+
+        EventAction.Add("Orc_Leader_Left", () =>
+        {
+            var orc = GameObject.Find("Event_Orc_Leader");
+            orc.GetComponent<NPC>().Anim_State = NPC.animState.left;
+            orc.GetComponent<NPC>().Anim_State = NPC.animState.Ready;
+            orc.GetComponent<Animator>().Play(Define.ANIM_Attack);
+        });
+
+        EventAction.Add("Orc_Leader_Right", () =>
+        {
+            var orc = GameObject.Find("Event_Orc_Leader");
+            orc.GetComponent<NPC>().Anim_State = NPC.animState.right;
+            orc.GetComponent<NPC>().Anim_State = NPC.animState.Ready;
+        });
+
 
 
         EventAction.Add("Catastrophe_Refeat", () =>
@@ -1315,6 +1415,51 @@ public class EventManager : MonoBehaviour
             player.GetComponentInChildren<SpriteRenderer>().transform.localScale = Vector3.one;
             player.transform.position = GuildHelper.Instance.GetPos(GuildHelper.Pos.DeathMagician).position;
             GuildManager.Instance.RemoveInstanceGuildNPC(GuildNPC_LabelName.DeathMagician);
+        });
+
+        EventAction.Add("DevilStatue_5", () =>
+        {
+            Debug.Log("주인공 마왕 루트 확정 / 아티팩트 받고 용사 이벤트 출현");
+            var fade = Managers.UI.ShowPopUp<UI_Fade>();
+            fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 1, true);
+
+            var player = GameObject.Find("Player");
+            player.GetComponentInChildren<SpriteRenderer>().flipX = true;
+            player.GetComponentInChildren<SpriteRenderer>().transform.localScale = Vector3.one;
+            player.transform.position = GuildHelper.Instance.GetPos(GuildHelper.Pos.DeathMagician).position;
+            GuildManager.Instance.RemoveInstanceGuildNPC(GuildNPC_LabelName.DeathMagician);
+
+
+            //? 아티팩트 추가
+            GuildManager.Instance.AddBackAction(() =>
+            {
+                GameManager.Artifact.AddArtifact(ArtifactLabel.TouchOfDecay);
+            });
+            //? 용사이벤트 추가
+            AddQuestAction(7710003);
+        });
+
+
+
+        EventAction.Add("Dog_Artifact", () =>
+        {
+            Debug.Log("신비한 뼈 구입");
+
+            var saveData = Managers.Data.GetData("Temp_GuildSave");
+
+            if (saveData.Player_Gold < 1200) //? 골드가 부족하다면 시스템 메세지 혹은 돈부족 대화
+            {
+                Managers.Dialogue.ShowDialogueUI(5555);
+                return;
+            }
+
+            saveData.Player_Gold -= 1200;
+            GuildManager.Instance.AddBackAction(() =>
+            {
+                GameManager.Artifact.AddArtifact(ArtifactLabel.BananaBone);
+            });
+            Clear_GuildQuest(5199);
+            Clear_GuildQuest(5299);
         });
 
 
@@ -1368,8 +1513,11 @@ public class EventManager : MonoBehaviour
 
         // 여기서 저장할 데이터를 미리 들고있어야함. 삭제는 7NewEnding에서 GameClear로 넘어가기전에 삭제함
         //? 임시로 저장 해제(데모버전)
-        Debug.Log("클리어 후 임시저장 부분 / 엔딩저장 및 무한모드 활성화할 때 다시 활성화해야함");
-        //Temp_saveData = Managers.Data.SaveCurrentData("Clear_Temp");
+        //Debug.Log("클리어 후 임시저장 부분 / 엔딩저장 및 무한모드 활성화할 때 다시 활성화해야함");
+
+        //? 실제로 클리어 되는 타이밍
+        Temp_saveData = Managers.Data.SaveCurrentData("Clear_Temp");
+        UserData.Instance.GameClear(Temp_saveData);
 
         yield return new WaitForSecondsRealtime(1);
         Managers.Scene.LoadSceneAsync(SceneName._7_NewEnding, false);
@@ -1597,6 +1745,195 @@ public class EventManager : MonoBehaviour
     }
 
 
+    void Forest_Raid_1()
+    {
+        var Dungeon = Main.Instance.Dungeon;
+        GameManager.NPC.CustomStage = true;
+        UserData.Instance.GameMode = Define.GameMode.Stop;
+
+        var fade = Managers.UI.ShowPopUp<UI_Fade>();
+        fade.SetFadeOption(UI_Fade.FadeMode.WhiteIn, 1, true);
+
+
+        var cap_A = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.Event_Goblin_Leader.ToString(), NPC_Typeof.NPC_Type_MainEvent);
+        cap_A.transform.position = Dungeon.transform.position + (Vector3.right * 3);
+        GameManager.Placement.Visible(cap_A);
+
+        List<NPC> sol1List = new List<NPC>();
+        for (int i = 0; i < 5; i++)
+        {
+            var group = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.Event_Goblin.ToString(), NPC_Typeof.NPC_Type_MainEvent);
+            group.transform.position = Dungeon.transform.position + (Vector3.right * 1 * i) + Vector3.right * 5;
+            group.Anim_State = NPC.animState.left;
+            group.Anim_State = NPC.animState.Ready;
+
+            GameManager.Placement.Visible(group);
+            sol1List.Add(group);
+        }
+
+        List<NPC> sol3List = new List<NPC>();
+        for (int i = 0; i < 5; i++)
+        {
+            var group = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.Event_Goblin_Knight.ToString(), NPC_Typeof.NPC_Type_MainEvent);
+            group.transform.position = Dungeon.transform.position + (Vector3.right * 1 * i) + Vector3.right * 10;
+            group.Anim_State = NPC.animState.left;
+            group.Anim_State = NPC.animState.Ready;
+
+            GameManager.Placement.Visible(group);
+            sol3List.Add(group);
+        }
+
+        List<NPC> sol2List = new List<NPC>();
+        for (int i = 0; i < 8; i++)
+        {
+            var group = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.Event_Orc.ToString(), NPC_Typeof.NPC_Type_MainEvent);
+            group.transform.position = Dungeon.transform.position + (Vector3.right * -1 * i) + Vector3.right * -5;
+            group.Anim_State = NPC.animState.Ready;
+
+            GameManager.Placement.Visible(group);
+            sol2List.Add(group);
+        }
+
+        Managers.Dialogue.ShowDialogueUI(DialogueName.Forest_Raid_1, cap_A.transform);
+        StartCoroutine(Move_Forest_Raid_1(cap_A, sol1List, sol3List, sol2List));
+    }
+    IEnumerator Move_Forest_Raid_1(NPC cap_A, List<NPC> group1, List<NPC> group2, List<NPC> group3)
+    {
+        var Dungeon = Main.Instance.Dungeon;
+        yield return null;
+        yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
+
+        UserData.Instance.GameMode = Define.GameMode.Normal;
+
+        cap_A.Departure(cap_A.transform.position, Dungeon.position);
+        foreach (var item in group1)
+        {
+            item.Departure(item.transform.position, Dungeon.position);
+        }
+        foreach (var item in group2)
+        {
+            item.Departure(item.transform.position, Dungeon.position);
+        }
+
+        float timer = 0;
+        while (timer < 8)
+        {
+            timer += Time.deltaTime;
+            yield return UserData.Instance.Wait_GamePlay;
+        }
+        foreach (var item in group3)
+        {
+            item.Departure(item.transform.position, Dungeon.position);
+        }
+
+    }
+
+    void Forest_Raid_2()
+    {
+        var Dungeon = Main.Instance.Dungeon;
+        GameManager.NPC.CustomStage = true;
+        UserData.Instance.GameMode = Define.GameMode.Stop;
+
+        var fade = Managers.UI.ShowPopUp<UI_Fade>();
+        fade.SetFadeOption(UI_Fade.FadeMode.WhiteIn, 1, true);
+
+
+        var cap_A = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.Event_Orc_Leader.ToString(), NPC_Typeof.NPC_Type_MainEvent);
+        cap_A.transform.position = Dungeon.transform.position + (Vector3.right * 3);
+        GameManager.Placement.Visible(cap_A);
+
+        List<NPC> sol1List = new List<NPC>();
+        for (int i = 0; i < 15; i++)
+        {
+            var group = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.Event_Orc.ToString(), NPC_Typeof.NPC_Type_MainEvent);
+            group.transform.position = Dungeon.transform.position + (Vector3.right * 1 * i) + Vector3.right * 5;
+            group.Anim_State = NPC.animState.left;
+            group.Anim_State = NPC.animState.Ready;
+
+            GameManager.Placement.Visible(group);
+            sol1List.Add(group);
+        }
+
+        List<NPC> sol2List = new List<NPC>();
+        for (int i = 0; i < 10; i++)
+        {
+            var group = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.Event_Goblin_Knight.ToString(), NPC_Typeof.NPC_Type_MainEvent);
+            group.transform.position = Dungeon.transform.position + (Vector3.right * -0.9f * i) + Vector3.right * -5;
+            group.Anim_State = NPC.animState.Ready;
+
+            GameManager.Placement.Visible(group);
+            sol2List.Add(group);
+        }
+
+        List<NPC> sol3List = new List<NPC>();
+        for (int i = 0; i < 10; i++)
+        {
+            var group = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.Event_Lizard.ToString(), NPC_Typeof.NPC_Type_MainEvent);
+            group.transform.position = Dungeon.transform.position + (Vector3.right * -0.9f * i) + Vector3.right * -15;
+            group.Anim_State = NPC.animState.Ready;
+
+            GameManager.Placement.Visible(group);
+            sol3List.Add(group);
+        }
+
+
+
+        Managers.Dialogue.ShowDialogueUI(DialogueName.Forest_Raid_2, cap_A.transform);
+        StartCoroutine(Move_Forest_Raid_2(cap_A, sol1List, sol2List, sol3List));
+    }
+    IEnumerator Move_Forest_Raid_2(NPC cap_A, List<NPC> group1, List<NPC> group2, List<NPC> group3)
+    {
+        var Dungeon = Main.Instance.Dungeon;
+        yield return null;
+        yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
+
+        UserData.Instance.GameMode = Define.GameMode.Normal;
+
+        cap_A.Departure(cap_A.transform.position, Dungeon.position);
+        foreach (var item in group1)
+        {
+            item.Departure(item.transform.position, Dungeon.position);
+        }
+
+
+        float timer = 0;
+        while (timer < 12)
+        {
+            timer += Time.deltaTime;
+            yield return UserData.Instance.Wait_GamePlay;
+        }
+        foreach (var item in group2)
+        {
+            item.Departure(item.transform.position, Dungeon.position);
+        }
+        foreach (var item in group3)
+        {
+            item.Departure(item.transform.position, Dungeon.position);
+        }
+
+    }
+
+
+    void Last_Judgment()
+    {
+        Debug.Log("최후의 결전 이벤트 시작");
+
+        //? 사전준비
+        var Dungeon = Main.Instance.Dungeon;
+        GameManager.NPC.CustomStage = true;
+        UserData.Instance.GameMode = Define.GameMode.Stop;
+
+        var fade = Managers.UI.ShowPopUp<UI_Fade>();
+        fade.SetFadeOption(UI_Fade.FadeMode.WhiteIn, 1, true);
+
+        //? 적 소환
+
+
+        //? 대화시작 / 끝나고 적 이동
+        //Managers.Dialogue.ShowDialogueUI(DialogueName.Guild_Raid_1, cap_A.transform);
+        //StartCoroutine(Wait_Guild_Raid_First(cap_A, cap_B, sol1List, sol2List));
+    }
+
     #endregion
 
 
@@ -1648,7 +1985,7 @@ public class EventManager : MonoBehaviour
         yield return new WaitForSeconds(2);
         Managers.Dialogue.AllowPerfectSkip = true;
     }
-    void FirstPortalAppearSkip()
+    public void FirstPortalAppearSkip()
     {
         Vector2Int portalIndex = new Vector2Int(2, 2);
         Vector2Int eggExit = new Vector2Int(12, 2);
@@ -1830,14 +2167,21 @@ public enum DayEventLabel
     Goblin_Appear = 93,
     Goblin_Party = 100,
 
+    Orc_Party = 101,
+
     Catastrophe = 140,
 
     RetiredHero = 153,
 
     BloodSong_Appear = 200,
 
-    Guild_Raid_1 = 250,
-    Guild_Raid_2 = 300,
+    Guild_Raid_1 = 220,
+    Guild_Raid_2 = 221,
+
+    Forest_Raid_1 = 230,
+    Forest_Raid_2 = 231,
+
+    Last_Judgment = 10003,
 }
 
 

@@ -465,9 +465,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 43749063683944448
     m_Localized: "\uD589\uB3D9\uB825\uC740 \uB9E4 \uD134\uB9C8\uB2E4 \uCD5C\uB300\uB85C
-      \uD68C\uBCF5\uB429\uB2C8\uB2E4.\r\n\r\n\uD589\uB3D9\uB825\uC740 \uBAAC\uC2A4\uD130\uC758
-      \uD6C8\uB828, \uAE38\uB4DC \uBC29\uBB38, \uC870\uAC01\uC0C1\uACFC \uC0C1\uD638\uC791\uC6A9
-      \uB4F1\uC5D0 \uC0AC\uC6A9\uD569\uB2C8\uB2E4.\r\n\r\n\uC6B0\uC120\uC740 \uC870\uAC01\uC0C1\uC744
+      \uD68C\uBCF5\uB429\uB2C8\uB2E4.\r\n\r\n\uD589\uB3D9\uB825\uC740 \uC720\uB2DB\uACFC\uC758
+      \uC0C1\uD638\uC791\uC6A9, \uAE38\uB4DC \uBC29\uBB38, \uB358\uC804\uC758 \uC7A5\uC560\uBB3C
+      \uC81C\uAC70, \uC870\uAC01\uC0C1\uC5D0 \uAE30\uB3C4 \uB4F1 \uC5EC\uB7EC\uACF3\uC5D0
+      \uC0AC\uC6A9\uD569\uB2C8\uB2E4.\r\n\r\n\uC6B0\uC120\uC740 \uC870\uAC01\uC0C1\uC744
       \uD074\uB9AD\uD574\uBCF4\uC138\uC694!"
     m_Metadata:
       m_Items: []
@@ -649,6 +650,34 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 79795567468949504
     m_Localized: "\uC7A0\uAE40"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 82174795892076544
+    m_Localized: "\uC9C0\uB09C \uAE30\uB85D"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89309935005020160
+    m_Localized: "\uC2E0\uB8B0\uC758 \uC0C1\uC5D0\uAC8C \uAE30\uB3C4\uD560\uAE4C\uC694?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89310464867250176
+    m_Localized: "\uD30C\uBA78\uC758 \uC0C1\uC5D0\uAC8C \uAE30\uB3C4\uD560\uAE4C\uC694?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89310467086036992
+    m_Localized: "\uD3C9\uC628\uC758 \uC0C1\uC5D0\uAC8C \uAE30\uB3C4\uD560\uAE4C\uC694?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89310468210110464
+    m_Localized: "\uCE5C\uD654\uC758 \uC0C1\uC5D0\uAC8C \uAE30\uB3C4\uD560\uAE4C\uC694?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89310469397098496
+    m_Localized: "\uACF5\uD3EC\uC758 \uC0C1\uC5D0\uAC8C \uAE30\uB3C4\uD560\uAE4C\uC694?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89310472475717632
+    m_Localized: "\uC601\uC6C5\uC758 \uC0C1\uC5D0\uAC8C \uAE30\uB3C4\uD560\uAE4C\uC694?"
     m_Metadata:
       m_Items: []
   references:

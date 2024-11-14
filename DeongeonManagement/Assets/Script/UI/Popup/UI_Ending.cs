@@ -137,11 +137,6 @@ public class UI_Ending : UI_PopUp
         yield return StartCoroutine(TextFadeOut(clear, 1));
 
 
-        //clear.text = "Novice Dungeon Master";
-        //yield return StartCoroutine(TextFadeIn(clear, 1));
-        //yield return new WaitForSeconds(2);
-        //yield return StartCoroutine(TextFadeOut(clear, 1));
-
 
         Managers.Scene.LoadSceneAsync(SceneName._1_Start);
         Managers.Scene.AddLoadAction_OneTime(() => DemoClearUI());
@@ -158,42 +153,9 @@ public class UI_Ending : UI_PopUp
 
 
 
-    IEnumerator ClearText()
-    {
-        clear.text = "Thanks for playing";
-        yield return StartCoroutine(TextFadeIn(clear, 1));
-        yield return new WaitForSeconds(2);
-        yield return StartCoroutine(TextFadeOut(clear, 1));
-
-
-        clear.text = "Made by LazyCnD";
-        yield return StartCoroutine(TextFadeIn(clear, 1));
-        yield return new WaitForSeconds(2);
-        yield return StartCoroutine(TextFadeOut(clear, 1));
-
-        clear.text = "Novice Dungeon Master";
-        yield return StartCoroutine(TextFadeIn(clear, 1));
-        yield return new WaitForSeconds(2);
-        yield return StartCoroutine(TextFadeOut(clear, 1));
-
-
-        yield return StartCoroutine(SaveClearData());
-
-        //Managers.Scene.LoadSceneAsync(SceneName._1_Start);
-    }
-
-
-
-
 
     IEnumerator SaveClearData()
     {
-        UserData.Instance.isClear = true;
-
-        //? 여기서 클리어한 데이터를 몽땅 보여주거나 나한테 보내거니 아무튼 처리하면 될듯
-        // 만약 아래 게임클리어에서 해도 되긴하는데 음..
-
-
         var save = Managers.UI.ShowPopUp<UI_SaveLoad>();
         save.SetMode(UI_SaveLoad.DataState.Save);
 
@@ -203,36 +165,9 @@ public class UI_Ending : UI_PopUp
         Managers.Data.SaveAndAddFile(EventManager.Instance.Temp_saveData, "AutoSave", 0);
         var autosaveData = Managers.Data.GetData($"AutoSave");
 
-
         EventManager.Instance.Temp_saveData = null;
 
-        switch (UserData.Instance.EndingState)
-        {
-            case Endings.Dog:
-                UserData.Instance.SetData(PrefsKey.Clear_Dog, 1);
-                break;
-
-            case Endings.Dragon:
-                UserData.Instance.SetData(PrefsKey.Clear_Dragon, 1);
-                break;
-        }
-
-
-        UserData.Instance.GameClear(autosaveData);
     }
-
-
-
-
-    IEnumerator RecordText()
-    {
-        //? 받아온 데이터 나열
-
-        yield return new WaitForSeconds(1);
-    }
-
-
-
 
 
 

@@ -105,7 +105,10 @@ public class UI_Management : UI_Base
         Init_Tooltip();
         Texts_Refresh();
         Init_Button();
+
         StartCoroutine(DayInit());
+
+
         AP_Refresh();
         SpeedButtonImage();
 
@@ -523,6 +526,12 @@ public class UI_Management : UI_Base
     IEnumerator DayInit()
     {
         yield return null;
+
+        if (UserData.Instance.FileConfig.PlayRounds > 1)
+        {
+            yield break;
+        }
+
         switch (Main.Instance.Turn)
         {
             case 0:

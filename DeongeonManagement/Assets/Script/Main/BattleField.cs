@@ -153,7 +153,9 @@ public class BattleField : MonoBehaviour
                         AddAction(item.Item1, pos_Right, item.Item2);
                     }
 
-                    yield return new WaitUntil(() => ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Idle);
+                    yield return new WaitUntil(() => 
+                        ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Ready ||
+                        ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Idle);
                     Main.Instance.ShowDM_MSG("Win!", transform.position + (Vector3.up), new Color32(0, 255, 136, 255), 1);
                     yield return new WaitForSeconds(0.5f);
                     break;
@@ -170,7 +172,9 @@ public class BattleField : MonoBehaviour
                     }
                 }
                 //Debug.Log(ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash + $"##");
-                yield return new WaitUntil(() => ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Idle);
+                yield return new WaitUntil(() => 
+                    ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Ready ||
+                    ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Idle);
                 yield return new WaitForSeconds(0.5f);
             }
 
@@ -192,7 +196,9 @@ public class BattleField : MonoBehaviour
                         AddAction(item.Item1, pos_Left, item.Item2);
                     }
 
-                    yield return new WaitUntil(() => ani_npc.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Idle);
+                    yield return new WaitUntil(() => 
+                        ani_npc.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Idle ||
+                        ani_npc.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Ready);
                     Main.Instance.ShowDM_MSG("Lose...", transform.position + (Vector3.up), new Color32(255, 150, 150, 255), 1);
                     yield return new WaitForSeconds(0.5f);
                     break;
@@ -209,7 +215,9 @@ public class BattleField : MonoBehaviour
                     }
                 }
 
-                yield return new WaitUntil(() => ani_npc.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Idle);
+                yield return new WaitUntil(() => 
+                    ani_npc.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Idle ||
+                    ani_npc.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Ready);
                 yield return new WaitForSeconds(0.5f);
             }
         }

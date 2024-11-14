@@ -94,6 +94,69 @@ public class Orb : MonoBehaviour
     }
 
 
+    #region ShowBox
+
+    UI_TileView view;
+    void MoveEvent()
+    {
+        if (Managers.UI._popupStack.Count > 0) return;
+        if (!isActive) return;
+
+        if (view == null)
+        {
+            view = Managers.UI.ShowPopUpAlone<UI_TileView>();
+
+            string title = "";
+            string msg = "";
+            switch (_OrbType)
+            {
+                case OrbType.green:
+                    title = UserData.Instance.LocaleText_Tooltip("Orb_G");
+                    msg = $"{UserData.Instance.LocaleText_Tooltip("Orb_Green_Detail")}";
+                    break;
+
+                case OrbType.yellow:
+                    title = UserData.Instance.LocaleText_Tooltip("Orb_Y");
+                    msg = $"{UserData.Instance.LocaleText_Tooltip("Orb_Yellow_Detail")}";
+                    break;
+
+                case OrbType.blue:
+                    title = UserData.Instance.LocaleText_Tooltip("Orb_B");
+                    msg = $"{UserData.Instance.LocaleText_Tooltip("Orb_Blue_Detail")}";
+                    break;
+
+                case OrbType.red:
+                    title = UserData.Instance.LocaleText_Tooltip("Orb_R");
+                    msg = $"{UserData.Instance.LocaleText_Tooltip("Orb_Red_Detail")}";
+                    break;
+            }
+
+
+            view.ViewContents(title, msg);
+        }
+
+
+    }
+    void CloseView()
+    {
+        if (view)
+        {
+            Managers.UI.ClosePopupPick(view);
+            view = null;
+        }
+    }
+
+    #endregion
+
+    private void OnMouseOver()
+    {
+        if (Main.Instance.Management == false) return;
+        MoveEvent();
+        //Debug.Log("¹«ºê");
+    }
+
+
+
     private void OnMouseEnter()
     {
         EnterReserve = StartCoroutine(Wait_Enter());
@@ -139,6 +202,7 @@ public class Orb : MonoBehaviour
         {
             Resolver.SetCategoryAndLabel(_OrbType.ToString(), "Inactive");
         }
+        CloseView();
     }
 
 
@@ -157,7 +221,7 @@ public class Orb : MonoBehaviour
         yield return new WaitForEndOfFrame();
         if (isActive)
         {
-            AlreadyActive();
+            //AlreadyActive();
         }
         else
         {
@@ -167,30 +231,30 @@ public class Orb : MonoBehaviour
     }
 
 
-    void AlreadyActive()
-    {
-        UI_Confirm ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
-        string msg = "";
-        switch (_OrbType)
-        {
-            case OrbType.green:
-                msg = $"{UserData.Instance.LocaleText_Tooltip("Orb_Green_Detail")}";
-                break;
+    //void AlreadyActive()
+    //{
+    //    UI_Confirm ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
+    //    string msg = "";
+    //    switch (_OrbType)
+    //    {
+    //        case OrbType.green:
+    //            msg = $"{UserData.Instance.LocaleText_Tooltip("Orb_Green_Detail")}";
+    //            break;
 
-            case OrbType.yellow:
-                msg = $"{UserData.Instance.LocaleText_Tooltip("Orb_Yellow_Detail")}";
-                break;
+    //        case OrbType.yellow:
+    //            msg = $"{UserData.Instance.LocaleText_Tooltip("Orb_Yellow_Detail")}";
+    //            break;
 
-            case OrbType.blue:
-                msg = $"{UserData.Instance.LocaleText_Tooltip("Orb_Blue_Detail")}";
-                break;
+    //        case OrbType.blue:
+    //            msg = $"{UserData.Instance.LocaleText_Tooltip("Orb_Blue_Detail")}";
+    //            break;
 
-            case OrbType.red:
-                msg = $"{UserData.Instance.LocaleText_Tooltip("Orb_Red_Detail")}";
-                break;
-        }
-        ui.SetText(msg, () => { });
-    }
+    //        case OrbType.red:
+    //            msg = $"{UserData.Instance.LocaleText_Tooltip("Orb_Red_Detail")}";
+    //            break;
+    //    }
+    //    ui.SetText(msg, () => { });
+    //}
 
 
 

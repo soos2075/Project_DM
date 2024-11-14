@@ -213,6 +213,71 @@ MonoBehaviour:
       Affects hit rate and evasion rate.'
     m_Metadata:
       m_Items: []
+  - m_Id: 49760264125624320
+    m_Localized: At the start of each turn, you gain mana based on the artifacts
+      you possess.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49761064117809152
+    m_Localized: Artifacts Owned
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49761108086697984
+    m_Localized: Mana Gained
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49761790017613824
+    m_Localized: Artifact Storage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49772527553294336
+    m_Localized: Crystal of Mana
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49772529587531776
+    m_Localized: Crystal of Herb
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49772531340750848
+    m_Localized: Crystal of Battle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49772532510961664
+    m_Localized: Crystal of Minera
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51453992020160512
+    m_Localized: No unique effect
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51454192243650560
+    m_Localized: 'Placed unit stats +1
+
+      Placed herb mana +15%'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51457198993387520
+    m_Localized: 'Placed unit stats +4
+
+      Placed herb mana +30%'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51457197852536832
+    m_Localized: Placed unit stats +3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51457196405501952
+    m_Localized: 'Placed unit stats +2
+
+      Placed mineral mana +15%'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51457226206031872
+    m_Localized: 'Placed unit stats +5
+
+      Placed mineral mana +30%'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

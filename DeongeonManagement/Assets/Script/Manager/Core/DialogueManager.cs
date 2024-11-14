@@ -408,6 +408,8 @@ public enum DialogueName
 
     Goblin_Party = 100,
 
+    Orc_First = 110,
+
 
     Catastrophe_Appear = 140,
     Catastrophe_Return = 141,
@@ -424,8 +426,11 @@ public enum DialogueName
     Dragon_First = 210,
     Dragon_Second = 211,
 
-    Guild_Raid_1 = 250,
-    Guild_Raid_2 = 300,
+    Guild_Raid_1 = 220,
+    Guild_Raid_2 = 221,
+
+    Forest_Raid_1 = 230,
+    Forest_Raid_2 = 231,
 
     Day30_Over = 302,
 
@@ -461,6 +466,7 @@ public enum DialogueName
     Ravi_1 = 731,
     Ravi_2 = 732,
     Ravi_3 = 733,
+    Ravi_4 = 734,
 
     Cat_1 = 741,
     Cat_2 = 742,
@@ -470,6 +476,17 @@ public enum DialogueName
     Cat_6 = 746,
     Cat_7 = 747,
     Cat_8 = 748,
+
+    Demon_1 = 751,
+    Demon_2 = 752,
+    Demon_3 = 753,
+    Demon_4 = 754,
+
+    Hero_1 = 761,
+    Hero_2 = 762,
+    Hero_3 = 763,
+    Hero_4 = 764,
+    Hero_5 = 765,
 
     // Dungeon Expension
     Expansion_4 = 990,
@@ -518,6 +535,7 @@ public enum DialogueName
     DeathMagician = 10000,
     DeathMagician_Catastrophe = 10001,
     DeathMagician_DevilStatue = 10002,
+    DevilStatue_5 = 10003,
 
     RetiredHero_0 = 15000,
     RetiredHero_10 = 15010,

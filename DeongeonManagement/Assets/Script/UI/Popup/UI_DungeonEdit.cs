@@ -53,6 +53,9 @@ public class UI_DungeonEdit : UI_PopUp
             GetButton(i).gameObject.AddUIEvent((data) => scroll.OnDrag(data), Define.UIEvent.Drag);
             GetButton(i).gameObject.AddUIEvent((data) => scroll.OnBeginDrag(data), Define.UIEvent.BeginDrag);
             GetButton(i).gameObject.AddUIEvent((data) => scroll.OnEndDrag(data), Define.UIEvent.EndDrag);
+
+            var tool = GetButton(i).gameObject.GetOrAddComponent<UI_Tooltip>();
+            tool.SetTooltipContents("", UserData.Instance.LocaleText_Tooltip($"FloorEffect_{i}"), UI_TooltipBox.ShowPosition.LeftUp);
         }
 
         GetButton(0).GetComponentInChildren<TMPro.TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText("¼û°ÜÁø°÷")}";
@@ -72,7 +75,19 @@ public class UI_DungeonEdit : UI_PopUp
             }
             GetButton(i).gameObject.SetActive(true);
         }
+
+
+
+
     }
+
+    //void AddFloorTooltip(Floor floor, string _detail)
+    //{
+    //    var tool = GetButton((int)Floor.Floor_0).gameObject.GetOrAddComponent<UI_Tooltip>();
+    //    tool.SetTooltipContents("", Data.detail, UI_TooltipBox.ShowPosition.LeftDown);
+    //}
+
+
 
 
 

@@ -399,7 +399,8 @@ public enum GuildNPC_LabelName
     StaffB = 3000,
     Heroine = 4000,
 
-    DummyA = 5000,
+    DogGirl = 5000,
+
     DummyB = 6000,
     DummyC = 7000,
     DummyD = 8000,

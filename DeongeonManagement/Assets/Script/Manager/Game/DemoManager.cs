@@ -61,61 +61,30 @@ public class DemoManager : MonoBehaviour
         isDemoVersion = false;
 #endif
 
-
-#if DEMO_BUILD
-
-#endif
-
-
-
-        StartCoroutine(EndingTestCor());
-
-
-        //var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
-        //ui.SetText($"dd", () => Debug.Log(this + "YES"), () => Debug.Log(this + "NO"));
     }
 
 
-    IEnumerator EndingTestCor()
-    {
-        yield return null;
-
-        if (Managers.UI._popupStack.Count == 0 && isEndingTest)
-        {
-            TempEndingTest();
-        }
-    }
-
-
-    [System.Obsolete]
-    void TempEndingTest()
-    {
-        //Managers.UI.ShowPopUp<UI_Ending>();
-        //return;
-
-        UserData.Instance.EndingState = Endings.Dog;
-        Managers.Scene.LoadSceneAsync(SceneName._7_NewEnding, false);
-    }
-
-
-
-    //private void Update()
+    //IEnumerator EndingTestCor()
     //{
-    //    //Vector3 mouse = Camera.main.WorldToViewportPoint(Input.mousePosition);
+    //    yield return null;
 
-    //    //Vector3 aaa = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    //    //Debug.Log(Input.mousePosition);
-
-    //    // 화면의 중앙 좌표 계산
-    //    Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
-
-    //    // 화면 중앙 좌표에서 마우스 위치를 뺌
-    //    Vector3 centeredMousePosition = Input.mousePosition - screenCenter;
-
-    //    // 결과 출력
-    //    Debug.Log(centeredMousePosition);
-
+    //    if (Managers.UI._popupStack.Count == 0 && isEndingTest)
+    //    {
+    //        TempEndingTest();
+    //    }
     //}
+
+
+    //[System.Obsolete]
+    //void TempEndingTest()
+    //{
+    //    //Managers.UI.ShowPopUp<UI_Ending>();
+    //    //return;
+
+    //    UserData.Instance.EndingState = Endings.Dog;
+    //    Managers.Scene.LoadSceneAsync(SceneName._7_NewEnding, false);
+    //}
+
 
 
 
@@ -177,15 +146,5 @@ public class DemoManager : MonoBehaviour
     }
 #endif
 
-
-    public void DemoClearData(CollectionManager.ClearDataLog datalog)
-    {
-        var ClearSaveData = new CollectionManager.RoundData();
-        ClearSaveData.dataLog = datalog;
-
-        CollectionManager.Instance.RoundClearData = ClearSaveData;
-
-        Managers.Data.SaveClearData();
-    }
 
 }

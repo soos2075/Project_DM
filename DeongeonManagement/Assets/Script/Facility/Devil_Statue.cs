@@ -10,6 +10,7 @@ public class Devil_Statue : Facility, IWall
     {
         //Size = (SizeOption)CategoryIndex;
         AddEvent();
+        OnRemoveEvent += () => RemoveEvent();
 
 
         if (isInit == false)
@@ -22,6 +23,12 @@ public class Devil_Statue : Facility, IWall
             {
                 EventManager.Instance.Add_GuildQuest_Special((int)DialogueName.DeathMagician_DevilStatue, true);
                 GuildManager.Instance.AddInstanceGuildNPC(GuildNPC_LabelName.DeathMagician);
+
+                if (GameManager.Facility.GetFacilityCount<Devil_Statue>() >= 5)
+                {
+                    EventManager.Instance.Add_GuildQuest_Special((int)DialogueName.DevilStatue_5, true);
+                    GuildManager.Instance.AddInstanceGuildNPC(GuildNPC_LabelName.DeathMagician);
+                }
             }
         }
     }

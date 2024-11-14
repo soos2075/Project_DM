@@ -1,0 +1,143 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: NewGamePlus_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 5b1765e46255d4542addad96de5d2a20, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 129282863214592
+    m_Localized: Ravi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 748699515039744
+    m_Localized: Bloody Slime
+    m_Metadata:
+      m_Items: []
+  - m_Id: 748741319667712
+    m_Localized: Flame Golem
+    m_Metadata:
+      m_Items: []
+  - m_Id: 748744599613440
+    m_Localized: Salinu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 748745346199552
+    m_Localized: Hellhound
+    m_Metadata:
+      m_Items: []
+  - m_Id: 748790384635904
+    m_Localized: Griffin
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20647759785984
+    m_Localized: Verdant Archer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102713490878464
+    m_Localized: Orb of Fire
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102712689766400
+    m_Localized: Orb of Water
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20764915085312
+    m_Localized: Hero's Mark
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102711355977728
+    m_Localized: Touch of Decay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20640017100800
+    m_Localized: Maximum AP +1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20644563726336
+    m_Localized: Maximum AP +1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26450105413632
+    m_Localized: Danger +100
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26455977439232
+    m_Localized: Gold +500
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26455436374016
+    m_Localized: Mana +500
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26270354321408
+    m_Localized: Popularity +100
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28215894814720
+    m_Localized: Starting Unit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28339349958656
+    m_Localized: Starting Artifact
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24040351936512
+    m_Localized: Difficulty
+    m_Metadata:
+      m_Items: []
+  - m_Id: 85482221568
+    m_Localized: Starting Effect
+    m_Metadata:
+      m_Items: []
+  - m_Id: 71939970510848
+    m_Localized: Statues (Max 5)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94637585018880
+    m_Localized: Statue of Harmony
+    m_Metadata:
+      m_Items: []
+  - m_Id: 95274913705984
+    m_Localized: Statue of Terror
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94570438406144
+    m_Localized: Statue of Trust
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94636108623872
+    m_Localized: Statue of Ruin
+    m_Metadata:
+      m_Items: []
+  - m_Id: 77259220398080
+    m_Localized: Golden Angel Statue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 95277853913088
+    m_Localized: Statue of Heroes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 77230409723904
+    m_Localized: Silver Angel Statue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94638637789184
+    m_Localized: Statue of Tranquility
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

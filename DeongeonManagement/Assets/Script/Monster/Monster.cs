@@ -238,12 +238,12 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
     #region I_Battle Stat
 
-    public int B_HP { get => HP_Final; }
-    public int B_HP_Max { get => HPMax_Final; }
-    public int B_ATK { get => ATK_Final; }
-    public int B_DEF { get => DEF_Final; }
-    public int B_AGI { get => AGI_Final; }
-    public int B_LUK { get => LUK_Final; }
+    public virtual int B_HP { get => HP_Final; }
+    public virtual int B_HP_Max { get => HPMax_Final; }
+    public virtual int B_ATK { get => ATK_Final; }
+    public virtual int B_DEF { get => DEF_Final; }
+    public virtual int B_AGI { get => AGI_Final; }
+    public virtual int B_LUK { get => LUK_Final; }
 
     #endregion
 
@@ -279,7 +279,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     int HPMax_Final { get { return HP_Max + Trait_HP + HP_Bonus; } }
 
 
-    int HP_Bonus { get { return HP_Hospital; } }
+    int HP_Bonus { get { return HP_Hospital + GameManager.Buff.HpBonus; } }
 
 
 
@@ -296,12 +296,19 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     int LUK_Bonus { get { return 0; } }
 
 
-    int AllStat_Bonus { get { return Orb_Bonus + Floor_Bonus + Trait_Friend + Trait_Veteran; } }
+    int AllStat_Bonus { get { return 
+                Orb_Bonus + 
+                Floor_Bonus + 
+                Trait_Friend + 
+                Trait_Veteran +
+                TrainingCenter +
+                GameManager.Buff.StatBonus; } }
 
 
 
     //? Technical Bonus
     int HP_Hospital { get { return GameManager.Technical.Get_Technical<Hospital>() != null ? 15 : 0; } }
+    int TrainingCenter { get { return GameManager.Technical.Get_Technical<TrainingCenter>() != null ? 1 : 0; } }
 
     //? 전투의 오브 활성화 보너스
     int Orb_Bonus { get { return GameManager.Buff.CurrentBuff.Orb_red > 0 ? 5 : 0; } }
@@ -707,6 +714,11 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     { 
 
     }
+    public virtual void EvolutionMonster_Init() //? 첫 생성시 진화몹을 생성할 때 호출
+    {
+
+    }
+
     public void Initialize_Status()
     {
         if (Data == null) { Debug.Log($"데이터 없음 : {name}"); return; }
@@ -1084,6 +1096,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
             }
         }
 
+        battleMP += GameManager.Buff.BattleBonus;
+
         int manaClamp = Mathf.Clamp(battleMP, 0, npc.Mana);
         if (manaClamp < 0)
         {
@@ -1266,13 +1280,15 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
             exp = Mathf.RoundToInt(exp * 1.6f);
         }
 
+        exp += GameManager.Buff.ExpBonus;
+
         Main.Instance.ShowDM(exp, Main.TextType.exp, transform);
 
         BattlePoint_Rank += exp;
         BattlePoint_Count++;
         //Debug.Log($"{Name_KR}// 랭크포인트:{BattleCount_Rank} // 전투횟수:{BattleCount_Quantity}");
 
-        if (BattlePoint_Count >= 5 || BattlePoint_Rank >= Mathf.Clamp(LV * 2, 5, 50))
+        if (BattlePoint_Count >= 5 || BattlePoint_Rank >= Mathf.Clamp(LV * 2, 10, 50))
         {
             Debug.Log($"{Name_Color}.Lv{LV}가 레벨업");
             BattleLevelUp();
@@ -1434,10 +1450,57 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         Debug.Log($"{Name_Color} 훈련진행");
         LevelUpEvent(LevelUpEventType.Training);
         LevelUp(true);
+        if (GameManager.Technical.Get_Technical<TrainingCenter>() != null)
+        {
+            LevelUp(false);
+        }
 
         traitCounter.AddTrainingCounter();
-
+        AddCollectionPoint();
     }
+
+    public void Statue_Cat()
+    {
+        if (Data.maxLv <= LV)
+        {
+            return;
+        }
+
+        LevelUpEvent(LevelUpEventType.Training);
+        LevelUp(true);
+    }
+    public void Statue_Demon()
+    {
+        var ui = Managers.UI.ShowPopUp<UI_StatusUp>("Monster/UI_StatusUp");
+        ui.TargetMonster(this);
+
+        int ran = Random.Range(0, 5);
+        switch (ran)
+        {
+            case 0:
+                HP_Max += 5;
+                HP = HP_Max;
+                break;
+
+            case 1:
+                ATK++;
+                break;
+
+            case 2:
+                DEF++;
+                break;
+
+            case 3:
+                AGI++;
+                break;
+
+            case 4:
+                LUK++;
+                break;
+        }
+    }
+
+
 
     public void LevelUp(bool _showPopup)
     {
@@ -1494,10 +1557,6 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         DEF += TryStatUp(def_value, ref def_chance);
         AGI += TryStatUp(agi_value, ref agi_chance);
         LUK += TryStatUp(luk_value, ref luk_chance);
-
-
-
-        AddCollectionPoint();
     }
     //public void StatUp()
     //{

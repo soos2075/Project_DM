@@ -29,6 +29,10 @@ MonoBehaviour:
     m_Address: Assets/Locale/Table/Label Group Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
+  - m_GUID: 5b1765e46255d4542addad96de5d2a20
+    m_Address: Assets/Locale/Table/NewGamePlus Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: ee98e609717972e4589234052e5caa8a, type: 2}
   m_SchemaSet:

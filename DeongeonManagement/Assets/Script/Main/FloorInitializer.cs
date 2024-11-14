@@ -111,7 +111,15 @@ public class FloorInitializer : MonoBehaviour
         Init_Egg();
         Init_Obstacle();
         Init_EggEntrance();
-        Init_Statue();
+
+        if (UserData.Instance.FileConfig.PlayRounds == 1)
+        {
+            Init_Statue_FirstRound();
+        }
+        else
+        {
+            Init_Statue();
+        }
     }
 
 
@@ -240,27 +248,24 @@ public class FloorInitializer : MonoBehaviour
         CreateObj((int)Define.DungeonFloor.Floor_5, new Vector2Int(10, 24), "Obstacle", CreateOption.Return);
     }
 
-    void Init_Statue()
+    void Init_Statue_FirstRound()
     {
         {
-            //? 스태츄 - 1번자리 (우상단)
-            var main = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(10, 4), "StatueBase", CreateOption.Return) as Statue;
-            var sub1 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(10, 5), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
-            var sub2 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(11, 4), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
-            var sub3 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(11, 5), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+            var main = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(10, 4), "StatueBase", CreateOption.Replace) as Statue;
+            var sub1 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(10, 5), "Clone_Facility_Wall", CreateOption.Replace) as Clone_Facility_Wall;
+            var sub2 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(11, 4), "Clone_Facility_Wall", CreateOption.Replace) as Clone_Facility_Wall;
+            var sub3 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(11, 5), "Clone_Facility_Wall", CreateOption.Replace) as Clone_Facility_Wall;
 
             main.Set_StatueType(Statue.StatueType.Statue_Gold);
             sub1.OriginalTarget = main;
             sub2.OriginalTarget = main;
             sub3.OriginalTarget = main;
         }
-
         {
-            //? 스태츄 - 2번자리 (우하단)
-            var main = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(10, 0), "StatueBase", CreateOption.Return) as Statue;
-            var sub1 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(10, 1), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
-            var sub2 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(11, 0), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
-            var sub3 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(11, 1), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+            var main = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(10, 0), "StatueBase", CreateOption.Replace) as Statue;
+            var sub1 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(10, 1), "Clone_Facility_Wall", CreateOption.Replace) as Clone_Facility_Wall;
+            var sub2 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(11, 0), "Clone_Facility_Wall", CreateOption.Replace) as Clone_Facility_Wall;
+            var sub3 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(11, 1), "Clone_Facility_Wall", CreateOption.Replace) as Clone_Facility_Wall;
 
             main.Set_StatueType(Statue.StatueType.Statue_Mana);
             sub1.OriginalTarget = main;
@@ -268,60 +273,235 @@ public class FloorInitializer : MonoBehaviour
             sub3.OriginalTarget = main;
         }
 
+        //? 3번 자리 - 중앙 상단
+        CreateObj(0, new Vector2Int(7, 4), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(7, 5), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(8, 4), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(8, 5), "Obstacle_Wall", CreateOption.Replace);
 
-        //? 3번 - 개
-        if (UserData.Instance.FileConfig.Statue_Dog)
-        {
-            var main = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(7, 4), "StatueBase", CreateOption.Return) as Statue;
-            var sub1 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(7, 5), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
-            var sub2 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(8, 4), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
-            var sub3 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(8, 5), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+        //? 4번 자리 - 중앙 하단
+        CreateObj(0, new Vector2Int(7, 0), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(7, 1), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(8, 0), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(8, 1), "Obstacle_Wall", CreateOption.Replace);
 
-            main.Set_StatueType(Statue.StatueType.Statue_Dog);
-            sub1.OriginalTarget = main;
-            sub2.OriginalTarget = main;
-            sub3.OriginalTarget = main;
-        }
-        else
-        {
-            CreateObj(0, new Vector2Int(7, 4), "Obstacle_Wall", CreateOption.Replace);
-            CreateObj(0, new Vector2Int(7, 5), "Obstacle_Wall", CreateOption.Replace);
-            CreateObj(0, new Vector2Int(8, 4), "Obstacle_Wall", CreateOption.Replace);
-            CreateObj(0, new Vector2Int(8, 5), "Obstacle_Wall", CreateOption.Replace);
-        }
-
-        //? 4번 - 드래곤마왕
-        if (UserData.Instance.FileConfig.Statue_Dragon)
-        {
-            var main = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(7, 0), "StatueBase", CreateOption.Return) as Statue;
-            var sub1 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(7, 1), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
-            var sub2 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(8, 0), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
-            var sub3 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(8, 1), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
-
-            main.Set_StatueType(Statue.StatueType.Statue_Dragon);
-            sub1.OriginalTarget = main;
-            sub2.OriginalTarget = main;
-            sub3.OriginalTarget = main;
-        }
-        else
-        {
-            CreateObj(0, new Vector2Int(7, 0), "Obstacle_Wall", CreateOption.Replace);
-            CreateObj(0, new Vector2Int(7, 1), "Obstacle_Wall", CreateOption.Replace);
-            CreateObj(0, new Vector2Int(8, 0), "Obstacle_Wall", CreateOption.Replace);
-            CreateObj(0, new Vector2Int(8, 1), "Obstacle_Wall", CreateOption.Replace);
-        }
-
-        //? 5번 자리
+        //? 6번 자리 - 좌하단
         CreateObj(0, new Vector2Int(4, 0), "Obstacle_Wall", CreateOption.Replace);
         CreateObj(0, new Vector2Int(4, 1), "Obstacle_Wall", CreateOption.Replace);
         CreateObj(0, new Vector2Int(5, 0), "Obstacle_Wall", CreateOption.Replace);
         CreateObj(0, new Vector2Int(5, 1), "Obstacle_Wall", CreateOption.Replace);
 
-        //? 6번 자리
-        CreateObj(0, new Vector2Int(4, 4), "Obstacle_Wall", CreateOption.Replace);
-        CreateObj(0, new Vector2Int(4, 5), "Obstacle_Wall", CreateOption.Replace);
-        CreateObj(0, new Vector2Int(5, 4), "Obstacle_Wall", CreateOption.Replace);
-        CreateObj(0, new Vector2Int(5, 5), "Obstacle_Wall", CreateOption.Replace);
+    }
+
+    void Init_Statue()
+    {
+        List<Statue.StatueType> statueList = new List<Statue.StatueType>();
+
+        if (UserData.Instance.FileConfig.Statue_Gold)
+        {
+            statueList.Add(Statue.StatueType.Statue_Gold);
+        }
+        if (UserData.Instance.FileConfig.Statue_Mana)
+        {
+            statueList.Add(Statue.StatueType.Statue_Mana);
+        }
+        if (UserData.Instance.FileConfig.Statue_Dog)
+        {
+            statueList.Add(Statue.StatueType.Statue_Dog);
+        }
+        if (UserData.Instance.FileConfig.Statue_Dragon)
+        {
+            statueList.Add(Statue.StatueType.Statue_Dragon);
+        }
+        if (UserData.Instance.FileConfig.Statue_Ravi)
+        {
+            statueList.Add(Statue.StatueType.Statue_Ravi);
+        }
+        if (UserData.Instance.FileConfig.Statue_Cat)
+        {
+            statueList.Add(Statue.StatueType.Statue_Cat);
+        }
+        if (UserData.Instance.FileConfig.Statue_Demon)
+        {
+            statueList.Add(Statue.StatueType.Statue_Demon);
+        }
+        if (UserData.Instance.FileConfig.Statue_Hero)
+        {
+            statueList.Add(Statue.StatueType.Statue_Hero);
+        }
+
+
+
+        //? 스태츄 - 1번자리 (우상단)
+        CreateObj(0, new Vector2Int(10, 4), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(10, 5), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(11, 4), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(11, 5), "Obstacle_Wall", CreateOption.Replace);
+
+        //? 스태츄 - 2번자리 (우하단)
+        CreateObj(0, new Vector2Int(10, 0), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(10, 1), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(11, 0), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(11, 1), "Obstacle_Wall", CreateOption.Replace);
+
+        //? 3번 자리 - 중앙 상단
+        CreateObj(0, new Vector2Int(7, 4), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(7, 5), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(8, 4), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(8, 5), "Obstacle_Wall", CreateOption.Replace);
+
+        //? 4번 자리 - 중앙 하단
+        CreateObj(0, new Vector2Int(7, 0), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(7, 1), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(8, 0), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(8, 1), "Obstacle_Wall", CreateOption.Replace);
+
+        //? 6번 자리 - 좌하단
+        CreateObj(0, new Vector2Int(4, 0), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(4, 1), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(5, 0), "Obstacle_Wall", CreateOption.Replace);
+        CreateObj(0, new Vector2Int(5, 1), "Obstacle_Wall", CreateOption.Replace);
+
+
+        if (statueList.Count > 0) 
+        {
+            var main = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(10, 4), "StatueBase", CreateOption.Replace) as Statue;
+            var sub1 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(10, 5), "Clone_Facility_Wall", CreateOption.Replace) as Clone_Facility_Wall;
+            var sub2 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(11, 4), "Clone_Facility_Wall", CreateOption.Replace) as Clone_Facility_Wall;
+            var sub3 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(11, 5), "Clone_Facility_Wall", CreateOption.Replace) as Clone_Facility_Wall;
+
+            main.Set_StatueType(statueList[0]);
+            sub1.OriginalTarget = main;
+            sub2.OriginalTarget = main;
+            sub3.OriginalTarget = main;
+        }
+        if (statueList.Count > 1)
+        {
+            var main = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(10, 0), "StatueBase", CreateOption.Replace) as Statue;
+            var sub1 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(10, 1), "Clone_Facility_Wall", CreateOption.Replace) as Clone_Facility_Wall;
+            var sub2 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(11, 0), "Clone_Facility_Wall", CreateOption.Replace) as Clone_Facility_Wall;
+            var sub3 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(11, 1), "Clone_Facility_Wall", CreateOption.Replace) as Clone_Facility_Wall;
+
+            main.Set_StatueType(statueList[1]);
+            sub1.OriginalTarget = main;
+            sub2.OriginalTarget = main;
+            sub3.OriginalTarget = main;
+        }
+        if (statueList.Count > 2)
+        {
+            var main = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(7, 4), "StatueBase", CreateOption.Replace) as Statue;
+            var sub1 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(7, 5), "Clone_Facility_Wall", CreateOption.Replace) as Clone_Facility_Wall;
+            var sub2 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(8, 4), "Clone_Facility_Wall", CreateOption.Replace) as Clone_Facility_Wall;
+            var sub3 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(8, 5), "Clone_Facility_Wall", CreateOption.Replace) as Clone_Facility_Wall;
+
+            main.Set_StatueType(statueList[2]);
+            sub1.OriginalTarget = main;
+            sub2.OriginalTarget = main;
+            sub3.OriginalTarget = main;
+        }
+        if (statueList.Count > 3)
+        {
+            var main = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(7, 0), "StatueBase", CreateOption.Replace) as Statue;
+            var sub1 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(7, 1), "Clone_Facility_Wall", CreateOption.Replace) as Clone_Facility_Wall;
+            var sub2 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(8, 0), "Clone_Facility_Wall", CreateOption.Replace) as Clone_Facility_Wall;
+            var sub3 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(8, 1), "Clone_Facility_Wall", CreateOption.Replace) as Clone_Facility_Wall;
+
+            main.Set_StatueType(statueList[3]);
+            sub1.OriginalTarget = main;
+            sub2.OriginalTarget = main;
+            sub3.OriginalTarget = main;
+        }
+        if (statueList.Count > 4)
+        {
+            var main = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(4, 0), "StatueBase", CreateOption.Replace) as Statue;
+            var sub1 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(4, 1), "Clone_Facility_Wall", CreateOption.Replace) as Clone_Facility_Wall;
+            var sub2 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(5, 0), "Clone_Facility_Wall", CreateOption.Replace) as Clone_Facility_Wall;
+            var sub3 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(5, 1), "Clone_Facility_Wall", CreateOption.Replace) as Clone_Facility_Wall;
+
+            main.Set_StatueType(statueList[4]);
+            sub1.OriginalTarget = main;
+            sub2.OriginalTarget = main;
+            sub3.OriginalTarget = main;
+        }
+
+        //{
+        //    //? 스태츄 - 1번자리 (우상단)
+        //    var main = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(10, 4), "StatueBase", CreateOption.Return) as Statue;
+        //    var sub1 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(10, 5), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+        //    var sub2 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(11, 4), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+        //    var sub3 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(11, 5), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+
+        //    main.Set_StatueType(Statue.StatueType.Statue_Gold);
+        //    sub1.OriginalTarget = main;
+        //    sub2.OriginalTarget = main;
+        //    sub3.OriginalTarget = main;
+        //}
+
+        //{
+        //    //? 스태츄 - 2번자리 (우하단)
+        //    var main = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(10, 0), "StatueBase", CreateOption.Return) as Statue;
+        //    var sub1 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(10, 1), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+        //    var sub2 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(11, 0), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+        //    var sub3 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(11, 1), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+
+        //    main.Set_StatueType(Statue.StatueType.Statue_Mana);
+        //    sub1.OriginalTarget = main;
+        //    sub2.OriginalTarget = main;
+        //    sub3.OriginalTarget = main;
+        //}
+
+
+        ////? 3번 - 개
+        //if (UserData.Instance.FileConfig.Statue_Dog)
+        //{
+        //    var main = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(7, 4), "StatueBase", CreateOption.Return) as Statue;
+        //    var sub1 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(7, 5), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+        //    var sub2 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(8, 4), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+        //    var sub3 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(8, 5), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+
+        //    main.Set_StatueType(Statue.StatueType.Statue_Dog);
+        //    sub1.OriginalTarget = main;
+        //    sub2.OriginalTarget = main;
+        //    sub3.OriginalTarget = main;
+        //}
+        //else
+        //{
+        //    CreateObj(0, new Vector2Int(7, 4), "Obstacle_Wall", CreateOption.Replace);
+        //    CreateObj(0, new Vector2Int(7, 5), "Obstacle_Wall", CreateOption.Replace);
+        //    CreateObj(0, new Vector2Int(8, 4), "Obstacle_Wall", CreateOption.Replace);
+        //    CreateObj(0, new Vector2Int(8, 5), "Obstacle_Wall", CreateOption.Replace);
+        //}
+
+        ////? 4번 - 드래곤마왕
+        //if (UserData.Instance.FileConfig.Statue_Dragon)
+        //{
+        //    var main = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(7, 0), "StatueBase", CreateOption.Return) as Statue;
+        //    var sub1 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(7, 1), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+        //    var sub2 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(8, 0), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+        //    var sub3 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(8, 1), "Clone_Facility_Wall", CreateOption.Return) as Clone_Facility_Wall;
+
+        //    main.Set_StatueType(Statue.StatueType.Statue_Dragon);
+        //    sub1.OriginalTarget = main;
+        //    sub2.OriginalTarget = main;
+        //    sub3.OriginalTarget = main;
+        //}
+        //else
+        //{
+        //    CreateObj(0, new Vector2Int(7, 0), "Obstacle_Wall", CreateOption.Replace);
+        //    CreateObj(0, new Vector2Int(7, 1), "Obstacle_Wall", CreateOption.Replace);
+        //    CreateObj(0, new Vector2Int(8, 0), "Obstacle_Wall", CreateOption.Replace);
+        //    CreateObj(0, new Vector2Int(8, 1), "Obstacle_Wall", CreateOption.Replace);
+        //}
+
+
+
+
+
+        ////? 6번 자리
+        //CreateObj(0, new Vector2Int(4, 4), "Obstacle_Wall", CreateOption.Replace);
+        //CreateObj(0, new Vector2Int(4, 5), "Obstacle_Wall", CreateOption.Replace);
+        //CreateObj(0, new Vector2Int(5, 4), "Obstacle_Wall", CreateOption.Replace);
+        //CreateObj(0, new Vector2Int(5, 5), "Obstacle_Wall", CreateOption.Replace);
     }
 
 

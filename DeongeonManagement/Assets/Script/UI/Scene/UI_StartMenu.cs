@@ -9,6 +9,11 @@ public class UI_StartMenu : UI_Scene
         Init();
     }
 
+
+    enum TMP_Texts
+    {
+        VersionText,
+    }
     enum Buttons
     {
         NewGame,
@@ -22,19 +27,17 @@ public class UI_StartMenu : UI_Scene
     {
         base.Init();
 
+        Bind<TMPro.TextMeshProUGUI>(typeof(TMP_Texts));
+        GetTMP((int)TMP_Texts.VersionText).text = $"v_{Application.version}";
+
         Bind<Button>(typeof(Buttons));
 
-
         GetButton(((int)Buttons.NewGame)).gameObject.AddUIEvent(data => Button_NewGame());
-
         GetButton(((int)Buttons.Load)).gameObject.AddUIEvent(data => LoadGame());
-
         GetButton(((int)Buttons.Quit)).gameObject.AddUIEvent(data => Button_Quit());
-
         GetButton((int)Buttons.Pause).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_Pause>());
 
         LoadButtonActive();
-
 
         Init_CollectionButton();
     }
@@ -42,18 +45,7 @@ public class UI_StartMenu : UI_Scene
 
     void Init_CollectionButton()
     {
-        //? 조건 1 = 한번이라도 클리어했는지 -> UserData.Instance.GetDataInt(PrefsKey.FirstClear, 0) == 1
-        //? 조건 2 = 걍 세이브 데이터가 있는지
-
-        if (UserData.Instance.GetDataInt(PrefsKey.FirstClear, 0) == 1)
-        {
-            GetButton((int)Buttons.Collection).gameObject.SetActive(true);
-            GetButton((int)Buttons.Collection).gameObject.AddUIEvent(data => Managers.UI.ShowPopUp<UI_Collection>());
-        }
-        else
-        {
-            GetButton((int)Buttons.Collection).gameObject.SetActive(false);
-        }
+        //? 엔딩 도감 나중에 연결하면 됨
 
 
 #if DEMO_BUILD
@@ -87,16 +79,25 @@ public class UI_StartMenu : UI_Scene
         StartCoroutine(OpeningSkip());
 
         UserData.Instance.SetData(PrefsKey.NewGameTimes, UserData.Instance.GetDataInt(PrefsKey.NewGameTimes) + 1);
-        UserData.Instance.NewGameConfig();
-        EventManager.Instance.NewGameReset();
     }
 
     IEnumerator OpeningSkip()
     {
+        UserData.Instance.NewGameConfig();
+        EventManager.Instance.NewGameReset();
+
         var fade = Managers.UI.ShowPopUpAlone<UI_Fade>();
         fade.SetFadeOption(UI_Fade.FadeMode.BlackOut, 2, false);
 
         yield return new WaitForSecondsRealtime(2);
+
+        if (CollectionManager.Instance.RoundClearData != null)
+        {
+            yield return StartCoroutine(NewGamePlus());
+        }
+
+
+
 
         //? 나중에 데모말고 다시 활성화 하면 댐
         //if (CollectionManager.Instance.RoundClearData != null)
@@ -121,6 +122,19 @@ public class UI_StartMenu : UI_Scene
             () => Go_Opening(), 
             () => Go_Game());
     }
+
+    IEnumerator NewGamePlus()
+    {
+        var ui = Managers.UI.ShowPopUp<UI_NewGamePlus>();
+
+        yield return new WaitUntil(() => ui == null);
+
+        yield return new WaitForSecondsRealtime(1);
+    }
+
+
+
+
 
     void Go_Opening()
     {
