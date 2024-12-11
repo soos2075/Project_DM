@@ -43,6 +43,7 @@ public class UserData : MonoBehaviour
     private void Start()
     {
         Application.runInBackground = true;
+        //Application.targetFrameRate = -1;
         Init_Resolution();
         Init_Cursor();
         Init_Language();
@@ -519,7 +520,7 @@ public class UserData : MonoBehaviour
     {
         //? 종료전에 저장할 거 있으면 여기서 하면 됨. 코루틴을 돌려도 되긴하는데 안하는게 나은듯. 그냥 윈도우 세팅같은거나 볼륨같은거나 저장하자.
         SavePlayTime();
-        Debug.Log($"정상적으로 OnApplicationQuit 가 호출됨");
+        Debug.Log($"Quit_Save_Success");
     }
 
     #endregion
@@ -606,12 +607,16 @@ public class UserData : MonoBehaviour
         public bool Unit_Griffin;
         public bool Unit_Rena;
         public bool Unit_Ravi;
+        public bool Unit_Lievil;
+        public bool Unit_Rideer;
 
         //? 아티팩트
         public bool Arti_Hero;
         public bool Arti_Decay;
         public bool Arti_Pop;
         public bool Arti_Danger;
+        public bool Arti_DownDanger;
+        public bool Arti_DownPop;
         #endregion
 
         public void SetBoolValue(string boolName, bool value)
@@ -780,20 +785,20 @@ public enum PrefsKey
 public enum Endings
 {
     //? 딱히 결정된게 없으면 발생
-    Dog,
+    Dog = 710,
 
     //? 위험도가 더 높으면 드래곤(사실 이 루트는 몰살시켜야되거나 모험가를 잡아야 거의 가능한 정도긴함
-    Dragon,
+    Dragon = 720,
 
     //? 위험도가 300보다 작고 인기도가 위험도보다 높을때
-    Ravi,
+    Ravi = 730,
 
     //? 히로인 엔딩
-    Cat,
+    Cat = 740,
 
     //? 주인공 마왕 엔딩
-    Demon,
+    Demon = 750,
 
     //? 주인공 용사 엔딩
-    Hero,
+    Hero = 760,
 }

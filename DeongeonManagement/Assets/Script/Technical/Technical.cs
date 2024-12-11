@@ -24,6 +24,9 @@ public abstract class Technical : MonoBehaviour
     public Action<int> MainAction { get; set; }
 
 
+    //? 몇 번 능력이 발동됐는지 정보. 사실 쓸데는 없지만 알려줘도 좋을듯. 신전 기부 카운팅할 때 일단 써야함.
+    public int InteractionCounter { get; set; }
+
     protected enum DayType
     {
         Day,
@@ -66,4 +69,13 @@ public abstract class Technical : MonoBehaviour
 
     public TechnicalFloor parent;
 
+
+    public void AddCollectionPoint()
+    {
+        var collection = CollectionManager.Instance.Get_Collection(Data);
+        if (collection != null)
+        {
+            collection.AddPoint();
+        }
+    }
 }

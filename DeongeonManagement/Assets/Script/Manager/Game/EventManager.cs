@@ -69,10 +69,22 @@ public class EventManager : MonoBehaviour
 
         //? 시작이벤트 발생부분
         OneDayAfter();
-        var TodayEvent = GetDayEvent();
-        if (TodayEvent != null)
+        var TodayEvent = GetDayEvent(); //? 가져옴과 동시에 DayList에서 삭제하니까 여기까지는 호출해야함 / 29일날 상태에 따라 결정됨
+
+        if (CurrentTurn == 30 && Main.Instance.CurrentEndingState == Endings.Demon)
         {
-            Run_DayEventAction(TodayEvent.EventIndex);
+            //? 30일 이벤트를 셀프로 대체
+            Last_Judgment();
+            ClearQuestAction(7710003);
+        }
+        else if (CurrentTurn == 30 && Main.Instance.CurrentEndingState == Endings.Hero)
+        {
+            //? 30일 이벤트를 셀프로 대체
+            Hero_Final();
+        }
+        else if (TodayEvent != null)
+        {
+            Run_DayEventAction(TodayEvent.EventIndex); //? 얘가 실제 invoke를 하는 곳이기 때문에 얘만 안하면 댐
         }
     }
     public void TurnOver()
@@ -178,14 +190,14 @@ public class EventManager : MonoBehaviour
     {
         TryAddUnique(Pop, Danger);
 
-        if (Danger >= 500 && Danger > Pop && CurrentTurn >= 15 && Main.Instance.DungeonRank == (int)Define.DungeonRank.C &&
+        if (Danger >= 500 && Danger > Pop && CurrentTurn >= 15 && 
             CurrentClearEventData.Check_AlreadyClear(DialogueName.Dragon_First) == false)
         {
-            UserData.Instance.FileConfig.Notice_Facility = true;
-            //UserData.Instance.FileConfig.Notice_Monster = true;
-            //UserData.Instance.FileConfig.Notice_Summon = true;
-            Main.Instance.Dungeon_RankUP();
-            RankUpEvent();
+            //UserData.Instance.FileConfig.Notice_Facility = true;
+            ////UserData.Instance.FileConfig.Notice_Monster = true;
+            ////UserData.Instance.FileConfig.Notice_Summon = true;
+            //Main.Instance.Dungeon_RankUP();
+            //RankUpEvent();
 
             Managers.Dialogue.ActionReserve(() =>
             {
@@ -206,7 +218,7 @@ public class EventManager : MonoBehaviour
 
 
         //? 2회차 이상 / 인기도위험도합이 1000이상일 때 
-        if (UserData.Instance.FileConfig.PlayRounds > 1 && Danger + Pop >= 1000 &&
+        if (UserData.Instance.FileConfig.PlayRounds > 1 && Danger + Pop >= 1200 &&
             CurrentClearEventData.Check_AlreadyClear(DayEventLabel.Catastrophe) == false && Check_AlreadyReserve(DayEventLabel.Catastrophe) == false)
         {
             AddDayEvent(DayEventLabel.Catastrophe, priority: 1, embargo: 0, delay: 3);
@@ -219,22 +231,22 @@ public class EventManager : MonoBehaviour
 
     void TryAddUnique(int fame, int danger)
     {
-        if (fame >= 200)
+        if (fame >= 300)
         {
             GameManager.NPC.Set_UniqueChance(NPC_Type_Unique.Santa, 0.05f);
         }
 
-        if (fame >= 300)
+        if (fame >= 600)
         {
             GameManager.NPC.Set_UniqueChance(NPC_Type_Unique.GoldLizard, 0.05f);
         }
 
-        if (danger >= 200)
+        if (danger >= 300)
         {
             GameManager.NPC.Set_UniqueChance(NPC_Type_Unique.DungeonThief, 0.05f);
         }
 
-        if (danger >= 300)
+        if (danger >= 600)
         {
             GameManager.NPC.Set_UniqueChance(NPC_Type_Unique.PumpkinHead, 0.05f);
         }
@@ -250,13 +262,28 @@ public class EventManager : MonoBehaviour
             return true;
         }
 
-        if (Main.Instance.DungeonRank == 2 && fame + danger >= 400)
+        if (Main.Instance.DungeonRank == 2 && fame + danger >= 500)
         {
             UserData.Instance.FileConfig.Notice_Facility = true;
             UserData.Instance.FileConfig.Notice_Monster = true;
             UserData.Instance.FileConfig.Notice_Summon = true;
             return true;
         }
+
+        if (Main.Instance.DungeonRank == 3 && fame + danger >= 1200)
+        {
+            UserData.Instance.FileConfig.Notice_Facility = true;
+            UserData.Instance.FileConfig.Notice_Monster = true;
+            UserData.Instance.FileConfig.Notice_Summon = true;
+            return true;
+        }
+
+        if (Main.Instance.DungeonRank == 4 && CurrentClearEventData.Check_AlreadyClear(DialogueName.Catastrophe_Seal))
+        {
+            UserData.Instance.FileConfig.Notice_Facility = true;
+            return true;
+        }
+
 
         //if (Main.Instance.DungeonRank == (int)Define.DungeonRank.C && danger >= 500 && CurrentClearEventData.Check_AlreadyClear(DialogueName.Dragon_First))
         //{
@@ -324,7 +351,7 @@ public class EventManager : MonoBehaviour
         {
             Clear_DialogueEventList.Add(_EventName);
         }
-        public void AddClear(int _EventName)
+        public void AddClear_Quest(int _EventName)
         {
             Clear_QuestList.Add(_EventName);
         }
@@ -354,6 +381,17 @@ public class EventManager : MonoBehaviour
             return false;
         }
         public bool Check_AlreadyClear(int _EventName)
+        {
+            foreach (var item in Clear_DialogueEventList)
+            {
+                if ((int)item == _EventName)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool Check_AlreadyClear_Quest(int _EventName)
         {
             foreach (var item in Clear_QuestList)
             {
@@ -537,12 +575,12 @@ public class EventManager : MonoBehaviour
                         break;
 
                     case Guild_DayOption.Always:
-                        if (GuildManager.Instance.GetData(item.Original_Index).FirstDay > CurrentTurn)
+                        if (GuildManager.Instance.GetData(item.Original_Index).FirstDay <= CurrentTurn)
                         {
-                            return false;
+                            Debug.Log($"길드 퀘스트 발생중 : {item.Original_Index}");
+                            return true;
                         }
-                        Debug.Log($"길드 퀘스트 발생중 : {item.Original_Index}");
-                        return true;
+                        break;
 
                     case Guild_DayOption.Odd:
                         if (CurrentTurn % 2 == 1)
@@ -784,11 +822,11 @@ public class EventManager : MonoBehaviour
             ClearQuestAction(778020);
         });
 
-        DayEventActionRegister.Add(DayEventLabel.Last_Judgment, () => {
-            Debug.Log("마왕엔딩 최후결전");
-            Last_Judgment();
-            ClearQuestAction(7710003);
-        });
+        //DayEventActionRegister.Add(DayEventLabel.Last_Judgment, () => {
+        //    Debug.Log("마왕엔딩 최후결전");
+        //    Last_Judgment();
+        //    ClearQuestAction(7710003);
+        //});
     }
 
 
@@ -918,25 +956,39 @@ public class EventManager : MonoBehaviour
     public Action CurrentQuestAction { get; private set; }
 
     //? 현재 진행중인 퀘스트 목록(dataManager에서 저장용으로만 사용)
-    public List<int> CurrentQuestAction_forSave { get; set; } = new List<int>();
+    public HashSet<int> CurrentQuestAction_forSave { get; set; } = new HashSet<int>();
 
 
     public void AddQuestAction(int _index)
     {
-        CurrentQuestAction += GetQuestAction(_index);
-        CurrentQuestAction_forSave.Add(_index);
+        if (!CurrentQuestAction_forSave.Contains(_index))
+        {
+            CurrentQuestAction += GetQuestAction(_index);
+            CurrentQuestAction_forSave.Add(_index);
+            UserData.Instance.FileConfig.Notice_Quest = true;
+        }
 
-        UserData.Instance.FileConfig.Notice_Quest = true;
+        //CurrentQuestAction += GetQuestAction(_index);
+        //CurrentQuestAction_forSave.Add(_index);
+
+        //UserData.Instance.FileConfig.Notice_Quest = true;
     }
     public void ClearQuestAction(int _index)
     {
-        CurrentClearEventData.AddClear(_index);
+        CurrentClearEventData.AddClear_Quest(_index);
         RemoveQuestAction(_index);
     }
     public void RemoveQuestAction(int _index)
     {
-        CurrentQuestAction -= GetQuestAction(_index);
-        CurrentQuestAction_forSave.Remove(_index);
+        if (CurrentQuestAction_forSave.Contains(_index))
+        {
+            CurrentQuestAction -= GetQuestAction(_index);
+            CurrentQuestAction_forSave.Remove(_index);
+            if (CurrentQuestAction_forSave.Count == 0)
+            {
+                UserData.Instance.FileConfig.Notice_Quest = false;
+            }
+        }
     }
 
 
@@ -1041,6 +1093,12 @@ public class EventManager : MonoBehaviour
         {
             Debug.Log("최후의 심판 준비중");
         });
+
+        forQuestAction.Add(7712000, () =>
+        {
+            Debug.Log("라이트닝");
+            GameManager.NPC.AddEventNPC(NPC_Type_SubEvent.Lightning.ToString(), 3, NPC_Typeof.NPC_Type_SubEvent);
+        });
     }
     void Init_DialogueAction() //? 대화를 통해서 호출하는곳. 코드상에는 없고 Dialogue에 Index로만 존재함
     {
@@ -1090,7 +1148,17 @@ public class EventManager : MonoBehaviour
         GuildNPCAction.Add(8010, () => { AddQuestAction(778010); });
         GuildNPCAction.Add(8020, () => { AddQuestAction(778020); });
 
+        //? 라이트닝 레이서
+        GuildNPCAction.Add(12010, () =>
+        {
+            AddQuestAction(7712000);
+            GuildManager.Instance.GetInteraction(12000).Remove_Option(0); //? 확장될 때 마다 추가되는 퀘스트라서 여기서 삭제해줘야함(선택지없으니까)
+        });
+
+
+        //? 그레이하운드 진화 퀘스트 추가
         GuildNPCAction.Add(100701, () => { Add_GuildQuest_Special(5010); });
+        //? 그레이하운드 관련 NPC 퀘스트 추가(뼈 구매하는거)
         GuildNPCAction.Add(5010, () => { Add_GuildQuest_Special(5199, false); Add_GuildQuest_Special(5299, false); });
     }
 
@@ -1323,7 +1391,7 @@ public class EventManager : MonoBehaviour
             Debug.Log("히로인 엔딩 루트 확정");
 
             GameManager.Monster.GetMonster<Heroine>().UnitDialogueEvent.ClearEvent((int)UnitDialogueEventLabel.Heroin_Root_Ture);
-            Main.Instance.SelectEnding();
+            Main.Instance.ChangeEggState();
         });
 
 
@@ -1401,6 +1469,7 @@ public class EventManager : MonoBehaviour
             Debug.Log("던전의 재앙 - 봉인");
 
             GameManager.Technical.Get_Technical<BarrierOfSealing>().Set_Seal();
+            GameManager.Technical.Get_Technical<BarrierOfSealing>().AddCollectionPoint();
         });
 
 
@@ -1435,7 +1504,7 @@ public class EventManager : MonoBehaviour
             {
                 GameManager.Artifact.AddArtifact(ArtifactLabel.TouchOfDecay);
             });
-            //? 용사이벤트 추가
+            //? 용사이벤트 추가 (퀘스트에 등록될 예비이벤트임)
             AddQuestAction(7710003);
         });
 
@@ -1447,13 +1516,13 @@ public class EventManager : MonoBehaviour
 
             var saveData = Managers.Data.GetData("Temp_GuildSave");
 
-            if (saveData.Player_Gold < 1200) //? 골드가 부족하다면 시스템 메세지 혹은 돈부족 대화
+            if (saveData.Player_Gold < 800) //? 골드가 부족하다면 시스템 메세지 혹은 돈부족 대화
             {
                 Managers.Dialogue.ShowDialogueUI(5555);
                 return;
             }
 
-            saveData.Player_Gold -= 1200;
+            saveData.Player_Gold -= 800;
             GuildManager.Instance.AddBackAction(() =>
             {
                 GameManager.Artifact.AddArtifact(ArtifactLabel.BananaBone);
@@ -1470,13 +1539,13 @@ public class EventManager : MonoBehaviour
 
             var saveData = Managers.Data.GetData("Temp_GuildSave");
 
-            if (saveData.Player_Gold < 1000) //? 골드가 부족하다면 시스템 메세지 혹은 돈부족 대화
+            if (saveData.Player_Gold < 500) //? 골드가 부족하다면 시스템 메세지 혹은 돈부족 대화
             {
                 Managers.Dialogue.ShowDialogueUI(11011);
                 return;
             }
 
-            saveData.Player_Gold -= 1000;
+            saveData.Player_Gold -= 500;
             GuildManager.Instance.AddBackAction(() =>
             {
                 GameManager.Artifact.Add_RandomArtifact();
@@ -1489,6 +1558,18 @@ public class EventManager : MonoBehaviour
             {
                 GameManager.Artifact.AddArtifact(ArtifactLabel.Pearl); //? 추가한 아티팩트로 바꾸면 댐
             });
+        });
+
+
+        EventAction.Add("Monster_Yes", () =>
+        {
+            Debug.Log("몬스터매니저 - Yes");
+            GameManager.Monster.State = MonsterManager.SelectState.Yes;
+        });
+        EventAction.Add("Monster_No", () =>
+        {
+            Debug.Log("몬스터매니저 - No");
+            GameManager.Monster.State = MonsterManager.SelectState.No;
         });
 
 
@@ -1518,6 +1599,11 @@ public class EventManager : MonoBehaviour
         //? 실제로 클리어 되는 타이밍
         Temp_saveData = Managers.Data.SaveCurrentData("Clear_Temp");
         UserData.Instance.GameClear(Temp_saveData);
+
+
+        yield return null;
+        //? 템프세이브 삭제해줘야함 - 이거 나중에 무한모드할 때 무한모드 저장용 데이터인데 무한모드 넣기전까진 봉인
+        Temp_saveData = null;
 
         yield return new WaitForSecondsRealtime(1);
         Managers.Scene.LoadSceneAsync(SceneName._7_NewEnding, false);
@@ -1916,7 +2002,7 @@ public class EventManager : MonoBehaviour
 
     void Last_Judgment()
     {
-        Debug.Log("최후의 결전 이벤트 시작");
+        Debug.Log("마왕엔딩 - 최후의 결전 이벤트 시작");
 
         //? 사전준비
         var Dungeon = Main.Instance.Dungeon;
@@ -1927,11 +2013,106 @@ public class EventManager : MonoBehaviour
         fade.SetFadeOption(UI_Fade.FadeMode.WhiteIn, 1, true);
 
         //? 적 소환
+        var hero = GameManager.NPC.InstantiateNPC_Event(NPC_Type_SubEvent.Judgement.ToString(), NPC_Typeof.NPC_Type_SubEvent);
+        hero.transform.position = Dungeon.transform.position + (Vector3.left * 3);
+        GameManager.Placement.Visible(hero);
 
+        List<NPC> sol1List = new List<NPC>();
+        for (int i = 0; i < 5; i++)
+        {
+            var group = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_KingdomKnight.ToString(), NPC_Typeof.NPC_Type_MainEvent);
+            group.transform.position = Dungeon.transform.position + (Vector3.right * 1 * i) + Vector3.right * 5;
+            group.Anim_State = NPC.animState.left;
+            group.Anim_State = NPC.animState.Ready;
+
+            GameManager.Placement.Visible(group);
+            sol1List.Add(group);
+        }
 
         //? 대화시작 / 끝나고 적 이동
-        //Managers.Dialogue.ShowDialogueUI(DialogueName.Guild_Raid_1, cap_A.transform);
-        //StartCoroutine(Wait_Guild_Raid_First(cap_A, cap_B, sol1List, sol2List));
+        Managers.Dialogue.ShowDialogueUI(DialogueName.The_Judgement, hero.transform);
+        StartCoroutine(Move_Last_Judgment(hero, sol1List));
+    }
+    IEnumerator Move_Last_Judgment(NPC cap, List<NPC> group1)
+    {
+        var Dungeon = Main.Instance.Dungeon;
+        yield return null;
+        yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
+
+        UserData.Instance.GameMode = Define.GameMode.Normal;
+
+        foreach (var item in group1)
+        {
+            item.Departure(item.transform.position, Dungeon.position);
+        }
+
+
+        float timer = 0;
+        while (timer < 15)
+        {
+            timer += Time.deltaTime;
+            yield return UserData.Instance.Wait_GamePlay;
+        }
+
+        cap.Departure(cap.transform.position, Dungeon.position);
+    }
+
+    void Hero_Final()
+    {
+        Debug.Log("용사엔딩 - 마지막 이벤트 시작");
+
+        //? 사전준비
+        var Dungeon = Main.Instance.Dungeon;
+        GameManager.NPC.CustomStage = true;
+        UserData.Instance.GameMode = Define.GameMode.Stop;
+
+        var fade = Managers.UI.ShowPopUp<UI_Fade>();
+        fade.SetFadeOption(UI_Fade.FadeMode.WhiteIn, 1, true);
+
+        //? 적 소환
+        var venom = GameManager.NPC.InstantiateNPC_Event(NPC_Type_SubEvent.Venom.ToString(), NPC_Typeof.NPC_Type_SubEvent);
+        venom.transform.position = Dungeon.transform.position + (Vector3.right * 3);
+        GameManager.Placement.Visible(venom);
+        venom.Anim_State = NPC.animState.left;
+        venom.Anim_State = NPC.animState.Ready;
+
+        List<NPC> catastrophe = new List<NPC>();
+        for (int i = 0; i < 6; i++)
+        {
+            var group = GameManager.NPC.InstantiateNPC_Event(NPC_Type_MainEvent.EM_Catastrophe_Clone.ToString(), NPC_Typeof.NPC_Type_MainEvent);
+            group.transform.position = Dungeon.transform.position + (Vector3.right * -1.5f * i) + Vector3.right * -3;
+            group.Anim_State = NPC.animState.Ready;
+
+            GameManager.Placement.Visible(group);
+            catastrophe.Add(group);
+        }
+
+        //? 대화시작 / 끝나고 적 이동
+        Managers.Dialogue.ShowDialogueUI(DialogueName.The_Venom, venom.transform.Find("_Pos"));
+        StartCoroutine(Move_Hero_Final(venom, catastrophe));
+    }
+    IEnumerator Move_Hero_Final(NPC cap, List<NPC> group1)
+    {
+        var Dungeon = Main.Instance.Dungeon;
+        yield return null;
+        yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
+
+        UserData.Instance.GameMode = Define.GameMode.Normal;
+
+        foreach (var item in group1)
+        {
+            item.Departure(item.transform.position, Dungeon.position);
+        }
+
+
+        float timer = 0;
+        while (timer < 15)
+        {
+            timer += Time.deltaTime;
+            yield return UserData.Instance.Wait_GamePlay;
+        }
+
+        cap.Departure(cap.transform.position, Dungeon.position);
     }
 
     #endregion

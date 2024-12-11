@@ -66,7 +66,7 @@ public class Orb : MonoBehaviour
         if (Time.timeScale == 0) return true;
 
 
-        if (Main.Instance.Turn <= 5) return true;
+        if (Main.Instance.Turn < 5 && UserData.Instance.FileConfig.PlayRounds == 1) return true;
 
         // PointerEventData를 생성하고 현재 마우스 위치를 설정
         PointerEventData pointerData = new PointerEventData(EventSystem.current)

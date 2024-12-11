@@ -12,7 +12,7 @@ public class BarrierOfSealing : Technical
     {
         Cycle = 1;
 
-        if (EventManager.Instance.CurrentClearEventData.Check_AlreadyClear(1141)) //? 1141퀘스트는 지속되는 재앙 퀘스트 / 771141은 길드에서 대화해야 추가댐
+        if (EventManager.Instance.CurrentClearEventData.Check_AlreadyClear_Quest(1141)) //? 1141퀘스트는 지속되는 재앙 퀘스트 / 771141은 길드에서 대화해야 추가댐
         {
             Set_Seal();
         }

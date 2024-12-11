@@ -659,6 +659,50 @@ MonoBehaviour:
     m_Key: "Confirm_Pray_\uC601\uC6C5\uC758\uC0C1"
     m_Metadata:
       m_Items: []
+  - m_Id: 97783718346960896
+    m_Key: Elbum
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98034720341962752
+    m_Key: "\uCD08\uAE30\uD654_0_\uC2DC\uC791"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98034822498430976
+    m_Key: "\uCD08\uAE30\uD654_1_\uC0AC\uC6A9\uC790"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98034855666987008
+    m_Key: "\uCD08\uAE30\uD654_2_\uC138\uC774\uBE0C"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98034888311255040
+    m_Key: "\uCD08\uAE30\uD654_3_\uD074\uB9AC\uC5B4"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98034910968885248
+    m_Key: "\uCD08\uAE30\uD654_4_\uB3C4\uAC10"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98034953885003776
+    m_Key: "\uCD08\uAE30\uD654_5_\uCD5C\uC885"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98739352731070464
+    m_Key: "\uD68D\uB4DD \uC870\uAC74"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98739357059592192
+    m_Key: "\uACE0\uC720 \uD6A8\uACFC"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98813791392968704
+    m_Key: Pray
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98815813626310656
+    m_Key: Confirm_Temple
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

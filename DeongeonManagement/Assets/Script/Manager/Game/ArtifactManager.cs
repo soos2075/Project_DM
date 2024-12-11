@@ -101,10 +101,20 @@ public class ArtifactManager
         public void Add()
         {
             Count++;
+            AddCollectionPoint();
         }
         public void Sub()
         {
             Count--;
+        }
+
+        public void AddCollectionPoint()
+        {
+            var collection = CollectionManager.Instance.Get_Collection(Data);
+            if (collection != null)
+            {
+                collection.AddPoint();
+            }
         }
 
 
@@ -178,11 +188,14 @@ public class ArtifactManager
     {
         GetArtifact(label).Add();
         Artifact_Effection();
+        Artifact_AddCallback(label);
+        ArtifactBox.Box_Update();
     }
     public void SubtractArtifact(ArtifactLabel label)
     {
         GetArtifact(label).Sub();
         Artifact_Effection();
+        ArtifactBox.Box_Update();
     }
 
     public void Add_RandomArtifact()
@@ -194,10 +207,20 @@ public class ArtifactManager
     #endregion
 
 
-    public Transform ArtifactBox { get { return GameObject.FindAnyObjectByType<ArtifactBox>().transform; } }
+    public ArtifactBox ArtifactBox { get { return GameObject.FindAnyObjectByType<ArtifactBox>(); } }
 
 
     #region 아티팩트 효과
+
+    void Artifact_AddCallback(ArtifactLabel label)
+    {
+        switch (label)
+        {
+            case ArtifactLabel.ProofOfHero:
+                Main.Instance.Player.GetComponent<Player>().Hero_Buff();
+                break;
+        }
+    }
 
     void Artifact_Effection()
     {
@@ -254,30 +277,30 @@ public class ArtifactManager
         if (artifactCountAll > 0)
         {
             Main.Instance.CurrentDay.AddMana(artifactCountAll * 50, Main.DayResult.EventType.Artifacts);
-            Main.Instance.ShowDM(artifactCountAll * 50, Main.TextType.mana, ArtifactBox, 2);
+            Main.Instance.ShowDM(artifactCountAll * 50, Main.TextType.mana, ArtifactBox.transform, 2);
         }
 
         if (GetArtifact(ArtifactLabel.OrbOfPopularity).Count > 0)
         {
             Main.Instance.CurrentDay.AddPop(10);
-            Main.Instance.ShowDM(10, Main.TextType.pop, ArtifactBox, 2);
+            Main.Instance.ShowDM(10, Main.TextType.pop, ArtifactBox.transform, 2);
         }
         if (GetArtifact(ArtifactLabel.OrbOfDanger).Count > 0)
         {
             Main.Instance.CurrentDay.AddDanger(10);
-            Main.Instance.ShowDM(10, Main.TextType.danger, ArtifactBox, 2);
+            Main.Instance.ShowDM(10, Main.TextType.danger, ArtifactBox.transform, 2);
         }
 
         if (GetArtifact(ArtifactLabel.MarbleOfReassurance).Count > 0)
         {
             Main.Instance.CurrentDay.AddDanger(-5);
-            Main.Instance.ShowDM(-5, Main.TextType.danger, ArtifactBox, 2);
+            Main.Instance.ShowDM(-5, Main.TextType.danger, ArtifactBox.transform, 2);
         }
         if (GetArtifact(ArtifactLabel.MarbleOfOblivion).Count > 0)
         {
 
             Main.Instance.CurrentDay.AddPop(-5);
-            Main.Instance.ShowDM(-5, Main.TextType.pop, ArtifactBox, 2);
+            Main.Instance.ShowDM(-5, Main.TextType.pop, ArtifactBox.transform, 2);
         }
     }
 

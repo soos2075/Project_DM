@@ -10,10 +10,10 @@ public class UI_StateBar : UI_Base, IWorldSpaceUI
         SetCanvasWorldSpace();
         Init();
     }
-    void Update()
-    {
-        UpdateState();
-    }
+    //void Update()
+    //{
+    //    UpdateState();
+    //}
     void LateUpdate()
     {
         transform.position = npc.transform.position + new Vector3(0, -0.3f, 0);
@@ -49,12 +49,12 @@ public class UI_StateBar : UI_Base, IWorldSpaceUI
     float mp_origin;
     float ap_origin;
 
-    void UpdateState()
-    {
-        GetImage(((int)State.hp)).fillAmount = npc.HP / hp_origin;
-        GetImage(((int)State.mp)).fillAmount = npc.Mana / mp_origin;
-        GetImage(((int)State.ap)).fillAmount = npc.ActionPoint / ap_origin;
-    }
+    //void UpdateState()
+    //{
+    //    GetImage(((int)State.hp)).fillAmount = npc.HP / hp_origin;
+    //    GetImage(((int)State.mp)).fillAmount = npc.Mana / mp_origin;
+    //    GetImage(((int)State.ap)).fillAmount = npc.ActionPoint / ap_origin;
+    //}
 
 
 

@@ -68,6 +68,8 @@ public class CollectionManager : MonoBehaviour
     SO_Monster[] MonsterData;
     SO_NPC[] NpcData;
     SO_Technical[] TechnicalData;
+    SO_Artifact[] ArtifactData;
+    SO_Trait[] TraitData;
     SO_Ending[] EndingData;
 
 
@@ -77,6 +79,8 @@ public class CollectionManager : MonoBehaviour
         MonsterData = Resources.LoadAll<SO_Monster>("Data/Monster");
         NpcData = Resources.LoadAll<SO_NPC>("Data/NPC");
         TechnicalData = Resources.LoadAll<SO_Technical>("Data/Technical");
+        ArtifactData = Resources.LoadAll<SO_Artifact>("Data/Artifact");
+        TraitData = Resources.LoadAll<SO_Trait>("Data/Trait");
         EndingData = Resources.LoadAll<SO_Ending>("Data/Ending");
 
 
@@ -84,6 +88,8 @@ public class CollectionManager : MonoBehaviour
         Array.Sort(MonsterData, (a, b) => a.id.CompareTo(b.id));
         Array.Sort(NpcData, (a, b) => a.id.CompareTo(b.id));
         Array.Sort(TechnicalData, (a, b) => a.id.CompareTo(b.id));
+        Array.Sort(ArtifactData, (a, b) => a.id.CompareTo(b.id));
+        Array.Sort(TraitData, (a, b) => a.id.CompareTo(b.id));
         Array.Sort(EndingData, (a, b) => a.id.CompareTo(b.id));
 
         foreach (var mon in MonsterData)
@@ -97,8 +103,10 @@ public class CollectionManager : MonoBehaviour
     public List<CollectionUnitRegist<SO_Monster>> Register_Monster { get; private set; }
     public List<CollectionUnitRegist<SO_Facility>> Register_Facility { get; private set; }
     public List<CollectionUnitRegist<SO_NPC>> Register_NPC { get; private set; }
+
     public List<CollectionUnitRegist<SO_Technical>> Register_Technical { get; private set; }
-    public List<CollectionUnitRegist<SO_Ending>> Register_Ending { get; private set; }
+    public List<CollectionUnitRegist<SO_Artifact>> Register_Artifact { get; private set; }
+    public List<CollectionUnitRegist<SO_Trait>> Register_Trait { get; private set; }
 
 
     public void DataResetAndNewGame()
@@ -140,10 +148,18 @@ public class CollectionManager : MonoBehaviour
             Register_Technical.Add(new CollectionUnitRegist<SO_Technical>(TechnicalData[i], new Regist_Info(), i+1));
         }
 
-        Register_Ending = new List<CollectionUnitRegist<SO_Ending>>();
-        for (int i = 0; i < EndingData.Length; i++)
+        Register_Artifact = new List<CollectionUnitRegist<SO_Artifact>>();
+        for (int i = 0; i < ArtifactData.Length; i++)
         {
-            Register_Ending.Add(new CollectionUnitRegist<SO_Ending>(EndingData[i], new Regist_Info(), i+1));
+            if (ArtifactData[i].View_Collection == false) continue;
+            Register_Artifact.Add(new CollectionUnitRegist<SO_Artifact>(ArtifactData[i], new Regist_Info(), i + 1));
+        }
+
+        Register_Trait = new List<CollectionUnitRegist<SO_Trait>>();
+        for (int i = 0; i < TraitData.Length; i++)
+        {
+            //if (TraitData[i].isCollected == false) continue;
+            Register_Trait.Add(new CollectionUnitRegist<SO_Trait>(TraitData[i], new Regist_Info(), i + 1));
         }
     }
 
@@ -167,7 +183,11 @@ public class CollectionManager : MonoBehaviour
         {
             if (item.unit == SO_Data) return item as CollectionUnitRegist<T>;
         }
-        foreach (var item in Register_Ending)
+        foreach (var item in Register_Artifact)
+        {
+            if (item.unit == SO_Data) return item as CollectionUnitRegist<T>;
+        }
+        foreach (var item in Register_Trait)
         {
             if (item.unit == SO_Data) return item as CollectionUnitRegist<T>;
         }
@@ -192,9 +212,13 @@ public class CollectionManager : MonoBehaviour
         {
             if (item.unit.keyName == _keyName) return item as CollectionUnitRegist<T>;
         }
-        foreach (var item in Register_Ending)
+        foreach (var item in Register_Artifact)
         {
             if (item.unit.keyName == _keyName) return item as CollectionUnitRegist<T>;
+        }
+        foreach (var item in Register_Trait)
+        {
+            if (item.unit.traitName == _keyName) return item as CollectionUnitRegist<T>;
         }
 
         return null;
@@ -236,10 +260,18 @@ public class CollectionManager : MonoBehaviour
                 item.Apply_Info(isRegist.DeepCopy());
             }
         }
-        foreach (var item in Register_Ending)
+        foreach (var item in Register_Artifact)
         {
             Regist_Info isRegist;
-            if (data.TryGetValue(item.unit.id, out isRegist))
+            if (data.TryGetValue(item.unit.id + 10000, out isRegist))
+            {
+                item.Apply_Info(isRegist.DeepCopy());
+            }
+        }
+        foreach (var item in Register_Trait)
+        {
+            Regist_Info isRegist;
+            if (data.TryGetValue(item.unit.id + 20000, out isRegist))
             {
                 item.Apply_Info(isRegist.DeepCopy());
             }
@@ -253,30 +285,32 @@ public class CollectionManager : MonoBehaviour
         {
             Register.Add(Register_Facility[i].unit.id, Register_Facility[i].info.DeepCopy());
         }
+
         for (int i = 0; i < Register_Monster.Count; i++)
         {
             Register.Add(Register_Monster[i].unit.id, Register_Monster[i].info.DeepCopy());
         }
+
         for (int i = 0; i < Register_NPC.Count; i++)
         {
             Register.Add(Register_NPC[i].unit.id, Register_NPC[i].info.DeepCopy());
         }
+
         for (int i = 0; i < Register_Technical.Count; i++)
         {
             Register.Add(Register_Technical[i].unit.id, Register_Technical[i].info.DeepCopy());
         }
-        for (int i = 0; i < Register_Ending.Count; i++)
-        {
-            Register.Add(Register_Ending[i].unit.id, Register_Ending[i].info.DeepCopy());
 
-            //Register.Add(Register_Ending[i].unit.id, new Regist_Info(
-            //    Register_Ending[i].info.isRegist,
-            //    Register_Ending[i].info.UnlockPoint,
-            //    Register_Ending[i].info.level_1_Unlock,
-            //    Register_Ending[i].info.level_2_Unlock,
-            //    Register_Ending[i].info.level_3_Unlock,
-            //    Register_Ending[i].info.level_4_Unlock,
-            //    Register_Ending[i].info.level_5_Unlock));
+        //? 아래부터는 ID 값이 겹치는게 있어서 ID 앞에 10000~90000을 붙여주고 로드할 때 빼자
+        //? Arti - 1 / Trait - 2 / Ending - 9
+        for (int i = 0; i < Register_Artifact.Count; i++)
+        {
+            Register.Add(Register_Artifact[i].unit.id + 10000, Register_Artifact[i].info.DeepCopy());
+        }
+
+        for (int i = 0; i < Register_Trait.Count; i++)
+        {
+            Register.Add(Register_Trait[i].unit.id + 20000, Register_Trait[i].info.DeepCopy());
         }
 
         return Register;
@@ -325,10 +359,10 @@ public class CollectionManager : MonoBehaviour
         }
     }
 
-    public SO_Ending GetData(string _keyName)
+    public SO_Ending GetData_Ending(Endings _keyName)
     {
         SO_Ending content = null;
-        if (Ending_Dictionary.TryGetValue(_keyName, out content))
+        if (Ending_Dictionary.TryGetValue(_keyName.ToString(), out content))
         {
             return content;
         }
@@ -385,9 +419,16 @@ public class CollectionManager : MonoBehaviour
             endingClearCount = new Dictionary<Endings, int>();
             dataLog = new Dictionary<int, ClearDataLog>();
 
-            for (int i = 0; i < Enum.GetNames(typeof(Endings)).Length; i++)
+            //endingClearCount.Add(Endings.Dog, 0);
+            //endingClearCount.Add(Endings.Dragon, 0);
+            //endingClearCount.Add(Endings.Ravi, 0);
+            //endingClearCount.Add(Endings.Cat, 0);
+            //endingClearCount.Add(Endings.Demon, 0);
+            //endingClearCount.Add(Endings.Hero, 0);
+
+            foreach (Endings value in Enum.GetValues(typeof(Endings)))
             {
-                endingClearCount.Add((Endings)i, 0);
+                endingClearCount.Add(value, 0);
             }
         }
 

@@ -12,9 +12,11 @@ public class Devil_Statue : Facility, IWall
         AddEvent();
         OnRemoveEvent += () => RemoveEvent();
 
-
+        //? 제일처음 한번만 호출
         if (isInit == false)
         {
+            AddCollectionPoint();
+
             Create_Clone();
             isInit = true;
 
@@ -23,12 +25,16 @@ public class Devil_Statue : Facility, IWall
             {
                 EventManager.Instance.Add_GuildQuest_Special((int)DialogueName.DeathMagician_DevilStatue, true);
                 GuildManager.Instance.AddInstanceGuildNPC(GuildNPC_LabelName.DeathMagician);
+            }
 
-                if (GameManager.Facility.GetFacilityCount<Devil_Statue>() >= 5)
-                {
-                    EventManager.Instance.Add_GuildQuest_Special((int)DialogueName.DevilStatue_5, true);
-                    GuildManager.Instance.AddInstanceGuildNPC(GuildNPC_LabelName.DeathMagician);
-                }
+            if (GameManager.Facility.GetFacilityCount<Devil_Statue>() >= 5)
+            {
+                EventManager.Instance.Add_GuildQuest_Special((int)DialogueName.DevilStatue_5, true);
+                GuildManager.Instance.AddInstanceGuildNPC(GuildNPC_LabelName.DeathMagician);
+
+                Debug.Log("마왕엔딩 진입");
+                Main.Instance.ChangeEggState();
+                //? 30일차 이벤트 변경
             }
         }
     }

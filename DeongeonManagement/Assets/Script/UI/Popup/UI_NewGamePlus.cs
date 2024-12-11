@@ -72,6 +72,8 @@ public class UI_NewGamePlus : UI_PopUp
 
     void GameStart()
     {
+        UserData.Instance.FileConfig.Difficulty = (Define.DifficultyLevel)currentSelectDifficulty;
+
         foreach (var item in bonusList)
         {
             UserData.Instance.FileConfig.SetBoolValue(item.ToString(), true);
@@ -193,7 +195,7 @@ public class UI_NewGamePlus : UI_PopUp
         int currentMaxLevel = CollectionManager.Instance.RoundClearData.highestDifficultyLevel;
         for (int i = 0; i < currentMaxLevel + 2; i++)
         {
-            if (i >= 4) break;
+            if (i > 4) break;
 
             btn[i].gameObject.SetActive(true);
         }
@@ -235,39 +237,39 @@ public class UI_NewGamePlus : UI_PopUp
         Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Gold);
         Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Mana);
 
-        //? 테스트용으로 임시
-        Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Dog);
-        Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Ravi);
-        Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Dragon);
-        Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Cat);
-        Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Demon);
-        Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Hero);
+        ////? 테스트용으로 임시 전부 개방
+        //Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Dog);
+        //Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Ravi);
+        //Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Dragon);
+        //Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Cat);
+        //Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Demon);
+        //Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Hero);
 
 
-        //if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Dog))
-        //{
-        //    Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Dog);
-        //}
-        //if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Ravi))
-        //{
-        //    Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Ravi);
-        //}
-        //if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Dragon))
-        //{
-        //    Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Dragon);
-        //}
-        //if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Cat))
-        //{
-        //    Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Cat);
-        //}
-        //if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Demon))
-        //{
-        //    Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Demon);
-        //}
-        //if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Hero))
-        //{
-        //    Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Hero);
-        //}
+        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Dog))
+        {
+            Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Dog);
+        }
+        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Ravi))
+        {
+            Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Ravi);
+        }
+        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Dragon))
+        {
+            Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Dragon);
+        }
+        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Cat))
+        {
+            Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Cat);
+        }
+        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Demon))
+        {
+            Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Demon);
+        }
+        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Hero))
+        {
+            Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Hero);
+        }
     }
 
     void Init_Unit()
@@ -299,6 +301,14 @@ public class UI_NewGamePlus : UI_PopUp
         {
             Add_Content(Panel.UnitPanel, Bonus.Unit_Ravi);
         }
+        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Demon))
+        {
+            Add_Content(Panel.UnitPanel, Bonus.Unit_Lievil);
+        }
+        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Hero))
+        {
+            Add_Content(Panel.UnitPanel, Bonus.Unit_Rideer);
+        }
         if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Cat))
         {
             Add_Content(Panel.UnitPanel, Bonus.Unit_Rena);
@@ -308,10 +318,25 @@ public class UI_NewGamePlus : UI_PopUp
 
     void Init_Artifact()
     {
-        Add_Content(Panel.ArtifactPanel, Bonus.Arti_Hero);
-        Add_Content(Panel.ArtifactPanel, Bonus.Arti_Decay);
+        //? 임시로 전체 개방
+
         Add_Content(Panel.ArtifactPanel, Bonus.Arti_Pop);
         Add_Content(Panel.ArtifactPanel, Bonus.Arti_Danger);
+
+        if (CollectionManager.Instance.RoundClearData.clearCounter >= 2)
+        {
+            Add_Content(Panel.ArtifactPanel, Bonus.Arti_DownDanger);
+            Add_Content(Panel.ArtifactPanel, Bonus.Arti_DownPop);
+        }
+
+        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Demon))
+        {
+            Add_Content(Panel.ArtifactPanel, Bonus.Arti_Decay);
+        }
+        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Hero))
+        {
+            Add_Content(Panel.ArtifactPanel, Bonus.Arti_Hero);
+        }
     }
 
 
@@ -427,29 +452,36 @@ public class UI_NewGamePlus : UI_PopUp
         BonusDict.Add(Bonus.Statue_Mana, new BtnEvent(Panel.StatuePanel, Bonus.Statue_Mana, 0));
         BonusDict.Add(Bonus.Statue_Gold, new BtnEvent(Panel.StatuePanel, Bonus.Statue_Gold, 0));
         BonusDict.Add(Bonus.Statue_Dog, new BtnEvent(Panel.StatuePanel, Bonus.Statue_Dog, 5));
-        BonusDict.Add(Bonus.Statue_Cat, new BtnEvent(Panel.StatuePanel, Bonus.Statue_Cat, 5));
-        BonusDict.Add(Bonus.Statue_Dragon, new BtnEvent(Panel.StatuePanel, Bonus.Statue_Dragon, 5));
+        BonusDict.Add(Bonus.Statue_Cat, new BtnEvent(Panel.StatuePanel, Bonus.Statue_Cat, 7));
+        BonusDict.Add(Bonus.Statue_Dragon, new BtnEvent(Panel.StatuePanel, Bonus.Statue_Dragon, 7));
         BonusDict.Add(Bonus.Statue_Ravi, new BtnEvent(Panel.StatuePanel, Bonus.Statue_Ravi, 5));
-        BonusDict.Add(Bonus.Statue_Demon, new BtnEvent(Panel.StatuePanel, Bonus.Statue_Demon, 5));
-        BonusDict.Add(Bonus.Statue_Hero, new BtnEvent(Panel.StatuePanel, Bonus.Statue_Hero, 5));
+        BonusDict.Add(Bonus.Statue_Demon, new BtnEvent(Panel.StatuePanel, Bonus.Statue_Demon, 10));
+        BonusDict.Add(Bonus.Statue_Hero, new BtnEvent(Panel.StatuePanel, Bonus.Statue_Hero, 10));
 
 
 
-        BonusDict.Add(Bonus.Unit_BloodySlime, new BtnEvent(Panel.UnitPanel, Bonus.Unit_BloodySlime, 2));
-        BonusDict.Add(Bonus.Unit_FlameGolem, new BtnEvent(Panel.UnitPanel, Bonus.Unit_FlameGolem, 2));
-        BonusDict.Add(Bonus.Unit_HellHound, new BtnEvent(Panel.UnitPanel, Bonus.Unit_HellHound, 3));
-        BonusDict.Add(Bonus.Unit_Salinu, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Salinu, 4));
-        BonusDict.Add(Bonus.Unit_Griffin, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Griffin, 4));
+        BonusDict.Add(Bonus.Unit_BloodySlime, new BtnEvent(Panel.UnitPanel, Bonus.Unit_BloodySlime, 3));
+        BonusDict.Add(Bonus.Unit_FlameGolem, new BtnEvent(Panel.UnitPanel, Bonus.Unit_FlameGolem, 3));
+        BonusDict.Add(Bonus.Unit_HellHound, new BtnEvent(Panel.UnitPanel, Bonus.Unit_HellHound, 6));
+        BonusDict.Add(Bonus.Unit_Salinu, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Salinu, 9));
+        BonusDict.Add(Bonus.Unit_Griffin, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Griffin, 9));
 
 
-        BonusDict.Add(Bonus.Unit_Rena, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Rena, 5));
-        BonusDict.Add(Bonus.Unit_Ravi, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Ravi, 5));
+        BonusDict.Add(Bonus.Unit_Rena, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Rena, 7));
+
+        BonusDict.Add(Bonus.Unit_Ravi, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Ravi, 15));
+        BonusDict.Add(Bonus.Unit_Lievil, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Lievil, 15));
+        BonusDict.Add(Bonus.Unit_Rideer, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Rideer, 15));
 
 
-        BonusDict.Add(Bonus.Arti_Hero, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_Hero, 3));
-        BonusDict.Add(Bonus.Arti_Decay, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_Decay, 3));
-        BonusDict.Add(Bonus.Arti_Pop, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_Pop, 2));
-        BonusDict.Add(Bonus.Arti_Danger, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_Danger, 2));
+
+        //? artifact
+        BonusDict.Add(Bonus.Arti_Hero, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_Hero, 10));
+        BonusDict.Add(Bonus.Arti_Decay, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_Decay, 15));
+        BonusDict.Add(Bonus.Arti_Pop, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_Pop, 3));
+        BonusDict.Add(Bonus.Arti_Danger, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_Danger, 3));
+        BonusDict.Add(Bonus.Arti_DownDanger, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_DownDanger,6));
+        BonusDict.Add(Bonus.Arti_DownPop, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_DownPop, 6));
     }
 
 
@@ -481,13 +513,19 @@ public class UI_NewGamePlus : UI_PopUp
         Unit_HellHound,
         Unit_Griffin,
         Unit_Rena,
+
         Unit_Ravi,
+        Unit_Lievil,
+        Unit_Rideer,
 
         //? 아티팩트
         Arti_Hero,
         Arti_Decay,
         Arti_Pop,
         Arti_Danger,
+
+        Arti_DownDanger,
+        Arti_DownPop,
     }
 
 }

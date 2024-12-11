@@ -149,6 +149,21 @@ public class UIManager
         ReservationCor = null;
         Debug.Log("예약팝업 끝");
     }
+
+    public void Stop_Reservation()
+    {
+        Managers.Instance.StopCoroutine(ReservationCor);
+        ReservationCor = null;
+        _reservationQueue.Clear();
+    }
+
+
+
+
+
+
+
+
     public T ShowPopUpNonPush<T>(string name = null) where T : UI_PopUp
     {
         if (string.IsNullOrEmpty(name))

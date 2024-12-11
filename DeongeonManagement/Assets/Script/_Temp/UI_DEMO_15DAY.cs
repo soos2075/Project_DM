@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_DEMO_15DAY : UI_Base
+public class UI_DEMO_15DAY : UI_PopUp
 {
     void Start()
     {
@@ -18,12 +18,16 @@ public class UI_DEMO_15DAY : UI_Base
         Fade,
 
         SteamLink,
+
+        ContinueButton,
     }
 
 
 
     public override void Init()
     {
+        Managers.UI.SetCanvas(gameObject);
+
         Bind<GameObject>(typeof(Objects));
 
         SoundManager.Instance.StopMusic();
@@ -66,6 +70,8 @@ public class UI_DEMO_15DAY : UI_Base
         }
 
         GetObject((int)Objects.ToMain).AddUIEvent((data) => LoadToMain());
+
+        GetObject((int)Objects.ContinueButton).AddUIEvent((data) => ContinueGame());
     }
 
 
@@ -75,7 +81,14 @@ public class UI_DEMO_15DAY : UI_Base
         if (isClick) return;
 
         isClick = true;
+        Managers.UI.Stop_Reservation();
         Managers.Scene.LoadSceneAsync(SceneName._1_Start, false);
+    }
+
+    void ContinueGame()
+    {
+        ClosePopUp();
+        SoundManager.Instance.ReStartMusic();
     }
 
 }

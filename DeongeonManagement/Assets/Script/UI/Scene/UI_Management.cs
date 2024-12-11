@@ -69,6 +69,8 @@ public class UI_Management : UI_Base
         Image_Day_NX,
         Image_Day_XN,
         Image_Rank,
+
+        DifficultyLevel,
     }
 
     enum Objects
@@ -108,7 +110,6 @@ public class UI_Management : UI_Base
 
         StartCoroutine(DayInit());
 
-
         AP_Refresh();
         SpeedButtonImage();
 
@@ -137,6 +138,20 @@ public class UI_Management : UI_Base
 
         var rank = GetObject((int)Objects.rank_Tooltip).GetOrAddComponent<UI_Tooltip>();
         rank.SetTooltipContents(UserData.Instance.LocaleText_Tooltip("Rank"), UserData.Instance.LocaleText_Tooltip("Rank_Detail"));
+    }
+
+
+
+    void Init_Difficulty()
+    {
+        if (UserData.Instance.FileConfig.Difficulty == Define.DifficultyLevel.Easy)
+        {
+            GetImage((int)Images.DifficultyLevel).gameObject.SetActive(false);
+        }
+        else
+        {
+            GetImage((int)Images.DifficultyLevel).GetComponentInChildren<TextMeshProUGUI>().text = $"★ x {(int)UserData.Instance.FileConfig.Difficulty + 1}";
+        }
     }
 
 
@@ -185,18 +200,32 @@ public class UI_Management : UI_Base
         {
             AddNotice_UI("New", this, ButtonEvent._1_Facility.ToString(), "Notice_Facility");
         }
+
         if (UserData.Instance.FileConfig.Notice_Monster)
         {
             AddNotice_UI("New", this, ButtonEvent._3_Management.ToString(), "Notice_Monster");
         }
+
         if (UserData.Instance.FileConfig.Notice_Guild)
         {
             AddNotice_UI("Notice", this, ButtonEvent._4_Guild.ToString(), "Notice_Guild");
         }
+        else //? 만약 이번턴에 업데이트했는데 없으면 이전에 남아있던 overlay라도 삭제해야함
+        {
+            RemoveNotice_UI(GetButton((int)ButtonEvent._4_Guild).gameObject);
+        }
+
+
         if (UserData.Instance.FileConfig.Notice_Quest)
         {
             AddNotice_UI("Notice", this, ButtonEvent._5_Quest.ToString(), "Notice_Quest");
         }
+        else //? 만약 이번턴에 업데이트했는데 없으면 이전에 남아있던 overlay라도 삭제해야함
+        {
+            RemoveNotice_UI(GetButton((int)ButtonEvent._5_Quest).gameObject);
+        }
+
+
         if (UserData.Instance.FileConfig.Notice_DungeonEdit)
         {
             AddNotice_UI("Notice", this, ButtonEvent._6_DungeonEdit.ToString(), "Notice_DungeonEdit");
@@ -225,6 +254,7 @@ public class UI_Management : UI_Base
     {
         yield return null;
 
+        Init_Difficulty();
         GuildButtonNotice();
         OverlayImageReset();
     }
@@ -362,20 +392,30 @@ public class UI_Management : UI_Base
         if (dungeonEdit == null)
         {
             dungeonEdit = Managers.UI.ClearAndShowPopUp<UI_DungeonEdit>();
-            if (UserData.Instance.FileConfig.Notice_Ex4)
-            {
-                AddNotice_UI("New_Small", dungeonEdit, "Floor_4", "Notice_Ex4");
-            }
-            if (UserData.Instance.FileConfig.Notice_Ex5)
-            {
-                AddNotice_UI("New_Small", dungeonEdit, "Floor_5", "Notice_Ex5");
-            }
+            //if (UserData.Instance.FileConfig.Notice_Ex4)
+            //{
+            //    AddNotice_UI("New_Small", dungeonEdit, "Floor_4", "Notice_Ex4");
+            //}
+            //if (UserData.Instance.FileConfig.Notice_Ex5)
+            //{
+            //    AddNotice_UI("New_Small", dungeonEdit, "Floor_5", "Notice_Ex5");
+            //}
         }
         else
         {
             Managers.UI.ClosePopupPick(dungeonEdit);
+            dungeonEdit = null;
         }
+    }
 
+    public void DungeonEdit_Refresh()
+    {
+        if (dungeonEdit != null)
+        {
+            Managers.UI.ClosePopupPick(dungeonEdit);
+            dungeonEdit = null;
+            Button_DungeonEdit();
+        }
     }
 
 
@@ -426,6 +466,16 @@ public class UI_Management : UI_Base
         var ui = overlay.GetComponent<UI_Overlay>();
         ui.SetOverlay(Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Overlay_Icon", label), obj, setBoolName);
     }
+
+    void RemoveNotice_UI(GameObject btn)
+    {
+        var overlay = btn.GetComponentInChildren<UI_Overlay>();
+        if (overlay != null)
+        {
+            overlay.SelfDestroy();
+        }
+    }
+
     #endregion
 
 
@@ -549,6 +599,7 @@ public class UI_Management : UI_Base
             case 2:
             case 3:
             case 4:
+            case 5:
                 GetButton((int)ButtonEvent._4_Guild).gameObject.SetActive(false);
                 GetButton((int)ButtonEvent._5_Quest).gameObject.SetActive(false);
                 break;

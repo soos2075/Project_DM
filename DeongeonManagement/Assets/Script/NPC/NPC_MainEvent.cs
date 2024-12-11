@@ -37,7 +37,7 @@ public class NPC_MainEvent : NPC
             case NPC_Type_MainEvent.EM_Catastrophe:
                 if (GameManager.Technical.Get_Technical<BarrierOfSealing>() != null)
                 {
-                    HP -= 600;
+                    HP = Mathf.RoundToInt(HP * 0.1f);
                 }
                 break;
 
@@ -93,6 +93,7 @@ public class NPC_MainEvent : NPC
             case NPC_Type_MainEvent.EM_FirstAdventurer:
             case NPC_Type_MainEvent.EM_RedHair:
             case NPC_Type_MainEvent.EM_Catastrophe:
+            case NPC_Type_MainEvent.EM_Catastrophe_Clone:
             case NPC_Type_MainEvent.EM_RetiredHero:
             case NPC_Type_MainEvent.EM_Captine_A:
             case NPC_Type_MainEvent.EM_Captine_B:
@@ -127,25 +128,11 @@ public class NPC_MainEvent : NPC
                 break;
 
             case NPC_Type_MainEvent.EM_RedHair:
-                KillGold = 150;
-                break;
-
-            case NPC_Type_MainEvent.Event_Goblin:
-            case NPC_Type_MainEvent.Event_Orc:
-            case NPC_Type_MainEvent.Event_Goblin_Knight:
-                KillGold = 100;
-                break;
-
-            case NPC_Type_MainEvent.Event_Lizard:
-                KillGold = 150;
-                break;
-
-            case NPC_Type_MainEvent.Event_Goblin_Leader:
-            case NPC_Type_MainEvent.Event_Orc_Leader:
-                KillGold = 200;
+                KillGold = 300;
                 break;
 
             case NPC_Type_MainEvent.EM_Catastrophe:
+            case NPC_Type_MainEvent.EM_Catastrophe_Clone:
                 KillGold = 666;
                 break;
 
@@ -166,21 +153,16 @@ public class NPC_MainEvent : NPC
 
             case NPC_Type_MainEvent.EM_Captine_A:
             case NPC_Type_MainEvent.EM_Captine_B:
-                KillGold = 300;
+            case NPC_Type_MainEvent.EM_KingdomKnight:
+                KillGold = 500;
                 break;
 
             case NPC_Type_MainEvent.EM_Captine_BlueKnight:
                 KillGold = 1000;
                 break;
 
-            case NPC_Type_MainEvent.EM_Soldier1:
-            case NPC_Type_MainEvent.EM_Soldier2:
-            case NPC_Type_MainEvent.EM_Soldier3:
-                KillGold = 100;
-                break;
-
             default:
-                KillGold = Data.Rank * Random.Range(10, 30);
+                KillGold = Data.Rank * Random.Range(20, 46);
                 break;
         }
     }
@@ -221,6 +203,7 @@ public class NPC_MainEvent : NPC
                     case NPC_Type_MainEvent.EM_Captine_A:
                     case NPC_Type_MainEvent.EM_Captine_B:
                     case NPC_Type_MainEvent.EM_Captine_BlueKnight:
+                    case NPC_Type_MainEvent.EM_KingdomKnight:
                         return new Define.TileType[] { Define.TileType.NPC, Define.TileType.Facility };
 
                     default:
@@ -300,6 +283,7 @@ public class NPC_MainEvent : NPC
                 break;
 
             case NPC_Type_MainEvent.EM_Catastrophe:
+            case NPC_Type_MainEvent.EM_Catastrophe_Clone:
                 characterBuilder.Hair = "";
                 characterBuilder.Head = "Demigod#FFFFFF/0:0:0";
                 characterBuilder.Ears = "Demigod#FFFFFF/0:0:0";
@@ -458,6 +442,13 @@ public class NPC_MainEvent : NPC
                 characterBuilder.Weapon = "GuardianHalberd#FFFFFF/0:0:0";
                 characterBuilder.Shield = "RoyalGreatShield#FFFFFF/0:0:0";
                 break;
+
+            case NPC_Type_MainEvent.EM_KingdomKnight:
+                characterBuilder.Helmet = "IronKnightHelmet#FFFFFF/0:0:0";
+                characterBuilder.Armor = "IronKnight#FFFFFF/0:0:0";
+                characterBuilder.Weapon = "BastardSword#FFFFFF/0:0:0";
+                characterBuilder.Shield = "KnightShield#FFFFFF/0:0:0";
+                break;
         }
 
 
@@ -503,6 +494,7 @@ public class NPC_MainEvent : NPC
                 break;
 
             case NPC_Type_MainEvent.EM_FirstAdventurer:
+            case NPC_Type_MainEvent.EM_KingdomKnight:
                 AddPriorityList(GetPriorityPick(typeof(Monster)), AddPos.Front, option);
                 AddPriorityList(GetPriorityPick(typeof(Treasure)), AddPos.Back, option);
                 break;
@@ -513,6 +505,7 @@ public class NPC_MainEvent : NPC
             case NPC_Type_MainEvent.EM_Captine_B:
             case NPC_Type_MainEvent.EM_Captine_BlueKnight:
             case NPC_Type_MainEvent.EM_Catastrophe:
+            case NPC_Type_MainEvent.EM_Catastrophe_Clone:
                 AddPriorityList(GetPriorityPick(typeof(Monster)), AddPos.Front, option);
                 //AddPriorityList(GetPriorityPick(typeof(Treasure)), AddPos.Front, option);
                 break;
@@ -628,12 +621,7 @@ public class NPC_MainEvent : NPC
                 {
                     Managers.Dialogue.ShowDialogueUI(DialogueName.Goblin_Satisfiction, transform);
                 }
-                AddValue(7, Main.TextType.pop);
-                break;
-
-            case NPC_Type_MainEvent.Event_Goblin:
-            case NPC_Type_MainEvent.Event_Goblin_Knight:
-                AddValue(7, Main.TextType.pop);
+                AddValue(10, Main.TextType.pop);
                 break;
 
             case NPC_Type_MainEvent.EM_Blood_Warrior_A:
@@ -644,25 +632,11 @@ public class NPC_MainEvent : NPC
             case NPC_Type_MainEvent.EM_Blood_Wizard_B:
             case NPC_Type_MainEvent.EM_Blood_Elf_A:
             case NPC_Type_MainEvent.EM_Blood_Elf_B:
-                AddValue(15, Main.TextType.pop);
-                break;
-
-
-            case NPC_Type_MainEvent.EM_Captine_A:
-            case NPC_Type_MainEvent.EM_Captine_B:
-            case NPC_Type_MainEvent.EM_Captine_BlueKnight:
                 AddValue(20, Main.TextType.pop);
                 break;
 
-
-            case NPC_Type_MainEvent.EM_Soldier1:
-            case NPC_Type_MainEvent.EM_Soldier2:
-            case NPC_Type_MainEvent.EM_Soldier3:
-                AddValue(5, Main.TextType.pop);
-                break;
-
             default:
-                AddValue(5, Main.TextType.pop);
+                AddValue(Data.Rank, Main.TextType.pop);
                 break;
         }
     }
@@ -673,7 +647,7 @@ public class NPC_MainEvent : NPC
         switch (NPCType)
         {
             case NPC_Type_MainEvent.EM_RedHair:
-                AddValue(75, Main.TextType.pop);
+                AddValue(50, Main.TextType.pop);
                 break;
 
             case NPC_Type_MainEvent.Event_Goblin_Leader:
@@ -681,12 +655,7 @@ public class NPC_MainEvent : NPC
                 {
                     Managers.Dialogue.ShowDialogueUI(DialogueName.Goblin_Satisfiction, transform);
                 }
-                AddValue(4, Main.TextType.pop);
-                break;
-
-            case NPC_Type_MainEvent.Event_Goblin:
-            case NPC_Type_MainEvent.Event_Goblin_Knight:
-                AddValue(4, Main.TextType.pop);
+                AddValue(5, Main.TextType.pop);
                 break;
 
             case NPC_Type_MainEvent.EM_Blood_Warrior_A:
@@ -701,20 +670,8 @@ public class NPC_MainEvent : NPC
                 break;
 
 
-            case NPC_Type_MainEvent.EM_Captine_A:
-            case NPC_Type_MainEvent.EM_Captine_B:
-            case NPC_Type_MainEvent.EM_Captine_BlueKnight:
-                AddValue(15, Main.TextType.pop);
-                break;
-
-            case NPC_Type_MainEvent.EM_Soldier1:
-            case NPC_Type_MainEvent.EM_Soldier2:
-            case NPC_Type_MainEvent.EM_Soldier3:
-                AddValue(3, Main.TextType.pop);
-                break;
-
             default:
-                AddValue(3, Main.TextType.pop);
+                AddValue(Data.Rank / 2, Main.TextType.pop);
                 break;
         }
     }
@@ -754,22 +711,23 @@ public class NPC_MainEvent : NPC
         switch (NPCType)
         {
             case NPC_Type_MainEvent.EM_RedHair:
-                AddValue(75, Main.TextType.danger);
+                AddValue(50, Main.TextType.danger);
                 break;
 
-            case NPC_Type_MainEvent.Event_Goblin:
-            case NPC_Type_MainEvent.Event_Goblin_Leader:
-            case NPC_Type_MainEvent.Event_Goblin_Knight:
-            case NPC_Type_MainEvent.Event_Orc:
-            case NPC_Type_MainEvent.Event_Orc_Leader:
-            case NPC_Type_MainEvent.Event_Lizard:
-                AddValue(-3, Main.TextType.danger);
-                break;
+            //case NPC_Type_MainEvent.Event_Goblin:
+            //case NPC_Type_MainEvent.Event_Goblin_Leader:
+            //case NPC_Type_MainEvent.Event_Goblin_Knight:
+            //case NPC_Type_MainEvent.Event_Orc:
+            //case NPC_Type_MainEvent.Event_Orc_Leader:
+            //case NPC_Type_MainEvent.Event_Lizard:
+            //    AddValue(-3, Main.TextType.danger);
+            //    break;
 
 
             case NPC_Type_MainEvent.EM_Catastrophe:
-                AddValue(-10, Main.TextType.pop);
-                AddValue(-10, Main.TextType.danger);
+            case NPC_Type_MainEvent.EM_Catastrophe_Clone:
+                //AddValue(-10, Main.TextType.pop);
+                AddValue(-50, Main.TextType.danger);
                 break;
 
             case NPC_Type_MainEvent.EM_RetiredHero:
@@ -784,20 +742,12 @@ public class NPC_MainEvent : NPC
             case NPC_Type_MainEvent.EM_Blood_Tanker_B:
             case NPC_Type_MainEvent.EM_Blood_Wizard_B:
             case NPC_Type_MainEvent.EM_Blood_Elf_B:
-                AddValue(25, Main.TextType.danger);
+                AddValue(20, Main.TextType.danger);
                 break;
 
-            case NPC_Type_MainEvent.EM_Captine_A:
-            case NPC_Type_MainEvent.EM_Captine_B:
-                AddValue(15, Main.TextType.danger);
-                break;
-
-            case NPC_Type_MainEvent.EM_Captine_BlueKnight:
-                AddValue(50, Main.TextType.danger);
-                break;
 
             default:
-                AddValue(5, Main.TextType.danger);
+                AddValue(Data.Rank, Main.TextType.danger);
                 break;
         }
     }

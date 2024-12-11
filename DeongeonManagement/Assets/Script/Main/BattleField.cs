@@ -550,21 +550,32 @@ public class BattleField : MonoBehaviour
     {
         roundList = new List<Round>();
 
+        //? 시작효과
         if (monster.TraitCheck(TraitGroup.Vitality))
         {
             int bonusHP = monster.GetSomething(TraitGroup.Vitality, monster.B_HP_Max);
             int applyHP = monster.B_HP + bonusHP;
 
             int realValue = applyHP > monster.B_HP_Max ? (monster.B_HP_Max - monster.B_HP) : bonusHP;
-            monster.HP += realValue;
+            monster.HP_Damaged -= realValue;
             openingList.Add(new OpeningTrait(EffectType.Heal, monster, StatType.HP, realValue));
         }
 
         if (monster.TraitCheck(TraitGroup.Overwhelm))
         {
-            int realValue = Mathf.RoundToInt(npc.HP * 0.2f);
-            npc.HP -= realValue;
+            int realValue = Mathf.RoundToInt(npc.B_HP * 0.2f);
+            npc.HP_Damaged += realValue;
             openingList.Add(new OpeningTrait(EffectType.Damaged, npc, StatType.HP, realValue));
+        }
+
+        if (monster.TraitCheck(TraitGroup.Reaper))
+        {
+            int realValue = Mathf.RoundToInt(monster.B_HP_Max * 0.05f);
+            monster.HP_Damaged += realValue;
+            openingList.Add(new OpeningTrait(EffectType.Damaged, monster, StatType.HP, realValue));
+
+            npc.HP_Damaged += realValue * 2;
+            openingList.Add(new OpeningTrait(EffectType.Damaged, npc, StatType.HP, realValue * 2));
         }
 
 
@@ -573,36 +584,36 @@ public class BattleField : MonoBehaviour
         if (agi > 5)
         {
             //? 플레이어 선공 / 3방때림
-            if (NPCAttack()) return roundList;
-            if (MonsterAttack()) return roundList;
-            if (NPCAttack()) return roundList;
-            if (MonsterAttack()) return roundList;
-            if (NPCAttack()) return roundList;
+            if (NPCAttack(1)) return roundList;
+            if (MonsterAttack(1)) return roundList;
+            if (NPCAttack(2)) return roundList;
+            if (MonsterAttack(2)) return roundList;
+            if (NPCAttack(3)) return roundList;
         }
         else if (agi > 0)
         {
             //? 플레이어 선공 / 2방때림
-            if (NPCAttack()) return roundList;
-            if (MonsterAttack()) return roundList;
-            if (NPCAttack()) return roundList;
-            if (MonsterAttack()) return roundList;
+            if (NPCAttack(1)) return roundList;
+            if (MonsterAttack(1)) return roundList;
+            if (NPCAttack(2)) return roundList;
+            if (MonsterAttack(2)) return roundList;
         }
         else if (agi < -5)
         {
             //? 몬스터 선공 / 3방때림
-            if (MonsterAttack()) return roundList;
-            if (NPCAttack()) return roundList;
-            if (MonsterAttack()) return roundList;
-            if (NPCAttack()) return roundList;
-            if (MonsterAttack()) return roundList;
+            if (MonsterAttack(1)) return roundList;
+            if (NPCAttack(1)) return roundList;
+            if (MonsterAttack(2)) return roundList;
+            if (NPCAttack(2)) return roundList;
+            if (MonsterAttack(3)) return roundList;
         }
         else if (agi <= 0)
         {
             //? 몬스터 선공 / 2방때림
-            if (MonsterAttack()) return roundList;
-            if (NPCAttack()) return roundList;
-            if (MonsterAttack()) return roundList;
-            if (NPCAttack()) return roundList;
+            if (MonsterAttack(1)) return roundList;
+            if (NPCAttack(1)) return roundList;
+            if (MonsterAttack(2)) return roundList;
+            if (NPCAttack(2)) return roundList;
         }
 
 
@@ -611,12 +622,16 @@ public class BattleField : MonoBehaviour
     BattleResult result;
 
 
-    bool MonsterAttack()
+    bool MonsterAttack(int counter)
     {
         List<(int, DamageMeshType)> damageList = new List<(int, DamageMeshType)>();
-        int normalAttackDamage = TryDodge(monster, npc);
+
+        int normalAttackDamage = TryDodge(monster, npc, counter) ? 0 : Calc_Damaged(monster, npc);
+
         damageList.Add((normalAttackDamage, DamageMeshType.Damage));
         damageList.AddRange(TryTrait(monster, npc, normalAttackDamage));
+
+
 
         int damage_Sum = 0;
         foreach (var item in damageList)
@@ -634,8 +649,8 @@ public class BattleField : MonoBehaviour
         }
 
 
-        npc.HP -= damage_Sum;
-        if (npc.HP <= 0)
+        npc.HP_Damaged += damage_Sum;
+        if (npc.B_HP <= 0)
         {
             result = BattleResult.NPC_Die;
             roundList.Add(new Round(result, PlacementType.Monster, damage_Sum, damageList, heal_Sum, healList));
@@ -645,13 +660,22 @@ public class BattleField : MonoBehaviour
         roundList.Add(new Round(BattleResult.Nothing, PlacementType.Monster, damage_Sum, damageList, heal_Sum, healList));
         return false;
     }
-    bool NPCAttack()
+    bool NPCAttack(int counter)
     {
         List<(int, DamageMeshType)> damageList = new List<(int, DamageMeshType)>();
-        int damage = TryDodge(npc, monster);
+
+        int damage = TryDodge(monster, npc, counter) ? 0 : Calc_Damaged(monster, npc);
+
         damageList.Add((damage, DamageMeshType.Damage));
         damageList.AddRange(TryTrait(npc, monster, damage));
         damageList.AddRange(TryTrait_Targeting(npc, monster, damage));
+
+        //? 데미지 증감 특성 계산
+        for (int i = 0; i < damageList.Count; i++)
+        {
+            var item = damageList[i];
+            damageList[i] = (TryTrait_Final_Damaged(npc, monster, item.Item1), item.Item2);
+        }
 
         int damage_Sum = 0;
         foreach (var item in damageList)
@@ -668,10 +692,11 @@ public class BattleField : MonoBehaviour
             heal_Sum += item.Item1;
         }
 
-        monster.HP -= damage_Sum;
-        if (monster.HP <= 0)
+
+        monster.HP_Damaged += damage_Sum;
+        if (monster.B_HP <= 0)
         {
-            monster.HP = 0;
+            //monster.HP = 0;
             result = BattleResult.Monster_Die;
             roundList.Add(new Round(result, PlacementType.NPC, damage_Sum, damageList, heal_Sum, healList));
             return true;
@@ -681,25 +706,47 @@ public class BattleField : MonoBehaviour
         return false;
     }
 
-    //? 회피시스템
-    int TryDodge<T1, T2>(T1 attacker, T2 defender) where T1 : I_TraitSystem, I_BattleStat where T2 : I_TraitSystem, I_BattleStat
-    {
-        //? 회피확률. 최소 5%에 LUK가 1차이날수록 5%씩 증가, 최대 90%
-        int chance = Mathf.Clamp((defender.B_LUK - attacker.B_LUK), 1, 18);
-        int dice = UnityEngine.Random.Range(0, 20);
 
+    //? 기본 공격
+    int Calc_Damaged<T1, T2>(T1 attacker, T2 defender) where T1 : I_TraitSystem, I_BattleStat where T2 : I_TraitSystem, I_BattleStat
+    {
         int damage = 1;
-        if (chance > dice)
-        {
-            damage = 0;
-        }
-        else
-        {
-            int atkRange = (int)UnityEngine.Random.Range(attacker.B_ATK * 0.8f, attacker.B_ATK * 1.2f);
-            damage = Mathf.Clamp((atkRange - defender.B_DEF), 1, atkRange);
-        }
+
+        int atkRange = (int)UnityEngine.Random.Range(attacker.B_ATK * 0.8f, attacker.B_ATK * 1.2f);
+        damage = Mathf.Clamp((atkRange - defender.B_DEF), 1, atkRange);
 
         return damage;
+    }
+
+
+    //? 회피시스템
+    bool TryDodge<T1, T2>(T1 attacker, T2 defender, int atkCount) where T1 : I_TraitSystem, I_BattleStat where T2 : I_TraitSystem, I_BattleStat
+    {
+        if (atkCount == 1 && attacker.TraitCheck(TraitGroup.EagleEye))
+        {
+            return false;
+        }
+
+
+        //? 회피확률. LUK가 1차이날수록 5%씩 증가, 최소 5%에  최대 95%
+        int chance = Mathf.Clamp((defender.B_LUK - attacker.B_LUK), 1, 19);
+        int dice = UnityEngine.Random.Range(0, 20);
+
+
+        return chance > dice;
+
+        //int damage = 1;
+        //if (chance > dice)
+        //{
+        //    damage = 0;
+        //}
+        //else
+        //{
+        //    int atkRange = (int)UnityEngine.Random.Range(attacker.B_ATK * 0.8f, attacker.B_ATK * 1.2f);
+        //    damage = Mathf.Clamp((atkRange - defender.B_DEF), 1, atkRange);
+        //}
+
+        //return damage;
     }
 
     //? 기본 공격 특성
@@ -714,10 +761,31 @@ public class BattleField : MonoBehaviour
             addList.Add((bonusAttack, DamageMeshType.Damage));
         }
 
-        //? 철스킨 = def 25% 고정데미지
+        //? 질풍 = AGI 만큼 추가공격
+        if (attacker.TraitCheck(TraitGroup.GaleForce))
+        {
+            int bonusAttack = attacker.B_AGI;
+            addList.Add((bonusAttack, DamageMeshType.Special));
+        }
+
+        //? 철스킨 = def 50% 고정데미지
         if (attacker.TraitCheck(TraitGroup.IronSkin))
         {
             int trueDamage = attacker.GetSomething(TraitGroup.IronSkin, attacker.B_DEF);
+            addList.Add((trueDamage, DamageMeshType.Special));
+        }
+
+        //? 신성력	공격 시 상대 최대 HP의 8%만큼 추가데미지
+        if (attacker.TraitCheck(TraitGroup.DivineForce))
+        {
+            int trueDamage = Mathf.RoundToInt(defender.B_HP_Max * 0.08f);
+            addList.Add((trueDamage, DamageMeshType.Special));
+        }
+
+        //? 맹독	    공격 시 상대 현재 HP의 12%만큼 추가데미지
+        if (attacker.TraitCheck(TraitGroup.Venom))
+        {
+            int trueDamage = Mathf.RoundToInt(defender.B_HP * 0.12f);
             addList.Add((trueDamage, DamageMeshType.Special));
         }
 
@@ -736,13 +804,36 @@ public class BattleField : MonoBehaviour
             int applyHP = attacker.B_HP + bonusHP;
 
             int realValue = applyHP > attacker.B_HP_Max ? (attacker.B_HP_Max - attacker.B_HP) : bonusHP;
-            //attacker.HP += realValue;
+            attacker.HP_Damaged -= realValue;
 
             addList.Add((realValue, DamageMeshType.Heal));
         }
 
         return addList;
     }
+
+    //? 유틸효과 - 몬스터 전용 (TraitCounter를 호출해야되서 분리함)
+    List<(int, DamageMeshType)> TryTrait_Util(Monster attacker, NPC defender, int damage)
+    {
+        List<(int, DamageMeshType)> addList = new List<(int, DamageMeshType)>();
+
+        //? 정기흡수 = dmg 25% 체력흡수
+        if (attacker.TraitCheck(TraitGroup.LifeDrain))
+        {
+            int bonusHP = attacker.GetSomething(TraitGroup.LifeDrain, damage);
+            int applyHP = attacker.B_HP + bonusHP;
+
+            attacker.traitCounter.AddCustomValue(applyHP);
+
+            int realValue = applyHP > attacker.B_HP_Max ? (attacker.B_HP_Max - attacker.B_HP) : bonusHP;
+            attacker.HP_Damaged -= realValue;
+
+            addList.Add((realValue, DamageMeshType.Heal));
+        }
+
+        return addList;
+    }
+
 
 
 
@@ -766,6 +857,17 @@ public class BattleField : MonoBehaviour
 
 
         return addList;
+    }
+
+
+    //? 최종 데미지 효과 - 데미지 계산 바로 전에 하는거
+    int TryTrait_Final_Damaged<T1, T2>(T1 attacker, T2 defender, int damage) where T1 : I_TraitSystem, I_BattleStat where T2 : I_TraitSystem, I_BattleStat
+    {
+        if (defender.TraitCheck(TraitGroup.AbsoluteShield))
+        {
+            return damage > 0 ? 1 : 0;
+        }
+        return damage;
     }
 
 

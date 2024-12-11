@@ -1081,7 +1081,7 @@ public class Trait
             {
                 int def = (int)(object)current;
 
-                int trueDamage = Mathf.RoundToInt(def * 0.25f);
+                int trueDamage = Mathf.RoundToInt(def * 0.5f);
 
                 return trueDamage;
             }
@@ -1220,6 +1220,10 @@ public class Trait
             return current as T1;
         }
     }
+    public class GaleForce : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.GaleForce;
+    }
 
     public class LifeDrain : ITrait_Value
     {
@@ -1269,8 +1273,79 @@ public class Trait
             return current as T1;
         }
     }
+    public class DivineForce : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.DivineForce;
+    }
+    public class AbsoluteShield : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.AbsoluteShield;
+    }
+    public class Reaper : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Reaper;
+    }
 
     #endregion
+
+
+
+
+    #region General_Trait
+
+    public class Blessing : ITrait_Value
+    {
+        public TraitGroup ID { get; } = TraitGroup.Blessing;
+        public int ApplyHP(int current)
+        {
+            return 150;
+        }
+        public int ApplyHP_Max(int current)
+        {
+            return 150;
+        }
+        public int ApplyATK(int current)
+        {
+            return 20;
+        }
+        public int ApplyDEF(int current)
+        {
+            return 10;
+        }
+        public int ApplyAGI(int current)
+        {
+            return 10;
+        }
+        public int ApplyLUK(int current)
+        {
+            return 10;
+        }
+
+        public void DoSomething()
+        {
+
+        }
+        public int GetSomething<T>(T current)
+        {
+            return 0;
+        }
+
+        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
+        {
+            return current as T1;
+        }
+    }
+    public class Venom : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Venom;
+    }
+    public class EagleEye : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.EagleEye;
+    }
+
+    #endregion
+
 
 
 
@@ -1459,7 +1534,34 @@ public enum TraitGroup
     //? 날렵함 : 공격 시 절반만큼의 추가공격
     Nimble = 7,
 
+    //? 질풍 : 공격 시 AGI 만큼의 추가공격
+    GaleForce = 8,
+
+
+
+    //? 정기흡수 : 데미지 25% 회복
     LifeDrain = 20,
+
+    //? 공격 시 상대 최대 HP의 8%만큼 추가데미지
+    DivineForce = 21,
+    //? 모든 받는 데미지를 1로 경감
+    AbsoluteShield = 22,
+    //? 같은 적과 4번째 전투시 상대를 즉사 \이 능력이 4번 발동 시 시전자 또한 즉사
+    Reaper = 23,
+
+
+
+
+
+    //? ----------------공통 특성
+    //? 용사의 가호를 받아 모든 능력치 강화
+    Blessing = 5000,
+    //? 공격 시 상대 현재 HP의 12%만큼 추가데미지
+    Venom = 5001,
+    //? 심안 : 첫 번째 공격이 반드시 명중
+    EagleEye = 5002,
+
+
 
 
 

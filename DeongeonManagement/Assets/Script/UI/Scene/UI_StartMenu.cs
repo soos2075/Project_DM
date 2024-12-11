@@ -8,6 +8,7 @@ public class UI_StartMenu : UI_Scene
     {
         Init();
     }
+    
 
 
     enum TMP_Texts
@@ -20,7 +21,7 @@ public class UI_StartMenu : UI_Scene
         Load,
         Quit,
         Pause,
-        Collection,
+        Elbum,
     }
 
     public override void Init()
@@ -43,14 +44,57 @@ public class UI_StartMenu : UI_Scene
     }
 
 
+
+
+
+
     void Init_CollectionButton()
     {
-        //? 엔딩 도감 나중에 연결하면 됨
+        GetButton((int)Buttons.Elbum).gameObject.SetActive(false);
 
+        StartCoroutine(Add_ElbumBtn());
+    }
 
-#if DEMO_BUILD
-        GetButton((int)Buttons.Collection).gameObject.SetActive(false);
-#endif
+    IEnumerator Add_ElbumBtn()
+    {
+        yield return null;
+
+        if (CollectionManager.Instance.RoundClearData != null)
+        {
+            GetButton((int)Buttons.Elbum).gameObject.SetActive(true);
+            GetButton(((int)Buttons.Elbum)).gameObject.AddUIEvent(data => Managers.UI.ShowPopUp<UI_Elbum>());
+            Title_Clear();
+        }
+    }
+
+    void Title_Clear()
+    {
+        var back = GameObject.Find("Background");
+
+        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Dog))
+        {
+            back.transform.Find("Title_Dog").gameObject.SetActive(true);
+        }
+        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Dragon))
+        {
+            back.transform.Find("Title_Dragon").gameObject.SetActive(true);
+        }
+        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Ravi))
+        {
+            back.transform.Find("Title_Ravi").gameObject.SetActive(true);
+        }
+        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Cat))
+        {
+            back.transform.Find("Title_Heroine").gameObject.SetActive(true);
+        }
+        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Demon))
+        {
+            back.transform.Find("Title_Evil").gameObject.SetActive(true);
+        }
+        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Hero))
+        {
+            back.transform.Find("Title_Deer").gameObject.SetActive(true);
+        }
     }
 
 
@@ -85,12 +129,15 @@ public class UI_StartMenu : UI_Scene
     {
         UserData.Instance.NewGameConfig();
         EventManager.Instance.NewGameReset();
+        GuildManager.Instance.NewGameReset();
 
         var fade = Managers.UI.ShowPopUpAlone<UI_Fade>();
         fade.SetFadeOption(UI_Fade.FadeMode.BlackOut, 2, false);
 
         yield return new WaitForSecondsRealtime(2);
 
+
+        //? 2회차 이상 - 뉴게임플러스 팝업
         if (CollectionManager.Instance.RoundClearData != null)
         {
             yield return StartCoroutine(NewGamePlus());
@@ -98,8 +145,7 @@ public class UI_StartMenu : UI_Scene
 
 
 
-
-        //? 나중에 데모말고 다시 활성화 하면 댐
+        //? 새로운 회차에 새시작하고 싶은 사람이 있을까? 데이터인계없이 플레이할지 물어보는 항목임.
         //if (CollectionManager.Instance.RoundClearData != null)
         //{
         //    var dataConfirm = Managers.UI.ShowPopUp<UI_Confirm>();
@@ -108,20 +154,15 @@ public class UI_StartMenu : UI_Scene
         //    yield return StartCoroutine(WaitForAnswer_ClearData(dataConfirm));
         //}
 
-        //Debug.Log("BIC 오프라인 데모버전 - 시작초기화지점");
-        //var dataReset = Managers.UI.ShowPopUpAlone<UI_Confirm>();
-
-        //string optionText = UserData.Instance.LocaleText("데이터초기화_First");
-        //dataReset.SetText(optionText, () => DataReset_Action());
-
-        //yield return new WaitUntil(() => dataReset == null);
-        //yield return new WaitForSecondsRealtime(0.5f);
 
         var openingConfirm = Managers.UI.ShowPopUp<UI_Confirm>();
         openingConfirm.SetText(UserData.Instance.LocaleText("Confirm_Opening"),
             () => Go_Opening(), 
             () => Go_Game());
     }
+
+
+
 
     IEnumerator NewGamePlus()
     {

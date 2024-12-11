@@ -16,7 +16,8 @@ public class Lievil : Monster
 
     void Trait_Original()
     {
-        //AddTrait(new Trait.LifeDrain());
+        AddTrait(new Trait.Reaper());
+        AddTrait(new Trait.SurvivabilityS());
     }
 
 

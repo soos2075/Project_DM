@@ -12,7 +12,7 @@ public class Slime : Monster
         Data = GameManager.Monster.GetData("Slime");
         Trait_Original();
 
-        UnitDialogueEvent.AddEvent(100100);
+        UnitDialogueEvent.AddEvent(UnitDialogueEventLabel.Slime_First);
 
         if (GameManager.Monster.Check_Evolution("BloodySlime"))
         {
@@ -26,7 +26,6 @@ public class Slime : Monster
 
     void Trait_Original()
     {
-        //AddTrait(new Trait.Reconfigure());
         AddTrait(new Trait.Reconfigure());
     }
 

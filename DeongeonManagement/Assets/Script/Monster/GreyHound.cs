@@ -36,7 +36,7 @@ public class GreyHound : Monster
 
     void Trait_Original()
     {
-        AddTrait(new Trait.Nimble());
+        AddTrait(new Trait.GaleForce());
     }
 
 
@@ -87,8 +87,24 @@ public class GreyHound : Monster
         Evolution_Status();
         GameManager.Monster.ChangeSLA_New(this, "HellHound");
         GameManager.Monster.Regist_Evolution("GreyHound");
+
+        ChangeTrait_Evolution();
     }
 
+
+    void ChangeTrait_Evolution()
+    {
+        List<ITrait> newTrait = new List<ITrait>();
+
+        newTrait.Add(new Trait.GaleForce());
+        if (TraitCheck(TraitGroup.VeteranB)) newTrait.Add(new Trait.VeteranA());
+        if (TraitCheck(TraitGroup.DiscreetB)) newTrait.Add(new Trait.DiscreetA());
+        if (TraitCheck(TraitGroup.ShirkingB)) newTrait.Add(new Trait.ShirkingA());
+        if (TraitCheck(TraitGroup.SurvivabilityB)) newTrait.Add(new Trait.SurvivabilityA());
+        if (TraitCheck(TraitGroup.RuthlessB)) newTrait.Add(new Trait.RuthlessA());
+
+        TraitList = newTrait;
+    }
 
 
 }

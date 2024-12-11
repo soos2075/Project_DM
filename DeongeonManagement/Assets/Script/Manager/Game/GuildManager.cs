@@ -135,6 +135,14 @@ public class GuildManager : MonoBehaviour
 
     #region Guild Scene
 
+    public void NewGameReset()
+    {
+        Instance_GuildNPC = new HashSet<GuildNPC_LabelName>();
+    }
+
+
+
+
 
     public void GuildEnter()
     {
@@ -283,6 +291,11 @@ public class GuildNPC_Data
 
     public void Remove_Option(int index)
     {
+        if (OptionList.Count - 1 < index) //? 만약 0들어왔는데 카운트 0이면 리턴
+        {
+            return;
+        }
+
         if (OptionList[index] % 100 == 99)
         {
             return;
@@ -408,6 +421,8 @@ public enum GuildNPC_LabelName
     DeathMagician = 10000,
 
     Peddler = 11000,
+
+    Lightning = 12000,
 
     RetiredHero = 15000,
 }

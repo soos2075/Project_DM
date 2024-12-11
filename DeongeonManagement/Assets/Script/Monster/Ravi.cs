@@ -16,7 +16,8 @@ public class Ravi : Monster
 
     void Trait_Original()
     {
-        //AddTrait(new Trait.LifeDrain());
+        AddTrait(new Trait.AbsoluteShield());
+        AddTrait(new Trait.SurvivabilityS());
     }
 
 

@@ -43,15 +43,27 @@ public class UI_Overlay : UI_Base
         parent.AddUIEvent(autoDest);
     }
 
-
-
-
     void AutoDestroy(string setboolName)
     {
         Debug.Log("자동삭제");
         UserData.Instance.FileConfig.SetBoolValue(setboolName, false);
         parent.RemoveUIEvent(autoDest);
         Managers.Resource.Destroy(this.gameObject);
+    }
+
+    public void SelfDestroy()
+    {
+        Debug.Log("수동삭제");
+        parent.RemoveUIEvent(autoDest);
+        Managers.Resource.Destroy(this.gameObject);
+    }
+
+
+    public void SetOverlay_DontDest(Sprite _sprite, GameObject _parent)
+    {
+        GetComponent<Image>().sprite = _sprite;
+        GetComponent<RectTransform>().sizeDelta = new Vector2(_sprite.rect.width * 2, _sprite.rect.height * 2);
+        parent = _parent;
     }
 
 

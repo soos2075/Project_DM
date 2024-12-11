@@ -26,6 +26,7 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
         Preset_Center,
         Preset_Left,
         Preset_Right,
+        Preset_TextOnly,
     }
 
     Image mainImage;
@@ -50,7 +51,7 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
 
     public void SelectEnding()
     {
-        EndingData = CollectionManager.Instance.GetData(UserData.Instance.EndingState.ToString());
+        EndingData = CollectionManager.Instance.GetData_Ending(UserData.Instance.EndingState);
     }
 
 

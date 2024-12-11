@@ -58,27 +58,52 @@ public class UI_DungeonEdit : UI_PopUp
             tool.SetTooltipContents("", UserData.Instance.LocaleText_Tooltip($"FloorEffect_{i}"), UI_TooltipBox.ShowPosition.LeftUp);
         }
 
+
+        FloorBtn_Update();
+    }
+
+
+    void FloorBtn_Update()
+    {
         GetButton(0).GetComponentInChildren<TMPro.TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText("숨겨진곳")}";
         for (int i = 1; i < System.Enum.GetNames(typeof(Floor)).Length; i++)
         {
-            GetButton(i).GetComponentInChildren<TMPro.TextMeshProUGUI>().text = 
+            GetButton(i).GetComponentInChildren<TMPro.TextMeshProUGUI>().text =
                 $"{UserData.Instance.LocaleText("지하")} {i} {UserData.Instance.LocaleText("층")}";
             GetButton(i).gameObject.SetActive(false);
         }
 
-
         for (int i = 0; i < Mathf.Max(Main.Instance.ActiveFloor_Basement, Main.Instance.DungeonRank + 3); i++)
         {
-            if (i == 6)
+            if (i == 6) //? 지금은 5층까지만 되니까 6이상은 바로 브레이크
             {
                 break;
             }
+
+            //? New Overlay
+            if (i == Main.Instance.ActiveFloor_Basement)
+            {
+                StartCoroutine(WaitFrame(GetButton(Main.Instance.ActiveFloor_Basement).gameObject));
+            }
+
+            //? C랭크인데 확장을 안해서 4층만 보여야할 땐 이걸로 (5층생략)
+            if (i > Main.Instance.ActiveFloor_Basement)
+            {
+                break;
+            }
+
             GetButton(i).gameObject.SetActive(true);
         }
+    }
 
 
+    IEnumerator WaitFrame(GameObject floor)
+    {
+        yield return null;
 
-
+        var overlay = Managers.Resource.Instantiate("UI/PopUp/Element/OverlayImage", floor.transform);
+        var ui = overlay.GetComponent<UI_Overlay>();
+        ui.SetOverlay_DontDest(Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Overlay_Icon", "New_Small"), floor);
     }
 
     //void AddFloorTooltip(Floor floor, string _detail)
@@ -93,6 +118,8 @@ public class UI_DungeonEdit : UI_PopUp
 
     void Floor_ClickEvent(int floorIndex)
     {
+        Managers.UI.ClosePopupPickType(typeof(UI_TooltipBox));
+
         if (Main.Instance.ActiveFloor_Basement > floorIndex)
         {
             MoveCam_Floor(floorIndex);
@@ -129,6 +156,12 @@ public class UI_DungeonEdit : UI_PopUp
         {
             return;
         }
+
+        if (UserData.Instance.FileConfig.PlayRounds == 1 && Main.Instance.Turn < 4)
+        {
+            return;
+        }
+
 
         var ui = Managers.UI.ShowPopUp<UI_Confirm>();
         ui.SetText(UserData.Instance.LocaleText("Confirm_Expansion"), () => StartCoroutine(WaitForAnswer(mana, gold, ap, rank, targetFloor)));
@@ -187,10 +220,13 @@ public class UI_DungeonEdit : UI_PopUp
                 case Define.DungeonFloor.Floor_4:
                     //? 4층 확장시 4층으로 전이진이 옮겨지는 이벤트
                     Managers.Dialogue.ShowDialogueUI(DialogueName.Expansion_4, Main.Instance.Player);
+                    GuildManager.Instance.AddInstanceGuildNPC(GuildNPC_LabelName.Lightning);
                     break;
 
                 case Define.DungeonFloor.Floor_5:
                     EventManager.Instance.EntranceMove_4to5();
+                    GuildManager.Instance.AddInstanceGuildNPC(GuildNPC_LabelName.Lightning);
+                    EventManager.Instance.Add_GuildQuest_Special(12001, false);
                     break;
 
                 case Define.DungeonFloor.Floor_6:
@@ -199,6 +235,9 @@ public class UI_DungeonEdit : UI_PopUp
                 case Define.DungeonFloor.Floor_7:
                     break;
             }
+
+            yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
+            FindObjectOfType<UI_Management>().DungeonEdit_Refresh();
         }
     }
 

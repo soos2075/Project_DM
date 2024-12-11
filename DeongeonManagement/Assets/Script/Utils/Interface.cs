@@ -58,6 +58,8 @@ public interface I_BattleStat
     int B_LUK { get; }
 
     int HP { get; set; }
+
+    int HP_Damaged { get; set; }
 }
 
 

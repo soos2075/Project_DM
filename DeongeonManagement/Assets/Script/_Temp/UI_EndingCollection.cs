@@ -31,6 +31,10 @@ public class UI_EndingCollection : UI_Base
         GetButton((int)Buttons.Ravi).gameObject.AddUIEvent(data => Replay_Ending(Endings.Ravi));
         GetButton((int)Buttons.Demon).gameObject.AddUIEvent(data => Replay_Ending(Endings.Demon));
         GetButton((int)Buttons.Hero).gameObject.AddUIEvent(data => Replay_Ending(Endings.Hero));
+
+        GetButton((int)Buttons.Cat).gameObject.AddUIEvent(data => Replay_Ending(Endings.Cat));
+        GetButton((int)Buttons.Dog).gameObject.AddUIEvent(data => Replay_Ending(Endings.Dog));
+        GetButton((int)Buttons.Dragon).gameObject.AddUIEvent(data => Replay_Ending(Endings.Dragon));
     }
 
 

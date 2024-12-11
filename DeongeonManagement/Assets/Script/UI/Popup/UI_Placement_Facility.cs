@@ -217,7 +217,7 @@ public class UI_Placement_Facility : UI_PopUp
         }
 
         PreviewRefresh(content);
-        Set_NeedTexts(content.Mana, content.Gold);
+        Set_NeedTexts(content.Mana, content.Gold, content.Ap);
     }
 
 

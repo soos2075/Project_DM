@@ -70,6 +70,10 @@ MonoBehaviour:
     m_Localized: Etc
     m_Metadata:
       m_Items: []
+  - m_Id: 43484120590004224
+    m_Localized: Special
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

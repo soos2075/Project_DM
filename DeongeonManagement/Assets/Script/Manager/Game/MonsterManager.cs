@@ -517,36 +517,32 @@ public class MonsterManager
         });
 
 
+        UnitEventAction.Add("Succubus_Refeat", (unit) => {
+            unit.GetComponent<Succubus>().Refeat_Evolution();
+        });
 
+        UnitEventAction.Add("Succubus_WaitAnswer", (unit) => {
 
-
-        UnitEventAction.Add("Random_UP", (unit) => {
-            int ran = UnityEngine.Random.Range(0, 5);
-            switch (ran)
+            switch (State)
             {
-                case 1:
-                    unit.StatUP(StatEnum.ATK, 1, true);
+                case SelectState.Yes:
+                    unit.GetComponent<Succubus>().Evolution_Lilith();
+                    Main.Instance.Player.GetComponent<Monster>().StatUP(StatEnum.HP, -33, true);
+                    Main.Instance.Player.GetComponent<Monster>().StatUP(StatEnum.ATK, 0, false);
+                    Main.Instance.Player.GetComponent<Monster>().StatUP(StatEnum.DEF, 5, false);
+                    Main.Instance.Player.GetComponent<Monster>().StatUP(StatEnum.AGI, 0, false);
+                    Main.Instance.Player.GetComponent<Monster>().StatUP(StatEnum.LUK, 15, false);
                     break;
-
-                case 2:
-                    unit.StatUP(StatEnum.DEF, 1, true);
-                    break;
-
-                case 3:
-                    unit.StatUP(StatEnum.AGI, 1, true);
-                    break;
-
-                case 4:
-                    unit.StatUP(StatEnum.LUK, 1, true);
-                    break;
-
-                default:
-                    unit.StatUP(StatEnum.HP, 5, true);
+                case SelectState.No:
+                    unit.GetComponent<Succubus>().Refeat_Evolution();
                     break;
             }
         });
 
-        UnitEventAction.Add("Random_UP2", (unit) => {
+
+
+
+        UnitEventAction.Add("Random_UP", (unit) => {
             int ran = UnityEngine.Random.Range(0, 5);
             switch (ran)
             {
@@ -572,39 +568,65 @@ public class MonsterManager
             }
         });
 
+        UnitEventAction.Add("Random_UP2", (unit) => {
+            int ran = UnityEngine.Random.Range(0, 5);
+            switch (ran)
+            {
+                case 1:
+                    unit.StatUP(StatEnum.ATK, 3, true);
+                    break;
 
-        UnitEventAction.Add("HP_UP", (unit) => { unit.StatUP(StatEnum.HP, 5, true); });
-        UnitEventAction.Add("ATK_UP", (unit) => { unit.StatUP(StatEnum.ATK, 1, true); });
-        UnitEventAction.Add("DEF_UP", (unit) => { unit.StatUP(StatEnum.DEF, 1, true); });
-        UnitEventAction.Add("AGI_UP", (unit) => { unit.StatUP(StatEnum.AGI, 1, true); });
-        UnitEventAction.Add("LUK_UP", (unit) => { unit.StatUP(StatEnum.LUK, 1, true); });
+                case 2:
+                    unit.StatUP(StatEnum.DEF, 3, true);
+                    break;
 
-        UnitEventAction.Add("HP_UP2", (unit) => { unit.StatUP(StatEnum.HP, 10, true); });
-        UnitEventAction.Add("ATK_UP2", (unit) => { unit.StatUP(StatEnum.ATK, 2, true); });
-        UnitEventAction.Add("DEF_UP2", (unit) => { unit.StatUP(StatEnum.DEF, 2, true); });
-        UnitEventAction.Add("AGI_UP2", (unit) => { unit.StatUP(StatEnum.AGI, 2, true); });
-        UnitEventAction.Add("LUK_UP2", (unit) => { unit.StatUP(StatEnum.LUK, 2, true); });
+                case 3:
+                    unit.StatUP(StatEnum.AGI, 3, true);
+                    break;
 
-        UnitEventAction.Add("HP_UP3", (unit) => { unit.StatUP(StatEnum.HP, 15, true); });
-        UnitEventAction.Add("ATK_UP3", (unit) => { unit.StatUP(StatEnum.ATK, 3, true); });
-        UnitEventAction.Add("DEF_UP3", (unit) => { unit.StatUP(StatEnum.DEF, 3, true); });
-        UnitEventAction.Add("AGI_UP3", (unit) => { unit.StatUP(StatEnum.AGI, 3, true); });
-        UnitEventAction.Add("LUK_UP3", (unit) => { unit.StatUP(StatEnum.LUK, 3, true); });
+                case 4:
+                    unit.StatUP(StatEnum.LUK, 3, true);
+                    break;
+
+                default:
+                    unit.StatUP(StatEnum.HP, 15, true);
+                    break;
+            }
+        });
+
+
+        UnitEventAction.Add("HP_UP", (unit) => { unit.StatUP(StatEnum.HP, 10, true); });
+        UnitEventAction.Add("ATK_UP", (unit) => { unit.StatUP(StatEnum.ATK, 2, true); });
+        UnitEventAction.Add("DEF_UP", (unit) => { unit.StatUP(StatEnum.DEF, 2, true); });
+        UnitEventAction.Add("AGI_UP", (unit) => { unit.StatUP(StatEnum.AGI, 2, true); });
+        UnitEventAction.Add("LUK_UP", (unit) => { unit.StatUP(StatEnum.LUK, 2, true); });
+
+        UnitEventAction.Add("HP_UP2", (unit) => { unit.StatUP(StatEnum.HP, 15, true); });
+        UnitEventAction.Add("ATK_UP2", (unit) => { unit.StatUP(StatEnum.ATK, 3, true); });
+        UnitEventAction.Add("DEF_UP2", (unit) => { unit.StatUP(StatEnum.DEF, 3, true); });
+        UnitEventAction.Add("AGI_UP2", (unit) => { unit.StatUP(StatEnum.AGI, 3, true); });
+        UnitEventAction.Add("LUK_UP2", (unit) => { unit.StatUP(StatEnum.LUK, 3, true); });
+
+        UnitEventAction.Add("HP_UP3", (unit) => { unit.StatUP(StatEnum.HP, 20, true); });
+        UnitEventAction.Add("ATK_UP3", (unit) => { unit.StatUP(StatEnum.ATK, 4, true); });
+        UnitEventAction.Add("DEF_UP3", (unit) => { unit.StatUP(StatEnum.DEF, 4, true); });
+        UnitEventAction.Add("AGI_UP3", (unit) => { unit.StatUP(StatEnum.AGI, 4, true); });
+        UnitEventAction.Add("LUK_UP3", (unit) => { unit.StatUP(StatEnum.LUK, 4, true); });
 
         UnitEventAction.Add("Player_UP", (unit) => { 
-            Main.Instance.Player.GetComponent<Monster>().StatUP(StatEnum.HP, 5, true);
-            Main.Instance.Player.GetComponent<Monster>().StatUP(StatEnum.ATK, 1, false);
-            Main.Instance.Player.GetComponent<Monster>().StatUP(StatEnum.DEF, 1, false);
-            Main.Instance.Player.GetComponent<Monster>().StatUP(StatEnum.AGI, 1, false);
-            Main.Instance.Player.GetComponent<Monster>().StatUP(StatEnum.LUK, 1, false);
+            Main.Instance.Player.GetComponent<Monster>().StatUP(StatEnum.HP, 10, true);
+            Main.Instance.Player.GetComponent<Monster>().StatUP(StatEnum.ATK, 2, false);
+            Main.Instance.Player.GetComponent<Monster>().StatUP(StatEnum.DEF, 2, false);
+            Main.Instance.Player.GetComponent<Monster>().StatUP(StatEnum.AGI, 2, false);
+            Main.Instance.Player.GetComponent<Monster>().StatUP(StatEnum.LUK, 2, false);
         });
 
         UnitEventAction.Add("All_UP", (unit) => {
-            unit.StatUP(StatEnum.HP, 5, true);
-            unit.StatUP(StatEnum.ATK, 1, false);
-            unit.StatUP(StatEnum.DEF, 1, false);
-            unit.StatUP(StatEnum.AGI, 1, false);
-            unit.StatUP(StatEnum.LUK, 1, false);
+            unit.StatUP(StatEnum.HP, 10, true);
+            unit.StatUP(StatEnum.ATK, 2, false);
+            unit.StatUP(StatEnum.DEF, 2, false);
+            unit.StatUP(StatEnum.AGI, 2, false);
+            unit.StatUP(StatEnum.LUK, 2, false);
         });
     }
     public UnitEventRoom Room;
@@ -620,6 +642,19 @@ public class MonsterManager
     }
 
 
+
+    public enum SelectState
+    {
+        None,
+        Yes,
+        No,
+        Third,
+        Fourth,
+    }
+    public SelectState State = SelectState.None;
+
+
+
     public void StartUnitEventAction(int DialogueID, Monster target)
     {
         Action<Monster> statUp = null;
@@ -628,6 +663,18 @@ public class MonsterManager
             case UnitDialogueEventLabel.BloodySlime_First:
             case UnitDialogueEventLabel.Heroin_First:
                 UnitEventAction.TryGetValue("HP_UP2", out statUp);
+                break;
+
+
+                //? 아래 두개는 EventManager에서 호출중
+            //case UnitDialogueEventLabel.Succubus_Yes:
+            //case UnitDialogueEventLabel.Succubus_No:
+            case UnitDialogueEventLabel.Succubus_Evolution1:
+                UnitEventAction.TryGetValue("Succubus_Refeat", out statUp);
+                break;
+
+            case UnitDialogueEventLabel.Succubus_Evolution2:
+                UnitEventAction.TryGetValue("Succubus_WaitAnswer", out statUp);
                 break;
 
 
@@ -700,7 +747,7 @@ public class MonsterManager
         target.transform.localScale = new Vector3(-1, 1, 1);
         if (target.State == Monster.MonsterState.Standby)
         {
-            target.GetComponentInChildren<SpriteRenderer>().enabled = true;
+            target.GetComponentInChildren<SpriteRenderer>(true).enabled = true;
         }
 
         //? 실제 대화 호출 및 진행 (ui를 없애야되서 먼저 시작)
@@ -725,7 +772,7 @@ public class MonsterManager
         target.transform.localScale = Vector3.one;
         if (target.State == Monster.MonsterState.Standby)
         {
-            target.GetComponentInChildren<SpriteRenderer>().enabled = false;
+            target.GetComponentInChildren<SpriteRenderer>(true).enabled = false;
         }
         Cam.SetOriginState();
         Room.gameObject.SetActive(false);
@@ -741,16 +788,30 @@ public class MonsterManager
 public enum UnitDialogueEventLabel
 {
     Slime_First = 100100,
+    BloodySlime_First = 150100,
+
+
+    Fairy_First = 100500,
+    Pixie_First = 150500,
+
 
     GreyHound_First = 100700,
     GreyHound_Lv20 = 100701,
     GreyHound_Evolution = 100702,
 
 
-    BloodySlime_First = 150100,
-
     Salamandra_First = 100600,
     Salinu_First = 150600,
+
+    Succubus_First = 102000,
+    Succubus_Evolution1 = 102001,
+    Succubus_Evolution2 = 102002,
+
+    Succubus_Yes = 102003,
+    Succubus_No = 102004,
+
+    Lilith_First = 152000,
+
 
 
     Heroin_First = 190100,

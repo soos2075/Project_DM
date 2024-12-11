@@ -11,7 +11,7 @@ public class SO_Technical : ScriptableObject, I_SO_Collection
     public string prefabPath;
 
     [Header("SLA")]
-    public string SLA_categoty;
+    public string SLA_category;
     public string SLA_label;
 
 

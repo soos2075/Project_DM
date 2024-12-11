@@ -11,6 +11,7 @@ public class Trap : Facility
         trapType = (TrapType)CategoryIndex;
 
         trap_Anim = GetComponentInChildren<Animator>();
+        SLA = GetComponentInChildren<SpriteResolver>();
         TrapInit();
     }
 
@@ -25,11 +26,11 @@ public class Trap : Facility
     public TrapType trapType { get; set; } = TrapType.Fallen_1;
     void TrapInit()
     {
-        var SLA = GetComponentInChildren<SpriteResolver>();
         SLA.SetCategoryAndLabel(trapType.ToString(), "Ready");
     }
 
     Animator trap_Anim;
+    SpriteResolver SLA;
 
     public override Coroutine NPC_Interaction(NPC npc)
     {
@@ -54,14 +55,14 @@ public class Trap : Facility
 
     protected override void OverCor(NPC npc, bool isRemove)
     {
-        trap_Anim.enabled = false;
+        base.OverCor(npc, isRemove);
 
+        trap_Anim.enabled = false;
+        TrapInit();
         //npc.GetComponentInChildren<Animator>().Play("Running");
 
         Main.Instance.ShowDM(-hp_value, Main.TextType.hp, npc.transform);
         npc.State = npc.StateRefresh();
-
-        base.OverCor(npc, isRemove);
     }
 
 

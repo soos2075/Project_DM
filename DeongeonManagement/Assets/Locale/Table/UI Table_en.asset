@@ -689,6 +689,50 @@ MonoBehaviour:
     m_Localized: Would you like to pray to the Statue of Heroes?
     m_Metadata:
       m_Items: []
+  - m_Id: 97783718346960896
+    m_Localized: Elbum
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98034720341962752
+    m_Localized: Initialize Game Data
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98034822498430976
+    m_Localized: Reset User Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98034855666987008
+    m_Localized: Reset Save Files
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98034888311255040
+    m_Localized: Reset Clear Records
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98034910968885248
+    m_Localized: Reset Encyclopedia Data
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98034953885003776
+    m_Localized: "Are you sure you want to initialize? \n(This cannot be undone)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98739352731070464
+    m_Localized: Acquisition Requirements
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98739357059592192
+    m_Localized: Unique Effect
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98813791392968704
+    m_Localized: Pray
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98815813626310656
+    m_Localized: Would you like to offer mana?
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

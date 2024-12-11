@@ -20,8 +20,6 @@ public class Interaction_Guild : MonoBehaviour
                 data = item;
             }
         }
-        DefaultAnimState();
-
 
         int turn = EventManager.Instance.CurrentTurn;
 
@@ -68,6 +66,8 @@ public class Interaction_Guild : MonoBehaviour
                 gameObject.SetActive(true);
             }
         }
+
+        DefaultAnimState();
     }
 
     private void Update()
@@ -149,7 +149,7 @@ public class Interaction_Guild : MonoBehaviour
                 break;
 
             case GuildNPC_LabelName.Heroine:
-                GetComponent<Animator>().Play(Define.ANIM_Idle_Sit);
+                anim.Play(Define.ANIM_Idle_Sit);
                 if (EventManager.Instance.CurrentClearEventData.Check_AlreadyClear(DialogueName.Heroine_40))
                 {
                     gameObject.SetActive(false);
@@ -167,6 +167,11 @@ public class Interaction_Guild : MonoBehaviour
 
             case GuildNPC_LabelName.DummyD:
                 break;
+
+            case GuildNPC_LabelName.Lightning:
+                anim.Play(Define.ANIM_Idle_Sit);
+                break;
+
 
             case GuildNPC_LabelName.RetiredHero:
                 break;

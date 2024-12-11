@@ -17,6 +17,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         Start_Setting();
         Init_Trait();
         TurnOverEventSetting();
+
+        Difficulty_Setting();
     }
 
 
@@ -30,22 +32,68 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
     protected virtual void Difficulty_Setting()
     {
-        //switch (UserData.Instance.FileConfig.Difficulty)
-        //{
-        //    case Define.DifficultyLevel.Easy:
-        //        break;
-        //    case Define.DifficultyLevel.Normal:
-        //        break;
-        //    case Define.DifficultyLevel.Hard:
-        //        break;
-        //    case Define.DifficultyLevel.VeryHard:
-        //        break;
-        //    case Define.DifficultyLevel.Master:
-        //        break;
-        //    default:
-        //        break;
-        //}
+        switch (UserData.Instance.FileConfig.Difficulty)
+        {
+            case Define.DifficultyLevel.Easy:
+                break;
+
+            case Define.DifficultyLevel.Normal:
+                HP = Mathf.RoundToInt(HP * 1.4f);
+                HP_MAX = Mathf.RoundToInt(HP_MAX * 1.4f);
+                ATK = Mathf.RoundToInt(ATK * 1.4f);
+                DEF = Mathf.RoundToInt(DEF * 1.2f);
+                AGI = Mathf.RoundToInt(AGI * 1.2f);
+                LUK = Mathf.RoundToInt(LUK * 1.2f);
+                ActionPoint = Mathf.RoundToInt(ActionPoint * 1.2f);
+                break;
+
+            case Define.DifficultyLevel.Hard:
+                HP = Mathf.RoundToInt(HP * 1.6f);
+                HP_MAX = Mathf.RoundToInt(HP_MAX * 1.6f);
+                ATK = Mathf.RoundToInt(ATK * 1.6f);
+                DEF = Mathf.RoundToInt(DEF * 1.3f);
+                AGI = Mathf.RoundToInt(AGI * 1.3f);
+                LUK = Mathf.RoundToInt(LUK * 1.3f);
+                ActionPoint = Mathf.RoundToInt(ActionPoint * 1.4f);
+                break;
+
+            case Define.DifficultyLevel.VeryHard:
+                HP = Mathf.RoundToInt(HP * 2.0f);
+                HP_MAX = Mathf.RoundToInt(HP_MAX * 2.0f);
+                ATK = Mathf.RoundToInt(ATK * 2.0f);
+                DEF = Mathf.RoundToInt(DEF * 1.5f);
+                AGI = Mathf.RoundToInt(AGI * 1.5f);
+                LUK = Mathf.RoundToInt(LUK * 1.5f);
+                ActionPoint = Mathf.RoundToInt(ActionPoint * 1.6f);
+                break;
+
+            case Define.DifficultyLevel.Master:
+                HP = Mathf.RoundToInt(HP * 2.0f);
+                HP_MAX = Mathf.RoundToInt(HP_MAX * 2.0f);
+                ATK = Mathf.RoundToInt(ATK * 2.5f);
+                DEF = Mathf.RoundToInt(DEF * 2.0f);
+                AGI = Mathf.RoundToInt(AGI * 2.0f);
+                LUK = Mathf.RoundToInt(LUK * 2.0f);
+                ActionPoint = Mathf.RoundToInt(ActionPoint * 2.0f);
+                break;
+        }
     }
+
+
+    //protected void Multiply_AllStat(float ratio)
+    //{
+    //    HP = Mathf.RoundToInt(HP * ratio);
+    //    HP_MAX = Mathf.RoundToInt(HP_MAX * ratio);
+    //    ATK = Mathf.RoundToInt(ATK * ratio);
+    //    DEF = Mathf.RoundToInt(DEF * ratio);
+    //    AGI = Mathf.RoundToInt(AGI * ratio);
+    //    LUK = Mathf.RoundToInt(LUK * ratio);
+    //}
+    //protected void Multiply_AP(float ratio)
+    //{
+    //    ActionPoint = Mathf.RoundToInt(ActionPoint * ratio);
+    //}
+
 
 
     protected virtual void Start_Setting()
@@ -240,17 +288,16 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
         float dis = Vector3.Distance(startPos.worldPosition, endPos.worldPosition);
 
-        float moveValue = dis / duration;
+        float moveValue = dis / (duration);
         float timer = 0;
 
-        while (timer < duration)// && dis > 0.05f)
+        while (timer < (duration))// && dis > 0.05f)
         {
             //yield return null;
             yield return UserData.Instance.Wait_GamePlay;
 
             timer += Time.deltaTime;
             transform.position += dir.normalized * moveValue * Time.deltaTime;
-            //dis = Vector3.Distance(npc.transform.position, endPos.worldPosition);
         }
 
         transform.position = endPos.worldPosition;
@@ -362,6 +409,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     #region PriorityList
     protected abstract Define.TileType[] AvoidTileType { get; }
 
+    protected bool AlwaysOverlap { get; set; } = false;
 
     public abstract List<BasementTile> PriorityList { get; set; }
 
@@ -396,7 +444,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     {
         if (isWellsCheck) return;
 
-        if (Mana <= (Data.MP / 2) || ActionPoint <= (Data.AP / 2) || HP <= (HP_MAX / 2))
+        if (Mana <= (Data.MP / 2) || ActionPoint <= (Data.AP / 2) || B_HP <= (B_HP_Max / 2))
         {
             var list = GetPriorityPick(typeof(Wells));
             AddList(list, AddPos.Front);
@@ -459,6 +507,22 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         newList = Util.ListShuffle(newList);
         return RefinementList(newList);
     }
+    //protected List<BasementTile> GetPriorityPick<T>()  where T : IPlacementable
+    //{
+    //    List<BasementTile> allList = GetFloorObjectsAll();
+    //    List<BasementTile> newList = new List<BasementTile>();
+
+    //    for (int i = 0; i < allList.Count; i++)
+    //    {
+    //        if (allList[i].Original != null && allList[i].Original is T)
+    //        {
+    //            newList.Add(allList[i]);
+    //        }
+    //    }
+    //    newList = Util.ListShuffle(newList);
+    //    return RefinementList(newList);
+    //}
+
     protected List<BasementTile> GetFacilityPick(Facility.FacilityEventType facilityType) //? 특정타입의 퍼실리티만 가져오는 리스트
     {
         List<BasementTile> allList = GetFloorObjectsAll(Define.TileType.Facility);
@@ -668,6 +732,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         Anim_State = Anim_State;
 
         renderer.sortingOrder = originLayer;
+        Camera.main.GetComponent<CameraControl>().ChasingTarget_Continue(transform);
     }
     protected IEnumerator EventCor(DialogueName dialogueName, Func<bool> condition, float dis = 1.5f)
     {
@@ -690,6 +755,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         Anim_State = Anim_State;
 
         renderer.sortingOrder = originLayer;
+        Camera.main.GetComponent<CameraControl>().ChasingTarget_Continue(transform);
     }
 
     protected IEnumerator EventCor(DialogueName dialogueName, Action action, float dis = 1.5f)
@@ -759,7 +825,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
     #region I_Battle Stat
 
-    public int B_HP { get => HP_Final; }
+    public int B_HP { get => HP_Final - HP_Damaged; }
     public int B_HP_Max { get => HPMax_Final; }
     public int B_ATK { get => ATK_Final; }
     public int B_DEF { get => DEF_Final; }
@@ -769,6 +835,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     #endregion
 
     #region Stat Bonus
+    public int HP_Damaged { get; set; }
+
 
     int HP_Final { get { return Mathf.RoundToInt((HP + HP_Bonus) * HP_Ratio); } }
     int HPMax_Final { get { return Mathf.RoundToInt((HP_MAX + HP_Bonus) * HP_Ratio); } }
@@ -776,10 +844,10 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     int HP_Bonus { get { return 0; } }
 
 
-    int ATK_Final { get { return ATK + AllStat_Bonus + ATK_Bonus; } }
-    int DEF_Final { get { return DEF + AllStat_Bonus + DEF_Bonus; } }
-    int AGI_Final { get { return AGI + AllStat_Bonus + AGI_Bonus; } }
-    int LUK_Final { get { return LUK + AllStat_Bonus + LUK_Bonus; } }
+    int ATK_Final { get { return Mathf.RoundToInt((ATK + ATK_Bonus + AllStat_Bonus) * AllStat_Ratio); } }
+    int DEF_Final { get { return Mathf.RoundToInt((DEF + DEF_Bonus + AllStat_Bonus) * AllStat_Ratio); } }
+    int AGI_Final { get { return Mathf.RoundToInt((AGI + AGI_Bonus + AllStat_Bonus) * AllStat_Ratio); } }
+    int LUK_Final { get { return Mathf.RoundToInt((LUK + LUK_Bonus + AllStat_Bonus) * AllStat_Ratio); } }
 
 
     int ATK_Bonus { get { return 0; } }
@@ -807,12 +875,12 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     {
         get
         {
-            return 1;
+            return 1 + Artifact_Decay;
         }
     }
 
 
-    float Artifact_Decay { get { return GameManager.Artifact.GetArtifact(ArtifactLabel.TouchOfDecay).Count > 0 ? -0.2f : 0; } }
+    float Artifact_Decay { get { return GameManager.Artifact.GetArtifact(ArtifactLabel.TouchOfDecay).Count > 0 ? -0.25f : 0; } }
 
     //float Difficulty_HP_Ratio //? 이건 그냥 start 같은곳에서 일괄적용하는게 나을듯. hp말고 다른것도 다 달라져야되니까
     //{
@@ -872,7 +940,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     public int HP_MAX { get; set; }
     public void Change_HP(int value)
     {
-        HP += value;
+        HP_Damaged -= value;
     }
 
     [field: SerializeField]
@@ -1095,20 +1163,6 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     }
     void SearchPreviousFloor()
     {
-        ////? 만약 우물을 발견한적이 없고 현재층에 우물이 있으며 우물 사용횟수도 0보다 크다면 우물로 향하도록. 이외에는 무조건 기존과 동일
-        //if (isWellsCheck == false && PlacementInfo.Place_Floor.PickObjectOfType(typeof(Wells)) != null)
-        //{
-        //    var wells = PlacementInfo.Place_Floor.PickObjectOfType(typeof(Wells)) as Wells;
-        //    if (wells != null && wells.InteractionOfTimes > 0)
-        //    {
-        //        PriorityList.Clear();
-        //        PriorityList.Add(wells.PlacementInfo.Place_Tile);
-        //        MoveToTargetTile(PriorityList[0]);
-        //        return;
-        //    }
-        //}
-
-
         PriorityList.Clear();
         PriorityList.Add(PlacementInfo.Place_Floor.Exit.PlacementInfo.Place_Tile);
         MoveToTargetTile(PriorityList[0], true);
@@ -1159,19 +1213,19 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
             return;
         }
 
-        Main.Instance.CurrentDay.AddRunaway(1);
-        NPC_Runaway();
-
         var emotion = Managers.Resource.Instantiate("NPC/Emotions", transform);
         emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Element_State", "Runaway");
+
+        Main.Instance.CurrentDay.AddRunaway(1);
+        NPC_Runaway();
     }
     void Empty_Base()
     {
-        Main.Instance.CurrentDay.AddEmpty(1);
-        NPC_Return_Empty();
-
         var emotion = Managers.Resource.Instantiate("NPC/Emotions", transform);
         emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Element_State", "Bad");
+
+        Main.Instance.CurrentDay.AddEmpty(1);
+        NPC_Return_Empty();
     }
     void Satisfaction_Base()
     {
@@ -1179,21 +1233,21 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
         if (Mana <= Data.MP / 4)
         {
-            Main.Instance.CurrentDay.AddSatisfaction(1);
-            NPC_Return_Satisfaction();
-
             var emotion = Managers.Resource.Instantiate("NPC/Emotions", transform);
             emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Element_State", "Perfect");
             UI_EventBox.AddEventText($"◆{Name_Color} {UserData.Instance.LocaleText("Event_Exit_Satisfaction")}");
+
+            Main.Instance.CurrentDay.AddSatisfaction(1);
+            NPC_Return_Satisfaction();
         }
         else
         {
-            Main.Instance.CurrentDay.AddNonSatisfaction(1);
-            NPC_Return_NonSatisfaction();
-
             var emotion = Managers.Resource.Instantiate("NPC/Emotions", transform);
             emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Element_State", "Good");
             UI_EventBox.AddEventText($"◆{Name_Color} {UserData.Instance.LocaleText("Event_Exit_Normal")}");
+
+            Main.Instance.CurrentDay.AddNonSatisfaction(1);
+            NPC_Return_NonSatisfaction();
         }
     }
     void Die_Base()
@@ -1247,7 +1301,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
         NPCState prevState = State;
 
-        if (HP <= 0)
+        if (B_HP <= 0)
         {
             return NPCState.Die;
         }
@@ -1268,7 +1322,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
             }
         }
 
-        if (HP < (HP_MAX / RunawayHpRatio))
+        if (B_HP < (B_HP_Max / RunawayHpRatio))
         {
             return NPCState.Runaway;
         }
@@ -1432,7 +1486,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
         if (pathFind || pathRefind)
         {
-            if (isOverlap)
+            if (isOverlap || AlwaysOverlap)
             {
                 Cor_Move = StartCoroutine(DungeonMoveToPath(path, true));
             }

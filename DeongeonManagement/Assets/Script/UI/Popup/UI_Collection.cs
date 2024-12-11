@@ -12,26 +12,42 @@ public class UI_Collection : UI_PopUp
     }
 
 
-    enum Buttons
+    enum MenuButtons
     {
-        Close,
-
         Monster,
         NPC,
         Facility,
-        //Technical,
-        //Ending,
+
+        Technical,
+        Artifact,
+        Trait,
+    }
+
+    enum GridGroups
+    {
+        MonsterBox_Content,
+        NPCBox_Content,
+        FacilityBox_Content,
+
+        TechnicalBox_Content,
+        ArtifactBox_Content,
+        TraitBox_Content,
     }
 
     enum Objects
     {
+        Close,
+
         MenuBar,
 
         MonsterBox,
         NPCBox,
         FacilityBox,
-        //TechnicalBox,
-        //EndingBox,
+
+        TechnicalBox,
+        ArtifactBox,
+        TraitBox,
+
 
         ShowBox,
         //Content,
@@ -77,126 +93,111 @@ public class UI_Collection : UI_PopUp
     {
         Managers.UI.SetCanvas(gameObject);
 
-        Bind<Button>(typeof(Buttons));
+        Bind<Button>(typeof(MenuButtons));
         Bind<GameObject>(typeof(Objects));
         Bind<TextMeshProUGUI>(typeof(ShowBoxText));
+        Bind<GridLayoutGroup>(typeof(GridGroups));
         Bind<Image>(typeof(ShowBoxImage));
 
 
         GetImage((int)ShowBoxImage.NoTouch).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.RightClick);
         GetImage((int)ShowBoxImage.MainPanel).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.RightClick);
 
-        GetButton((int)Buttons.Close).gameObject.AddUIEvent(data => ClosePopUp());
+        GetObject((int)Objects.Close).AddUIEvent(data => ClosePopUp());
 
-        GetButton((int)Buttons.Monster).gameObject.AddUIEvent(data => MenuButton(Buttons.Monster));
-        GetButton((int)Buttons.NPC).gameObject.AddUIEvent(data => MenuButton(Buttons.NPC));
-        GetButton((int)Buttons.Facility).gameObject.AddUIEvent(data => MenuButton(Buttons.Facility));
+        GetButton((int)MenuButtons.Monster).gameObject.AddUIEvent(data => MenuButton(MenuButtons.Monster, Objects.MonsterBox));
+        GetButton((int)MenuButtons.NPC).gameObject.AddUIEvent(data => MenuButton(MenuButtons.NPC, Objects.NPCBox));
+        GetButton((int)MenuButtons.Facility).gameObject.AddUIEvent(data => MenuButton(MenuButtons.Facility, Objects.FacilityBox));
 
-        //GetButton((int)Buttons.Technical).gameObject.AddUIEvent(data => MenuButton(Buttons.Technical));
-        //GetButton((int)Buttons.Ending).gameObject.AddUIEvent(data => MenuButton(Buttons.Ending));
+        GetButton((int)MenuButtons.Technical).gameObject.AddUIEvent(data => MenuButton(MenuButtons.Technical, Objects.TechnicalBox));
+        GetButton((int)MenuButtons.Artifact).gameObject.AddUIEvent(data => MenuButton(MenuButtons.Artifact, Objects.ArtifactBox));
+        GetButton((int)MenuButtons.Trait).gameObject.AddUIEvent(data => MenuButton(MenuButtons.Trait, Objects.TraitBox));
+
 
         Create_CollectionUnit();
 
-        MenuButton(Buttons.Monster);
+        MenuButton(MenuButtons.Monster, Objects.MonsterBox);
         Clear_ShowBox();
     }
 
 
     void Create_CollectionUnit()
     {
-        var monster = GetObject((int)Objects.MonsterBox).GetComponentInChildren<GridLayoutGroup>().transform;
         for (int i = 0; i < CollectionManager.Instance.Register_Monster.Count; i++)
         {
-            var unit = Managers.Resource.Instantiate("UI/PopUp/Collection/CollectionUnit", monster);
+            var unit = Managers.Resource.Instantiate("UI/PopUp/Collection/CollectionUnit",
+                Get<GridLayoutGroup>((int)GridGroups.MonsterBox_Content).transform);
             unit.GetComponent<UI_CollectionUnit>().SetUnit_Monster(CollectionManager.Instance.Register_Monster[i], this);
         }
 
-        var npc = GetObject((int)Objects.NPCBox).GetComponentInChildren<GridLayoutGroup>().transform;
         for (int i = 0; i < CollectionManager.Instance.Register_NPC.Count; i++)
         {
-            var unit = Managers.Resource.Instantiate("UI/PopUp/Collection/CollectionUnit", npc);
+            var unit = Managers.Resource.Instantiate("UI/PopUp/Collection/CollectionUnit",
+                Get<GridLayoutGroup>((int)GridGroups.NPCBox_Content).transform);
             unit.GetComponent<UI_CollectionUnit>().SetUnit_NPC(CollectionManager.Instance.Register_NPC[i], this);
         }
 
-        var facility = GetObject((int)Objects.FacilityBox).GetComponentInChildren<GridLayoutGroup>().transform;
         for (int i = 0; i < CollectionManager.Instance.Register_Facility.Count; i++)
         {
-            var unit = Managers.Resource.Instantiate("UI/PopUp/Collection/CollectionUnit_Facility", facility);
+            var unit = Managers.Resource.Instantiate("UI/PopUp/Collection/CollectionUnit_Facility",
+                Get<GridLayoutGroup>((int)GridGroups.FacilityBox_Content).transform);
             unit.GetComponent<UI_CollectionUnit>().SetUnit_Facility(CollectionManager.Instance.Register_Facility[i], this);
         }
 
-        //var tech = GetObject((int)Objects.TechnicalBox).GetComponentInChildren<GridLayoutGroup>().transform;
-        //for (int i = 0; i < CollectionManager.Instance.Register_Technical.Count; i++)
-        //{
-        //    var unit = Managers.Resource.Instantiate("UI/PopUp/Collection/CollectionUnit", tech);
-        //    unit.GetComponent<UI_CollectionUnit>().SetUnit_Technical(CollectionManager.Instance.Register_Technical[i], this);
-        //}
+        for (int i = 0; i < CollectionManager.Instance.Register_Technical.Count; i++)
+        {
+            var unit = Managers.Resource.Instantiate("UI/PopUp/Collection/CollectionUnit_Facility", 
+                Get<GridLayoutGroup>((int)GridGroups.TechnicalBox_Content).transform);
+            unit.GetComponent<UI_CollectionUnit>().SetUnit_Technical(CollectionManager.Instance.Register_Technical[i], this);
+        }
 
-        //var ending = GetObject((int)Objects.EndingBox);
-        //for (int i = 0; i < CollectionManager.Instance..Length; i++)
-        //{
-        //    Managers.Resource.Instantiate("UI/PopUp/Collection/CollectionUnit", monster.transform);
-        //}
+        for (int i = 0; i < CollectionManager.Instance.Register_Artifact.Count; i++)
+        {
+            var unit = Managers.Resource.Instantiate("UI/PopUp/Collection/CollectionUnit_Facility",
+                Get<GridLayoutGroup>((int)GridGroups.ArtifactBox_Content).transform);
+            unit.GetComponent<UI_CollectionUnit>().SetUnit_Artifact(CollectionManager.Instance.Register_Artifact[i], this);
+        }
+
+        for (int i = 0; i < CollectionManager.Instance.Register_Trait.Count; i++)
+        {
+            var unit = Managers.Resource.Instantiate("UI/PopUp/Collection/CollectionUnit_TraitBar",
+                Get<GridLayoutGroup>((int)GridGroups.TraitBox_Content).transform);
+            unit.GetComponent<UI_CollectionUnit>().SetUnit_Trait(CollectionManager.Instance.Register_Trait[i], this);
+        }
+
+
+
     }
 
 
 
-    void MenuButton(Buttons _button)
+    void MenuButton(MenuButtons _button, Objects _box)
     {
         CloseMenuAll();
 
-        switch (_button)
-        {
-            case Buttons.Monster:
-                GetObject((int)Objects.MonsterBox).SetActive(true);
-                GetButton((int)Buttons.Monster).GetComponent<Image>().sprite = button_Active;
-                //GetButton((int)Buttons.Monster).GetComponent<Image>().color = Color.white;
-                break;
+        GetObject((int)_box).SetActive(true);
+        GetButton((int)_button).GetComponent<Image>().sprite = button_Active;
 
-            case Buttons.NPC:
-                GetObject((int)Objects.NPCBox).SetActive(true);
-                GetButton((int)Buttons.NPC).GetComponent<Image>().sprite = button_Active;
-                //GetButton((int)Buttons.NPC).GetComponent<Image>().color = Color.white;
-                break;
-
-            case Buttons.Facility:
-                GetObject((int)Objects.FacilityBox).SetActive(true);
-                GetButton((int)Buttons.Facility).GetComponent<Image>().sprite = button_Active;
-                //GetButton((int)Buttons.Facility).GetComponent<Image>().color = Color.white;
-                break;
-
-            //case Buttons.Technical:
-            //    GetObject((int)Objects.TechnicalBox).SetActive(true);
-            //    GetButton((int)Buttons.Technical).GetComponent<Image>().sprite = button_Active;
-            //    break;
-
-            //case Buttons.Ending:
-            //    GetObject((int)Objects.EndingBox).SetActive(true);
-            //    GetButton((int)Buttons.Ending).GetComponent<Image>().sprite = button_Active;
-            //    break;
-        }
+        var rect = GetButton((int)_button).GetComponent<RectTransform>();
+        rect.anchoredPosition = new Vector2(40, rect.anchoredPosition.y);
     }
 
     void CloseMenuAll()
     {
-        GetButton((int)Buttons.Monster).GetComponent<Image>().sprite = button_Inactive;
-        GetButton((int)Buttons.NPC).GetComponent<Image>().sprite = button_Inactive;
-        GetButton((int)Buttons.Facility).GetComponent<Image>().sprite = button_Inactive;
+        for (int i = 0; i < System.Enum.GetNames(typeof(MenuButtons)).Length; i++)
+        {
+            GetButton(i).GetComponent<Image>().sprite = button_Inactive;
+            var rect = GetButton(i).GetComponent<RectTransform>();
+            rect.anchoredPosition = new Vector2(68, rect.anchoredPosition.y);
+        }
 
-        //GetButton((int)Buttons.Monster).GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1);
-        //GetButton((int)Buttons.NPC).GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1);
-        //GetButton((int)Buttons.Facility).GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 1);
-
-
-        //GetButton((int)Buttons.Technical).GetComponent<Image>().sprite = button_Inactive;
-        //GetButton((int)Buttons.Ending).GetComponent<Image>().sprite = button_Inactive;
 
         GetObject((int)Objects.MonsterBox).SetActive(false);
         GetObject((int)Objects.NPCBox).SetActive(false);
         GetObject((int)Objects.FacilityBox).SetActive(false);
-
-        //GetObject((int)Objects.TechnicalBox).SetActive(false);
-        //GetObject((int)Objects.EndingBox).SetActive(false);
+        GetObject((int)Objects.TechnicalBox).SetActive(false);
+        GetObject((int)Objects.ArtifactBox).SetActive(false);
+        GetObject((int)Objects.TraitBox).SetActive(false);
     }
 
 
@@ -395,13 +396,13 @@ public class UI_Collection : UI_PopUp
                 header2 = Add_Header($"{UserData.Instance.LocaleText("진화 힌트")}");
                 textBox1 = Add_TextBox();
             }
-            GameObject header3 = null;
-            GameObject textBox2 = null;
-            if (string.IsNullOrEmpty(SO_Data.evolutionDetail) == false)
-            {
-                header3 = Add_Header($"{UserData.Instance.LocaleText("진화 조건")}");
-                textBox2 = string.IsNullOrEmpty(SO_Data.evolutionDetail) ? null : Add_TextBox();
-            }
+            //GameObject header3 = null;
+            //GameObject textBox2 = null;
+            //if (string.IsNullOrEmpty(SO_Data.evolutionDetail) == false)
+            //{
+            //    header3 = Add_Header($"{UserData.Instance.LocaleText("진화 조건")}");
+            //    textBox2 = string.IsNullOrEmpty(SO_Data.evolutionDetail) ? null : Add_TextBox();
+            //}
 
             if (data.info.level_1_Unlock)
             {
@@ -420,13 +421,13 @@ public class UI_Collection : UI_PopUp
                     OptionContentSet(textBox1.GetComponentInChildren<TextMeshProUGUI>(), SO_Data.evolutionHint, true);
                 }
             }
-            if (data.info.level_4_Unlock)
-            {
-                if (textBox2 != null)
-                {
-                    OptionContentSet(textBox2.GetComponentInChildren<TextMeshProUGUI>(), SO_Data.evolutionDetail, true);
-                }
-            }
+            //if (data.info.level_4_Unlock)
+            //{
+            //    if (textBox2 != null)
+            //    {
+            //        OptionContentSet(textBox2.GetComponentInChildren<TextMeshProUGUI>(), SO_Data.evolutionDetail, true);
+            //    }
+            //}
             if (data.info.level_5_Unlock)
             {
                 //? 위에꺼에 내용을 추가한다든지
@@ -570,7 +571,72 @@ public class UI_Collection : UI_PopUp
     public void ShowBox_Technical(CollectionManager.CollectionUnitRegist<SO_Technical> data)
     {
         SO_Technical SO_Data = data.unit;
-        Debug.Log(SO_Data.keyName);
+        //Debug.Log(SO_Data.keyName);
+
+        GetTMP((int)ShowBoxText.TMP_Point).text = $"Point\n{data.info.UnlockPoint}";
+        GetTMP((int)ShowBoxText.TMP_Number).text = $"No.{data.CollectionNumber}";
+
+        if (data.info.isRegist)
+        {
+            GetImage((int)ShowBoxImage.MainSprite).sprite = Managers.Sprite.GetClear();
+            GetImage((int)ShowBoxImage.MainSprite_Facility).gameObject.SetActive(true);
+            GetImage((int)ShowBoxImage.MainSprite_Facility).sprite =
+                Managers.Sprite.Get_SLA(SpriteManager.Library.Technical, data.unit.SLA_category, data.unit.SLA_label);
+
+            GetTMP((int)ShowBoxText.TMP_Name).text = SO_Data.labelName;
+            GetTMP((int)ShowBoxText.TMP_Detail).text = $"{SO_Data.detail}";
+
+
+            StatContentsSet(Objects.TMP_Stat_Main2, "mana", $"{UserData.Instance.LocaleText("Mana")}", $"{SO_Data.Mana}");
+            StatContentsSet(Objects.TMP_Stat_Main3, "gold", $"{UserData.Instance.LocaleText("Gold")}", $"{SO_Data.Gold}");
+
+            StatContentsSet(Objects.TMP_Stat_Sub2, "ap", $"{UserData.Instance.LocaleText("AP")}", $"{SO_Data.Ap}");
+            StatContentsSet(Objects.TMP_Stat_Sub3, "rank", $"{UserData.Instance.LocaleText("Rank")}", $"{(Define.DungeonRank)SO_Data.UnlockRank}");
+
+        }
+    }
+    public void ShowBox_Artifact(CollectionManager.CollectionUnitRegist<SO_Artifact> data)
+    {
+        SO_Artifact SO_Data = data.unit;
+        //Debug.Log(SO_Data.keyName);
+
+        GetTMP((int)ShowBoxText.TMP_Point).text = $"Point\n{data.info.UnlockPoint}";
+        GetTMP((int)ShowBoxText.TMP_Number).text = $"No.{data.CollectionNumber}";
+
+        if (data.info.isRegist)
+        {
+            GetImage((int)ShowBoxImage.MainSprite).sprite = Managers.Sprite.GetClear();
+            GetImage((int)ShowBoxImage.MainSprite_Facility).gameObject.SetActive(true);
+            GetImage((int)ShowBoxImage.MainSprite_Facility).sprite =
+                Managers.Sprite.Get_SLA(SpriteManager.Library.Artifact, data.unit.SLA_category, data.unit.SLA_label);
+
+            GetTMP((int)ShowBoxText.TMP_Name).text = SO_Data.labelName;
+            GetTMP((int)ShowBoxText.TMP_Detail).text = $"{SO_Data.detail}";
+
+            var header = Add_Header($"{UserData.Instance.LocaleText("고유 효과")}");
+            GameObject textBox1 = Add_TextBox();
+            OptionContentSet(textBox1.GetComponentInChildren<TextMeshProUGUI>(), SO_Data.tooltip_Effect, true);
+        }
+    }
+    public void ShowBox_Trait(CollectionManager.CollectionUnitRegist<SO_Trait> data)
+    {
+        SO_Trait SO_Data = data.unit;
+        //Debug.Log(SO_Data.keyName);
+
+        GetTMP((int)ShowBoxText.TMP_Point).text = $"Point\n{data.info.UnlockPoint}";
+        GetTMP((int)ShowBoxText.TMP_Number).text = $"No.{data.CollectionNumber}";
+
+        GetImage((int)ShowBoxImage.MainSprite).sprite = Managers.Sprite.GetClear();
+        GetTMP((int)ShowBoxText.TMP_Name).text = SO_Data.labelName;
+        GetTMP((int)ShowBoxText.TMP_Detail).text = $"{SO_Data.detail}";
+
+
+        if (string.IsNullOrEmpty(SO_Data.Acquire) == false)
+        {
+            var header = Add_Header($"{UserData.Instance.LocaleText("획득 조건")}");
+            GameObject textBox1 = Add_TextBox();
+            OptionContentSet(textBox1.GetComponentInChildren<TextMeshProUGUI>(), SO_Data.Acquire, true);
+        }
     }
 
 

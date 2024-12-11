@@ -31,19 +31,19 @@ public class UI_Quest : UI_PopUp
     {
         var pos = GetComponentInChildren<ContentSizeFitter>().transform;
 
-        for (int i = 0; i < EventManager.Instance.CurrentQuestAction_forSave.Count; i++)
+        foreach (var item in EventManager.Instance.CurrentQuestAction_forSave)
         {
-            int id = EventManager.Instance.CurrentQuestAction_forSave[i];
+            int id = item;
 
             string title = Managers.Dialogue.GetDialogue((DialogueName)id).dialogueName;
             string detail = Managers.Dialogue.GetDialogue((DialogueName)id).TextDataList[0].mainText;
             string day = Managers.Dialogue.GetDialogue((DialogueName)id).TextDataList[0].optionString;
 
+
             if (day.Contains("@NoView"))
             {
                 continue;
             }
-
 
             var content = Managers.Resource.Instantiate("UI/PopUp/Element/QuestBox", pos).GetComponent<UI_QuestBox>();
 
@@ -59,6 +59,36 @@ public class UI_Quest : UI_PopUp
 
             content.SetText(title, detail, dayOption);
         }
+
+
+        //for (int i = 0; i < EventManager.Instance.CurrentQuestAction_forSave.Count; i++)
+        //{
+        //    int id = EventManager.Instance.CurrentQuestAction_forSave[i];
+
+        //    string title = Managers.Dialogue.GetDialogue((DialogueName)id).dialogueName;
+        //    string detail = Managers.Dialogue.GetDialogue((DialogueName)id).TextDataList[0].mainText;
+        //    string day = Managers.Dialogue.GetDialogue((DialogueName)id).TextDataList[0].optionString;
+
+        //    if (day.Contains("@NoView"))
+        //    {
+        //        continue;
+        //    }
+
+
+        //    var content = Managers.Resource.Instantiate("UI/PopUp/Element/QuestBox", pos).GetComponent<UI_QuestBox>();
+
+        //    int dayOption = 0;
+        //    if (day.Contains("@Day"))
+        //    {
+        //        string numbersOnly = System.Text.RegularExpressions.Regex.Replace(day, "[^0-9]", "");
+        //        if (string.IsNullOrEmpty(numbersOnly) == false)
+        //        {
+        //            dayOption = int.Parse(numbersOnly);
+        //        }
+        //    }
+
+        //    content.SetText(title, detail, dayOption);
+        //}
     }
 
 

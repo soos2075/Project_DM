@@ -238,12 +238,12 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
     #region I_Battle Stat
 
-    public virtual int B_HP { get => HP_Final; }
-    public virtual int B_HP_Max { get => HPMax_Final; }
-    public virtual int B_ATK { get => ATK_Final; }
-    public virtual int B_DEF { get => DEF_Final; }
-    public virtual int B_AGI { get => AGI_Final; }
-    public virtual int B_LUK { get => LUK_Final; }
+    public int B_HP { get => HP_Final - HP_Damaged; }
+    public int B_HP_Max { get => HPMax_Final; }
+    public int B_ATK { get => ATK_Final; }
+    public int B_DEF { get => DEF_Final; }
+    public int B_AGI { get => AGI_Final; }
+    public int B_LUK { get => LUK_Final; }
 
     #endregion
 
@@ -262,7 +262,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     public int AGI { get; protected set; }
     public int LUK { get; protected set; }
 
-    [HideInInspector]
+    //[HideInInspector]
     public float hp_chance;
     [HideInInspector]
     public float atk_chance;
@@ -274,19 +274,22 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     public float luk_chance;
 
 
-
-    int HP_Final { get { return HP + Trait_HP + HP_Bonus; } }
-    int HPMax_Final { get { return HP_Max + Trait_HP + HP_Bonus; } }
-
-
-    int HP_Bonus { get { return HP_Hospital + GameManager.Buff.HpBonus; } }
+    //? 받은 데미지. 일차가 바뀔 때 초기화되면 됨. 데미지를 받을 때 +되고 회복할 때 -가 되면 됨. 0밑으로 내려갈 수 없음
+    public int HP_Damaged { get; set; }
 
 
+    public int HP_Final { get { return Mathf.RoundToInt((HP + Trait_HP + HP_Bonus) * HP_Hospital); } }
+    public int HPMax_Final { get { return Mathf.RoundToInt((HP_Max + Trait_HP + HP_Bonus) * HP_Hospital); } }
 
-    int ATK_Final { get { return ATK + AllStat_Bonus + Trait_ATK + ATK_Bonus; } }
-    int DEF_Final { get { return DEF + AllStat_Bonus + Trait_DEF + DEF_Bonus; } }
-    int AGI_Final { get { return AGI + AllStat_Bonus + Trait_AGI + AGI_Bonus; } }
-    int LUK_Final { get { return LUK + AllStat_Bonus + Trait_LUK + LUK_Bonus; } }
+
+    int HP_Bonus { get { return GameManager.Buff.HpBonus; } }
+
+
+
+    public int ATK_Final { get { return Mathf.RoundToInt((ATK + AllStat_Bonus + Trait_ATK + ATK_Bonus) * Orb_Bonus); } }
+    public int DEF_Final { get { return Mathf.RoundToInt((DEF + AllStat_Bonus + Trait_DEF + DEF_Bonus) * Orb_Bonus); } }
+    public int AGI_Final { get { return Mathf.RoundToInt((AGI + AllStat_Bonus + Trait_AGI + AGI_Bonus) * Orb_Bonus); } }
+    public int LUK_Final { get { return Mathf.RoundToInt((LUK + AllStat_Bonus + Trait_LUK + LUK_Bonus) * Orb_Bonus); } }
 
 
 
@@ -297,7 +300,6 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
 
     int AllStat_Bonus { get { return 
-                Orb_Bonus + 
                 Floor_Bonus + 
                 Trait_Friend + 
                 Trait_Veteran +
@@ -307,11 +309,12 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
 
     //? Technical Bonus
-    int HP_Hospital { get { return GameManager.Technical.Get_Technical<Hospital>() != null ? 15 : 0; } }
+    float HP_Hospital { get { return GameManager.Technical.Get_Technical<Hospital>() != null ? 1.3f : 1; } }
     int TrainingCenter { get { return GameManager.Technical.Get_Technical<TrainingCenter>() != null ? 1 : 0; } }
 
     //? 전투의 오브 활성화 보너스
-    int Orb_Bonus { get { return GameManager.Buff.CurrentBuff.Orb_red > 0 ? 5 : 0; } }
+    float Orb_Bonus { get { return GameManager.Buff.CurrentBuff.Orb_red > 0 ? 1.2f : 1; } }
+
     //? 깊은 층에 배치할수록 스탯보너스
     int Floor_Bonus { get { return PlacementInfo != null ? PlacementInfo.Place_Floor.FloorIndex * 1 : 0; } }
 
@@ -354,6 +357,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         public int StandbyDays;
 
         public int Days;
+
+        public int CustomValueCounter;
 
 
         [Newtonsoft.Json.JsonIgnore]
@@ -489,6 +494,16 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
             {
                 monster.AddTrait_Runtime(TraitGroup.DiscreetA);
             }
+        }
+
+        public void AddCustomValue(int value, bool init = false)
+        {
+            if (init)
+            {
+                CustomValueCounter = 0;
+            }
+            CustomValueCounter += value;
+            ChangeValue();
         }
     }
 
@@ -734,11 +749,11 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         AGI = Data.agi;
         LUK = Data.luk;
 
-        hp_chance = Data.up_hp;
-        atk_chance = Data.up_atk;
-        def_chance = Data.up_def;
-        agi_chance = Data.up_agi;
-        luk_chance = Data.up_luk;
+        //hp_chance = Data.up_hp;
+        //atk_chance = Data.up_atk;
+        //def_chance = Data.up_def;
+        //agi_chance = Data.up_agi;
+        //luk_chance = Data.up_luk;
 
         Init_TraitCounter();
     }
@@ -758,11 +773,11 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         AGI += Data.agi;
         LUK += Data.luk;
 
-        hp_chance = Data.up_hp;
-        atk_chance = Data.up_atk;
-        def_chance = Data.up_def;
-        agi_chance = Data.up_agi;
-        luk_chance = Data.up_luk;
+        //hp_chance = Data.up_hp;
+        //atk_chance = Data.up_atk;
+        //def_chance = Data.up_def;
+        //agi_chance = Data.up_agi;
+        //luk_chance = Data.up_luk;
 
         Init_TraitCounter();
     }
@@ -785,7 +800,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
             case MonsterState.Placement:
                 MoveSelf();
-                HP = HP_Max;
+                //HP = HP_Max;
+                HP_Damaged = 0;
 
                 traitCounter.AddPlacementDays();
                 break;
@@ -793,7 +809,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
             case MonsterState.Injury:
                 if (TraitCheck(TraitGroup.Reconfigure))
                 {
-                    HP = HP_Max;
+                    //HP = HP_Max;
+                    HP_Damaged = 0;
                     State = MonsterState.Standby;
                 }
                 break;
@@ -910,7 +927,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
                 case Define.PlaceEvent.Battle:
                     var npc = tile.Original as NPC;
-                    if (npc.Cor_Encounter == null && npc.HP > 0 && this.HP > 0)
+                    if (npc.Cor_Encounter == null && npc.B_HP > 0 && this.B_HP > 0)
                     {
                         npc.Cor_Encounter = StartCoroutine(npc.Encounter_ByMonster(this));
                         //Debug.Log($"몬스터 선빵때리기");
@@ -973,7 +990,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
                 case Define.PlaceEvent.Battle:
                     var npc = tile.Original as NPC;
-                    if (npc.Cor_Encounter == null && npc.HP > 0 && this.HP > 0)
+                    if (npc.Cor_Encounter == null && npc.B_HP > 0 && this.B_HP > 0)
                     {
                         npc.Cor_Encounter = StartCoroutine(npc.Encounter_ByMonster(this));
                         //Debug.Log($"몬스터 선빵때리기");
@@ -1052,7 +1069,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
     public Coroutine Battle(NPC npc)
     {
-        if (this.HP > 0 && npc.HP > 0)
+        if (this.B_HP > 0 && npc.B_HP > 0)
         {
             Cor_Battle = StartCoroutine(BattleWait(npc));
             return Cor_Battle;
@@ -1160,7 +1177,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
         BattleCount--;
         SetState_BattleCount(BattleCount);
-        if (BattleCount == 0 && this.HP > 0)
+        if (BattleCount == 0 && this.B_HP > 0)
         {
             MoveSelf();
         }
@@ -1190,12 +1207,12 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         if (battleCount >= Data.maxBattleCount)
         {
             PlacementState = PlacementState.Busy;
-            GetComponentInChildren<SpriteRenderer>().color = new Color(1, 1, 1, 0.25f);
+            GetComponentInChildren<SpriteRenderer>(true).color = new Color(1, 1, 1, 0.25f);
         }
         else
         {
             PlacementState = PlacementState.Standby;
-            GetComponentInChildren<SpriteRenderer>().color = Color.white;
+            GetComponentInChildren<SpriteRenderer>(true).color = Color.white;
         }
     }
 
@@ -1226,7 +1243,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         }
 
         PlacementInfo.Place_Floor.MaxMonsterSize++;
-        State = HP <= 0 ? MonsterState.Injury : MonsterState.Standby;
+        State = B_HP <= 0 ? MonsterState.Injury : MonsterState.Standby;
         GameManager.Placement.PlacementClear(this);
     }
 
@@ -1238,6 +1255,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     {
         Training,
         Battle,
+        Normal,
     }
     public virtual void LevelUpEvent(LevelUpEventType levelUpType)
     {
@@ -1288,7 +1306,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         BattlePoint_Count++;
         //Debug.Log($"{Name_KR}// 랭크포인트:{BattleCount_Rank} // 전투횟수:{BattleCount_Quantity}");
 
-        if (BattlePoint_Count >= 5 || BattlePoint_Rank >= Mathf.Clamp(LV * 2, 10, 50))
+        if (BattlePoint_Count >= 5 || BattlePoint_Rank >= Mathf.Clamp(LV * 2, 5, 50))
         {
             Debug.Log($"{Name_Color}.Lv{LV}가 레벨업");
             BattleLevelUp();
@@ -1312,7 +1330,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     {
         if (TraitCheck(TraitGroup.SurvivabilityS))
         {
-            HP = 1;
+            HP_Damaged = (B_HP - 1);
+            //HP = 1;
             State = MonsterState.Standby;
             return;
         }
@@ -1358,16 +1377,24 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
             return newEvent;
         }
 
-        public void AddEvent(int dialogueNumber)
+        public void AddEvent(int dialogueNumber, bool allow_Duplicate = false)
         {
-            if (ClearEventList.Contains(dialogueNumber) == false)
+            if (allow_Duplicate)
             {
                 CurrentEventList.Add(dialogueNumber);
             }
+            else
+            {
+                if (ClearEventList.Contains(dialogueNumber) == false)
+                {
+                    CurrentEventList.Add(dialogueNumber);
+                }
+            }
         }
-        public void AddEvent(UnitDialogueEventLabel dialogueNumber)
+
+        public void AddEvent(UnitDialogueEventLabel dialogueNumber, bool allow_Duplicate = false)
         {
-            AddEvent((int)dialogueNumber);
+            AddEvent((int)dialogueNumber, allow_Duplicate);
         }
 
         public void ClearEvent(int dialogueNumber)
@@ -1419,7 +1446,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         if (Main.Instance.Player_Mana >= mana)
         {
             Main.Instance.CurrentDay.SubtractMana(mana, Main.DayResult.EventType.Monster);
-            HP = HP_Max;
+            //HP = HP_Max;
+            HP_Damaged = 0;
             State = MonsterState.Standby;
             //Debug.Log("회복성공");
         }
@@ -1448,12 +1476,14 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
         Main.Instance.Player_AP--;
         Debug.Log($"{Name_Color} 훈련진행");
-        LevelUpEvent(LevelUpEventType.Training);
+
         LevelUp(true);
         if (GameManager.Technical.Get_Technical<TrainingCenter>() != null)
         {
             LevelUp(false);
         }
+
+        //LevelUpEvent(LevelUpEventType.Training);
 
         traitCounter.AddTrainingCounter();
         AddCollectionPoint();
@@ -1466,8 +1496,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
             return;
         }
 
-        LevelUpEvent(LevelUpEventType.Training);
         LevelUp(true);
+        //LevelUpEvent(LevelUpEventType.Training);
     }
     public void Statue_Demon()
     {
@@ -1516,6 +1546,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
             ui.TargetMonster(this);
         }
 
+        LevelUpEvent(LevelUpEventType.Normal);
         LV++;
 
         float hp_value = Data.up_hp;
@@ -1526,27 +1557,27 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
         if (TraitCheck(TraitGroup.EliteC))
         {
-            hp_value += 0.2f;
-            atk_value += 0.1f;
-            def_value += 0.1f;
-            agi_value += 0.05f;
-            luk_value += 0.05f;
+            hp_value *= 1.3f;
+            atk_value *= 1.15f;
+            def_value *= 1.15f;
+            agi_value *= 1.08f;
+            luk_value *= 1.08f;
         }
         if (TraitCheck(TraitGroup.EliteB))
         {
-            hp_value += 0.4f;
-            atk_value += 0.2f;
-            def_value += 0.2f;
-            agi_value += 0.1f;
-            luk_value += 0.1f;
+            hp_value += 1.6f;
+            atk_value *= 1.3f;
+            def_value *= 1.3f;
+            agi_value *= 1.15f;
+            luk_value *= 1.15f;
         }
         if (TraitCheck(TraitGroup.EliteA))
         {
-            hp_value += 0.6f;
-            atk_value += 0.3f;
-            def_value += 0.3f;
-            agi_value += 0.15f;
-            luk_value += 0.15f;
+            hp_value *= 2.0f;
+            atk_value *= 1.5f;
+            def_value *= 1.5f;
+            agi_value *= 1.25f;
+            luk_value *= 1.25f;
         }
 
 
@@ -1571,6 +1602,9 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     {
         int value = 0;
 
+
+        probability += origin;
+
         //? 1보다 크면 일단 확정적으로 올려주고
         while (probability >= 1)
         {
@@ -1582,11 +1616,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         if (probability > Random.value)
         {
             value++;
-            probability = origin;
-        }
-        else
-        {
-            probability += origin;
+            probability = 0;
         }
 
         return value;

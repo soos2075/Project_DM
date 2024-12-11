@@ -31,6 +31,7 @@ public class SpriteManager
         //ui_Cursor = Resources.LoadAll<Sprite>("Sprite/UI/Cursors");
 
         SLA_Array_Facility = Resources.LoadAll<SpriteLibraryAsset>("SpriteLibraryAsset/SLA_Facility");
+        SLA_Array_NPC_Anim = Resources.LoadAll<SpriteLibraryAsset>("Animation/_NPC_Anim/SLA_NPC_Custom");
 
         ui_Area = Resources.LoadAll<Sprite>("Sprite/_UI/Area");
         for (int i = 0; i < ui_Area.Length; i++)
@@ -48,59 +49,17 @@ public class SpriteManager
 
 
 
-    //public Sprite GetSprite (string path)
-    //{
-    //    Sprite sprite = null;
-    //    if (spriteDict.TryGetValue(path, out sprite))
-    //    {
-    //        return sprite;
-    //    }
-
-    //    sprite = Resources.Load<Sprite>($"Sprite/{path}");
-    //    if (sprite == null)
-    //    {
-    //        sprite = Resources.Load<Sprite>($"Sprite/Object/{path}");
-    //        if (sprite == null)
-    //        {
-    //            sprite = GetSprite_SLA(path);
-    //            if (sprite == null)
-    //            {
-    //                Debug.Log($"Sprite/{path} : Sprite Not Exist");
-    //                return clear;
-    //            }
-    //        }
-    //    }
-    //    spriteDict.Add(path, sprite);
-    //    return sprite;
-    //}
-
-    //public Sprite GetSprite_SLA(string _searchName)
-    //{
-    //    foreach (var item in SLA_Array_Facility)
-    //    {
-    //        foreach (var _category in item.GetCategoryNames())
-    //        {
-    //            if (_searchName == _category)
-    //            {
-    //                return item.GetSprite(_category, "Entry");
-    //            }
-    //            else
-    //            {
-    //                foreach (var _label in item.GetCategoryLabelNames(_category))
-    //                {
-    //                    if (_searchName == _label)
-    //                    {
-    //                        return item.GetSprite(_category, _label);
-    //                    }
-    //                }
-    //            }
-    //        }
-    //    }
-
-    //    Debug.Log($"{_searchName} : Sprite Not Exist from SLA Data");
-    //    return null;
-    //}
-
+    public SpriteLibraryAsset Get_NPC_Anim(string assetName)
+    {
+        foreach (var item in SLA_Array_NPC_Anim)
+        {
+            if (item.name == assetName)
+            {
+                return item;
+            }
+        }
+        return null;
+    }
 
     public Sprite Get_Area(string area)
     {
@@ -115,6 +74,8 @@ public class SpriteManager
     }
 
     SpriteLibraryAsset[] SLA_Array_Facility;
+
+    SpriteLibraryAsset[] SLA_Array_NPC_Anim;
 
     SpriteLibraryAsset Monster_Library;
     SpriteLibraryAsset Technical_library;

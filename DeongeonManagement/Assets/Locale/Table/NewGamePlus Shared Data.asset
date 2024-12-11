@@ -23,6 +23,14 @@ MonoBehaviour:
     m_Key: Arti_Decay
     m_Metadata:
       m_Items: []
+  - m_Id: 11056480570781696
+    m_Key: Arti_DownDanger
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11056482382721024
+    m_Key: Arti_DownPop
+    m_Metadata:
+      m_Items: []
   - m_Id: 20764915085312
     m_Key: Arti_Hero
     m_Metadata:
@@ -53,6 +61,54 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 26270354321408
     m_Key: Buff_PopBonus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10720772236718080
+    m_Key: Clear_Cat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10720775923511296
+    m_Key: Clear_Demon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10720735201013760
+    m_Key: Clear_Dog
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10720774568751104
+    m_Key: Clear_Dragon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10720778855329792
+    m_Key: Clear_Hero
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10720773419511808
+    m_Key: Clear_Ravi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10719134927237120
+    m_Key: Hint_Cat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10719996214980608
+    m_Key: Hint_Demon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10718961207554048
+    m_Key: Hint_Dog
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10719375378296832
+    m_Key: Hint_Dragon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10719999599783936
+    m_Key: Hint_Hero
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10719611786047488
+    m_Key: Hint_Ravi
     m_Metadata:
       m_Items: []
   - m_Id: 94637585018880
@@ -103,6 +159,10 @@ MonoBehaviour:
     m_Key: Unit_HellHound
     m_Metadata:
       m_Items: []
+  - m_Id: 11771230178979840
+    m_Key: Unit_Lievil
+    m_Metadata:
+      m_Items: []
   - m_Id: 129282863214592
     m_Key: Unit_Ravi
     m_Metadata:
@@ -111,16 +171,20 @@ MonoBehaviour:
     m_Key: Unit_Rena
     m_Metadata:
       m_Items: []
+  - m_Id: 11771231902838784
+    m_Key: Unit_Rideer
+    m_Metadata:
+      m_Items: []
   - m_Id: 748744599613440
     m_Key: Unit_Salinu
     m_Metadata:
       m_Items: []
-  - m_Id: 85482221568
-    m_Key: "\uC2DC\uC791 \uD6A8\uACFC"
-    m_Metadata:
-      m_Items: []
   - m_Id: 24040351936512
     m_Key: "\uB09C\uC774\uB3C4"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 85482221568
+    m_Key: "\uC2DC\uC791 \uD6A8\uACFC"
     m_Metadata:
       m_Items: []
   - m_Id: 28339349958656

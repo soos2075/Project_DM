@@ -26,24 +26,31 @@ public class NPC_Normal : NPC
         //? 킬골드와 도망치는 조건 등등의 세팅
         switch (NPCType)
         {
-            case NPC_Type_Normal.Herbalist0:
             case NPC_Type_Normal.Herbalist1:
             case NPC_Type_Normal.Herbalist2:
-            case NPC_Type_Normal.Miner0:
+            case NPC_Type_Normal.Herbalist3:
             case NPC_Type_Normal.Miner1:
-                KillGold = Data.Rank * Random.Range(5, 11);
+            case NPC_Type_Normal.Miner2:
+            case NPC_Type_Normal.Miner3:
+                KillGold = Data.Rank * Random.Range(10, 16);
                 RunawayHpRatio = 2;
                 break;
 
-            case NPC_Type_Normal.Adventurer0:
             case NPC_Type_Normal.Adventurer1:
+            case NPC_Type_Normal.Adventurer2:
             case NPC_Type_Normal.Elf:
             case NPC_Type_Normal.Wizard:
-                KillGold = Data.Rank * Random.Range(10, 21);
+                KillGold = Data.Rank * Random.Range(20, 31);
                 RunawayHpRatio = 4;
                 break;
 
-            case NPC_Type_Normal.Goblin:
+            case NPC_Type_Normal.DarkElf:
+            case NPC_Type_Normal.Vampire:
+                KillGold = Data.Rank * Random.Range(30, 46);
+                RunawayHpRatio = 5;
+                break;
+
+            case NPC_Type_Normal.Normal_Goblin:
                 KillGold = Data.Rank * Random.Range(15, 31);
                 RunawayHpRatio = 3;
                 break;
@@ -64,22 +71,25 @@ public class NPC_Normal : NPC
             default:
                 switch (NPCType)
                 {
-                    case NPC_Type_Normal.Herbalist0:
                     case NPC_Type_Normal.Herbalist1:
-                    case NPC_Type_Normal.Miner0:
+                    case NPC_Type_Normal.Herbalist2:
+                    case NPC_Type_Normal.Herbalist3:
                     case NPC_Type_Normal.Miner1:
+                    case NPC_Type_Normal.Miner2:
+                    case NPC_Type_Normal.Miner3:
+                    case NPC_Type_Normal.Normal_Goblin:
                         return new Define.TileType[] { Define.TileType.NPC, Define.TileType.Monster };
 
-                    case NPC_Type_Normal.Adventurer0:
                     case NPC_Type_Normal.Adventurer1:
+                    case NPC_Type_Normal.Adventurer2:
                         return new Define.TileType[] { Define.TileType.NPC, Define.TileType.Facility };
 
                     case NPC_Type_Normal.Elf:
                     case NPC_Type_Normal.Wizard:
+                    case NPC_Type_Normal.DarkElf:
+                    case NPC_Type_Normal.Vampire:
                         return new Define.TileType[] { Define.TileType.NPC };
 
-                    case NPC_Type_Normal.Goblin:
-                        return new Define.TileType[] { Define.TileType.NPC, Define.TileType.Monster };
 
                     default:
                         return new Define.TileType[] { Define.TileType.NPC };
@@ -93,49 +103,49 @@ public class NPC_Normal : NPC
 
         switch (NPCType)
         {
-            case NPC_Type_Normal.Herbalist0:
+            case NPC_Type_Normal.Herbalist1:
                 characterBuilder.Armor = "ArcherTunic";
                 characterBuilder.Weapon = GameManager.Pixel.GetRandomItem(GameManager.Pixel.Weapon_Herbalist);
                 characterBuilder.Back = "SmallBackpack";
                 characterBuilder.Helmet = "ArcherHood";
                 break;
 
-            case NPC_Type_Normal.Herbalist1:
+            case NPC_Type_Normal.Herbalist2:
                 characterBuilder.Armor = "ArcherTunic";
                 characterBuilder.Weapon = GameManager.Pixel.GetRandomItem(GameManager.Pixel.Weapon_Herbalist);
                 characterBuilder.Back = "SmallBackpack";
                 characterBuilder.Helmet = "FireWizardHood#FFFFFF/0:0:0";
                 break;
 
-            case NPC_Type_Normal.Herbalist2:
+            case NPC_Type_Normal.Herbalist3:
                 characterBuilder.Armor = "ArcherTunic";
                 characterBuilder.Weapon = GameManager.Pixel.GetRandomItem(GameManager.Pixel.Weapon_Herbalist);
                 characterBuilder.Back = "SmallBackpack";
                 characterBuilder.Helmet = "ClericHood#FFFFFF/0:0:0";
                 break;
 
-            case NPC_Type_Normal.Miner0:
+            case NPC_Type_Normal.Miner1:
                 characterBuilder.Armor = "MinerArmour";
                 characterBuilder.Weapon = GameManager.Pixel.GetRandomItem(GameManager.Pixel.Weapon_Miner);
                 characterBuilder.Back = "LargeBackpack";
                 characterBuilder.Helmet = "MinerHelment";
                 break;
 
-            case NPC_Type_Normal.Miner1:
+            case NPC_Type_Normal.Miner2:
                 characterBuilder.Armor = "MinerArmour";
                 characterBuilder.Weapon = GameManager.Pixel.GetRandomItem(GameManager.Pixel.Weapon_Miner);
                 characterBuilder.Back = "LargeBackpack";
                 characterBuilder.Helmet = "MinerHelment#FFFFFF/-45:0:0";
                 break;
 
-            //case NPC_Type_Normal.Miner2:
-            //    characterBuilder.Armor = "MinerArmour";
-            //    characterBuilder.Weapon = GameManager.Pixel.GetRandomItem(GameManager.Pixel.Weapon_Miner);
-            //    characterBuilder.Back = "LargeBackpack";
-            //    characterBuilder.Helmet = "MinerHelment#FFFFFF/180:0:0";
-            //    break;
+            case NPC_Type_Normal.Miner3:
+                characterBuilder.Armor = "MinerArmour";
+                characterBuilder.Weapon = GameManager.Pixel.GetRandomItem(GameManager.Pixel.Weapon_Miner);
+                characterBuilder.Back = "LargeBackpack";
+                characterBuilder.Helmet = "MinerHelment#FFFFFF/180:0:0";
+                break;
 
-            case NPC_Type_Normal.Adventurer0:
+            case NPC_Type_Normal.Adventurer1:
                 { // hair = 9
                     int ran = Random.Range(0, collection.Layers[9].Textures.Count);
                     characterBuilder.Hair = collection.Layers[9].Textures[ran].name;
@@ -147,7 +157,7 @@ public class NPC_Normal : NPC
                 characterBuilder.Shield = GameManager.Pixel.GetRandomItem(GameManager.Pixel.Weapon_BeginnerShield);
                 break;
 
-            case NPC_Type_Normal.Adventurer1:
+            case NPC_Type_Normal.Adventurer2:
                 { // hair = 9
                     int ran = Random.Range(0, collection.Layers[9].Textures.Count);
                     characterBuilder.Hair = collection.Layers[9].Textures[ran].name;
@@ -170,13 +180,33 @@ public class NPC_Normal : NPC
                 characterBuilder.Weapon = GameManager.Pixel.GetRandomItem(GameManager.Pixel.Weapon_Bow);
                 break;
 
+            case NPC_Type_Normal.DarkElf:
+                characterBuilder.Hair = "";
+                characterBuilder.Head = "DarkElf#FFFFFF/0:0:0";
+                characterBuilder.Ears = "DarkElf#FFFFFF/0:0:0";
+                characterBuilder.Eyes = "DarkElf#FFFFFF/0:0:0";
+                characterBuilder.Body = "DarkElf#FFFFFF/0:0:0";
+                characterBuilder.Weapon = "HunterKnife#FFFFFF/0:0:0";
+                characterBuilder.Armor = "HolowKnight#FFFFFF/0:0:0";
+                break;
+
             case NPC_Type_Normal.Wizard:
                 characterBuilder.Armor = "BlueWizardTunic";
                 characterBuilder.Helmet = "BlueWizzardHat";
                 characterBuilder.Weapon = GameManager.Pixel.GetRandomItem(GameManager.Pixel.Weapon_Magic);
                 break;
 
-            case NPC_Type_Normal.Goblin:
+            case NPC_Type_Normal.Vampire:
+                characterBuilder.Hair = "";
+                characterBuilder.Head = "Vampire#FFFFFF/0:0:0";
+                characterBuilder.Ears = "Vampire#FFFFFF/0:0:0";
+                characterBuilder.Eyes = "Vampire#FFFFFF/0:0:0";
+                characterBuilder.Body = "Vampire#FFFFFF/0:0:0";
+                characterBuilder.Weapon = "ElderStaff#FFFFFF/0:0:0";
+                characterBuilder.Armor = "DeathRobe#FFFFFF/0:0:0";
+                break;
+
+            case NPC_Type_Normal.Normal_Goblin:
                 characterBuilder.Hair = "";
                 characterBuilder.Head = "Goblin#FFFFFF/0:0:0";
                 characterBuilder.Ears = "Goblin#FFFFFF/0:0:0";
@@ -196,7 +226,7 @@ public class NPC_Normal : NPC
 
         switch (NPCType)
         {
-            case NPC_Type_Normal.Herbalist0:
+            case NPC_Type_Normal.Herbalist1:
                 if (UserData.Instance.FileConfig.firstAppear_Herbalist == false)
                 {
                     UserData.Instance.FileConfig.firstAppear_Herbalist = true;
@@ -204,7 +234,7 @@ public class NPC_Normal : NPC
                 }
                 break;
 
-            case NPC_Type_Normal.Miner0:
+            case NPC_Type_Normal.Miner1:
                 if (UserData.Instance.FileConfig.firstAppear_Miner == false)
                 {
                     UserData.Instance.FileConfig.firstAppear_Miner = true;
@@ -241,19 +271,22 @@ public class NPC_Normal : NPC
 
         switch (NPCType)
         {
-            case NPC_Type_Normal.Herbalist0:
             case NPC_Type_Normal.Herbalist1:
             case NPC_Type_Normal.Herbalist2:
+            case NPC_Type_Normal.Herbalist3:
                 AddPriorityList(GetPriorityPick(typeof(Herb)), AddPos.Front, option);
                 break;
 
-            case NPC_Type_Normal.Miner0:
             case NPC_Type_Normal.Miner1:
+            case NPC_Type_Normal.Miner2:
+            case NPC_Type_Normal.Miner3:
                 AddPriorityList(GetPriorityPick(typeof(Mineral)), AddPos.Front, option);
                 break;
 
-            case NPC_Type_Normal.Adventurer0:
             case NPC_Type_Normal.Adventurer1:
+            case NPC_Type_Normal.Adventurer2:
+            case NPC_Type_Normal.DarkElf:
+            case NPC_Type_Normal.Vampire:
                 AddPriorityList(GetPriorityPick(typeof(Monster)), AddPos.Front, option);
                 AddPriorityList(GetPriorityPick(typeof(Treasure)), AddPos.Front, option);
                 break;
@@ -268,7 +301,7 @@ public class NPC_Normal : NPC
                 AddPriorityList(GetPriorityPick(typeof(Mineral)), AddPos.Front, option);
                 break;
 
-            case NPC_Type_Normal.Goblin:
+            case NPC_Type_Normal.Normal_Goblin:
                 
                 var herb = GetPriorityPick(typeof(Herb));
                 var mineral = GetPriorityPick(typeof(Mineral));
@@ -300,27 +333,27 @@ public class NPC_Normal : NPC
 
         switch (NPCType)
         {
-            case NPC_Type_Normal.Herbalist0:
             case NPC_Type_Normal.Herbalist1:
             case NPC_Type_Normal.Herbalist2:
-            case NPC_Type_Normal.Miner0:
+            case NPC_Type_Normal.Herbalist3:
             case NPC_Type_Normal.Miner1:
+            case NPC_Type_Normal.Miner2:
+            case NPC_Type_Normal.Miner3:
+            case NPC_Type_Normal.Normal_Goblin:
                 popValue = -Data.Rank;
                 dangerValue = 0;
                 break;
 
-            case NPC_Type_Normal.Adventurer0:
             case NPC_Type_Normal.Adventurer1:
+            case NPC_Type_Normal.Adventurer2:
             case NPC_Type_Normal.Elf:
             case NPC_Type_Normal.Wizard:
+            case NPC_Type_Normal.DarkElf:
+            case NPC_Type_Normal.Vampire:
                 popValue = -(Data.Rank / 2);
                 dangerValue = -(Data.Rank / 2);
                 break;
 
-            case NPC_Type_Normal.Goblin:
-                popValue = -Data.Rank * 2;
-                dangerValue = 0;
-                break;
         }
 
         if (popValue != 0)
@@ -341,27 +374,27 @@ public class NPC_Normal : NPC
 
         switch (NPCType)
         {
-            case NPC_Type_Normal.Herbalist0:
             case NPC_Type_Normal.Herbalist1:
             case NPC_Type_Normal.Herbalist2:
-            case NPC_Type_Normal.Miner0:
+            case NPC_Type_Normal.Herbalist3:
             case NPC_Type_Normal.Miner1:
+            case NPC_Type_Normal.Miner2:
+            case NPC_Type_Normal.Miner3:
+            case NPC_Type_Normal.Normal_Goblin:
                 popValue = Mathf.RoundToInt(Data.Rank * 1.6f);
                 dangerValue = 0;
                 break;
 
-            case NPC_Type_Normal.Adventurer0:
             case NPC_Type_Normal.Adventurer1:
+            case NPC_Type_Normal.Adventurer2:
             case NPC_Type_Normal.Elf:
             case NPC_Type_Normal.Wizard:
+            case NPC_Type_Normal.DarkElf:
+            case NPC_Type_Normal.Vampire:
                 popValue = Data.Rank;
                 dangerValue = 0;
                 break;
 
-            case NPC_Type_Normal.Goblin:
-                popValue = Data.Rank * 2;
-                dangerValue = 0;
-                break;
         }
 
         if (popValue != 0)
@@ -382,26 +415,25 @@ public class NPC_Normal : NPC
 
         switch (NPCType)
         {
-            case NPC_Type_Normal.Herbalist0:
             case NPC_Type_Normal.Herbalist1:
             case NPC_Type_Normal.Herbalist2:
-            case NPC_Type_Normal.Miner0:
+            case NPC_Type_Normal.Herbalist3:
             case NPC_Type_Normal.Miner1:
+            case NPC_Type_Normal.Miner2:
+            case NPC_Type_Normal.Miner3:
+            case NPC_Type_Normal.Normal_Goblin:
                 popValue = Mathf.RoundToInt(Data.Rank * 0.6f);
                 dangerValue = 0;
                 break;
 
-            case NPC_Type_Normal.Adventurer0:
             case NPC_Type_Normal.Adventurer1:
+            case NPC_Type_Normal.Adventurer2:
             case NPC_Type_Normal.Elf:
             case NPC_Type_Normal.Wizard:
+            case NPC_Type_Normal.DarkElf:
+            case NPC_Type_Normal.Vampire:
                 popValue = Mathf.RoundToInt(Data.Rank * 0.6f);
                 dangerValue = Mathf.RoundToInt(Data.Rank * 0.6f);
-                break;
-
-            case NPC_Type_Normal.Goblin:
-                popValue = 0;
-                dangerValue = 0;
                 break;
         }
 
@@ -423,26 +455,26 @@ public class NPC_Normal : NPC
 
         switch (NPCType)
         {
-            case NPC_Type_Normal.Herbalist0:
             case NPC_Type_Normal.Herbalist1:
             case NPC_Type_Normal.Herbalist2:
-            case NPC_Type_Normal.Miner0:
+            case NPC_Type_Normal.Herbalist3:
             case NPC_Type_Normal.Miner1:
-                popValue = 0;
-                dangerValue = Data.Rank * 2;
-                break;
-
-            case NPC_Type_Normal.Adventurer0:
-            case NPC_Type_Normal.Adventurer1:
-            case NPC_Type_Normal.Elf:
-            case NPC_Type_Normal.Wizard:
-                popValue = (Data.Rank / 2);
-                dangerValue = (Data.Rank / 2);
-                break;
-
-            case NPC_Type_Normal.Goblin:
+            case NPC_Type_Normal.Miner2:
+            case NPC_Type_Normal.Miner3:
+            case NPC_Type_Normal.Normal_Goblin:
                 popValue = 0;
                 dangerValue = Data.Rank;
+                break;
+
+            case NPC_Type_Normal.Adventurer1:
+            case NPC_Type_Normal.Adventurer2:
+            case NPC_Type_Normal.Elf:
+            case NPC_Type_Normal.Wizard:
+            case NPC_Type_Normal.DarkElf:
+            case NPC_Type_Normal.Vampire:
+                //popValue = (Data.Rank / 2);
+                popValue = 0;
+                dangerValue = (Data.Rank / 2);
                 break;
         }
 
@@ -491,21 +523,22 @@ public class NPC_Normal : NPC
 
         switch (NPCType)
         {
-            case NPC_Type_Normal.Herbalist0:
             case NPC_Type_Normal.Herbalist1:
             case NPC_Type_Normal.Herbalist2:
-            case NPC_Type_Normal.Miner0:
+            case NPC_Type_Normal.Herbalist3:
             case NPC_Type_Normal.Miner1:
-                dangerValue = Data.Rank * 3;
+            case NPC_Type_Normal.Miner2:
+            case NPC_Type_Normal.Miner3:
+            case NPC_Type_Normal.Normal_Goblin:
+                dangerValue = Data.Rank * 2;
                 break;
 
-            case NPC_Type_Normal.Adventurer0:
             case NPC_Type_Normal.Adventurer1:
+            case NPC_Type_Normal.Adventurer2:
             case NPC_Type_Normal.Elf:
             case NPC_Type_Normal.Wizard:
-                break;
-
-            case NPC_Type_Normal.Goblin:
+            case NPC_Type_Normal.DarkElf:
+            case NPC_Type_Normal.Vampire:
                 break;
         }
 

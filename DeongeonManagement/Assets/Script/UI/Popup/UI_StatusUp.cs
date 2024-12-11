@@ -184,7 +184,7 @@ public class UI_StatusUp : UI_PopUp
         else if (before_lv > after_lv)
         {
             show_lv = $"{after_lv}".SetTextColorTag(Define.TextColor.npc_red);
-            show_lv += $" ¡å{Mathf.Abs(after_lv - before_lv)}".SetTextColorTag(Define.TextColor.yellow);
+            show_lv += $" ¡å{Mathf.Abs(after_lv - before_lv)}".SetTextColorTag(Define.TextColor.npc_red);
         }
 
 
@@ -196,7 +196,7 @@ public class UI_StatusUp : UI_PopUp
         else if (before_hp > after_hp)
         {
             show_hp = $"{after_hp}".SetTextColorTag(Define.TextColor.npc_red);
-            show_hp += $" ¡å{Mathf.Abs(after_hp - before_hp)}".SetTextColorTag(Define.TextColor.yellow);
+            show_hp += $" ¡å{Mathf.Abs(after_hp - before_hp)}".SetTextColorTag(Define.TextColor.npc_red);
         }
 
 
@@ -208,7 +208,7 @@ public class UI_StatusUp : UI_PopUp
         else if (before_atk > after_atk)
         {
             show_atk = $"{after_atk}".SetTextColorTag(Define.TextColor.npc_red);
-            show_atk += $" ¡å{Mathf.Abs(after_atk - before_atk)}".SetTextColorTag(Define.TextColor.yellow);
+            show_atk += $" ¡å{Mathf.Abs(after_atk - before_atk)}".SetTextColorTag(Define.TextColor.npc_red);
         }
 
 
@@ -220,7 +220,7 @@ public class UI_StatusUp : UI_PopUp
         else if (before_def > after_def)
         {
             show_def = $"{after_def}".SetTextColorTag(Define.TextColor.npc_red);
-            show_def += $" ¡å{Mathf.Abs(after_def - before_def)}".SetTextColorTag(Define.TextColor.yellow);
+            show_def += $" ¡å{Mathf.Abs(after_def - before_def)}".SetTextColorTag(Define.TextColor.npc_red);
         }
 
 
@@ -232,7 +232,7 @@ public class UI_StatusUp : UI_PopUp
         else if (before_agi > after_agi)
         {
             show_agi = $"{after_agi}".SetTextColorTag(Define.TextColor.npc_red);
-            show_agi += $" ¡å{Mathf.Abs(after_agi - before_agi)}".SetTextColorTag(Define.TextColor.yellow);
+            show_agi += $" ¡å{Mathf.Abs(after_agi - before_agi)}".SetTextColorTag(Define.TextColor.npc_red);
         }
 
 
@@ -244,7 +244,7 @@ public class UI_StatusUp : UI_PopUp
         else if (before_luk > after_luk)
         {
             show_luk = $"{after_luk}".SetTextColorTag(Define.TextColor.npc_red);
-            show_luk += $" ¡å{Mathf.Abs(after_luk - before_luk)}".SetTextColorTag(Define.TextColor.yellow);
+            show_luk += $" ¡å{Mathf.Abs(after_luk - before_luk)}".SetTextColorTag(Define.TextColor.npc_red);
         }
     }
 

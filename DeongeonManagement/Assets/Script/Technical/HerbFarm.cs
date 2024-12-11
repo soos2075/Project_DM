@@ -19,12 +19,12 @@ public class HerbFarm : Technical
         Cycle = 2;
         MainAction = (turn) => { MainEvent(turn); };
 
-        AddTurnEvent(MainAction, DayType.Day);
+        AddTurnEvent(MainAction, DayType.Night);
     }
 
     public override void RemoveTechnical()
     {
-        RemoveTurnEvent(MainAction, DayType.Day);
+        RemoveTurnEvent(MainAction, DayType.Night);
     }
 
 
@@ -49,7 +49,7 @@ public class HerbFarm : Technical
     void SetLevel()
     {
         var sprite = GetComponentInChildren<SpriteRenderer>();
-        sprite.sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.Technical, Data.SLA_categoty, Data.SLA_label);
+        sprite.sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.Technical, Data.SLA_category, Data.SLA_label);
 
         switch (Data.techLv)
         {

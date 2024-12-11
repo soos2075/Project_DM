@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,7 +28,6 @@ public class UI_Pause : UI_PopUp
     enum Buttons
     {
         Close,
-        //Load,
         StartScene,
         Quit,
         Language,
@@ -41,50 +41,93 @@ public class UI_Pause : UI_PopUp
         Bind<Button>(typeof(Buttons));
 
         GetButton(((int)Buttons.Close)).gameObject.AddUIEvent((data) => ClosePopUp());
-        //GetButton(((int)Buttons.Load)).gameObject.AddUIEvent((data) => ShowLoadUI());
         GetButton(((int)Buttons.StartScene)).gameObject.AddUIEvent((data) => GotoStartScene());
         GetButton(((int)Buttons.Quit)).gameObject.AddUIEvent((data) => QuitConfirm());
         GetButton(((int)Buttons.Language)).gameObject.AddUIEvent((data) => SetLanguage());
         GetButton(((int)Buttons.DataReset)).gameObject.AddUIEvent((data) => DataReset());
 
-        //GetButton(((int)Buttons.Manual)).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_Tutorial>());
+        //GetButton(((int)Buttons.Manual)).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_Tutorial>("UI_Tutorial_Demo"));
     }
+
+
 
 
     void DataReset()
     {
         var ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
-        //ui.SetText("모든 데이터를 초기화 할까요?(복구 불가능)");
-        ui.SetText($"{UserData.Instance.LocaleText("데이터초기화")}", () => ResetAction());
+        ui.SetText($"{UserData.Instance.LocaleText("초기화_0_시작")}", () => StartCoroutine(Delete_Confirm()));
     }
 
-    void ResetAction()
+    IEnumerator Delete_Confirm()
+    {
+        UI_Confirm ui = null;
+        Action DeleteAction = null;
+        yield return new WaitForSecondsRealtime(0.5f);
+
+        ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
+        ui.SetText($"{UserData.Instance.LocaleText("초기화_1_사용자")}", () => DeleteAction += Delete_PlayerData);
+
+        yield return new WaitUntil(() => ui == null);
+        yield return new WaitForSecondsRealtime(0.5f);
+
+        ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
+        ui.SetText($"{UserData.Instance.LocaleText("초기화_2_세이브")}", () => DeleteAction += Delete_SaveData);
+
+        yield return new WaitUntil(() => ui == null);
+        yield return new WaitForSecondsRealtime(0.5f);
+
+        ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
+        ui.SetText($"{UserData.Instance.LocaleText("초기화_3_클리어")}", () => DeleteAction += Delete_ClearData);
+
+        yield return new WaitUntil(() => ui == null);
+        yield return new WaitForSecondsRealtime(0.5f);
+
+        ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
+        ui.SetText($"{UserData.Instance.LocaleText("초기화_4_도감")}", () => DeleteAction += Delete_CollectionData);
+
+
+        yield return new WaitUntil(() => ui == null);
+        yield return new WaitForSecondsRealtime(1.0f);
+
+
+        ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
+        ui.SetText($"{UserData.Instance.LocaleText("초기화_5_최종")}", () =>
+        {
+            DeleteAction.Invoke();
+            GotoStartScene();
+        });
+
+    }
+
+    void Delete_PlayerData()
     {
         // 플레이어 데이터 삭제
         PlayerPrefs.DeleteAll();
+    }
+    void Delete_SaveData()
+    {
+        // 세이브 데이터 삭제
+        Managers.Data.DeleteSaveFileAll();
+    }
 
-
+    void Delete_ClearData()
+    {
         // 클리어 데이터 삭제
         CollectionManager.Instance.RoundClearData = null;
         Managers.Data.DeleteSaveFile("ClearData");
+    }
 
-
+    void Delete_CollectionData()
+    {
         // 컬렉션 데이터 삭제
         Managers.Data.DeleteSaveFile("CollectionData");
-
-
-        // 세이브 데이터 삭제
-        Managers.Data.DeleteSaveFileAll();
-
-
-        // 씬 리로드
-        GotoStartScene();
     }
 
 
 
     void GotoStartScene()
     {
+        // 씬 리로드
         Managers.Scene.LoadSceneAsync(SceneName._1_Start);
     }
     void SetLanguage()

@@ -308,13 +308,23 @@ public class Main : MonoBehaviour
         {
             GameManager.Monster.CreateMonster("Griffin", true);
         }
+
+        if (UserData.Instance.FileConfig.Unit_Rena)
+        {
+            GameManager.Monster.CreateMonster("Rena");
+        }
+
         if (UserData.Instance.FileConfig.Unit_Ravi)
         {
             GameManager.Monster.CreateMonster("Ravi");
         }
-        if (UserData.Instance.FileConfig.Unit_Rena)
+        if (UserData.Instance.FileConfig.Unit_Lievil)
         {
-            GameManager.Monster.CreateMonster("Rena");
+            GameManager.Monster.CreateMonster("Lievil");
+        }
+        if (UserData.Instance.FileConfig.Unit_Rideer)
+        {
+            GameManager.Monster.CreateMonster("Rideer");
         }
 
 
@@ -864,13 +874,15 @@ public class Main : MonoBehaviour
         yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
 
         //? 데모 종료시점. 저장하기전에 해야함.
-#if !CHEAT_BUILD
+
+#if DEMO_BUILD
         if (Turn == 20)
         {
             DEMO_Ending();
             yield break;
         }
 #endif
+
         if (Turn == 30)
         {
             Managers.Dialogue.ShowDialogueUI(DialogueName.Day30_Over, Player);
@@ -1021,6 +1033,18 @@ public class Main : MonoBehaviour
     #endregion
 
 
+
+    #region Camera
+    public void ShowGuild()
+    {
+        var cam = Camera.main.GetComponent<CameraControl>();
+        cam.ChasingTarget(Dungeon, 1);
+    }
+    #endregion
+
+
+
+
     #region Day
     public int Turn { get; set; } = 0;
 
@@ -1115,16 +1139,10 @@ public class Main : MonoBehaviour
                 GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_FirstAdventurer.ToString(), 7, NPC_Typeof.NPC_Type_MainEvent);
                 break;
 
-            //case 5:
-            //    GameManager.NPC.Set_UniqueChance(NPC_Type_Unique.Santa, 1);
-            //    break;
-
             case 7: //? RedHair Event 
                 GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_RedHair.ToString(), 10, NPC_Typeof.NPC_Type_MainEvent);
                 break;
 
-            case 13:
-                break;
 
             //case 20:
             //    GuildManager.Instance.AddInstanceGuildNPC(GuildNPC_LabelName.DeathMagician);
@@ -1154,10 +1172,10 @@ public class Main : MonoBehaviour
     {
         UI_EventBox.AddEventText($"※{Turn}{UserData.Instance.LocaleText("Event_DayOver")}※");
 
-        //if (UserData.Instance.FileConfig.PlayRounds > 1) //? 초회차가 아니면 턴종료 이벤트는 스킵
-        //{
-        //    return;
-        //}
+        if (UserData.Instance.FileConfig.PlayRounds > 1) //? 초회차가 아니면 턴종료 이벤트는 스킵
+        {
+            return;
+        }
 
         switch (Turn)
         {
@@ -1189,14 +1207,14 @@ public class Main : MonoBehaviour
                 break;
 
             case 5:
-                Debug.Log("5일차 종료 이벤트 - 길드");
-                Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Guild, Player);
-                UI_Main.Active_Button(UI_Management.ButtonEvent._4_Guild);
+                Debug.Log("5일차 종료 이벤트 - 수정");
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Orb, Player);
                 break;
 
             case 6:
-                Debug.Log("6일차 종료 이벤트 - 수정");
-                Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Orb, Player);
+                Debug.Log("6일차 종료 이벤트 - 길드");
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Guild, Player);
+                UI_Main.Active_Button(UI_Management.ButtonEvent._4_Guild);
                 break;
 
 
@@ -1283,7 +1301,12 @@ public class Main : MonoBehaviour
     [Obsolete]
     void DEMO_Ending()
     {
-        Managers.Resource.Instantiate($"UI/_UI_BIC_DEMO_CLEAR");
+        Managers.UI.Popup_Reservation(() =>
+        {
+            Managers.UI.ShowPopUp<UI_DEMO_15DAY>("_UI_DEMO_CLEAR");
+        });
+
+        //Managers.Resource.Instantiate($"UI/_UI_DEMO_CLEAR");
     }
 
 
@@ -1559,7 +1582,7 @@ public class Main : MonoBehaviour
         } 
     }
 
-    void ChangeEggState()
+    public void ChangeEggState()
     {
         Debug.Log($"{Turn}일차 종료\nTotal Mana : {GetTotalMana()}\nTotal Gold : {GetTotalGold()}");
 
@@ -1588,9 +1611,35 @@ public class Main : MonoBehaviour
 
     // 각 조건을 독립되게 할지, 아님 state하나로만 할지는 고민중. 독립되게 한다면 여러 조건을 달성했을 때, 선택지를 줄 수 있음.
     // 아니면 조건에 선행 엔딩을 보게 만들면 또 억제가 되기도 하고.. 뭐 암튼 데모는 dog엔딩으로 픽스하자.
-    public void SelectEnding()
+    void SelectEnding()
     {
         //? 엔딩 우선순위 = 드래곤 / 마왕 / 히로인 / 토끼 / 멍멍이
+
+
+        //? 2회차 이상
+        if (UserData.Instance.FileConfig.PlayRounds > 1)
+        {
+            //? 1순위 - 마왕
+            if (GameManager.Facility.GetFacilityCount<Devil_Statue>() >= 5)
+            {
+                CurrentEndingState = Endings.Demon;
+                EggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Demon"));
+                return;
+            }
+
+            //? 2순위 - 용사
+            // 특수시설 - 신전 건축 - 10000마나를 기부했다면 (일단은 5천)
+            if (GameManager.Facility.GetFacilityCount<Devil_Statue>() == 0 && GameManager.Technical.Get_Technical<Temple>() != null &&
+                GameManager.Technical.Get_Technical<Temple>().InteractionCounter >= 5)
+            {
+                CurrentEndingState = Endings.Hero;
+                EggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Hero"));
+                return;
+            }
+        }
+
+
+        //? ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 1회차부터 가능
 
         //? 1순위 - 드래곤 or 마왕
         if (DangerOfDungeon > PopularityOfDungeon && DangerOfDungeon >= 500)

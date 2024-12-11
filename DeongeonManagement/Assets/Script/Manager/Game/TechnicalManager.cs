@@ -45,6 +45,12 @@ public class TechnicalManager
 
         foreach (var item in so_data)
         {
+            //? 봉인결계는 2회차이상에만
+            if (item.keyName == "BarrierOfSealing" && UserData.Instance.FileConfig.PlayRounds == 1)
+            {
+                continue;
+            }
+
             if (item.UnlockRank <= _DungeonRank && item.View_Store)
             {
                 list.Add(item);
@@ -195,6 +201,7 @@ public class TechnicalManager
 
         RemoveCurrent();
         var tech = Create(data);
+        tech.AddCollectionPoint();
 
         tech.InstanceDate = Main.Instance.Turn;
 
@@ -307,6 +314,8 @@ public class TechnicalManager
             Floor_Technical[data[i].LocationIndex].UI_Floor.NoticeImageUpdate();
 
             tech.InstanceDate = data[i].InstanceDate;
+
+            tech.InteractionCounter = data[i].interactionCounter;
         }
     }
 
@@ -320,10 +329,13 @@ public class Save_TechnicalData
 
     public int InstanceDate;
 
+    public int interactionCounter;
+
     public void SetData(Technical data)
     {
         keyName = data.Data.keyName;
         LocationIndex = data.parent.FloorIndex;
         InstanceDate = data.InstanceDate;
+        interactionCounter = data.InteractionCounter;
     }
 }

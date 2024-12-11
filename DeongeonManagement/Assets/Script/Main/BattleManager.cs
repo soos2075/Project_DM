@@ -69,7 +69,7 @@ public class BattleManager : MonoBehaviour
 
         SetFieldColor(bf, line, _monster, _npc);
 
-        bf.SetHPBar(_npc.HP, _npc.HP_MAX, _monster.HP, _monster.HP_Max);
+        bf.SetHPBar(_npc.B_HP, _npc.B_HP_Max, _monster.B_HP, _monster.B_HP_Max);
 
 
         result = bf.Battle(_npc, _monster, flash_NPC, flash_Monster);

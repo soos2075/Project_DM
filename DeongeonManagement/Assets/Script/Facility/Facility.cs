@@ -244,12 +244,8 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         if (isRemove)
         {
             GameManager.Facility.RemoveFacility(this);
-            //if (npc.gameObject.activeInHierarchy)
-            //{
-            //    npc.SetPriorityListForPublic();
-            //}
         }
-        if (npc.gameObject.activeInHierarchy)
+        if (npc.GetComponentInChildren<SpriteRenderer>(true).enabled)
         {
             npc.SetPriorityList_Update();
         }

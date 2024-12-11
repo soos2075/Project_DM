@@ -8,28 +8,36 @@ public class ArtifactBox : MonoBehaviour
 {
     SpriteResolver Resolver;
 
-    private void Start()
+    private void Awake()
     {
         Resolver = GetComponent<SpriteResolver>();
+    }
+
+    private void Start()
+    {
         Init_State();
     }
 
-    string categoty = "Bronze";
+    string category = "Bronze";
 
     void Init_State()
+    {
+        Box_Update();
+    }
+
+    public void Box_Update()
     {
         int artifactCount = GameManager.Artifact.GetCurrentArtifact().Count;
 
         if (artifactCount > 0)
         {
-            categoty = "Silver";
+            category = "Silver";
         }
         if (artifactCount > 5)
         {
-            categoty = "Gold";
+            category = "Gold";
         }
-
-        Resolver.SetCategoryAndLabel(categoty, "Inactive");
+        Resolver.SetCategoryAndLabel(category, "Inactive");
     }
 
 
@@ -117,7 +125,7 @@ public class ArtifactBox : MonoBehaviour
     IEnumerator Wait_Enter()
     {
         yield return new WaitUntil(() => ReturnCheck() == false);
-        Resolver.SetCategoryAndLabel(categoty, "Inactive_line");
+        Resolver.SetCategoryAndLabel(category, "Inactive_line");
     }
 
     Coroutine EnterReserve;
@@ -134,7 +142,7 @@ public class ArtifactBox : MonoBehaviour
     IEnumerator Wait_Exit()
     {
         yield return new WaitUntil(() => ReturnCheck() == false);
-        Resolver.SetCategoryAndLabel(categoty, "Inactive");
+        Resolver.SetCategoryAndLabel(category, "Inactive");
         CloseView();
         //Debug.Log("³ª°¨");
     }

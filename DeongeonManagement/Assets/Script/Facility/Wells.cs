@@ -44,7 +44,7 @@ public class Wells : Facility, IWall
         if (npc.isWellsCheck)
         {
             Debug.Log($"이미 우물 먹음 꺼졍");
-            if (npc.gameObject.activeInHierarchy)
+            if (npc.GetComponentInChildren<SpriteRenderer>(true).enabled)
             {
                 npc.SetPriorityList_Update();
             }
@@ -67,7 +67,7 @@ public class Wells : Facility, IWall
         else
         {//? 만약 이용횟수가 없어도, 이미 한걸로 쳐야지 다시 돌아감. 안그럼 우물앞에서 평생 머무르게된다.
             npc.isWellsCheck = true;
-            if (npc.gameObject.activeInHierarchy)
+            if (npc.GetComponentInChildren<SpriteRenderer>(true).enabled)
             {
                 npc.SetPriorityList_Update();
             }
@@ -101,7 +101,7 @@ public class Wells : Facility, IWall
     {
         Cor_Facility = null;
         //PlacementState = PlacementState.Standby;
-        if (npc.gameObject.activeInHierarchy)
+        if (npc.GetComponentInChildren<SpriteRenderer>(true).enabled)
         {
             //npc.OverWell_Interaction();
             npc.SetPriorityList_Update();

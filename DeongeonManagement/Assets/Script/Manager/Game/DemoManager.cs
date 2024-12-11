@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DemoManager : MonoBehaviour
 {
-#if DEMO_BUILD
+#if DEMO_BUILD || CHEAT_BUILD
 
     #region Singleton
     private static DemoManager _instance;
@@ -48,8 +48,17 @@ public class DemoManager : MonoBehaviour
     public bool isManagementTest;
 
 
+    public bool Demo_30_Clear;
+
+
     void Start()
     {
+#if CHEAT_BUILD
+        // 치트 빌드 전용 코드
+        Debug.Log("This is cheat build.");
+#endif
+
+
 
 #if DEMO_BUILD
         // 데모 빌드 전용 코드
@@ -103,7 +112,7 @@ public class DemoManager : MonoBehaviour
 
     void SetManagementValue()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.P))
         {
             if (UI_Cheat == null)
             {
@@ -120,7 +129,7 @@ public class DemoManager : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.O))
         {
             if (ui_Off)
             {

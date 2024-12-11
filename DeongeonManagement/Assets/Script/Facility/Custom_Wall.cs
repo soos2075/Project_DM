@@ -35,11 +35,11 @@ public class Custom_Wall : Facility, IWall
     {
         if (Main.Instance.ActiveFloor_Basement <= PlacementInfo.Place_Floor.FloorIndex)
         {
-            GetComponentInChildren<SpriteRenderer>().enabled = false;
+            GetComponentInChildren<SpriteRenderer>(true).enabled = false;
         }
         else
         {
-            GetComponentInChildren<SpriteRenderer>().enabled = true;
+            GetComponentInChildren<SpriteRenderer>(true).enabled = true;
         }
     }
 
@@ -124,7 +124,9 @@ public class Custom_Wall : Facility, IWall
                 if (PlacementInfo.Place_Floor.TileMap.TryGetValue(PlacementInfo.Place_Tile.index + new Vector2Int(-1, -1), out temp))
                 {
                     PlacementInfo newInfo = new PlacementInfo(PlacementInfo.Place_Floor, temp);
-                    GameManager.Placement.PlacementConfirm(this, newInfo, true);
+                    GameManager.Placement.PlacementMove(this, newInfo);
+                    transform.position = PlacementInfo.Place_Tile.worldPosition;
+                    //GameManager.Placement.PlacementConfirm(this, newInfo, true);
                 }
                 Size = SizeOption._3x3;
                 categoryName = "CustomWall";

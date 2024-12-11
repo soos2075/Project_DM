@@ -432,6 +432,10 @@ public enum DialogueName
     Forest_Raid_1 = 230,
     Forest_Raid_2 = 231,
 
+    The_Judgement = 240,
+    The_Venom = 250,
+
+
     Day30_Over = 302,
 
     Herbalist0_Appear = 400,
@@ -487,6 +491,7 @@ public enum DialogueName
     Hero_3 = 763,
     Hero_4 = 764,
     Hero_5 = 765,
+    Hero_6 = 766,
 
     // Dungeon Expension
     Expansion_4 = 990,
@@ -536,6 +541,15 @@ public enum DialogueName
     DeathMagician_Catastrophe = 10001,
     DeathMagician_DevilStatue = 10002,
     DevilStatue_5 = 10003,
+
+
+    Lightning_Enter_First = 12300,
+    Lightning_Enter = 12301,
+    Lightning_Fail_First = 12310,
+    Lightning_Fail = 12311,
+    Lightning_Defeat = 12320,
+    Lightning_Success = 12400,
+
 
     RetiredHero_0 = 15000,
     RetiredHero_10 = 15010,

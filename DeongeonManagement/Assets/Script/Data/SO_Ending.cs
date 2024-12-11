@@ -20,6 +20,7 @@ public class SO_Ending : ScriptableObject, I_SO_Collection
 
 
 
+
     [System.Serializable]
     public class CutScene
     {

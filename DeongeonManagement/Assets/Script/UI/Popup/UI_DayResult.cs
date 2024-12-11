@@ -116,7 +116,7 @@ public class UI_DayResult : UI_PopUp
         ratio += (GameManager.Buff.ManaBonus * 0.01f);
 
         int mana_bonus = Mathf.RoundToInt(mana_Temp * ratio);
-        Debug.Log($"비율은{ratio} @@ 보너스는 {mana_bonus}");
+        //Debug.Log($"비율은{ratio} @@ 보너스는 {mana_bonus}");
 
         Result.AddMana(mana_bonus, Main.DayResult.EventType.ResultBonus);
         Add_ValueBox(SubTitle.ManaGroup, "Bonus", "보너스", Result.Mana_Get_Bonus);
@@ -156,7 +156,7 @@ public class UI_DayResult : UI_PopUp
 
         float ratio_gold = (GameManager.Buff.GoldBonus * 0.01f);
         int gold_bonus = Mathf.RoundToInt(gold_Temp * ratio_gold);
-        Debug.Log($"골드비율은{ratio_gold} @@ 골드보너스는 {gold_bonus}");
+        //Debug.Log($"골드비율은{ratio_gold} @@ 골드보너스는 {gold_bonus}");
 
         Result.AddGold(gold_bonus, Main.DayResult.EventType.ResultBonus);
         Add_ValueBox(SubTitle.ManaGroup, "Bonus", "보너스", Result.Gold_Get_Bonus);

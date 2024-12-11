@@ -45,6 +45,14 @@ public class UI_TileView_Tile : UI_Base
             return;
         }
 
+        if (!Main.Instance.Management)
+        {
+            if (CurrentTempData != null)
+            {
+                Camera.main.GetComponent<CameraControl>().ChasingTarget_Continue(CurrentTempData.GetObject().transform);
+            }
+        }
+
         if (Tile.Original == null)
         {
             parent.InsteadOpenFloorEvent(_data);
@@ -55,6 +63,8 @@ public class UI_TileView_Tile : UI_Base
             Tile.Original.MouseClickEvent();
         }
     }
+
+
 
     void TileMoveEvent(PointerEventData _data)
     {
@@ -77,7 +87,7 @@ public class UI_TileView_Tile : UI_Base
 
         if (CurrentTempData != null)
         {
-            if (CurrentTempData.GetObject().activeInHierarchy)
+            if (CurrentTempData.GetObject().GetComponentInChildren<SpriteRenderer>(true).enabled)
             {
                 parent.ChildMoveEvent_CurrentData(CurrentTempData);
             }
@@ -91,7 +101,7 @@ public class UI_TileView_Tile : UI_Base
             parent.ChildMoveEvent(Tile, _data);
             if (Tile.Current != null)
             {
-                if (Tile.Current.PlacementType == PlacementType.NPC)// || Tile.Current.PlacementType == PlacementType.Monster)
+                if (Tile.Current.PlacementType == PlacementType.NPC || Tile.Current.PlacementType == PlacementType.Monster)
                 {
                     CurrentTempData = Tile.Current;
                     StartCoroutine(TempData());

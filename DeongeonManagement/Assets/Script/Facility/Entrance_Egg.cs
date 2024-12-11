@@ -30,11 +30,16 @@ public class Entrance_Egg : Facility
         {
             yield return new WaitForSeconds(0.5f);
 
-            var dm = Main.Instance.dm_small.Spawn(transform.position, $"+{5} danger");
+            var dm = Main.Instance.dm_small.Spawn(Main.Instance.Floor[0].Exit.PlacementInfo.Place_Tile.worldPosition, $"+{5} danger");
             dm.SetColor(Color.red);
             Main.Instance.CurrentDay.AddDanger(5);
 
             npc.FloorPortal((int)Define.DungeonFloor.Egg);
+
+            if (Camera.main.GetComponent<CameraControl>().AutoChasing)
+            {
+                Camera.main.GetComponent<CameraControl>().ChasingTarget_Continue(npc.transform);
+            }
         }
         else
         {

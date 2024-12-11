@@ -110,6 +110,8 @@ public class CameraControl : MonoBehaviour
 
     public void View_Target(Vector3 targetPos)
     {
+        AutoChasing = false;
+
         transform.position = new Vector3(targetPos.x, targetPos.y, -10);
         MouseLimit();
         ResetMousePos();
@@ -256,6 +258,7 @@ public class CameraControl : MonoBehaviour
         //Debug.Log(startMousePos);
         if (Input.GetMouseButtonDown(0))
         {
+            AutoChasing = false;
             if (Cor_CameraChasing != null)
             {
                 StopCoroutine(Cor_CameraChasing);
@@ -316,12 +319,14 @@ public class CameraControl : MonoBehaviour
 
         if (moveX != 0)
         {
+            AutoChasing = false;
             transform.position += Vector3.right * moveX * Time.unscaledDeltaTime * CameraSpeed;
             MouseLimit();
         }
 
         if (moveY != 0)
         {
+            AutoChasing = false;
             transform.position += Vector3.up * moveY * Time.unscaledDeltaTime * CameraSpeed;
             MouseLimit();
         }
@@ -389,6 +394,11 @@ public class CameraControl : MonoBehaviour
         {
             StopCoroutine(Cor_CameraChasing);
         }
+        if (Chasing_Auto != null)
+        {
+            StopCoroutine(Chasing_Auto);
+            Chasing_Auto = null;
+        }
         Cor_CameraChasing = StartCoroutine(ChasingLerp(target, duration));
     }
     public void ChasingTarget(Transform target, float duration)
@@ -396,6 +406,11 @@ public class CameraControl : MonoBehaviour
         if (Cor_CameraChasing != null)
         {
             StopCoroutine(Cor_CameraChasing);
+        }
+        if (Chasing_Auto != null)
+        {
+            StopCoroutine(Chasing_Auto);
+            Chasing_Auto = null;
         }
         Cor_CameraChasing = StartCoroutine(ChasingLerp(target.position, duration));
     }
@@ -436,6 +451,78 @@ public class CameraControl : MonoBehaviour
     {
         return 0.4f * Mathf.Log(t) + 1;
     }
+
+
+
+    public bool AutoChasing { get; set; }
+    Coroutine Chasing_Auto;
+
+    public void ChasingTarget_Continue(Transform target)
+    {
+        if (Chasing_Auto != null)
+        {
+            StopCoroutine(Chasing_Auto);
+        }
+
+        Chasing_Auto = StartCoroutine(Chasing_Continue(target));
+        AutoChasing = true;
+    }
+
+    IEnumerator Chasing_Continue(Transform target)
+    {
+        yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None && AutoChasing);
+
+        if (Cor_CameraChasing != null)
+        {
+            StopCoroutine(Cor_CameraChasing);
+            Cor_CameraChasing = null;
+        }
+
+        while (AutoChasing && target != null && target.GetComponentInChildren<SpriteRenderer>(true).enabled)
+        {
+            yield return null;
+            yield return UserData.Instance.Wait_GamePlay;
+
+            float t = 1 - Mathf.Exp(-Time.deltaTime * 2);
+
+            var movePos2 = Vector3.Lerp(transform.position, target.position, t);
+            transform.position = new Vector3(movePos2.x, movePos2.y, -10);
+        }
+
+
+        if (AutoChasing)
+        {
+            if (GameManager.NPC.Instance_EventNPC_List.Count > 0)
+            {
+                foreach (var item in GameManager.NPC.Instance_EventNPC_List)
+                {
+                    if (item.GetComponentInChildren<SpriteRenderer>(true).enabled)
+                    {
+                        Chasing_Auto = StartCoroutine(Chasing_Continue(item.transform));
+                        yield break;
+                    }
+                }
+            }
+
+            if (GameManager.NPC.Instance_NPC_List.Count > 0)
+            {
+                foreach (var item in GameManager.NPC.Instance_NPC_List)
+                {
+                    if (item.GetComponentInChildren<SpriteRenderer>(true).enabled)
+                    {
+                        Chasing_Auto = StartCoroutine(Chasing_Continue(item.transform));
+                        yield break;
+                    }
+                }
+            }
+        }
+        else
+        {
+            //AutoChasing = false;
+            Chasing_Auto = null;
+        }
+    }
+
 
     #endregion
 

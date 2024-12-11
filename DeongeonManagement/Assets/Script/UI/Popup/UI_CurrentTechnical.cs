@@ -23,6 +23,7 @@ public class UI_CurrentTechnical : UI_PopUp
     enum Buttons
     {
         Upgrade,
+        Pray,
         Change,
         Remove,
     }
@@ -43,13 +44,27 @@ public class UI_CurrentTechnical : UI_PopUp
 
         GetObject(((int)Contents.Content)).GetComponent<TextMeshProUGUI>().text = tech.Data.labelName;
 
-        GetButton((int)Buttons.Upgrade).gameObject.AddUIEvent(data => Upgrade());
+
+
+
         GetButton((int)Buttons.Change).gameObject.AddUIEvent(data => ChangeTechnical());
         GetButton((int)Buttons.Remove).gameObject.AddUIEvent(data => RemoveTechnical());
 
-        if (!tech.Data.upgradePossible)
+        GetButton((int)Buttons.Upgrade).gameObject.SetActive(false);
+        GetButton((int)Buttons.Pray).gameObject.SetActive(false);
+
+        //? 업그레이드가 가능한 건물이라면
+        if (tech.Data.upgradePossible)
         {
-            GetButton((int)Buttons.Upgrade).gameObject.SetActive(false);
+            GetButton((int)Buttons.Upgrade).gameObject.SetActive(true);
+            GetButton((int)Buttons.Upgrade).gameObject.AddUIEvent(data => Upgrade());
+        }
+
+        //? 신전이라면
+        if (tech.Data.keyName == "Temple")
+        {
+            GetButton((int)Buttons.Pray).gameObject.SetActive(true);
+            GetButton((int)Buttons.Pray).gameObject.AddUIEvent(data => Pray());
         }
     }
 
@@ -63,6 +78,20 @@ public class UI_CurrentTechnical : UI_PopUp
         parent = _tech;
         tech = parent.Current;
     }
+
+
+    void Pray()
+    {
+        Temple temple = tech as Temple;
+
+        var confirm = Managers.UI.ShowPopUp<UI_Confirm>();
+        confirm.SetText($"{UserData.Instance.LocaleText("Confirm_Temple")}",
+            () => Upgrade_Confirm(1000, 0, 0, 1, () => temple.Pray_Mana()));
+
+        confirm.SetMode_Calculation(Define.DungeonRank.A, $"{1000}", $"{0}", $"{1}");
+    }
+
+
 
 
 

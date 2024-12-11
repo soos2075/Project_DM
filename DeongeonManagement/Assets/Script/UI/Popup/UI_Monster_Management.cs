@@ -404,20 +404,21 @@ public class UI_Monster_Management : UI_PopUp
         GetTMP((int)Texts.Lv).text = $"Lv.{Current.monster.LV} / {Current.monster.Data.maxLv}";
         GetTMP((int)Texts.Name).text = Current.monster.CallName;
 
-        GetTMP((int)Texts.Status_HP).text = $"{Current.monster.HP}/{Current.monster.HP_Max} " +
-            $"{Util.SetTextColorTag($"(+{Current.monster.B_HP - Current.monster.HP})", Define.TextColor.LightYellow)}";
+        int currentHP = Mathf.Clamp(Current.monster.B_HP, 0, Current.monster.B_HP);
+        GetTMP((int)Texts.Status_HP).text = $"{currentHP}/{Current.monster.HP_Max} " +
+            $"{Util.SetTextColorTag($"(+{Current.monster.HP_Final - Current.monster.HP})", Define.TextColor.LightYellow)}";
 
         GetTMP((int)Texts.Status_ATK).text = $"{Current.monster.ATK} " +
-            $"{Util.SetTextColorTag($"(+{Current.monster.B_ATK - Current.monster.ATK})", Define.TextColor.LightYellow)}";
+            $"{Util.SetTextColorTag($"(+{Current.monster.ATK_Final - Current.monster.ATK})", Define.TextColor.LightYellow)}";
 
         GetTMP((int)Texts.Status_DEF).text = $"{Current.monster.DEF} " +
-            $"{Util.SetTextColorTag($"(+{Current.monster.B_DEF - Current.monster.DEF})", Define.TextColor.LightYellow)}";
+            $"{Util.SetTextColorTag($"(+{Current.monster.DEF_Final - Current.monster.DEF})", Define.TextColor.LightYellow)}";
 
         GetTMP((int)Texts.Status_AGI).text = $"{Current.monster.AGI} " +
-            $"{Util.SetTextColorTag($"(+{Current.monster.B_AGI - Current.monster.AGI})", Define.TextColor.LightYellow)}";
+            $"{Util.SetTextColorTag($"(+{Current.monster.AGI_Final - Current.monster.AGI})", Define.TextColor.LightYellow)}";
 
         GetTMP((int)Texts.Status_LUK).text = $"{Current.monster.LUK} " +
-            $"{Util.SetTextColorTag($"(+{Current.monster.B_LUK - Current.monster.LUK})", Define.TextColor.LightYellow)}";
+            $"{Util.SetTextColorTag($"(+{Current.monster.LUK_Final - Current.monster.LUK})", Define.TextColor.LightYellow)}";
 
 
         var TraitPanel = GetObject((int)Etc.TraitPanel).transform;
@@ -438,66 +439,6 @@ public class UI_Monster_Management : UI_PopUp
 
     #endregion
 
-
-    //#region PlacementPanel
-    //void Init_FloorButton() //? UIEvent는 반복문 i 값 넣으면 전부 i따라가서 안됨. 따로 지정해주는수밖에..
-    //{
-    //    GetButton(((int)Buttons.Floor_Egg)).gameObject.AddUIEvent(data => PlacePanelUpdate(0));
-    //    GetButton(((int)Buttons.Floor_01)).gameObject.AddUIEvent(data => PlacePanelUpdate(1));
-    //    GetButton(((int)Buttons.Floor_02)).gameObject.AddUIEvent(data => PlacePanelUpdate(2));
-    //    GetButton(((int)Buttons.Floor_03)).gameObject.AddUIEvent(data => PlacePanelUpdate(3));
-    //    GetButton(((int)Buttons.Floor_04)).gameObject.AddUIEvent(data => PlacePanelUpdate(4));
-    //    GetButton(((int)Buttons.Floor_05)).gameObject.AddUIEvent(data => PlacePanelUpdate(5));
-    //    GetButton(((int)Buttons.Floor_06)).gameObject.AddUIEvent(data => PlacePanelUpdate(6));
-    //    GetButton(((int)Buttons.Floor_07)).gameObject.AddUIEvent(data => PlacePanelUpdate(7));
-
-    //    GetButton(((int)Buttons.Floor_Egg)).GetComponentInChildren<TextMeshProUGUI>().text =
-    //$"{UserData.Instance.LocaleText("숨겨진곳")}";
-
-    //    GetButton(((int)Buttons.Floor_01)).GetComponentInChildren<TextMeshProUGUI>().text = 
-    //$"{UserData.Instance.LocaleText("지하")} {1} {UserData.Instance.LocaleText("층")}";
-    //    GetButton(((int)Buttons.Floor_02)).GetComponentInChildren<TextMeshProUGUI>().text =
-    //$"{UserData.Instance.LocaleText("지하")} {2} {UserData.Instance.LocaleText("층")}";
-    //    GetButton(((int)Buttons.Floor_03)).GetComponentInChildren<TextMeshProUGUI>().text =
-    //$"{UserData.Instance.LocaleText("지하")} {3} {UserData.Instance.LocaleText("층")}";
-    //    GetButton(((int)Buttons.Floor_04)).GetComponentInChildren<TextMeshProUGUI>().text =
-    //$"{UserData.Instance.LocaleText("지하")} {4} {UserData.Instance.LocaleText("층")}";
-    //    GetButton(((int)Buttons.Floor_05)).GetComponentInChildren<TextMeshProUGUI>().text =
-    //$"{UserData.Instance.LocaleText("지하")} {5} {UserData.Instance.LocaleText("층")}";
-    //    GetButton(((int)Buttons.Floor_06)).GetComponentInChildren<TextMeshProUGUI>().text =
-    //$"{UserData.Instance.LocaleText("지하")} {6} {UserData.Instance.LocaleText("층")}";
-    //    GetButton(((int)Buttons.Floor_07)).GetComponentInChildren<TextMeshProUGUI>().text =
-    //$"{UserData.Instance.LocaleText("지하")} {7} {UserData.Instance.LocaleText("층")}";
-
-    //    for (int i = 0; i < 8; i++)
-    //    {
-    //        GetButton((int)Buttons.Floor_Egg + i).gameObject.SetActive(false);
-    //    }
-
-    //    for (int i = 0; i < Main.Instance.ActiveFloor_Basement; i++)
-    //    {
-    //        GetButton((int)Buttons.Floor_Egg + i).gameObject.SetActive(true);
-    //    }
-    //}
-
-    //#endregion
-
-    //#region ModePanel
-    //void Init_ModeButton()
-    //{
-    //    GetButton(((int)Buttons.Mode_Managed)).gameObject.AddUIEvent(data => ChangeMode(Unit_Mode.Management));
-    //    GetButton(((int)Buttons.Mode_Placement)).gameObject.AddUIEvent(data => ChangeMode(Unit_Mode.Placement));
-    //    GetButton(((int)Buttons.Mode_Edit)).gameObject.AddUIEvent(data => ChangeMode(Unit_Mode.Edit));
-    //}
-
-    //void ChangeMode(Unit_Mode _mode)
-    //{
-    //    Reset_Selected();
-    //    Mode = _mode;
-    //    PanelClear();
-    //}
-
-    //#endregion
 
 
     #region CommandPanel
@@ -674,6 +615,7 @@ public class UI_Monster_Management : UI_PopUp
     IEnumerator RefreshAll()
     {
         yield return new WaitForEndOfFrame();
+        yield return UserData.Instance.Wait_GamePlay;
         yield return new WaitForEndOfFrame();
         Debug.Log("창 새로고침");
 
@@ -713,7 +655,7 @@ public class UI_Monster_Management : UI_PopUp
                     Main.Instance.Player_AP--;
                 }
 
-                Debug.Log($"{Current.monster.UnitDialogueEvent.GetDialogue(false)}");
+                //Debug.Log($"{Current.monster.UnitDialogueEvent.GetDialogue(false)}");
                 GameManager.Monster.StartUnitEventAction(Current.monster.UnitDialogueEvent.GetDialogue(true), Current.monster);
             });
         }

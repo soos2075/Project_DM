@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D.Animation;
 
 public class NPC_SubEvent : NPC
 {
@@ -15,13 +16,28 @@ public class NPC_SubEvent : NPC
         switch (NPCType)
         {
             case NPC_Type_SubEvent.Heroine:
-                AttackOption.SetProjectile(AttackType.Normal, "LegucyElf", "ElfA");
-                RunawayHpRatio = 1000;
+                AttackOption.SetProjectile(AttackType.Bow, "LegucyElf", "ElfA");
+                RunawayHpRatio = 3;
+                if (GameManager.Technical.Prison != null)
+                {
+                    RunawayHpRatio = 1000;
+                }
                 KillGold = 50;
                 break;
-            //case NPC_Type_SubEvent.DungeonRacer:
-            //    AttackOption.SetProjectile(AttackType.Magic, "Fireball", "4");
-            //    break;
+
+            case NPC_Type_SubEvent.Lightning:
+                //AttackOption.SetProjectile(AttackType.Normal, "Fireball", "4");
+                AlwaysOverlap = true;
+                RunawayHpRatio = 2;
+                break;
+
+            case NPC_Type_SubEvent.Judgement:
+                RunawayHpRatio = 999;
+                break;
+
+            case NPC_Type_SubEvent.Venom:
+                RunawayHpRatio = 999;
+                break;
         }
 
     }
@@ -43,7 +59,7 @@ public class NPC_SubEvent : NPC
                     case NPC_Type_SubEvent.Heroine:
                         return new Define.TileType[] { Define.TileType.NPC };
 
-                    case NPC_Type_SubEvent.DungeonRacer:
+                    case NPC_Type_SubEvent.Lightning:
                         return new Define.TileType[] { };
 
                     default:
@@ -54,19 +70,25 @@ public class NPC_SubEvent : NPC
 
     protected override void SetRandomClothes() //? 복장
     {
+        SpriteLibrary sla = GetComponentInChildren<SpriteLibrary>();
+
         switch (NPCType)
         {
-            case NPC_Type_SubEvent.Heroine: //? 얘는 Builder가 없어서 따로 해야함...근데 이러면 아예 프리팹을 분리하는게 낫지 않나싶기도하고?
-
+            case NPC_Type_SubEvent.Heroine: //? 디폴트가 궁수라 일단 그대로 둠
                 break;
 
-            case NPC_Type_SubEvent.DungeonRacer:
-                var collection = characterBuilder.SpriteCollection;
-
-                characterBuilder.Rebuild();
+            case NPC_Type_SubEvent.Lightning:
+                sla.spriteLibraryAsset = Managers.Sprite.Get_NPC_Anim("SE_Lightning");
                 break;
 
 
+            case NPC_Type_SubEvent.Judgement:
+                sla.spriteLibraryAsset = Managers.Sprite.Get_NPC_Anim("Main_Judgement");
+                break;
+
+            case NPC_Type_SubEvent.Venom:
+                sla.spriteLibraryAsset = Managers.Sprite.Get_NPC_Anim("Main_Venom");
+                break;
         }
     }
 
@@ -81,6 +103,17 @@ public class NPC_SubEvent : NPC
                 {
                     UserData.Instance.FileConfig.firstAppear_Heroine = true;
                     StartCoroutine(EventCor(DialogueName.Heroine_Appear));
+                }
+                break;
+
+            case NPC_Type_SubEvent.Lightning:
+                if (EventManager.Instance.CurrentClearEventData.Check_AlreadyClear(DialogueName.Lightning_Enter_First))
+                {
+                    StartCoroutine(EventCor(DialogueName.Lightning_Enter));
+                }
+                else
+                {
+                    StartCoroutine(EventCor(DialogueName.Lightning_Enter_First));
                 }
                 break;
         }
@@ -98,8 +131,17 @@ public class NPC_SubEvent : NPC
                 AddPriorityList(GetPriorityPick(typeof(Monster)), AddPos.Front, option);
                 break;
 
-            case NPC_Type_SubEvent.DungeonRacer:
+            case NPC_Type_SubEvent.Lightning:
                 PriorityList = new List<BasementTile>();
+                break;
+
+            case NPC_Type_SubEvent.Judgement:
+            case NPC_Type_SubEvent.Venom:
+                AddPriorityList(GetPriorityPick(typeof(Monster)), AddPos.Front, option);
+                var add_egg = GetPriorityPick(typeof(SpecialEgg));
+                AddList(add_egg);
+                var portal = GetPriorityPick(typeof(Entrance_Egg));
+                AddList(portal);
                 break;
         }
     }
@@ -108,19 +150,75 @@ public class NPC_SubEvent : NPC
 
     protected override void NPC_Return_Empty()
     {
+        switch (NPCType)
+        {
+            case NPC_Type_SubEvent.Lightning:
+                var emotion = transform.Find("Emotions");
+                emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Element_State", "Perfect");
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Lightning_Success, transform);
+                EventManager.Instance.Add_GuildQuest_Special(12020);
+                EventManager.Instance.ClearQuestAction(7712000);
+                Main.Instance.CurrentDay.AddPop(100);
+                Main.Instance.ShowDM(100, Main.TextType.pop, transform, 1);
+                break;
+        }
 
     }
+
+
     protected override void NPC_Return_Satisfaction()
     {
-
+        switch (NPCType)
+        {
+            case NPC_Type_SubEvent.Lightning:
+                var emotion = transform.Find("Emotions");
+                emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Element_State", "Bad");
+                if (EventManager.Instance.CurrentClearEventData.Check_AlreadyClear(DialogueName.Lightning_Fail_First))
+                {
+                    Managers.Dialogue.ShowDialogueUI(DialogueName.Lightning_Fail, transform);
+                }
+                else
+                {
+                    Managers.Dialogue.ShowDialogueUI(DialogueName.Lightning_Fail_First, transform);
+                }
+                break;
+        }
     }
     protected override void NPC_Return_NonSatisfaction()
     {
-
+        switch (NPCType)
+        {
+            case NPC_Type_SubEvent.Lightning:
+                var emotion = transform.Find("Emotions");
+                emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Element_State", "Bad");
+                if (EventManager.Instance.CurrentClearEventData.Check_AlreadyClear(DialogueName.Lightning_Fail_First))
+                {
+                    Managers.Dialogue.ShowDialogueUI(DialogueName.Lightning_Fail, transform);
+                }
+                else
+                {
+                    Managers.Dialogue.ShowDialogueUI(DialogueName.Lightning_Fail_First, transform);
+                }
+                break;
+        }
     }
     protected override void NPC_Runaway()
     {
-
+        switch (NPCType)
+        {
+            case NPC_Type_SubEvent.Lightning:
+                var emotion = transform.Find("Emotions");
+                emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Element_State", "Bad");
+                if (EventManager.Instance.CurrentClearEventData.Check_AlreadyClear(DialogueName.Lightning_Fail_First))
+                {
+                    Managers.Dialogue.ShowDialogueUI(DialogueName.Lightning_Fail, transform);
+                }
+                else
+                {
+                    Managers.Dialogue.ShowDialogueUI(DialogueName.Lightning_Fail_First, transform);
+                }
+                break;
+        }
     }
     protected override void NPC_Die()
     {
@@ -136,14 +234,19 @@ public class NPC_SubEvent : NPC
                     EventManager.Instance.Add_GuildQuest_Special(4030, true);
                     break;
 
-                case NPC_Type_SubEvent.DungeonRacer:
+                case NPC_Type_SubEvent.Lightning:
+                    Main.Instance.CurrentDay.AddDanger(50);
+                    Main.Instance.ShowDM(50, Main.TextType.danger, transform, 1);
+                    Managers.Dialogue.ShowDialogueUI(DialogueName.Lightning_Defeat, transform);
+                    EventManager.Instance.ClearQuestAction(7712000);
+                    GuildManager.Instance.RemoveInstanceGuildNPC(GuildNPC_LabelName.Lightning);
                     break;
             }
         }
 
-        GameManager.NPC.InactiveNPC(this);
+        Dead();
+        //GameManager.NPC.InactiveNPC(this);
         UI_EventBox.AddEventText($"◈{Name_Color} {UserData.Instance.LocaleText("Event_Defeat")}");
-
         //AddCollectionPoint();
     }
 
@@ -159,7 +262,12 @@ public class NPC_SubEvent : NPC
                 EventManager.Instance.Clear_GuildQuest(4030);
                 break;
 
-            case NPC_Type_SubEvent.DungeonRacer:
+            case NPC_Type_SubEvent.Lightning:
+                Main.Instance.CurrentDay.AddDanger(50);
+                Main.Instance.ShowDM(50, Main.TextType.danger, transform, 1);
+                Managers.Dialogue.ShowDialogueUI(DialogueName.Lightning_Defeat, transform);
+                EventManager.Instance.ClearQuestAction(7712000);
+                GuildManager.Instance.RemoveInstanceGuildNPC(GuildNPC_LabelName.Lightning);
                 break;
         }
     }

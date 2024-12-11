@@ -65,6 +65,14 @@ public class UI_CollectionUnit : UI_Base
         {
             mainUI.ShowBox_Technical(Data_Technical);
         }
+        else if (Data_Artifact != null)
+        {
+            mainUI.ShowBox_Artifact(Data_Artifact);
+        }
+        else if (Data_Trait != null)
+        {
+            mainUI.ShowBox_Trait(Data_Trait);
+        }
     }
 
 
@@ -74,6 +82,8 @@ public class UI_CollectionUnit : UI_Base
     CollectionManager.CollectionUnitRegist<SO_NPC> Data_NPC;
     CollectionManager.CollectionUnitRegist<SO_Facility> Data_Facility;
     CollectionManager.CollectionUnitRegist<SO_Technical> Data_Technical;
+    CollectionManager.CollectionUnitRegist<SO_Artifact> Data_Artifact;
+    CollectionManager.CollectionUnitRegist<SO_Trait> Data_Trait;
 
 
 
@@ -131,7 +141,7 @@ public class UI_CollectionUnit : UI_Base
         Data_Technical = data;
 
         GetObject((int)Objects.UnitSprite).GetComponent<Image>().sprite =
-            Managers.Sprite.Get_SLA(SpriteManager.Library.Technical, data.unit.SLA_categoty, data.unit.SLA_label);
+            Managers.Sprite.Get_SLA(SpriteManager.Library.Technical, data.unit.SLA_category, data.unit.SLA_label);
         GetObject((int)Objects.UnitSprite).GetComponent<Image>().color = Color.black;
         GetObject((int)Objects.UnitName).GetComponent<TextMeshProUGUI>().text = "? ? ?";
 
@@ -140,6 +150,33 @@ public class UI_CollectionUnit : UI_Base
             GetObject((int)Objects.UnitSprite).GetComponent<Image>().color = Color.white;
             GetObject((int)Objects.UnitName).GetComponent<TextMeshProUGUI>().text = data.unit.labelName;
         }
+    }
+
+    public void SetUnit_Artifact(CollectionManager.CollectionUnitRegist<SO_Artifact> data, UI_Collection parent)
+    {
+        InitAndSetData(parent);
+        Data_Artifact = data;
+
+        GetObject((int)Objects.UnitSprite).GetComponent<Image>().sprite =
+            Managers.Sprite.Get_SLA(SpriteManager.Library.Artifact, data.unit.SLA_category, data.unit.SLA_label);
+        GetObject((int)Objects.UnitSprite).GetComponent<Image>().color = Color.black;
+        GetObject((int)Objects.UnitName).GetComponent<TextMeshProUGUI>().text = "? ? ?";
+
+        if (data.info.isRegist)
+        {
+            GetObject((int)Objects.UnitSprite).GetComponent<Image>().color = Color.white;
+            GetObject((int)Objects.UnitName).GetComponent<TextMeshProUGUI>().text = data.unit.labelName;
+        }
+    }
+
+    public void SetUnit_Trait(CollectionManager.CollectionUnitRegist<SO_Trait> data, UI_Collection parent)
+    {
+        InitAndSetData(parent);
+        Data_Trait = data;
+
+        GetObject((int)Objects.UnitSprite).GetComponent<Image>().color = Color.white;
+        GetObject((int)Objects.UnitName).GetComponent<TextMeshProUGUI>().text = data.unit.labelName;
+
     }
 
 }

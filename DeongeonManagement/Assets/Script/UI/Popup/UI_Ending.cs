@@ -91,18 +91,19 @@ public class UI_Ending : UI_PopUp
         bg.color = color;
 
 
+        //? 그냥 메인으로 가자..
+        Managers.Scene.LoadSceneAsync(SceneName._1_Start);
 
 
+        //#if DEMO_BUILD
+        //        // 데모 빌드 전용 코드
+        //        StartCoroutine(Clear_Demo());
+        //#else
+        //                // 일반 빌드 전용 코드
+        //                StartCoroutine(ClearText());
+        //#endif
 
-//#if DEMO_BUILD
-//        // 데모 빌드 전용 코드
-//        StartCoroutine(Clear_Demo());
-//#else
-//                // 일반 빌드 전용 코드
-//                StartCoroutine(ClearText());
-//#endif
-
-        StartCoroutine(Clear_Demo());
+        //StartCoroutine(Clear_Demo());
 
 
         //? 임시 테스트

@@ -112,15 +112,12 @@ public class Heroine : Monster, I_Projectile
     void EvolutionComplete()
     {
         Data = GameManager.Monster.GetData("Rena");
+        AddTrait(new Trait.GaleForce());
         Evolution_Status();
-        //GameManager.Monster.ChangeSLA_New(this, "Salinu");
-        //GameManager.Monster.Regist_Evolution("Salamandra");
     }
 
     public override void MonsterInit_Evolution()
     {
         Data = GameManager.Monster.GetData("Rena");
-        //GameManager.Monster.ChangeSLA_New(this, "Salinu");
-        //GameManager.Monster.Regist_Evolution("Salamandra");
     }
 }

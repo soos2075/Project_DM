@@ -88,6 +88,8 @@ public class NPCManager
             return;
         }
 
+        Main.Instance.ShowGuild();
+
         //? 퀘스트 헌터 등 이벤트로 등장하는 적들
         if (EventNPCAction != null)
         {
@@ -179,6 +181,8 @@ public class NPCManager
 
 
 
+
+
     #region New Calculation System
     int Calculation_MaxValue()
     {
@@ -200,14 +204,19 @@ public class NPCManager
     }
     void Weight_Reset()
     {
-        SetWeightPoint(NPC_Type_Normal.Herbalist0, 0);
-        SetWeightPoint(NPC_Type_Normal.Herbalist1, 0);
-        SetWeightPoint(NPC_Type_Normal.Miner0, 0);
-        SetWeightPoint(NPC_Type_Normal.Miner1, 0);
-        SetWeightPoint(NPC_Type_Normal.Adventurer0, 0);
-        SetWeightPoint(NPC_Type_Normal.Adventurer1, 0);
-        SetWeightPoint(NPC_Type_Normal.Elf, 0);
-        SetWeightPoint(NPC_Type_Normal.Wizard, 0);
+        foreach (NPC_Type_Normal value in Enum.GetValues(typeof(NPC_Type_Normal)))
+        {
+            SetWeightPoint(value, 0);
+        }
+
+        //SetWeightPoint(NPC_Type_Normal.Herbalist1, 0);
+        //SetWeightPoint(NPC_Type_Normal.Herbalist2, 0);
+        //SetWeightPoint(NPC_Type_Normal.Miner1, 0);
+        //SetWeightPoint(NPC_Type_Normal.Miner2, 0);
+        //SetWeightPoint(NPC_Type_Normal.Adventurer1, 0);
+        //SetWeightPoint(NPC_Type_Normal.Adventurer2, 0);
+        //SetWeightPoint(NPC_Type_Normal.Elf, 0);
+        //SetWeightPoint(NPC_Type_Normal.Wizard, 0);
     }
 
     void WeightUpdate_Danger() //? 매 턴이 시작될 때 갱신
@@ -217,69 +226,94 @@ public class NPCManager
 
         if (danger <= 30)
         {
-            AddWeightPoint(herb0: 15, miner0: 15);
+            AddWeightPoint(herb1: 15, miner1: 15);
             return;
         }
 
-        //? 가중치 순서 //       herb0   miner0  adv0    elf  wizard  herb1   miner1  adv1
 
-        //? 누적 value 30 /       15      15
+        //? 아래 가중치 관련은 엑셀파일 참고바람
+        //? 30/50/100/150/200/250/300/400/500/600/800/1000
         if (danger > 30)
         {
-            AddWeightPoint(herb0: 15, miner0: 15);
+            AddWeightPoint(herb1: 15, miner1: 15);
             danger -= 30;
         }
-        //? 누적 value 50 /       20      20      10
+        //? 누적 value 50
         if (danger > 20)
         {
-            AddWeightPoint(herb0: 5, miner0: 5, adv0: 10);
+            AddWeightPoint(herb1: 5, miner1: 5, adv1: 10);
             danger -= 20;
         }
-        //? 누적 value 100 /      35      35      25      5
+
+        //? 누적 value 100
         if (danger > 50)
         {
-            AddWeightPoint(herb0: 15, miner0: 15, adv0: 15, elf: 5);
+            AddWeightPoint(herb1: 15, miner1: 15, adv1: 15, elf: 5);
             danger -= 50;
         }
-        //? 누적 value 150        50      50      30      15      5
+
+        //? 누적 value 150
         if (danger > 50)
         {
-            AddWeightPoint(herb0: 15, miner0: 15, adv0: 5, elf: 10, wizard: 5);
+            AddWeightPoint(herb1: 15, miner1: 15, adv1: 15, elf: 5);
             danger -= 50;
         }
-        //? 누적 value 200        60      60      40      30      10
+
+        //? 누적 value 200
         if (danger > 50)
         {
-            AddWeightPoint(herb0: 10, miner0: 10, adv0: 10, elf: 15, wizard: 5);
+            AddWeightPoint(herb1: 10, miner1: 10, adv1: 20, elf: 10);
             danger -= 50;
         }
-        //? 누적 value 250        60      60      50      40      20      10      10
+
+        //? 누적 value 250
         if (danger > 50)
         {
-            AddWeightPoint(herb1: 10, miner1: 10, adv0: 10, elf: 10, wizard: 10);
+            AddWeightPoint(herb2: 10, miner2: 10, adv1: 10, elf: 10, wizard: 10);
             danger -= 50;
         }
-        //? 누적 value 300        60      60      50      50      30      20      20      10
+
+        //? 누적 value 300
         if (danger > 50)
         {
-            AddWeightPoint(herb1: 10, miner1: 10, adv1: 10, elf: 10, wizard: 10);
+            AddWeightPoint(herb2: 5, miner2: 5, adv1: 10, elf: 10, wizard: 20);
             danger -= 50;
         }
-        //? 누적 value 400        60      60      50      50      50      50      50      30
+
+        //? 누적 value 400
         if (danger > 100)
         {
-            AddWeightPoint(herb1: 30, miner1: 30, adv1: 20, wizard: 20);
-            danger -= 100;
-        }
-        //? 누적 value 500        60      60      50      90      90      50      50      50
-        if (danger > 100)
-        {
-            AddWeightPoint(adv1: 20, elf: 40, wizard: 40);
+            AddWeightPoint(herb2: 25, miner2: 25, elf: 20, wizard: 30);
             danger -= 100;
         }
 
-        //? 500위험도를 썼고, 남은 위험도는 어떡하지? 여기서부턴 그냥 인기도로 치환해버릴까?
-        //? 뭐 새로운 적도 추가하거나 할 수 있으니 일단은 보류
+        //? 누적 value 500
+        if (danger > 100)
+        {
+            AddWeightPoint(herb2: 10, miner2: 10, adv1: 20, adv2: 20, elf: 10, wizard: 10, goblin: 20);
+            danger -= 100;
+        }
+
+        //? 누적 value 600
+        if (danger > 100)
+        {
+            AddWeightPoint(herb2: 10, miner2: 10, adv2: 30, elf: 10, wizard: 10, goblin: 30);
+            danger -= 100;
+        }
+
+        //? 누적 value 800
+        if (danger > 200)
+        {
+            AddWeightPoint(herb2: 20, herb3: 10, miner2: 20, miner3: 10, adv2: 50, elf: 10, darkElf: 50, wizard: 10, goblin: 20);
+            danger -= 200;
+        }
+
+        //? 누적 value 1000
+        if (danger > 200)
+        {
+            AddWeightPoint(herb2: 20, herb3: 30, miner2: 20, miner3: 30, elf: 10, vampire: 50, wizard: 10, goblin: 30);
+            danger -= 200;
+        }
 
 
         Event_ValueChange();
@@ -294,16 +328,28 @@ public class NPCManager
     {
         Weight_NPC[target] += value;
     }
-    void AddWeightPoint(int herb0 = 0, int herb1 = 0, int miner0 = 0, int miner1 = 0, int adv0 = 0, int adv1 = 0, int elf = 0, int wizard = 0)
+    void AddWeightPoint(
+        int herb1 = 0, int herb2 = 0, int herb3 = 0,
+        int miner1 = 0, int miner2 = 0, int miner3 = 0,
+        int adv1 = 0, int adv2 = 0, 
+        int elf = 0, int wizard = 0, int goblin = 0,
+        int darkElf = 0, int vampire = 0)
     {
-        AddWeightPoint(NPC_Type_Normal.Herbalist0, herb0);
         AddWeightPoint(NPC_Type_Normal.Herbalist1, herb1);
-        AddWeightPoint(NPC_Type_Normal.Miner0, miner0);
+        AddWeightPoint(NPC_Type_Normal.Herbalist2, herb2);
+        AddWeightPoint(NPC_Type_Normal.Herbalist2, herb3);
         AddWeightPoint(NPC_Type_Normal.Miner1, miner1);
-        AddWeightPoint(NPC_Type_Normal.Adventurer0, adv0);
+        AddWeightPoint(NPC_Type_Normal.Miner2, miner2);
+        AddWeightPoint(NPC_Type_Normal.Miner2, miner3);
         AddWeightPoint(NPC_Type_Normal.Adventurer1, adv1);
+        AddWeightPoint(NPC_Type_Normal.Adventurer2, adv2);
+
         AddWeightPoint(NPC_Type_Normal.Elf, elf);
         AddWeightPoint(NPC_Type_Normal.Wizard, wizard);
+
+        AddWeightPoint(NPC_Type_Normal.Normal_Goblin, goblin);
+        AddWeightPoint(NPC_Type_Normal.DarkElf, darkElf);
+        AddWeightPoint(NPC_Type_Normal.Vampire, vampire);
     }
     public void AddWaightPoint_Event(NPC_Type_Normal target, int value)
     {
@@ -319,15 +365,17 @@ public class NPCManager
     {
         if (Event_Herb)
         {
-            Weight_NPC[NPC_Type_Normal.Herbalist0] *= 4;
             Weight_NPC[NPC_Type_Normal.Herbalist1] *= 4;
+            Weight_NPC[NPC_Type_Normal.Herbalist2] *= 4;
+            Weight_NPC[NPC_Type_Normal.Herbalist3] *= 4;
             Weight_NPC[NPC_Type_Normal.Elf] *= 4;
         }
 
         if (Event_Mineral)
         {
-            Weight_NPC[NPC_Type_Normal.Miner0] *= 4;
             Weight_NPC[NPC_Type_Normal.Miner1] *= 4;
+            Weight_NPC[NPC_Type_Normal.Miner2] *= 4;
+            Weight_NPC[NPC_Type_Normal.Miner3] *= 4;
             Weight_NPC[NPC_Type_Normal.Wizard] *= 4;
         }
         if (Event_Monster)
@@ -456,7 +504,10 @@ public class NPCManager
             NPC _npc = obj as NPC;
             _npc.SetData(data, RandomPicker());
             int _value = data.Rank;
-            Current_Value += _value;
+
+            //? 숫자가 너무 많아지는거 방지용으로 npc의 절대숫자가 많아질수록 가중치
+            //? Mathf.RoundToInt를 안쓴 이유는, 33/66/99 등 그 이하의 숫자일 땐 반올림 하지 않는게 더 좋아서 그런건데, 만약 라운드를 하고싶으면 걍 가중치를 줄이면댐
+            Current_Value += _value + (int)(Current_Value * 0.03f); 
             Instance_NPC_List.Add(_npc);
             return _npc;
         }
@@ -553,20 +604,20 @@ public enum NPC_Typeof
 }
 public enum NPC_Type_Normal
 {
-    Herbalist0 = 1000, Herbalist1 = 1001, Herbalist2 = 1002,
+    Herbalist1 = 1000, Herbalist2 = 1001, Herbalist3 = 1002,
 
-    Miner0 = 1100, Miner1 = 1101,
+    Miner1 = 1100, Miner2 = 1101, Miner3 = 1102,
 
-    Adventurer0 = 1200, Adventurer1 = 1201,
+    Adventurer1 = 1200, Adventurer2 = 1201,
 
     Elf = 1300,
+    DarkElf = 1301,
 
     Wizard = 1400,
+    Vampire = 1401,
 
 
-    //? 이벤트나 분기 등으로 추가할 타입의 적
-    Goblin,
-
+    Normal_Goblin = 1500,
 }
 public enum NPC_Type_Unique //? 등장 랭크 포인트를 안먹음
 {
@@ -610,11 +661,18 @@ public enum NPC_Type_MainEvent
     EM_Soldier1 = 1941,
     EM_Soldier2,
     EM_Soldier3,
+
+    EM_KingdomKnight = 1958,
+    EM_Catastrophe_Clone = 1961,
+
 }
 public enum NPC_Type_SubEvent
 {
     Heroine = 1916,
-    DungeonRacer = 1917,
+    Lightning = 1917,
+
+    Judgement = 1959,
+    Venom = 1960,
 }
 public enum NPC_Type_Hunter
 {

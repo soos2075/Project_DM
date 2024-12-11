@@ -138,6 +138,101 @@ MonoBehaviour:
     m_Localized: Statue of Tranquility
     m_Metadata:
       m_Items: []
+  - m_Id: 11056480570781696
+    m_Localized: MarbleOfReassurance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11056482382721024
+    m_Localized: MarbleOfOblivion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10718961207554048
+    m_Localized: Wanting Nothing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10719134927237120
+    m_Localized: If you listen well to her story...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10719375378296832
+    m_Localized: An ending where a dangerous dungeon approaches
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10719611786047488
+    m_Localized: A popular dungeon that everyone wants to visit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10719996214980608
+    m_Localized: If there's only destruction- then by my own hands...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10719999599783936
+    m_Localized: Let's protect the world's peace
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10720735201013760
+    m_Localized: '"Where should we go next?"
+
+      "Anywhere you want"'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10720772236718080
+    m_Localized: '"Hey, why were you so cold back then?"
+
+      "Well... Maybe because
+      you looked too much like a beginner?"
+
+      "I''m still pretty much the same..."
+
+      "It''s
+      fine. Now I''m by your side!"'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10720773419511808
+    m_Localized: '"They say there''s an incredible treasure in that dungeon!"
+
+      "Then
+      why is it called the Novice Dungeon?"
+
+      "No idea. Maybe whoever found
+      it was a beginner."'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10720774568751104
+    m_Localized: '"Tell me an interesting story"
+
+      "Well, when I was in the
+      Novice Dungeon..."
+
+      "Stop, that''s the 300th time for that story."'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10720775923511296
+    m_Localized: '"I shall stand above the world"
+
+      "......"
+
+      "Now what
+      do I do?"'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10720778855329792
+    m_Localized: '"Is it okay for a hero to just stay in a dungeon?"
+
+      "It''s
+      fine. I''ve already saved the world several times"
+
+      "...When?"'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11771230178979840
+    m_Localized: Lievil
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11771231902838784
+    m_Localized: Rideer
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

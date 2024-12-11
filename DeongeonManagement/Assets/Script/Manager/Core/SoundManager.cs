@@ -180,6 +180,10 @@ public class SoundManager : MonoBehaviour
     {
         AudioSources[(int)type].Stop();
     }
+    public void ReStartMusic(Define.AudioType type = Define.AudioType.BGM)
+    {
+        AudioSources[(int)type].Play();
+    }
 
 
     public void ReplaceSound(string _clipPath)
