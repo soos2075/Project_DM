@@ -42,7 +42,14 @@ public class UI_StatusUp : UI_PopUp
         Bind<Image>(typeof(Images));
         Bind<TextMeshProUGUI>(typeof(Texts));
 
-        //StartCoroutine(TestFunc());
+
+        for (int i = 0; i < System.Enum.GetNames(typeof(Texts)).Length; i++)
+        {
+            GetTMP(i).text = "";
+            GetImage(((int)Images.Profile)).sprite = Managers.Sprite.GetClear();
+        }
+
+
 
         GetImage(((int)Images.Panel)).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.LeftClick);
         GetImage(((int)Images.ProfilePanel)).gameObject.AddUIEvent((data) => ClosePopUp(), Define.UIEvent.LeftClick);

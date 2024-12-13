@@ -13,12 +13,14 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         characterBuilder = GetComponent<CharacterBuilder>();
         AttackOption = new AttackEffect(AttackType.Normal);
 
+        Difficulty_Setting();
+
         SetRandomClothes();
-        Start_Setting();
         Init_Trait();
         TurnOverEventSetting();
 
-        Difficulty_Setting();
+        //? 가장 마지막에 커스텀으로 덮어씌우기 (스탯같은거)
+        Start_Setting();
     }
 
 
@@ -68,8 +70,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
                 break;
 
             case Define.DifficultyLevel.Master:
-                HP = Mathf.RoundToInt(HP * 2.0f);
-                HP_MAX = Mathf.RoundToInt(HP_MAX * 2.0f);
+                HP = Mathf.RoundToInt(HP * 2.5f);
+                HP_MAX = Mathf.RoundToInt(HP_MAX * 2.5f);
                 ATK = Mathf.RoundToInt(ATK * 2.5f);
                 DEF = Mathf.RoundToInt(DEF * 2.0f);
                 AGI = Mathf.RoundToInt(AGI * 2.0f);
@@ -667,6 +669,9 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         inDungeon = true;
         FloorNext();
         Main.Instance.CurrentDay.AddVisit(1);
+
+        //? 만약 autoTargeting 상태일 때, 돌고있는 자동카메라가 없으면 처음 출구에 들어온놈한테 타겟팅되는거
+        Camera.main.GetComponent<CameraControl>().AutoChasing_First(transform);
     }
 
 
@@ -880,7 +885,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     }
 
 
-    float Artifact_Decay { get { return GameManager.Artifact.GetArtifact(ArtifactLabel.TouchOfDecay).Count > 0 ? -0.25f : 0; } }
+    float Artifact_Decay { get { return GameManager.Artifact.GetArtifact(ArtifactLabel.TouchOfDecay).Count > 0 ? -0.2f : 0; } }
 
     //float Difficulty_HP_Ratio //? 이건 그냥 start 같은곳에서 일괄적용하는게 나을듯. hp말고 다른것도 다 달라져야되니까
     //{

@@ -131,7 +131,21 @@ public class UI_Elbum : UI_PopUp
             GetImage((int)Images.MainImage).sprite = SLA.GetSprite(data.keyName, "Clear");
 
             GetTMP((int)TMP_Texts.MainText).text = UserData.Instance.LocaleText_NGP($"Clear_{data.keyName}");
-            GetTMP((int)TMP_Texts.HintText).text = $"";
+
+
+            var log = CollectionManager.Instance.RoundClearData.Get_Datalog(data);
+            int clearcount = 0;
+            CollectionManager.Instance.RoundClearData.endingClearCount.TryGetValue(log.endings, out clearcount);
+
+            string diff = "★";
+            for (int i = 0; i < log.difficultyLevel; i++)
+            {
+                diff += "★";
+            }
+
+            GetTMP((int)TMP_Texts.HintText).text = $"{UserData.Instance.LocaleText_NGP("Log_클리어횟수")} : {clearcount}" +
+                $"\n{UserData.Instance.LocaleText_NGP("Log_클리어난이도")} : {diff}" +
+                $"\n{UserData.Instance.LocaleText_NGP("Log_클리어시간")} : {(int)log.clearTime / 60}m {(int)log.clearTime % 60}s";
         }
         else
         {

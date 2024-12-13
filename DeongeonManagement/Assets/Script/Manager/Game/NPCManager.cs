@@ -88,6 +88,8 @@ public class NPCManager
             return;
         }
 
+        EventManager.Instance.CurrentQuestInvoke();
+
         Main.Instance.ShowGuild();
 
         //? 퀘스트 헌터 등 이벤트로 등장하는 적들
@@ -337,10 +339,10 @@ public class NPCManager
     {
         AddWeightPoint(NPC_Type_Normal.Herbalist1, herb1);
         AddWeightPoint(NPC_Type_Normal.Herbalist2, herb2);
-        AddWeightPoint(NPC_Type_Normal.Herbalist2, herb3);
+        AddWeightPoint(NPC_Type_Normal.Herbalist3, herb3);
         AddWeightPoint(NPC_Type_Normal.Miner1, miner1);
         AddWeightPoint(NPC_Type_Normal.Miner2, miner2);
-        AddWeightPoint(NPC_Type_Normal.Miner2, miner3);
+        AddWeightPoint(NPC_Type_Normal.Miner3, miner3);
         AddWeightPoint(NPC_Type_Normal.Adventurer1, adv1);
         AddWeightPoint(NPC_Type_Normal.Adventurer2, adv2);
 

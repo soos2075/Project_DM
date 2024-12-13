@@ -66,6 +66,13 @@ public class Interaction_Guild : MonoBehaviour
                 gameObject.SetActive(true);
             }
         }
+        foreach (var instance in GuildManager.Instance.Delete_GuildNPC)
+        {
+            if (label == instance)
+            {
+                gameObject.SetActive(false);
+            }
+        }
 
         DefaultAnimState();
     }
@@ -119,6 +126,12 @@ public class Interaction_Guild : MonoBehaviour
 
     void DefaultAnimState()
     {
+        if (!gameObject.activeSelf)
+        {
+            return;
+        }
+
+
         Animator anim;
         if (TryGetComponent<Animator>(out anim))
         {
@@ -150,10 +163,6 @@ public class Interaction_Guild : MonoBehaviour
 
             case GuildNPC_LabelName.Heroine:
                 anim.Play(Define.ANIM_Idle_Sit);
-                if (EventManager.Instance.CurrentClearEventData.Check_AlreadyClear(DialogueName.Heroine_40))
-                {
-                    gameObject.SetActive(false);
-                }
                 break;
 
             case GuildNPC_LabelName.DogGirl:

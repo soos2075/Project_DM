@@ -282,6 +282,10 @@ public class UI_NewGamePlus : UI_PopUp
         {
             Add_Content(Panel.UnitPanel, Bonus.Unit_FlameGolem);
         }
+        if (CollectionManager.Instance.Get_Collection_KeyName<SO_Monster>("Pixie").info.isRegist)
+        {
+            Add_Content(Panel.UnitPanel, Bonus.Unit_Pixie);
+        }
         if (CollectionManager.Instance.Get_Collection_KeyName<SO_Monster>("Salinu").info.isRegist)
         {
             Add_Content(Panel.UnitPanel, Bonus.Unit_Salinu);
@@ -294,7 +298,16 @@ public class UI_NewGamePlus : UI_PopUp
         {
             Add_Content(Panel.UnitPanel, Bonus.Unit_Griffin);
         }
+        if (CollectionManager.Instance.Get_Collection_KeyName<SO_Monster>("Lilith").info.isRegist)
+        {
+            Add_Content(Panel.UnitPanel, Bonus.Unit_Lilith);
+        }
 
+
+        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Cat))
+        {
+            Add_Content(Panel.UnitPanel, Bonus.Unit_Rena);
+        }
 
 
         if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Ravi))
@@ -309,17 +322,12 @@ public class UI_NewGamePlus : UI_PopUp
         {
             Add_Content(Panel.UnitPanel, Bonus.Unit_Rideer);
         }
-        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Cat))
-        {
-            Add_Content(Panel.UnitPanel, Bonus.Unit_Rena);
-        }
+
 
     }
 
     void Init_Artifact()
     {
-        //? 임시로 전체 개방
-
         Add_Content(Panel.ArtifactPanel, Bonus.Arti_Pop);
         Add_Content(Panel.ArtifactPanel, Bonus.Arti_Danger);
 
@@ -462,12 +470,16 @@ public class UI_NewGamePlus : UI_PopUp
 
         BonusDict.Add(Bonus.Unit_BloodySlime, new BtnEvent(Panel.UnitPanel, Bonus.Unit_BloodySlime, 3));
         BonusDict.Add(Bonus.Unit_FlameGolem, new BtnEvent(Panel.UnitPanel, Bonus.Unit_FlameGolem, 3));
+
+        BonusDict.Add(Bonus.Unit_Pixie, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Pixie, 6));
         BonusDict.Add(Bonus.Unit_HellHound, new BtnEvent(Panel.UnitPanel, Bonus.Unit_HellHound, 6));
+
         BonusDict.Add(Bonus.Unit_Salinu, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Salinu, 9));
         BonusDict.Add(Bonus.Unit_Griffin, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Griffin, 9));
+        BonusDict.Add(Bonus.Unit_Lilith, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Lilith, 9));
 
 
-        BonusDict.Add(Bonus.Unit_Rena, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Rena, 7));
+        BonusDict.Add(Bonus.Unit_Rena, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Rena, 12));
 
         BonusDict.Add(Bonus.Unit_Ravi, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Ravi, 15));
         BonusDict.Add(Bonus.Unit_Lievil, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Lievil, 15));
@@ -509,9 +521,11 @@ public class UI_NewGamePlus : UI_PopUp
         //? 유닛
         Unit_BloodySlime,
         Unit_FlameGolem,
+        Unit_Pixie,
         Unit_Salinu,
         Unit_HellHound,
         Unit_Griffin,
+        Unit_Lilith,
         Unit_Rena,
 
         Unit_Ravi,

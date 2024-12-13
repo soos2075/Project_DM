@@ -251,6 +251,18 @@ MonoBehaviour:
     m_Key: FloorEffect_5
     m_Metadata:
       m_Items: []
+  - m_Id: 69603720452845568
+    m_Key: Orb_Level
+    m_Metadata:
+      m_Items: []
+  - m_Id: 69605882817884160
+    m_Key: Orb_Green_tier1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 69606103945785344
+    m_Key: Orb_Yellow_tier1
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

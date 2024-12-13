@@ -23,7 +23,12 @@ public class UI_Management : UI_Base
         {
             if (Main.Instance.Management) return;
 
-            if (Managers.UI._popupStack.Count == 0 && FindAnyObjectByType<UI_Stop>() == null)
+            if (Managers.UI._popupStack.Count > 0 && Managers.UI._popupStack.Peek().GetType() != typeof(UI_TileView))
+            {
+                return;
+            }
+
+            if (FindAnyObjectByType<UI_Stop>() == null)
             {
                 Managers.Resource.Instantiate("UI/PopUp/UI_Stop");
                 //Managers.UI.ShowPopUp<UI_Stop>();
@@ -536,6 +541,7 @@ public class UI_Management : UI_Base
     {
         if (!Main.Instance.Management) return;
 
+        Camera.main.GetComponent<CameraControl>().AutoChasing = true;
         //EventBoxOpen();
         eventBox.TextClear();
         Main.Instance.DayChange_Start();

@@ -602,9 +602,11 @@ public class UserData : MonoBehaviour
         //? РЏДж
         public bool Unit_BloodySlime;
         public bool Unit_FlameGolem;
+        public bool Unit_Pixie;
         public bool Unit_Salinu;
         public bool Unit_HellHound;
         public bool Unit_Griffin;
+        public bool Unit_Lilith;
         public bool Unit_Rena;
         public bool Unit_Ravi;
         public bool Unit_Lievil;

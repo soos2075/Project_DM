@@ -110,6 +110,10 @@ public class MonsterManager
                 if (item.monster == _monster)
                 {
                     item.times++;
+                    if (item.times > 3)
+                    {
+                        item.times = 3;
+                    }
                     return;
                 }
             }

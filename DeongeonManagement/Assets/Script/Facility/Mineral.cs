@@ -36,7 +36,7 @@ public class Mineral : Facility
 
     public void Orb_Bonus()
     {
-        if (GameManager.Buff.CurrentBuff.Orb_yellow > 0)
+        if (GameManager.Buff.CurrentBuff.Orb_yellow >= 3)
         {
             IOT_Temp = 1;
         }
@@ -72,11 +72,20 @@ public class Mineral : Facility
 
             if (PlacementInfo.Place_Floor.FloorIndex == (int)Define.DungeonFloor.Floor_2)
             {
-                multipleMP += 0.15f;
+                multipleMP += 0.1f;
             }
             if (PlacementInfo.Place_Floor.FloorIndex == (int)Define.DungeonFloor.Floor_5)
             {
-                multipleMP += 0.3f;
+                multipleMP += 0.2f;
+            }
+
+            if (GameManager.Buff.CurrentBuff.Orb_yellow >= 1)
+            {
+                multipleMP += 0.1f;
+            }
+            if (GameManager.Buff.CurrentBuff.Orb_yellow >= 2)
+            {
+                multipleMP += 0.1f;
             }
 
 

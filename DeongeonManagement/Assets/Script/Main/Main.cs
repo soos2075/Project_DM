@@ -300,6 +300,10 @@ public class Main : MonoBehaviour
         {
             GameManager.Monster.CreateMonster("HellHound", true);
         }
+        if (UserData.Instance.FileConfig.Unit_Pixie)
+        {
+            GameManager.Monster.CreateMonster("Pixie", true);
+        }
         if (UserData.Instance.FileConfig.Unit_Salinu)
         {
             GameManager.Monster.CreateMonster("Salinu", true);
@@ -307,6 +311,10 @@ public class Main : MonoBehaviour
         if (UserData.Instance.FileConfig.Unit_Griffin)
         {
             GameManager.Monster.CreateMonster("Griffin", true);
+        }
+        if (UserData.Instance.FileConfig.Unit_Lilith)
+        {
+            GameManager.Monster.CreateMonster("Lilith", true);
         }
 
         if (UserData.Instance.FileConfig.Unit_Rena)
@@ -346,6 +354,14 @@ public class Main : MonoBehaviour
         if (UserData.Instance.FileConfig.Arti_Danger)
         {
             GameManager.Artifact.AddArtifact(ArtifactLabel.OrbOfDanger);
+        }
+        if (UserData.Instance.FileConfig.Arti_DownDanger)
+        {
+            GameManager.Artifact.AddArtifact(ArtifactLabel.MarbleOfReassurance);
+        }
+        if (UserData.Instance.FileConfig.Arti_DownPop)
+        {
+            GameManager.Artifact.AddArtifact(ArtifactLabel.MarbleOfOblivion);
         }
     }
 
@@ -410,7 +426,7 @@ public class Main : MonoBehaviour
             }
 
             _player = ppp.gameObject;
-            _player.GetComponent<Player>().HP = _player.GetComponent<Player>().HP_Max;
+            _player.GetComponent<Player>().HP_Damaged = 0;
             return;
         }
 
@@ -1276,10 +1292,6 @@ public class Main : MonoBehaviour
         Managers.Data.SaveAndAddFile("AutoSave", 0);
     }
 
-    void AutoSave_Instant()
-    {
-        Managers.Data.SaveAndAddFile("AutoSave", 0);
-    }
 
 
 
@@ -1544,6 +1556,8 @@ public class Main : MonoBehaviour
 
     public void ResetCurrentAction()
     {
+        Debug.Log("ResetCurrentAction");
+
         Main.Instance.CurrentBoundary = null;
         Main.Instance.CurrentAction = null;
         Main.Instance.CurrentTile = null;

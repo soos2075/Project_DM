@@ -9,6 +9,9 @@ public class Heroine : Monster, I_Projectile
 
     public override void MonsterInit()
     {
+        //? 길드에서 안나오게하기
+        GuildManager.Instance.AddDeleteGuildNPC(GuildNPC_LabelName.Heroine);
+
         Data = GameManager.Monster.GetData("Heroine");
         Trait_Original();
         AttackOption.SetProjectile(I_Projectile.AttackType.Normal, "LegucyElf", "ElfA");

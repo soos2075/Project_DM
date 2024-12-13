@@ -20,6 +20,8 @@ public class UI_SteamLink : UI_PopUp
     enum Buttons
     {
         SteamLink,
+        DiscordLink,
+
         Record,
 
         KR,
@@ -32,7 +34,9 @@ public class UI_SteamLink : UI_PopUp
     {
         Bind<Button>(typeof(Buttons));
 
-        GetButton((int)Buttons.SteamLink).gameObject.AddUIEvent(data => OpenWebPageButton());
+        GetButton((int)Buttons.SteamLink).gameObject.AddUIEvent(data => OpenWebPageButton("https://store.steampowered.com/app/2886090/Novice_Dungeon_Master/"));
+        GetButton((int)Buttons.DiscordLink).gameObject.AddUIEvent(data => OpenWebPageButton("https://discord.gg/HAzNCtjjeW"));
+
         //GetButton((int)Buttons.Record).gameObject.AddUIEvent(data => ShowPlayRecord());
 
         //GetButton((int)Buttons.KR).gameObject.AddUIEvent(data => Lan_KR());
@@ -57,14 +61,16 @@ public class UI_SteamLink : UI_PopUp
     }
 
 
-
-
-
     public string webpageURL = "https://store.steampowered.com/app/2886090/Novice_Dungeon_Master/";
 
     public void OpenWebPageButton()
     {
         Application.OpenURL(webpageURL);
+    }
+
+    public void OpenWebPageButton(string url)
+    {
+        Application.OpenURL(url);
     }
 
 

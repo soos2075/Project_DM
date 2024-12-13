@@ -278,18 +278,20 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     public int HP_Damaged { get; set; }
 
 
-    public int HP_Final { get { return Mathf.RoundToInt((HP + Trait_HP + HP_Bonus) * HP_Hospital); } }
-    public int HPMax_Final { get { return Mathf.RoundToInt((HP_Max + Trait_HP + HP_Bonus) * HP_Hospital); } }
+    public int HP_Final { get { return Mathf.RoundToInt((HP + Trait_HP + HP_Bonus) * HP_Bonus_Ratio); } }
+    public int HPMax_Final { get { return Mathf.RoundToInt((HP_Max + Trait_HP + HP_Bonus) * HP_Bonus_Ratio); } }
 
 
     int HP_Bonus { get { return GameManager.Buff.HpBonus; } }
 
+    float HP_Bonus_Ratio { get { return 1 + HP_Hospital; } }
 
 
-    public int ATK_Final { get { return Mathf.RoundToInt((ATK + AllStat_Bonus + Trait_ATK + ATK_Bonus) * Orb_Bonus); } }
-    public int DEF_Final { get { return Mathf.RoundToInt((DEF + AllStat_Bonus + Trait_DEF + DEF_Bonus) * Orb_Bonus); } }
-    public int AGI_Final { get { return Mathf.RoundToInt((AGI + AllStat_Bonus + Trait_AGI + AGI_Bonus) * Orb_Bonus); } }
-    public int LUK_Final { get { return Mathf.RoundToInt((LUK + AllStat_Bonus + Trait_LUK + LUK_Bonus) * Orb_Bonus); } }
+
+    public int ATK_Final { get { return Mathf.RoundToInt((ATK + AllStat_Bonus + Trait_ATK + ATK_Bonus) * AllStat_Bonus_Ratio); } }
+    public int DEF_Final { get { return Mathf.RoundToInt((DEF + AllStat_Bonus + Trait_DEF + DEF_Bonus) * AllStat_Bonus_Ratio); } }
+    public int AGI_Final { get { return Mathf.RoundToInt((AGI + AllStat_Bonus + Trait_AGI + AGI_Bonus) * AllStat_Bonus_Ratio); } }
+    public int LUK_Final { get { return Mathf.RoundToInt((LUK + AllStat_Bonus + Trait_LUK + LUK_Bonus) * AllStat_Bonus_Ratio); } }
 
 
 
@@ -303,17 +305,20 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
                 Floor_Bonus + 
                 Trait_Friend + 
                 Trait_Veteran +
-                TrainingCenter +
                 GameManager.Buff.StatBonus; } }
 
 
 
+    float AllStat_Bonus_Ratio { get { return 1 + TrainingCenter + Orb_Bonus; } }
+
+
+
     //? Technical Bonus
-    float HP_Hospital { get { return GameManager.Technical.Get_Technical<Hospital>() != null ? 1.3f : 1; } }
-    int TrainingCenter { get { return GameManager.Technical.Get_Technical<TrainingCenter>() != null ? 1 : 0; } }
+    float HP_Hospital { get { return GameManager.Technical.Get_Technical<Hospital>() != null ? 0.25f : 0; } }
+    float TrainingCenter { get { return GameManager.Technical.Get_Technical<TrainingCenter>() != null ? 0.05f : 0; } }
 
     //? 전투의 오브 활성화 보너스
-    float Orb_Bonus { get { return GameManager.Buff.CurrentBuff.Orb_red > 0 ? 1.2f : 1; } }
+    float Orb_Bonus { get { return GameManager.Buff.CurrentBuff.Orb_red > 0 ? 0.1f * GameManager.Buff.CurrentBuff.Orb_red : 0; } }
 
     //? 깊은 층에 배치할수록 스탯보너스
     int Floor_Bonus { get { return PlacementInfo != null ? PlacementInfo.Place_Floor.FloorIndex * 1 : 0; } }
@@ -1096,20 +1101,20 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         LookAtTarget(npc.PlacementInfo.Place_Tile);
 
 
-        int battleMP = npc.Rank * 5;
+        int battleMP = npc.Rank * 2;
         foreach (var item in npc.Data.NPC_TraitList)
         {
             if (item == TraitGroup.Militant)
             {
-                battleMP = npc.Rank * 8;
+                battleMP = npc.Rank * 3;
             }
             if (item == TraitGroup.Civilian)
             {
-                battleMP = npc.Rank * 4;
+                battleMP = npc.Rank * 1;
             }
             if (item == TraitGroup.Trample)
             {
-                battleMP = npc.Rank * 10;
+                battleMP = npc.Rank * 5;
             }
         }
 
@@ -1477,10 +1482,14 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         Main.Instance.Player_AP--;
         Debug.Log($"{Name_Color} 훈련진행");
 
-        LevelUp(true);
+
         if (GameManager.Technical.Get_Technical<TrainingCenter>() != null)
         {
-            LevelUp(false);
+            LevelUp(true, true);
+        }
+        else
+        {
+            LevelUp(true, false);
         }
 
         //LevelUpEvent(LevelUpEventType.Training);
@@ -1532,7 +1541,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
 
 
-    public void LevelUp(bool _showPopup)
+    public void LevelUp(bool _showPopup, bool TrainingBonus = false)
     {
         if (Data.maxLv <= LV)
         {
@@ -1563,21 +1572,30 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
             agi_value *= 1.08f;
             luk_value *= 1.08f;
         }
-        if (TraitCheck(TraitGroup.EliteB))
+        else if (TraitCheck(TraitGroup.EliteB))
         {
-            hp_value += 1.6f;
+            hp_value *= 1.6f;
             atk_value *= 1.3f;
             def_value *= 1.3f;
             agi_value *= 1.15f;
             luk_value *= 1.15f;
         }
-        if (TraitCheck(TraitGroup.EliteA))
+        else if(TraitCheck(TraitGroup.EliteA))
         {
-            hp_value *= 2.0f;
-            atk_value *= 1.5f;
-            def_value *= 1.5f;
-            agi_value *= 1.25f;
-            luk_value *= 1.25f;
+            hp_value *= 1.8f;
+            atk_value *= 1.4f;
+            def_value *= 1.4f;
+            agi_value *= 1.2f;
+            luk_value *= 1.2f;
+        }
+
+        if (TrainingBonus)
+        {
+            //hp_value *= 1.2f;
+            atk_value *= 1.2f;
+            def_value *= 1.2f;
+            agi_value *= 1.2f;
+            luk_value *= 1.2f;
         }
 
 

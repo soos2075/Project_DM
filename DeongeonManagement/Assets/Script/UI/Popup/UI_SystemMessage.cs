@@ -67,6 +67,18 @@ public class UI_SystemMessage : UI_PopUp
     }
 
 
+
+    private void LateUpdate()
+    {
+        if (Wait_Delay == null)
+        {
+            if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+            {
+                ClosePopUp();
+            }
+        }
+    }
+
     private void OnEnable()
     {
         Time.timeScale = 0;

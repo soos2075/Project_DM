@@ -664,7 +664,7 @@ public class BattleField : MonoBehaviour
     {
         List<(int, DamageMeshType)> damageList = new List<(int, DamageMeshType)>();
 
-        int damage = TryDodge(monster, npc, counter) ? 0 : Calc_Damaged(monster, npc);
+        int damage = TryDodge(npc, monster, counter) ? 0 : Calc_Damaged(npc, monster);
 
         damageList.Add((damage, DamageMeshType.Damage));
         damageList.AddRange(TryTrait(npc, monster, damage));
@@ -733,7 +733,9 @@ public class BattleField : MonoBehaviour
         int dice = UnityEngine.Random.Range(0, 20);
 
 
-        return chance > dice;
+        bool isDodge = chance > dice;
+
+        return isDodge;
 
         //int damage = 1;
         //if (chance > dice)
@@ -823,7 +825,7 @@ public class BattleField : MonoBehaviour
             int bonusHP = attacker.GetSomething(TraitGroup.LifeDrain, damage);
             int applyHP = attacker.B_HP + bonusHP;
 
-            attacker.traitCounter.AddCustomValue(applyHP);
+            attacker.traitCounter.AddCustomValue(bonusHP);
 
             int realValue = applyHP > attacker.B_HP_Max ? (attacker.B_HP_Max - attacker.B_HP) : bonusHP;
             attacker.HP_Damaged -= realValue;

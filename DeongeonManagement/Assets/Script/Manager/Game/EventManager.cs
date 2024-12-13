@@ -60,7 +60,7 @@ public class EventManager : MonoBehaviour
         Pop = Main.Instance.PopularityOfDungeon;
         Danger = Main.Instance.DangerOfDungeon;
 
-        CurrentQuestAction?.Invoke();
+        //CurrentQuestAction?.Invoke();
 
         TurnStart_EventSchedule();
         Add_ReservationGuildQuest();
@@ -168,15 +168,17 @@ public class EventManager : MonoBehaviour
                 GameManager.NPC.Event_Mineral = false;
                 break;
 
-            default:
-                Add_Daily(2100);
-                break;
+            //default:
+            //    Add_Daily(2100);
+            //    break;
         }
+        //? 인기도 상승 이벤트
+        Add_Daily(2100);
     }
 
     void AddDayEventByCondition_Start()
     {
-        if (Danger >= 300)
+        if (Danger >= 450)
         {
             DayEventLabel currentEvent = DayEventLabel.BloodSong_Appear;
             if (CurrentClearEventData.Check_AlreadyClear(currentEvent) == false && Check_AlreadyReserve(currentEvent) == false)
@@ -190,22 +192,16 @@ public class EventManager : MonoBehaviour
     {
         TryAddUnique(Pop, Danger);
 
-        if (Danger >= 500 && Danger > Pop && CurrentTurn >= 15 && 
-            CurrentClearEventData.Check_AlreadyClear(DialogueName.Dragon_First) == false)
+        if (Danger >= 500 && Danger > Pop && CurrentTurn >= 15 && Main.Instance.CurrentEndingState == Endings.Dragon &&
+        CurrentClearEventData.Check_AlreadyClear(DialogueName.Dragon_First) == false)
         {
-            //UserData.Instance.FileConfig.Notice_Facility = true;
-            ////UserData.Instance.FileConfig.Notice_Monster = true;
-            ////UserData.Instance.FileConfig.Notice_Summon = true;
-            //Main.Instance.Dungeon_RankUP();
-            //RankUpEvent();
-
             Managers.Dialogue.ActionReserve(() =>
             {
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Dragon_First, Main.Instance.Player);
             });
         }
 
-        if (Danger >= 800 && Danger > Pop && CurrentTurn >= 15 && 
+        if (Danger >= 800 && Danger > Pop && CurrentTurn >= 15 && Main.Instance.CurrentEndingState == Endings.Dragon &&
             CurrentClearEventData.Check_AlreadyClear(DialogueName.Dragon_First) && 
             CurrentClearEventData.Check_AlreadyClear(DialogueName.Dragon_Second) == false &&
             Main.Instance.CurrentEndingState != Endings.Cat)
@@ -217,7 +213,7 @@ public class EventManager : MonoBehaviour
         }
 
 
-        //? 2회차 이상 / 인기도위험도합이 1000이상일 때 
+        //? 2회차 이상 / 인기도위험도합이 1200이상일 때 
         if (UserData.Instance.FileConfig.PlayRounds > 1 && Danger + Pop >= 1200 &&
             CurrentClearEventData.Check_AlreadyClear(DayEventLabel.Catastrophe) == false && Check_AlreadyReserve(DayEventLabel.Catastrophe) == false)
         {
@@ -559,84 +555,68 @@ public class EventManager : MonoBehaviour
         //? 활성화 된 길드원의 메인퀘스트가 있을경우
         foreach (var item in guildData)
         {
-            if (item.InstanceQuestList.Count > 0)
+            //? 퀘스트 없으면 넘기고
+            if (item.InstanceQuestList.Count == 0)
             {
-                switch (GuildManager.Instance.GetData(item.Original_Index).DayOption)
-                {
-                    case Guild_DayOption.Special:
-                        foreach (var instNPC in GuildManager.Instance.Instance_GuildNPC)
-                        {
-                            if ((int)instNPC == item.Original_Index)
-                            {
-                                Debug.Log($"길드 퀘스트 발생중 : {item.Original_Index}");
-                                return true;
-                            }
-                        }
-                        break;
+                continue;
+            }
 
-                    case Guild_DayOption.Always:
-                        if (GuildManager.Instance.GetData(item.Original_Index).FirstDay <= CurrentTurn)
-                        {
-                            Debug.Log($"길드 퀘스트 발생중 : {item.Original_Index}");
-                            return true;
-                        }
-                        break;
+            //? 제외목록이면 넘기고
+            if (GuildManager.Instance.Delete_GuildNPC.Contains((GuildNPC_LabelName)item.Original_Index))
+            {
+                continue;
+            }
 
-                    case Guild_DayOption.Odd:
-                        if (CurrentTurn % 2 == 1)
-                        {
-                            Debug.Log($"길드 퀘스트 발생중 : {item.Original_Index}");
-                            return true;
-                        }
-                        break;
+            //? 무조건 포함되는 NPC면 넣고
+            if (GuildManager.Instance.Instance_GuildNPC.Contains((GuildNPC_LabelName)item.Original_Index))
+            {
+                Debug.Log($"길드 퀘스트 발생중 : {item.InstanceQuestList[0]}");
+                return true;
+            }
 
-                    case Guild_DayOption.Even:
-                        if (CurrentTurn % 2 == 0)
-                        {
-                            Debug.Log($"길드 퀘스트 발생중 : {item.Original_Index}");
-                            return true;
-                        }
-                        break;
+            switch (GuildManager.Instance.GetData(item.Original_Index).DayOption)
+            {
+                case Guild_DayOption.Special:
+                    break;
 
-                    case Guild_DayOption.Multiple_3:
-                        if (CurrentTurn % 3 == 0)
-                        {
-                            Debug.Log($"길드 퀘스트 발생중 : {item.Original_Index}");
-                            return true;
-                        }
-                        break;
+                case Guild_DayOption.Always:
+                    if (GuildManager.Instance.GetData(item.Original_Index).FirstDay <= CurrentTurn)
+                    {
+                        Debug.Log($"길드 퀘스트 발생중 : {item.Original_Index}");
+                        return true;
+                    }
+                    break;
 
-                    case Guild_DayOption.Multiple_4:
-                        if (CurrentTurn % 4 == 0)
-                        {
-                            Debug.Log($"길드 퀘스트 발생중 : {item.Original_Index}");
-                            return true;
-                        }
-                        break;
+                case Guild_DayOption.Odd:
+                    if (Calc_Turn_Check(item, 2, 1)) return true;
+                    break;
 
-                    case Guild_DayOption.Multiple_5:
-                        if (CurrentTurn % 5 == 0)
-                        {
-                            Debug.Log($"길드 퀘스트 발생중 : {item.Original_Index}");
-                            return true;
-                        }
-                        break;
+                case Guild_DayOption.Even:
+                    if (Calc_Turn_Check(item, 2, 0)) return true;
+                    break;
 
-                    case Guild_DayOption.Multiple_7:
-                        if (CurrentTurn % 7 == 0)
-                        {
-                            Debug.Log($"길드 퀘스트 발생중 : {item.Original_Index}");
-                            return true;
-                        }
-                        break;
-                }
+                case Guild_DayOption.Multiple_3:
+                    if (Calc_Turn_Check(item, 3, 0)) return true;
+                    break;
+
+                case Guild_DayOption.Multiple_4:
+                    if (Calc_Turn_Check(item, 4, 0)) return true;
+                    break;
+
+                case Guild_DayOption.Multiple_5:
+                    if (Calc_Turn_Check(item, 5, 0)) return true;
+                    break;
+
+                case Guild_DayOption.Multiple_7:
+                    if (Calc_Turn_Check(item, 7, 0)) return true;
+                    break;
             }
         }
 
         //? 길드원 옵션 퀘스트가 2개이상일 때 길드알림
         foreach (var item in CurrentGuildData)
         {
-            if (item.Original_Index == 2000)
+            if ((GuildNPC_LabelName)item.Original_Index == GuildNPC_LabelName.StaffA)
             {
                 if (item.OptionList.Count >= 2)
                 {
@@ -647,6 +627,22 @@ public class EventManager : MonoBehaviour
 
         return false;
     }
+
+
+    bool Calc_Turn_Check(GuildNPC_Data data, int day, int conditionInt)
+    {
+        if (CurrentTurn % day == conditionInt)
+        {
+            Debug.Log($"길드 퀘스트 발생중 : {data.InstanceQuestList[0]}");
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
     #endregion
 
 
@@ -958,6 +954,14 @@ public class EventManager : MonoBehaviour
     //? 현재 진행중인 퀘스트 목록(dataManager에서 저장용으로만 사용)
     public HashSet<int> CurrentQuestAction_forSave { get; set; } = new HashSet<int>();
 
+    
+    //? 이걸 커스텀스테이지에서도 호출하고 있어서 두마리나오는 버그가 생겼음 / NPC Manager에서 해야함
+    public void CurrentQuestInvoke()
+    {
+        CurrentQuestAction?.Invoke();
+    }
+
+
 
     public void AddQuestAction(int _index)
     {
@@ -1140,6 +1144,7 @@ public class EventManager : MonoBehaviour
                 mon.Initialize_Status();
                 mon.AddCollectionPoint();
                 GameManager.Monster.AddMonster(mon);
+                GuildManager.Instance.AddDeleteGuildNPC(GuildNPC_LabelName.Heroine);
             });
         });
 

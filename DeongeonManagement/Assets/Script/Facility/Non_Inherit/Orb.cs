@@ -17,6 +17,7 @@ public class Orb : MonoBehaviour
 
     public OrbType _OrbType;
     public bool isActive;
+    public int _OrbLevel;
 
     SpriteResolver Resolver;
     Animator anim;
@@ -34,20 +35,25 @@ public class Orb : MonoBehaviour
         switch (_OrbType)
         {
             case OrbType.green:
-                if (GameManager.Buff.CurrentBuff.Orb_green > 0) isActive = true;
+                _OrbLevel = GameManager.Buff.CurrentBuff.Orb_green;
                 break;
 
             case OrbType.blue:
-                if (GameManager.Buff.CurrentBuff.Orb_blue > 0) isActive = true;
+                _OrbLevel = GameManager.Buff.CurrentBuff.Orb_blue;
                 break;
 
             case OrbType.yellow:
-                if (GameManager.Buff.CurrentBuff.Orb_yellow > 0) isActive = true;
+                _OrbLevel = GameManager.Buff.CurrentBuff.Orb_yellow;
                 break;
 
             case OrbType.red:
-                if (GameManager.Buff.CurrentBuff.Orb_red > 0) isActive = true;
+                _OrbLevel = GameManager.Buff.CurrentBuff.Orb_red;
                 break;
+        }
+
+        if (_OrbLevel > 0)
+        {
+            isActive = true;
         }
 
         if (isActive)
@@ -112,22 +118,54 @@ public class Orb : MonoBehaviour
             {
                 case OrbType.green:
                     title = UserData.Instance.LocaleText_Tooltip("Orb_G");
-                    msg = $"{UserData.Instance.LocaleText_Tooltip("Orb_Green_Detail")}";
+                    msg = $"{UserData.Instance.LocaleText_Tooltip("Orb_Green_tier1")}";
+                    if (_OrbLevel > 1)
+                    {
+                        msg += $"\n{UserData.Instance.LocaleText_Tooltip("Orb_Green_tier1")}";
+                    }
+                    if (_OrbLevel > 2)
+                    {
+                        msg += $"\n{UserData.Instance.LocaleText_Tooltip("Orb_Green_Detail")}";
+                    }
                     break;
 
                 case OrbType.yellow:
                     title = UserData.Instance.LocaleText_Tooltip("Orb_Y");
-                    msg = $"{UserData.Instance.LocaleText_Tooltip("Orb_Yellow_Detail")}";
+                    msg = $"{UserData.Instance.LocaleText_Tooltip("Orb_Yellow_tier1")}";
+                    if (_OrbLevel > 1)
+                    {
+                        msg += $"\n{UserData.Instance.LocaleText_Tooltip("Orb_Yellow_tier1")}";
+                    }
+                    if (_OrbLevel > 2)
+                    {
+                        msg += $"\n{UserData.Instance.LocaleText_Tooltip("Orb_Yellow_Detail")}";
+                    }
                     break;
 
                 case OrbType.blue:
                     title = UserData.Instance.LocaleText_Tooltip("Orb_B");
                     msg = $"{UserData.Instance.LocaleText_Tooltip("Orb_Blue_Detail")}";
+                    if (_OrbLevel > 1)
+                    {
+                        msg += $"\n{UserData.Instance.LocaleText_Tooltip("Orb_Blue_Detail")}";
+                    }
+                    if (_OrbLevel > 2)
+                    {
+                        msg += $"\n{UserData.Instance.LocaleText_Tooltip("Orb_Blue_Detail")}";
+                    }
                     break;
 
                 case OrbType.red:
                     title = UserData.Instance.LocaleText_Tooltip("Orb_R");
                     msg = $"{UserData.Instance.LocaleText_Tooltip("Orb_Red_Detail")}";
+                    if (_OrbLevel > 1)
+                    {
+                        msg += $"\n{UserData.Instance.LocaleText_Tooltip("Orb_Red_Detail")}";
+                    }
+                    if (_OrbLevel > 2)
+                    {
+                        msg += $"\n{UserData.Instance.LocaleText_Tooltip("Orb_Red_Detail")}";
+                    }
                     break;
             }
 
@@ -219,7 +257,7 @@ public class Orb : MonoBehaviour
     IEnumerator WaitFrame() //? ClearPanel이 타일 이외의 지역 좌클릭 = CloseAll 로 해놨기때문에 1프레임 기다려야함
     {
         yield return new WaitForEndOfFrame();
-        if (isActive)
+        if (isActive && _OrbLevel >= 3)
         {
             //AlreadyActive();
         }
@@ -262,37 +300,115 @@ public class Orb : MonoBehaviour
     {
         UI_Confirm ui = Managers.UI.ShowPopUpAlone<UI_Confirm>();
 
+        string mainText = "";
+
         switch (_OrbType)
         {
             case OrbType.green:
-                var green = $"{UserData.Instance.LocaleText_Tooltip("Orb_Green")}\n" +
-                    $"({UserData.Instance.LocaleText_Tooltip("Orb_Green_Detail")})";
-                ui.SetText(green, () => Confirm(ap: 2, mana: 750, gold: 250));
-                ui.SetMode_Calculation(Define.DungeonRank.F, "750", "250", "2");
+                switch (_OrbLevel)
+                {
+                    case 0:
+                        mainText = $"{UserData.Instance.LocaleText_Tooltip("Orb_Green")} - 1{UserData.Instance.LocaleText_Tooltip("Orb_Level")}";
+                        mainText += $"\n({UserData.Instance.LocaleText_Tooltip("Orb_Green_tier1")})";
+                        ui.SetText(mainText, () => Confirm(ap: 1, mana: 500, gold: 100));
+                        ui.SetMode_Calculation(Define.DungeonRank.F, "500", "100", "1");
+                        break;
+
+                    case 1:
+                        mainText = $"{UserData.Instance.LocaleText_Tooltip("Orb_Green")} - 2{UserData.Instance.LocaleText_Tooltip("Orb_Level")}";
+                        mainText += $"\n({UserData.Instance.LocaleText_Tooltip("Orb_Green_tier1")})";
+                        ui.SetText(mainText, () => Confirm(ap: 1, mana: 500, gold: 100));
+                        ui.SetMode_Calculation(Define.DungeonRank.D, "500", "100", "1");
+                        break;
+
+                    case 2:
+                        mainText = $"{UserData.Instance.LocaleText_Tooltip("Orb_Green")} - 3{UserData.Instance.LocaleText_Tooltip("Orb_Level")}";
+                        mainText += $"\n({UserData.Instance.LocaleText_Tooltip("Orb_Green_Detail")})";
+                        ui.SetText(mainText, () => Confirm(ap: 3, mana: 1500, gold: 300));
+                        ui.SetMode_Calculation(Define.DungeonRank.C, "1500", "300", "3");
+                        break;
+                }
                 break;
 
 
             case OrbType.yellow:
-                var yellow = $"{UserData.Instance.LocaleText_Tooltip("Orb_Yellow")}\n" +
-                    $"({UserData.Instance.LocaleText_Tooltip("Orb_Yellow_Detail")})";
-                ui.SetText(yellow, () => Confirm(ap: 2, mana: 750, gold: 250));
-                ui.SetMode_Calculation(Define.DungeonRank.F, "750", "250", "2");
+                switch (_OrbLevel)
+                {
+                    case 0:
+                        mainText = $"{UserData.Instance.LocaleText_Tooltip("Orb_Yellow")} - 1{UserData.Instance.LocaleText_Tooltip("Orb_Level")}";
+                        mainText += $"\n({UserData.Instance.LocaleText_Tooltip("Orb_Yellow_tier1")})";
+                        ui.SetText(mainText, () => Confirm(ap: 1, mana: 500, gold: 100));
+                        ui.SetMode_Calculation(Define.DungeonRank.F, "500", "100", "1");
+                        break;
+
+                    case 1:
+                        mainText = $"{UserData.Instance.LocaleText_Tooltip("Orb_Yellow")} - 2{UserData.Instance.LocaleText_Tooltip("Orb_Level")}";
+                        mainText += $"\n({UserData.Instance.LocaleText_Tooltip("Orb_Yellow_tier1")})";
+                        ui.SetText(mainText, () => Confirm(ap: 1, mana: 500, gold: 100));
+                        ui.SetMode_Calculation(Define.DungeonRank.D, "500", "100", "1");
+                        break;
+
+                    case 2:
+                        mainText = $"{UserData.Instance.LocaleText_Tooltip("Orb_Yellow")} - 3{UserData.Instance.LocaleText_Tooltip("Orb_Level")}";
+                        mainText += $"\n({UserData.Instance.LocaleText_Tooltip("Orb_Yellow_Detail")})";
+                        ui.SetText(mainText, () => Confirm(ap: 3, mana: 1500, gold: 300));
+                        ui.SetMode_Calculation(Define.DungeonRank.C, "1500", "300", "3");
+                        break;
+                }
                 break;
 
 
             case OrbType.blue:
-                var blue = $"{UserData.Instance.LocaleText_Tooltip("Orb_Blue")}\n" +
-                    $"({UserData.Instance.LocaleText_Tooltip("Orb_Blue_Detail")})";
-                ui.SetText(blue, () => Confirm(mana: 3000, gold: 0, ap: 3));
-                ui.SetMode_Calculation(Define.DungeonRank.D, "3000", "0", "3");
+                switch (_OrbLevel)
+                {
+                    case 0:
+                        mainText = $"{UserData.Instance.LocaleText_Tooltip("Orb_Blue")} - 1{UserData.Instance.LocaleText_Tooltip("Orb_Level")}";
+                        mainText += $"\n({UserData.Instance.LocaleText_Tooltip("Orb_Blue_Detail")})";
+                        ui.SetText(mainText, () => Confirm(ap: 2, mana: 1000, gold: 0));
+                        ui.SetMode_Calculation(Define.DungeonRank.D, "1000", "0", "2");
+                        break;
+
+                    case 1:
+                        mainText = $"{UserData.Instance.LocaleText_Tooltip("Orb_Blue")} - 2{UserData.Instance.LocaleText_Tooltip("Orb_Level")}";
+                        mainText += $"\n({UserData.Instance.LocaleText_Tooltip("Orb_Blue_Detail")})";
+                        ui.SetText(mainText, () => Confirm(ap: 2, mana: 1000, gold: 0));
+                        ui.SetMode_Calculation(Define.DungeonRank.C, "1000", "0", "2");
+                        break;
+
+                    case 2:
+                        mainText = $"{UserData.Instance.LocaleText_Tooltip("Orb_Blue")} - 3{UserData.Instance.LocaleText_Tooltip("Orb_Level")}";
+                        mainText += $"\n({UserData.Instance.LocaleText_Tooltip("Orb_Blue_Detail")})";
+                        ui.SetText(mainText, () => Confirm(ap: 2, mana: 1000, gold: 0));
+                        ui.SetMode_Calculation(Define.DungeonRank.B, "1000", "0", "2");
+                        break;
+                }
                 break;
 
 
             case OrbType.red:
-                var red = $"{UserData.Instance.LocaleText_Tooltip("Orb_Red")}\n" +
-                    $"({UserData.Instance.LocaleText_Tooltip("Orb_Red_Detail")})";
-                ui.SetText(red, () => Confirm(mana: 1000, gold: 2000, ap: 4));
-                ui.SetMode_Calculation(Define.DungeonRank.C, "1000", "2000", "4");
+                switch (_OrbLevel)
+                {
+                    case 0:
+                        mainText = $"{UserData.Instance.LocaleText_Tooltip("Orb_Red")} - 1{UserData.Instance.LocaleText_Tooltip("Orb_Level")}";
+                        mainText += $"\n({UserData.Instance.LocaleText_Tooltip("Orb_Red_Detail")})";
+                        ui.SetText(mainText, () => Confirm(ap: 2, mana: 500, gold: 1000));
+                        ui.SetMode_Calculation(Define.DungeonRank.D, "500", "1000", "2");
+                        break;
+
+                    case 1:
+                        mainText = $"{UserData.Instance.LocaleText_Tooltip("Orb_Red")} - 2{UserData.Instance.LocaleText_Tooltip("Orb_Level")}";
+                        mainText += $"\n({UserData.Instance.LocaleText_Tooltip("Orb_Red_Detail")})";
+                        ui.SetText(mainText, () => Confirm(ap: 2, mana: 500, gold: 1000));
+                        ui.SetMode_Calculation(Define.DungeonRank.C, "500", "1000", "2");
+                        break;
+
+                    case 2:
+                        mainText = $"{UserData.Instance.LocaleText_Tooltip("Orb_Red")} - 3{UserData.Instance.LocaleText_Tooltip("Orb_Level")}";
+                        mainText += $"\n({UserData.Instance.LocaleText_Tooltip("Orb_Red_Detail")})";
+                        ui.SetText(mainText, () => Confirm(ap: 2, mana: 500, gold: 1000));
+                        ui.SetMode_Calculation(Define.DungeonRank.B, "500", "1000", "2");
+                        break;
+                }
                 break;
         }
     }
@@ -307,36 +423,49 @@ public class Orb : MonoBehaviour
 
             isActive = true;
             anim.enabled = true;
+
             switch (_OrbType)
             {
                 case OrbType.green:
-                    GameManager.Buff.CurrentBuff.Orb_green = 1;
-                    foreach (var item in GameManager.Facility.facilityList)
+                    GameManager.Buff.CurrentBuff.Orb_green += 1;
+                    _OrbLevel = GameManager.Buff.CurrentBuff.Orb_green;
+
+                    if (_OrbLevel == 3)
                     {
-                        if (item.GetType() == typeof(Herb))
+                        foreach (var item in GameManager.Facility.facilityList)
                         {
-                            item.GetComponent<Herb>().Orb_Bonus();
+                            if (item.GetType() == typeof(Herb))
+                            {
+                                item.GetComponent<Herb>().Orb_Bonus();
+                            }
                         }
                     }
                     break;
 
                 case OrbType.blue:
-                    GameManager.Buff.CurrentBuff.Orb_blue = 1;
+                    GameManager.Buff.CurrentBuff.Orb_blue += 1;
+                    _OrbLevel = GameManager.Buff.CurrentBuff.Orb_blue;
                     break;
 
                 case OrbType.yellow:
-                    GameManager.Buff.CurrentBuff.Orb_yellow = 1;
-                    foreach (var item in GameManager.Facility.facilityList)
+                    GameManager.Buff.CurrentBuff.Orb_yellow += 1;
+                    _OrbLevel = GameManager.Buff.CurrentBuff.Orb_yellow;
+
+                    if (_OrbLevel == 3)
                     {
-                        if (item.GetType() == typeof(Mineral))
+                        foreach (var item in GameManager.Facility.facilityList)
                         {
-                            item.GetComponent<Mineral>().Orb_Bonus();
+                            if (item.GetType() == typeof(Mineral))
+                            {
+                                item.GetComponent<Mineral>().Orb_Bonus();
+                            }
                         }
                     }
                     break;
 
                 case OrbType.red:
-                    GameManager.Buff.CurrentBuff.Orb_red = 1;
+                    GameManager.Buff.CurrentBuff.Orb_red += 1;
+                    _OrbLevel = GameManager.Buff.CurrentBuff.Orb_red;
                     break;
             }
         }

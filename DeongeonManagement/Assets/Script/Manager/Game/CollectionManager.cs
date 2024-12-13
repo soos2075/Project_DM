@@ -432,6 +432,20 @@ public class CollectionManager : MonoBehaviour
             }
         }
 
+        public ClearDataLog Get_Datalog(SO_Ending endings)
+        {
+            foreach (var item in dataLog)
+            {
+                if (endings.keyName == item.Value.endings.ToString())
+                {
+                    return item.Value;
+                }
+            }
+            return null;
+        }
+
+
+
 
         public int GetClearPoint()
         {
@@ -471,11 +485,23 @@ public class CollectionManager : MonoBehaviour
         public void Init_Data(DataManager.SaveData saveData)
         {
             //? 만약 이미 같은 ID로 클리어 데이터가 존재한다면 클리어 기록만 업데이트하고 나머지는 스킵 / 반대로 말하면 클리어 보상은 최초 한번만 인정
+            //? 2024 1212 위와 같은 경우로 설정을 해놨는데, 만약 다른 엔딩을 하나의 파일로 보는 경우가 꽤 있음 (세이브 로드로 엔딩작만 하는 사람)
+            //? 이런 경우 다른 엔딩이면 인정을 해주는것도 나쁘지 않을듯.
+            //? 대신 클리어 카운터는 올리지 않고, 딱 엔딩만 추가하는걸로
             ClearDataLog result = null;
             if (dataLog.TryGetValue(saveData.savefileConfig.fileID, out result))
             {
-                Update_LogData(saveData);
-                return;
+                if (saveData.endgins == result.endings)
+                {
+                    Update_LogData(saveData);
+                    return;
+                }
+                else
+                {
+                    Update_LogData(saveData);
+                    Add_Ending(saveData);
+                    return;
+                }
             }
 
             clearCounter++;
@@ -534,13 +560,17 @@ public class CollectionManager : MonoBehaviour
         public float clearTime;
         public Endings endings;
 
+        public int difficultyLevel;
+
         //public int monsterCount;
         //public string highestMonster;
         //public int highestMonsterLv;
 
         public void Set_Data(DataManager.SaveData data)
         {
-
+            endings = data.endgins;
+            difficultyLevel = data.difficultyLevel;
+            clearTime = data.playTimes;
         }
     }
 

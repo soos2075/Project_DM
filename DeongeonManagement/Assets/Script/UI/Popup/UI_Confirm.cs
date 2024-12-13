@@ -23,6 +23,24 @@ public class UI_Confirm : UI_PopUp
     }
 
 
+    private void LateUpdate()
+    {
+        if (Cor_ComfirmAction != null)
+        {
+            if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Return))
+            {
+                SayYes();
+                return;
+            }
+
+            if (Input.GetKeyDown(KeyCode.N))
+            {
+                SayNo();
+                return;
+            }
+        }
+    }
+
 
     //public UI_Base Parent { get; set; }
     string textContent;

@@ -112,7 +112,7 @@ public class UI_DayResult : UI_PopUp
 
         //? 마나 보너스 처리
         int mana_Temp = Result.Mana_Get_Etc + Result.Mana_Get_Facility + Result.Mana_Get_Monster + Result.Mana_Get_Artifacts;
-        float ratio = GameManager.Buff.CurrentBuff.Orb_blue > 0 ? 0.2f : 0;
+        float ratio = GameManager.Buff.CurrentBuff.Orb_blue > 0 ? 0.1f * GameManager.Buff.CurrentBuff.Orb_blue : 0;
         ratio += (GameManager.Buff.ManaBonus * 0.01f);
 
         int mana_bonus = Mathf.RoundToInt(mana_Temp * ratio);

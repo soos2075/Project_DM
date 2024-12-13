@@ -113,6 +113,17 @@ public class GuildManager : MonoBehaviour
         }
         return saveData;
     }
+    public HashSet<int> Data_SaveDeleteNPC()
+    {
+        HashSet<int> saveData = new HashSet<int>();
+
+        foreach (var item in Delete_GuildNPC)
+        {
+            saveData.Add((int)item);
+        }
+        return saveData;
+    }
+
 
     public void Data_LoadInstanceNPC(HashSet<int> npcs)
     {
@@ -124,8 +135,17 @@ public class GuildManager : MonoBehaviour
         {
             Instance_GuildNPC.Add((GuildNPC_LabelName)item);
         }
+    }
+    public void Data_LoadDeleteNPC(HashSet<int> npcs)
+    {
+        Delete_GuildNPC = new HashSet<GuildNPC_LabelName>();
 
-        //FindAnyObjectByType<UI_Management>().QuestNotice();
+        if (npcs == null) return;
+
+        foreach (var item in npcs)
+        {
+            Delete_GuildNPC.Add((GuildNPC_LabelName)item);
+        }
     }
 
 
@@ -138,6 +158,7 @@ public class GuildManager : MonoBehaviour
     public void NewGameReset()
     {
         Instance_GuildNPC = new HashSet<GuildNPC_LabelName>();
+        Delete_GuildNPC = new HashSet<GuildNPC_LabelName>();
     }
 
 
@@ -155,7 +176,10 @@ public class GuildManager : MonoBehaviour
 
     //Dictionary<int, Interaction_Guild> NPC_Active_Dict;
 
+    //? 길드에 추가될 NPC 리스트
     public HashSet<GuildNPC_LabelName> Instance_GuildNPC = new HashSet<GuildNPC_LabelName>();
+
+
 
     public void AddInstanceGuildNPC(GuildNPC_LabelName npc)
     {
@@ -164,6 +188,17 @@ public class GuildManager : MonoBehaviour
     public void RemoveInstanceGuildNPC(GuildNPC_LabelName npc)
     {
         Instance_GuildNPC.Remove(npc);
+    }
+
+    //? 길드에 있으면 안되는 NPC 리스트 - 위에것보다 이걸 우선시함
+    public HashSet<GuildNPC_LabelName> Delete_GuildNPC = new HashSet<GuildNPC_LabelName>();
+    public void AddDeleteGuildNPC(GuildNPC_LabelName npc)
+    {
+        Delete_GuildNPC.Add(npc);
+    }
+    public void RemoveDeleteGuildNPC(GuildNPC_LabelName npc)
+    {
+        Delete_GuildNPC.Remove(npc);
     }
 
 

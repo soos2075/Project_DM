@@ -449,8 +449,13 @@ public class DataManager
 
     public class SaveData
     {
+        public string version_info;
+        public int difficultyLevel;
+        public float playTimes;
+
         public bool isClear;
         public Endings endgins;
+
 
         // 세이브 슬롯 정보
         public int saveIndex;
@@ -504,6 +509,7 @@ public class DataManager
         public SaveData_EventData eventData;
 
         public HashSet<int> instanceGuildNPC;
+        public HashSet<int> deleteGuildNPC;
     }
 
 
@@ -680,6 +686,11 @@ public class DataManager
         //? 저장할 정보를 몽땅 기록
         SaveData saveData = new SaveData();
 
+        saveData.version_info = Application.version;
+        saveData.difficultyLevel = (int)UserData.Instance.FileConfig.Difficulty;
+        saveData.playTimes = UserData.Instance.FileConfig.PlayTimes;
+
+
         saveData.saveIndex = index;
         saveData.dateTime = System.DateTime.Now;
 
@@ -726,6 +737,7 @@ public class DataManager
 
 
         saveData.instanceGuildNPC = GuildManager.Instance.Data_SaveInstanceNPC();
+        saveData.deleteGuildNPC = GuildManager.Instance.Data_SaveDeleteNPC();
 
         UserData.Instance.FileConfig.PlayTimeApply();
         saveData.savefileConfig = UserData.Instance.FileConfig.DeepCopy();
@@ -803,6 +815,7 @@ public class DataManager
     void LoadGuildData(SaveData loadData)
     {
         GuildManager.Instance.Data_LoadInstanceNPC(loadData.instanceGuildNPC);
+        GuildManager.Instance.Data_LoadDeleteNPC(loadData.deleteGuildNPC);
         EventManager.Instance.Data_LoadEventManager(loadData);
     }
 

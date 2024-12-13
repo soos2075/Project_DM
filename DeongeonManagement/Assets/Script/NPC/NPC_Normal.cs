@@ -32,7 +32,7 @@ public class NPC_Normal : NPC
             case NPC_Type_Normal.Miner1:
             case NPC_Type_Normal.Miner2:
             case NPC_Type_Normal.Miner3:
-                KillGold = Data.Rank * Random.Range(10, 16);
+                KillGold = Data.Rank * Random.Range(5, 11);
                 RunawayHpRatio = 2;
                 break;
 
@@ -40,13 +40,13 @@ public class NPC_Normal : NPC
             case NPC_Type_Normal.Adventurer2:
             case NPC_Type_Normal.Elf:
             case NPC_Type_Normal.Wizard:
-                KillGold = Data.Rank * Random.Range(20, 31);
+                KillGold = Data.Rank * Random.Range(10, 26);
                 RunawayHpRatio = 4;
                 break;
 
             case NPC_Type_Normal.DarkElf:
             case NPC_Type_Normal.Vampire:
-                KillGold = Data.Rank * Random.Range(30, 46);
+                KillGold = Data.Rank * Random.Range(20, 31);
                 RunawayHpRatio = 5;
                 break;
 

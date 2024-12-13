@@ -163,6 +163,14 @@ MonoBehaviour:
     m_Key: Unit_Lievil
     m_Metadata:
       m_Items: []
+  - m_Id: 12881810319159296
+    m_Key: Unit_Lilith
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12881808905678848
+    m_Key: Unit_Pixie
+    m_Metadata:
+      m_Items: []
   - m_Id: 129282863214592
     m_Key: Unit_Ravi
     m_Metadata:
@@ -197,6 +205,18 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 71939970510848
     m_Key: "\uC870\uAC01\uC0C1"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13568274728169472
+    m_Key: "Log_\uD074\uB9AC\uC5B4\uD69F\uC218"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13568335893704704
+    m_Key: "Log_\uD074\uB9AC\uC5B4\uB09C\uC774\uB3C4"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13568384786706432
+    m_Key: "Log_\uD074\uB9AC\uC5B4\uC2DC\uAC04"
     m_Metadata:
       m_Items: []
   m_Metadata:

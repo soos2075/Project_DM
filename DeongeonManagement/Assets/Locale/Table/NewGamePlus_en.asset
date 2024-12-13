@@ -233,6 +233,26 @@ MonoBehaviour:
     m_Localized: Rideer
     m_Metadata:
       m_Items: []
+  - m_Id: 12881808905678848
+    m_Localized: Pixie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12881810319159296
+    m_Localized: Lilith
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13568274728169472
+    m_Localized: Clear Count
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13568335893704704
+    m_Localized: Clear Difficulty
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13568384786706432
+    m_Localized: Clear Time
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

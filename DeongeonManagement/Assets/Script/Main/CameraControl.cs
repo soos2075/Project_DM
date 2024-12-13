@@ -62,6 +62,7 @@ public class CameraControl : MonoBehaviour
         PPU_Zoom_Keyboard();
         KeyboardMove();
         Keyboard_Shortcut();
+        Key_Tapkey();
 
         // PointerEventData를 생성하고 현재 마우스 위치를 설정
         PointerEventData pointerData = new PointerEventData(EventSystem.current)
@@ -255,6 +256,18 @@ public class CameraControl : MonoBehaviour
     }
     void ClickAction()
     {
+        //Debug.Log("클릭액션 받는중");
+        //? 설치해제
+        if (Input.GetMouseButtonUp(1))
+        {
+            if (Managers.UI._paused != null)
+            {
+                SoundManager.Instance.ReplaceSound("RightClick");
+                Main.Instance.ResetCurrentAction();
+            }
+        }
+
+
         //Debug.Log(startMousePos);
         if (Input.GetMouseButtonDown(0))
         {
@@ -457,6 +470,15 @@ public class CameraControl : MonoBehaviour
     public bool AutoChasing { get; set; }
     Coroutine Chasing_Auto;
 
+
+    public void AutoChasing_First(Transform target)
+    {
+        if (AutoChasing && Chasing_Auto == null)
+        {
+            ChasingTarget_Continue(target);
+        }
+    }
+
     public void ChasingTarget_Continue(Transform target)
     {
         if (Chasing_Auto != null)
@@ -520,6 +542,49 @@ public class CameraControl : MonoBehaviour
         {
             //AutoChasing = false;
             Chasing_Auto = null;
+        }
+    }
+
+
+    void Key_Tapkey()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            Change_Targeting();
+        }
+    }
+    void Change_Targeting()
+    {
+        if (Chasing_Auto == null || AutoChasing == false) return;
+
+        List<Transform> targetList = new List<Transform>();
+
+        if (GameManager.NPC.Instance_EventNPC_List.Count > 0)
+        {
+            foreach (var item in GameManager.NPC.Instance_EventNPC_List)
+            {
+                if (item.GetComponentInChildren<SpriteRenderer>(true).enabled)
+                {
+                    targetList.Add(item.transform);
+                }
+            }
+        }
+
+        if (GameManager.NPC.Instance_NPC_List.Count > 0)
+        {
+            foreach (var item in GameManager.NPC.Instance_NPC_List)
+            {
+                if (item.GetComponentInChildren<SpriteRenderer>(true).enabled)
+                {
+                    targetList.Add(item.transform);
+                }
+            }
+        }
+
+        Util.ListShuffle(targetList);
+        if (targetList.Count > 0)
+        {
+            ChasingTarget_Continue(targetList[0]);
         }
     }
 

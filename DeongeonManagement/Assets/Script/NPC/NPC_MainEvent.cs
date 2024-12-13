@@ -162,7 +162,7 @@ public class NPC_MainEvent : NPC
                 break;
 
             default:
-                KillGold = Data.Rank * Random.Range(20, 46);
+                KillGold = Data.Rank * Random.Range(20, 41);
                 break;
         }
     }

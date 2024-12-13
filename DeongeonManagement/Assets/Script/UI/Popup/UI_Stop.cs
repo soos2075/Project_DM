@@ -22,7 +22,7 @@ public class UI_Stop : UI_PopUp
 
     private void LateUpdate()
     {
-        if (Managers.UI._popupStack.Count > 0)
+        if (Managers.UI._popupStack.Count > 0 && Managers.UI._popupStack.Peek().GetType() != typeof(UI_TileView))
         {
             return;
         }

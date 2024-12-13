@@ -170,11 +170,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 30062950574403584
-    m_Localized: 20% Mana Gain
+    m_Localized: 10% Mana Gain
     m_Metadata:
       m_Items: []
   - m_Id: 30063477735501824
-    m_Localized: All unit stats +5
+    m_Localized: All unit stats +10%
     m_Metadata:
       m_Items: []
   - m_Id: 44245981308596224
@@ -253,13 +253,13 @@ MonoBehaviour:
   - m_Id: 51454192243650560
     m_Localized: 'Placed unit stats +1
 
-      Placed herb mana +15%'
+      Placed herb mana +10%'
     m_Metadata:
       m_Items: []
   - m_Id: 51457198993387520
     m_Localized: 'Placed unit stats +4
 
-      Placed herb mana +30%'
+      Placed herb mana +20%'
     m_Metadata:
       m_Items: []
   - m_Id: 51457197852536832
@@ -269,13 +269,25 @@ MonoBehaviour:
   - m_Id: 51457196405501952
     m_Localized: 'Placed unit stats +2
 
-      Placed mineral mana +15%'
+      Placed mineral mana +10%'
     m_Metadata:
       m_Items: []
   - m_Id: 51457226206031872
     m_Localized: 'Placed unit stats +5
 
-      Placed mineral mana +30%'
+      Placed mineral mana +20%'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 69603720452845568
+    m_Localized: Tier
+    m_Metadata:
+      m_Items: []
+  - m_Id: 69605882817884160
+    m_Localized: All herb mana +10%
+    m_Metadata:
+      m_Items: []
+  - m_Id: 69606103945785344
+    m_Localized: All mineral mana +10%
     m_Metadata:
       m_Items: []
   references:

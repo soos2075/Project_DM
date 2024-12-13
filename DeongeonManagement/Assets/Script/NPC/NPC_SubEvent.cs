@@ -27,6 +27,7 @@ public class NPC_SubEvent : NPC
 
             case NPC_Type_SubEvent.Lightning:
                 //AttackOption.SetProjectile(AttackType.Normal, "Fireball", "4");
+                ActionPoint = 1;
                 AlwaysOverlap = true;
                 RunawayHpRatio = 2;
                 break;
@@ -160,6 +161,7 @@ public class NPC_SubEvent : NPC
                 EventManager.Instance.ClearQuestAction(7712000);
                 Main.Instance.CurrentDay.AddPop(100);
                 Main.Instance.ShowDM(100, Main.TextType.pop, transform, 1);
+                AddCollectionPoint();
                 break;
         }
 
@@ -222,6 +224,8 @@ public class NPC_SubEvent : NPC
     }
     protected override void NPC_Die()
     {
+        AddCollectionPoint();
+
         if (GameManager.Technical.Prison != null)
         {
             Captive();
@@ -240,6 +244,7 @@ public class NPC_SubEvent : NPC
                     Managers.Dialogue.ShowDialogueUI(DialogueName.Lightning_Defeat, transform);
                     EventManager.Instance.ClearQuestAction(7712000);
                     GuildManager.Instance.RemoveInstanceGuildNPC(GuildNPC_LabelName.Lightning);
+                    GuildManager.Instance.AddDeleteGuildNPC(GuildNPC_LabelName.Lightning);
                     break;
             }
         }
@@ -247,7 +252,7 @@ public class NPC_SubEvent : NPC
         Dead();
         //GameManager.NPC.InactiveNPC(this);
         UI_EventBox.AddEventText($"¢Â{Name_Color} {UserData.Instance.LocaleText("Event_Defeat")}");
-        //AddCollectionPoint();
+
     }
 
 
@@ -268,6 +273,11 @@ public class NPC_SubEvent : NPC
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Lightning_Defeat, transform);
                 EventManager.Instance.ClearQuestAction(7712000);
                 GuildManager.Instance.RemoveInstanceGuildNPC(GuildNPC_LabelName.Lightning);
+                GuildManager.Instance.AddDeleteGuildNPC(GuildNPC_LabelName.Lightning);
+                break;
+
+            case NPC_Type_SubEvent.Venom:
+            case NPC_Type_SubEvent.Judgement:
                 break;
         }
     }
