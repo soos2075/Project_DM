@@ -71,7 +71,11 @@ public class ArtifactManager
             {
                 artifacts[i] = data[i].DeepCopy();
                 artifacts[i].SetData(so_data[i]);
+
+                Artifact_AddCallback(artifacts[i].Indexer); //? 이건 항목에 따라 개별적용이니까 따로
             }
+            Artifact_Effection(); //? 이건 어차피 한번만호출해도 전체적용되니까 마지막에만 해도댐
+            ArtifactBox.Box_Update();
         }
     }
 
@@ -197,6 +201,7 @@ public class ArtifactManager
         Artifact_Effection();
         ArtifactBox.Box_Update();
     }
+
 
     public void Add_RandomArtifact()
     {

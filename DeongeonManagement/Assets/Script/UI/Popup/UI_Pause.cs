@@ -34,11 +34,21 @@ public class UI_Pause : UI_PopUp
         DataReset,
 
         Manual,
+
+        Licenses,
+        Licenses_Close,
+    }
+
+    enum Images
+    {
+        Licenses_Panel,
     }
 
     void Init_Button()
     {
         Bind<Button>(typeof(Buttons));
+        Bind<Image>(typeof(Images));
+
 
         GetButton(((int)Buttons.Close)).gameObject.AddUIEvent((data) => ClosePopUp());
         GetButton(((int)Buttons.StartScene)).gameObject.AddUIEvent((data) => GotoStartScene());
@@ -47,6 +57,9 @@ public class UI_Pause : UI_PopUp
         GetButton(((int)Buttons.DataReset)).gameObject.AddUIEvent((data) => DataReset());
 
         //GetButton(((int)Buttons.Manual)).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_Tutorial>("UI_Tutorial_Demo"));
+
+        GetButton(((int)Buttons.Licenses)).gameObject.AddUIEvent((data) => GetImage(((int)Images.Licenses_Panel)).gameObject.SetActive(true));
+        GetButton(((int)Buttons.Licenses_Close)).gameObject.AddUIEvent((data) => GetImage(((int)Images.Licenses_Panel)).gameObject.SetActive(false));
     }
 
 
@@ -153,6 +166,7 @@ public class UI_Pause : UI_PopUp
         Slider_TextSpeed,
         Dropdown_Resolution,
         Toggle_FullScreen,
+
     }
     void Init_Components()
     {

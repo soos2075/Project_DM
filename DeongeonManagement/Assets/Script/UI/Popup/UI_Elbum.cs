@@ -132,8 +132,14 @@ public class UI_Elbum : UI_PopUp
 
             GetTMP((int)TMP_Texts.MainText).text = UserData.Instance.LocaleText_NGP($"Clear_{data.keyName}");
 
+            GetTMP((int)TMP_Texts.HintText).text = "";
 
             var log = CollectionManager.Instance.RoundClearData.Get_Datalog(data);
+            if (log == null)
+            {
+                return;
+            }
+
             int clearcount = 0;
             CollectionManager.Instance.RoundClearData.endingClearCount.TryGetValue(log.endings, out clearcount);
 

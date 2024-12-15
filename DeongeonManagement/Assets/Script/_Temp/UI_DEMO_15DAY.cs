@@ -19,7 +19,7 @@ public class UI_DEMO_15DAY : UI_PopUp
 
         SteamLink,
 
-        ContinueButton,
+        //ContinueButton,
     }
 
 
@@ -71,7 +71,7 @@ public class UI_DEMO_15DAY : UI_PopUp
 
         GetObject((int)Objects.ToMain).AddUIEvent((data) => LoadToMain());
 
-        GetObject((int)Objects.ContinueButton).AddUIEvent((data) => ContinueGame());
+        //GetObject((int)Objects.ContinueButton).AddUIEvent((data) => ContinueGame());
     }
 
 

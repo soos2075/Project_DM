@@ -136,7 +136,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.89.4_EA
+  bundleVersion: 0.90.4_EA
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -159,7 +159,7 @@ PlayerSettings:
   applicationIdentifier:
     Standalone: com.LazyCnD.NoviceDungeonMaster
   buildNumber:
-    Standalone: 089
+    Standalone: 090
     iPhone: 0
     tvOS: 0
   overrideDefaultApplicationIdentifier: 1
@@ -710,7 +710,7 @@ PlayerSettings:
   webGLDecompressionFallback: 0
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Standalone: 
+    Standalone: STEAMWORKS_NET;STEAM_BUILD
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

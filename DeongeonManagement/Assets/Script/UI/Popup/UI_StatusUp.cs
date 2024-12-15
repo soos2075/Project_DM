@@ -12,6 +12,15 @@ public class UI_StatusUp : UI_PopUp
     }
 
 
+
+    private void LateUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+        {
+            ClosePopUp();
+        }
+    }
+
     enum Images
     {
         Panel,

@@ -891,7 +891,7 @@ public class Main : MonoBehaviour
 
         //? 데모 종료시점. 저장하기전에 해야함.
 
-#if DEMO_BUILD
+#if STEAM_DEMO_BUILD
         if (Turn == 20)
         {
             DEMO_Ending();
@@ -1234,45 +1234,40 @@ public class Main : MonoBehaviour
                 break;
 
 
-            case 15: //? 데모 종료구간
-                //DEMO_15DAY();
-                //return;
-                break;
+//            case 30:
+//#if DEMO_BUILD
+//                Debug.Log("데모클리어");
+//                //var clear = new CollectionManager.ClearDataLog();
+//                //clear.mana = GetTotalMana();
+//                //clear.gold = GetTotalGold();
+//                //clear.visit = GetTotalVisit();
+//                //clear.kill = GetTotalKill();
+//                //clear.satisfaction = GetTotalSatisfaction();
+//                //clear.return_Empty = GetTotalReturn();
 
-            case 30:
-#if DEMO_BUILD
-                Debug.Log("데모클리어");
-                //var clear = new CollectionManager.ClearDataLog();
-                //clear.mana = GetTotalMana();
-                //clear.gold = GetTotalGold();
-                //clear.visit = GetTotalVisit();
-                //clear.kill = GetTotalKill();
-                //clear.satisfaction = GetTotalSatisfaction();
-                //clear.return_Empty = GetTotalReturn();
+//                //clear.pop = PopularityOfDungeon;
+//                //clear.danger = DangerOfDungeon;
+//                //clear.rank = DungeonRank;
+//                //UserData.Instance.FileConfig.PlayTimeApply();
+//                //clear.clearTime = UserData.Instance.FileConfig.PlayTimes;
+//                //clear.monsterCount = GameManager.Monster.GetCurrentMonster();
+//                //int highestLv = 0;
+//                //string highestMonster = "";
+//                //foreach (var mon in GameManager.Monster.GetMonsterAll())
+//                //{
+//                //    if (mon.LV > highestLv)
+//                //    {
+//                //        highestMonster = mon.Name;
+//                //        highestLv = mon.LV;
+//                //    }
+//                //}
+//                //clear.highestMonster = highestMonster;
+//                //clear.highestMonsterLv = highestLv;
 
-                //clear.pop = PopularityOfDungeon;
-                //clear.danger = DangerOfDungeon;
-                //clear.rank = DungeonRank;
-                //UserData.Instance.FileConfig.PlayTimeApply();
-                //clear.clearTime = UserData.Instance.FileConfig.PlayTimes;
-                //clear.monsterCount = GameManager.Monster.GetCurrentMonster();
-                //int highestLv = 0;
-                //string highestMonster = "";
-                //foreach (var mon in GameManager.Monster.GetMonsterAll())
-                //{
-                //    if (mon.LV > highestLv)
-                //    {
-                //        highestMonster = mon.Name;
-                //        highestLv = mon.LV;
-                //    }
-                //}
-                //clear.highestMonster = highestMonster;
-                //clear.highestMonsterLv = highestLv;
-
-                //DemoManager.Instance.DemoClearData(clear);
-                //AutoSave_Instant();
-#endif
-                break;
+//                //DemoManager.Instance.DemoClearData(clear);
+//                //AutoSave_Instant();
+//#endif
+//                break;
 
             default:
                 break;

@@ -555,7 +555,7 @@ public class CameraControl : MonoBehaviour
     }
     void Change_Targeting()
     {
-        if (Chasing_Auto == null || AutoChasing == false) return;
+        //if (Chasing_Auto == null || AutoChasing == false) return;
 
         List<Transform> targetList = new List<Transform>();
 

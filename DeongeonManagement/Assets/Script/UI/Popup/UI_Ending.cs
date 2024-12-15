@@ -94,14 +94,7 @@ public class UI_Ending : UI_PopUp
         //? 그냥 메인으로 가자..
         Managers.Scene.LoadSceneAsync(SceneName._1_Start);
 
-
-        //#if DEMO_BUILD
-        //        // 데모 빌드 전용 코드
-        //        StartCoroutine(Clear_Demo());
-        //#else
-        //                // 일반 빌드 전용 코드
-        //                StartCoroutine(ClearText());
-        //#endif
+        //? 만약 모든 엔딩을 다 봤다면 엔딩크레딧 연결하자
 
         //StartCoroutine(Clear_Demo());
 

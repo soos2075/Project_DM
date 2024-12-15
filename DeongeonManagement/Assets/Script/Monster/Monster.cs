@@ -1482,7 +1482,11 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         Main.Instance.Player_AP--;
         Debug.Log($"{Name_Color} ศฦทรม๘วเ");
 
+        Training_LevelUP();
+    }
 
+    void Training_LevelUP()
+    {
         if (GameManager.Technical.Get_Technical<TrainingCenter>() != null)
         {
             LevelUp(true, true);
@@ -1493,10 +1497,10 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         }
 
         //LevelUpEvent(LevelUpEventType.Training);
-
         traitCounter.AddTrainingCounter();
         AddCollectionPoint();
     }
+
 
     public void Statue_Cat()
     {
@@ -1504,9 +1508,12 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         {
             return;
         }
+        if (State == MonsterState.Injury)
+        {
+            return;
+        }
 
-        LevelUp(true);
-        //LevelUpEvent(LevelUpEventType.Training);
+        Training_LevelUP();
     }
     public void Statue_Demon()
     {

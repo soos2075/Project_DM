@@ -371,15 +371,15 @@ public class Orb : MonoBehaviour
                     case 1:
                         mainText = $"{UserData.Instance.LocaleText_Tooltip("Orb_Blue")} - 2{UserData.Instance.LocaleText_Tooltip("Orb_Level")}";
                         mainText += $"\n({UserData.Instance.LocaleText_Tooltip("Orb_Blue_Detail")})";
-                        ui.SetText(mainText, () => Confirm(ap: 2, mana: 1000, gold: 0));
-                        ui.SetMode_Calculation(Define.DungeonRank.C, "1000", "0", "2");
+                        ui.SetText(mainText, () => Confirm(ap: 3, mana: 1500, gold: 0));
+                        ui.SetMode_Calculation(Define.DungeonRank.C, "1500", "0", "3");
                         break;
 
                     case 2:
                         mainText = $"{UserData.Instance.LocaleText_Tooltip("Orb_Blue")} - 3{UserData.Instance.LocaleText_Tooltip("Orb_Level")}";
                         mainText += $"\n({UserData.Instance.LocaleText_Tooltip("Orb_Blue_Detail")})";
-                        ui.SetText(mainText, () => Confirm(ap: 2, mana: 1000, gold: 0));
-                        ui.SetMode_Calculation(Define.DungeonRank.B, "1000", "0", "2");
+                        ui.SetText(mainText, () => Confirm(ap: 4, mana: 2000, gold: 0));
+                        ui.SetMode_Calculation(Define.DungeonRank.B, "2000", "0", "4");
                         break;
                 }
                 break;
@@ -398,15 +398,15 @@ public class Orb : MonoBehaviour
                     case 1:
                         mainText = $"{UserData.Instance.LocaleText_Tooltip("Orb_Red")} - 2{UserData.Instance.LocaleText_Tooltip("Orb_Level")}";
                         mainText += $"\n({UserData.Instance.LocaleText_Tooltip("Orb_Red_Detail")})";
-                        ui.SetText(mainText, () => Confirm(ap: 2, mana: 500, gold: 1000));
-                        ui.SetMode_Calculation(Define.DungeonRank.C, "500", "1000", "2");
+                        ui.SetText(mainText, () => Confirm(ap: 3, mana: 750, gold: 1500));
+                        ui.SetMode_Calculation(Define.DungeonRank.C, "750", "1500", "3");
                         break;
 
                     case 2:
                         mainText = $"{UserData.Instance.LocaleText_Tooltip("Orb_Red")} - 3{UserData.Instance.LocaleText_Tooltip("Orb_Level")}";
                         mainText += $"\n({UserData.Instance.LocaleText_Tooltip("Orb_Red_Detail")})";
-                        ui.SetText(mainText, () => Confirm(ap: 2, mana: 500, gold: 1000));
-                        ui.SetMode_Calculation(Define.DungeonRank.B, "500", "1000", "2");
+                        ui.SetText(mainText, () => Confirm(ap: 4, mana: 1000, gold: 2000));
+                        ui.SetMode_Calculation(Define.DungeonRank.B, "1000", "2000", "4");
                         break;
                 }
                 break;

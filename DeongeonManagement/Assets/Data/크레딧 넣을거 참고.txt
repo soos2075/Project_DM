@@ -12,3 +12,54 @@
 번역 (클로드랑 마사케이)
 
 플레이테스트 (레드레이, 다피네 등등)
+
+
+Game Design & Planning		LazyCnD
+
+Production & Direction		LazyCnD
+
+Programming & Development		LazyCnD
+
+
+Art & Graphics			QU4RTER
+
+UI/UX Design			QU4RTER
+
+
+Sound Design & Music		DovaSyndrome
+
+
+Translation & Localization		Claude / DeepL / Masa K
+
+Video Production			ssaco / RedRay
+
+QA & Playtesting			다피네 / RedRay / 류미래 / Stove Indie / JHJ
+
+
+Special Thanks			KSK / AHN / QU4RTER/ yupi / JHJ /  T5D / snakeeagle
+				다피네 / MKH / RedRay / Shedin
+
+
+Asset Credits
+
+
+
+
+기획 / 제작 / 개발		LazyCnD
+
+
+그래픽 / UI		QU4RTER
+
+
+사운드			DovaSindrom
+
+
+번역			Claude / DeepL
+
+
+영상			
+
+
+플레이테스트		
+
+

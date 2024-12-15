@@ -34,6 +34,11 @@ public class UI_SteamLink : UI_PopUp
     {
         Bind<Button>(typeof(Buttons));
 
+#if !STEAM_DEMO_BUILD
+        GetButton((int)Buttons.SteamLink).gameObject.SetActive(false);
+#endif
+
+
         GetButton((int)Buttons.SteamLink).gameObject.AddUIEvent(data => OpenWebPageButton("https://store.steampowered.com/app/2886090/Novice_Dungeon_Master/"));
         GetButton((int)Buttons.DiscordLink).gameObject.AddUIEvent(data => OpenWebPageButton("https://discord.gg/HAzNCtjjeW"));
 

@@ -34,6 +34,14 @@ public class UI_Management : UI_Base
                 //Managers.UI.ShowPopUp<UI_Stop>();
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            if (eventBox != null)
+            {
+                eventBox.BoxActive();
+            }
+        }
     }
 
 
@@ -524,7 +532,7 @@ public class UI_Management : UI_Base
     void EventBoxOpen()
     {
         eventBox.BoxActive(true);
-        eventBox.TextClear();
+        //eventBox.TextClear();
     }
 
 

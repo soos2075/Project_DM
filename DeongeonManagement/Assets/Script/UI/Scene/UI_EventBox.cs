@@ -144,6 +144,22 @@ public class UI_EventBox : UI_Scene
     bool Current { get; set; }
 
 
+    public void BoxActive()
+    {
+        if (Current)
+        {
+            Current = false;
+            GetObject((int)Contents.Panel_Active).SetActive(true);
+            GetObject((int)Contents.Panel_Inactive).SetActive(false);
+        }
+        else
+        {
+            Current = true;
+            GetObject((int)Contents.Panel_Active).SetActive(false);
+            GetObject((int)Contents.Panel_Inactive).SetActive(true);
+        }
+    }
+
     public void BoxActive(bool _active)
     {
         if (_active)

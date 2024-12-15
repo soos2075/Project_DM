@@ -152,8 +152,11 @@ public class UIManager
 
     public void Stop_Reservation()
     {
-        Managers.Instance.StopCoroutine(ReservationCor);
-        ReservationCor = null;
+        if (ReservationCor != null)
+        {
+            Managers.Instance.StopCoroutine(ReservationCor);
+            ReservationCor = null;
+        }
         _reservationQueue.Clear();
     }
 

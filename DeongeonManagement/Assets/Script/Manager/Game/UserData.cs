@@ -1,8 +1,8 @@
+using Steamworks;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Reflection;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
 
@@ -42,6 +42,13 @@ public class UserData : MonoBehaviour
 
     private void Start()
     {
+#if STEAM_BUILD || STEAM_DEMO_BUILD
+        Steam_Authorize();
+        SteamInit();
+#endif
+
+
+
         Application.runInBackground = true;
         //Application.targetFrameRate = -1;
         Init_Resolution();
@@ -50,7 +57,79 @@ public class UserData : MonoBehaviour
     }
 
 
-    #region Localization
+#region Steam SDK
+
+    public const uint STEAM_APP_ID = 2886090;
+    public const uint STEAM_APP_ID_DEMO = 3241770;
+
+    public uint Current_APP_ID = 480;
+    void Steam_Authorize()
+    {
+#if STEAM_BUILD
+        Current_APP_ID = STEAM_APP_ID;
+#elif STEAM_DEMO_BUILD
+        Current_APP_ID = STEAM_APP_ID_DEMO;
+#endif
+
+        try
+        {
+            // 스팀 초기화 체크
+            if (!SteamAPI.Init())
+            {
+                Debug.LogError("Steam 초기화 실패!");
+                Application.Quit();
+                return;
+            }
+
+            // 앱ID 체크
+            if (SteamUtils.GetAppID().m_AppId != Current_APP_ID)
+            {
+                Debug.LogError("잘못된 AppID!");
+                Application.Quit();
+                return;
+            }
+
+            Debug.Log("Steam 연동 성공!");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError(e.Message);
+            Application.Quit();
+        }
+    }
+
+    void SteamInit()
+    {
+        try
+        {
+            if (SteamAPI.Init())
+            {
+                string name = SteamFriends.GetPersonaName();
+                Debug.Log($"Steam 초기화 성공! 사용자 이름: {name}");
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Steam 에러: {e.Message}");
+            Application.Quit();
+        }
+    }
+
+    void Steam_Quit() //? 자동클라우드때메 이거 호출 안하는게 나을듯
+    {
+        SteamAPI.Shutdown();
+    }
+
+
+#endregion
+
+
+
+
+
+
+
+#region Localization
     public Define.Language Language { get; set; } = Define.Language.KR;
 
 
@@ -189,12 +268,12 @@ public class UserData : MonoBehaviour
 
         return saveTime.ToString("F", cultureInfo);
     }
-    #endregion
+#endregion
 
 
 
 
-    #region Cursor
+#region Cursor
 
     public Texture2D CursorImage;
     //public Texture2D CursorImage_1280;
@@ -255,13 +334,13 @@ public class UserData : MonoBehaviour
     //}
 
 
-    #endregion
+#endregion
 
 
 
 
 
-    #region Resolution
+#region Resolution
 
     void Init_Resolution()
     {
@@ -352,13 +431,13 @@ public class UserData : MonoBehaviour
         }
     }
 
-    #endregion
+#endregion
 
 
 
 
 
-    #region GameMode
+#region GameMode
     private Define.GameMode _gameMode;
     public Define.GameMode GameMode
     {
@@ -438,14 +517,14 @@ public class UserData : MonoBehaviour
     //}
 
 
-    #endregion
+#endregion
 
 
 
 
 
 
-    #region GameClear
+#region GameClear
     public DataManager.SaveData CurrentSaveData { get; set; }
 
     public bool isClear { get; set; }
@@ -501,11 +580,11 @@ public class UserData : MonoBehaviour
 
 
 
-    #endregion
+#endregion
 
 
 
-    #region PlayTime Managed
+#region PlayTime Managed
 
     float currentTime;
     public void SavePlayTime()
@@ -523,11 +602,11 @@ public class UserData : MonoBehaviour
         Debug.Log($"Quit_Save_Success");
     }
 
-    #endregion
+#endregion
 
 
 
-    #region SavefileConfig
+#region SavefileConfig
 
     public class SavefileConfig
     {
@@ -579,7 +658,7 @@ public class UserData : MonoBehaviour
         public bool Notice_Ex5;
 
 
-        #region 클리어 특전
+#region 클리어 특전
         //? 조각상
         public bool Statue_Mana;
         public bool Statue_Gold;
@@ -619,7 +698,7 @@ public class UserData : MonoBehaviour
         public bool Arti_Danger;
         public bool Arti_DownDanger;
         public bool Arti_DownPop;
-        #endregion
+#endregion
 
         public void SetBoolValue(string boolName, bool value)
         {
@@ -702,7 +781,7 @@ public class UserData : MonoBehaviour
         FileConfig = config;
     }
 
-    #endregion
+#endregion
 
 
 

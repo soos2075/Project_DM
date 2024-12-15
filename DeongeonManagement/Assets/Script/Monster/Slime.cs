@@ -76,6 +76,12 @@ public class Slime : Monster
     public override void BattleEvent(BattleField.BattleResult result, NPC npc)
     {
         base.BattleEvent(result, npc);
+
+        if (EvolutionState != Evolution.Progress)
+        {
+            return;
+        }
+
         switch (result)
         {
             case BattleField.BattleResult.Nothing:

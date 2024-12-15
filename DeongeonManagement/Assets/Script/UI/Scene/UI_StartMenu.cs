@@ -9,8 +9,6 @@ public class UI_StartMenu : UI_Scene
         Init();
     }
     
-
-
     enum TMP_Texts
     {
         VersionText,
@@ -22,6 +20,7 @@ public class UI_StartMenu : UI_Scene
         Quit,
         Pause,
         Elbum,
+        Credit,
     }
 
     public override void Init()
@@ -45,14 +44,24 @@ public class UI_StartMenu : UI_Scene
 
 
 
-
-
-
     void Init_CollectionButton()
     {
         GetButton((int)Buttons.Elbum).gameObject.SetActive(false);
+        GetButton((int)Buttons.Credit).gameObject.SetActive(false);
 
         StartCoroutine(Add_ElbumBtn());
+
+
+        if (CollectionManager.Instance.RoundClearData != null)
+        {
+            var data = CollectionManager.Instance.RoundClearData;
+            if (data.EndingClearCheck(Endings.Dog) && data.EndingClearCheck(Endings.Cat) && data.EndingClearCheck(Endings.Dragon) &&
+                data.EndingClearCheck(Endings.Demon) && data.EndingClearCheck(Endings.Hero) && data.EndingClearCheck(Endings.Ravi))
+            {
+                GetButton((int)Buttons.Credit).gameObject.SetActive(true);
+                GetButton(((int)Buttons.Credit)).gameObject.AddUIEvent(data => Managers.UI.ShowPopUp<UI_Credit>());
+            }
+        }
     }
 
     IEnumerator Add_ElbumBtn()
@@ -64,6 +73,8 @@ public class UI_StartMenu : UI_Scene
             GetButton((int)Buttons.Elbum).gameObject.SetActive(true);
             GetButton(((int)Buttons.Elbum)).gameObject.AddUIEvent(data => Managers.UI.ShowPopUp<UI_Elbum>());
             Title_Clear();
+
+
         }
     }
 
@@ -214,20 +225,20 @@ public class UI_StartMenu : UI_Scene
 
 
 
-    void DataReset_Action()
-    {
-        // 플레이어 데이터 삭제
-        PlayerPrefs.DeleteAll();
-        // 클리어 데이터 삭제
-        CollectionManager.Instance.RoundClearData = null;
-        Managers.Data.DeleteSaveFile("ClearData");
-        // 컬렉션 데이터 삭제
-        Managers.Data.DeleteSaveFile("CollectionData");
-        CollectionManager.Instance.DataResetAndNewGame();
-        // 세이브 데이터 삭제
-        Managers.Data.DeleteSaveFileAll();
+    //void DataReset_Action()
+    //{
+    //    // 플레이어 데이터 삭제
+    //    PlayerPrefs.DeleteAll();
+    //    // 클리어 데이터 삭제
+    //    CollectionManager.Instance.RoundClearData = null;
+    //    Managers.Data.DeleteSaveFile("ClearData");
+    //    // 컬렉션 데이터 삭제
+    //    Managers.Data.DeleteSaveFile("CollectionData");
+    //    CollectionManager.Instance.DataResetAndNewGame();
+    //    // 세이브 데이터 삭제
+    //    Managers.Data.DeleteSaveFileAll();
 
 
-    }
+    //}
 
 }

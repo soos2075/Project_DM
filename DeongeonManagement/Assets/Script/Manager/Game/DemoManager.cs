@@ -60,7 +60,7 @@ public class DemoManager : MonoBehaviour
 
 
 
-#if DEMO_BUILD
+#if STEAM_DEMO_BUILD
         // 데모 빌드 전용 코드
         Debug.Log("This is demo build.");
         isDemoVersion = true;

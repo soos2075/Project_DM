@@ -550,33 +550,52 @@ public class DataManager
         {
             DeleteSaveFile(savefile.Key);
         }
+        DeleteSaveFile("Temp_GuildSave");
 
         SaveFileList = new Dictionary<string, SaveData>();
     }
 
+    const int saveFileSlot = 6;
+    const int saveFilePage = 10;
+
     void Scan_File()
     {
-        for (int i = 1; i <= 6 * 10; i++)
+        for (int i = 1; i <= saveFileSlot * saveFilePage; i++)
         {
             if (Managers.Data.SaveFileSearch($"DM_Save_{i}"))
             {
-                var data = LoadToStorage($"DM_Save_{i}");
-                if (data != null)
-                {
-                    SaveFileList.Add($"DM_Save_{i}", data);
-                }
+                File_Defect_Testing($"DM_Save_{i}");
             }
         }
 
         if (Managers.Data.SaveFileSearch($"AutoSave"))
         {
-            var data = LoadToStorage($"AutoSave");
-            if (data != null)
-            {
-                SaveFileList.Add($"AutoSave", data);
-            }
+            File_Defect_Testing($"AutoSave");
         }
     }
+
+    void File_Defect_Testing(string fileName)
+    {
+        try
+        {
+            var data = LoadToStorage(fileName);
+            if (data == null || data.version_info == null)
+            {
+                Debug.Log($"Deleting old save file: {fileName}");
+                DeleteSaveFile(fileName);
+                return;
+            }
+
+            SaveFileList.Add(fileName, data);
+        }
+        catch (Exception e)
+        {
+            Debug.Log($"Deleting old save file: {fileName}");
+            DeleteSaveFile(fileName);
+        }
+    }
+
+
 
     void Add_File(SaveData newData, string fileKey)
     {
