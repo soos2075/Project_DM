@@ -159,6 +159,7 @@ public class DialogueManager
     }
 
 
+
     IEnumerator HideCanvas()
     {
         var canvas = GameObject.FindObjectsOfType<Canvas>();
@@ -340,6 +341,92 @@ public class DialogueManager
     //}
 
 
+
+
+    #region NPC랑 바로 대화 후 주인공이랑 독대하는 기능
+
+    public UnitEventRoom Room;
+    public Transform PlayerPos;
+    public Transform UnitPos;
+
+    void Setting_EventRoom()
+    {
+        Room = GameManager.Monster.Room;
+        PlayerPos = Room.transform.GetChild(0);
+        UnitPos = Room.transform.GetChild(1);
+        Room.gameObject.SetActive(true);
+    }
+
+    public void ShowDialogue_PlayerRoom(int DialogueID, NPC target, Action<NPC> OverCallback)
+    {
+        Managers.Instance.StartCoroutine(Dialogue_NPCEvent(DialogueID, target, OverCallback));
+    }
+
+
+    IEnumerator Dialogue_NPCEvent(int DialogueID, NPC target, Action<NPC> OverCallback)
+    {
+        Setting_EventRoom();
+        UserData.Instance.GameMode = Define.GameMode.Stop;
+
+        //? 먼저 해당위치 포커싱
+        var Cam = Camera.main.GetComponent<CameraControl>();
+        Cam.ChasingTarget(target.transform, 1.0f);
+
+        yield return new WaitForSeconds(1);
+
+        //? 페이드인아웃
+        var fade = Managers.UI.ShowPopUp<UI_Fade>();
+        fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 1, true);
+
+
+        //? 카메라 대화방으로 이동
+        //var Cam = Camera.main.GetComponent<CameraControl>();
+        Cam.SaveCurrentState();
+        Cam.transform.position = new Vector3(Room.transform.position.x, Room.transform.position.y, Cam.transform.position.z);
+        Cam.pixelCam.assetsPPU = 30;
+
+        //? 플레이어와 유닛 대화의방으로 이동
+        var player = Main.Instance.Player;
+
+        var UnitOriginPos = target.transform.position;
+        var PlayerOriginPos = player.position;
+
+        player.position = PlayerPos.position;
+        target.transform.position = UnitPos.position;
+        target.transform.localScale = new Vector3(-1, 1, 1);
+        target.Anim_State = NPC.animState.Ready;
+
+        //? 실제 대화 호출 및 진행 (ui를 없애야되서 먼저 시작)
+        Managers.Dialogue.ShowDialogueUI(DialogueID, player);
+
+
+        //? 세팅시간 1초 기다리기
+        yield return new WaitForSeconds(1);
+
+
+        //? 대화끝날때까지 기다리기
+        yield return null;
+        yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
+
+        //? 페이드인아웃
+        var fade2 = Managers.UI.ShowPopUp<UI_Fade>();
+        fade2.SetFadeOption(UI_Fade.FadeMode.WhiteIn, 1, true);
+
+        //? 대화 끝나고 이것저것 세팅 (플레이어와 유닛 위치 되돌리기, 카메라 되돌리기)
+        player.position = PlayerOriginPos;
+        target.transform.position = UnitOriginPos;
+        target.transform.localScale = Vector3.one;
+
+        Cam.SetOriginState();
+        Room.gameObject.SetActive(false);
+
+        OverCallback?.Invoke(target);
+    }
+
+
+    #endregion
+
+
 }
 
 public class DialogueData
@@ -392,6 +479,8 @@ public enum DialogueName
     Tutorial_Egg = 4,
     Tutorial_Guild = 5,
     Tutorial_Orb = 6,
+
+    GameOver = 10,
 
 
     FirstAdvAppear = 33,
@@ -554,5 +643,12 @@ public enum DialogueName
     RetiredHero_0 = 15000,
     RetiredHero_10 = 15010,
 
+
+    Mastia_Enter = 1711001,
+    Karen_Enter = 1712001,
+    Stan_Enter = 1713001,
+    Euh_Enter = 1714001,
+    Romys_Enter = 1715001,
+    Siri_Enter = 1716001,
 }
 

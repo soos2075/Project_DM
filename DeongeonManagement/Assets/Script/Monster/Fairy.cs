@@ -16,26 +16,20 @@ public class Fairy : Monster
         {
             StartCoroutine(Init_Evolution());
         }
-        else
-        {
-            Debug.Log("이미 등록된 진화몹 있음");
-        }
     }
-    void Trait_Original()
-    {
-        AddTrait(new Trait.Friend());
-    }
-    public override void MonsterInit_Evolution()
+
+    public override void Load_EvolutionMonster()
     {
         Data = GameManager.Monster.GetData("Pixie");
         GameManager.Monster.ChangeSLA_New(this, "Pixie");
         GameManager.Monster.Regist_Evolution("Fairy");
-        Trait_Original();
     }
 
-    public override void EvolutionMonster_Init()
+    public override void Create_EvolutionMonster_Init()
     {
         Data = GameManager.Monster.GetData("Fairy");
+        Trait_Original();
+
         Initialize_Status();
         EvolutionState = Evolution.Complete;
         EvolutionComplete();
@@ -62,13 +56,48 @@ public class Fairy : Monster
     {
         List<ITrait> newTrait = new List<ITrait>();
 
-        newTrait.Add(new Trait.Friend());
-        if (TraitCheck(TraitGroup.VeteranB)) newTrait.Add(new Trait.VeteranA());
-        if (TraitCheck(TraitGroup.EliteB)) newTrait.Add(new Trait.EliteA());
-        if (TraitCheck(TraitGroup.DiscreetB)) newTrait.Add(new Trait.DiscreetA());
-        if (TraitCheck(TraitGroup.ShirkingB)) newTrait.Add(new Trait.ShirkingA());
-        if (TraitCheck(TraitGroup.SurvivabilityB)) newTrait.Add(new Trait.SurvivabilityA());
-        if (TraitCheck(TraitGroup.RuthlessB)) newTrait.Add(new Trait.RuthlessA());
+        AddTrait_DisableList(TraitGroup.Friend);
+
+        foreach (var item in TraitList) //? 원래거 복사 (고유특성만 빼고)
+        {
+            if (item.ID == TraitGroup.Friend)
+            {
+                newTrait.Add(new Trait.Friend_V2());
+                continue;
+            }
+            if (item.ID == TraitGroup.VeteranB)
+            {
+                newTrait.Add(new Trait.VeteranA());
+                continue;
+            }
+            if (item.ID == TraitGroup.EliteB)
+            {
+                newTrait.Add(new Trait.EliteA());
+                continue;
+            }
+            if (item.ID == TraitGroup.DiscreetB)
+            {
+                newTrait.Add(new Trait.DiscreetA());
+                continue;
+            }
+            if (item.ID == TraitGroup.ShirkingB)
+            {
+                newTrait.Add(new Trait.ShirkingA());
+                continue;
+            }
+            if (item.ID == TraitGroup.SurvivabilityB)
+            {
+                newTrait.Add(new Trait.SurvivabilityA());
+                continue;
+            }
+            if (item.ID == TraitGroup.RuthlessB)
+            {
+                newTrait.Add(new Trait.RuthlessA());
+                continue;
+            }
+
+            newTrait.Add(item);
+        }
 
         TraitList = newTrait;
     }
@@ -78,6 +107,8 @@ public class Fairy : Monster
     //? 자신을 제외한 같은 층에 5마리 이상의 다른 유닛이 있을경우 턴 종료시 진화 (자신포함6마리)
     public override void TurnOver()
     {
+        base.TurnOver();
+
         if (EvolutionState == Evolution.Ready && State == MonsterState.Placement)
         {
             var friend = PlacementInfo.Place_Floor.GetFloorObjectList(Define.TileType.Monster);

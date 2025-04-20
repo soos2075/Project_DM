@@ -19,30 +19,69 @@ public class UI_Management : UI_Base
     {
         Texts_Refresh();
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Main.Instance.Management)
         {
-            if (Main.Instance.Management) return;
-
-            if (Managers.UI._popupStack.Count > 0 && Managers.UI._popupStack.Peek().GetType() != typeof(UI_TileView))
+            TurnOver_HotKey();
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                return;
-            }
+                if (Managers.UI._popupStack.Count > 0 && Managers.UI._popupStack.Peek().GetType() != typeof(UI_TileView))
+                {
+                    return;
+                }
 
-            if (FindAnyObjectByType<UI_Stop>() == null)
-            {
-                Managers.Resource.Instantiate("UI/PopUp/UI_Stop");
-                //Managers.UI.ShowPopUp<UI_Stop>();
+                if (FindAnyObjectByType<UI_Stop>() == null)
+                {
+                    Managers.Resource.Instantiate("UI/PopUp/UI_Stop");
+                    //Managers.UI.ShowPopUp<UI_Stop>();
+                }
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             if (eventBox != null)
             {
                 eventBox.BoxActive();
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && Time.timeScale != 0 && UserData.Instance.GameMode == Define.GameMode.Normal)
+        {
+            GameSpeedChange();
+        }
     }
+
+    private float spaceStartTime = -1f; // 스페이스바를 누르기 시작한 시간
+    private const float HOLD_DURATION = 1.0f; // 필요한 홀드 시간
+
+    void TurnOver_HotKey()
+    {
+        // 스페이스바를 누르기 시작할 때
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            spaceStartTime = Time.time;
+        }
+
+        // 스페이스바를 떼었을 때
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            spaceStartTime = -1f; // 타이머 리셋
+        }
+
+        // 스페이스바를 계속 누르고 있고, 0.5초가 지났다면
+        if (Input.GetKey(KeyCode.Space) && spaceStartTime > 0f)
+        {
+            if (Time.time - spaceStartTime >= HOLD_DURATION)
+            {
+                TurnStartAction();
+                spaceStartTime = -1f; // 액션 실행 후 타이머 리셋
+            }
+        }
+    }
+
 
 
     public enum ButtonEvent
@@ -53,6 +92,8 @@ public class UI_Management : UI_Base
         _4_Guild,
         _5_Quest,
         _6_DungeonEdit,
+
+        DungeonTitle,
 
         DayChange,
 
@@ -220,8 +261,8 @@ public class UI_Management : UI_Base
         }
 
         if (UserData.Instance.FileConfig.Notice_Guild)
-        {
-            AddNotice_UI("Notice", this, ButtonEvent._4_Guild.ToString(), "Notice_Guild");
+        {   //? 노클리어버전으로
+            AddNotice_NoClear("Notice", this, ButtonEvent._4_Guild.ToString(), "Notice_Guild");
         }
         else //? 만약 이번턴에 업데이트했는데 없으면 이전에 남아있던 overlay라도 삭제해야함
         {
@@ -267,7 +308,7 @@ public class UI_Management : UI_Base
     {
         yield return null;
 
-        Init_Difficulty();
+        //Init_Difficulty();
         GuildButtonNotice();
         OverlayImageReset();
     }
@@ -286,6 +327,8 @@ public class UI_Management : UI_Base
         GetButton((int)ButtonEvent._5_Quest).gameObject.AddUIEvent((data) => Button_Quest());
         GetButton((int)ButtonEvent._6_DungeonEdit).gameObject.AddUIEvent((data) => Button_DungeonEdit());
 
+
+        GetButton((int)ButtonEvent.DungeonTitle).gameObject.AddUIEvent((data) => Button_DungeonTitle());
 
 
         GetButton((int)ButtonEvent.DayChange).gameObject.AddUIEvent((data) => DayStart());
@@ -328,12 +371,12 @@ public class UI_Management : UI_Base
 
 
     #region UI_ButtonEvent
-    void Button_DayLog()
+    public void Button_DayLog()
     {
         var ui = Managers.UI.ShowPopUp<UI_DayLog>();
         //ui.TextContents(Main.Instance.DayList[Main.Instance.Turn - 1]);
     }
-    void Button_Pedia()
+    public void Button_Pedia()
     {
         Managers.UI.ShowPopUp<UI_Collection>("Collection/UI_Collection");
     }
@@ -341,7 +384,7 @@ public class UI_Management : UI_Base
     {
         Managers.UI.ShowPopUp<UI_Pause>();
     }
-    void Button_Save()
+    public void Button_Save()
     {
         //? 턴진행중은 아예 클릭이 안되게 하거나 클릭했을 때 로드모드로만 열리게 하는 두가지 방법이 있는데 음..
         //if (!Main.Instance.Management) return;
@@ -358,6 +401,11 @@ public class UI_Management : UI_Base
     {
         if (!Main.Instance.Management) return;
 
+        if (UserData.Instance.FileConfig.PlayRounds == 1 && Main.Instance.Turn < 1)
+        {
+            return;
+        }
+
         var facility = Managers.UI.ClearAndShowPopUp<UI_Placement_Facility>("Facility/UI_Placement_Facility");
 
         FloorPanelClear();
@@ -369,23 +417,33 @@ public class UI_Management : UI_Base
 
         Managers.UI.ClearAndShowPopUp<UI_Summon_Monster>("Monster/UI_Summon_Monster");
     }
-    void Button_MonsterManage()
+    public void Button_MonsterManage()
     {
         if (!Main.Instance.Management) return;
 
-        var monster = Managers.UI.ClearAndShowPopUp<UI_Monster_Management>("Monster/UI_Monster_Management");
-        if (UserData.Instance.FileConfig.Notice_Summon)
+        if (UserData.Instance.FileConfig.PlayRounds == 1 && Main.Instance.Turn < 2)
         {
-            AddNotice_UI("New_Small", monster, "Summon", "Notice_Summon");
+            return;
         }
+
+        var monster = Managers.UI.ClearAndShowPopUp<UI_Monster_Management>("Monster/UI_Monster_Management");
+        //if (UserData.Instance.FileConfig.Notice_Summon)
+        //{
+        //    AddNotice_UI("New_Small", monster, "Summon", "Notice_Summon");
+        //}
     }
 
 
 
     UI_Quest questUI;
-    void Button_Quest()
+    public void Button_Quest()
     {
         if (!Main.Instance.Management) return;
+        if (UserData.Instance.FileConfig.PlayRounds == 1 && Main.Instance.Turn < 6)
+        {
+            return;
+        }
+
 
         if (questUI == null)
         {
@@ -398,9 +456,13 @@ public class UI_Management : UI_Base
     }
 
     UI_DungeonEdit dungeonEdit;
-    void Button_DungeonEdit()
+    public void Button_DungeonEdit()
     {
         if (!Main.Instance.Management) return;
+        if (UserData.Instance.FileConfig.PlayRounds == 1 && Main.Instance.Turn < 1)
+        {
+            return;
+        }
 
         if (dungeonEdit == null)
         {
@@ -431,12 +493,30 @@ public class UI_Management : UI_Base
         }
     }
 
+    UI_DungeonTitle dungeontitle;
+    public void Button_DungeonTitle()
+    {
+        if (dungeontitle == null)
+        {
+            dungeontitle = Managers.UI.ClearAndShowPopUp<UI_DungeonTitle>("Title/UI_DungeonTitle");
+        }
+        else
+        {
+            Managers.UI.ClosePopupPick(dungeontitle);
+            dungeontitle = null;
+        }
+    }
+
 
 
     public int GuildVisit_AP { get; set; } = 1;
-    void Visit_Guild()
+    public void Visit_Guild()
     {
         if (!Main.Instance.Management) return;
+        if (UserData.Instance.FileConfig.PlayRounds == 1 && Main.Instance.Turn < 6)
+        {
+            return;
+        }
 
         if (Main.Instance.Player_AP <= 0)
         {
@@ -464,32 +544,69 @@ public class UI_Management : UI_Base
     }
 
 
-    public void AddNotice_UI(string label, UI_Base parent, string findName, string setBoolName)
-    {
-        UserData.Instance.FileConfig.SetBoolValue(setBoolName, true);
-        StartCoroutine(WaitFrame(label, parent, findName, setBoolName));
-    }
-    IEnumerator WaitFrame(string label, UI_Base parent, string findName, string setBoolName)
-    {
-        yield return null;
+    //public void AddNotice_UI(string label, UI_Base parent, string findName, string setBoolName)
+    //{
+    //    UserData.Instance.FileConfig.SetBoolValue(setBoolName, true);
+    //    StartCoroutine(WaitFrame(label, parent, findName, setBoolName));
+    //}
+    //IEnumerator WaitFrame(string label, UI_Base parent, string findName, string setBoolName)
+    //{
+    //    yield return null;
 
-        var obj = Util.FindChild(parent.gameObject, findName, true);
+    //    var obj = Util.FindChild(parent.gameObject, findName, true);
 
-        var overlay = Managers.Resource.Instantiate("UI/PopUp/Element/OverlayImage", obj.transform);
-        var ui = overlay.GetComponent<UI_Overlay>();
-        ui.SetOverlay(Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Overlay_Icon", label), obj, setBoolName);
-    }
+    //    var overlay = Managers.Resource.Instantiate("UI/PopUp/Element/OverlayImage", obj.transform);
+    //    var ui = overlay.GetComponent<UI_Overlay>();
+    //    ui.SetOverlay(Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Overlay_Icon", label), obj, setBoolName);
+    //}
 
-    void RemoveNotice_UI(GameObject btn)
-    {
-        var overlay = btn.GetComponentInChildren<UI_Overlay>();
-        if (overlay != null)
-        {
-            overlay.SelfDestroy();
-        }
-    }
+    //void AddNotice_NoClear(string label, UI_Base parent, string findName, string setBoolName)
+    //{
+    //    UserData.Instance.FileConfig.SetBoolValue(setBoolName, true);
+    //    StartCoroutine(WaitFrame_NoClear(label, parent, findName));
+    //}
+    //IEnumerator WaitFrame_NoClear(string label, UI_Base parent, string findName)
+    //{
+    //    yield return null;
+
+    //    var obj = Util.FindChild(parent.gameObject, findName, true);
+
+    //    var overlay = Managers.Resource.Instantiate("UI/PopUp/Element/OverlayImage", obj.transform);
+    //    var ui = overlay.GetComponent<UI_Overlay>();
+    //    ui.SetOverlay_DontDest(Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Overlay_Icon", label), obj);
+    //}
+
+    //void RemoveNotice_UI(GameObject btn)
+    //{
+    //    var overlay = btn.GetComponentInChildren<UI_Overlay>();
+    //    if (overlay != null)
+    //    {
+    //        overlay.SelfDestroy();
+    //    }
+    //}
+
+
+
 
     #endregion
+
+    void GameSpeedChange()
+    {
+        switch (UserData.Instance.GameSpeed)
+        {
+            case 1:
+                GameSpeedUp(2);
+                break;
+
+            case 2:
+                GameSpeedUp(3);
+                break;
+
+            case 3:
+                GameSpeedUp(1);
+                break;
+        }
+    }
 
 
     void GameSpeedUp(int speed = 1)

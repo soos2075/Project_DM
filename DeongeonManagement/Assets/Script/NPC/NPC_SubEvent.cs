@@ -161,7 +161,7 @@ public class NPC_SubEvent : NPC
                 EventManager.Instance.ClearQuestAction(7712000);
                 Main.Instance.CurrentDay.AddPop(100);
                 Main.Instance.ShowDM(100, Main.TextType.pop, transform, 1);
-                AddCollectionPoint();
+                //AddCollectionPoint();
                 break;
         }
 
@@ -224,8 +224,6 @@ public class NPC_SubEvent : NPC
     }
     protected override void NPC_Die()
     {
-        AddCollectionPoint();
-
         if (GameManager.Technical.Prison != null)
         {
             Captive();

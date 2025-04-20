@@ -113,7 +113,7 @@ public class UI_DayResult : UI_PopUp
         //? 마나 보너스 처리
         int mana_Temp = Result.Mana_Get_Etc + Result.Mana_Get_Facility + Result.Mana_Get_Monster + Result.Mana_Get_Artifacts;
         float ratio = GameManager.Buff.CurrentBuff.Orb_blue > 0 ? 0.1f * GameManager.Buff.CurrentBuff.Orb_blue : 0;
-        ratio += (GameManager.Buff.ManaBonus * 0.01f);
+        ratio += (GameManager.Buff.ManaUp_Final * 0.01f);
 
         int mana_bonus = Mathf.RoundToInt(mana_Temp * ratio);
         //Debug.Log($"비율은{ratio} @@ 보너스는 {mana_bonus}");
@@ -154,7 +154,7 @@ public class UI_DayResult : UI_PopUp
         //? 골드 보너스 처리
         int gold_Temp = Result.Gold_Get_Etc + Result.Gold_Get_Facility + Result.Gold_Get_Monster + Result.Gold_Get_Technical;
 
-        float ratio_gold = (GameManager.Buff.GoldBonus * 0.01f);
+        float ratio_gold = (GameManager.Buff.GoldUp_Final * 0.01f);
         int gold_bonus = Mathf.RoundToInt(gold_Temp * ratio_gold);
         //Debug.Log($"골드비율은{ratio_gold} @@ 골드보너스는 {gold_bonus}");
 

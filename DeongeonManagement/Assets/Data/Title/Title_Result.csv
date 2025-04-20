@@ -1,0 +1,91 @@
+ID,KeyName,Name_KR,Detail_KR,Effect_KR,Acquire_KR,Name_EN,Detail_EN,Effect_EN,Acquire_EN,Name_JP,Detail_JP,Effect_JP,Acquire_JP,Name_SCC,Detail_SCC,Effect_SCC,Acquire_SCC
+,,,,,,,,,,,,,,,,,
+0,NoviceDungeon,초보자 던전,초보자에게 적합한- 초보자를 위한- 초보자 던전이에요. \누구나 초보인 시절은 있으니 이런 던전을 간다고 부끄러워 하지 말아요.,,,Novice Dungeon,A beginner^friendly dungeon- made for beginners- a true novice dungeon. \Don't be embarrassed about coming here - everyone was once a beginner.,,,見習いダンジョン,初心者に適した- 初心者のための- 本物の初心者ダンジョンです。\誰にでも初心者の時期はあるので- こんなダンジョンに行くことを恥ずかしがらないでください。,,,新手地下城,适合新手的- 为新手准备的- 真正的新手地下城。\每个人都曾是新手- 别为来这种地下城感到羞愧。,,
+,,,,,,,,,,,,,,,,,
+4,Herb_1,평범한 약초 던전,평범한 약초가 나오는 던전이에요. \그래도 뒤뜰보다는 낫지 않을까요?,약초 획득 마나 +10%,상호작용 : 약초 100회,Common Herb Dungeon,A dungeon where common herbs grow. \Hey- at least it's better than your backyard- right?,Herb Gathering Mana +10%,Interaction: Herbs 100 times,一般薬草ダンジョン,一般的な薬草が出るダンジョンです。\でも裏庭よりはマシでしょう？,薬草採取マナ +10%,インタラクション：薬草 100回,普通草药地下城,出产普通草药的地下城。\总比后院强吧？,草药获得魔力 +10%,互动：草药 100次
+5,Herb_2,괜찮은 약초 던전,가끔 좋은 약초가 나오는 던전이에요. \운이 좋다면 좋은 약초를 얻을지도?,약초 획득 마나 +20%,상호작용 : 약초 500회,Decent Herb Dungeon,A dungeon where good herbs occasionally appear. \With some luck- you might find some nice herbs!,Herb Gathering Mana +20%,Interaction: Herbs 500 times,良質薬草ダンジョン,たまに良い薬草が出るダンジョンです。\運が良ければ良い薬草が手に入るかも？,薬草採取マナ +20%,インタラクション：薬草 500回,优质草药地下城,偶尔会出现好草药的地下城。\运气好的话说不定能得到好草药？,草药获得魔力 +20%,互动：草药 500次
+6,Herb_3,엄청난 약초 던전,매우 많은 약초가 나오는 던전이에요. \특별한 약초를 원한다면 꼭 가야 할 던전!,약초꾼 방문 증가 +30%,상호작용 : 약초 2000회,Amazing Herb Dungeon,A dungeon overflowing with herbs. \A must^visit if you're seeking special herbs!,Herbalist Visit +30%,Interaction: Herbs 2000 times,極上薬草ダンジョン,とても多くの薬草が出るダンジョンです。\特別な薬草が欲しいなら必ず訪れるべき場所！,薬草師訪問 +30%,インタラクション：薬草 2000回,极品草药地下城,出产大量草药的地下城。\想要特殊草药的话- 一定要来这里！,草药师访问 +30%,互动：草药 2000次
+,,,,,,,,,,,,,,,,,
+7,Mineral_1,평범한 광물 던전,평범한 광물이 나오는 던전이에요. \대부분의 던전에서 구할 수 있는 광물들이에요.,광물 획득 마나 +10%,상호작용 : 광물 100회,Common Mineral Dungeon,A dungeon with common minerals. \You'll find the usual minerals that most dungeons have.,Mineral Gathering Mana +10%,Interaction: Minerals 100 times,一般鉱物ダンジョン,一般的な鉱物が出るダンジョンです。\ほとんどのダンジョンで手に入る鉱物ばかりです。,鉱物採取マナ +10%,インタラクション：鉱物 100回,普通矿物地下城,出产普通矿物的地下城。\都是在大多数地下城能找到的矿物。,矿物获得魔力 +10%,互动：矿物 100次
+8,Mineral_2,괜찮은 광물 던전,가끔 좋은 광물이 나오는 던전이에요. \운이 좋다면 좋은 광물을 얻을지도?,광물 획득 마나 +20%,상호작용 : 광물 500회,Decent Mineral Dungeon,A dungeon where good minerals occasionally appear. \With luck- you might strike something nice!,Mineral Gathering Mana +20%,Interaction: Minerals 500 times,良質鉱物ダンジョン,たまに良い鉱物が出るダンジョンです。\運が良ければ良い鉱物が手に入るかも？,鉱物採取マナ +20%,インタラクション：鉱物 500回,优质矿物地下城,偶尔会出现好矿物的地下城。\运气好的话说不定能得到好矿物？,矿物获得魔力 +20%,互动：矿物 500次
+9,Mineral_3,엄청난 광물 던전,매우 많은 광물이 나오는 던전이에요. \원하는 광물이 있다면 이곳에서 찾아보세요.,광부 방문 증가 + 30%,상호작용 : 광물 2000회,Amazing Mineral Dungeon,A dungeon rich with minerals. \Looking for specific minerals? Search here!,Miner Visit +30%,Interaction: Minerals 2000 times,極上鉱物ダンジョン,とても多くの鉱物が出るダンジョンです。\探している鉱物があれば- ここで探してみてください。,鉱夫訪問 +30%,インタラクション：鉱物 2000回,极品矿物地下城,出产大量矿物的地下城。\如果有想要的矿物- 就在这里找找看吧。,矿工访问 +30%,互动：矿物 2000次
+,,,,,,,,,,,,,,,,,
+10,Treasure_1,보물이 나오는 던전,보물을 얻을 수 있는 던전이에요. \던전 모험 할 맛 나겠네요.,보물 효과 +10%,상호작용 : 보물상자 10회,Treasure Dungeon,A dungeon where you can find treasures. \Now this is what dungeon exploring is all about!,Treasure Effect +10%,Interaction: Treasure Chest 10 times,宝物ダンジョン,宝物が手に入るダンジョンです。\ダンジョン探索が楽しくなりそうですね。,宝物効果 +10%,インタラクション：宝箱 10回,财宝地下城,能获得宝物的地下城。\这才是真正的地下城冒险！,宝物效果 +10%,互动：宝箱 10次
+11,Treasure_2,보물이 많은 던전,보물이 많이 나오는 던전이에요. \트레저 헌터라면 이곳으로 와보세요.,보물 효과 +20%,상호작용 : 보물상자 50회,Treasure-Rich Dungeon,A dungeon abundant with treasures. \Calling all treasure hunters - this is your spot!,Treasure Effect +20%,Interaction: Treasure Chest 50 times,豊富な宝物ダンジョン,宝物がたくさん出るダンジョンです。\トレジャーハンターなら- ここに来てください。,宝物効果 +20%,インタラクション：宝箱 50回,富贵地下城,出产大量宝物的地下城。\寻宝猎人们- 这里就是你们该来的地方！,宝物效果 +20%,互动：宝箱 50次
+12,Treasure_3,보물 던전,발에 채일 정도로 많은 보물이 나오는 던전이에요. \아직도 안가봤어요? 얼른 가보세요!,보물 효과 +30%,상호작용 : 보물상자 200회,Ultimate Treasure Dungeon,A dungeon with so many treasures you'll trip over them! \Haven't been here yet? What are you waiting for!,Treasure Effect +30%,Interaction: Treasure Chest 200 times,究極の宝物ダンジョン,足につまずくほど宝物だらけのダンジョンです。\まだ来ていないんですか？早く来てください！,宝物効果 +30%,インタラクション：宝箱 200回,无尽宝藏地下城,宝物多到会被绊倒的地下城！\还没来过吗？赶快来吧！,宝物效果 +30%,互动：宝箱 200次
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+20,Trap_1,함정이 있는 던전,함정이 설치된 던전이에요. \던전 모험 시 주의해야 하겠네요.,함정 효과 +10%,상호작용 : 함정 10회,Trap Dungeon,A dungeon with installed traps. \Better watch your step on this adventure.,Trap Effect +10%,Interaction: Trap 10 times,罠ダンジョン,罠が仕掛けられたダンジョンです。\ダンジョン探索時は要注意ですね。,罠効果 +10%,インタラクション：罠 10回,陷阱地下城,设置了陷阱的地下城。\探索时要多加小心。,陷阱效果 +10%,互动：陷阱 10次
+21,Trap_2,함정이 많은 던전,함정이 많이 설치된 던전이에요. \많은 대비를 하지 않으면 큰일 날 거예요.,함정 효과 +20%,상호작용 : 함정 50회,Trap-Heavy Dungeon,A dungeon filled with numerous traps. \Come unprepared and you're in big trouble.,Trap Effect +20%,Interaction: Trap 50 times,多数の罠ダンジョン,罠がたくさん仕掛けられたダンジョンです。\十分な準備なしでは大変なことになりますよ。,罠効果 +20%,インタラクション：罠 50回,陷阱遍布地下城,设置了大量陷阱的地下城。\如果准备不足- 后果很严重。,陷阱效果 +20%,互动：陷阱 50次
+22,Trap_3,함정 투성이 던전,함정이 엄청난 던전이에요. \한 발짝 한 발짝 신중히 움직이세요.,함정 효과 +30%,상호작용 : 함정 200회,Trap-Infested Dungeon,A dungeon absolutely packed with traps. \Take each step with extreme caution.,Trap Effect +30%,Interaction: Trap 200 times,罠だらけダンジョン,罠だらけの恐ろしいダンジョンです。\一歩一歩慎重に進んでください。,罠効果 +30%,インタラクション：罠 200回,陷阱之源地下城,布满陷阱的恐怖地下城。\每一步都要谨慎行动。,陷阱效果 +30%,互动：陷阱 200次
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+30,ManyMonster_1,몬스터 던전,몬스터가 많은 던전이에요. \던전 내에 다수의 몬스터가 확인되었으니 전투 준비가 필요해요.,모든 유닛 스탯 +3,유닛 수 10기 이상,Monster Dungeon,A dungeon teeming with monsters. \Multiple monsters confirmed inside - come battle^ready.,All Unit Stats +3,Have 10 or more Units,モンスターダンジョン,モンスターの多いダンジョンです。\ダンジョン内に多数のモンスターが確認されているので- 戦闘準備が必要です。,全ユニットステータス +3,ユニット数 10体以上,怪物地下城,怪物众多的地下城。\已确认内有多个怪物- 需要做好战斗准备。,所有单位属性 +3,拥有10个以上单位
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+40,StrongMonster_1,강한 몬스터가 있는 던전,레벨이 높은 몬스터가 존재하는 던전이에요. \비전투직군은 마주치지 않도록 조심하세요.,전투 획득 마나 +10%,25Lv 이상의 유닛 존재,Strong Monster Dungeon,A dungeon housing high^level monsters. \Non^combat classes should avoid encounters at all costs.,Combat Mana Gain +10%,Have Unit Level 25 or higher,強敵ダンジョン,レベルの高いモンスターが存在するダンジョンです。\非戦闘職は遭遇しないよう気をつけてください。,戦闘マナ獲得 +10%,レベル25以上のユニット存在,存在强大怪物的地下城,这里有高等级的怪物。\非战斗职业要小心不要遇到它们。,战斗获得魔力 +10%,拥有等级25以上的单位
+41,StrongMonster_2,엄청난 몬스터가 있는 던전,엄청나게 강한 몬스터가 있는 던전이에요. \던전에 들어가기 전에 준비를 철저히 하도록 해요.,전투 획득 마나 +10%,50Lv 이상의 유닛 존재,Terrifying Monster Dungeon,A dungeon with incredibly powerful monsters. \Make thorough preparations before entering.,Combat Mana Gain +10%,Have Unit Level 50 or higher,恐るべきモンスターダンジョン,とてつもなく強いモンスターがいるダンジョンです。\ダンジョンに入る前に万全の準備をしてください。,戦闘マナ獲得 +10%,レベル50以上のユニット存在,存在可怕怪物的地下城,这里有非常强大的怪物。\进入地下城前要做好充分准备。,战斗获得魔力 +10%,拥有等级50以上的单位
+42,StrongMonster_3,보스 몬스터가 있는 던전,던전의 보스라고 할만한 존재의 몬스터가 있는 던전이에요. \정신을 바짝 차리지 않으면 순식간에 전멸 당할지도 몰라요.,전투 획득 마나 +10%,80Lv 이상의 유닛 존재,Boss Monster Dungeon,A dungeon containing a monster worthy of being called a boss. \Let your guard down and it's instant party wipe!,Combat Mana Gain +10%,Have Unit Level 80 or higher,ボスモンスターダンジョン,ダンジョンのボスと呼べる存在のモンスターがいるダンジョンです。\気を抜くと一瞬で全滅するかもしれませんよ。,戦闘マナ獲得 +10%,レベル80以上のユニット存在,存在首领怪物的地下城,这里有堪称地下城首领级别的怪物。\如果不打起精神 - 可能会在瞬间全军覆没。,战斗获得魔力 +10%,拥有等级80以上的单位
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+50,Amenity_1,모험가 친화 던전,모험가를 위한 편의 시설이 제공되는 던전이에요. \상황에 따라 적절히 휴식 후 진행할 수 있어요.,방문자 수 +5,1개 이상의 편의 시설 존재,Adventurer-Friendly Dungeon,A dungeon providing amenities for adventurers. \Take a break and proceed when appropriate.,Visitor Count +5,Have 1 or more Amenity Facilities,冒険者友好ダンジョン,冒険者のための便利施設が提供されるダンジョンです。\状況に応じて適切に休憩しながら進めます。,訪問者数 +5,便利施設1個以上存在,冒险者友好地下城,这是为冒险者提供便利设施的地下城。\可以根据情况适当休息后再继续前进。,访问者数量 +5,拥有1个以上便利设施
+51,Amenity_2,모험가 무한 복지 던전,모험가를 위한 편의 시설이 많아요. \세상에 이런 좋은 던전이 있나요?,방문자 수 +20,5개 이상의 편의 시설 존재,Adventurer's Paradise Dungeon,A dungeon packed with adventurer amenities. \Can there really be such a wonderful dungeon?,Visitor Count +20,Have 5 or more Amenity Facilities,冒険者天国ダンジョン,冒険者のための便利施設がたくさんあります。\世界にこんな素晴らしいダンジョンがあるなんて！,訪問者数 +20,便利施設5個以上存在,冒险者无限福利地下城,这里有许多为冒险者准备的便利设施。\世上竟有如此美好的地下城吗？,访问者数量 +20,拥有5个以上便利设施
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+60,Marauder_1,약탈자가 있는 던전,모험가를 공격하는 약탈자가 있는 던전이에요. \같은 모험가를 공격한다니- 참 위험하네요.,플레이어 HP +20,1명 이상의 모험가 유닛 존재,Raider-Infested Dungeon,A dungeon with raiders who attack adventurers. \Attacking fellow adventurers - how dangerous!,Player HP +20,Have 1 or more Adventurer Units,略奪者ダンジョン,冒険者を襲う略奪者がいるダンジョンです。\同じ冒険者を襲うなんて- 本当に危険ですね。,プレイヤーHP +20,冒険者ユニット1体以上存在,存在掠夺者的地下城,这里有会攻击冒险者的掠夺者。\攻击同是冒险者 - 真是太危险了。,玩家生命值 +20,拥有1个以上冒险者单位
+61,Marauder_2,약탈자가 많은 던전,모험가를 공격하는 약탈자가 많은 던전이에요. \몬스터보다 더 위험할 수 있으니 유의하세요.,플레이어 HP +30,2명 이상의 모험가 유닛 존재,Raider-Heavy Dungeon,A dungeon full of raiders who target adventurers. \Beware - they might be more dangerous than monsters!,Player HP +30,Have 2 or more Adventurer Units,略奪者だらけダンジョン,冒険者を襲う略奪者が多いダンジョンです。\モンスター以上に危険かもしれないので注意してください。,プレイヤーHP +30,冒険者ユニット2体以上存在,掠夺者众多的地下城,这里有许多会攻击冒险者的掠夺者。\可能比怪物更危险 - 请务必注意。,玩家生命值 +30,拥有2个以上冒险者单位
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+70,Secret_1,비밀이 있는 던전,무언가 비밀이 있는 던전이에요. \소문에 의하면 이상한 곳으로 통하는 포탈이 있다고 하네요.,플레이어 스탯 +2,상호작용 : 숨겨진 곳 포탈 5회,Mysterious Dungeon,A dungeon hiding some secrets. \Rumor has it there's a portal leading to a strange place.,Player Stats +2,Interaction: Hidden Place Portal 5 times,秘密のダンジョン,何か秘密のあるダンジョンです。\噂によると- 不思議な場所へ続くポータルがあるそうです。,プレイヤーステータス +2,インタラクション：隠し場所ポータル 5回,存在秘密的地下城,这是一个藏有某些秘密的地下城。\据传闻这里有通往奇怪地方的传送门。,玩家属性 +2,互动：隐藏地点传送门 5次
+71,Secret_2,숨겨진 장소가 있는 던전,숨겨진 장소가 있는 던전이에요. \어딘가의 포탈을 통해 이동하면 여러 조각상과 거대한 알이 있다고 하네요.,플레이어 스탯 +3,상호작용 : 숨겨진 곳 포탈 25회,Hidden Chamber Dungeon,A dungeon with hidden areas. \They say if you find the right portal- you'll discover statues and a giant egg.,Player Stats +3,Interaction: Hidden Place Portal 25 times,隠された場所のダンジョン,隠された場所のあるダンジョンです。\どこかのポータルを通ると- たくさんの石像と巨大な卵があるそうです。,プレイヤーステータス +3,インタラクション：隠し場所ポータル 25回,存在隐藏场所的地下城,这是一个有隐藏场所的地下城。\据说通过某处的传送门 - 可以看到许多雕像和一个巨大的蛋。,玩家属性 +3,互动：隐藏地点传送门 25次
+72,Secret_3,수호자가 있는 던전,수호자가 있는 던전이에요. \숨겨진 장소로 가면 만날 수 있다고 해요. 의외로 그렇게 강하지는 않다고 하네요.,플레이어 스탯 +5,상호작용 : 숨겨진 곳 포탈 100회,Guardian's Dungeon,A dungeon with a guardian. \You can meet them in the hidden area- but surprisingly- they're not that strong.,Player Stats +5,Interaction: Hidden Place Portal 100 times,守護者のダンジョン,守護者のいるダンジョンです。\隠された場所で会えるそうですが- 意外とそれほど強くないらしいですよ。,プレイヤーステータス +5,インタラクション：隠し場所ポータル 100回,存在守护者的地下城,这是一个有守护者的地下城。\据说去隐藏场所就能见到。\意外的是据说并不是很强。,玩家属性 +5,互动：隐藏地点传送门 100次
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,

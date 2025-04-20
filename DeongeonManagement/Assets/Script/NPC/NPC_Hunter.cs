@@ -137,7 +137,7 @@ public class NPC_Hunter : NPC
     {
         UI_EventBox.AddEventText($"¢Â{Name_Color} {UserData.Instance.LocaleText("Event_Defeat")}");
         GameManager.NPC.InactiveNPC(this);
-        AddCollectionPoint();
+        //AddCollectionPoint();
     }
 
 

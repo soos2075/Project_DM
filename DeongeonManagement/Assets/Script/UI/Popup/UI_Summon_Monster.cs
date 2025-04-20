@@ -68,7 +68,7 @@ public class UI_Summon_Monster : UI_PopUp
         Clear_NeedText();
         Init_Contents();
 
-        GetTMP((int)Info.UnitCount).GetComponent<TextMeshProUGUI>().text = $"{GameManager.Monster.GetCurrentMonster()}/{GameManager.Monster.GetSlotSize()}";
+        GetTMP((int)Info.UnitCount).GetComponent<TextMeshProUGUI>().text = $"{GameManager.Monster.GetCurrentMonsterSize()}/{GameManager.Monster.GetSlotSize()}";
     }
 
     void Init_Panels()
@@ -268,7 +268,7 @@ public class UI_Summon_Monster : UI_PopUp
             if (ConfirmCheck(data.manaCost))
             {
                 SummonConfirm(data);
-                GetTMP((int)Info.UnitCount).GetComponent<TextMeshProUGUI>().text = $"{GameManager.Monster.GetCurrentMonster()}/{GameManager.Monster.GetSlotSize()}";
+                GetTMP((int)Info.UnitCount).GetComponent<TextMeshProUGUI>().text = $"{GameManager.Monster.GetCurrentMonsterSize()}/{GameManager.Monster.GetSlotSize()}";
             }
         }
         else
@@ -281,13 +281,7 @@ public class UI_Summon_Monster : UI_PopUp
 
     void SummonConfirm(SO_Monster data)
     {
-        var mon = GameManager.Placement.CreatePlacementObject(data.prefabPath, null, PlacementType.Monster) as Monster;
-        mon.MonsterInit();
-        mon.Initialize_Status();
-
-        mon.AddCollectionPoint();
-
-        GameManager.Monster.AddMonster(mon);
+        GameManager.Monster.CreateMonster(data.keyName, false);
 
         //Debug.Log($"{data.ManaCost}마나를 사용하여 {data.Name_KR}을 소환");
         Main.Instance.CurrentDay.SubtractMana(data.manaCost, Main.DayResult.EventType.Monster);

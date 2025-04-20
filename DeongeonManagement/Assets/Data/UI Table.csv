@@ -1,0 +1,235 @@
+﻿Key,English(en),Korean(ko),Japanese(ja),Chinese (Simplified)(zh-Hans)
+"AP","AP","행동력","AP","行动力"
+"AutoSave","AutoSave","자동저장","オートセーブ","自动保存"
+"Battle_End","Battle over!","배틀 종료!","バトル終了！","战斗结束！"
+"Battle_Lose","Defeat..","패배..","敗北..","失败.."
+"Battle_Start","Battle start!","배틀 시작!","バトル開始！","战斗开始！"
+"Battle_Win","Victory!","승리!","勝利！","胜利！"
+"BGM Volume","BGM Volume","배경음악","音楽音量","背景音乐"
+"Close","Close","닫기","閉じる","关闭"
+"Confirm_AP","All AP will be consumed.","모든 AP가 소모됩니다","全てのAPが消費されます。","所有行动力将被消耗"
+"Confirm_Expansion","Do you want to expand the dungeon?","던전을 확장할까요?","ダンジョンを拡張したいですか？","要扩展地下城吗？"
+"Confirm_GoldStatue","Pray to the golden angel statue?","금빛 천사상에게 기도할까요?","金の天使像に祈りたいですか？","要向金色天使像祈祷吗？"
+"Confirm_Guild","Are we going to visit the guild?","길드에 방문할까요?","ギルドに行く？","要访问公会吗？"
+"Confirm_ManaStatue","Pray to the sliver angel statue?","은빛 천사상에게 기도할까요?","銀の天使像に祈りたいですか？","要向银色天使像祈祷吗？"
+"Confirm_Opening","Do you want to watch the opening?","오프닝을 볼까요?","オープニングを見る？","要观看开场动画吗？"
+"Confirm_Quit","Do you want to quit the game?","게임을 종료할까요?","ゲームを終了しますか？","要退出游戏吗？"
+"Confirm_Remove","Remove?","제거할까요?","削除しますか？","要移除吗？"
+"Confirm_Return","Are we going back to the dungeon?","던전으로 돌아갈까요?","ダンジョンに戻る？","要返回地下城吗？"
+"Continue","Continue","이어하기","続きから","继续"
+"Danger","Danger","위험도","危険度","危险度"
+"Data Reset","Data Reset","데이터 삭제","データ削除","数据重置"
+"Day","Day","일차","日","天"
+"Effect Volume","Effect Volume","효과음","効果音","音效"
+"Encyclopedia","Encyclopedia","도감","図鑑","图鉴"
+"Event_DayOver","Day End","일차 종료","日終了","日结束"
+"Event_DayStart","Day Start","일차 시작","日開始","日开始"
+"Event_Defeat","is defeated","(이)가 패배함","が敗北","被击败"
+"Event_Egg","is investigating the egg…","(이)가 알 조사중…","が卵を調査中…","正在调查蛋..."
+"Event_Enter","enter the dungeon","(이)가 던전에 입장","ダンジョンに入る","进入地下城"
+"Event_Exit_Empty","is go back with nothing","(이)가 빈손으로 돌아감","が空手で帰る","空手而归"
+"Event_Exit_Runaway","is narrowly escape","(이)가 가까스로 도망침","が間一髪で逃げる","勉强逃脱"
+"Event_Exit_Satisfaction","is go back satisfied","(이)가 만족하고 돌아감","が満足して帰る","满意而归"
+"Event_Herb","is gathering herbs…","(이)가 약초 채집중…","が薬草採集中…","正在采集草药..."
+"Event_Mineral","is mining ores…","(이)가 광석 채굴중…","が鉱石採掘中…","正在开采矿石..."
+"Event_Next","move","으로 이동","に行く","移动到"
+"Event_Prison","has been robbed of bail","에게 보석금을 뜯어냄","から保釈金をゆすり取る","被勒索保释金"
+"Event_Resting","is resting…","(이)가 휴식중…","が休憩中…","正在休息..."
+"Event_Trap","is falling into a trap…","(이)가 함정에 빠짐…","が罠に落ちる…","掉入陷阱..."
+"Event_Treasure","is searching for treasure…","(이)가 보물 탐색중…","が宝探し中…","正在寻找宝物..."
+"Full Screen","Full Window","전체 화면","全画面","全屏"
+"Gold","Gold","골드","ゴールド","金币"
+"Language","Language","언어","言語","语言"
+"LanguageChange","Would you like to change the language?","언어를 변경할까요?","言語を変更しますか？","要更改语言吗？"
+"Load","Load","로드","ロード","读取"
+"Main","Title","메인으로","タイトル","标题"
+"Mana","Mana","마나","マナ","魔力"
+"Manual","Manual","도움말","マニュアル","帮助"
+"Message_Egg","A passage leading to a hidden room has appeared. 
+
+If anyone intrudes on this room and the egg is discovered, it will be game over.","숨겨진 방으로 향하는 통로가 나타났습니다.
+
+이후로 이 방에 누군가 침입해 알이 발견당하면 게임오버가 됩니다.","隠し部屋への通路が出現しました。 
+
+これからこの部屋に誰かが侵入して卵が発見されるとゲームオーバーになります。","通往隐藏房间的通道出现了。
+
+如果有人侵入这个房间并发现蛋- 游戏将结束。"
+"Message_First","Place various facilities and monsters in your dungeon to give your adventurers mana!
+
+
+Mana is basically earned from most of the actions your adventurers take in the dungeon.
+
+
+Once you're done managing your dungeon, you can end your day by hitting End Turn in the top left corner.","던전에 다양한 시설과 몬스터들을 배치하여 모험가들에게 마나를 얻으세요!
+
+마나는 기본적으로 모험가들이 던전에서 행하는 대부분의 행동에서 얻을 수 있어요.
+
+던전 관리가 끝난 후 왼쪽 상단의 턴종료를 누르면 하루를 마무리 할 수 있어요.","ダンジョンに様々な施設やモンスターを配置して、冒険者たちにマナを獲得しましょう！
+
+マナは基本的に冒険者がダンジョンで行うほとんどの行動で獲得できます。
+
+ダンジョン管理が終わった後、左上のターン終了を押すと一日を終えることができます。","在你的地下城中放置各种设施和怪物- 从冒险者那里获得魔力！
+
+魔力基本上可以从冒险者在地下城中进行的大多数行动中获得。
+
+完成地下城管理后- 可以点击左上角的结束回合来结束一天。"
+"Message_Get_Danger","Get Danger","위험도를 획득했습니다","危険度を獲得しました","获得危险度"
+"Message_Get_Gold","Get Gold","골드를 획득했습니다","ゴールドを獲得しました","获得金币"
+"Message_Get_Mana","Get Mana","마나를 획득했습니다","マナを獲得しました","获得魔力"
+"Message_Get_Pop","Get Popularity","인기도를 획득했습니다","人気度を獲得しました","获得人气度"
+"Message_MaxLv","Maximum level","최대 레벨 입니다","最大レベルです。","已达到最高等级"
+"Message_No_AP","Not enough AP.","행동력이 부족합니다","APが不足しています。","行动力不足"
+"Message_No_Gold","Not enough Gold.","골드가 부족합니다","ゴールドが不足しています。","金币不足"
+"Message_No_Mana","Not enough Mana.","마나가 부족합니다","マナが不足しています。","魔力不足"
+"Message_No_Rank","Not enough Rank.","랭크가 부족합니다","ランクが不足しています。","等级不足"
+"Message_No_Slot","Not enough Monster Slot.","몬스터 슬롯이 부족합니다","モンスタースロットが不足しています。","怪物槽位不足"
+"Message_Saved","Successfully saved","저장되었습니다.","セーブされました","保存成功"
+"Message_Summon","Summon successful!","소환 성공!","召喚成功！","召唤成功！"
+"Message_Tutorial_AP","AP is fully restored every turn.
+
+AP is used in various activities such as interacting with units, visiting guilds, removing dungeon obstacles, and praying at statues.
+
+Try clicking on a statue first!","행동력은 매 턴마다 최대로 회복됩니다.
+
+행동력은 유닛과의 상호작용, 길드 방문, 던전의 장애물 제거, 조각상에 기도 등 여러곳에 사용합니다.
+
+우선은 조각상을 클릭해보세요!","APは毎ターン最大まで回復します。
+
+APはユニットとの交流、ギルドの訪問、ダンジョンの障害物除去、像への祈りなど、様々な場所で使用します。
+
+まずは像をクリックしてみましょう！","行动力在每回合都会恢复至最大值。
+
+行动力用于与单位互动、访问公会、清除地下城障碍物、向雕像祈祷等多种用途。
+
+先试着点击雕像看看吧！"
+"NewGame","New Game","새 게임","新しいゲーム","新游戏"
+"No","No","아니요","いいえ","否"
+"No Data","No Data","데이터 없음","データなし","无数据"
+"Option","Settings","설정","設定","设置"
+"Popularity","Popularity","인기도","人気度","人气度"
+"Quit","Quit","종료","終了","退出"
+"Rank","Rank","랭크","ランク","等级"
+"Resolution","Resolution","해상도","解像度","分辨率"
+"Save","Save","세이브","セーブ","保存"
+"Slot","Slot","슬롯","スロット","槽位"
+"TextSpeed","Dialogue Speed","대사 속도","セリフ速度","对话速度"
+"Up","LevelUp","레벨업한","強くなった","升级的"
+"Weak","Injured","부상당한","弱った","受伤的"
+"Yes","Yes","네","はい","是"
+"고정","Fixed","고정","固定","固定"
+"공격","Attack","공격","攻撃","攻击"
+"관리","Management","관리","管理","管理"
+"길드 방문","Visit Guild","길드 방문","ギルド訪問","访问公会"
+"대기중","Waiting","대기중","待機中","等待中"
+"던전 확장","Expanding Dungeon","던전 확장","ダンジョン拡張","扩展地下城"
+"모험가","Adventurer","모험가","冒険家","冒险者"
+"몬스터","Monster","몬스터","モンスター","怪物"
+"유닛 관리","Unit","유닛 관리","ユニット管理","单位管理"
+"몬스터 소환","Summon Monster","몬스터 소환","モンスター召喚","召唤怪物"
+"방출","Release","방출","放出","释放"
+"배치","Placement","배치","配置","配置"
+"배치가능 몬스터","Placeable Monster","배치가능 몬스터","配置可能なモンスター","可配置怪物"
+"배치된 몬스터","Placed Monster","배치된 몬스터","配置されたモンスター","已配置怪物"
+"배치중","Placed","배치중","配置中","配置中"
+"배회","Wander","배회","徘徊","徘徊"
+"부상중","Injured","부상중","負傷中","受伤中"
+"숨겨진곳","Hidden space","숨겨진 공간","秘密の場所","隐藏空间"
+"시설","Facility","시설","施設","设施"
+"시설 배치","Facility","시설 배치","施設配置","设施配置"
+"적용 범위","Coverage","적용 범위","適用範囲","覆盖范围"
+"지하","Basement","지하","地下","地下室"
+"진화","Evolution","진화","進化","进化"
+"층","Floor","층","階","层"
+"퀘스트","Quest","퀘스트","クエスト","任务"
+"턴 종료","End Turn","턴 종료","ターン終了","结束回合"
+"특별구역","Technical Zone","특별구역","特別エリア","特殊区域"
+"특수 시설","Technical Facility","특수 시설","特殊施設","特殊设施"
+"포로","Prisoner","포로","捕虜","俘虏"
+"필요","Required","필요","必要","需要"
+"하루 결산","Daily debrief","하루 결산","一日の報告","日报告"
+"행동지시","Command","행동지시","コマンド","指令"
+"회복","Recovery","회복","回復","恢复"
+"회수","Recall","회수","回収","回收"
+"훈련","Training","훈련","訓練","训练"
+"Confirm_Refill","Refill your usage?","사용횟수를 보충할까요?","使用回数を補充しますか？","要补充使用次数吗？"
+"Confirm_RemoveObstacle","Remove obstacles?","장애물을 제거할까요?","障害物を取り除きますか？","要移除障碍物吗？"
+"Event_Wells","is resting in the well...","(이)가 우물에서 휴식중…","が井戸で休憩中...","正在井边休息..."
+"취소","Cancel","취소","キャンセル","取消"
+"스킵","Skip","건너뛰기","スキップする","跳过"
+"다음","Next","다음","次へ","下一个"
+"연속","Continuous","연속","連続","连续"
+"특성","Trait","특성","特性","特性"
+"횟수","Count","횟수","回数","次数"
+"분류","Category","분류","分類","分类"
+"QuestList","Quest List","퀘스트 목록","クエスト一覧","任务列表"
+"연속배치","Continuous","연속배치","連続配置","连续配置"
+"유닛","Unit","유닛","ユニット","单位"
+"승리","Victory","승리","勝利","胜利"
+"아티팩트","Artifact","아티팩트","アーティファクト","神器"
+"전투","Battle","전투","戦闘","战斗"
+"보너스","Bonus","보너스","ボーナス","奖励"
+"기타등등","Etc","기타","その他","其他"
+"턴종료_행동력","End the turn without spending an AP?","행동력을 쓰지않고 턴을 종료할까요?","APを使わずにターンを終了しますか？","不使用行动力就结束回合吗？"
+"데이터초기화","Do you want to reset all game data?
+(unrecoverable)","모든 게임데이터를 초기화 할까요?
+(복구 불가능)","すべてのゲームデータを初期化しますか?
+(回復不可)","要重置所有游戏数据吗？
+（不可恢复）"
+"데이터초기화_First","Do you want to initialize the data?
+(if this is your first time, Yes)","데이터를 초기화 할까요?
+(처음이시면 '네')","データを初期化しますか
+(初めての方は「はい」)","要初始化数据吗？
+（如果是第一次- 请选""是""）"
+"소환","Summon","소환","召喚","召唤"
+"Upgrade","Upgrade","업그레이드","アップグレード","升级"
+"Replace","Replace","교체","交換","替换"
+"Remove","Remove","제거","削除","移除"
+"Confirm_Upgrade","Want to upgrade?","업그레이드 할까요?","アップグレードしますか？","要升级吗？"
+"모드 변경","Change mode","모드 변경","モード変更","更改模式"
+"편집","Edit","편집","編集","编辑"
+"이름 변경","Rename","이름 변경","名前変更","重命名"
+"순서 변경","Reorder","순서 변경","順番変更","重新排序"
+"던전","Dungeon","던전","ダンジョン","地下城"
+"던전 관리","Dungeon","던전 관리","ダンジョン","地下城"
+"Event_Exit_Normal","is go back","(이)가 돌아감","が帰る","返回"
+"메세지_데모클리어","This is the end of the demo version.
+Thanks for playing!","데모버전은 여기까지입니다.
+플레이 해주셔서 감사합니다!","デモ版はここまでです。
+遊んでいただきありがとうございました！","这是演示版的结尾。
+感谢您的游玩！"
+"획득 가능한 특성","Acquirable Traits","획득 가능한 특성","獲得可能な特性","可获得特性"
+"진화 힌트","Evolution Hint","진화 힌트","進化のヒント","进化提示"
+"진화 조건","Evolution Condition","진화 조건","進化条件","进化条件"
+"전투횟수","Battles","전투횟수","同時戦闘回数","同时战斗次数"
+"피로도","Fatigue","피로도","疲労度","疲劳度"
+"보너스
+","Bonus","보너스","ボーナス","奖励"
+"패널티","Penalty","패널티","ペナルティ","惩罚"
+"무효화","Invalidate","무효화","無効化","无效化"
+"대화","Talk","대화","会話","对话"
+"잠김","Locked","잠김","ロック","锁定"
+"지난 기록","Historical record","지난 기록","過去の記録","历史记录"
+"Confirm_Pray_신뢰의상","Would you like to pray to the Statue of Trust?","신뢰의 상에게 기도할까요?","信頼の像に祈りを捧げますか？","要向信任之像祈祷吗？"
+"Confirm_Pray_파멸의상","Would you like to pray to the Statue of Ruin?","파멸의 상에게 기도할까요?","破滅の像に祈りを捧げますか？","要向毁灭之像祈祷吗？"
+"Confirm_Pray_평온의상","Would you like to pray to the Statue of Tranquility?","평온의 상에게 기도할까요?","安寧の像に祈りを捧げますか？","要向安宁之像祈祷吗？"
+"Confirm_Pray_친화의상","Would you like to pray to the Statue of Harmony?","친화의 상에게 기도할까요?","親和の像に祈りを捧げますか？","要向亲和之像祈祷吗？"
+"Confirm_Pray_공포의상","Would you like to pray to the Statue of Terror?","공포의 상에게 기도할까요?","恐怖の像に祈りを捧げますか？","要向恐惧之像祈祷吗？"
+"Confirm_Pray_영웅의상","Would you like to pray to the Statue of Heroes?","영웅의 상에게 기도할까요?","英雄の像に祈りを捧げますか？","要向英雄之像祈祷吗？"
+"Elbum","Elbum","앨범","アルバム","相册"
+"초기화_0_시작","Initialize Game Data","게임 데이터를 초기화 합니다","ゲームデータを初期化します","初始化游戏数据"
+"초기화_1_사용자","Reset User Settings","사용자 설정 초기화","ユーザー設定を初期化","重置用户设置"
+"초기화_2_세이브","Reset Save Files","세이브 파일 초기화","セーブデータを初期化","重置存档文件"
+"초기화_3_클리어","Reset Clear Records","클리어 기록 초기화","クリア記録を初期化","重置通关记录"
+"초기화_4_도감","Reset Encyclopedia Data","도감 데이터 초기화","図鑑データを初期化","重置图鉴数据"
+"초기화_5_최종","Are you sure you want to initialize? 
+(This cannot be undone)","정말로 초기화 할까요? 
+(되돌리기 불가능)","本当に初期化しますか？
+（元に戻せません）","确定要初始化吗？
+（无法撤销）"
+"획득 조건","Acquisition Requirements","획득 조건","獲得条件","获取条件"
+"고유 효과","Unique Effect","고유 효과","固有効果","固有效果"
+"Pray","Pray","기도","祈る","祈祷"
+"Confirm_Temple","Would you like to offer mana?","마나를 바칠까요?","マナを捧げますか？","要献上魔力吗？"
+"전체 회수","Recall All","전체 회수","全体回収","全部回收"
+"자동 배치","Auto Placement","자동 배치","自動配置","自动部署"
+"New","New ","새로운 ","新規","新获得"

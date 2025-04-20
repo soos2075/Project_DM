@@ -51,6 +51,8 @@ public class PlayerController : MonoBehaviour
 
     private void LateUpdate()
     {
+        Key_Esc();
+
         if (Time.timeScale == 0 || Managers.UI._popupStack.Count > 0 || UserData.Instance.GameMode == Define.GameMode.Stop)
         {
             return;
@@ -296,4 +298,19 @@ public class PlayerController : MonoBehaviour
     }
 
 
+
+    void Key_Esc()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (Managers.UI._popupStack.Count == 0)
+            {
+                Managers.UI.ShowPopUp<UI_Pause>();
+            }
+            else if (Managers.UI._popupStack.Peek().EscapeKeyAction())
+            {
+                Managers.UI.ClosePopUp();
+            }
+        }
+    }
 }

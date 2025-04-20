@@ -11,8 +11,21 @@ public class UI_Credit : UI_PopUp
 
     private void LateUpdate()
     {
+        //Debug.Log(stateInfo.normalizedTime);
+
         if (isOver) return;
 
+        if (Input.anyKey)
+        {
+            anim.speed = 2.0f;
+        }
+        else
+        {
+            anim.speed = 1.0f;
+        }
+
+
+        stateInfo = anim.GetCurrentAnimatorStateInfo(0);
         if (stateInfo.normalizedTime >= 1.0f)
         {
             Close_Credit();
@@ -24,6 +37,7 @@ public class UI_Credit : UI_PopUp
             Close_Credit();
         }
     }
+
 
     Animator anim;
     AnimatorStateInfo stateInfo;

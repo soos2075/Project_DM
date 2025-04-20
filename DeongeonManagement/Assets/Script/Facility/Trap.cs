@@ -37,6 +37,11 @@ public class Trap : Facility
         if (InteractionOfTimes > 0)
         {
             InteractionOfTimes--;
+            Main.Instance.CurrentStatistics.Interaction_Trap++;
+
+            ap_value += Mathf.RoundToInt(ap_value * (GameManager.Buff.EffectUp_Trap * 0.01f));
+            hp_value += Mathf.RoundToInt(hp_value * (GameManager.Buff.EffectUp_Trap * 0.01f));
+
             Cor_Facility = StartCoroutine(FacilityEvent(npc, durationTime, UserData.Instance.LocaleText("Event_Trap"), 
                 ap: ap_value, mp: mp_value, hp: hp_value));
             trap_Anim.enabled = true;

@@ -19,13 +19,9 @@ public class Salamandra : Monster
         }
     }
 
-    void Trait_Original()
-    {
-        AddTrait(new Trait.Overwhelm());
-    }
 
     //? 일반 진화몹 로드할 때
-    public override void MonsterInit_Evolution()
+    public override void Load_EvolutionMonster()
     {
         Data = GameManager.Monster.GetData("Salinu");
         GameManager.Monster.ChangeSLA_New(this, "Salinu");
@@ -33,9 +29,11 @@ public class Salamandra : Monster
     }
 
     //? 시작유닛으로 데려갈 떄
-    public override void EvolutionMonster_Init()
+    public override void Create_EvolutionMonster_Init()
     {
         Data = GameManager.Monster.GetData("Salamandra");
+        Trait_Original();
+
         Initialize_Status();
         EvolutionState = Evolution.Complete;
         EvolutionComplete();
@@ -56,6 +54,8 @@ public class Salamandra : Monster
 
     public override void TurnOver()
     {
+        base.TurnOver();
+
         EvolutionCheck();
     }
 
@@ -85,14 +85,26 @@ public class Salamandra : Monster
         UnitDialogueEvent.AddEvent(150600);
     }
 
-
-
     void ChangeTrait_Evolution()
     {
         List<ITrait> newTrait = new List<ITrait>();
 
-        newTrait.Add(new Trait.Overwhelm());
-        if (TraitCheck(TraitGroup.SurvivabilityA)) newTrait.Add(new Trait.SurvivabilityS());
+        AddTrait_DisableList(TraitGroup.Overwhelm);
+
+        foreach (var item in TraitList) //? 원래거 복사 (고유특성만 빼고)
+        {
+            if (item.ID == TraitGroup.Overwhelm)
+            {
+                newTrait.Add(new Trait.Overwhelm_V2());
+                continue;
+            }
+            if (item.ID == TraitGroup.SurvivabilityA)
+            {
+                newTrait.Add(new Trait.SurvivabilityS());
+                continue;
+            }
+            newTrait.Add(item);
+        }
 
         TraitList = newTrait;
     }

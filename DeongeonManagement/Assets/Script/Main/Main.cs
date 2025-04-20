@@ -212,6 +212,8 @@ public class Main : MonoBehaviour
             return;
         }
 
+        Init_Statistics();
+
         //UserData.Instance.SetData(PrefsKey.NewGameTimes, UserData.Instance.GetDataInt(PrefsKey.NewGameTimes) + 1);
         //UserData.Instance.NewGameConfig();
         //EventManager.Instance.NewGameReset();
@@ -240,6 +242,9 @@ public class Main : MonoBehaviour
         {
             StartCoroutine(NewGameInit_SecondTime());
             Technical_Expansion(1);
+
+            //? 이벤트 시드
+            RandomEventManager.Instance.Init_RE_Seed(UserData.Instance.FileConfig.Difficulty);
         }
         else
         {
@@ -255,11 +260,13 @@ public class Main : MonoBehaviour
     {
         if (UserData.Instance.FileConfig.Buff_ApBonusOne)
         {
-            AP_MAX++;
+            AP_Bonus++;
+            //AP_MAX++;
         }
         if (UserData.Instance.FileConfig.Buff_ApBonusTwo)
         {
-            AP_MAX++;
+            AP_Bonus++;
+            //AP_MAX++;
         }
 
         if (UserData.Instance.FileConfig.Buff_PopBonus)
@@ -286,6 +293,11 @@ public class Main : MonoBehaviour
     IEnumerator Wait_NewGamePlus()
     {
         yield return null;
+
+
+        //? 칭호
+        GameManager.Title.Active_Title(TitleGroup.NoviceDungeon);
+
 
         //? 유닛
         if (UserData.Instance.FileConfig.Unit_BloodySlime)
@@ -414,19 +426,21 @@ public class Main : MonoBehaviour
 
         if (GameManager.Placement.Find_Placement("Player") != null)
         {
-            Debug.Log("플레이어 찾음(Placement)");
+            //Debug.Log("플레이어 찾음(Placement)");
             var ppp = GameManager.Placement.Find_Placement("Player");
-            if (GameManager.Placement.DisableCheck(ppp.GetComponent<Player>()) == false)
+            var unitPlayer = ppp.GetComponent<Player>();
+            if (unitPlayer.State != Monster.MonsterState.Placement) //? Disable Check에서 상태로 교체, 이젠 패배하면 standBy가 됨
             {
                 if (tile2.Original != null)
                 {
                     GameManager.Placement.PlacementClear_Completely(tile2.Original);
                 }
-                GameManager.Placement.PlacementConfirm(ppp.GetComponent<Player>(), info2);
+                GameManager.Placement.PlacementConfirm(unitPlayer, info2);
             }
 
             _player = ppp.gameObject;
-            _player.GetComponent<Player>().HP_Damaged = 0;
+            unitPlayer.HP_Damaged = 0;
+            unitPlayer.State = Monster.MonsterState.Placement;
             return;
         }
 
@@ -444,39 +458,31 @@ public class Main : MonoBehaviour
 
     #region Save / Load
 
-    public void GetPropertyValue(out int _pop, out int _danger, out int _currentAP)
-    {
-        _pop = this.pop;
-        _danger = this.danger;
-        _currentAP = currentAP;
-    }
+    //public void GetPropertyValue(out int _pop, out int _danger, out int _currentAP)
+    //{
+    //    _pop = this.pop;
+    //    _danger = this.danger;
+    //    _currentAP = currentAP;
+    //}
 
 
     public void SetLoadData(DataManager.SaveData data)
     {
-        Turn = data.turn;
-        //Final_Score = data.Final_Score;
+        //? 통계 로드
+        Load_Statistics(data.statistics);
 
-        DungeonRank = data.DungeonLV;
-        PopularityOfDungeon = data.FameOfDungeon;
-        DangerOfDungeon = data.DangerOfDungeon;
+        //? 게임 데이터 로드
+        Load_MainData(data.mainData);
 
-        Player_Mana = data.Player_Mana;
-        Player_Gold = data.Player_Gold;
-        Player_AP = data.Player_AP;
-        AP_MAX = data.AP_MAX;
-
-        //Prisoner = data.Prisoner;
-
-        CurrentDay = new DayResult(data.CurrentDay);
-        DayList = new List<DayResult>();
-        foreach (var item in data.DayResultList)
+        if (UserData.Instance.FileConfig.Buff_ApBonusOne)
         {
-            DayList.Add(new DayResult(item));
+            AP_Bonus++;
+        }
+        if (UserData.Instance.FileConfig.Buff_ApBonusTwo)
+        {
+            AP_Bonus++;
         }
 
-        ActiveFloor_Basement = (data.ActiveFloor_Basement);
-        ActiveFloor_Technical = (data.ActiveFloor_Technical);
         ExpansionConfirm(false);
         GameManager.Technical.Expantion_Technical();
 
@@ -509,6 +515,69 @@ public class Main : MonoBehaviour
         yield return null;
         ChangeEggState();
     }
+
+
+
+    public CurrentGameData Save_MainData()
+    {
+        var saveData = new CurrentGameData();
+
+        saveData.turn = Turn;
+
+        saveData.DungeonLV = DungeonRank;
+        saveData.FameOfDungeon = pop;
+        saveData.DangerOfDungeon = danger;
+
+        saveData.Player_Mana = Player_Mana;
+        saveData.Player_Gold = Player_Gold;
+
+        saveData.AP_MAX = AP_MAX;
+        saveData.Player_AP = currentAP;
+
+
+        //? 얘넨 깊은 복사가 되고있음(각각의 값들을 다 새로 복사중)
+        saveData.CurrentDay = new Save_DayResult(CurrentDay);
+        saveData.DayResultList = new Save_DayResult[DayList.Count];
+        for (int i = 0; i < DayList.Count; i++)
+        {
+            saveData.DayResultList[i] = new Save_DayResult(DayList[i]);
+        }
+
+        saveData.ActiveFloor_Basement = ActiveFloor_Basement;
+        saveData.ActiveFloor_Technical = ActiveFloor_Technical;
+
+        saveData.addSlotCount = AddUnitSlotCount;
+
+        return saveData;
+    }
+
+    public void Load_MainData(CurrentGameData data)
+    {
+        Turn = data.turn;
+
+        DungeonRank = data.DungeonLV;
+        pop = data.FameOfDungeon;
+        danger = data.DangerOfDungeon;
+
+        Player_Mana = data.Player_Mana;
+        Player_Gold = data.Player_Gold;
+
+        AP_MAX = data.AP_MAX;
+        Player_AP = data.Player_AP;
+
+        CurrentDay = new DayResult(data.CurrentDay);
+        DayList = new List<DayResult>();
+        foreach (var item in data.DayResultList)
+        {
+            DayList.Add(new DayResult(item));
+        }
+
+        ActiveFloor_Basement = (data.ActiveFloor_Basement);
+        ActiveFloor_Technical = (data.ActiveFloor_Technical);
+
+        AddUnitSlotCount = data.addSlotCount;
+    }
+
 
 
     #endregion
@@ -605,6 +674,8 @@ public class Main : MonoBehaviour
     public int Player_Gold { get; private set; }
 
     public int AP_MAX { get; private set; }
+
+    public int AP_Bonus { get; set; }
 
     int currentAP;
     public int Player_AP { get { return currentAP; } set { currentAP = value; UI_Main.AP_Refresh(); } }
@@ -871,7 +942,7 @@ public class Main : MonoBehaviour
 
         EventManager.Instance.TurnOver();
 
-        Player_AP = AP_MAX;
+        Player_AP = AP_MAX + AP_Bonus;
         if (GameManager.Technical.Get_Technical<ApOrb>() != null)
         {
             Player_AP++;
@@ -914,9 +985,10 @@ public class Main : MonoBehaviour
         StartCoroutine(AutoSave());
     }
 
+    #endregion
 
 
-
+    #region 각종 통계 (세이브파일 및 DayResult 기준, 그리고 DayResult에 없는 통계들도 포함함
     public int GetTotalMana()
     {
         int mana = Player_Mana;
@@ -1015,7 +1087,28 @@ public class Main : MonoBehaviour
 
 
 
-    #endregion
+    public Statistics CurrentStatistics { get; set; }
+
+    void Init_Statistics()
+    {
+        CurrentStatistics = new Statistics();
+    }
+
+    void Load_Statistics(Statistics _data)
+    {
+        if (_data == null)
+        {
+            Init_Statistics();
+        }
+        else
+        {
+            CurrentStatistics = _data.DeepCopy();
+        }
+    }
+
+
+    #endregion 각종 통계
+
 
 
 
@@ -1083,6 +1176,7 @@ public class Main : MonoBehaviour
                 Main_TurnStartEvent();
 
                 BattleManager.Instance.TurnStart();
+                RandomEventManager.Instance.TurnStart();
                 EventManager.Instance.TurnStart();
                 GameManager.NPC.TurnStart();
                 GameManager.Monster.MonsterTurnStartEvent();
@@ -1096,6 +1190,7 @@ public class Main : MonoBehaviour
                 DayMonsterEvent();
                 GameManager.Monster.MonsterTurnOverEvent();
                 GameManager.Facility.TurnOverEvent();
+                GameManager.Title.TurnOverEvent_Title();
 
                 //? 대사 이벤트 등 턴 이벤트
                 Main_TurnOverEvent();
@@ -1104,7 +1199,9 @@ public class Main : MonoBehaviour
                 //? 엔딩변경 (어차피 이거 로드할 떄 부르니까 턴종료 마지막에 하는게 맞음)
                 ChangeEggState();
 
-
+                //? 현재 통계
+                CurrentStatistics.Update_DayResult(this);
+                CurrentStatistics.Show_CurrentLog();
 
                 //? 메인 UI 업데이트
                 UI_Main.TurnOverEvent();
@@ -1149,6 +1246,16 @@ public class Main : MonoBehaviour
 
             case 1: //? 원래 1일차 종료부터 가능했던 정보확인을 1일차 시작때부터 할 수 있도록 변경
                 UI_Main.Active_Floor();
+                //if (UserData.Instance.FileConfig.PlayRounds == 1) //? 초회차면 겜시작시 메뉴얼
+                //{
+                //    Managers.UI.ShowPopUp<UI_Manual>();
+                //}
+                //GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Mastia.ToString(), 5, NPC_Typeof.NPC_Type_RandomEvent);
+                //GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Karen.ToString(), 6, NPC_Typeof.NPC_Type_RandomEvent);
+                //GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Stan.ToString(), 7, NPC_Typeof.NPC_Type_RandomEvent);
+                //GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Euh.ToString(), 8, NPC_Typeof.NPC_Type_RandomEvent);
+                //GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Romys.ToString(), 5, NPC_Typeof.NPC_Type_RandomEvent);
+                //GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Siri.ToString(), 10, NPC_Typeof.NPC_Type_RandomEvent);
                 break;
 
             case 3: //? FirstAdv Event
@@ -1237,7 +1344,7 @@ public class Main : MonoBehaviour
 //            case 30:
 //#if DEMO_BUILD
 //                Debug.Log("데모클리어");
-//                //var clear = new CollectionManager.ClearDataLog();
+//                var clear = new CollectionManager.ClearDataLog();
 //                //clear.mana = GetTotalMana();
 //                //clear.gold = GetTotalGold();
 //                //clear.visit = GetTotalVisit();
@@ -1317,12 +1424,20 @@ public class Main : MonoBehaviour
     }
 
 
+    #endregion
 
 
 
+    #region Monster or Unit
+
+
+    public int AddUnitSlotCount { get; set; }
 
     void DayMonsterEvent()
     {
+        //Debug.Log($"지금턴은 : {Turn}");
+        if (Turn == 30) return;
+
         StartCoroutine(WaitForResultUI());
     }
 
@@ -1353,11 +1468,8 @@ public class Main : MonoBehaviour
 
 
 
+
     #endregion
-
-
-
-
 
 
 
@@ -1670,8 +1782,8 @@ public class Main : MonoBehaviour
             }
         }
 
-        //? 3순위 - 토끼
-        if (DangerOfDungeon < 300 && DangerOfDungeon < PopularityOfDungeon)
+        //? 3순위 - 토끼 - 위험도가 0일때를 상정하지 않아서 안되고있었다... 그냥 +1로 나누자. 
+        if ((PopularityOfDungeon / (DangerOfDungeon + 1)) >= 3)
         {
             CurrentEndingState = Endings.Ravi;
             EggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Ravi"));
@@ -1691,6 +1803,114 @@ public class Main : MonoBehaviour
 
 
 
+}
+
+public class CurrentGameData
+{
+    // 세이브 슬롯에 표시할 게임정보
+    public int turn;
+    //public int Final_Score;
+
+    // 게임 진행상황
+    public int DungeonLV;
+    public int FameOfDungeon;
+    public int DangerOfDungeon;
+
+    public int Player_Mana;
+    public int Player_Gold;
+    public int Player_AP;
+    public int AP_MAX;
+
+    public Save_DayResult CurrentDay;
+    public Save_DayResult[] DayResultList;
+
+    // Floor 정보
+    public int ActiveFloor_Basement; //? 확장된 계층정보
+    public int ActiveFloor_Technical; //? 특수시설 계층
+
+    // 유닛 슬롯 정보
+    public int addSlotCount; //? 일반 유닛 말고 특수유닛 숫자(레나, 우투리, 랜덤이벤트 6명 해서 총 8)
+}
+
+
+public class Statistics //? 각종 통계, 나중에 도전과제 업적으로도 충분히 사용 가능 / 값타입 필드만 사용
+{
+    //? 기본 정보 - 총획득마나/총사용마나  방문자/도망자/승리(킬)/만족  유닛통계  인기도 위험도 등등
+    public int Total_Mana;
+    public int Total_Gold;
+
+    //? 상호작용 횟수 통계
+    public int Interaction_Herb;
+    public int Interaction_Mineral;
+    public int Interaction_Treasure; //? 보물상자 / 무기 등 상세분류로 나눌지말지는 고민. 일단은 Treasure = 1개인 상태
+    public int Interaction_Trap;
+    public int Interaction_Secret;      //? 숨겨진 방 입장 횟수 (전이포탈 상호작용)
+
+    public int Hightest_Unit_Size;
+    public int Highest_Unit_Lv;
+
+
+    //? 몇개있는지 체크
+    public int Amenity;
+
+
+    //? 기타 필요한거...라기엔 그냥 잡다한 통계 전부 업데이트 해도 될 것 같음.
+    public int highTurn;        //? 최대 턴 (무한모드용)
+
+
+    //? 저장하는 타이밍에 업데이트 되야할 수치가 있으면 업데이트하기
+    public void Update_ToSave(CurrentGameData currentData)
+    {
+        highTurn = Mathf.Max(highTurn, currentData.turn);
+    }
+
+
+
+    public void Update_DayResult(Main main)
+    {
+        Total_Mana = main.GetTotalMana();
+        Total_Gold = main.GetTotalGold();
+    }
+
+
+    public void Show_CurrentLog()
+    {
+        string log = "";
+        foreach (var field in GetType().GetFields())
+        {
+            log += $"{field.Name}: {field.GetValue(this)}\n";
+        }
+        Debug.Log(log);
+    }
+
+
+    //? 필드값을 하나라도 바꾸면 아래 함수를 호출해야함. 
+    public void OnChangeFieldValue() //? 여기서 업적 및 도전과제 등을 하면 되는데,,, 그냥 Statistics를 가져다 쓰는게 나을지도 모르겠네
+    {
+
+    }
+
+    //public void SetBoolValue(string boolName, bool value)
+    //{
+    //    // 필드 정보를 가져옴
+    //    var field = this.GetType().GetField(boolName);
+
+    //    if (field != null && field.FieldType == typeof(bool))
+    //    {
+    //        field.SetValue(this, value);
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("Invalid field name or type: " + boolName);
+    //    }
+    //}
+
+    public Statistics DeepCopy()
+    {
+        //? 아래 메서드는 어디까지나 필드를 얕은복사 하는 메서드임. 다만 현재 모든 필드값이 값타입이라 값복사가 될뿐임.
+        Statistics newConfig = (Statistics)this.MemberwiseClone();
+        return newConfig;
+    }
 }
 public class Save_DayResult
 {

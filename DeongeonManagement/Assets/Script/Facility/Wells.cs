@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,9 @@ public class Wells : Facility, IWall
     public override void Init_Personal()
     {
         Init();
+
+        AddEvent();
+        OnRemoveEvent += () => RemoveEvent();
     }
 
     void Init()
@@ -129,5 +133,20 @@ public class Wells : Facility, IWall
         //GameManager.Facility.RemoveFacility(this);
     }
 
+
+
+
+
+    Action<int> RefillAction;
+    void AddEvent()
+    {
+        RefillAction = (value) => WellsRefill();
+        AddTurnEvent(RefillAction, DayType.Day);
+    }
+
+    void RemoveEvent()
+    {
+        RemoveTurnEvent(RefillAction, DayType.Day);
+    }
 
 }

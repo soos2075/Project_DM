@@ -66,6 +66,9 @@ public class GuildHelper : MonoBehaviour
 
         Hero,
         DeathMagician,
+
+        Center_Left,
+        Center_Right,
     }
 
     public Transform GetPos(Pos pos)

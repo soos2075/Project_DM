@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 
@@ -60,7 +61,10 @@ public class SpecialEgg : Facility
             InteractionOfTimes--;
             Cor_Facility = StartCoroutine(FacilityEvent(npc, 3, UserData.Instance.LocaleText("Event_Egg"), ap: 0, mp: 0, hp: 0));
 
-            Managers.UI.ClearAndShowPopUp<UI_GameOver>();
+            //Managers.UI.ClearAndShowPopUp<UI_GameOver>();
+
+            Managers.Dialogue.ShowDialogueUI(DialogueName.GameOver, transform.Find("EggPos"));
+
             return Cor_Facility;
         }
         else
@@ -69,4 +73,6 @@ public class SpecialEgg : Facility
             return null;
         }
     }
+
+
 }

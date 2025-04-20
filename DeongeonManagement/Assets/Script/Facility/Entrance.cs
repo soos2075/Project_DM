@@ -33,7 +33,7 @@ public class Entrance : Facility
             yield return new WaitForSeconds(npc.ActionDelay);
 
             int applyMana = Mathf.Clamp(((npc.PlacementInfo.Place_Floor.FloorIndex) * 2), 0, npc.Mana);
-            applyMana += GameManager.Buff.PortalBonus;
+            applyMana += GameManager.Buff.ManaAdd_Portal;
             if (applyMana > 0)
             {
                 Main.Instance.CurrentDay.AddMana(applyMana, Main.DayResult.EventType.Etc);

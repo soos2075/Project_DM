@@ -16,26 +16,22 @@ public class Griffy : Monster
             StartCoroutine(Init_Evolution());
         }
     }
-    public override void EvolutionMonster_Init()
+    public override void Create_EvolutionMonster_Init()
     {
         Data = GameManager.Monster.GetData("Griffy");
         Trait_Original();
+
         Initialize_Status();
         EvolutionState = Evolution.Complete;
         EvolutionComplete();
     }
-    public override void MonsterInit_Evolution()
+    public override void Load_EvolutionMonster()
     {
         Data = GameManager.Monster.GetData("Griffin");
         GameManager.Monster.ChangeSLA_New(this, "Griffin");
         GameManager.Monster.Regist_Evolution("Griffy");
     }
 
-
-    void Trait_Original()
-    {
-        AddTrait(new Trait.Predation());
-    }
 
 
     IEnumerator Init_Evolution()
@@ -77,6 +73,27 @@ public class Griffy : Monster
         Evolution_Status();
         GameManager.Monster.ChangeSLA_New(this, "Griffin");
         GameManager.Monster.Regist_Evolution("Griffy");
+
+        ChangeTrait_Evolution();
+    }
+
+    void ChangeTrait_Evolution()
+    {
+        List<ITrait> newTrait = new List<ITrait>();
+
+        AddTrait_DisableList(TraitGroup.Predation);
+
+        foreach (var item in TraitList) //? 원래거 복사 (고유특성만 빼고)
+        {
+            if (item.ID == TraitGroup.Predation)
+            {
+                newTrait.Add(new Trait.Predation_V2());
+                continue;
+            }
+            newTrait.Add(item);
+        }
+
+        TraitList = newTrait;
     }
 
 }

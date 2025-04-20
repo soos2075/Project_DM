@@ -79,6 +79,8 @@ public class Treasure : Facility
         if (InteractionOfTimes > 0)
         {
             InteractionOfTimes--;
+            Main.Instance.CurrentStatistics.Interaction_Treasure++;
+
             Cor_Facility = StartCoroutine(TreasureEvent(npc));
             return Cor_Facility;
         }
@@ -102,33 +104,44 @@ public class Treasure : Facility
 
         yield return new WaitForSeconds(durationTime);
 
-        int changeMP = mp_value + GameManager.Buff.FacilityBonus;
+        //int changeMP = mp_value + GameManager.Buff.ManaAdd_Facility;
+        int addMP = GameManager.Buff.ManaAdd_Facility;
+
+        float multipleMP = 1;
+        multipleMP += (GameManager.Buff.EffectUp_Treasure * 0.01f);
+        ap_value += Mathf.RoundToInt(ap_value * (GameManager.Buff.EffectUp_Treasure * 0.01f));
+        gold_value += Mathf.RoundToInt(gold_value * (GameManager.Buff.EffectUp_Treasure * 0.01f));
+        pop_value += Mathf.RoundToInt(pop_value * (GameManager.Buff.EffectUp_Treasure * 0.01f));
+        danger_value += Mathf.RoundToInt(danger_value * (GameManager.Buff.EffectUp_Treasure * 0.01f));
+
+        if (npc.TraitCheck(TraitGroup.Overflow))
+        {
+            multipleMP += 0.2f;
+        }
+
         switch (TagCheck(npc))
         {
             case Target.Bonus:
-                changeMP = Mathf.RoundToInt(mp_value * 1.3f);
+                multipleMP += 0.2f;
                 break;
 
             case Target.Weak:
-                changeMP = Mathf.RoundToInt(mp_value * 0.7f);
+                multipleMP -= 0.5f;
                 break;
 
             case Target.Invalid:
-                changeMP = Mathf.RoundToInt(mp_value * 0.1f);
+                multipleMP -= 0.9f;
                 break;
 
             case Target.Normal:
                 break;
         }
 
-
+        int changeMP = Mathf.RoundToInt(mp_value * multipleMP) + addMP;
         int applyMana = Mathf.Clamp(changeMP, 0, npc.Mana); //? 높은 마나회수여도 npc가 가진 마나 이상으로 얻진 못함. - 앵벌이 방지용
 
         npc.Change_Mana(-applyMana);
         npc.Change_ActionPoint(-ap_value);
-        npc.Change_HP(-hp_value);
-        //npc.ActionPoint -= ap_value;
-        //npc.HP -= hp_value;
 
         if (applyMana > 0)
         {

@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     PixelHeroManager _pixel = new PixelHeroManager();
     BuffManager _buff = new BuffManager();
     ArtifactManager _artifact = new ArtifactManager();
+    TitleManager _title = new TitleManager();
 
 
 
@@ -32,6 +33,7 @@ public class GameManager : MonoBehaviour
     public static PixelHeroManager Pixel { get { return Instance._pixel; } }
     public static BuffManager Buff { get { return Instance._buff; } }
     public static ArtifactManager Artifact { get { return Instance._artifact; } }
+    public static TitleManager Title { get { return Instance._title; } }
 
 
 
@@ -63,6 +65,7 @@ public class GameManager : MonoBehaviour
         _pixel.Init();
         _buff.Init();
         _artifact.Init();
+        _title.Init();
     }
 
     void Start()

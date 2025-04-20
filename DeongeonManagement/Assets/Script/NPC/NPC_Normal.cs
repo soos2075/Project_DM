@@ -275,6 +275,7 @@ public class NPC_Normal : NPC
             case NPC_Type_Normal.Herbalist2:
             case NPC_Type_Normal.Herbalist3:
                 AddPriorityList(GetPriorityPick(typeof(Herb)), AddPos.Front, option);
+                AddPriorityList(GetPriorityPick(typeof(Herb_Roots)), AddPos.Back, option);
                 break;
 
             case NPC_Type_Normal.Miner1:
@@ -294,6 +295,7 @@ public class NPC_Normal : NPC
             case NPC_Type_Normal.Elf:
                 AddPriorityList(GetPriorityPick(typeof(Monster)), AddPos.Front, option);
                 AddPriorityList(GetPriorityPick(typeof(Herb)), AddPos.Front, option);
+                AddPriorityList(GetPriorityPick(typeof(Herb_Roots)), AddPos.Back, option);
                 break;
 
             case NPC_Type_Normal.Wizard:
@@ -307,6 +309,8 @@ public class NPC_Normal : NPC
                 var mineral = GetPriorityPick(typeof(Mineral));
                 herb.AddRange(mineral);
                 AddPriorityList(herb, AddPos.Front, option);
+
+                AddPriorityList(GetPriorityPick(typeof(Herb_Roots)), AddPos.Back, option);
                 break;
         }
 

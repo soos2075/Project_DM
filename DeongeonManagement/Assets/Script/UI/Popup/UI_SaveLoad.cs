@@ -254,19 +254,28 @@ public class UI_SaveLoad : UI_PopUp
 
         if (data != null)
         {
-            SaveSlotList[_index - 1].transform.Find("_Slot").GetComponentInChildren<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText("Slot")} {_index}";
+            string diff = "¡Ú";
+            for (int i = 0; i < data.difficultyLevel; i++)
+            {
+                diff += "¡Ú";
+            }
+
+            SaveSlotList[_index - 1].transform.Find("_Slot").GetComponentInChildren<TextMeshProUGUI>().text = 
+                $"{UserData.Instance.LocaleText("Slot")} {_index} - {diff}";
+
+
             SaveSlotList[_index - 1].transform.Find("_Date").GetComponentInChildren<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocalDateTime(data.dateTime)}";
 
-            SaveSlotList[_index - 1].transform.Find("_Day").GetComponentInChildren<TextMeshProUGUI>().text = $"{data.turn}{UserData.Instance.LocaleText("Day")}";
+            SaveSlotList[_index - 1].transform.Find("_Day").GetComponentInChildren<TextMeshProUGUI>().text = $"{data.mainData.turn}{UserData.Instance.LocaleText("Day")}";
             SaveSlotList[_index - 1].transform.Find("_Rank").GetComponentInChildren<TextMeshProUGUI>().text =
-                $"{(Define.DungeonRank)data.DungeonLV}";
+                $"{(Define.DungeonRank)data.mainData.DungeonLV}";
 
-            SaveSlotList[_index - 1].transform.Find("_Pop").GetComponentInChildren<TextMeshProUGUI>().text = $"{data.FameOfDungeon}";
-            SaveSlotList[_index - 1].transform.Find("_Danger").GetComponentInChildren<TextMeshProUGUI>().text = $"{data.DangerOfDungeon}";
+            SaveSlotList[_index - 1].transform.Find("_Pop").GetComponentInChildren<TextMeshProUGUI>().text = $"{data.mainData.FameOfDungeon}";
+            SaveSlotList[_index - 1].transform.Find("_Danger").GetComponentInChildren<TextMeshProUGUI>().text = $"{data.mainData.DangerOfDungeon}";
 
             if (data.isClear)
             {
-                SaveSlotList[_index - 1].transform.Find("_Day").GetComponentInChildren<TextMeshProUGUI>().text = $"{data.turn} : Clear";
+                SaveSlotList[_index - 1].transform.Find("_Day").GetComponentInChildren<TextMeshProUGUI>().text = $"{data.mainData.turn} : Clear";
             }
         }
         else
@@ -288,19 +297,27 @@ public class UI_SaveLoad : UI_PopUp
         var autodata = Managers.Data.GetData($"AutoSave");
         if (autodata != null)
         {
-            GetImage(((int)Slot.AutoSave)).transform.Find("_Slot").GetComponentInChildren<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText("AutoSave")}";
+            string diff = "¡Ú";
+            for (int i = 0; i < autodata.difficultyLevel; i++)
+            {
+                diff += "¡Ú";
+            }
+
+            GetImage(((int)Slot.AutoSave)).transform.Find("_Slot").GetComponentInChildren<TextMeshProUGUI>().text = 
+                $"{UserData.Instance.LocaleText("AutoSave")} - {diff}";
+
             GetImage(((int)Slot.AutoSave)).transform.Find("_Date").GetComponentInChildren<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocalDateTime(autodata.dateTime)}";
 
-            GetImage(((int)Slot.AutoSave)).transform.Find("_Day").GetComponentInChildren<TextMeshProUGUI>().text = $"{autodata.turn}{UserData.Instance.LocaleText("Day")}";
+            GetImage(((int)Slot.AutoSave)).transform.Find("_Day").GetComponentInChildren<TextMeshProUGUI>().text = $"{autodata.mainData.turn}{UserData.Instance.LocaleText("Day")}";
             GetImage(((int)Slot.AutoSave)).transform.Find("_Rank").GetComponentInChildren<TextMeshProUGUI>().text =
-                $"{(Define.DungeonRank)autodata.DungeonLV}";
+                $"{(Define.DungeonRank)autodata.mainData.DungeonLV}";
 
-            GetImage(((int)Slot.AutoSave)).transform.Find("_Pop").GetComponentInChildren<TextMeshProUGUI>().text = $"{autodata.FameOfDungeon}";
-            GetImage(((int)Slot.AutoSave)).transform.Find("_Danger").GetComponentInChildren<TextMeshProUGUI>().text = $"{autodata.DangerOfDungeon}";
+            GetImage(((int)Slot.AutoSave)).transform.Find("_Pop").GetComponentInChildren<TextMeshProUGUI>().text = $"{autodata.mainData.FameOfDungeon}";
+            GetImage(((int)Slot.AutoSave)).transform.Find("_Danger").GetComponentInChildren<TextMeshProUGUI>().text = $"{autodata.mainData.DangerOfDungeon}";
 
             if (autodata.isClear)
             {
-                GetImage(((int)Slot.AutoSave)).transform.GetChild(2).GetComponentInChildren<TextMeshProUGUI>().text = $"{autodata.turn} : Clear";
+                GetImage(((int)Slot.AutoSave)).transform.GetChild(2).GetComponentInChildren<TextMeshProUGUI>().text = $"{autodata.mainData.turn} : Clear";
             }
         }
         else

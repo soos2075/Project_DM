@@ -21,6 +21,7 @@ public class UI_Collection : UI_PopUp
         Technical,
         Artifact,
         Trait,
+        Title,
     }
 
     enum GridGroups
@@ -32,6 +33,7 @@ public class UI_Collection : UI_PopUp
         TechnicalBox_Content,
         ArtifactBox_Content,
         TraitBox_Content,
+        TitleBox_Content,
     }
 
     enum Objects
@@ -47,22 +49,23 @@ public class UI_Collection : UI_PopUp
         TechnicalBox,
         ArtifactBox,
         TraitBox,
+        TitleBox,
 
 
         ShowBox,
         //Content,
         VerticalBox,
 
-        TMP_Stat_Main1,
-        TMP_Stat_Main2,
-        TMP_Stat_Main3,
-        TMP_Stat_Main4,
-        TMP_Stat_Main5,
-        TMP_Stat_Main6,
+        //TMP_Stat_Main1,
+        //TMP_Stat_Main2,
+        //TMP_Stat_Main3,
+        //TMP_Stat_Main4,
+        //TMP_Stat_Main5,
+        //TMP_Stat_Main6,
 
-        TMP_Stat_Sub1,
-        TMP_Stat_Sub2,
-        TMP_Stat_Sub3,
+        //TMP_Stat_Sub1,
+        //TMP_Stat_Sub2,
+        //TMP_Stat_Sub3,
     }
 
     enum ShowBoxText
@@ -112,6 +115,7 @@ public class UI_Collection : UI_PopUp
         GetButton((int)MenuButtons.Technical).gameObject.AddUIEvent(data => MenuButton(MenuButtons.Technical, Objects.TechnicalBox));
         GetButton((int)MenuButtons.Artifact).gameObject.AddUIEvent(data => MenuButton(MenuButtons.Artifact, Objects.ArtifactBox));
         GetButton((int)MenuButtons.Trait).gameObject.AddUIEvent(data => MenuButton(MenuButtons.Trait, Objects.TraitBox));
+        GetButton((int)MenuButtons.Title).gameObject.AddUIEvent(data => MenuButton(MenuButtons.Title, Objects.TitleBox));
 
 
         Create_CollectionUnit();
@@ -165,7 +169,12 @@ public class UI_Collection : UI_PopUp
             unit.GetComponent<UI_CollectionUnit>().SetUnit_Trait(CollectionManager.Instance.Register_Trait[i], this);
         }
 
-
+        for (int i = 0; i < CollectionManager.Instance.Register_Title.Count; i++)
+        {
+            var unit = Managers.Resource.Instantiate("UI/PopUp/Collection/CollectionUnit_Title_Content",
+                Get<GridLayoutGroup>((int)GridGroups.TitleBox_Content).transform);
+            unit.GetComponent<UI_CollectionUnit>().SetUnit_Title(CollectionManager.Instance.Register_Title[i], this);
+        }
 
     }
 
@@ -198,6 +207,7 @@ public class UI_Collection : UI_PopUp
         GetObject((int)Objects.TechnicalBox).SetActive(false);
         GetObject((int)Objects.ArtifactBox).SetActive(false);
         GetObject((int)Objects.TraitBox).SetActive(false);
+        GetObject((int)Objects.TitleBox).SetActive(false);
     }
 
 
@@ -247,38 +257,66 @@ public class UI_Collection : UI_PopUp
         GetTMP((int)ShowBoxText.TMP_Detail).text = "";
         GetTMP((int)ShowBoxText.TMP_Number).text = "";
 
-
-
-        StatContentsSet(Objects.TMP_Stat_Main1, "", "", $"");
-        StatContentsSet(Objects.TMP_Stat_Main2, "", "", $"");
-        StatContentsSet(Objects.TMP_Stat_Main3, "", "", $"");
-        StatContentsSet(Objects.TMP_Stat_Main4, "", "", $"");
-        StatContentsSet(Objects.TMP_Stat_Main5, "", "", $"");
-        StatContentsSet(Objects.TMP_Stat_Main6, "", "", $"");
-        StatContentsSet(Objects.TMP_Stat_Sub1, "", "", $"");
-        StatContentsSet(Objects.TMP_Stat_Sub2, "", "", $"");
-        StatContentsSet(Objects.TMP_Stat_Sub3, "", "", $"");
-
         ResetOptionBox();
-
-        //StartCoroutine(WaitContentsizeFilter());
     }
 
-    void StatContentsSet(Objects textBox, string uiName, string title, string content)
+
+    GameObject Add_StatField()
     {
+        var pos = GetObject((int)Objects.VerticalBox).transform;
+        var statField = Managers.Resource.Instantiate("UI/PopUp/Collection/StatField", pos);
+
+        StatFieldContentsSet(statField, "TMP_Stat_Main1", "", "", $"");
+        StatFieldContentsSet(statField, "TMP_Stat_Main2", "", "", $"");
+        StatFieldContentsSet(statField, "TMP_Stat_Main3", "", "", $"");
+        StatFieldContentsSet(statField, "TMP_Stat_Main4", "", "", $"");
+        StatFieldContentsSet(statField, "TMP_Stat_Main5", "", "", $"");
+        StatFieldContentsSet(statField, "TMP_Stat_Main6", "", "", $"");
+        StatFieldContentsSet(statField, "TMP_Stat_Sub1", "", "", $"");
+        StatFieldContentsSet(statField, "TMP_Stat_Sub2", "", "", $"");
+        StatFieldContentsSet(statField, "TMP_Stat_Sub3", "", "", $"");
+
+        return statField;
+    }
+
+    void StatFieldContentsSet(GameObject field, string fieldName, string uiName, string title, string content)
+    {
+        var target = field.transform.Find(fieldName);
+        if (target == null)
+        {
+            Debug.Log($"{target} is Null");
+        }
+
         if (string.IsNullOrEmpty(uiName))
         {
-            GetObject((int)textBox).transform.GetChild(0).GetComponent<Image>().sprite = Managers.Sprite.GetClear();
+            target.transform.GetChild(0).GetComponent<Image>().sprite = Managers.Sprite.GetClear();
         }
         else
         {
-            GetObject((int)textBox).transform.GetChild(0).GetComponent<Image>().sprite = 
+            target.transform.GetChild(0).GetComponent<Image>().sprite =
                 Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Stat_32", uiName);
         }
 
-        GetObject((int)textBox).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = title;
-        GetObject((int)textBox).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = content;
+        target.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = title;
+        target.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = content;
     }
+
+
+    //void StatContentsSet(Objects textBox, string uiName, string title, string content)
+    //{
+    //    if (string.IsNullOrEmpty(uiName))
+    //    {
+    //        GetObject((int)textBox).transform.GetChild(0).GetComponent<Image>().sprite = Managers.Sprite.GetClear();
+    //    }
+    //    else
+    //    {
+    //        GetObject((int)textBox).transform.GetChild(0).GetComponent<Image>().sprite = 
+    //            Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Stat_32", uiName);
+    //    }
+
+    //    GetObject((int)textBox).transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = title;
+    //    GetObject((int)textBox).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = content;
+    //}
 
 
     GameObject Add_TraitBox()
@@ -309,7 +347,7 @@ public class UI_Collection : UI_PopUp
     {
         var pos = GetObject((int)Objects.VerticalBox).transform;
 
-        for (int i = pos.childCount - 1; i >= 1; i--)
+        for (int i = pos.childCount - 1; i >= 0; i--)
         {
             Managers.Resource.Destroy(pos.GetChild(i).gameObject);
         }
@@ -378,16 +416,18 @@ public class UI_Collection : UI_PopUp
             GetTMP((int)ShowBoxText.TMP_Number).text = $"No.{data.CollectionNumber}";
             GetTMP((int)ShowBoxText.TMP_Detail).text = $"{SO_Data.detail}";
 
-            StatContentsSet(Objects.TMP_Stat_Main1,"hp", "HP", $"{SO_Data.hp}");
-            StatContentsSet(Objects.TMP_Stat_Main4, "maxlv", "MaxLv", $"{SO_Data.maxLv}");
 
-            StatContentsSet(Objects.TMP_Stat_Main2, "atk" ,"ATK", $"{SO_Data.atk}");
-            StatContentsSet(Objects.TMP_Stat_Main3, "def" ,"DEF", $"{SO_Data.def}");
-            StatContentsSet(Objects.TMP_Stat_Main5, "agi" ,"AGI", $"{SO_Data.agi}");
-            StatContentsSet(Objects.TMP_Stat_Main6, "luk" ,"LUK", $"{SO_Data.luk}");
+            var field = Add_StatField();
+            StatFieldContentsSet(field, "TMP_Stat_Main1", "hp", "HP", $"{SO_Data.hp}");
+            StatFieldContentsSet(field, "TMP_Stat_Main4", "maxlv", "MaxLv", $"{SO_Data.maxLv}");
 
-            var header = Add_Header($"{UserData.Instance.LocaleText("획득 가능한 특성")}");
-            var traitPanel = Add_TraitBox();
+            StatFieldContentsSet(field, "TMP_Stat_Main2", "atk" ,"ATK", $"{SO_Data.atk}");
+            StatFieldContentsSet(field, "TMP_Stat_Main3", "def" ,"DEF", $"{SO_Data.def}");
+            StatFieldContentsSet(field, "TMP_Stat_Main5", "agi" ,"AGI", $"{SO_Data.agi}");
+            StatFieldContentsSet(field, "TMP_Stat_Main6", "luk", "LUK", $"{SO_Data.luk}");
+
+            //var header = Add_Header($"{UserData.Instance.LocaleText("획득 가능한 특성")}");
+            //var traitPanel = Add_TraitBox();
 
             GameObject header2 = null;
             GameObject textBox1 = null;
@@ -396,23 +436,31 @@ public class UI_Collection : UI_PopUp
                 header2 = Add_Header($"{UserData.Instance.LocaleText("진화 힌트")}");
                 textBox1 = Add_TextBox();
             }
-            //GameObject header3 = null;
-            //GameObject textBox2 = null;
-            //if (string.IsNullOrEmpty(SO_Data.evolutionDetail) == false)
-            //{
-            //    header3 = Add_Header($"{UserData.Instance.LocaleText("진화 조건")}");
-            //    textBox2 = string.IsNullOrEmpty(SO_Data.evolutionDetail) ? null : Add_TextBox();
-            //}
+
+            {
+                var header = Add_Header($"{UserData.Instance.LocaleText("고유 특성")}");
+                var traitPanel = Add_TraitBox();
+                TraitContentSet(traitPanel, SO_Data.traitList_Original);
+            }
 
             if (data.info.level_1_Unlock)
             {
-                StatContentsSet(Objects.TMP_Stat_Sub1, "battle" , $"{UserData.Instance.LocaleText("전투횟수")}", $"{SO_Data.maxBattleCount}");
-                StatContentsSet(Objects.TMP_Stat_Sub2, "ap", $"{UserData.Instance.LocaleText("피로도")}", $"{SO_Data.battleAp}");
-                StatContentsSet(Objects.TMP_Stat_Sub3, "rank", $"{UserData.Instance.LocaleText("Rank")}", $"{(Define.DungeonRank)SO_Data.unlockRank}");
+                StatFieldContentsSet(field, "TMP_Stat_Sub1", "battle", $"{UserData.Instance.LocaleText("전투횟수")}", $"{SO_Data.maxBattleCount}");
+                StatFieldContentsSet(field, "TMP_Stat_Sub2", "ap", $"{UserData.Instance.LocaleText("피로도")}", $"{SO_Data.battleAp}");
+                StatFieldContentsSet(field, "TMP_Stat_Sub3", "rank", $"{UserData.Instance.LocaleText("Rank")}", $"{(Define.DungeonRank)SO_Data.unlockRank}");
             }
             if (data.info.level_2_Unlock)
             {
-                TraitContentSet(traitPanel, SO_Data.TraitableList);
+                {
+                    var header = Add_Header($"{UserData.Instance.LocaleText("경험 특성")}");
+                    var traitPanel = Add_TraitBox();
+                    TraitContentSet(traitPanel, SO_Data.traitList_Exp);
+                }
+                {
+                    var header = Add_Header($"{UserData.Instance.LocaleText("랜덤 특성")}");
+                    var traitPanel = Add_TraitBox();
+                    TraitContentSet(traitPanel, SO_Data.traitList_Random);
+                }
             }
             if (data.info.level_3_Unlock)
             {
@@ -423,16 +471,12 @@ public class UI_Collection : UI_PopUp
             }
             //if (data.info.level_4_Unlock)
             //{
-            //    if (textBox2 != null)
-            //    {
-            //        OptionContentSet(textBox2.GetComponentInChildren<TextMeshProUGUI>(), SO_Data.evolutionDetail, true);
-            //    }
+
             //}
-            if (data.info.level_5_Unlock)
-            {
-                //? 위에꺼에 내용을 추가한다든지
-                //? 마스터리 추가효과로 실제 소환시 시작레벨이나 스탯보너스나 뭐 아무튼 보너스를 주는 내용을 넣어도 될 것 같다
-            }
+            //if (data.info.level_5_Unlock)
+            //{
+
+            //}
         }
     }
 
@@ -453,51 +497,42 @@ public class UI_Collection : UI_PopUp
             GetTMP((int)ShowBoxText.TMP_Number).text = $"No.{data.CollectionNumber}";
             GetTMP((int)ShowBoxText.TMP_Detail).text = $"{SO_Data.detail}";
 
-            var header = Add_Header($"{UserData.Instance.LocaleText("특성")}");
-            var traitPanel = Add_TraitBox();
-            TraitContentSet(traitPanel, SO_Data.NPC_TraitList);
+
+            GameObject field = null;
 
             if (data.info.level_1_Unlock)
             {
-                StatContentsSet(Objects.TMP_Stat_Main1, "hp", "HP", $"{SO_Data.HP}");
+                field = Add_StatField();
+                StatFieldContentsSet(field, "TMP_Stat_Main1", "hp", "HP", $"{SO_Data.HP}");
 
-                StatContentsSet(Objects.TMP_Stat_Main2, "atk", "ATK", $"{SO_Data.ATK}");
-                StatContentsSet(Objects.TMP_Stat_Main3, "def", "DEF", $"{SO_Data.DEF}");
-                StatContentsSet(Objects.TMP_Stat_Main5, "agi", "AGI", $"{SO_Data.AGI}");
-                StatContentsSet(Objects.TMP_Stat_Main6, "luk", "LUK", $"{SO_Data.LUK}");
+                StatFieldContentsSet(field, "TMP_Stat_Main2", "atk", "ATK", $"{SO_Data.ATK}");
+                StatFieldContentsSet(field, "TMP_Stat_Main3", "def", "DEF", $"{SO_Data.DEF}");
+                StatFieldContentsSet(field, "TMP_Stat_Main5", "agi", "AGI", $"{SO_Data.AGI}");
+                StatFieldContentsSet(field, "TMP_Stat_Main6", "luk", "LUK", $"{SO_Data.LUK}");
             }
             if (data.info.level_2_Unlock)
             {
-                StatContentsSet(Objects.TMP_Stat_Sub1, "mana", $"{UserData.Instance.LocaleText("Mana")}", $"{SO_Data.MP}");
-                StatContentsSet(Objects.TMP_Stat_Sub2, "ap", $"{UserData.Instance.LocaleText("AP")}", $"{SO_Data.AP}");
-                StatContentsSet(Objects.TMP_Stat_Sub3, "rank", $"{UserData.Instance.LocaleText("Rank")}", $"{(Define.DungeonRank)SO_Data.Rank}");
+                StatFieldContentsSet(field, "TMP_Stat_Sub1", "mana", $"{UserData.Instance.LocaleText("Mana")}", $"{SO_Data.MP}");
+                StatFieldContentsSet(field, "TMP_Stat_Sub2", "ap", $"{UserData.Instance.LocaleText("AP")}", $"{SO_Data.AP}");
+                StatFieldContentsSet(field, "TMP_Stat_Sub3", "rank", $"{UserData.Instance.LocaleText("Rank")}", $"{(Define.DungeonRank)SO_Data.Rank}");
             }
             if (data.info.level_3_Unlock)
             {
-                //? 걍 첨부터 공개하는걸로
-                //TraitContentSet(traitPanel, SO_Data.NPC_TraitList);
+                
             }
             if (data.info.level_4_Unlock)
             {
-                //string prefer = "";
-                //foreach (var item in SO_Data.PreferList)
-                //{
-                //    prefer += UserData.Instance.LocaleText_Label(item.ToString());
-                //    prefer += "\t";
-                //}
-                //string NonPrefer = "";
-                //foreach (var item in SO_Data.Non_PreferList)
-                //{
-                //    NonPrefer += UserData.Instance.LocaleText_Label(item.ToString());
-                //    NonPrefer += "\t";
-                //}
-                //OptionContentSet(ShowBoxText.TMP_Option2, $"선호 : {prefer}\n회피 : {NonPrefer}", true);
+                
             }
             if (data.info.level_5_Unlock)
             {
                 //? 위에꺼에 내용을 추가한다든지
                 //? 마스터리 추가효과로 실제 소환시 시작레벨이나 스탯보너스나 뭐 아무튼 보너스를 주는 내용을 넣어도 될 것 같다
             }
+
+            var header = Add_Header($"{UserData.Instance.LocaleText("특성")}");
+            var traitPanel = Add_TraitBox();
+            TraitContentSet(traitPanel, SO_Data.NPC_TraitList);
         }
         // 선호 타입, 스탯, 랭크, 언제부터 나오는지, 행동력과 최대마나등등, 피하는타일
     }
@@ -520,7 +555,9 @@ public class UI_Collection : UI_PopUp
             GetTMP((int)ShowBoxText.TMP_Number).text = $"No.{data.CollectionNumber}";
             GetTMP((int)ShowBoxText.TMP_Detail).text = $"{SO_Data.detail}";
 
-            StatContentsSet(Objects.TMP_Stat_Main1, "category",$"{UserData.Instance.LocaleText("분류")}", 
+
+            GameObject field = Add_StatField();
+            StatFieldContentsSet(field, "TMP_Stat_Main1", "category", $"{UserData.Instance.LocaleText("분류")}",
                 $"{UserData.Instance.LocaleText_Label(SO_Data.category.ToString())}");
 
             var header1 = Add_Header($"{UserData.Instance.LocaleText("보너스")}");
@@ -532,13 +569,13 @@ public class UI_Collection : UI_PopUp
 
             if (data.info.level_1_Unlock)
             {
-                StatContentsSet(Objects.TMP_Stat_Main3, "mana", $"{UserData.Instance.LocaleText("Mana")}", $"{SO_Data.mp_value}");
-                StatContentsSet(Objects.TMP_Stat_Sub1, "roof", $"{UserData.Instance.LocaleText("횟수")}", $"{SO_Data.interactionOfTimes}");
-                StatContentsSet(Objects.TMP_Stat_Sub2, "ap",$"{UserData.Instance.LocaleText("AP")}", $"{SO_Data.ap_value}");
+                StatFieldContentsSet(field, "TMP_Stat_Main3", "mana", $"{UserData.Instance.LocaleText("Mana")}", $"{SO_Data.mp_value}");
+                StatFieldContentsSet(field, "TMP_Stat_Sub1", "roof", $"{UserData.Instance.LocaleText("횟수")}", $"{SO_Data.interactionOfTimes}");
+                StatFieldContentsSet(field, "TMP_Stat_Sub2", "ap", $"{UserData.Instance.LocaleText("AP")}", $"{SO_Data.ap_value}");
 
                 if (SO_Data.category == InteractionGroup.Interaction_Trap)
                 {
-                    StatContentsSet(Objects.TMP_Stat_Main3, "atk", $"ATK", $"{SO_Data.hp_value}");
+                    StatFieldContentsSet(field, "TMP_Stat_Main3", "atk", $"ATK", $"{SO_Data.hp_value}");
                 }
             }
             if (data.info.level_2_Unlock)
@@ -586,13 +623,12 @@ public class UI_Collection : UI_PopUp
             GetTMP((int)ShowBoxText.TMP_Name).text = SO_Data.labelName;
             GetTMP((int)ShowBoxText.TMP_Detail).text = $"{SO_Data.detail}";
 
+            GameObject field = Add_StatField();
+            StatFieldContentsSet(field, "TMP_Stat_Main2", "mana", $"{UserData.Instance.LocaleText("Mana")}", $"{SO_Data.Mana}");
+            StatFieldContentsSet(field, "TMP_Stat_Main3", "gold", $"{UserData.Instance.LocaleText("Gold")}", $"{SO_Data.Gold}");
 
-            StatContentsSet(Objects.TMP_Stat_Main2, "mana", $"{UserData.Instance.LocaleText("Mana")}", $"{SO_Data.Mana}");
-            StatContentsSet(Objects.TMP_Stat_Main3, "gold", $"{UserData.Instance.LocaleText("Gold")}", $"{SO_Data.Gold}");
-
-            StatContentsSet(Objects.TMP_Stat_Sub2, "ap", $"{UserData.Instance.LocaleText("AP")}", $"{SO_Data.Ap}");
-            StatContentsSet(Objects.TMP_Stat_Sub3, "rank", $"{UserData.Instance.LocaleText("Rank")}", $"{(Define.DungeonRank)SO_Data.UnlockRank}");
-
+            StatFieldContentsSet(field, "TMP_Stat_Sub2", "ap", $"{UserData.Instance.LocaleText("AP")}", $"{SO_Data.Ap}");
+            StatFieldContentsSet(field, "TMP_Stat_Sub3", "rank", $"{UserData.Instance.LocaleText("Rank")}", $"{(Define.DungeonRank)SO_Data.UnlockRank}");
         }
     }
     public void ShowBox_Artifact(CollectionManager.CollectionUnitRegist<SO_Artifact> data)
@@ -639,19 +675,40 @@ public class UI_Collection : UI_PopUp
         }
     }
 
+    public void ShowBox_Title(CollectionManager.CollectionUnitRegist<SO_Title> data)
+    {
+        SO_Title SO_Data = data.unit;
+        //Debug.Log(SO_Data.keyName);
 
+        GetTMP((int)ShowBoxText.TMP_Point).text = $"Point\n{data.info.UnlockPoint}";
+        GetTMP((int)ShowBoxText.TMP_Number).text = $"No.{data.CollectionNumber}";
+
+        GetImage((int)ShowBoxImage.MainSprite).sprite = Managers.Sprite.GetClear();
+
+        GetTMP((int)ShowBoxText.TMP_Name).text = "? ? ?";
+        GetTMP((int)ShowBoxText.TMP_Detail).text = "? ? ?";
+
+        if (data.info.isRegist)
+        {
+            GetTMP((int)ShowBoxText.TMP_Name).text = SO_Data.Title;
+            GetTMP((int)ShowBoxText.TMP_Detail).text = $"{SO_Data.Detail}";
+
+            if (string.IsNullOrEmpty(SO_Data.Effect) == false)
+            {
+                var header = Add_Header($"{UserData.Instance.LocaleText("고유 효과")}");
+                GameObject textBox1 = Add_TextBox();
+                OptionContentSet(textBox1.GetComponentInChildren<TextMeshProUGUI>(), SO_Data.Effect, true);
+            }
+        }
+
+        if (string.IsNullOrEmpty(SO_Data.Acquire) == false)
+        {
+            var header = Add_Header($"{UserData.Instance.LocaleText("획득 조건")}");
+            GameObject textBox1 = Add_TextBox();
+            OptionContentSet(textBox1.GetComponentInChildren<TextMeshProUGUI>(), SO_Data.Acquire, true);
+        }
+    }
     #endregion
-
-
-
-
-
-
-
-
-
-
-
 
 
 

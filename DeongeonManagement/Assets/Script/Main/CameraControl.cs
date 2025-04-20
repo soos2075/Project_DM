@@ -63,6 +63,7 @@ public class CameraControl : MonoBehaviour
         KeyboardMove();
         Keyboard_Shortcut();
         Key_Tapkey();
+        MenuHotKey_Management();
 
         // PointerEventData를 생성하고 현재 마우스 위치를 설정
         PointerEventData pointerData = new PointerEventData(EventSystem.current)
@@ -425,6 +426,13 @@ public class CameraControl : MonoBehaviour
             StopCoroutine(Chasing_Auto);
             Chasing_Auto = null;
         }
+
+        if (target.GetComponent<Player>())
+        {
+            SpriteRenderer renderer = target.GetComponentInChildren<SpriteRenderer>();
+            if (!renderer.enabled) renderer.enabled = true;
+        }
+
         Cor_CameraChasing = StartCoroutine(ChasingLerp(target.position, duration));
     }
 
@@ -464,6 +472,9 @@ public class CameraControl : MonoBehaviour
     {
         return 0.4f * Mathf.Log(t) + 1;
     }
+
+
+
 
 
 
@@ -542,6 +553,45 @@ public class CameraControl : MonoBehaviour
         {
             //AutoChasing = false;
             Chasing_Auto = null;
+        }
+    }
+
+    void MenuHotKey_Management()
+    {
+        //if (!Main.Instance.Management) return;
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            UI_Main.Button_Save();
+        }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            UI_Main.Button_Pedia();
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            UI_Main.Button_DayLog();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            UI_Main.Button_Facility();
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            UI_Main.Button_MonsterManage();
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            UI_Main.Visit_Guild();
+        }
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            UI_Main.Button_Quest();
+        }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            UI_Main.Button_DungeonEdit();
         }
     }
 

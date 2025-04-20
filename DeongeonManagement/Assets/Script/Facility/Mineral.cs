@@ -48,9 +48,10 @@ public class Mineral : Facility
         if (InteractionOfTimes > 0)
         {
             //? 고정수치 보너스 (가장 마지막에 더함)
-            int addMP = GameManager.Buff.MineralBonus;
+            int addMP = GameManager.Buff.ManaAdd_Mineral;
             //? 배율수치 보너스 (모든 배율 수치를 더한 뒤 가장 먼저 곱함)
             float multipleMP = 1;
+            multipleMP += (GameManager.Buff.ManaUp_Mineral * 0.01f);
 
             switch (TagCheck(npc))
             {
@@ -79,16 +80,6 @@ public class Mineral : Facility
                 multipleMP += 0.2f;
             }
 
-            if (GameManager.Buff.CurrentBuff.Orb_yellow >= 1)
-            {
-                multipleMP += 0.1f;
-            }
-            if (GameManager.Buff.CurrentBuff.Orb_yellow >= 2)
-            {
-                multipleMP += 0.1f;
-            }
-
-
             int changeMP = Mathf.RoundToInt(mp_value * multipleMP) + addMP;
 
             if (IOT_Temp > 0)
@@ -99,6 +90,7 @@ public class Mineral : Facility
             {
                 InteractionOfTimes--;
             }
+            Main.Instance.CurrentStatistics.Interaction_Mineral++;
 
             if (npc.TraitCheck(TraitGroup.Trample))
             {

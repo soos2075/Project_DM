@@ -8,7 +8,22 @@ public class UI_StartMenu : UI_Scene
     {
         Init();
     }
-    
+
+    private void LateUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (NewGameCor != null)
+            {
+                StopCoroutine(NewGameCor);
+
+                Managers.UI.ClosePopupPickType(typeof(UI_Fade));
+                Managers.UI.ClosePopupPickType(typeof(UI_NewGamePlus));
+                Managers.UI.ClosePopupPickType(typeof(UI_Confirm));
+            }
+        }
+    }
+
     enum TMP_Texts
     {
         VersionText,
@@ -39,9 +54,15 @@ public class UI_StartMenu : UI_Scene
 
         LoadButtonActive();
 
-        Init_CollectionButton();
+        StartCoroutine(WaitFrame());
     }
 
+
+    IEnumerator WaitFrame()
+    {
+        yield return null;
+        Init_CollectionButton();
+    }
 
 
     void Init_CollectionButton()
@@ -129,9 +150,11 @@ public class UI_StartMenu : UI_Scene
     }
 
 
+    Coroutine NewGameCor;
+
     void Button_NewGame()
     {
-        StartCoroutine(OpeningSkip());
+        NewGameCor = StartCoroutine(OpeningSkip());
 
         UserData.Instance.SetData(PrefsKey.NewGameTimes, UserData.Instance.GetDataInt(PrefsKey.NewGameTimes) + 1);
     }

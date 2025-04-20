@@ -13,6 +13,8 @@ public class UI_NewGamePlus : UI_PopUp
         Init();
     }
 
+
+
     enum Contents
     {
         NoTouch,
@@ -541,5 +543,6 @@ public class UI_NewGamePlus : UI_PopUp
         Arti_DownDanger,
         Arti_DownPop,
     }
+
 
 }

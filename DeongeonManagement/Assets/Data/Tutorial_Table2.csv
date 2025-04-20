@@ -1,0 +1,344 @@
+﻿Key,English(en),Korean(ko),Japanese(ja),Chinese (Simplified)(zh-Hans)
+Main_1_Day,"Current date.
+During the day you welcome adventurers, and at night you maintain the dungeon.
+One day passes each time you end a turn.","현재 날짜입니다. 
+낮에는 모험가들을 맞이하고, 밤엔 던전을 정비합니다.
+턴 종료를 할 때 마다 하루가 지나요.","現在の日付です。
+昼は冒険者を迎え入れ、夜はダンジョンを整備します。
+ターン終了するごとに1日が経過します。","当前日期。
+白天迎接冒险者，晚上整修地下城。
+每次结束回合时会过去一天。"
+Main_1_Rank,"Dungeon rank.
+You can be promoted based on popularity and danger levels.
+However, certain stages may require additional conditions.
+Higher ranks allow you to place more diverse facilities and units.","던전의 랭크입니다.
+인기도와 위험도에 따라 승급 할 수 있어요.
+하지만 특정 단계에선 다른 조건이 필요할 수 있습니다.
+랭크가 높을수록 더 다양한 시설과 유닛을 배치할 수 있어요.","ダンジョンのランクです。
+人気度と危険度に応じて昇格できます。
+ただし、特定の段階では他の条件が必要になることがあります。
+ランクが高いほど、より多様な施設とユニットを配置できます。","地下城等级。
+根据人气度和危险度可以晋级。
+但在某些阶段可能需要其他条件。
+等级越高，可以配置的设施和单位越多样。"
+Main_1_TurnOver,"End the turn after completing dungeon management.
+Key Command: Hold SPACE","던전 관리를 마치고 턴을 종료합니다.
+Key Command : Hold SPACE","ダンジョン管理を終えてターンを終了します。
+キーコマンド：SPACEキー長押し","完成地下城管理后结束回合。
+按键命令：长按空格键"
+Main_2_Mana,"Current mana.
+Used for most actions such as summoning units, placing facilities, and removing obstacles.
+Can be obtained from most actions adventurers take in the dungeon.","현재 마나 입니다.
+유닛을 소환하고 시설을 배치하고 장애물을 제거하는 등 대부분의 행동에 사용됩니다.
+모험가들이 던전에 찾아와서 하는 대부분의 행동에서 얻을 수 있습니다.","現在のマナです。
+ユニットの召喚、施設の配置、障害物の除去など、ほとんどの行動に使用します。
+冒険者がダンジョンで行うほとんどの行動から獲得できます。","当前魔力。
+用于召唤单位、放置设施、清除障碍物等大多数行动。
+可以从冒险者在地下城中的大多数活动中获得。"
+Main_2_Gold,"Current gold.
+Used for placing special facilities like treasure chests and traps, or purchasing artifacts.
+Can be obtained by defeating adventurers or through special facilities.","현재 골드 입니다.
+보물상자, 함정 등 특수한 시설을 배치하거나 아티팩트 구매 등에 사용합니다.
+모험가들을 상대로 승리하거나 특수시설 등으로 얻을 수 있습니다.","現在のゴールドです。
+宝箱や罠などの特殊施設の配置やアーティファクトの購入に使用します。
+冒険者との戦闘に勝利したり、特殊施設から獲得できます。","当前金币。
+用于放置宝箱、陷阱等特殊设施或购买神器。
+可以通过击败冒险者或特殊设施获得。"
+Main_2_Pop,"Danger and popularity levels.
+Higher danger attracts more dangerous adventurers, higher popularity brings more adventurers to visit.","위험도와 인기도입니다.
+위험도가 높으면 더 위험한 모험가들이 방문하고, 인기도가 높아지면 더 많은 모험가들이 방문해요.","危険度と人気度です。
+危険度が高いとより危険な冒険者が、人気度が高いとより多くの冒険者が訪れます。","危险度和人气度。
+危险度越高会吸引越危险的冒险者，人气度越高会吸引越多冒险者。"
+Main_2_AP,"Action Points. Required for various actions such as praying at statues, removing obstacles, constructing special facilities, visiting the guild, and interacting with units.
+Recovers to maximum every turn, so it's best to use them all before ending the turn.","행동력입니다. 조각상에 기도, 장애물 제거, 특수시설 건물, 길드 방문, 유닛과의 상호작용 등 다양한 곳에 필요해요.
+매 턴 최대치로 회복되니, 턴 종료 전에 모두 사용하는게 좋습니다.","行動力です。石像への祈り、障害物の除去、特殊施設の建設、ギルドの訪問、ユニットとの交流など、様々な行動に必要です。
+毎ターン最大値まで回復するので、ターン終了前にすべて使用するのがお勧めです。","行动力。用于祈祷雕像、清除障碍物、建造特殊设施、访问公会、与单位互动等各种行动。
+每回合恢复至最大值，建议在回合结束前用完。"
+Main_3_Save,"Save & Load.
+Auto-saves at the end of each turn, during turns only loading is possible.
+Key Command: I","세이브 & 로드입니다.
+매 턴이 종료되고 자동저장되며, 턴 진행중엔 로드만 할 수 있습니다.
+Key Command : I","セーブ＆ロードです。
+各ターン終了時に自動保存され、ターン中はロードのみ可能です。
+キーコマンド：I","储存与读取。
+每回合结束时自动保存，回合进行中只能读取。
+按键命令：I"
+Main_3_Result,"You can check previous result reports.
+Key Command: P","이전의 결과 보고서를 다시 확인할 수 있습니다.
+Key Command : P","過去の結果レポートを確認できます。
+キーコマンド：P","可以查看之前的结果报告。
+按键命令：P"
+Main_3_Book,"Data Encyclopedia.
+You can get various information about units, adventurers, facilities, and more.
+Points can be earned through interactions, satisfaction, victories, and other methods.
+Key Command: O","데이터 도감입니다.
+유닛과 모험가, 시설 등 다양한 정보를 얻을 수 있어요.
+Point는 상호작용, 만족, 승리 등 여러 방법으로 얻을 수 있어요.
+Key Command : O","データ図鑑です。
+ユニットや冒険者、施設などの様々な情報を得ることができます。
+ポイントは交流、満足度、勝利など様々な方法で獲得できます。
+キーコマンド：O","数据图鉴。
+可以获得关于单位、冒险者、设施等各种信息。
+可以通过互动、满意度、胜利等多种方式获得点数。
+按键命令：O"
+Main_3_Config,"Settings options.
+Key Command: ESC","설정 옵션입니다.
+Key Command : ESC","設定オプションです。
+キーコマンド：ESC","设置选项。
+按键命令：ESC"
+Main_4_Facility,"Allows you to place facilities.
+Empty space equal to the application range is required.
+Check continuous placement option to place continuously.
+Key Command: Z","시설을 배치할 수 있습니다. 
+적용범위 만큼의 빈공간이 필요합니다.
+연속 배치 옵션을 체크하면 연속으로 배치합니다.
+Key Command : Z","施設を配置することができます。
+適用範囲分の空きスペースが必要です。
+連続配置オプションをチェックすると連続で配置できます。
+キーコマンド：Z","可以放置设施。
+需要相当于适用范围的空间。
+勾选连续放置选项可以连续放置。
+按键命令：Z"
+Main_4_Unit,"You can summon and manage units.
+Key Command: X","유닛을 소환하고 관리할 수 있습니다.
+Key Command : X","ユニットを召喚し管理することができます。
+キーコマンド：X","可以召唤和管理单位。
+按键命令：X"
+Main_4_Guild,"Visit the guild.
+You can obtain various information at the guild.
+Key Command: C","길드에 방문합니다.
+길드에선 다양한 정보를 얻을 수 있어요.
+Key Command : C","ギルドを訪問します。
+ギルドでは様々な情報を得ることができます。
+キーコマンド：C","访问公会。
+可以在公会获得各种信息。
+按键命令：C"
+Main_4_Quest,"Check ongoing events and quests.
+Key Command: V","진행중인 이벤트나 퀘스트를 확인합니다.
+Key Command : V","進行中のイベントやクエストを確認します。
+キーコマンド：V","查看正在进行的事件和任务。
+按键命令：V"
+Main_4_Dungeon,"Expand the dungeon or move quickly.
+Key Command: B","던전을 확장하거나 빠르게 이동합니다.
+Key Command : B","ダンジョンを拡張したり、素早く移動したりします。
+キーコマンド：B","扩展地下城或快速移动。
+按键命令：B"
+Main_5_Speed,"Change game speed.
+Key Command: Shift","게임의 배속을 변경합니다.
+Key Command : Shift","ゲームの速度を変更します。
+キーコマンド：Shift","改变游戏速度。
+按键命令：Shift"
+Main_5_EventLog,"Check event logs that occurred during the day.
+Key Command: Ctrl","하루동안 일어난 이벤트 로그를 확인합니다.
+Key Command : Ctrl","一日の間に起きたイベントログを確認します。
+キーコマンド：Ctrl","查看当天发生的事件日志。
+按键命令：Ctrl"
+Dungeon_1_Herb,"Adventurers who visit the dungeon each seek what they want.
+Herbalists gain mana bonus when gathering herbs.
+Adventurers with swords ignore herbs and pass by.
+Of course, you can block their path if you wish.","던전에 찾아온 모험가들은 각자 원하는 것을 찾습니다.
+약초꾼은 약초를 캘 때 마나 보너스를 얻습니다.
+검을 든 모험가는 약초에 관심이 없으므로 지나칩니다.
+물론 가지 못하게 길을 막을수도 있습니다.","ダンジョンを訪れた冒険者は、それぞれ目的とするものを探します。
+薬草師は薬草を採取する時にマナボーナスを獲得します。
+剣を持つ冒険者は薬草に興味がないため、素通りします。
+もちろん、進路を遮ることもできます。","来到地下城的冒险者各自寻找着他们想要的东西。
+药草采集者在采集药草时获得魔力加成。
+持剑的冒险者对药草无视，直接路过。
+当然，你可以阻挡他们的道路。"
+Dungeon_1_Camera,"You can track desired adventurers by left-clicking them.
+Key Command: Tab","원하는 모험가를 좌클릭해서 카메라로 추적할 수 있습니다.
+Key Command : Tab","目的の冒険者を左クリックしてカメラで追跡できます。
+キーコマンド：Tab","可以通过左键点击想要追踪的冒险者。
+按键命令：Tab"
+Dungeon_1_Obstacle,"Obstacles can be removed by clicking.
+When removing them, you spend mana and action points based on size and receive gold.","장애물은 클릭해서 제거할 수 있습니다.
+제거할 때, 크기에 따라 마나와 행동력을 지불하고 골드를 얻습니다.","障害物はクリックして除去できます。
+除去する際、大きさに応じてマナと行動力を消費し、ゴールドを獲得します。","可以通过点击移除障碍物。
+移除时，根据大小消耗魔力和行动点，并获得金币。"
+Dungeon_2_Trap,"Trap tiles that can be placed.
+Adventurers who pass over them will be caught in the trap and take damage.","배치할 수 있는 함정 타일 입니다. 
+모험가들이 위를 지나가면 함정에 걸려 피해를 받습니다.","配置可能な罠タイルです。
+冒険者が上を通過すると罠にかかりダメージを受けます。","可以放置的陷阱块。
+冒险者经过时会被陷阱捕获并受到伤害。"
+Dungeon_2_Technical,"Special facility construction zone.
+The types of facilities increase with rank.
+Construction zones increase when expanding the dungeon.","특수시설을 건설할 수 있는 구역입니다.
+랭크에 따라 시설의 종류가 늘어납니다.
+던전을 확장하면 건설 구역이 늘어납니다.","特殊施設を建設できる区域です。
+ランクに応じて施設の種類が増えていきます。
+ダンジョンを拡張すると建設区域が増えます。","特殊设施建设区域。
+随着等级的提升，设施种类会增加。
+扩展地下城时，建设区域会增加。"
+Dungeon_2_Portal,"Portals that allow adventurers to move between dungeon floors.
+Using a descending portal will make them appear at the ascending portal of the next floor.","모험가들이 던전 층을 이동할 수 있는 포탈입니다.
+하행포탈을 타면 다음층의 상행포탈에서 나타납니다.","冒険者がダンジョンの階層を移動できるポータルです。
+下行ポータルを使うと次の階の上行ポータルから現れます。","通往不同地下城楼层的传送门。
+使用下行传送门后，会出现在下一层的上行传送门处。"
+Dungeon_2_Treasure,"Treasures that can be placed.
+When adventurers discover them, you can gain mana, gold, popularity, and more.","배치할 수 있는 보물입니다.
+모험가들이 발견하면 마나와 골드, 인기도 등을 얻을 수 있습니다.","配置可能な宝物です。
+冒険者が発見するとマナやゴールド、人気度などを獲得できます。","可以放置的宝藏。
+当冒险者发现时，可以获得魔力、金币、人气等。"
+Dungeon_3_Orb,"Crystals that can affect the entire dungeon.
+Can be activated by clicking, and exist up to level 3.","던전 전체적으로 영향을 줄 수 있는 수정입니다.
+클릭해서 활성화 가능하며, 3단계 까지 존재합니다.","ダンジョン全体に影響を与えることができる水晶です。
+クリックして活性化でき、3段階まで存在します。","可以影响整个地下城的水晶。
+可以通过点击激活，最多存在到3级。"
+Dungeon_3_Statue,You can pray using action points and receive rewards.,행동력을 사용해 기도를 하고 보상을 얻을 수 있습니다.,行動力を使って祈りを捧げ、報酬を得ることができます。,可以使用行动点进行祈祷并获得奖励。
+Dungeon_3_Artifact,"Artifact box.
+You can gain mana each turn based on the number of artifacts.
+Each artifact may have unique effects.","아티팩트 상자입니다.
+아티팩트 개수만큼 매 턴 마나를 얻을 수 있습니다.
+아티팩트마다 고유 효과가 존재할 수 있습니다.","アーティファクトボックスです。
+アーティファクトの数に応じて毎ターンマナを獲得できます。
+アーティファクトごとに固有の効果が存在する場合があります。","神器盒子。
+可以根据神器数量每回合获得魔力。
+每个神器可能有独特的效果。"
+Dungeon_4_Secret,"Adventurers appear here when using transfer circles.
+Just discovering this place increases danger level.","모험가가 전이진을 이용하면 이곳에서 나타나요.
+이 곳을 발견하는 것 만으로도 위험도가 상승합니다.","冒険者が転移陣を使用するとここに現れます。
+この場所を発見するだけでも危険度が上昇します。","当冒险者使用传送阵时会出现在这里。
+仅仅发现这个地方就会增加危险等级。"
+Dungeon_4_Player,"Finally, battle with the protagonist.",마지막으로 주인공과 전투합니다.,最後に主人公との戦闘になります。,最后与主角战斗。
+Dungeon_4_Egg,"Game over if the protagonist is defeated and the egg is discovered.
+The egg also shows the current ending state.","주인공이 패배하고 알이 발견당하면 게임오버입니다.
+알은 현재 엔딩의 상태를 보여주기도 해요.","主人公が敗北し、卵が発見されるとゲームオーバーです。
+卵は現在のエンディングの状態を示すこともあります。","如果主角被击败且蛋被发现，游戏结束。
+蛋还会显示当前结局的状态。"
+단축키,Hotkeys,단축키,ホットキー,热键
+HotKey_Dungeon_1,"<b>Dungeon Scene</b>
+
+Q / E: Zoom in / out
+W / A / S / D: Move screen
+I: Save & Load UI
+O: Encyclopedia UI
+P: Statistics UI
+Z: Facility button
+X: Unit button
+C: Guild button
+V: Quest button
+B: Dungeon management button","<b>던전 장면</b>
+
+Q / E : 화면 확대 / 축소
+W / A / S / D : 화면 이동
+I : 세이브 로드 UI
+O : 도감 UI
+P : 통계 UI
+Z : 시설 버튼
+X : 유닛 버튼
+C : 길드 버튼
+V : 퀘스트 버튼
+B : 던전관리 버튼","<b>ダンジョンシーン</b>
+
+Q / E：画面拡大／縮小
+W / A / S / D：画面移動
+I：セーブ＆ロードUI
+O：図鑑UI
+P：統計UI
+Z：施設ボタン
+X：ユニットボタン
+C：ギルドボタン
+V：クエストボタン
+B：ダンジョン管理ボタン","<b>地下城场景</b>
+
+Q / E：放大 / 缩小画面
+W / A / S / D：移动画面
+I：存档和载入UI
+O：百科全书UI
+P：统计UI
+Z：设施按钮
+X：单位按钮
+C：公会按钮
+V：任务按钮
+B：地下城管理按钮"
+HotKey_Dungeon_2,"<b>Dungeon Scene</b>
+
+ESC: Settings / Cancel
+SPACE: Pause
+Hold SPACE: End turn
+Tab: Change target
+Shift: Change game speed
+Ctrl: Open / Close log
+`/1/2/3/4/5: Move between dungeon floors
+
+<b>Unit</b>
+Long left click: Quick redeployment","<b>던전 장면</b>
+
+ESC : 설정창 / 취소
+SPACE : 일시정지
+Hold SPACE : 턴종료
+Tab : 타겟 변경
+Shift : 배속 변경
+Ctrl : 로그창 열기 / 닫기
+`/1/2/3/4/5 : 던전 이동
+
+<b>유닛</b>
+길게 좌클릭 : 빠른 재배치","<b>ダンジョンシーン</b>
+
+ESC：設定／キャンセル
+SPACE：一時停止
+SPACEキー長押し：ターン終了
+Tab：ターゲット変更
+Shift：速度変更
+Ctrl：ログ画面の開閉
+`/1/2/3/4/5：ダンジョン移動
+
+<b>ユニット</b>
+長押し左クリック：素早い再配置","<b>地下城场景</b>
+
+ESC：设置 / 取消
+SPACE：暂停
+长按SPACE：结束回合
+Tab：更改目标
+Shift：更改游戏速度
+Ctrl：打开 / 关闭日志
+`/1/2/3/4/5：在地下城楼层间移动
+
+<b>单位</b>
+长按左键：快速重新部署"
+HotKey_Dungeon_3,"<b>Dialogue Scene</b>
+
+E / SPACE: Skip dialogue
+ESC: Skip conversation
+
+
+<b>Guild Scene</b>
+
+W / A / S / D: Move
+E: Talk / Skip dialogue
+ESC: Settings","<b>대화 장면</b>
+
+E / SPACE : 대사 넘기기
+ESC : 대화 스킵
+
+
+<b>길드 장면</b>
+
+W / A / S / D : 이동
+E : 말걸기 / 대사 넘기기
+ESC : 설정창","<b>会話シーン</b>
+
+E / SPACE：台詞スキップ
+ESC：会話スキップ
+
+
+<b>ギルドシーン</b>
+
+W / A / S / D：移動
+E：話しかける／台詞スキップ
+ESC：設定画面","<b>对话场景</b>
+
+E / SPACE：跳过对话
+ESC：跳过对话
+
+
+<b>公会场景</b>
+
+W / A / S / D：移动
+E：对话 / 跳过对话
+ESC：设置"
+Btn_Main,Main UI,메인 UI,メインUI,主UI
+Btn_Dungeon,Dungeon,던전,ダンジョン,地下城
+Btn_Hotkey,Hotkeys,단축키,ホットキー,热键
+메뉴얼,Manual,메뉴얼,マニュアル,手册

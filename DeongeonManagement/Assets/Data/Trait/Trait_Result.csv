@@ -1,22 +1,59 @@
 ID,TraitName,Name_KR,Detail_KR,Acquire_KR,Name_EN,Detail_EN,Acquire_EN,Name_JP,Detail_JP,Acquire_JP,Name_SCC,Detail_SCC,Acquire_SCC
 ,,,,,,,,,,,,,
-1,Reconfigure,재구성,부상 하루 뒤 회복,고유 특성,Reconfigure,Recover after 1 day,Unique Trait,再構成,1日後に回復,固有特性,重构,一天后恢复伤势,固有特性
-2,Vitality,활력,전투 시작 시 최대 HP의 10% 회복,고유 특성,Vitality,Heal 10% max HP at battle start,Unique Trait,活力,戦闘開始時 ・ 最大HPの10%回復,固有特性,活力,战斗开始时恢复最大生命值的10%,固有特性
-3,Predation,포식,적을 쓰러트릴 시 HP가 영구적으로 1만큼 증가,고유 특성,Predation,Permanent +1 HP on kill,Unique Trait,捕食,敵撃破時 ・ HP永久+1,固有特性,捕食,击倒敌人时永久增加1点生命值,固有特性
-4,IronSkin,철피부,공격 시 DEF의 50%만큼 방어무시데미지,고유 특성,IronSkin,50% DEF as true damage,Unique Trait,鉄皮,攻撃時 ・ DEFの50%を貫通ダメージ,固有特性,钢铁皮肤,攻击时造成相当于防御力50%的真实伤害,固有特性
-5,Friend,친구,층에 있는 다른 유닛마다 모든 스탯 +1,고유 특성,Friend,+1 all stats per unit on floor,Unique Trait,友,階層内の他ユニット毎に全ステータス+1,固有特性,友谊,楼层上每有一个其他单位 · 所有属性+1,固有特性
-6,Overwhelm,압도,전투 시작 시 상대의 현재 HP ^20%,고유 특성,Overwhelm,^20% enemy current HP at battle start,Unique Trait,圧倒,戦闘開始時 ・ 敵の現在HPを20%減少,固有特性,压倒,战斗开始时降低敌人20%当前生命值,固有特性
-7,Nimble,재빠름,공격 시 데미지의 50%의 추가공격,고유 특성,Nimble,50% extra attack on hit,Unique Trait,迅速,攻撃時 ・ 50%の追加攻撃,固有特性,敏捷,攻击时造成50%额外攻击,固有特性
-8,GaleForce,질풍,공격 시 AGI 만큼의 추가공격,고유 특성,GaleForce,Additional attack equal to AGI on hit,Unique Trait,疾風,攻撃時にAGI分の追加攻撃,固有特性,疾风,攻击时追加等同于敏捷值的攻击,固有特性
+1,Reconfigure,재구성,부상 하루 뒤 회복,,Reconfigure,Recover from injuries after one day,,再構成,負傷から一日後に回復,,重构,受伤一天后恢复,
+2,Vitality,활력,전투 시작 시 최대 HP의 10% 회복,,Vitality,Recover 10% of max HP at battle start,,活力,戦闘開始時に最大HPの10%回復,,活力,战斗开始时恢复最大生命值的10%,
+3,Predation,포식,적을 쓰러트릴 시 HP가 영구적으로 1만큼 증가,,Predation,Gain 1 permanent HP when defeating an enemy,,捕食,敵を倒すとHPが永久的に1増加,,捕食,击倒敌人时永久增加1点生命值,
+4,IronSkin,철피부,공격 시 DEF의 50%만큼 추가공격,,IronSkin,Additional attack equal to 50% of DEF when attacking,,鉄壁,攻撃時にDEFの50%分の追加攻撃,,钢肤,攻击时追加等同于DEF 50%的额外攻击,
+5,Friend,친구,층에 있는 다른 유닛마다 모든 스탯 +1,,Friend,+1 to all stats for each other unit on the floor,,仲間,階にいる他のユニットごとに全ステータス+1,,友伴,楼层上每有一个其他单位全属性+1,
+6,Overwhelm,압도,전투 시작 시 상대의 현재 HP ^15%,,Overwhelm,Opponent's current HP ^15% at battle start,,圧倒,戦闘開始時に相手の現在HP^15%,,压制,战斗开始时对手当前生命值^15%,
+7,Nimble,재빠름,공격 시 데미지의 50%의 추가공격,,Nimble,Additional attack equal to 50% of damage when attacking,,俊敏,攻撃時にダメージの50%分の追加攻撃,,敏捷,攻击时追加等同于伤害50%的额外攻击,
+8,GaleForce,질풍,공격 시 AGI의 50%만큼 추가공격,,GaleForce,Additional attack equal to 50% of AGI when attacking,,疾風,攻撃時にAGIの50%分の追加攻撃,,疾风,攻击时追加等同于AGI 50%的额外攻击,
+9,LuckyPunch,행운,공격 시 LUK의 50%만큼 추가공격,,LuckyPunch,Additional attack equal to 50% of LUK when attacking,,幸運撃,攻撃時にLUKの50%分の追加攻撃,,幸运一击,攻击时追加等同于LUK 50%的额外攻击,
+10,Powerful,괴력,공격 시 ATK의 30%만큼 추가공격,,Powerful,Additional attack equal to 30% of ATK when attacking,,怪力,攻撃時にATKの30%分の追加攻撃,,巨力,攻击时追加等同于ATK 30%的额外攻击,
+11,Ultimate,필살,공격 시 모든 스탯의 20%만큼 추가공격,,Ultimate,Additional attack equal to 20% of all stats when attacking,,必殺,攻撃時に全ステータスの20%分の追加攻撃,,必杀,攻击时追加等同于全属性20%的额外攻击,
+12,Harmony,조화,다른 모든 유닛에게 모든 스탯 +2,,Harmony,+2 to all stats for all other units,,調和,他の全てのユニットに全ステータス +2,,和谐,为所有其他单位ALL STAT +2,
+13,Blindness,야맹증,두 번째 공격을 반드시 회피,,Blindness,Always dodge the second attack,,夜盲症,2回目の攻撃を必ず回避,,夜盲症,必定闪避第二次攻击,
+14,Burn,화상,공격 시 데미지의 20%의 추가공격 3회,,Burn,Additional attack equal to 20% of damage 3 times when attacking,,火傷,攻撃時にダメージの20%分の追加攻撃を3回,,灼烧,攻击时追加等同于伤害20%的额外攻击3次,
 ,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
-20,LifeDrain,정기흡수,공격 시 데미지의 25%만큼 체력흡수,고유 특성,LifeDrain,Absorb 25% of damage dealt as health,Unique Trait,生気吸収,攻撃時 ・ ダメージの25%を吸収,固有特性,生命吸取,攻击时吸收造成伤害的25%转化为生命值,固有特性
 ,,,,,,,,,,,,,
-21,DivineForce,신성력,공격 시 상대 최대 HP의 8%만큼 추가데미지,,DivineForce,Deal additional damage equal to 8% of target's maximum HP on attack,,聖力,攻撃時 ・ 相手の最大HPの8%を追加ダメージとして与える,,圣威,攻击时造成目标最大生命值8%的额外伤害,
-22,AbsoluteShield,절대방패,모든 받는 데미지를 1로 경감,,AbsoluteShield,Reduces all incoming damage to 1,,絶壁,受けるダメージが全て1に軽減される,,绝盾,所有受到的伤害降低至1,
-23,Reaper,사신,전투 시작 시 최대 HP의 5%의 피해를 입고 상대에게 2배의 피해,,Reaper,Take 5% of max HP damage at battle start and deal double damage to enemy,,死神,戦闘開始時に最大HPの5%のダメージを受け、相手に2倍のダメージを与える,,死使,战斗开始时受到最大生命值5%的伤害 · 对敌人造成双倍伤害,
+20,LifeDrain,정기흡수,공격 시 데미지의 20%만큼 체력흡수,,LifeDrain,Absorb 20% of damage as health when attacking,,生気吸収,攻撃時にダメージの20%分の体力吸収,,生命吸取,攻击时吸收造成伤害20%的生命值,
+21,DivineForce,신성력,공격 시 상대 최대 HP의 8%만큼 추가데미지,고유 특성,DivineForce,Deal additional damage equal to 8% of target's maximum HP on attack,Unique Trait,聖力,攻撃時 ・ 相手の最大HPの8%を追加ダメージとして与える,固有特性,圣威,攻击时造成目标最大生命值8%的额外伤害,固有特性
+22,AbsoluteShield,절대방패,모든 받는 데미지를 1로 경감,고유 특성,AbsoluteShield,Reduces all incoming damage to 1,Unique Trait,絶壁,受けるダメージが全て1に軽減される,固有特性,绝盾,所有受到的伤害降低至1,固有特性
+23,Reaper,사신,전투 시작 시 최대 HP의 5%의 피해를 입고 상대에게 2배의 피해,고유 특성,Reaper,Take 5% of max HP damage at battle start and deal double damage to enemy,Unique Trait,死神,戦闘開始時に最大HPの5%のダメージを受け、相手に2倍のダメージを与える,固有特性,死使,战斗开始时受到最大生命值5%的伤害 · 对敌人造成双倍伤害,固有特性
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+30,Miser,수전노,승리 시 획득 골드 +50%,,Miser,+50% gold gained on victory,,守銭奴,勝利時の獲得ゴールド +50%,,守财奴,胜利时获得金币 +50%,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+102,Vitality_V2,활력+,전투 시작 시 최대 HP의 20% 회복,고유 특성,Vitality+,Recover 20% of max HP at battle start,Unique Trait,活力+,戦闘開始時に最大HPの20%回復,固有特性,活力+,战斗开始时恢复最大生命值的20%,固有特性
+103,Predation_V2,포식+,적을 쓰러트릴 시 HP가 영구적으로 2만큼 증가,고유 특성,Predation+,Gain 2 permanent HP when defeating an enemy,Unique Trait,捕食+,敵を倒すとHPが永久的に2増加,固有特性,捕食+,击倒敌人时永久增加2点生命值,固有特性
+104,IronSkin_V2,철피부+,공격 시 DEF의 100%만큼 추가공격,고유 특성,IronSkin+,Additional attack equal to 100% of DEF when attacking,Unique Trait,鉄壁+,攻撃時にDEFの100%分の追加攻撃,固有特性,钢肤+,攻击时追加等同于DEF 100%的额外攻击,固有特性
+105,Friend_V2,친구+,층에 있는 다른 유닛마다 모든 스탯 +2,고유 특성,Friend+,+2 to all stats for each other unit on the floor,Unique Trait,仲間+,階にいる他のユニットごとに全ステータス+2,固有特性,友伴+,楼层上每有一个其他单位全属性+2,固有特性
+106,Overwhelm_V2,압도+,전투 시작 시 상대의 현재 HP ^30%,고유 특성,Overwhelm+,Opponent's current HP ^30% at battle start,Unique Trait,圧倒+,戦闘開始時に相手の現在HP^30%,固有特性,压制+,战斗开始时对手当前生命值^30%,固有特性
+107,Nimble_V2,재빠름+,공격 시 데미지의 100%의 추가공격,고유 특성,Nimble+,Additional attack equal to 100% of damage when attacking,Unique Trait,俊敏+,攻撃時にダメージの100%分の追加攻撃,固有特性,敏捷+,攻击时追加等同于伤害100%的额外攻击,固有特性
+108,GaleForce_V2,질풍+,공격 시 AGI의 100% 만큼 추가공격,고유 특성,GaleForce+,Additional attack equal to 100% of AGI when attacking,Unique Trait,疾風+,攻撃時にAGIの100%分の追加攻撃,固有特性,疾风+,攻击时追加等同于AGI 100%的额外攻击,固有特性
+109,LuckyPunch_V2,행운+,공격 시 LUK의 100%만큼 추가공격,고유 특성,LuckyPunch+,Additional attack equal to 100% of LUK when attacking,Unique Trait,幸運撃+,攻撃時にLUKの100%分の追加攻撃,固有特性,幸运一击+,攻击时追加等同于LUK 100%的额外攻击,固有特性
+110,Powerful_V2,괴력+,공격 시 ATK의 60%만큼 추가공격,고유 특성,Powerful+,Additional attack equal to 60% of ATK when attacking,Unique Trait,怪力+,攻撃時にATKの60%分の追加攻撃,固有特性,巨力+,攻击时追加等同于ATK 60%的额外攻击,固有特性
+111,Ultimate_V2,필살+,공격 시 모든 스탯의 40%만큼 추가공격,고유 특성,Ultimate+,Additional attack equal to 40% of all stats when attacking,Unique Trait,必殺+,攻撃時に全ステータスの40%分の追加攻撃,固有特性,必杀+,攻击时追加等同于全属性40%的额外攻击,固有特性
+,,,,,,,,,,,,,
+120,LifeDrain_V2,정기흡수+,공격 시 데미지의 40%만큼 체력흡수,고유 특성,LifeDrain+,Absorb 40% of damage as health when attacking,Unique Trait,生気吸収+,攻撃時にダメージの40%分の体力吸収,固有特性,生命吸取+,攻击时吸收造成伤害40%的生命值,固有特性
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 ,,,,,,,,,,,,,

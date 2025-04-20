@@ -7,50 +7,50 @@ public class Trait
 {
     #region Normal Trait
 
-    public class Nothing : ITrait_Value
-    {
-        public TraitGroup ID { get; } = TraitGroup.Nothing;
-        public int ApplyHP(int current)
-        {
-            return 0;
-        }
-        public int ApplyHP_Max(int current)
-        {
-            return 0;
-        }
-        public int ApplyATK(int current)
-        {
-            return 0;
-        }
-        public int ApplyDEF(int current)
-        {
-            return 0;
-        }
-        public int ApplyAGI(int current)
-        {
-            return 0;
-        }
-        public int ApplyLUK(int current)
-        {
-            return 0;
-        }
+    //public class Nothing : ITrait_Value
+    //{
+    //    public TraitGroup ID { get; } = TraitGroup.Nothing;
+    //    public int ApplyHP(int current)
+    //    {
+    //        return 0;
+    //    }
+    //    public int ApplyHP_Max(int current)
+    //    {
+    //        return 0;
+    //    }
+    //    public int ApplyATK(int current)
+    //    {
+    //        return 0;
+    //    }
+    //    public int ApplyDEF(int current)
+    //    {
+    //        return 0;
+    //    }
+    //    public int ApplyAGI(int current)
+    //    {
+    //        return 0;
+    //    }
+    //    public int ApplyLUK(int current)
+    //    {
+    //        return 0;
+    //    }
 
-        public void DoSomething()
-        {
+    //    public void DoSomething()
+    //    {
 
-        }
-        public int GetSomething<T>(T current)
-        {
-            return 0;
-        }
+    //    }
+    //    public int GetSomething<T>(T current)
+    //    {
+    //        return 0;
+    //    }
 
-        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
-        {
-            return current as T1;
-        }
+    //    public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
+    //    {
+    //        return current as T1;
+    //    }
 
 
-    }
+    //}
     //public class ToughnessTrait : ITrait
     //{
     //    public TraitGroup ID { get; } = TraitGroup.ToughnessTrait;
@@ -994,47 +994,9 @@ public class Trait
             return current as T1;
         }
     }
-    public class Predation : ITrait_Value
+    public class Predation : ITrait
     {
         public TraitGroup ID { get; } = TraitGroup.Predation;
-        public int ApplyHP(int current)
-        {
-            return 0;
-        }
-        public int ApplyHP_Max(int current)
-        {
-            return 0;
-        }
-        public int ApplyATK(int current)
-        {
-            return 0;
-        }
-        public int ApplyDEF(int current)
-        {
-            return 0;
-        }
-        public int ApplyAGI(int current)
-        {
-            return 0;
-        }
-        public int ApplyLUK(int current)
-        {
-            return 0;
-        }
-
-        public void DoSomething()
-        {
-
-        }
-        public int GetSomething<T>(T current)
-        {
-            return 0;
-        }
-
-        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
-        {
-            return current as T1;
-        }
     }
     public class IronSkin : ITrait_Value
     {
@@ -1094,89 +1056,13 @@ public class Trait
             return current as T1;
         }
     }
-    public class Friend : ITrait_Value
+    public class Friend : ITrait
     {
         public TraitGroup ID { get; } = TraitGroup.Friend;
-        public int ApplyHP(int current)
-        {
-            return 0;
-        }
-        public int ApplyHP_Max(int current)
-        {
-            return 0;
-        }
-        public int ApplyATK(int current)
-        {
-            return 0;
-        }
-        public int ApplyDEF(int current)
-        {
-            return 0;
-        }
-        public int ApplyAGI(int current)
-        {
-            return 0;
-        }
-        public int ApplyLUK(int current)
-        {
-            return 0;
-        }
-
-        public void DoSomething()
-        {
-
-        }
-        public int GetSomething<T>(T current)
-        {
-            return 0;
-        }
-
-        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
-        {
-            return current as T1;
-        }
     }
-    public class Overwhelm : ITrait_Value
+    public class Overwhelm : ITrait
     {
         public TraitGroup ID { get; } = TraitGroup.Overwhelm;
-        public int ApplyHP(int current)
-        {
-            return 0;
-        }
-        public int ApplyHP_Max(int current)
-        {
-            return 0;
-        }
-        public int ApplyATK(int current)
-        {
-            return 0;
-        }
-        public int ApplyDEF(int current)
-        {
-            return 0;
-        }
-        public int ApplyAGI(int current)
-        {
-            return 0;
-        }
-        public int ApplyLUK(int current)
-        {
-            return 0;
-        }
-
-        public void DoSomething()
-        {
-
-        }
-        public int GetSomething<T>(T current)
-        {
-            return 0;
-        }
-
-        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
-        {
-            return current as T1;
-        }
     }
     public class Nimble : ITrait_Value
     {
@@ -1224,54 +1110,35 @@ public class Trait
     {
         public TraitGroup ID { get; } = TraitGroup.GaleForce;
     }
+    public class LuckyPunch : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.LuckyPunch;
+    }
+    public class Powerful : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Powerful;
+    }
+    public class Ultimate : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Ultimate;
+    }
 
-    public class LifeDrain : ITrait_Value
+    public class Harmony : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Harmony;
+    }
+    public class Blindness : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Blindness;
+    }
+    public class Burn : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Burn;
+    }
+
+    public class LifeDrain : ITrait
     {
         public TraitGroup ID { get; } = TraitGroup.LifeDrain;
-        public int ApplyHP(int current)
-        {
-            return 0;
-        }
-        public int ApplyHP_Max(int current)
-        {
-            return 0;
-        }
-        public int ApplyATK(int current)
-        {
-            return 0;
-        }
-        public int ApplyDEF(int current)
-        {
-            return 0;
-        }
-        public int ApplyAGI(int current)
-        {
-            return 0;
-        }
-        public int ApplyLUK(int current)
-        {
-            return 0;
-        }
-
-        public void DoSomething()
-        {
-
-        }
-        public int GetSomething<T>(T current)
-        {
-            if (current is int)
-            {
-                int damage = (int)(object)current;
-                int drain = Mathf.RoundToInt(damage * 0.25f);
-                return drain;
-            }
-            return 0;
-        }
-
-        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
-        {
-            return current as T1;
-        }
     }
     public class DivineForce : ITrait
     {
@@ -1285,6 +1152,61 @@ public class Trait
     {
         public TraitGroup ID { get; } = TraitGroup.Reaper;
     }
+
+    public class Miser : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Miser;
+    }
+
+    #endregion
+
+    #region Original_V2
+    public class Vitality_V2 : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Vitality_V2;
+    }
+    public class Predation_V2 : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Predation_V2;
+    }
+    public class IronSkin_V2 : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.IronSkin_V2;
+    }
+    public class Friend_V2 : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Friend_V2;
+    }
+    public class Overwhelm_V2 : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Overwhelm_V2;
+    }
+    public class Nimble_V2 : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Nimble_V2;
+    }
+    public class GaleForce_V2 : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.GaleForce_V2;
+    }
+    public class LuckyPunch_V2 : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.LuckyPunch_V2;
+    }
+    public class Powerful_V2 : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Powerful_V2;
+    }
+    public class Ultimate_V2 : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Ultimate_V2;
+    }
+
+    public class LifeDrain_V2 : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.LifeDrain_V2;
+    }
+
 
     #endregion
 
@@ -1462,7 +1384,7 @@ public enum TraitRating
 public enum TraitGroup
 {
     //? 아무효과없음
-    Nothing = 0,
+    //Nothing = 0,
 
     //? ㅡㅡㅡㅡㅡㅡㅡ 노말특성 - 나중에 생기거나 할 수 있음
 
@@ -1511,43 +1433,45 @@ public enum TraitGroup
 
 
 
-    //? ㅡㅡㅡㅡㅡㅡㅡ 고유특성 - 몬스터가 기본으로 가지고있음
+    //? ㅡㅡㅡㅡㅡㅡㅡ 고유특성 - 몬스터가 기본으로 가지고있음 / 1~20까지는 랜덤으로 획득 가능한 특성
 
     //? 재구성 : 부상 후 하루가 지나면 부상에서 회복
     Reconfigure = 1,
-
-    //? 활력 : 전투가 시작될 때 마다 최대체력의 10% 회복
     Vitality = 2,
-
-    //? 포식 : 적을 쓰러트릴 때 마다 영구적으로 HP +1
     Predation = 3,
-
-    //? 철피부 : 방어력의 25%만큼 방어무시데미지
     IronSkin = 4,
-
-    //? 친구 : 층에 있는 다른 유닛마다 모든 스탯 +1
     Friend = 5,
-
-    //? 압도 : 전투 시작 시 상대의 현재체력 -20%
     Overwhelm = 6,
-
-    //? 날렵함 : 공격 시 절반만큼의 추가공격
     Nimble = 7,
-
-    //? 질풍 : 공격 시 AGI 만큼의 추가공격
     GaleForce = 8,
+    LuckyPunch = 9,
+    Powerful = 10,
+    Ultimate = 11,
+    Harmony = 12,
+    Blindness = 13,
+    Burn = 14,
 
-
-
-    //? 정기흡수 : 데미지 25% 회복
     LifeDrain = 20,
-
-    //? 공격 시 상대 최대 HP의 8%만큼 추가데미지
     DivineForce = 21,
-    //? 모든 받는 데미지를 1로 경감
     AbsoluteShield = 22,
-    //? 같은 적과 4번째 전투시 상대를 즉사 \이 능력이 4번 발동 시 시전자 또한 즉사
     Reaper = 23,
+
+    Miser = 30,
+
+
+    //? 고유특성 강화판
+    Vitality_V2 = 102,
+    Predation_V2 = 103,
+    IronSkin_V2 = 104,
+    Friend_V2 = 105,
+    Overwhelm_V2 = 106,
+    Nimble_V2 = 107,
+    GaleForce_V2 = 108,
+    LuckyPunch_V2 = 109,
+    Powerful_V2 = 110,
+    Ultimate_V2 = 111,
+
+    LifeDrain_V2 = 120,
 
 
 

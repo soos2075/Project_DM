@@ -152,6 +152,9 @@ public class MonsterManager
                 monster.TurnOver();
             }
         }
+
+        Main.Instance.CurrentStatistics.Highest_Unit_Lv = GetCurrentHighestLv();
+        Main.Instance.CurrentStatistics.Hightest_Unit_Size = GetCurrentMonsterSize();
     }
 
     #region 진화 등록 (1마리만 가능하게끔)
@@ -212,6 +215,8 @@ public class MonsterManager
     #endregion
 
     #region 실제 인스턴트
+    const int slotSize = 12;
+
     Monster[] Monsters;
     //public int TrainingCount { get; set; } = 2;
 
@@ -219,7 +224,7 @@ public class MonsterManager
     {
         return Monsters.Length;
     }
-    public int GetCurrentMonster()
+    public int GetCurrentMonsterSize()
     {
         int count = 0;
         foreach (var monster in Monsters)
@@ -230,6 +235,19 @@ public class MonsterManager
             }
         }
         return count;
+    }
+    public int GetCurrentHighestLv()
+    {
+        var unitAll = GetMonsterAll();
+        int currentLv = 0;
+        foreach (var item in unitAll)
+        {
+            if (item.LV >= currentLv)
+            {
+                currentLv = item.LV;
+            }
+        }
+        return currentLv;
     }
 
     public bool Check_ExistUnit<T>() where T : Monster
@@ -308,8 +326,23 @@ public class MonsterManager
         return monsterList;
     }
 
+    public List<Monster> GetMonsterAll(Monster.MonsterState monsterState)
+    {
+        List<Monster> monsterList = new List<Monster>();
 
-    public void CreateMonster(string keyName, bool isEvolution = false)
+        foreach (var monster in GetMonsterAll())
+        {
+            if (monster.State == monsterState)
+            {
+                monsterList.Add(monster);
+            }
+        }
+
+        return monsterList;
+    }
+
+
+    public Monster CreateMonster(string keyName, bool isEvolution = false, bool popUpUI = false)
     {
         var data = GetData(keyName);
         if (data != null)
@@ -318,7 +351,7 @@ public class MonsterManager
 
             if (isEvolution) //? 새로 생성하려는 몹이 진화상태인 몹이라면
             {
-                mon.EvolutionMonster_Init();
+                mon.Create_EvolutionMonster_Init();
             }
             else
             {
@@ -326,9 +359,20 @@ public class MonsterManager
                 mon.Initialize_Status();
             }
 
-            //mon.AddCollectionPoint();
+            mon.AddCollectionPoint();
             AddMonster(mon);
+
+
+            if (popUpUI)
+            {
+                var ui = Managers.UI.ShowPopUp<UI_StatusUp>("Monster/UI_StatusUp");
+                ui.TargetMonster(mon);
+                ui.SetStateText($"<b>{UserData.Instance.LocaleText("New")}".SetTextColorTag(Define.TextColor.Plus_Green) +
+                    $"{UserData.Instance.LocaleText("유닛")}".SetTextColorTag(Define.TextColor.Plus_Green));
+            }
+            return mon;
         }
+        return null;
     }
 
 
@@ -360,23 +404,25 @@ public class MonsterManager
 
     public void Resize_MonsterSlot()
     {
-        int size = 10 + (Main.Instance.DungeonRank - 1) * 2;
-        if (EventManager.Instance.CurrentClearEventData.Check_AlreadyClear(DialogueName.Heroine_40))
-        {
-            size++;
-        }
-
+        int size = slotSize + Main.Instance.AddUnitSlotCount + (Main.Instance.DungeonRank - 1) * 2;
+        //if (EventManager.Instance.CurrentClearEventData.Check_AlreadyClear(DialogueName.Heroine_40))
+        //{
+        //    size++;
+        //}
         Array.Resize(ref Monsters, size);
     }
 
+    public void Resize_AddOne()
+    {
+        Main.Instance.AddUnitSlotCount++;
+        Resize_MonsterSlot();
+    }
+
+
+
     void Init_MonsterSlot()
     {
-        int size = 10 + (Main.Instance.DungeonRank - 1) * 2;
-        if (EventManager.Instance.CurrentClearEventData.Check_AlreadyClear(DialogueName.Heroine_40))
-        {
-            size++;
-        }
-
+        int size = slotSize + Main.Instance.AddUnitSlotCount + (Main.Instance.DungeonRank - 1) * 2;
         Monsters = new Monster[size];
     }
 
@@ -443,7 +489,7 @@ public class MonsterManager
                 var mon = GameManager.Placement.CreatePlacementObject($"{data[i].PrefabPath}", null, PlacementType.Monster) as Monster;
                 if (data[i].Evolution == Monster.Evolution.Complete)
                 {
-                    mon.MonsterInit_Evolution();
+                    mon.Load_EvolutionMonster();
                 }
                 else
                 {
@@ -512,6 +558,43 @@ public class MonsterManager
 
     void Init_UnitEventAction()
     {
+        UnitEventAction.Add("Buy_Artifact", (unit) => {
+            Debug.Log("@@@@" + State);
+            switch (State)
+            {
+                case SelectState.Yes:
+                    Debug.Log("아티팩트 구매");
+                    Main.Instance.CurrentDay.SubtractGold(400, Main.DayResult.EventType.Artifacts);
+                    GameManager.Artifact.Add_RandomArtifact();
+                    unit.StatUP(StatEnum.ATK, 2, true);
+                    break;
+
+                case SelectState.No:
+                    break;
+
+                case SelectState.Yes2:
+                    Debug.Log("아티팩트 구매 * 10");
+                    Main.Instance.CurrentDay.SubtractGold(4000, Main.DayResult.EventType.Artifacts);
+                    for (int i = 0; i < 10; i++)
+                    {
+                        GameManager.Artifact.Add_RandomArtifact();
+                    }
+                    unit.StatUP(StatEnum.ATK, 20, true);
+                    break;
+
+                case SelectState.Yes_Fail:
+                    Debug.Log("골드부족");
+                    //Managers.Dialogue.ShowDialogueUI((int)UnitDialogueEventLabel.Utori_NoGold);
+                    break;
+            }
+
+            unit.UnitDialogueEvent.AddEvent(UnitDialogueEventLabel.Utori_ArtifactBuy, true);
+            Main.Instance.Player_AP++;
+        });
+
+
+
+
         UnitEventAction.Add("Evolution_Rena", (unit) => {
             unit.GetComponent<Heroine>().Evolution_Rena();
         });
@@ -652,8 +735,11 @@ public class MonsterManager
         None,
         Yes,
         No,
-        Third,
-        Fourth,
+        Yes_Fail,
+        No_Fail,
+
+        Yes2,
+        No2,
     }
     public SelectState State = SelectState.None;
 
@@ -664,6 +750,12 @@ public class MonsterManager
         Action<Monster> statUp = null;
         switch ((UnitDialogueEventLabel)DialogueID)
         {
+            //? 능력치 오르면 안되는 반복퀘스트
+            case UnitDialogueEventLabel.Utori_ArtifactBuy:
+                UnitEventAction.TryGetValue("Buy_Artifact", out statUp);
+                break;
+
+
             case UnitDialogueEventLabel.BloodySlime_First:
             case UnitDialogueEventLabel.Heroin_First:
                 UnitEventAction.TryGetValue("HP_UP2", out statUp);
@@ -840,6 +932,16 @@ public enum UnitDialogueEventLabel
     Heroin_Lv10 = 190122,
     Heroin_Lv15 = 190123,
     Heroin_Lv18 = 190124,
+
+
+    //? 우투리
+    Utori_First = 190500,
+    Utori_Yes = 190511,
+    Utori_No = 190512,
+    Utori_Yes2 = 190513,
+
+    Utori_NoGold = 190520,
+    Utori_ArtifactBuy = 190599,
 }
 
 
@@ -913,6 +1015,7 @@ public class Save_MonsterData
 
     //? 특성리스트
     public List<int> currentTraitList;
+    public HashSet<TraitGroup> currentDisableTraitList;
 
     //? 이벤트 리스트
     public Monster.UnitEvent unitEvent;
@@ -961,6 +1064,7 @@ public class Save_MonsterData
 
         traitCounter = monster.traitCounter.DeepCopy();
         currentTraitList = monster.SaveTraitList();
+        currentDisableTraitList = monster.SaveDisableTraitList();
         unitEvent = monster.UnitDialogueEvent.DeepCopy();
     }
 }

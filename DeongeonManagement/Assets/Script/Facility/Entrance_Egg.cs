@@ -40,6 +40,8 @@ public class Entrance_Egg : Facility
             {
                 Camera.main.GetComponent<CameraControl>().ChasingTarget_Continue(npc.transform);
             }
+
+            Main.Instance.CurrentStatistics.Interaction_Secret++; //? 비밀방 입장
         }
         else
         {

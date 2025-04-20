@@ -79,6 +79,21 @@ public class Interaction_Guild : MonoBehaviour
 
     private void Update()
     {
+        if (Managers.Dialogue.GetState() == DialogueManager.DialogueState.Talking)
+        {
+            if (eventKey != null)
+            {
+                Managers.Resource.Destroy(eventKey);
+                eventKey = null;
+            }
+            if (key != null)
+            {
+                Managers.Resource.Destroy(key);
+                key = null;
+            }
+            return;
+        }
+
         GuildHelper.Icon icon = GuildHelper.Icon.Question_Yellow;
 
         if (data.InstanceQuestList.Count > 0)
@@ -115,6 +130,7 @@ public class Interaction_Guild : MonoBehaviour
         if (eventKey == null)
         {
             eventKey = GuildHelper.Instance.GetIcon(icon);
+            eventKey.transform.parent = transform;
             eventKey.transform.position = transform.position + Vector3.up;
         }
         else
@@ -201,6 +217,7 @@ public class Interaction_Guild : MonoBehaviour
             {
                 //key = Managers.Resource.Instantiate("Guild/Key_E", transform);
                 key = GuildHelper.Instance.GetIcon(GuildHelper.Icon.Dialogue);
+                key.transform.parent = transform;
                 key.transform.position = transform.position + Vector3.up;
             }
             else
@@ -230,10 +247,11 @@ public class Interaction_Guild : MonoBehaviour
 
     public void StartDialogue()
     {
-        if (key != null)
-        {
-            key.SetActive(false);
-        }
+        //if (key != null)
+        //{
+        //    key.SetActive(false);
+        //}
+
 
         int questIndex = 0;
 

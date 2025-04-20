@@ -12,8 +12,6 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     {
         anim = GetComponentInChildren<Animator>();
         sizeOffset = transform.localScale.x;
-        //MonsterInit();
-        //Initialize_Status();
     }
 
 
@@ -163,6 +161,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
             traitCounter.monster = this;
         }
         LoadTraitList(_LoadData.currentTraitList);
+        LoadDisableTraitList(_LoadData.currentDisableTraitList);
 
         //Debug.Log($"훈련카운트 : {traitCounter.TrainingCounter}");
 
@@ -262,6 +261,31 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     public int AGI { get; protected set; }
     public int LUK { get; protected set; }
 
+    public void AddStat_Public(Define.StatType _type, int _value)
+    {
+        switch (_type)
+        {
+            case Define.StatType.ATK:
+                ATK += _value;
+                break;
+            case Define.StatType.DEF:
+                DEF += _value;
+                break;
+            case Define.StatType.AGI:
+                AGI += _value;
+                break;
+            case Define.StatType.LUK:
+                LUK += _value;
+                break;
+            case Define.StatType.ALL:
+                ATK += _value;
+                DEF += _value;
+                AGI += _value;
+                LUK += _value;
+                break;
+        }
+    }
+
     //[HideInInspector]
     public float hp_chance;
     [HideInInspector]
@@ -282,9 +306,9 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     public int HPMax_Final { get { return Mathf.RoundToInt((HP_Max + Trait_HP + HP_Bonus) * HP_Bonus_Ratio); } }
 
 
-    int HP_Bonus { get { return GameManager.Buff.HpBonus; } }
+    protected virtual int HP_Bonus { get { return GameManager.Buff.HpAdd_Unit; } }
 
-    float HP_Bonus_Ratio { get { return 1 + HP_Hospital; } }
+    protected virtual float HP_Bonus_Ratio { get { return 1 + HP_Hospital + (GameManager.Buff.HpUp_Unit * 0.01f); } }
 
 
 
@@ -301,15 +325,15 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     int LUK_Bonus { get { return 0; } }
 
 
-    int AllStat_Bonus { get { return 
+    protected virtual int AllStat_Bonus { get { return 
                 Floor_Bonus + 
                 Trait_Friend + 
                 Trait_Veteran +
-                GameManager.Buff.StatBonus; } }
+                GameManager.Buff.StatAdd_Unit; } }
 
 
 
-    float AllStat_Bonus_Ratio { get { return 1 + TrainingCenter + Orb_Bonus; } }
+    protected virtual float AllStat_Bonus_Ratio { get { return 1 + TrainingCenter + Orb_Bonus + (GameManager.Buff.StatUp_Unit * 0.01f); } }
 
 
 
@@ -330,7 +354,16 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         {
             if (State == MonsterState.Placement)
             {
-                return TraitCheck(TraitGroup.Friend) ? PlacementInfo.Place_Floor.GetFloorObjectList(Define.TileType.Monster).Count - 1 : 0;
+                int bonus = 0;
+                if (TraitCheck(TraitGroup.Friend))
+                {
+                    bonus = (PlacementInfo.Place_Floor.GetFloorObjectList(Define.TileType.Monster).Count - 1) * 1;
+                }
+                if (TraitCheck(TraitGroup.Friend_V2))
+                {
+                    bonus = (PlacementInfo.Place_Floor.GetFloorObjectList(Define.TileType.Monster).Count - 1) * 2;
+                }
+                return bonus;
             }
             return 0;
         }
@@ -394,15 +427,15 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         {
             BattleCounter++;
             ChangeValue();
-            if (BattleCounter >= 10 && monster.Data.TraitableList.Contains(TraitGroup.VeteranC))
+            if (BattleCounter >= 10 && monster.Data.traitList_Exp.Contains(TraitGroup.VeteranC))
             {
                 monster.AddTrait_Runtime(TraitGroup.VeteranC);
             }
-            if (BattleCounter >= 15 && monster.Data.TraitableList.Contains(TraitGroup.VeteranB))
+            if (BattleCounter >= 15 && monster.Data.traitList_Exp.Contains(TraitGroup.VeteranB))
             {
                 monster.AddTrait_Runtime(TraitGroup.VeteranB);
             }
-            if (BattleCounter >= 20 && monster.Data.TraitableList.Contains(TraitGroup.VeteranA))
+            if (BattleCounter >= 20 && monster.Data.traitList_Exp.Contains(TraitGroup.VeteranA))
             {
                 monster.AddTrait_Runtime(TraitGroup.VeteranA);
             }
@@ -412,15 +445,15 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         {
             TrainingCounter++;
             ChangeValue();
-            if (TrainingCounter >= 5 && monster.Data.TraitableList.Contains(TraitGroup.EliteC))
+            if (TrainingCounter >= 5 && monster.Data.traitList_Exp.Contains(TraitGroup.EliteC))
             {
                 monster.AddTrait_Runtime(TraitGroup.EliteC);
             }
-            if (TrainingCounter >= 10 && monster.Data.TraitableList.Contains(TraitGroup.EliteB))
+            if (TrainingCounter >= 10 && monster.Data.traitList_Exp.Contains(TraitGroup.EliteB))
             {
                 monster.AddTrait_Runtime(TraitGroup.EliteB);
             }
-            if (TrainingCounter >= 15 && monster.Data.TraitableList.Contains(TraitGroup.EliteA))
+            if (TrainingCounter >= 15 && monster.Data.traitList_Exp.Contains(TraitGroup.EliteA))
             {
                 monster.AddTrait_Runtime(TraitGroup.EliteA);
             }
@@ -430,15 +463,15 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         {
             InjuryCounter++;
             ChangeValue();
-            if (InjuryCounter >= 3 && monster.Data.TraitableList.Contains(TraitGroup.ShirkingC))
+            if (InjuryCounter >= 3 && monster.Data.traitList_Exp.Contains(TraitGroup.ShirkingC))
             {
                 monster.AddTrait_Runtime(TraitGroup.ShirkingC);
             }
-            if (InjuryCounter >= 4 && monster.Data.TraitableList.Contains(TraitGroup.ShirkingB))
+            if (InjuryCounter >= 4 && monster.Data.traitList_Exp.Contains(TraitGroup.ShirkingB))
             {
                 monster.AddTrait_Runtime(TraitGroup.ShirkingB);
             }
-            if (InjuryCounter >= 5 && monster.Data.TraitableList.Contains(TraitGroup.ShirkingA))
+            if (InjuryCounter >= 5 && monster.Data.traitList_Exp.Contains(TraitGroup.ShirkingA))
             {
                 monster.AddTrait_Runtime(TraitGroup.ShirkingA);
             }
@@ -447,15 +480,15 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         {
             KillCounter++;
             ChangeValue();
-            if (KillCounter >= 10 && monster.Data.TraitableList.Contains(TraitGroup.RuthlessC))
+            if (KillCounter >= 10 && monster.Data.traitList_Exp.Contains(TraitGroup.RuthlessC))
             {
                 monster.AddTrait_Runtime(TraitGroup.RuthlessC);
             }
-            if (KillCounter >= 15 && monster.Data.TraitableList.Contains(TraitGroup.RuthlessB))
+            if (KillCounter >= 15 && monster.Data.traitList_Exp.Contains(TraitGroup.RuthlessB))
             {
                 monster.AddTrait_Runtime(TraitGroup.RuthlessB);
             }
-            if (KillCounter >= 20 && monster.Data.TraitableList.Contains(TraitGroup.RuthlessA))
+            if (KillCounter >= 20 && monster.Data.traitList_Exp.Contains(TraitGroup.RuthlessA))
             {
                 monster.AddTrait_Runtime(TraitGroup.RuthlessA);
             }
@@ -465,19 +498,19 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
             StandbyDays = 0;
             PlacementDays++;
             ChangeValue();
-            if (PlacementDays >= 4 && monster.Data.TraitableList.Contains(TraitGroup.SurvivabilityC))
+            if (PlacementDays >= 4 && monster.Data.traitList_Exp.Contains(TraitGroup.SurvivabilityC))
             {
                 monster.AddTrait_Runtime(TraitGroup.SurvivabilityC);
             }
-            if (PlacementDays >= 7 && monster.Data.TraitableList.Contains(TraitGroup.SurvivabilityB))
+            if (PlacementDays >= 7 && monster.Data.traitList_Exp.Contains(TraitGroup.SurvivabilityB))
             {
                 monster.AddTrait_Runtime(TraitGroup.SurvivabilityB);
             }
-            if (PlacementDays >= 10 && monster.Data.TraitableList.Contains(TraitGroup.SurvivabilityA))
+            if (PlacementDays >= 10 && monster.Data.traitList_Exp.Contains(TraitGroup.SurvivabilityA))
             {
                 monster.AddTrait_Runtime(TraitGroup.SurvivabilityA);
             }
-            if (PlacementDays >= 15 && monster.Data.TraitableList.Contains(TraitGroup.SurvivabilityS))
+            if (PlacementDays >= 15 && monster.Data.traitList_Exp.Contains(TraitGroup.SurvivabilityS))
             {
                 monster.AddTrait_Runtime(TraitGroup.SurvivabilityS);
             }
@@ -487,15 +520,15 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
             PlacementDays = 0;
             StandbyDays++;
             ChangeValue();
-            if (StandbyDays >= 4 && monster.Data.TraitableList.Contains(TraitGroup.DiscreetC))
+            if (StandbyDays >= 4 && monster.Data.traitList_Exp.Contains(TraitGroup.DiscreetC))
             {
                 monster.AddTrait_Runtime(TraitGroup.DiscreetC);
             }
-            if (StandbyDays >= 6 && monster.Data.TraitableList.Contains(TraitGroup.DiscreetB))
+            if (StandbyDays >= 6 && monster.Data.traitList_Exp.Contains(TraitGroup.DiscreetB))
             {
                 monster.AddTrait_Runtime(TraitGroup.DiscreetB);
             }
-            if (StandbyDays >= 8 && monster.Data.TraitableList.Contains(TraitGroup.DiscreetA))
+            if (StandbyDays >= 8 && monster.Data.traitList_Exp.Contains(TraitGroup.DiscreetA))
             {
                 monster.AddTrait_Runtime(TraitGroup.DiscreetA);
             }
@@ -547,32 +580,94 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
     public List<ITrait> TraitList = new List<ITrait>();
 
-    public bool AddTrait(ITrait trait) //? 동일한 특성 불가능
+    public HashSet<TraitGroup> DisableTraitList = new HashSet<TraitGroup>(); //? 특성 진화시 해당 기본특성을 얻을 수 없는 특성으로 추가
+
+
+
+
+    protected void Trait_Original()
+    {
+        foreach (var item in Data.traitList_Original)
+        {
+            AddTrait(item);
+        }
+    }
+
+
+    public void AddTrait_DisableList(TraitGroup trait)
+    {
+        DisableTraitList.Add(trait);
+    }
+
+    protected bool AddTrait(TraitGroup traitID)
+    {
+        if (PossibleCheck_AddTrait(traitID))
+        {
+            string className = $"Trait+{traitID.ToString()}";
+            ITrait trait = Util.GetClassToString<ITrait>(className);
+
+            TraitList.Add(trait);
+            return true;
+        }
+        return false;
+    }
+
+    protected bool AddTrait(ITrait trait)
+    {
+        return AddTrait(trait.ID);
+    }
+
+    protected bool AddTrait_Default(TraitGroup traitID)
+    {
+        return AddTrait(traitID);
+    }
+    protected bool AddTrait_Runtime(TraitGroup traitID)
+    {
+        if (AddTrait(traitID))
+        {
+            Main.Instance.CurrentDay.AddTrait(1);
+
+            //? 특성 획득창도 따로 띄워주기
+            Managers.UI.Popup_Reservation(() =>
+            {
+                var ui = Managers.UI.ShowPopUp<UI_StatusUp>("Monster/UI_StatusUp");
+                ui.TargetMonster(this);
+                ui.NewTrait(traitID);
+            });
+
+            return true;
+        }
+        return false;
+    }
+
+    bool PossibleCheck_AddTrait(TraitGroup targetTrait) //? 특성 추가 체크
+    {
+        if (TraitList.Count >= 10)      //? 특성이 이미 10개가 넘거나
+        {
+            return false;
+        }
+        if (DisableTraitList.Contains(targetTrait)) //? 금지 특성이거나
+        {
+            return false;
+        }
+        if (DuplicateTraitCheck(targetTrait))   //? 이미 있는 특성이거나
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    bool DuplicateTraitCheck(TraitGroup targetTrait) //? 동일한 특성 불가능
     {
         foreach (var item in TraitList)
         {
-            if (trait.ID == item.ID)
+            if (targetTrait == item.ID)
             {
-                return false;
+                return true;
             }
         }
-        TraitList.Add(trait);
-        return true;
-    }
-    public void AddTrait(TraitGroup traitID)
-    {
-        string className = $"Trait+{traitID.ToString()}";
-        ITrait trait = Util.GetClassToString<ITrait>(className);
-        AddTrait(trait);
-    }
-    void AddTrait_Runtime(TraitGroup traitID)
-    {
-        string className = $"Trait+{traitID.ToString()}";
-        ITrait trait = Util.GetClassToString<ITrait>(className);
-        if (AddTrait(trait))
-        {
-            Main.Instance.CurrentDay.AddTrait(1);
-        }
+        return false;
     }
 
 
@@ -586,6 +681,10 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         }
         return false;
     }
+
+
+
+
     public void DoSomething(TraitGroup searchTrait)
     {
         var trait = Util.GetTypeToString($"Trait+{searchTrait.ToString()}");
@@ -708,14 +807,36 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         return saveList;
     }
 
-    public void LoadTraitList(List<int> loadData)
+    public void LoadTraitList(List<int> loadData) //? 로드할 때 리스트 초기화
     {
         if (loadData == null) return;
 
+        TraitList = new List<ITrait>();
 
         foreach (var item in loadData)
         {
-            AddTrait((TraitGroup)item);
+            AddTrait_Default((TraitGroup)item);
+        }
+    }
+
+    public HashSet<TraitGroup> SaveDisableTraitList()
+    {
+        HashSet<TraitGroup> saveList = new HashSet<TraitGroup>();
+        foreach (var item in DisableTraitList)
+        {
+            saveList.Add(item);
+        }
+        return saveList;
+    }
+    public void LoadDisableTraitList(HashSet<TraitGroup> loadData)
+    {
+        if (loadData == null) return;
+
+        DisableTraitList = new HashSet<TraitGroup>();
+
+        foreach (var item in loadData)
+        {
+            DisableTraitList.Add(item);
         }
     }
 
@@ -730,11 +851,11 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
     public abstract void MonsterInit();
     //public abstract void Trait_Original();
-    public virtual void MonsterInit_Evolution() //? 나중에 abstract로 변경하면 댐
+    public virtual void Load_EvolutionMonster() //? 진화몹을 로드할 때 나중에 abstract로 변경하면 댐
     { 
 
     }
-    public virtual void EvolutionMonster_Init() //? 첫 생성시 진화몹을 생성할 때 호출
+    public virtual void Create_EvolutionMonster_Init() //? 첫 생성시 진화몹을 생성할 때 호출
     {
 
     }
@@ -806,7 +927,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
             case MonsterState.Placement:
                 MoveSelf();
                 //HP = HP_Max;
-                HP_Damaged = 0;
+                //HP_Damaged = 0;
 
                 traitCounter.AddPlacementDays();
                 break;
@@ -815,7 +936,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
                 if (TraitCheck(TraitGroup.Reconfigure))
                 {
                     //HP = HP_Max;
-                    HP_Damaged = 0;
+                    //HP_Damaged = 0;
                     State = MonsterState.Standby;
                 }
                 break;
@@ -824,7 +945,10 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
     public virtual void TurnOver()
     {
-
+        if (State != MonsterState.Injury)
+        {
+            HP_Damaged = 0;
+        }
     }
 
     public virtual void MoveSelf()
@@ -1118,7 +1242,10 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
             }
         }
 
-        battleMP += GameManager.Buff.BattleBonus;
+
+        battleMP += Mathf.RoundToInt(battleMP * (GameManager.Buff.ManaUp_Battle * 0.01f));
+        battleMP += GameManager.Buff.ManaAdd_Battle;
+
 
         int manaClamp = Mathf.Clamp(battleMP, 0, npc.Mana);
         if (manaClamp < 0)
@@ -1170,12 +1297,28 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
                 GetBattlePoint(npc.Rank * 2);
 
                 traitCounter.AddKillCounter();
+                AddCollectionPoint();
                 Main.Instance.CurrentDay.AddVictory(1);
 
                 if (TraitCheck(TraitGroup.Predation))
                 {
                     HP_Max += 1;
                     HP += 1;
+                }
+                if (TraitCheck(TraitGroup.Predation_V2))
+                {
+                    HP_Max += 2;
+                    HP += 2;
+                }
+                //? 수전노 특성
+                if (TraitCheck(TraitGroup.Miser))
+                {
+                    if (npc.KillGold > 0)
+                    {
+                        int bonus = (npc.KillGold / 2);
+                        Main.Instance.CurrentDay.AddGold(bonus, Main.DayResult.EventType.Monster);
+                        Main.Instance.ShowDM(bonus, Main.TextType.gold, transform);
+                    }
                 }
                 break;
         }
@@ -1244,6 +1387,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         {
             Debug.Log("플레이어 Die");
             GameManager.Placement.PlacementClear(this);
+            State = MonsterState.Standby;
             return;
         }
 
@@ -1264,12 +1408,67 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     }
     public virtual void LevelUpEvent(LevelUpEventType levelUpType)
     {
-
+        //? 10레벨 마다 랜덤 특성 획득 (lv++전이니까 % 10 == 9로 해야 10레벨임)
+        if (LV % 10 == 9)
+        {
+            RandomTraitAdd_New();
+        }
+        //RandomTraitAdd();
     }
     public virtual void BattleEvent(BattleField.BattleResult result, NPC npc)
     {
 
     }
+
+    public void RandomTraitAdd_New()
+    {
+        var list = Data.traitList_Random;
+
+        if (list == null || list.Count == 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < 3; i++) //? 3번의 기회만 줌. 만약 해당 없으면 획득특성 없어.
+        {
+            int ranNum = Random.Range(0, list.Count);
+            TraitGroup target = list[ranNum];
+            if (AddTrait_Runtime(target))
+            {
+                break;
+            }
+        }
+    }
+
+
+
+
+    //public void RandomTraitAdd()
+    //{
+    //    TraitGroup[] values = (TraitGroup[])System.Enum.GetValues(typeof(TraitGroup));
+
+    //    List<TraitGroup> select = new List<TraitGroup>();
+
+    //    foreach (var item in values) //? TraitGroup에서 1~20번 특성까지만 셀렉트 (중간 빈부분은 스킵)
+    //    {
+    //        if (item <= TraitGroup.LifeDrain)
+    //        {
+    //            select.Add(item);
+    //        }
+    //    }
+
+
+    //    for (int i = 0; i < 3; i++) //? 3번의 기회만 줌. 만약 해당 없으면 획득특성 없어.
+    //    {
+    //        int ranNum = Random.Range(0, select.Count);
+    //        TraitGroup target = select[ranNum];
+
+    //        if (AddTrait_Runtime(target))
+    //        {
+    //            break;
+    //        }
+    //    }
+    //}
 
 
     public enum Evolution
@@ -1303,7 +1502,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
             exp = Mathf.RoundToInt(exp * 1.6f);
         }
 
-        exp += GameManager.Buff.ExpBonus;
+        exp += GameManager.Buff.ExpAdd_Battle;
 
         Main.Instance.ShowDM(exp, Main.TextType.exp, transform);
 

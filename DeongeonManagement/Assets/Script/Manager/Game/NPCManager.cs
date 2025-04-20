@@ -192,6 +192,8 @@ public class NPCManager
         int ofDanger = Main.Instance.DangerOfDungeon / 25;
 
         int maxValue = Mathf.Clamp(ofFame + ofDanger, 4 + Main.Instance.Turn, ofFame + ofDanger);
+        maxValue += GameManager.Buff.VisitAdd_All;
+
         return maxValue;
     }
 
@@ -384,6 +386,18 @@ public class NPCManager
         {
 
         }
+
+
+        Weight_NPC[NPC_Type_Normal.Herbalist1] += Mathf.RoundToInt(Weight_NPC[NPC_Type_Normal.Herbalist1] * (GameManager.Buff.VisitUp_Herb * 0.01f));
+        Weight_NPC[NPC_Type_Normal.Herbalist2] += Mathf.RoundToInt(Weight_NPC[NPC_Type_Normal.Herbalist2] * (GameManager.Buff.VisitUp_Herb * 0.01f));
+        Weight_NPC[NPC_Type_Normal.Herbalist3] += Mathf.RoundToInt(Weight_NPC[NPC_Type_Normal.Herbalist3] * (GameManager.Buff.VisitUp_Herb * 0.01f));
+
+        Weight_NPC[NPC_Type_Normal.Miner1] += Mathf.RoundToInt(Weight_NPC[NPC_Type_Normal.Miner1] * (GameManager.Buff.VisitUp_Mineral * 0.01f));
+        Weight_NPC[NPC_Type_Normal.Miner2] += Mathf.RoundToInt(Weight_NPC[NPC_Type_Normal.Miner2] * (GameManager.Buff.VisitUp_Mineral * 0.01f));
+        Weight_NPC[NPC_Type_Normal.Miner3] += Mathf.RoundToInt(Weight_NPC[NPC_Type_Normal.Miner3] * (GameManager.Buff.VisitUp_Mineral * 0.01f));
+
+        Weight_NPC[NPC_Type_Normal.Adventurer1] += Mathf.RoundToInt(Weight_NPC[NPC_Type_Normal.Adventurer1] * (GameManager.Buff.VisitUp_Adv * 0.01f));
+        Weight_NPC[NPC_Type_Normal.Adventurer2] += Mathf.RoundToInt(Weight_NPC[NPC_Type_Normal.Adventurer2] * (GameManager.Buff.VisitUp_Adv * 0.01f));
     }
 
 
@@ -603,6 +617,7 @@ public enum NPC_Typeof
     NPC_Type_SubEvent = 2,
     NPC_Type_Unique = 3,
     NPC_Type_Hunter = 4,
+    NPC_Type_RandomEvent = 5,
 }
 public enum NPC_Type_Normal
 {
@@ -680,4 +695,14 @@ public enum NPC_Type_Hunter
 {
     Hunter_Slime = 1800,
     Hunter_EarthGolem = 1801,
+}
+
+public enum NPC_Type_RandomEvent
+{
+    Mastia = 1711,
+    Karen = 1712,
+    Stan = 1713,
+    Euh = 1714,
+    Romys = 1715,
+    Siri = 1716,
 }

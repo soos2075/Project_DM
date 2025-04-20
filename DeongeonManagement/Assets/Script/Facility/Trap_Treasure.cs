@@ -35,6 +35,8 @@ public class Trap_Treasure : Treasure
         if (InteractionOfTimes > 0)
         {
             InteractionOfTimes--;
+            Main.Instance.CurrentStatistics.Interaction_Trap++;
+
             Cor_Facility = StartCoroutine(TreasureTrap(npc));
 
             trap_Anim.Play($"{MimicType}_Action");
@@ -61,6 +63,9 @@ public class Trap_Treasure : Treasure
         }
 
         yield return new WaitForSeconds(durationTime);
+
+        ap_value += Mathf.RoundToInt(ap_value * (GameManager.Buff.EffectUp_Trap * 0.01f));
+        hp_value += Mathf.RoundToInt(hp_value * (GameManager.Buff.EffectUp_Trap * 0.01f));
 
         npc.Change_ActionPoint(-ap_value);
         npc.Change_HP(-hp_value);

@@ -11,28 +11,234 @@ public class BuffManager
 
 
 
-    #region Normal Buff
+
+    #region Buff List
     //? 이 항목은 따로 저장하지 않음. 그냥 모든 시설과 기타 등등으로 인해 새로시작, 로드 등으로 각자장소에서 해줘야함(중복방지)
-    public int PortalBonus { get; set; }    //? 포탈 이용시 마나 보너스 - 정수
-    public int FacilityBonus { get; set; }  //? 모든 시설 이용시 마나 보너스 - 정수
+    //! Add = 정수 더하기 (1 = 1)
+    //! Up = 퍼센트 곱하기 (1 = 1%)
 
-    public int HerbBonus { get; set; }      //? 모든 약초 채집시 마나 보너스 - 정수
-    public int MineralBonus { get; set; }   //? 모든 광물 채굴시 마나 보너스 - 정수
+    //? 마나
+    public int ManaAdd_Portal { get; set; }    //? 포탈 이용시 마나 보너스 - 정수
+    public int ManaAdd_Facility { get; set; }  //? 모든 시설 이용시 마나 보너스 - 정수
+
+    public int ManaAdd_Herb { get; set; }      //? 모든 약초 채집시 마나 보너스 - 정수
+    public int ManaAdd_Mineral { get; set; }   //? 모든 광물 채굴시 마나 보너스 - 정수
+
+    public int ManaUp_Herb          //? 모든 약초 채집시 마나 보너스 %
+    { 
+        get 
+        {  
+            int result = 0;
+            if (CurrentBuff.Orb_green >= 1) result += 10;
+            if (CurrentBuff.Orb_green >= 2) result += 10;
+            if (GameManager.Title.Get_InstanceTitle(TitleGroup.Herb_1).isActive) result += 10;
+            if (GameManager.Title.Get_InstanceTitle(TitleGroup.Herb_2).isActive) result += 20;
+            return result;
+        } 
+    }   
+    public int ManaUp_Mineral       //? 모든 광물 채굴시 마나 보너스 %
+    { 
+        get
+        {
+            int result = 0;
+            if (CurrentBuff.Orb_yellow >= 1) result += 10;
+            if (CurrentBuff.Orb_yellow >= 2) result += 10;
+            if (GameManager.Title.Get_InstanceTitle(TitleGroup.Mineral_1).isActive) result += 10;
+            if (GameManager.Title.Get_InstanceTitle(TitleGroup.Mineral_2).isActive) result += 20;
+            return result;
+        }
+    }   
 
 
-    public int BattleBonus { get; set; }    //? 모든 전투시 마나 보너스 - 정수
-    public int ExpBonus { get; set; }       //? 전투시 경험치 보너스
+    public int ManaAdd_Battle { get; set; }     //? 전투 시 마나 증가 - 정수
+    public int ManaUp_Battle            //? 전투 시 마나 증가 - %
+    {
+        get
+        {
+            int result = 0;
+            if (GameManager.Title.Get_InstanceTitle(TitleGroup.StrongMonster_1).isActive) result += 10;
+            if (GameManager.Title.Get_InstanceTitle(TitleGroup.StrongMonster_2).isActive) result += 10;
+            if (GameManager.Title.Get_InstanceTitle(TitleGroup.StrongMonster_3).isActive) result += 10;
+            return result;
+        }
+    }      
 
-    public int ManaBonus { get; set; }      //? 최종 마나 계산시 보너스 - 1당 1퍼센트
-    public int GoldBonus { get; set; }      //? 최종 골드 계산시 보너스 - 1당 1퍼센트
+    public int ManaUp_Final { get; set; }      //? 최종 마나 계산시 보너스 - 1당 1퍼센트
+
+    //? 골드
+    public int GoldUp_Final { get; set; }      //? 최종 골드 계산시 보너스 - 1당 1퍼센트
 
 
-    public int HpBonus { get; set; }  //? 플레이어 체력 보너스
-    public int StatBonus { get; set; }//? 플레이어 올스탯 보너스
-    //public int APBonus { get; set; }        //? 턴 시작시 행동력 보너스 - 정수
+    //? 방문
+    public int VisitAdd_Adv { get; set; }    //? 전투직군 방문 증가
+    public int VisitAdd_Herb { get; set; }   //? 허브류 방문 증가
+    public int VisitAdd_Mineral { get; set; }//? 광물류 방문 증가
+
+    public int VisitUp_Adv          //? 전투직군 방문 증가 %
+    {
+        get
+        {
+            int result = 0;
+            if (GameManager.Title.Get_InstanceTitle(TitleGroup.Treasure_3).isActive) result += 30;
+            return result;
+        }
+    }
+    public int VisitUp_Herb         //? 허브류 방문 증가 %
+    {
+        get
+        {
+            int result = 0;
+            if (GameManager.Title.Get_InstanceTitle(TitleGroup.Herb_3).isActive) result += 30;
+            return result;
+        }
+    }   
+    public int VisitUp_Mineral      //? 광물류 방문 증가 %
+    {
+        get
+        {
+            int result = 0;
+            if (GameManager.Title.Get_InstanceTitle(TitleGroup.Mineral_3).isActive) result += 30;
+            return result;
+        }
+    }
+
+
+    public int VisitAdd_All         //? 전체 방문자 수 +a (NPC 매니저의 최종 Value값에 더해주면 댐)
+    {
+        get
+        {
+            int result = 0;
+            if (GameManager.Title.Get_InstanceTitle(TitleGroup.Amenity_1).isActive) result += 5;
+            if (GameManager.Title.Get_InstanceTitle(TitleGroup.Amenity_2).isActive) result += 20;
+            return result;
+        }
+    }
+    public int VisitUp_All
+    {
+        get
+        {
+            int result = 0;
+            return result;
+        }
+    }    //? 전체 방문자 수 +%
+    
+
+
+    //? 경험치
+    public int ExpAdd_Battle { get; set; }       //? 전투시 경험치 보너스
+
+
+    //? 스탯
+    public int HpAdd_Unit
+    {
+        get
+        {
+            int result = 0;
+            return result;
+        }
+    }
+    public int StatAdd_Unit
+    {
+        get
+        {
+            int result = 0;
+            if (GameManager.Title.Get_InstanceTitle(TitleGroup.ManyMonster_1).isActive) result += 3;
+            if (GameManager.Monster.Check_ExistUnit<Mastia>()) result += 2;
+
+            return result;
+        }
+    }
+
+    public int HpUp_Unit            //? 유닛 체력 보너스 %
+    {
+        get
+        {
+            int result = 0;
+            result += (GameManager.Artifact.GetArtifact(ArtifactLabel.Cross).Count * 10);
+            return result;
+        }
+    }
+    public int StatUp_Unit          //? 유닛 올스탯 보너스 %
+    {
+        get
+        {
+            int result = 0;
+            result += (GameManager.Artifact.GetArtifact(ArtifactLabel.Dice).Count * 5);
+            return result;
+        }
+    }
+
+
+    public int HpAdd_Player
+    {
+        get
+        {
+            int result = 0;
+            if (GameManager.Title.Get_InstanceTitle(TitleGroup.Marauder_1).isActive) result += 20;
+            if (GameManager.Title.Get_InstanceTitle(TitleGroup.Marauder_2).isActive) result += 30;
+            return result;
+        }
+    }
+    public int StatAdd_Player
+    {
+        get
+        {
+            int result = 0;
+            if (GameManager.Title.Get_InstanceTitle(TitleGroup.Secret_1).isActive) result += 2;
+            if (GameManager.Title.Get_InstanceTitle(TitleGroup.Secret_2).isActive) result += 3;
+            if (GameManager.Title.Get_InstanceTitle(TitleGroup.Secret_3).isActive) result += 5;
+            return result;
+        }
+    }
+
+
+    public int HpAdd_NPC
+    {
+        get
+        {
+            int result = 0;
+            return result;
+        }
+    }
+    public int StatAdd_NPC
+    {
+        get
+        {
+            int result = 0;
+            return result;
+        }
+    }
+
+
+
+    //? 효과 증가
+    public int EffectUp_Trap            //? 함정 효과 증가 %
+    {
+        get
+        {
+            int result = 0;
+            if (GameManager.Title.Get_InstanceTitle(TitleGroup.Trap_1).isActive) result += 10;
+            if (GameManager.Title.Get_InstanceTitle(TitleGroup.Trap_2).isActive) result += 20;
+            if (GameManager.Title.Get_InstanceTitle(TitleGroup.Trap_3).isActive) result += 30;
+            return result;
+        }
+    }
+    public int EffectUp_Treasure        //? 보물 효과 증가 %
+    {
+        get
+        {
+            int result = 0;
+            if (GameManager.Title.Get_InstanceTitle(TitleGroup.Treasure_1).isActive) result += 10;
+            if (GameManager.Title.Get_InstanceTitle(TitleGroup.Treasure_2).isActive) result += 20;
+            if (GameManager.Title.Get_InstanceTitle(TitleGroup.Treasure_3).isActive) result += 30;
+            return result;
+        }
+    }
+
 
 
     #endregion
+
 
 
 

@@ -140,7 +140,7 @@ public class BattleManager : MonoBehaviour
             line.startColor = color;
             line.endColor = color;
         }
-        else if (npcType == typeof(NPC_Unique))
+        else if (npcType == typeof(NPC_Unique) || npcType == typeof(NPC_RandomEvent))
         {
             field.sprite_border.sprite = Battle_SLA.GetSprite("Frame", "4");
             field.sprite_Icon.sprite = Battle_SLA.GetSprite("Icon", "4");

@@ -469,6 +469,7 @@ public class NPC_MainEvent : NPC
                     herb.AddRange(mineral);
                     AddPriorityList(herb, AddPos.Front, option);
                     AddPriorityList(GetPriorityPick(typeof(Treasure)), AddPos.Front, option);
+                    AddPriorityList(GetPriorityPick(typeof(Herb_Roots)), AddPos.Back, option);
                 }
                 break;
 
@@ -481,6 +482,7 @@ public class NPC_MainEvent : NPC
                     AddPriorityList(GetPriorityPick(typeof(Treasure)), AddPos.Back, option);
                     AddPriorityList(GetPriorityPick(typeof(Herb)), AddPos.Back, option);
                     AddPriorityList(GetPriorityPick(typeof(Mineral)), AddPos.Back, option);
+                    AddPriorityList(GetPriorityPick(typeof(Herb_Roots)), AddPos.Back, option);
                 }
                 break;
             case NPC_Type_MainEvent.EM_Soldier2:
@@ -680,7 +682,7 @@ public class NPC_MainEvent : NPC
 
     void Return()
     {
-        AddCollectionPoint();
+        //AddCollectionPoint();
 
         switch (NPCType)
         {
@@ -754,7 +756,7 @@ public class NPC_MainEvent : NPC
 
     void Defeat()
     {
-        AddCollectionPoint();
+        //AddCollectionPoint();
         switch (NPCType)
         {
             case NPC_Type_MainEvent.EM_RedHair:

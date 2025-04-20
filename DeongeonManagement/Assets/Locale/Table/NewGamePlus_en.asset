@@ -253,6 +253,13 @@ MonoBehaviour:
     m_Localized: Clear Time
     m_Metadata:
       m_Items: []
+  - m_Id: 16369532891508736
+    m_Localized: 'New Game Plus mode has been unlocked.
+
+      When starting a new
+      game- you can use Clear Points to get various bonuses.'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

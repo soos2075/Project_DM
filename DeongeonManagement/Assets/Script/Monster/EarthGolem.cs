@@ -15,32 +15,24 @@ public class EarthGolem : Monster
         {
             StartCoroutine(Init_Evolution());
         }
-        //else
-        //{
-        //    Debug.Log("이미 등록된 진화몹 있음");
-        //}
     }
 
-    public override void EvolutionMonster_Init()
+    public override void Create_EvolutionMonster_Init()
     {
         Data = GameManager.Monster.GetData("EarthGolem");
+        Trait_Original();
+
         Initialize_Status();
         EvolutionState = Evolution.Complete;
         EvolutionComplete();
     }
 
-    void Trait_Original()
-    {
-        AddTrait(new Trait.Vitality());
-    }
-    public override void MonsterInit_Evolution()
+
+    public override void Load_EvolutionMonster()
     {
         Data = GameManager.Monster.GetData("FlameGolem");
         GameManager.Monster.ChangeSLA(this, "FlameGolem");
-
         GameManager.Monster.Regist_Evolution("EarthGolem");
-
-        Trait_Original();
     }
     IEnumerator Init_Evolution()
     {
@@ -54,6 +46,8 @@ public class EarthGolem : Monster
 
     public override void LevelUpEvent(LevelUpEventType levelUpType)
     {
+        base.LevelUpEvent(levelUpType);
+
         if (EvolutionState == Evolution.Ready && LV + 1 >= Data.maxLv)
         {
             EvolutionState = Evolution.Progress;
@@ -112,13 +106,48 @@ public class EarthGolem : Monster
     {
         List<ITrait> newTrait = new List<ITrait>();
 
-        newTrait.Add(new Trait.Vitality());
-        if (TraitCheck(TraitGroup.VeteranC)) newTrait.Add(new Trait.VeteranB());
-        if (TraitCheck(TraitGroup.EliteC)) newTrait.Add(new Trait.EliteB());
-        if (TraitCheck(TraitGroup.DiscreetC)) newTrait.Add(new Trait.DiscreetB());
-        if (TraitCheck(TraitGroup.ShirkingC)) newTrait.Add(new Trait.ShirkingB());
-        if (TraitCheck(TraitGroup.SurvivabilityC)) newTrait.Add(new Trait.SurvivabilityB());
-        if (TraitCheck(TraitGroup.RuthlessC)) newTrait.Add(new Trait.RuthlessB());
+        AddTrait_DisableList(TraitGroup.Vitality);
+
+        foreach (var item in TraitList) //? 특성 업그레이드
+        {
+            if (item.ID == TraitGroup.Vitality)
+            {
+                newTrait.Add(new Trait.Vitality_V2());
+                continue;
+            }
+            if (item.ID == TraitGroup.VeteranC)
+            {
+                newTrait.Add(new Trait.VeteranB());
+                continue;
+            }
+            if (item.ID == TraitGroup.EliteC)
+            {
+                newTrait.Add(new Trait.EliteB());
+                continue;
+            }
+            if (item.ID == TraitGroup.DiscreetC)
+            {
+                newTrait.Add(new Trait.DiscreetB());
+                continue;
+            }
+            if (item.ID == TraitGroup.ShirkingC)
+            {
+                newTrait.Add(new Trait.ShirkingB());
+                continue;
+            }
+            if (item.ID == TraitGroup.SurvivabilityC)
+            {
+                newTrait.Add(new Trait.SurvivabilityB());
+                continue;
+            }
+            if (item.ID == TraitGroup.RuthlessC)
+            {
+                newTrait.Add(new Trait.RuthlessB());
+                continue;
+            }
+
+            newTrait.Add(item);
+        }
 
         TraitList = newTrait;
     }

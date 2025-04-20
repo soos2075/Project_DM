@@ -224,6 +224,11 @@ MonoBehaviour:
     m_Localized: "\u901A\u5173\u65F6\u95F4"
     m_Metadata:
       m_Items: []
+  - m_Id: 16369532891508736
+    m_Localized: "\u65B0\u6E38\u620F\u52A0\u6A21\u5F0F\u5DF2\u89E3\u9501\u3002\n\u5F00\u59CB\u65B0\u6E38\u620F\u65F6\u53EF\u4EE5\u4F7F\u7528Clear
+      Point\u83B7\u5F97\u5404\u79CD\u52A0\u6210\u3002"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

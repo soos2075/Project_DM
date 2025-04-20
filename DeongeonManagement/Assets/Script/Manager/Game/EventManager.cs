@@ -482,7 +482,7 @@ public class EventManager : MonoBehaviour
 
         QuestDataReset();
 
-        CurrentTurn = LoadData.turn;
+        CurrentTurn = LoadData.mainData.turn;
 
         if (LoadData.eventData.CurrentGuildData != null)
         {
@@ -633,7 +633,7 @@ public class EventManager : MonoBehaviour
     {
         if (CurrentTurn % day == conditionInt)
         {
-            Debug.Log($"길드 퀘스트 발생중 : {data.InstanceQuestList[0]}");
+            Debug.Log($"길드 퀘스트 발생중 : {data.Original_Index + data.InstanceQuestList[0]}");
             return true;
         }
         else
@@ -798,24 +798,28 @@ public class EventManager : MonoBehaviour
             Debug.Log("길드 토벌대 1 이벤트");
             Guild_Raid_First();
             ClearQuestAction(777010);
+            Clear_GuildQuest(7010);
         });
 
         DayEventActionRegister.Add(DayEventLabel.Guild_Raid_2, () => {
             Debug.Log("길드 토벌대 2 이벤트");
             Guild_Raid_Second();
             ClearQuestAction(777020);
+            Clear_GuildQuest(7020);
         });
 
         DayEventActionRegister.Add(DayEventLabel.Forest_Raid_1, () => {
             Debug.Log("숲레이드 1 이벤트");
             Forest_Raid_1();
             ClearQuestAction(778010);
+            Clear_GuildQuest(8010);
         });
 
         DayEventActionRegister.Add(DayEventLabel.Forest_Raid_2, () => {
             Debug.Log("숲레이드 2 이벤트");
             Forest_Raid_2();
             ClearQuestAction(778020);
+            Clear_GuildQuest(8020);
         });
 
         //DayEventActionRegister.Add(DayEventLabel.Last_Judgment, () => {
@@ -1113,11 +1117,13 @@ public class EventManager : MonoBehaviour
                 int ranPop = UnityEngine.Random.Range(10, 20 + CurrentTurn);
                 var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
                 msg.Message = $"{ranPop} {UserData.Instance.LocaleText("Message_Get_Pop")}";
-                GuildManager.Instance.AddBackAction(() =>
-                {
-                    Main.Instance.CurrentDay.AddPop(ranPop);
-                    //Debug.Log($"던전의 인기도가 {ranPop} 올랐습니다.");
-                });
+
+                Managers.Data.GetData("Temp_GuildSave").mainData.FameOfDungeon += ranPop;
+                //GuildManager.Instance.AddBackAction(() =>
+                //{
+                //    Main.Instance.CurrentDay.AddPop(ranPop);
+                //    //Debug.Log($"던전의 인기도가 {ranPop} 올랐습니다.");
+                //});
             });
         });
 
@@ -1137,13 +1143,8 @@ public class EventManager : MonoBehaviour
             GuildManager.Instance.AddBackAction(() =>
             {
                 Debug.Log("히로인 합류");
-                GameManager.Monster.Resize_MonsterSlot();
-                var data = GameManager.Monster.GetData("Heroine");
-                var mon = GameManager.Placement.CreatePlacementObject(data.prefabPath, null, PlacementType.Monster) as Heroine;
-                mon.MonsterInit();
-                mon.Initialize_Status();
-                mon.AddCollectionPoint();
-                GameManager.Monster.AddMonster(mon);
+                GameManager.Monster.Resize_AddOne();
+                var mon = GameManager.Monster.CreateMonster("Heroine", false, true);
                 GuildManager.Instance.AddDeleteGuildNPC(GuildNPC_LabelName.Heroine);
             });
         });
@@ -1170,6 +1171,12 @@ public class EventManager : MonoBehaviour
     //? 모든 Main Event를 포함해야함
     void Init_EventAction()
     {
+        EventAction.Add("GameOver", () => {
+            Managers.UI.ClearAndShowPopUp<UI_GameOver>();
+        });
+
+
+
         EventAction.Add("Dialogue_Close", () => {
             Managers.Dialogue.Close_CurrentDialogue();
         });
@@ -1235,6 +1242,23 @@ public class EventManager : MonoBehaviour
 
 
         //? Diglogue를 통해 호출
+        EventAction.Add("Racing_Certificate", () =>
+        {
+            GuildManager.Instance.AddBackAction(() =>
+            {
+                GameManager.Artifact.AddArtifact(ArtifactLabel.Racing);
+
+                var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
+                message.DelayTime = 2;
+                //? 신규 아티팩트
+                message.Message = $"{UserData.Instance.LocaleText("New")}{UserData.Instance.LocaleText("아티팩트")} : " +
+                $"{GameManager.Artifact.GetData("Racing").labelName}";
+            });
+        });
+
+
+
+
         EventAction.Add("RedHair_Defeat", () =>
         {
             Debug.Log("RedHair - RetiredHero 이벤트 연계");
@@ -1399,6 +1423,48 @@ public class EventManager : MonoBehaviour
             Main.Instance.ChangeEggState();
         });
 
+        EventAction.Add("Peddler_Join", () =>
+        {
+            Debug.Log("치킨 동료 대화");
+
+            var fade = Managers.UI.ShowPopUp<UI_Fade>();
+            fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 1, true);
+
+            var player = GameObject.Find("Player");
+            player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+            player.GetComponent<Animator>().Play(Define.ANIM_Idle);
+            player.GetComponentInChildren<SpriteRenderer>().flipX = true;
+            player.GetComponentInChildren<SpriteRenderer>().transform.localScale = Vector3.one;
+            player.transform.position = GuildHelper.Instance.GetPos(GuildHelper.Pos.Center_Right).position;
+
+            var peddler = GameObject.Find("Peddler");
+            peddler.transform.position = GuildHelper.Instance.GetPos(GuildHelper.Pos.Center_Left).position;
+
+            FindAnyObjectByType<UI_DialogueBubble>().Bubble_MoveToTarget(peddler.transform);
+
+
+            GuildManager.Instance.AddBackAction(() =>
+            {
+                Debug.Log("치킨 합류");
+                GameManager.Monster.Resize_AddOne();
+                var mon = GameManager.Monster.CreateMonster("Utori", false, true);
+                GuildManager.Instance.AddDeleteGuildNPC(GuildNPC_LabelName.Peddler);
+            });
+        });
+
+        EventAction.Add("Peddler_Over", () =>
+        {
+            var fade = Managers.UI.ShowPopUp<UI_Fade>();
+            fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 1, true);
+
+            var player = GameObject.Find("Player");
+            player.GetComponentInChildren<SpriteRenderer>().flipX = false;
+
+            var peddler = GameObject.Find("Peddler");
+            peddler.SetActive(false);
+        });
+
+
 
 
         EventAction.Add("RedHair_Return", () =>
@@ -1521,13 +1587,13 @@ public class EventManager : MonoBehaviour
 
             var saveData = Managers.Data.GetData("Temp_GuildSave");
 
-            if (saveData.Player_Gold < 800) //? 골드가 부족하다면 시스템 메세지 혹은 돈부족 대화
+            if (saveData.mainData.Player_Gold < 800) //? 골드가 부족하다면 시스템 메세지 혹은 돈부족 대화
             {
                 Managers.Dialogue.ShowDialogueUI(5555);
                 return;
             }
 
-            saveData.Player_Gold -= 800;
+            saveData.mainData.Player_Gold -= 800;
             GuildManager.Instance.AddBackAction(() =>
             {
                 GameManager.Artifact.AddArtifact(ArtifactLabel.BananaBone);
@@ -1544,13 +1610,13 @@ public class EventManager : MonoBehaviour
 
             var saveData = Managers.Data.GetData("Temp_GuildSave");
 
-            if (saveData.Player_Gold < 500) //? 골드가 부족하다면 시스템 메세지 혹은 돈부족 대화
+            if (saveData.mainData.Player_Gold < 500) //? 골드가 부족하다면 시스템 메세지 혹은 돈부족 대화
             {
                 Managers.Dialogue.ShowDialogueUI(11011);
                 return;
             }
 
-            saveData.Player_Gold -= 500;
+            saveData.mainData.Player_Gold -= 500;
             GuildManager.Instance.AddBackAction(() =>
             {
                 GameManager.Artifact.Add_RandomArtifact();
@@ -1575,6 +1641,36 @@ public class EventManager : MonoBehaviour
         {
             Debug.Log("몬스터매니저 - No");
             GameManager.Monster.State = MonsterManager.SelectState.No;
+        });
+
+        EventAction.Add("Gold400_Yes", () =>
+        {
+            if (Main.Instance.Player_Gold < 400)
+            {
+                Debug.Log("골드부족 - Yes_Fail");
+                GameManager.Monster.State = MonsterManager.SelectState.Yes_Fail;
+                Managers.Dialogue.ShowDialogueUI((int)UnitDialogueEventLabel.Utori_NoGold);
+            }
+            else
+            {
+                Debug.Log("몬스터매니저 - Yes");
+                GameManager.Monster.State = MonsterManager.SelectState.Yes;
+            }
+        });
+
+        EventAction.Add("Gold4000_Yes2", () =>
+        {
+            if (Main.Instance.Player_Gold < 4000)
+            {
+                Debug.Log("골드부족 - Yes_Fail");
+                GameManager.Monster.State = MonsterManager.SelectState.Yes_Fail;
+                Managers.Dialogue.ShowDialogueUI((int)UnitDialogueEventLabel.Utori_NoGold);
+            }
+            else
+            {
+                Debug.Log("State - Yes2");
+                GameManager.Monster.State = MonsterManager.SelectState.Yes2;
+            }
         });
 
 

@@ -39,6 +39,13 @@ public class DataManager
         Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Artifact/Artifact_Result.csv").Completed +=
     (handle) => { CSV_File_Parsing_Artifact(OnCSVLoaded(handle)); };
 
+        //? Title
+        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Title/Title_Result.csv").Completed +=
+    (handle) => { CSV_File_Parsing_Title(OnCSVLoaded(handle)); };
+
+        //? RandomEvent
+        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/RandomEvent/RandomEvent_Result.csv").Completed +=
+    (handle) => { CSV_File_Parsing_RandomEvent(OnCSVLoaded(handle)); };
     }
 
 
@@ -61,6 +68,20 @@ public class DataManager
         }
     }
 
+
+    //? 모든 어드레서블 csv파일이 성공적으로 로드 됐는지 확인 후 콜백. 숫자는 추가할때마다 바꿔야함. LoadSucceed 참조 횟수 = csvFileAll
+    int csvLoadCount = 0;
+    int csvFileAll = 6;
+    public event Action OnAddressablesComplete;
+
+    void LoadSucceed()
+    {
+        csvLoadCount++;
+        if (csvLoadCount >= csvFileAll)
+        {
+            OnAddressablesComplete?.Invoke();
+        }
+    }
 
 
     public string[] GetTextData_Object(int id)
@@ -133,12 +154,59 @@ public class DataManager
         }
         return datas;
     }
+    public string[] GetTextData_Title(int id)
+    {
+        string[] datas = null;
+        switch (UserData.Instance.Language)
+        {
+            case Define.Language.EN:
+                Managers.Data.Title_EN.TryGetValue(id, out datas);
+                break;
+
+            case Define.Language.KR:
+                Managers.Data.Title_KR.TryGetValue(id, out datas);
+                break;
+
+            case Define.Language.JP:
+                Managers.Data.Title_JP.TryGetValue(id, out datas);
+                break;
+
+            case Define.Language.SCC:
+                Managers.Data.Title_SCC.TryGetValue(id, out datas);
+                break;
+        }
+        return datas;
+    }
+
+    public string GetTextData_RandomEvent(int id)
+    {
+        string datas = null;
+        switch (UserData.Instance.Language)
+        {
+            case Define.Language.EN:
+                Managers.Data.RandomEvent_EN.TryGetValue(id, out datas);
+                break;
+
+            case Define.Language.KR:
+                Managers.Data.RandomEvent_KR.TryGetValue(id, out datas);
+                break;
+
+            case Define.Language.JP:
+                Managers.Data.RandomEvent_JP.TryGetValue(id, out datas);
+                break;
+
+            case Define.Language.SCC:
+                Managers.Data.RandomEvent_SCC.TryGetValue(id, out datas);
+                break;
+        }
+        return datas;
+    }
 
 
 
 
 
-    
+
 
 
     public Dictionary<int, string[]> ObjectsLabel_KR = new Dictionary<int, string[]>();
@@ -201,6 +269,7 @@ public class DataManager
             ObjectsLabel_JP.Add(int.Parse(datas[1]), new string[] { datas[8], datas[9], datas[10] });
             ObjectsLabel_SCC.Add(int.Parse(datas[1]), new string[] { datas[11], datas[12], datas[13] });
         }
+        LoadSucceed();
     }
 
 
@@ -277,6 +346,7 @@ public class DataManager
             Dialogue_JP.Add((DialogueName)id, dialogue_JP);
             Dialogue_SCC.Add((DialogueName)id, dialogue_SCC);
         }
+        LoadSucceed();
     }
 
     string ContainsAndJoin(string mainText)
@@ -333,6 +403,7 @@ public class DataManager
             Trait_JP.Add((TraitGroup)int.Parse(datas[0]), new string[] { datas[8], ContainsAndJoin(datas[9]), datas[10] });
             Trait_SCC.Add((TraitGroup)int.Parse(datas[0]), new string[] { datas[11], ContainsAndJoin(datas[12]), datas[13] });
         }
+        LoadSucceed();
     }
 
 
@@ -348,7 +419,7 @@ public class DataManager
     // 2 Name_KR, 3 Detail_KR, 4 Acquire_KR,
     // 5 Name_EN, 6 Detail_EN, 7 Acquire_EN,
     // 8 Name_JP, 9 Detail_JP, 10 Acquire_JP,
-    // 9 Name_SCC, 10 Detail_SCC, 11 Acquire_SCC,
+    // 11 Name_SCC, 12 Detail_SCC, 13 Acquire_SCC,
     void CSV_File_Parsing_Artifact(string _stringData)
     {
         if (string.IsNullOrEmpty(_stringData)) return;
@@ -370,71 +441,78 @@ public class DataManager
             Artifact_JP.Add((ArtifactLabel)int.Parse(datas[0]), new string[] { datas[8], ContainsAndJoin(datas[9]), datas[10] });
             Artifact_SCC.Add((ArtifactLabel)int.Parse(datas[0]), new string[] { datas[11], ContainsAndJoin(datas[12]), datas[13] });
         }
+        LoadSucceed();
+    }
+
+    //? Title
+    public Dictionary<int, string[]> Title_KR = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> Title_EN = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> Title_JP = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> Title_SCC = new Dictionary<int, string[]>();
+
+    //? csv 데이터 항목 - 이름 / 설명 / 효과
+    // 0 ID, 1 KeyName,
+    // 2 Name_KR, 3 Detail_KR, 4 Effect_KR, 5 Acquire_KR,
+    // 6 7 8 9
+    // 10 11 12 13
+    // 14 15 16 17
+    void CSV_File_Parsing_Title(string _stringData)
+    {
+        if (string.IsNullOrEmpty(_stringData)) return;
+
+        var spl_n = _stringData.Split('\n');
+
+        for (int i = 1; i < spl_n.Length; i++)
+        {
+            var spl_comma = spl_n[i].Split(',');
+
+            if (spl_comma.Length < 2 || string.IsNullOrEmpty(spl_comma[1])) //? 빈칸이면 다음으로
+            {
+                continue;
+            }
+            string[] datas = spl_comma;
+
+            Title_KR.Add(int.Parse(datas[0]), new string[] { datas[2], ContainsAndJoin(datas[3]), datas[4], datas[5] });
+            Title_EN.Add(int.Parse(datas[0]), new string[] { datas[6], ContainsAndJoin(datas[7]), datas[8], datas[9] });
+            Title_JP.Add(int.Parse(datas[0]), new string[] { datas[10], ContainsAndJoin(datas[11]), datas[12], datas[13] });
+            Title_SCC.Add(int.Parse(datas[0]), new string[] { datas[14], ContainsAndJoin(datas[15]), datas[16], datas[17] });
+        }
+        LoadSucceed();
     }
 
 
+    //? RandomEvent
+    public Dictionary<int, string> RandomEvent_KR = new Dictionary<int, string>();
+    public Dictionary<int, string> RandomEvent_EN = new Dictionary<int, string>();
+    public Dictionary<int, string> RandomEvent_JP = new Dictionary<int, string>();
+    public Dictionary<int, string> RandomEvent_SCC = new Dictionary<int, string>();
+    // 0 ID
+    // 1 KR, 2 EN, 3 JP, 4 SCC,
+    void CSV_File_Parsing_RandomEvent(string _stringData)
+    {
+        if (string.IsNullOrEmpty(_stringData)) return;
 
-    //void CSV_File_Parsing_Dialogue(string _stringData, Dictionary<DialogueName, DialogueData> _dict)
-    //{
-    //    if (string.IsNullOrEmpty(_stringData)) return;
-    //    //var obj_kr = FileOperation(FileMode.Open, $"{Application.streamingAssetsPath}/{_filePath}.csv");
-    //    var spl_n = _stringData.Split('\n');
+        var spl_n = _stringData.Split('\n');
 
-    //    for (int i = 6; i < spl_n.Length; i++)
-    //    {
-    //        var spl_comma = spl_n[i].Split(',');
+        for (int i = 1; i < spl_n.Length; i++)
+        {
+            var spl_comma = spl_n[i].Split(',');
 
-    //        if (spl_comma.Length < 2 || string.IsNullOrEmpty(spl_comma[1]))
-    //        {
-    //            continue;
-    //        }
+            if (spl_comma.Length < 2 || string.IsNullOrEmpty(spl_comma[1])) //? 빈칸이면 다음으로
+            {
+                continue;
+            }
+            string[] datas = spl_comma;
+
+            RandomEvent_KR.Add(int.Parse(datas[0]), ContainsAndJoin(datas[1]));
+            RandomEvent_EN.Add(int.Parse(datas[0]), ContainsAndJoin(datas[2]));
+            RandomEvent_JP.Add(int.Parse(datas[0]), ContainsAndJoin(datas[3]));
+            RandomEvent_SCC.Add(int.Parse(datas[0]), ContainsAndJoin(datas[4]));
+        }
+        LoadSucceed();
+    }
 
 
-    //        int id = int.Parse(spl_comma[1]);
-    //        //DialogueName keyName = (DialogueName)Enum.Parse(typeof(DialogueName), spl_comma[2]);
-
-    //        var dialogue = new DialogueData();
-    //        dialogue.id = id;
-    //        dialogue.Type = (DialogueData.DialogueType)Enum.Parse(typeof(DialogueData.DialogueType), spl_comma[3]);
-    //        dialogue.dialogueName = spl_comma[4];
-
-    //        while (string.IsNullOrEmpty(spl_comma[6]) == false)
-    //        {
-    //            int index = int.Parse(spl_comma[6]);
-    //            string optionString = spl_comma[7];
-    //            string mainText = spl_comma[8];
-
-    //            if (mainText.Contains('\\'))
-    //            {
-    //                var split = mainText.Split('\\');
-    //                mainText = string.Join("\n", split);
-    //            }
-    //            if (mainText.Contains('-'))
-    //            {
-    //                var split = mainText.Split('-');
-    //                mainText = string.Join(',', split);
-    //            }
-    //            if (mainText.Contains('^'))
-    //            {
-    //                var split = mainText.Split('^');
-    //                mainText = string.Join('-', split);
-    //            }
-
-    //            var textData = new DialogueData.TextData(optionString, mainText);
-    //            dialogue.TextDataList.Add(textData);
-    //            //Debug.Log(mainText);
-
-    //            i++;
-    //            spl_comma = spl_n[i].Split(',');
-    //            if (spl_comma.Length < 2)
-    //            {
-    //                break;
-    //            }
-    //        }
-
-    //        _dict.Add((DialogueName)id, dialogue);
-    //    }
-    //}
 
 
 
@@ -461,30 +539,15 @@ public class DataManager
         public int saveIndex;
         public DateTime dateTime;
 
-        // 세이브 슬롯에 표시할 게임정보
-        public int turn;
-        //public int Final_Score;
 
-        // 게임 진행상황
-        public int DungeonLV;
-        public int FameOfDungeon;
-        public int DangerOfDungeon;
+        //? 현재 게임 정보
+        public CurrentGameData mainData;
 
-        public int Player_Mana;
-        public int Player_Gold;
-        public int Player_AP;
-        public int AP_MAX;
+        //? 게임 통계 정보
+        public Statistics statistics;
 
-        //public int Prisoner;
-
-        public Save_DayResult CurrentDay;
-        public Save_DayResult[] DayResultList;
-
-
-        // Floor 정보
-        public int ActiveFloor_Basement; //? 확장된 계층정보
-        public int ActiveFloor_Technical; //? 특수시설 계층
-
+        //? 랜덤 이벤트 정보
+        public List<RandomEventManager.CurrentRandomEventContent> currentRandomEventList;
 
         // Monster 정보 - 완료
         public Save_MonsterData[] monsterList;
@@ -500,6 +563,9 @@ public class DataManager
 
         //? 아티팩트 정보
         public List<ArtifactManager.Artifact> artifactList;
+
+        //? 던전 칭호 정보
+        public List<TitleManager.DungeonTitle> titleList;
 
 
         public UserData.SavefileConfig savefileConfig;
@@ -585,6 +651,21 @@ public class DataManager
                 DeleteSaveFile(fileName);
                 return;
             }
+
+            if (data.version_info != null)
+            {
+                string[] savedParts = data.version_info.Split('.');
+                float saveVersion = float.Parse(savedParts[0] + "." + savedParts[1]);
+
+                Debug.Log($"Save file Version Num : {saveVersion}");
+                if (saveVersion < 0.91f)
+                {
+                    Debug.Log($"호환되지 않는 세이브 파일 삭제 : {data.version_info}");
+                    DeleteSaveFile(fileName);
+                    return;
+                }
+            }
+
 
             SaveFileList.Add(fileName, data);
         }
@@ -713,34 +794,15 @@ public class DataManager
         saveData.saveIndex = index;
         saveData.dateTime = System.DateTime.Now;
 
-        saveData.turn = Main.Instance.Turn;
-        //saveData.Final_Score = Main.Instance.Final_Score;
-        //saveData.Prisoner = Main.Instance.Prisoner;
+        //? 현재 게임 데이터
+        saveData.mainData = Main.Instance.Save_MainData();
 
-        saveData.DungeonLV = Main.Instance.DungeonRank;
-        saveData.Player_Mana = Main.Instance.Player_Mana;
-        saveData.Player_Gold = Main.Instance.Player_Gold;
-        saveData.AP_MAX = Main.Instance.AP_MAX;
+        //? 현재 게임 데이터를 바탕으로 통계 업데이트 할 거 있으면 업데이트하기
+        Main.Instance.CurrentStatistics.Update_ToSave(saveData.mainData);
+        saveData.statistics = Main.Instance.CurrentStatistics?.DeepCopy();
 
-        //? 얘네는 단순 int값이 아니라 get set 메서드가 따로 구현된 프로퍼티라 따로 값복사를 해줘야함
-        int _fame;
-        int _danger;
-        int _ap;
-        Main.Instance.GetPropertyValue(out _fame, out _danger, out _ap);
-        saveData.FameOfDungeon = _fame;
-        saveData.DangerOfDungeon = _danger;
-        saveData.Player_AP = _ap;
-
-        //? 얘넨 깊은 복사가 되고있음(각각의 값들을 다 새로 복사중)
-        saveData.CurrentDay = new Save_DayResult(Main.Instance.CurrentDay);
-        saveData.DayResultList = new Save_DayResult[Main.Instance.DayList.Count];
-        for (int i = 0; i < Main.Instance.DayList.Count; i++)
-        {
-            saveData.DayResultList[i] = new Save_DayResult(Main.Instance.DayList[i]);
-        }
-
-        saveData.ActiveFloor_Basement = Main.Instance.ActiveFloor_Basement;
-        saveData.ActiveFloor_Technical = Main.Instance.ActiveFloor_Technical;
+        //? 게임 데이터에 포함되어있지만 별도의 스크립트라 따로
+        saveData.currentRandomEventList = RandomEventManager.Instance.Save_RE_Seed();
 
         //? 얘넨 참조타입이긴한데 저장할 때 빼고는 런타임에 쓰지 않는 데이터라 상관이 없음
         saveData.monsterList = GameManager.Monster.GetSaveData_Monster();
@@ -748,6 +810,7 @@ public class DataManager
         saveData.facilityList = GameManager.Facility.GetSaveData_Facility();
         saveData.uniqueNPC_List = GameManager.NPC.Save_NPCData();
         saveData.artifactList = GameManager.Artifact.Save_ArtifactData();
+        saveData.titleList = GameManager.Title.Save_TitlesData();
 
 
         //? 아래 두개는 실제로 쓰는 데이터를 저장하는 관계로 저장할때와 로드할 때 각각 다 딥카피를 따로 해줘야함.
@@ -764,8 +827,8 @@ public class DataManager
         saveData.isClear = UserData.Instance.isClear;
         saveData.endgins = UserData.Instance.EndingState;
 
-        int highTurn = Mathf.Max(saveData.turn, UserData.Instance.GetDataInt(PrefsKey.High_Turn, 0));
-        UserData.Instance.SetData(PrefsKey.High_Turn, highTurn);
+        //int highTurn = Mathf.Max(saveData.turn, UserData.Instance.GetDataInt(PrefsKey.High_Turn, 0));
+        //UserData.Instance.SetData(PrefsKey.High_Turn, highTurn);
 
         return saveData;
     }
@@ -825,11 +888,14 @@ public class DataManager
 
         Main.Instance.SetLoadData(loadData);
 
+        RandomEventManager.Instance.Load_RE_Seed(loadData.currentRandomEventList);
+
         GameManager.Monster.Load_MonsterData(loadData.monsterList);
         GameManager.Technical.Load_TechnicalData(loadData.tachnicalList);
         GameManager.Facility.Load_FacilityData(loadData.facilityList);
         GameManager.NPC.Load_NPCData(loadData.uniqueNPC_List);
         GameManager.Artifact.Load_ArtifactData(loadData.artifactList);
+        GameManager.Title.Load_TitlesData(loadData.titleList);
     }
     void LoadGuildData(SaveData loadData)
     {

@@ -59,5 +59,12 @@ public class SO_Monster : ScriptableObject, I_SO_Collection
 
 
     [Header("Trait")]
-    public List<TraitGroup> TraitableList;
+    //? 고유 특성 - 시작부터 가지고있는 특성
+    public List<TraitGroup> traitList_Original;
+
+    //? 경험 특성 - 행동으로 얻는 특성
+    public List<TraitGroup> traitList_Exp;
+
+    //? 랜덤 특성 - 레벨업 혹은 특수한 방법으로 얻을 수 있는 특성
+    public List<TraitGroup> traitList_Random;
 }

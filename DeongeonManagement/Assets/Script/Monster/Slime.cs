@@ -24,13 +24,8 @@ public class Slime : Monster
         }
     }
 
-    void Trait_Original()
-    {
-        AddTrait(new Trait.Reconfigure());
-    }
 
-
-    public override void MonsterInit_Evolution()
+    public override void Load_EvolutionMonster()
     {
         Data = GameManager.Monster.GetData("BloodySlime");
         GameManager.Monster.ChangeSLA_New(this, "Slime_Bloody");
@@ -40,9 +35,11 @@ public class Slime : Monster
         Trait_Original();
     }
 
-    public override void EvolutionMonster_Init()
+    public override void Create_EvolutionMonster_Init()
     {
         Data = GameManager.Monster.GetData("Slime");
+        Trait_Original();
+
         Initialize_Status();
         EvolutionState = Evolution.Complete;
         EvolutionComplete();
@@ -63,6 +60,7 @@ public class Slime : Monster
 
     public override void LevelUpEvent(LevelUpEventType levelUpType)
     {
+        base.LevelUpEvent(levelUpType);
         if (EvolutionState == Evolution.Ready && LV + 1 >= Data.maxLv)
         {
             EvolutionState = Evolution.Progress;
@@ -123,17 +121,44 @@ public class Slime : Monster
     {
         List<ITrait> newTrait = new List<ITrait>();
 
-        newTrait.Add(new Trait.Reconfigure());
-        if (TraitCheck(TraitGroup.VeteranC)) newTrait.Add(new Trait.VeteranB());
-        if (TraitCheck(TraitGroup.EliteC)) newTrait.Add(new Trait.EliteB());
-        if (TraitCheck(TraitGroup.DiscreetC)) newTrait.Add(new Trait.DiscreetB());
-        if (TraitCheck(TraitGroup.ShirkingC)) newTrait.Add(new Trait.ShirkingB());
-        if (TraitCheck(TraitGroup.SurvivabilityC)) newTrait.Add(new Trait.SurvivabilityB());
-        if (TraitCheck(TraitGroup.RuthlessC)) newTrait.Add(new Trait.RuthlessB());
+        foreach (var item in TraitList) //? 원래거 복사 (고유특성만 빼고)
+        {
+            if (item.ID == TraitGroup.VeteranC)
+            {
+                newTrait.Add(new Trait.VeteranB());
+                continue;
+            }
+            if (item.ID == TraitGroup.EliteC)
+            {
+                newTrait.Add(new Trait.EliteB());
+                continue;
+            }
+            if (item.ID == TraitGroup.DiscreetC)
+            {
+                newTrait.Add(new Trait.DiscreetB());
+                continue;
+            }
+            if (item.ID == TraitGroup.ShirkingC)
+            {
+                newTrait.Add(new Trait.ShirkingB());
+                continue;
+            }
+            if (item.ID == TraitGroup.SurvivabilityC)
+            {
+                newTrait.Add(new Trait.SurvivabilityB());
+                continue;
+            }
+            if (item.ID == TraitGroup.RuthlessC)
+            {
+                newTrait.Add(new Trait.RuthlessB());
+                continue;
+            }
+
+            newTrait.Add(item);
+        }
 
         TraitList = newTrait;
     }
-
 
 
 }

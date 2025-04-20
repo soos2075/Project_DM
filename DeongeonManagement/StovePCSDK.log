@@ -1,0 +1,1367 @@
+﻿2024-12-17 21:26:49.052 NONE  [22340] <<<<< ---------------- StoveSDK Module Load ---------------- >>>>>
+2024-12-17 21:26:49.053 INFO  [22340] 
+2024-12-17 21:26:49.053 NONE  [22340] --> StovePC_Init
+2024-12-17 21:26:49.053 NONE  [22340]     checking input config value...
+2024-12-17 21:26:49.053 NONE  [22340]     config value checking successful
+2024-12-17 21:26:49.053 NONE  [22340]     checking log...
+2024-12-17 21:26:49.053 NONE  [22340] ---------------------------------------------
+2024-12-17 21:26:49.053 NONE  [22340] StovePCSDK(ver :2.6.6)
+2024-12-17 21:26:49.053 NONE  [22340] Game Env : live
+2024-12-17 21:26:49.054 NONE  [22340] Game LogLevel : 2
+2024-12-17 21:26:49.054 NONE  [22340] Game LogPath : 
+2024-12-17 21:26:49.054 NONE  [22340] ---------------------------------------------
+2024-12-17 21:26:49.054 NONE  [22340]     core instance creation in progress...
+2024-12-17 21:26:49.101 ERROR [22340]     SGUPAPI_Init is fail
+2024-12-17 21:26:49.102 ERROR [22340]     Init sgup task error
+2024-12-17 21:26:49.102 ERROR [22340]     init tasks - error
+2024-12-17 21:26:49.102 ERROR [22340]     error occurred when calling StovePC_Init. StovePCResult : 150
+2024-12-17 21:26:49.104 ERROR [22340]     sdk not initialize
+2024-12-17 21:26:56.165 ERROR [22340]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2024-12-17 22:33:32.935 NONE  [22340] --> StovePC_Init
+2024-12-17 22:33:32.958 NONE  [22340]     checking input config value...
+2024-12-17 22:33:32.958 NONE  [22340]     config value checking successful
+2024-12-17 22:33:32.958 NONE  [22340]     checking log...
+2024-12-17 22:33:32.958 ERROR [22340]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2024-12-17 22:33:32.958 NONE  [22340] --> StovePC_Init
+2024-12-17 22:33:32.958 NONE  [22340]     checking input config value...
+2024-12-17 22:33:32.958 NONE  [22340]     config value checking successful
+2024-12-17 22:33:32.958 NONE  [22340]     checking log...
+2024-12-17 22:33:32.958 NONE  [22340] ---------------------------------------------
+2024-12-17 22:33:32.958 NONE  [22340] StovePCSDK(ver :2.6.6)
+2024-12-17 22:33:32.958 NONE  [22340] Game Env : live
+2024-12-17 22:33:32.958 NONE  [22340] Game LogLevel : 2
+2024-12-17 22:33:32.958 NONE  [22340] Game LogPath : 
+2024-12-17 22:33:32.958 NONE  [22340] ---------------------------------------------
+2024-12-17 22:33:32.958 NONE  [22340]     core instance creation in progress...
+2024-12-17 22:33:32.958 ERROR [22340]     SGUPAPI_Init is fail
+2024-12-17 22:33:32.958 ERROR [22340]     Init sgup task error
+2024-12-17 22:33:32.958 ERROR [22340]     init tasks - error
+2024-12-17 22:33:32.959 ERROR [22340]     error occurred when calling StovePC_Init. StovePCResult : 150
+2024-12-17 22:33:32.959 ERROR [22340]     sdk not initialize
+2024-12-17 22:34:02.567 ERROR [22340]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2024-12-17 22:35:16.708 NONE  [22340] --> StovePC_Init
+2024-12-17 22:35:16.708 NONE  [22340]     checking input config value...
+2024-12-17 22:35:16.709 NONE  [22340]     config value checking successful
+2024-12-17 22:35:16.709 NONE  [22340]     checking log...
+2024-12-17 22:35:16.709 ERROR [22340]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2024-12-17 22:35:16.709 NONE  [22340] --> StovePC_Init
+2024-12-17 22:35:16.709 NONE  [22340]     checking input config value...
+2024-12-17 22:35:16.709 NONE  [22340]     config value checking successful
+2024-12-17 22:35:16.709 NONE  [22340]     checking log...
+2024-12-17 22:35:16.709 NONE  [22340] ---------------------------------------------
+2024-12-17 22:35:16.709 NONE  [22340] StovePCSDK(ver :2.6.6)
+2024-12-17 22:35:16.709 NONE  [22340] Game Env : live
+2024-12-17 22:35:16.709 NONE  [22340] Game LogLevel : 2
+2024-12-17 22:35:16.709 NONE  [22340] Game LogPath : 
+2024-12-17 22:35:16.709 NONE  [22340] ---------------------------------------------
+2024-12-17 22:35:16.709 NONE  [22340]     core instance creation in progress...
+2024-12-17 22:35:16.709 ERROR [22340]     SGUPAPI_Init is fail
+2024-12-17 22:35:16.709 ERROR [22340]     Init sgup task error
+2024-12-17 22:35:16.709 ERROR [22340]     init tasks - error
+2024-12-17 22:35:16.709 ERROR [22340]     error occurred when calling StovePC_Init. StovePCResult : 150
+2024-12-17 22:35:16.710 ERROR [22340]     sdk not initialize
+2024-12-17 22:35:21.430 ERROR [22340]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2024-12-17 22:42:11.910 NONE  [22340] --> StovePC_Init
+2024-12-17 22:42:11.910 NONE  [22340]     checking input config value...
+2024-12-17 22:42:11.910 NONE  [22340]     config value checking successful
+2024-12-17 22:42:11.910 NONE  [22340]     checking log...
+2024-12-17 22:42:11.910 ERROR [22340]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2024-12-17 22:42:11.910 NONE  [22340] --> StovePC_Init
+2024-12-17 22:42:11.910 NONE  [22340]     checking input config value...
+2024-12-17 22:42:11.910 NONE  [22340]     config value checking successful
+2024-12-17 22:42:11.910 NONE  [22340]     checking log...
+2024-12-17 22:42:11.910 NONE  [22340] ---------------------------------------------
+2024-12-17 22:42:11.910 NONE  [22340] StovePCSDK(ver :2.6.6)
+2024-12-17 22:42:11.910 NONE  [22340] Game Env : live
+2024-12-17 22:42:11.910 NONE  [22340] Game LogLevel : 2
+2024-12-17 22:42:11.910 NONE  [22340] Game LogPath : 
+2024-12-17 22:42:11.910 NONE  [22340] ---------------------------------------------
+2024-12-17 22:42:11.910 NONE  [22340]     core instance creation in progress...
+2024-12-17 22:42:11.913 NONE  [14344]     async init start...
+2024-12-17 22:42:12.014 ERROR [22340]     sdk not initialize
+2024-12-17 22:42:12.132 NONE  [14344]     constans server connect complete...
+2024-12-17 22:42:12.861 NONE  [14344]     token initialize successful...
+2024-12-17 22:42:12.927 NONE  [14344]     gds collect complete...
+2024-12-17 22:42:12.987 NONE  [14344]     member info collect complete...
+2024-12-17 22:42:12.987 NONE  [14344]     check shutdown try...
+2024-12-17 22:42:12.987 NONE  [14344]     check shutdown complete...
+2024-12-17 22:42:12.987 NONE  [14344]     try reporting...
+2024-12-17 22:42:12.989 NONE  [14344]     reporting complete...
+2024-12-17 22:42:13.364 NONE  [22340]     send event oninitcomplete...
+2024-12-17 22:48:27.878 NONE  [22340] --> StovePC_Init
+2024-12-17 22:48:27.879 NONE  [22340]     checking input config value...
+2024-12-17 22:48:27.879 NONE  [22340]     config value checking successful
+2024-12-17 22:48:27.879 NONE  [22340]     checking log...
+2024-12-17 22:48:27.879 NONE  [22340] --> StovePC_Init
+2024-12-17 22:48:27.879 NONE  [22340]     checking input config value...
+2024-12-17 22:48:27.879 NONE  [22340]     config value checking successful
+2024-12-17 22:48:27.879 NONE  [22340]     checking log...
+2024-12-17 22:48:27.879 NONE  [22340] ---------------------------------------------
+2024-12-17 22:48:27.879 NONE  [22340] StovePCSDK(ver :2.6.6)
+2024-12-17 22:48:27.879 NONE  [22340] Game Env : live
+2024-12-17 22:48:27.879 NONE  [22340] Game LogLevel : 2
+2024-12-17 22:48:27.879 NONE  [22340] Game LogPath : 
+2024-12-17 22:48:27.879 NONE  [22340] ---------------------------------------------
+2024-12-17 22:48:27.879 NONE  [22340]     core instance creation in progress...
+2024-12-17 22:48:27.880 NONE  [7420]     async init start...
+2024-12-17 22:48:27.881 ERROR [22340]     sdk not initialize
+2024-12-17 22:48:28.032 NONE  [7420]     constans server connect complete...
+2024-12-17 22:48:28.734 NONE  [7420]     token initialize successful...
+2024-12-17 22:48:28.779 NONE  [7420]     gds collect complete...
+2024-12-17 22:48:28.846 NONE  [7420]     member info collect complete...
+2024-12-17 22:48:28.846 NONE  [7420]     check shutdown try...
+2024-12-17 22:48:28.846 NONE  [7420]     check shutdown complete...
+2024-12-17 22:48:28.846 NONE  [7420]     try reporting...
+2024-12-17 22:48:28.847 NONE  [7420]     reporting complete...
+2024-12-17 22:48:29.256 NONE  [22340]     send event oninitcomplete...
+2024-12-17 22:55:35.320 NONE  [22340] --> StovePC_Init
+2024-12-17 22:55:35.321 NONE  [22340]     checking input config value...
+2024-12-17 22:55:35.321 NONE  [22340]     config value checking successful
+2024-12-17 22:55:35.321 NONE  [22340]     checking log...
+2024-12-17 22:55:35.321 NONE  [22340] --> StovePC_Init
+2024-12-17 22:55:35.321 NONE  [22340]     checking input config value...
+2024-12-17 22:55:35.321 NONE  [22340]     config value checking successful
+2024-12-17 22:55:35.321 NONE  [22340]     checking log...
+2024-12-17 22:55:35.321 NONE  [22340] ---------------------------------------------
+2024-12-17 22:55:35.321 NONE  [22340] StovePCSDK(ver :2.6.6)
+2024-12-17 22:55:35.321 NONE  [22340] Game Env : live
+2024-12-17 22:55:35.321 NONE  [22340] Game LogLevel : 2
+2024-12-17 22:55:35.321 NONE  [22340] Game LogPath : 
+2024-12-17 22:55:35.321 NONE  [22340] ---------------------------------------------
+2024-12-17 22:55:35.321 NONE  [22340]     core instance creation in progress...
+2024-12-17 22:55:35.322 NONE  [27164]     async init start...
+2024-12-17 22:55:35.479 NONE  [27164]     constans server connect complete...
+2024-12-17 22:55:36.247 NONE  [27164]     token initialize successful...
+2024-12-17 22:55:36.294 NONE  [27164]     gds collect complete...
+2024-12-17 22:55:36.366 NONE  [27164]     member info collect complete...
+2024-12-17 22:55:36.366 NONE  [27164]     check shutdown try...
+2024-12-17 22:55:36.366 NONE  [27164]     check shutdown complete...
+2024-12-17 22:55:36.366 NONE  [27164]     try reporting...
+2024-12-17 22:55:36.367 NONE  [27164]     reporting complete...
+2024-12-17 22:55:36.753 NONE  [22340]     send event oninitcomplete...
+2024-12-17 23:01:21.599 NONE  [22340] --> StovePC_Init
+2024-12-17 23:01:21.599 NONE  [22340]     checking input config value...
+2024-12-17 23:01:21.599 NONE  [22340]     config value checking successful
+2024-12-17 23:01:21.599 NONE  [22340]     checking log...
+2024-12-17 23:01:21.599 NONE  [22340] --> StovePC_Init
+2024-12-17 23:01:21.599 NONE  [22340]     checking input config value...
+2024-12-17 23:01:21.599 NONE  [22340]     config value checking successful
+2024-12-17 23:01:21.599 NONE  [22340]     checking log...
+2024-12-17 23:01:21.599 NONE  [22340] ---------------------------------------------
+2024-12-17 23:01:21.599 NONE  [22340] StovePCSDK(ver :2.6.6)
+2024-12-17 23:01:21.599 NONE  [22340] Game Env : live
+2024-12-17 23:01:21.599 NONE  [22340] Game LogLevel : 2
+2024-12-17 23:01:21.599 NONE  [22340] Game LogPath : 
+2024-12-17 23:01:21.599 NONE  [22340] ---------------------------------------------
+2024-12-17 23:01:21.599 NONE  [22340]     core instance creation in progress...
+2024-12-17 23:01:21.600 NONE  [26312]     async init start...
+2024-12-17 23:01:21.753 NONE  [26312]     constans server connect complete...
+2024-12-17 23:01:22.462 NONE  [26312]     token initialize successful...
+2024-12-17 23:01:22.505 NONE  [26312]     gds collect complete...
+2024-12-17 23:01:22.566 NONE  [26312]     member info collect complete...
+2024-12-17 23:01:22.566 NONE  [26312]     check shutdown try...
+2024-12-17 23:01:22.566 NONE  [26312]     check shutdown complete...
+2024-12-17 23:01:22.566 NONE  [26312]     try reporting...
+2024-12-17 23:01:22.569 NONE  [26312]     reporting complete...
+2024-12-17 23:01:22.965 NONE  [22340]     send event oninitcomplete...
+2024-12-17 23:03:27.504 NONE  [22340] --> StovePC_Init
+2024-12-17 23:03:27.505 NONE  [22340]     checking input config value...
+2024-12-17 23:03:27.505 NONE  [22340]     config value checking successful
+2024-12-17 23:03:27.505 NONE  [22340]     checking log...
+2024-12-17 23:03:27.505 NONE  [22340] --> StovePC_Init
+2024-12-17 23:03:27.505 NONE  [22340]     checking input config value...
+2024-12-17 23:03:27.505 NONE  [22340]     config value checking successful
+2024-12-17 23:03:27.505 NONE  [22340]     checking log...
+2024-12-17 23:03:27.505 NONE  [22340] ---------------------------------------------
+2024-12-17 23:03:27.505 NONE  [22340] StovePCSDK(ver :2.6.6)
+2024-12-17 23:03:27.505 NONE  [22340] Game Env : live
+2024-12-17 23:03:27.505 NONE  [22340] Game LogLevel : 2
+2024-12-17 23:03:27.505 NONE  [22340] Game LogPath : 
+2024-12-17 23:03:27.505 NONE  [22340] ---------------------------------------------
+2024-12-17 23:03:27.505 NONE  [22340]     core instance creation in progress...
+2024-12-17 23:03:27.506 NONE  [27232]     async init start...
+2024-12-17 23:03:27.669 NONE  [27232]     constans server connect complete...
+2024-12-17 23:03:28.934 NONE  [27232]     token initialize successful...
+2024-12-17 23:03:29.024 NONE  [27232]     gds collect complete...
+2024-12-17 23:03:29.131 NONE  [27232]     member info collect complete...
+2024-12-17 23:03:29.131 NONE  [27232]     check shutdown try...
+2024-12-17 23:03:29.131 NONE  [27232]     check shutdown complete...
+2024-12-17 23:03:29.131 NONE  [27232]     try reporting...
+2024-12-17 23:03:29.133 NONE  [27232]     reporting complete...
+2024-12-17 23:03:29.441 NONE  [22340]     send event oninitcomplete...
+2024-12-17 23:09:27.181 NONE  [22340] --> StovePC_Init
+2024-12-17 23:09:27.181 NONE  [22340]     checking input config value...
+2024-12-17 23:09:27.182 NONE  [22340]     config value checking successful
+2024-12-17 23:09:27.182 NONE  [22340]     checking log...
+2024-12-17 23:09:27.182 NONE  [22340] --> StovePC_Init
+2024-12-17 23:09:27.182 NONE  [22340]     checking input config value...
+2024-12-17 23:09:27.182 NONE  [22340]     config value checking successful
+2024-12-17 23:09:27.182 NONE  [22340]     checking log...
+2024-12-17 23:09:27.182 NONE  [22340] ---------------------------------------------
+2024-12-17 23:09:27.182 NONE  [22340] StovePCSDK(ver :2.6.6)
+2024-12-17 23:09:27.182 NONE  [22340] Game Env : live
+2024-12-17 23:09:27.182 NONE  [22340] Game LogLevel : 2
+2024-12-17 23:09:27.182 NONE  [22340] Game LogPath : 
+2024-12-17 23:09:27.182 NONE  [22340] ---------------------------------------------
+2024-12-17 23:09:27.182 NONE  [22340]     core instance creation in progress...
+2024-12-17 23:09:27.183 NONE  [26376]     async init start...
+2024-12-17 23:09:27.354 NONE  [26376]     constans server connect complete...
+2024-12-17 23:09:28.193 NONE  [26376]     token initialize successful...
+2024-12-17 23:09:28.243 NONE  [26376]     gds collect complete...
+2024-12-17 23:09:28.316 NONE  [26376]     member info collect complete...
+2024-12-17 23:09:28.316 NONE  [26376]     check shutdown try...
+2024-12-17 23:09:28.316 NONE  [26376]     check shutdown complete...
+2024-12-17 23:09:28.316 NONE  [26376]     try reporting...
+2024-12-17 23:09:28.317 NONE  [26376]     reporting complete...
+2024-12-17 23:09:28.701 NONE  [22340]     send event oninitcomplete...
+2024-12-18 17:20:25.691 NONE  [5712] <<<<< ---------------- StoveSDK Module Load ---------------- >>>>>
+2024-12-18 17:20:25.724 INFO  [5712] 
+2024-12-18 17:20:25.724 NONE  [5712] --> StovePC_Init
+2024-12-18 17:20:25.724 NONE  [5712]     checking input config value...
+2024-12-18 17:20:25.724 NONE  [5712]     config value checking successful
+2024-12-18 17:20:25.724 NONE  [5712]     checking log...
+2024-12-18 17:20:25.724 NONE  [5712] ---------------------------------------------
+2024-12-18 17:20:25.724 NONE  [5712] StovePCSDK(ver :2.6.6)
+2024-12-18 17:20:25.724 NONE  [5712] Game Env : live
+2024-12-18 17:20:25.724 NONE  [5712] Game LogLevel : 2
+2024-12-18 17:20:25.724 NONE  [5712] Game LogPath : 
+2024-12-18 17:20:25.724 NONE  [5712] ---------------------------------------------
+2024-12-18 17:20:25.724 NONE  [5712]     core instance creation in progress...
+2024-12-18 17:20:25.801 ERROR [5712]     SGUPAPI_Init is fail
+2024-12-18 17:20:25.801 ERROR [5712]     Init sgup task error
+2024-12-18 17:20:25.802 ERROR [5712]     init tasks - error
+2024-12-18 17:20:25.803 ERROR [5712]     error occurred when calling StovePC_Init. StovePCResult : 150
+2024-12-18 17:20:36.932 ERROR [5712]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2024-12-18 18:11:40.439 NONE  [5712] --> StovePC_Init
+2024-12-18 18:11:40.439 NONE  [5712]     checking input config value...
+2024-12-18 18:11:40.439 NONE  [5712]     config value checking successful
+2024-12-18 18:11:40.439 NONE  [5712]     checking log...
+2024-12-18 18:11:40.439 ERROR [5712]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2024-12-18 18:11:40.439 NONE  [5712] --> StovePC_Init
+2024-12-18 18:11:40.439 NONE  [5712]     checking input config value...
+2024-12-18 18:11:40.439 NONE  [5712]     config value checking successful
+2024-12-18 18:11:40.439 NONE  [5712]     checking log...
+2024-12-18 18:11:40.439 NONE  [5712] ---------------------------------------------
+2024-12-18 18:11:40.439 NONE  [5712] StovePCSDK(ver :2.6.6)
+2024-12-18 18:11:40.439 NONE  [5712] Game Env : live
+2024-12-18 18:11:40.439 NONE  [5712] Game LogLevel : 2
+2024-12-18 18:11:40.439 NONE  [5712] Game LogPath : 
+2024-12-18 18:11:40.439 NONE  [5712] ---------------------------------------------
+2024-12-18 18:11:40.439 NONE  [5712]     core instance creation in progress...
+2024-12-18 18:11:40.441 NONE  [15804]     async init start...
+2024-12-18 18:11:40.805 NONE  [15804]     constans server connect complete...
+2024-12-18 18:11:41.596 NONE  [15804]     token initialize successful...
+2024-12-18 18:11:41.749 NONE  [15804]     gds collect complete...
+2024-12-18 18:11:41.749 ERROR [15804]     access token is empty.
+2024-12-18 18:11:41.749 ERROR [15804]     fail to get memberinfo
+2024-12-18 18:11:48.930 ERROR [5712]     StovePC_UnInit: sdk not initialize
+2024-12-18 18:13:15.287 NONE  [5712] --> StovePC_Init
+2024-12-18 18:13:15.287 NONE  [5712]     checking input config value...
+2024-12-18 18:13:15.287 NONE  [5712]     config value checking successful
+2024-12-18 18:13:15.287 NONE  [5712]     checking log...
+2024-12-18 18:13:15.287 ERROR [5712]     StovePC_UnInit: sdk not initialize
+2024-12-18 18:13:15.287 NONE  [5712] --> StovePC_Init
+2024-12-18 18:13:15.287 NONE  [5712]     checking input config value...
+2024-12-18 18:13:15.287 NONE  [5712]     config value checking successful
+2024-12-18 18:13:15.287 NONE  [5712]     checking log...
+2024-12-18 18:13:15.287 NONE  [5712] ---------------------------------------------
+2024-12-18 18:13:15.287 NONE  [5712] StovePCSDK(ver :2.6.6)
+2024-12-18 18:13:15.287 NONE  [5712] Game Env : live
+2024-12-18 18:13:15.287 NONE  [5712] Game LogLevel : 2
+2024-12-18 18:13:15.287 NONE  [5712] Game LogPath : 
+2024-12-18 18:13:15.287 NONE  [5712] ---------------------------------------------
+2024-12-18 18:13:15.287 NONE  [5712]     core instance creation in progress...
+2024-12-18 18:13:15.288 NONE  [20404]     async init start...
+2024-12-18 18:13:15.449 NONE  [20404]     constans server connect complete...
+2024-12-18 18:13:16.198 NONE  [20404]     token initialize successful...
+2024-12-18 18:13:16.246 NONE  [20404]     gds collect complete...
+2024-12-18 18:13:16.331 NONE  [20404]     member info collect complete...
+2024-12-18 18:13:16.331 NONE  [20404]     check shutdown try...
+2024-12-18 18:13:16.331 NONE  [20404]     check shutdown complete...
+2024-12-18 18:13:16.331 NONE  [20404]     try reporting...
+2024-12-18 18:13:16.333 NONE  [20404]     reporting complete...
+2024-12-18 18:13:16.705 NONE  [5712]     send event oninitcomplete...
+2024-12-28 22:33:17.669 NONE  [27604] <<<<< ---------------- StoveSDK Module Load ---------------- >>>>>
+2024-12-28 22:33:17.713 INFO  [27604] 
+2024-12-28 22:33:17.713 NONE  [27604] --> StovePC_Init
+2024-12-28 22:33:17.713 NONE  [27604]     checking input config value...
+2024-12-28 22:33:17.713 NONE  [27604]     config value checking successful
+2024-12-28 22:33:17.713 NONE  [27604]     checking log...
+2024-12-28 22:33:17.713 NONE  [27604] ---------------------------------------------
+2024-12-28 22:33:17.713 NONE  [27604] StovePCSDK(ver :2.6.6)
+2024-12-28 22:33:17.713 NONE  [27604] Game Env : live
+2024-12-28 22:33:17.713 NONE  [27604] Game LogLevel : 2
+2024-12-28 22:33:17.713 NONE  [27604] Game LogPath : 
+2024-12-28 22:33:17.713 NONE  [27604] ---------------------------------------------
+2024-12-28 22:33:17.713 NONE  [27604]     core instance creation in progress...
+2024-12-28 22:33:17.760 ERROR [27604]     SGUPAPI_Init is fail
+2024-12-28 22:33:17.761 ERROR [27604]     Init sgup task error
+2024-12-28 22:33:17.761 ERROR [27604]     init tasks - error
+2024-12-28 22:33:17.761 ERROR [27604]     error occurred when calling StovePC_Init. StovePCResult : 150
+2024-12-28 22:33:49.075 ERROR [27604]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2024-12-28 22:36:49.389 NONE  [27604] --> StovePC_Init
+2024-12-28 22:36:49.390 NONE  [27604]     checking input config value...
+2024-12-28 22:36:49.390 NONE  [27604]     config value checking successful
+2024-12-28 22:36:49.390 NONE  [27604]     checking log...
+2024-12-28 22:36:49.390 ERROR [27604]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2024-12-28 22:36:49.390 NONE  [27604] --> StovePC_Init
+2024-12-28 22:36:49.390 NONE  [27604]     checking input config value...
+2024-12-28 22:36:49.390 NONE  [27604]     config value checking successful
+2024-12-28 22:36:49.390 NONE  [27604]     checking log...
+2024-12-28 22:36:49.390 NONE  [27604] ---------------------------------------------
+2024-12-28 22:36:49.390 NONE  [27604] StovePCSDK(ver :2.6.6)
+2024-12-28 22:36:49.390 NONE  [27604] Game Env : live
+2024-12-28 22:36:49.390 NONE  [27604] Game LogLevel : 2
+2024-12-28 22:36:49.390 NONE  [27604] Game LogPath : 
+2024-12-28 22:36:49.390 NONE  [27604] ---------------------------------------------
+2024-12-28 22:36:49.390 NONE  [27604]     core instance creation in progress...
+2024-12-28 22:36:49.391 NONE  [16480]     async init start...
+2024-12-28 22:36:49.598 NONE  [16480]     constans server connect complete...
+2024-12-28 22:36:50.276 NONE  [16480]     token initialize successful...
+2024-12-28 22:36:50.322 NONE  [16480]     gds collect complete...
+2024-12-28 22:36:50.396 NONE  [16480]     member info collect complete...
+2024-12-28 22:36:50.396 NONE  [16480]     check shutdown try...
+2024-12-28 22:36:50.396 NONE  [16480]     check shutdown complete...
+2024-12-28 22:36:50.396 NONE  [16480]     try reporting...
+2024-12-28 22:36:50.398 NONE  [16480]     reporting complete...
+2024-12-28 22:36:50.785 NONE  [27604]     send event oninitcomplete...
+2024-12-28 22:37:00.831 NONE  [27604] --> StovePC_Init
+2024-12-28 22:37:00.831 NONE  [27604]     checking input config value...
+2024-12-28 22:37:00.831 NONE  [27604]     config value checking successful
+2024-12-28 22:37:00.831 NONE  [27604]     checking log...
+2024-12-28 22:37:00.831 NONE  [27604] --> StovePC_Init
+2024-12-28 22:37:00.831 NONE  [27604]     checking input config value...
+2024-12-28 22:37:00.831 NONE  [27604]     config value checking successful
+2024-12-28 22:37:00.831 NONE  [27604]     checking log...
+2024-12-28 22:37:00.831 NONE  [27604] ---------------------------------------------
+2024-12-28 22:37:00.831 NONE  [27604] StovePCSDK(ver :2.6.6)
+2024-12-28 22:37:00.831 NONE  [27604] Game Env : live
+2024-12-28 22:37:00.831 NONE  [27604] Game LogLevel : 2
+2024-12-28 22:37:00.831 NONE  [27604] Game LogPath : 
+2024-12-28 22:37:00.831 NONE  [27604] ---------------------------------------------
+2024-12-28 22:37:00.831 NONE  [27604]     core instance creation in progress...
+2024-12-28 22:37:00.832 NONE  [21924]     async init start...
+2024-12-28 22:37:00.873 NONE  [21924]     constans server connect complete...
+2024-12-28 22:37:01.695 NONE  [21924]     token initialize successful...
+2024-12-28 22:37:01.740 NONE  [21924]     gds collect complete...
+2024-12-28 22:37:01.803 NONE  [21924]     member info collect complete...
+2024-12-28 22:37:01.803 NONE  [21924]     check shutdown try...
+2024-12-28 22:37:01.803 NONE  [21924]     check shutdown complete...
+2024-12-28 22:37:01.803 NONE  [21924]     try reporting...
+2024-12-28 22:37:01.804 NONE  [21924]     reporting complete...
+2024-12-28 22:37:02.196 NONE  [27604]     send event oninitcomplete...
+2024-12-31 15:23:15.276 NONE  [21476] <<<<< ---------------- StoveSDK Module Load ---------------- >>>>>
+2024-12-31 15:23:15.296 INFO  [21476] 
+2024-12-31 15:23:15.296 NONE  [21476] --> StovePC_Init
+2024-12-31 15:23:15.296 NONE  [21476]     checking input config value...
+2024-12-31 15:23:15.303 NONE  [21476]     config value checking successful
+2024-12-31 15:23:15.303 NONE  [21476]     checking log...
+2024-12-31 15:23:15.303 NONE  [21476] ---------------------------------------------
+2024-12-31 15:23:15.304 NONE  [21476] StovePCSDK(ver :2.6.6)
+2024-12-31 15:23:15.304 NONE  [21476] Game Env : live
+2024-12-31 15:23:15.304 NONE  [21476] Game LogLevel : 2
+2024-12-31 15:23:15.304 NONE  [21476] Game LogPath : 
+2024-12-31 15:23:15.304 NONE  [21476] ---------------------------------------------
+2024-12-31 15:23:15.304 NONE  [21476]     core instance creation in progress...
+2024-12-31 15:23:15.350 ERROR [21476]     SGUPAPI_Init is fail
+2024-12-31 15:23:15.351 ERROR [21476]     Init sgup task error
+2024-12-31 15:23:15.351 ERROR [21476]     init tasks - error
+2024-12-31 15:23:15.353 ERROR [21476]     error occurred when calling StovePC_Init. StovePCResult : 150
+2024-12-31 15:23:32.689 ERROR [21476]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2024-12-31 15:25:07.759 NONE  [21476] --> StovePC_Init
+2024-12-31 15:25:07.759 NONE  [21476]     checking input config value...
+2024-12-31 15:25:07.759 NONE  [21476]     config value checking successful
+2024-12-31 15:25:07.759 NONE  [21476]     checking log...
+2024-12-31 15:25:07.759 ERROR [21476]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2024-12-31 15:25:07.759 NONE  [21476] --> StovePC_Init
+2024-12-31 15:25:07.759 NONE  [21476]     checking input config value...
+2024-12-31 15:25:07.759 NONE  [21476]     config value checking successful
+2024-12-31 15:25:07.759 NONE  [21476]     checking log...
+2024-12-31 15:25:07.759 NONE  [21476] ---------------------------------------------
+2024-12-31 15:25:07.759 NONE  [21476] StovePCSDK(ver :2.6.6)
+2024-12-31 15:25:07.759 NONE  [21476] Game Env : live
+2024-12-31 15:25:07.759 NONE  [21476] Game LogLevel : 2
+2024-12-31 15:25:07.759 NONE  [21476] Game LogPath : 
+2024-12-31 15:25:07.759 NONE  [21476] ---------------------------------------------
+2024-12-31 15:25:07.759 NONE  [21476]     core instance creation in progress...
+2024-12-31 15:25:07.760 ERROR [21476]     SGUPAPI_Init is fail
+2024-12-31 15:25:07.760 ERROR [21476]     Init sgup task error
+2024-12-31 15:25:07.760 ERROR [21476]     init tasks - error
+2024-12-31 15:25:07.760 ERROR [21476]     error occurred when calling StovePC_Init. StovePCResult : 150
+2024-12-31 15:25:13.283 ERROR [21476]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2024-12-31 15:28:39.307 NONE  [21476] --> StovePC_Init
+2024-12-31 15:28:39.308 NONE  [21476]     checking input config value...
+2024-12-31 15:28:39.308 NONE  [21476]     config value checking successful
+2024-12-31 15:28:39.308 NONE  [21476]     checking log...
+2024-12-31 15:28:39.308 ERROR [21476]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2024-12-31 15:28:39.308 NONE  [21476] --> StovePC_Init
+2024-12-31 15:28:39.308 NONE  [21476]     checking input config value...
+2024-12-31 15:28:39.308 NONE  [21476]     config value checking successful
+2024-12-31 15:28:39.308 NONE  [21476]     checking log...
+2024-12-31 15:28:39.308 NONE  [21476] ---------------------------------------------
+2024-12-31 15:28:39.308 NONE  [21476] StovePCSDK(ver :2.6.6)
+2024-12-31 15:28:39.308 NONE  [21476] Game Env : live
+2024-12-31 15:28:39.308 NONE  [21476] Game LogLevel : 2
+2024-12-31 15:28:39.308 NONE  [21476] Game LogPath : 
+2024-12-31 15:28:39.308 NONE  [21476] ---------------------------------------------
+2024-12-31 15:28:39.308 NONE  [21476]     core instance creation in progress...
+2024-12-31 15:28:39.308 ERROR [21476]     SGUPAPI_Init is fail
+2024-12-31 15:28:39.308 ERROR [21476]     Init sgup task error
+2024-12-31 15:28:39.308 ERROR [21476]     init tasks - error
+2024-12-31 15:28:39.308 ERROR [21476]     error occurred when calling StovePC_Init. StovePCResult : 150
+2024-12-31 15:30:49.955 ERROR [21476]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2024-12-31 15:32:58.407 NONE  [21476] --> StovePC_Init
+2024-12-31 15:32:58.407 NONE  [21476]     checking input config value...
+2024-12-31 15:32:58.407 NONE  [21476]     config value checking successful
+2024-12-31 15:32:58.407 NONE  [21476]     checking log...
+2024-12-31 15:32:58.407 ERROR [21476]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2024-12-31 15:32:58.407 NONE  [21476] --> StovePC_Init
+2024-12-31 15:32:58.407 NONE  [21476]     checking input config value...
+2024-12-31 15:32:58.407 NONE  [21476]     config value checking successful
+2024-12-31 15:32:58.407 NONE  [21476]     checking log...
+2024-12-31 15:32:58.407 NONE  [21476] ---------------------------------------------
+2024-12-31 15:32:58.407 NONE  [21476] StovePCSDK(ver :2.6.6)
+2024-12-31 15:32:58.407 NONE  [21476] Game Env : live
+2024-12-31 15:32:58.407 NONE  [21476] Game LogLevel : 2
+2024-12-31 15:32:58.407 NONE  [21476] Game LogPath : 
+2024-12-31 15:32:58.407 NONE  [21476] ---------------------------------------------
+2024-12-31 15:32:58.407 NONE  [21476]     core instance creation in progress...
+2024-12-31 15:32:58.408 ERROR [21476]     SGUPAPI_Init is fail
+2024-12-31 15:32:58.408 ERROR [21476]     Init sgup task error
+2024-12-31 15:32:58.408 ERROR [21476]     init tasks - error
+2024-12-31 15:32:58.408 ERROR [21476]     error occurred when calling StovePC_Init. StovePCResult : 150
+2024-12-31 15:33:05.698 ERROR [21476]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2024-12-31 15:37:16.895 NONE  [21476] --> StovePC_Init
+2024-12-31 15:37:16.896 NONE  [21476]     checking input config value...
+2024-12-31 15:37:16.896 NONE  [21476]     config value checking successful
+2024-12-31 15:37:16.896 NONE  [21476]     checking log...
+2024-12-31 15:37:16.896 ERROR [21476]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2024-12-31 15:37:16.896 NONE  [21476] --> StovePC_Init
+2024-12-31 15:37:16.896 NONE  [21476]     checking input config value...
+2024-12-31 15:37:16.896 NONE  [21476]     config value checking successful
+2024-12-31 15:37:16.896 NONE  [21476]     checking log...
+2024-12-31 15:37:16.896 NONE  [21476] ---------------------------------------------
+2024-12-31 15:37:16.896 NONE  [21476] StovePCSDK(ver :2.6.6)
+2024-12-31 15:37:16.896 NONE  [21476] Game Env : live
+2024-12-31 15:37:16.896 NONE  [21476] Game LogLevel : 2
+2024-12-31 15:37:16.896 NONE  [21476] Game LogPath : 
+2024-12-31 15:37:16.896 NONE  [21476] ---------------------------------------------
+2024-12-31 15:37:16.896 NONE  [21476]     core instance creation in progress...
+2024-12-31 15:37:16.896 ERROR [21476]     SGUPAPI_Init is fail
+2024-12-31 15:37:16.896 ERROR [21476]     Init sgup task error
+2024-12-31 15:37:16.896 ERROR [21476]     init tasks - error
+2024-12-31 15:37:16.896 ERROR [21476]     error occurred when calling StovePC_Init. StovePCResult : 150
+2024-12-31 15:37:29.320 ERROR [21476]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2024-12-31 15:45:48.640 NONE  [21476] --> StovePC_Init
+2024-12-31 15:45:48.640 NONE  [21476]     checking input config value...
+2024-12-31 15:45:48.640 NONE  [21476]     config value checking successful
+2024-12-31 15:45:48.640 NONE  [21476]     checking log...
+2024-12-31 15:45:48.640 ERROR [21476]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2024-12-31 15:45:48.640 NONE  [21476] --> StovePC_Init
+2024-12-31 15:45:48.640 NONE  [21476]     checking input config value...
+2024-12-31 15:45:48.640 NONE  [21476]     config value checking successful
+2024-12-31 15:45:48.640 NONE  [21476]     checking log...
+2024-12-31 15:45:48.640 NONE  [21476] ---------------------------------------------
+2024-12-31 15:45:48.640 NONE  [21476] StovePCSDK(ver :2.6.6)
+2024-12-31 15:45:48.640 NONE  [21476] Game Env : live
+2024-12-31 15:45:48.640 NONE  [21476] Game LogLevel : 2
+2024-12-31 15:45:48.640 NONE  [21476] Game LogPath : 
+2024-12-31 15:45:48.640 NONE  [21476] ---------------------------------------------
+2024-12-31 15:45:48.641 NONE  [21476]     core instance creation in progress...
+2024-12-31 15:45:48.641 ERROR [21476]     SGUPAPI_Init is fail
+2024-12-31 15:45:48.641 ERROR [21476]     Init sgup task error
+2024-12-31 15:45:48.641 ERROR [21476]     init tasks - error
+2024-12-31 15:45:48.641 ERROR [21476]     error occurred when calling StovePC_Init. StovePCResult : 150
+2024-12-31 15:47:17.304 ERROR [21476]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2024-12-31 15:52:57.127 NONE  [21476] --> StovePC_Init
+2024-12-31 15:52:57.127 NONE  [21476]     checking input config value...
+2024-12-31 15:52:57.127 NONE  [21476]     config value checking successful
+2024-12-31 15:52:57.127 NONE  [21476]     checking log...
+2024-12-31 15:52:57.127 ERROR [21476]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2024-12-31 15:52:57.127 NONE  [21476] --> StovePC_Init
+2024-12-31 15:52:57.127 NONE  [21476]     checking input config value...
+2024-12-31 15:52:57.127 NONE  [21476]     config value checking successful
+2024-12-31 15:52:57.127 NONE  [21476]     checking log...
+2024-12-31 15:52:57.127 NONE  [21476] ---------------------------------------------
+2024-12-31 15:52:57.127 NONE  [21476] StovePCSDK(ver :2.6.6)
+2024-12-31 15:52:57.127 NONE  [21476] Game Env : live
+2024-12-31 15:52:57.127 NONE  [21476] Game LogLevel : 2
+2024-12-31 15:52:57.127 NONE  [21476] Game LogPath : 
+2024-12-31 15:52:57.127 NONE  [21476] ---------------------------------------------
+2024-12-31 15:52:57.127 NONE  [21476]     core instance creation in progress...
+2024-12-31 15:52:57.128 ERROR [21476]     SGUPAPI_Init is fail
+2024-12-31 15:52:57.128 ERROR [21476]     Init sgup task error
+2024-12-31 15:52:57.128 ERROR [21476]     init tasks - error
+2024-12-31 15:52:57.128 ERROR [21476]     error occurred when calling StovePC_Init. StovePCResult : 150
+2024-12-31 15:53:48.668 ERROR [21476]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 13:48:01.874 NONE  [7592] <<<<< ---------------- StoveSDK Module Load ---------------- >>>>>
+2025-01-03 13:48:01.911 INFO  [7592] 
+2025-01-03 13:48:01.911 NONE  [7592] --> StovePC_Init
+2025-01-03 13:48:01.911 NONE  [7592]     checking input config value...
+2025-01-03 13:48:01.911 NONE  [7592]     config value checking successful
+2025-01-03 13:48:01.911 NONE  [7592]     checking log...
+2025-01-03 13:48:01.911 NONE  [7592] ---------------------------------------------
+2025-01-03 13:48:01.911 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 13:48:01.911 NONE  [7592] Game Env : live
+2025-01-03 13:48:01.911 NONE  [7592] Game LogLevel : 2
+2025-01-03 13:48:01.911 NONE  [7592] Game LogPath : 
+2025-01-03 13:48:01.911 NONE  [7592] ---------------------------------------------
+2025-01-03 13:48:01.911 NONE  [7592]     core instance creation in progress...
+2025-01-03 13:48:01.962 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 13:48:01.963 ERROR [7592]     Init sgup task error
+2025-01-03 13:48:01.963 ERROR [7592]     init tasks - error
+2025-01-03 13:48:01.964 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 13:48:11.603 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 18:41:56.364 NONE  [7592] --> StovePC_Init
+2025-01-03 18:41:56.365 NONE  [7592]     checking input config value...
+2025-01-03 18:41:56.365 NONE  [7592]     config value checking successful
+2025-01-03 18:41:56.365 NONE  [7592]     checking log...
+2025-01-03 18:41:56.365 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 18:41:56.365 NONE  [7592] --> StovePC_Init
+2025-01-03 18:41:56.365 NONE  [7592]     checking input config value...
+2025-01-03 18:41:56.365 NONE  [7592]     config value checking successful
+2025-01-03 18:41:56.365 NONE  [7592]     checking log...
+2025-01-03 18:41:56.365 NONE  [7592] ---------------------------------------------
+2025-01-03 18:41:56.365 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 18:41:56.365 NONE  [7592] Game Env : live
+2025-01-03 18:41:56.365 NONE  [7592] Game LogLevel : 2
+2025-01-03 18:41:56.365 NONE  [7592] Game LogPath : 
+2025-01-03 18:41:56.365 NONE  [7592] ---------------------------------------------
+2025-01-03 18:41:56.365 NONE  [7592]     core instance creation in progress...
+2025-01-03 18:41:56.366 NONE  [25340]     async init start...
+2025-01-03 18:41:56.589 NONE  [25340]     constans server connect complete...
+2025-01-03 18:41:57.356 NONE  [25340]     token initialize successful...
+2025-01-03 18:41:57.401 NONE  [25340]     gds collect complete...
+2025-01-03 18:41:57.479 NONE  [25340]     member info collect complete...
+2025-01-03 18:41:57.479 NONE  [25340]     check shutdown try...
+2025-01-03 18:41:57.479 NONE  [25340]     check shutdown complete...
+2025-01-03 18:41:57.479 NONE  [25340]     try reporting...
+2025-01-03 18:41:57.490 NONE  [25340]     reporting complete...
+2025-01-03 18:41:57.858 NONE  [7592]     send event oninitcomplete...
+2025-01-03 19:20:39.529 NONE  [7592] --> StovePC_Init
+2025-01-03 19:20:39.529 NONE  [7592]     checking input config value...
+2025-01-03 19:20:39.529 NONE  [7592]     config value checking successful
+2025-01-03 19:20:39.529 NONE  [7592]     checking log...
+2025-01-03 19:20:39.529 NONE  [7592] --> StovePC_Init
+2025-01-03 19:20:39.529 NONE  [7592]     checking input config value...
+2025-01-03 19:20:39.529 NONE  [7592]     config value checking successful
+2025-01-03 19:20:39.529 NONE  [7592]     checking log...
+2025-01-03 19:20:39.529 NONE  [7592] ---------------------------------------------
+2025-01-03 19:20:39.529 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 19:20:39.529 NONE  [7592] Game Env : live
+2025-01-03 19:20:39.529 NONE  [7592] Game LogLevel : 2
+2025-01-03 19:20:39.529 NONE  [7592] Game LogPath : 
+2025-01-03 19:20:39.529 NONE  [7592] ---------------------------------------------
+2025-01-03 19:20:39.529 NONE  [7592]     core instance creation in progress...
+2025-01-03 19:20:39.531 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 19:20:39.531 ERROR [7592]     Init sgup task error
+2025-01-03 19:20:39.531 ERROR [7592]     init tasks - error
+2025-01-03 19:20:39.532 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 19:20:49.106 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 19:22:49.241 NONE  [7592] --> StovePC_Init
+2025-01-03 19:22:49.241 NONE  [7592]     checking input config value...
+2025-01-03 19:22:49.241 NONE  [7592]     config value checking successful
+2025-01-03 19:22:49.241 NONE  [7592]     checking log...
+2025-01-03 19:22:49.241 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 19:22:49.241 NONE  [7592] --> StovePC_Init
+2025-01-03 19:22:49.241 NONE  [7592]     checking input config value...
+2025-01-03 19:22:49.241 NONE  [7592]     config value checking successful
+2025-01-03 19:22:49.241 NONE  [7592]     checking log...
+2025-01-03 19:22:49.241 NONE  [7592] ---------------------------------------------
+2025-01-03 19:22:49.241 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 19:22:49.241 NONE  [7592] Game Env : live
+2025-01-03 19:22:49.241 NONE  [7592] Game LogLevel : 2
+2025-01-03 19:22:49.241 NONE  [7592] Game LogPath : 
+2025-01-03 19:22:49.241 NONE  [7592] ---------------------------------------------
+2025-01-03 19:22:49.241 NONE  [7592]     core instance creation in progress...
+2025-01-03 19:22:49.242 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 19:22:49.242 ERROR [7592]     Init sgup task error
+2025-01-03 19:22:49.242 ERROR [7592]     init tasks - error
+2025-01-03 19:22:49.242 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 19:22:53.833 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 19:26:02.713 NONE  [7592] --> StovePC_Init
+2025-01-03 19:26:02.713 NONE  [7592]     checking input config value...
+2025-01-03 19:26:02.713 NONE  [7592]     config value checking successful
+2025-01-03 19:26:02.713 NONE  [7592]     checking log...
+2025-01-03 19:26:02.713 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 19:26:02.713 NONE  [7592] --> StovePC_Init
+2025-01-03 19:26:02.713 NONE  [7592]     checking input config value...
+2025-01-03 19:26:02.713 NONE  [7592]     config value checking successful
+2025-01-03 19:26:02.713 NONE  [7592]     checking log...
+2025-01-03 19:26:02.713 NONE  [7592] ---------------------------------------------
+2025-01-03 19:26:02.713 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 19:26:02.713 NONE  [7592] Game Env : live
+2025-01-03 19:26:02.713 NONE  [7592] Game LogLevel : 2
+2025-01-03 19:26:02.713 NONE  [7592] Game LogPath : 
+2025-01-03 19:26:02.713 NONE  [7592] ---------------------------------------------
+2025-01-03 19:26:02.713 NONE  [7592]     core instance creation in progress...
+2025-01-03 19:26:02.713 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 19:26:02.714 ERROR [7592]     Init sgup task error
+2025-01-03 19:26:02.714 ERROR [7592]     init tasks - error
+2025-01-03 19:26:02.714 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 19:26:08.481 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 19:28:15.509 NONE  [7592] --> StovePC_Init
+2025-01-03 19:28:15.509 NONE  [7592]     checking input config value...
+2025-01-03 19:28:15.509 NONE  [7592]     config value checking successful
+2025-01-03 19:28:15.509 NONE  [7592]     checking log...
+2025-01-03 19:28:15.509 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 19:28:15.509 NONE  [7592] --> StovePC_Init
+2025-01-03 19:28:15.509 NONE  [7592]     checking input config value...
+2025-01-03 19:28:15.509 NONE  [7592]     config value checking successful
+2025-01-03 19:28:15.509 NONE  [7592]     checking log...
+2025-01-03 19:28:15.509 NONE  [7592] ---------------------------------------------
+2025-01-03 19:28:15.509 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 19:28:15.509 NONE  [7592] Game Env : live
+2025-01-03 19:28:15.509 NONE  [7592] Game LogLevel : 2
+2025-01-03 19:28:15.509 NONE  [7592] Game LogPath : 
+2025-01-03 19:28:15.509 NONE  [7592] ---------------------------------------------
+2025-01-03 19:28:15.509 NONE  [7592]     core instance creation in progress...
+2025-01-03 19:28:15.510 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 19:28:15.510 ERROR [7592]     Init sgup task error
+2025-01-03 19:28:15.510 ERROR [7592]     init tasks - error
+2025-01-03 19:28:15.510 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 19:28:17.719 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 19:33:09.897 NONE  [7592] --> StovePC_Init
+2025-01-03 19:33:09.897 NONE  [7592]     checking input config value...
+2025-01-03 19:33:09.897 NONE  [7592]     config value checking successful
+2025-01-03 19:33:09.897 NONE  [7592]     checking log...
+2025-01-03 19:33:09.897 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 19:33:09.897 NONE  [7592] --> StovePC_Init
+2025-01-03 19:33:09.897 NONE  [7592]     checking input config value...
+2025-01-03 19:33:09.897 NONE  [7592]     config value checking successful
+2025-01-03 19:33:09.897 NONE  [7592]     checking log...
+2025-01-03 19:33:09.897 NONE  [7592] ---------------------------------------------
+2025-01-03 19:33:09.897 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 19:33:09.897 NONE  [7592] Game Env : live
+2025-01-03 19:33:09.897 NONE  [7592] Game LogLevel : 2
+2025-01-03 19:33:09.897 NONE  [7592] Game LogPath : 
+2025-01-03 19:33:09.897 NONE  [7592] ---------------------------------------------
+2025-01-03 19:33:09.897 NONE  [7592]     core instance creation in progress...
+2025-01-03 19:33:09.897 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 19:33:09.897 ERROR [7592]     Init sgup task error
+2025-01-03 19:33:09.897 ERROR [7592]     init tasks - error
+2025-01-03 19:33:09.898 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 19:33:32.491 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 19:37:45.904 NONE  [7592] --> StovePC_Init
+2025-01-03 19:37:45.904 NONE  [7592]     checking input config value...
+2025-01-03 19:37:45.904 NONE  [7592]     config value checking successful
+2025-01-03 19:37:45.904 NONE  [7592]     checking log...
+2025-01-03 19:37:45.904 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 19:37:45.904 NONE  [7592] --> StovePC_Init
+2025-01-03 19:37:45.904 NONE  [7592]     checking input config value...
+2025-01-03 19:37:45.904 NONE  [7592]     config value checking successful
+2025-01-03 19:37:45.904 NONE  [7592]     checking log...
+2025-01-03 19:37:45.904 NONE  [7592] ---------------------------------------------
+2025-01-03 19:37:45.904 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 19:37:45.904 NONE  [7592] Game Env : live
+2025-01-03 19:37:45.904 NONE  [7592] Game LogLevel : 2
+2025-01-03 19:37:45.904 NONE  [7592] Game LogPath : 
+2025-01-03 19:37:45.904 NONE  [7592] ---------------------------------------------
+2025-01-03 19:37:45.904 NONE  [7592]     core instance creation in progress...
+2025-01-03 19:37:45.904 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 19:37:45.905 ERROR [7592]     Init sgup task error
+2025-01-03 19:37:45.905 ERROR [7592]     init tasks - error
+2025-01-03 19:37:45.905 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 19:37:53.029 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 19:40:07.973 NONE  [7592] --> StovePC_Init
+2025-01-03 19:40:07.973 NONE  [7592]     checking input config value...
+2025-01-03 19:40:07.973 NONE  [7592]     config value checking successful
+2025-01-03 19:40:07.973 NONE  [7592]     checking log...
+2025-01-03 19:40:07.973 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 19:40:07.973 NONE  [7592] --> StovePC_Init
+2025-01-03 19:40:07.973 NONE  [7592]     checking input config value...
+2025-01-03 19:40:07.973 NONE  [7592]     config value checking successful
+2025-01-03 19:40:07.973 NONE  [7592]     checking log...
+2025-01-03 19:40:07.973 NONE  [7592] ---------------------------------------------
+2025-01-03 19:40:07.973 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 19:40:07.973 NONE  [7592] Game Env : live
+2025-01-03 19:40:07.973 NONE  [7592] Game LogLevel : 2
+2025-01-03 19:40:07.973 NONE  [7592] Game LogPath : 
+2025-01-03 19:40:07.973 NONE  [7592] ---------------------------------------------
+2025-01-03 19:40:07.973 NONE  [7592]     core instance creation in progress...
+2025-01-03 19:40:07.973 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 19:40:07.973 ERROR [7592]     Init sgup task error
+2025-01-03 19:40:07.973 ERROR [7592]     init tasks - error
+2025-01-03 19:40:07.974 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 19:40:13.719 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 19:43:08.880 NONE  [7592] --> StovePC_Init
+2025-01-03 19:43:08.880 NONE  [7592]     checking input config value...
+2025-01-03 19:43:08.880 NONE  [7592]     config value checking successful
+2025-01-03 19:43:08.880 NONE  [7592]     checking log...
+2025-01-03 19:43:08.880 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 19:43:08.880 NONE  [7592] --> StovePC_Init
+2025-01-03 19:43:08.880 NONE  [7592]     checking input config value...
+2025-01-03 19:43:08.880 NONE  [7592]     config value checking successful
+2025-01-03 19:43:08.880 NONE  [7592]     checking log...
+2025-01-03 19:43:08.880 NONE  [7592] ---------------------------------------------
+2025-01-03 19:43:08.880 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 19:43:08.880 NONE  [7592] Game Env : live
+2025-01-03 19:43:08.880 NONE  [7592] Game LogLevel : 2
+2025-01-03 19:43:08.880 NONE  [7592] Game LogPath : 
+2025-01-03 19:43:08.880 NONE  [7592] ---------------------------------------------
+2025-01-03 19:43:08.880 NONE  [7592]     core instance creation in progress...
+2025-01-03 19:43:08.881 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 19:43:08.881 ERROR [7592]     Init sgup task error
+2025-01-03 19:43:08.881 ERROR [7592]     init tasks - error
+2025-01-03 19:43:08.881 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 19:43:20.725 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 19:43:27.674 NONE  [7592] --> StovePC_Init
+2025-01-03 19:43:27.675 NONE  [7592]     checking input config value...
+2025-01-03 19:43:27.675 NONE  [7592]     config value checking successful
+2025-01-03 19:43:27.675 NONE  [7592]     checking log...
+2025-01-03 19:43:27.675 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 19:43:27.675 NONE  [7592] --> StovePC_Init
+2025-01-03 19:43:27.675 NONE  [7592]     checking input config value...
+2025-01-03 19:43:27.675 NONE  [7592]     config value checking successful
+2025-01-03 19:43:27.675 NONE  [7592]     checking log...
+2025-01-03 19:43:27.675 NONE  [7592] ---------------------------------------------
+2025-01-03 19:43:27.675 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 19:43:27.675 NONE  [7592] Game Env : live
+2025-01-03 19:43:27.675 NONE  [7592] Game LogLevel : 2
+2025-01-03 19:43:27.675 NONE  [7592] Game LogPath : 
+2025-01-03 19:43:27.675 NONE  [7592] ---------------------------------------------
+2025-01-03 19:43:27.675 NONE  [7592]     core instance creation in progress...
+2025-01-03 19:43:27.675 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 19:43:27.675 ERROR [7592]     Init sgup task error
+2025-01-03 19:43:27.675 ERROR [7592]     init tasks - error
+2025-01-03 19:43:27.675 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 19:43:48.885 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 19:45:22.381 NONE  [7592] --> StovePC_Init
+2025-01-03 19:45:22.381 NONE  [7592]     checking input config value...
+2025-01-03 19:45:22.381 NONE  [7592]     config value checking successful
+2025-01-03 19:45:22.381 NONE  [7592]     checking log...
+2025-01-03 19:45:22.381 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 19:45:22.381 NONE  [7592] --> StovePC_Init
+2025-01-03 19:45:22.381 NONE  [7592]     checking input config value...
+2025-01-03 19:45:22.381 NONE  [7592]     config value checking successful
+2025-01-03 19:45:22.381 NONE  [7592]     checking log...
+2025-01-03 19:45:22.381 NONE  [7592] ---------------------------------------------
+2025-01-03 19:45:22.381 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 19:45:22.382 NONE  [7592] Game Env : live
+2025-01-03 19:45:22.382 NONE  [7592] Game LogLevel : 2
+2025-01-03 19:45:22.382 NONE  [7592] Game LogPath : 
+2025-01-03 19:45:22.382 NONE  [7592] ---------------------------------------------
+2025-01-03 19:45:22.382 NONE  [7592]     core instance creation in progress...
+2025-01-03 19:45:22.382 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 19:45:22.382 ERROR [7592]     Init sgup task error
+2025-01-03 19:45:22.382 ERROR [7592]     init tasks - error
+2025-01-03 19:45:22.382 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 19:45:36.763 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 19:46:18.914 NONE  [7592] --> StovePC_Init
+2025-01-03 19:46:18.914 NONE  [7592]     checking input config value...
+2025-01-03 19:46:18.914 NONE  [7592]     config value checking successful
+2025-01-03 19:46:18.914 NONE  [7592]     checking log...
+2025-01-03 19:46:18.914 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 19:46:18.914 NONE  [7592] --> StovePC_Init
+2025-01-03 19:46:18.914 NONE  [7592]     checking input config value...
+2025-01-03 19:46:18.914 NONE  [7592]     config value checking successful
+2025-01-03 19:46:18.914 NONE  [7592]     checking log...
+2025-01-03 19:46:18.914 NONE  [7592] ---------------------------------------------
+2025-01-03 19:46:18.914 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 19:46:18.914 NONE  [7592] Game Env : live
+2025-01-03 19:46:18.914 NONE  [7592] Game LogLevel : 2
+2025-01-03 19:46:18.914 NONE  [7592] Game LogPath : 
+2025-01-03 19:46:18.914 NONE  [7592] ---------------------------------------------
+2025-01-03 19:46:18.914 NONE  [7592]     core instance creation in progress...
+2025-01-03 19:46:18.915 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 19:46:18.915 ERROR [7592]     Init sgup task error
+2025-01-03 19:46:18.915 ERROR [7592]     init tasks - error
+2025-01-03 19:46:18.915 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 19:47:48.701 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:09:37.397 NONE  [7592] --> StovePC_Init
+2025-01-03 20:09:37.397 NONE  [7592]     checking input config value...
+2025-01-03 20:09:37.397 NONE  [7592]     config value checking successful
+2025-01-03 20:09:37.397 NONE  [7592]     checking log...
+2025-01-03 20:09:37.397 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:09:37.397 NONE  [7592] --> StovePC_Init
+2025-01-03 20:09:37.397 NONE  [7592]     checking input config value...
+2025-01-03 20:09:37.397 NONE  [7592]     config value checking successful
+2025-01-03 20:09:37.397 NONE  [7592]     checking log...
+2025-01-03 20:09:37.397 NONE  [7592] ---------------------------------------------
+2025-01-03 20:09:37.398 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 20:09:37.398 NONE  [7592] Game Env : live
+2025-01-03 20:09:37.398 NONE  [7592] Game LogLevel : 2
+2025-01-03 20:09:37.398 NONE  [7592] Game LogPath : 
+2025-01-03 20:09:37.398 NONE  [7592] ---------------------------------------------
+2025-01-03 20:09:37.398 NONE  [7592]     core instance creation in progress...
+2025-01-03 20:09:37.398 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 20:09:37.398 ERROR [7592]     Init sgup task error
+2025-01-03 20:09:37.398 ERROR [7592]     init tasks - error
+2025-01-03 20:09:37.398 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 20:10:21.145 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:15:57.664 NONE  [7592] --> StovePC_Init
+2025-01-03 20:15:57.664 NONE  [7592]     checking input config value...
+2025-01-03 20:15:57.664 NONE  [7592]     config value checking successful
+2025-01-03 20:15:57.664 NONE  [7592]     checking log...
+2025-01-03 20:15:57.664 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:15:57.664 NONE  [7592] --> StovePC_Init
+2025-01-03 20:15:57.664 NONE  [7592]     checking input config value...
+2025-01-03 20:15:57.664 NONE  [7592]     config value checking successful
+2025-01-03 20:15:57.664 NONE  [7592]     checking log...
+2025-01-03 20:15:57.664 NONE  [7592] ---------------------------------------------
+2025-01-03 20:15:57.664 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 20:15:57.664 NONE  [7592] Game Env : live
+2025-01-03 20:15:57.664 NONE  [7592] Game LogLevel : 2
+2025-01-03 20:15:57.664 NONE  [7592] Game LogPath : 
+2025-01-03 20:15:57.664 NONE  [7592] ---------------------------------------------
+2025-01-03 20:15:57.664 NONE  [7592]     core instance creation in progress...
+2025-01-03 20:15:57.664 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 20:15:57.664 ERROR [7592]     Init sgup task error
+2025-01-03 20:15:57.664 ERROR [7592]     init tasks - error
+2025-01-03 20:15:57.665 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 20:20:40.311 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:23:03.274 NONE  [7592] --> StovePC_Init
+2025-01-03 20:23:03.274 NONE  [7592]     checking input config value...
+2025-01-03 20:23:03.274 NONE  [7592]     config value checking successful
+2025-01-03 20:23:03.274 NONE  [7592]     checking log...
+2025-01-03 20:23:03.274 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:23:03.274 NONE  [7592] --> StovePC_Init
+2025-01-03 20:23:03.274 NONE  [7592]     checking input config value...
+2025-01-03 20:23:03.274 NONE  [7592]     config value checking successful
+2025-01-03 20:23:03.274 NONE  [7592]     checking log...
+2025-01-03 20:23:03.274 NONE  [7592] ---------------------------------------------
+2025-01-03 20:23:03.274 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 20:23:03.274 NONE  [7592] Game Env : live
+2025-01-03 20:23:03.274 NONE  [7592] Game LogLevel : 2
+2025-01-03 20:23:03.274 NONE  [7592] Game LogPath : 
+2025-01-03 20:23:03.274 NONE  [7592] ---------------------------------------------
+2025-01-03 20:23:03.274 NONE  [7592]     core instance creation in progress...
+2025-01-03 20:23:03.275 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 20:23:03.275 ERROR [7592]     Init sgup task error
+2025-01-03 20:23:03.275 ERROR [7592]     init tasks - error
+2025-01-03 20:23:03.275 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 20:23:12.887 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:24:10.826 NONE  [7592] --> StovePC_Init
+2025-01-03 20:24:10.826 NONE  [7592]     checking input config value...
+2025-01-03 20:24:10.826 NONE  [7592]     config value checking successful
+2025-01-03 20:24:10.826 NONE  [7592]     checking log...
+2025-01-03 20:24:10.826 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:24:10.826 NONE  [7592] --> StovePC_Init
+2025-01-03 20:24:10.826 NONE  [7592]     checking input config value...
+2025-01-03 20:24:10.826 NONE  [7592]     config value checking successful
+2025-01-03 20:24:10.826 NONE  [7592]     checking log...
+2025-01-03 20:24:10.826 NONE  [7592] ---------------------------------------------
+2025-01-03 20:24:10.826 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 20:24:10.826 NONE  [7592] Game Env : live
+2025-01-03 20:24:10.826 NONE  [7592] Game LogLevel : 2
+2025-01-03 20:24:10.826 NONE  [7592] Game LogPath : 
+2025-01-03 20:24:10.826 NONE  [7592] ---------------------------------------------
+2025-01-03 20:24:10.826 NONE  [7592]     core instance creation in progress...
+2025-01-03 20:24:10.826 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 20:24:10.826 ERROR [7592]     Init sgup task error
+2025-01-03 20:24:10.827 ERROR [7592]     init tasks - error
+2025-01-03 20:24:10.827 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 20:24:18.288 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:25:27.453 NONE  [7592] --> StovePC_Init
+2025-01-03 20:25:27.454 NONE  [7592]     checking input config value...
+2025-01-03 20:25:27.454 NONE  [7592]     config value checking successful
+2025-01-03 20:25:27.454 NONE  [7592]     checking log...
+2025-01-03 20:25:27.454 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:25:27.454 NONE  [7592] --> StovePC_Init
+2025-01-03 20:25:27.454 NONE  [7592]     checking input config value...
+2025-01-03 20:25:27.454 NONE  [7592]     config value checking successful
+2025-01-03 20:25:27.454 NONE  [7592]     checking log...
+2025-01-03 20:25:27.454 NONE  [7592] ---------------------------------------------
+2025-01-03 20:25:27.454 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 20:25:27.454 NONE  [7592] Game Env : live
+2025-01-03 20:25:27.454 NONE  [7592] Game LogLevel : 2
+2025-01-03 20:25:27.454 NONE  [7592] Game LogPath : 
+2025-01-03 20:25:27.454 NONE  [7592] ---------------------------------------------
+2025-01-03 20:25:27.454 NONE  [7592]     core instance creation in progress...
+2025-01-03 20:25:27.454 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 20:25:27.454 ERROR [7592]     Init sgup task error
+2025-01-03 20:25:27.454 ERROR [7592]     init tasks - error
+2025-01-03 20:25:27.454 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 20:25:32.860 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:30:07.228 NONE  [7592] --> StovePC_Init
+2025-01-03 20:30:07.228 NONE  [7592]     checking input config value...
+2025-01-03 20:30:07.228 NONE  [7592]     config value checking successful
+2025-01-03 20:30:07.228 NONE  [7592]     checking log...
+2025-01-03 20:30:07.228 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:30:07.228 NONE  [7592] --> StovePC_Init
+2025-01-03 20:30:07.228 NONE  [7592]     checking input config value...
+2025-01-03 20:30:07.228 NONE  [7592]     config value checking successful
+2025-01-03 20:30:07.228 NONE  [7592]     checking log...
+2025-01-03 20:30:07.228 NONE  [7592] ---------------------------------------------
+2025-01-03 20:30:07.228 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 20:30:07.228 NONE  [7592] Game Env : live
+2025-01-03 20:30:07.228 NONE  [7592] Game LogLevel : 2
+2025-01-03 20:30:07.228 NONE  [7592] Game LogPath : 
+2025-01-03 20:30:07.228 NONE  [7592] ---------------------------------------------
+2025-01-03 20:30:07.228 NONE  [7592]     core instance creation in progress...
+2025-01-03 20:30:07.229 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 20:30:07.229 ERROR [7592]     Init sgup task error
+2025-01-03 20:30:07.229 ERROR [7592]     init tasks - error
+2025-01-03 20:30:07.229 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 20:30:17.168 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:35:09.470 NONE  [7592] --> StovePC_Init
+2025-01-03 20:35:09.470 NONE  [7592]     checking input config value...
+2025-01-03 20:35:09.470 NONE  [7592]     config value checking successful
+2025-01-03 20:35:09.470 NONE  [7592]     checking log...
+2025-01-03 20:35:09.470 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:35:09.470 NONE  [7592] --> StovePC_Init
+2025-01-03 20:35:09.470 NONE  [7592]     checking input config value...
+2025-01-03 20:35:09.470 NONE  [7592]     config value checking successful
+2025-01-03 20:35:09.470 NONE  [7592]     checking log...
+2025-01-03 20:35:09.470 NONE  [7592] ---------------------------------------------
+2025-01-03 20:35:09.470 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 20:35:09.470 NONE  [7592] Game Env : live
+2025-01-03 20:35:09.470 NONE  [7592] Game LogLevel : 2
+2025-01-03 20:35:09.470 NONE  [7592] Game LogPath : 
+2025-01-03 20:35:09.470 NONE  [7592] ---------------------------------------------
+2025-01-03 20:35:09.470 NONE  [7592]     core instance creation in progress...
+2025-01-03 20:35:09.470 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 20:35:09.470 ERROR [7592]     Init sgup task error
+2025-01-03 20:35:09.470 ERROR [7592]     init tasks - error
+2025-01-03 20:35:09.471 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 20:35:16.219 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:38:15.814 NONE  [7592] --> StovePC_Init
+2025-01-03 20:38:15.814 NONE  [7592]     checking input config value...
+2025-01-03 20:38:15.814 NONE  [7592]     config value checking successful
+2025-01-03 20:38:15.814 NONE  [7592]     checking log...
+2025-01-03 20:38:15.814 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:38:15.814 NONE  [7592] --> StovePC_Init
+2025-01-03 20:38:15.814 NONE  [7592]     checking input config value...
+2025-01-03 20:38:15.814 NONE  [7592]     config value checking successful
+2025-01-03 20:38:15.814 NONE  [7592]     checking log...
+2025-01-03 20:38:15.814 NONE  [7592] ---------------------------------------------
+2025-01-03 20:38:15.814 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 20:38:15.814 NONE  [7592] Game Env : live
+2025-01-03 20:38:15.814 NONE  [7592] Game LogLevel : 2
+2025-01-03 20:38:15.814 NONE  [7592] Game LogPath : 
+2025-01-03 20:38:15.814 NONE  [7592] ---------------------------------------------
+2025-01-03 20:38:15.814 NONE  [7592]     core instance creation in progress...
+2025-01-03 20:38:15.815 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 20:38:15.815 ERROR [7592]     Init sgup task error
+2025-01-03 20:38:15.815 ERROR [7592]     init tasks - error
+2025-01-03 20:38:15.815 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 20:38:31.614 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:38:51.750 NONE  [7592] --> StovePC_Init
+2025-01-03 20:38:51.750 NONE  [7592]     checking input config value...
+2025-01-03 20:38:51.750 NONE  [7592]     config value checking successful
+2025-01-03 20:38:51.750 NONE  [7592]     checking log...
+2025-01-03 20:38:51.750 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:38:51.750 NONE  [7592] --> StovePC_Init
+2025-01-03 20:38:51.750 NONE  [7592]     checking input config value...
+2025-01-03 20:38:51.750 NONE  [7592]     config value checking successful
+2025-01-03 20:38:51.750 NONE  [7592]     checking log...
+2025-01-03 20:38:51.750 NONE  [7592] ---------------------------------------------
+2025-01-03 20:38:51.750 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 20:38:51.750 NONE  [7592] Game Env : live
+2025-01-03 20:38:51.750 NONE  [7592] Game LogLevel : 2
+2025-01-03 20:38:51.750 NONE  [7592] Game LogPath : 
+2025-01-03 20:38:51.750 NONE  [7592] ---------------------------------------------
+2025-01-03 20:38:51.750 NONE  [7592]     core instance creation in progress...
+2025-01-03 20:38:51.751 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 20:38:51.751 ERROR [7592]     Init sgup task error
+2025-01-03 20:38:51.751 ERROR [7592]     init tasks - error
+2025-01-03 20:38:51.751 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 20:39:13.449 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:43:15.455 NONE  [7592] --> StovePC_Init
+2025-01-03 20:43:15.455 NONE  [7592]     checking input config value...
+2025-01-03 20:43:15.455 NONE  [7592]     config value checking successful
+2025-01-03 20:43:15.455 NONE  [7592]     checking log...
+2025-01-03 20:43:15.455 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:43:15.455 NONE  [7592] --> StovePC_Init
+2025-01-03 20:43:15.455 NONE  [7592]     checking input config value...
+2025-01-03 20:43:15.455 NONE  [7592]     config value checking successful
+2025-01-03 20:43:15.455 NONE  [7592]     checking log...
+2025-01-03 20:43:15.455 NONE  [7592] ---------------------------------------------
+2025-01-03 20:43:15.455 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 20:43:15.455 NONE  [7592] Game Env : live
+2025-01-03 20:43:15.455 NONE  [7592] Game LogLevel : 2
+2025-01-03 20:43:15.455 NONE  [7592] Game LogPath : 
+2025-01-03 20:43:15.455 NONE  [7592] ---------------------------------------------
+2025-01-03 20:43:15.455 NONE  [7592]     core instance creation in progress...
+2025-01-03 20:43:15.456 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 20:43:15.456 ERROR [7592]     Init sgup task error
+2025-01-03 20:43:15.456 ERROR [7592]     init tasks - error
+2025-01-03 20:43:15.456 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 20:44:05.203 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:45:09.676 NONE  [7592] --> StovePC_Init
+2025-01-03 20:45:09.676 NONE  [7592]     checking input config value...
+2025-01-03 20:45:09.676 NONE  [7592]     config value checking successful
+2025-01-03 20:45:09.676 NONE  [7592]     checking log...
+2025-01-03 20:45:09.676 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:45:09.676 NONE  [7592] --> StovePC_Init
+2025-01-03 20:45:09.676 NONE  [7592]     checking input config value...
+2025-01-03 20:45:09.676 NONE  [7592]     config value checking successful
+2025-01-03 20:45:09.676 NONE  [7592]     checking log...
+2025-01-03 20:45:09.676 NONE  [7592] ---------------------------------------------
+2025-01-03 20:45:09.676 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 20:45:09.676 NONE  [7592] Game Env : live
+2025-01-03 20:45:09.676 NONE  [7592] Game LogLevel : 2
+2025-01-03 20:45:09.676 NONE  [7592] Game LogPath : 
+2025-01-03 20:45:09.676 NONE  [7592] ---------------------------------------------
+2025-01-03 20:45:09.676 NONE  [7592]     core instance creation in progress...
+2025-01-03 20:45:09.676 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 20:45:09.676 ERROR [7592]     Init sgup task error
+2025-01-03 20:45:09.676 ERROR [7592]     init tasks - error
+2025-01-03 20:45:09.677 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 20:45:17.718 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:45:59.986 NONE  [7592] --> StovePC_Init
+2025-01-03 20:45:59.986 NONE  [7592]     checking input config value...
+2025-01-03 20:45:59.986 NONE  [7592]     config value checking successful
+2025-01-03 20:45:59.986 NONE  [7592]     checking log...
+2025-01-03 20:45:59.986 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:45:59.986 NONE  [7592] --> StovePC_Init
+2025-01-03 20:45:59.986 NONE  [7592]     checking input config value...
+2025-01-03 20:45:59.986 NONE  [7592]     config value checking successful
+2025-01-03 20:45:59.986 NONE  [7592]     checking log...
+2025-01-03 20:45:59.986 NONE  [7592] ---------------------------------------------
+2025-01-03 20:45:59.986 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 20:45:59.986 NONE  [7592] Game Env : live
+2025-01-03 20:45:59.986 NONE  [7592] Game LogLevel : 2
+2025-01-03 20:45:59.986 NONE  [7592] Game LogPath : 
+2025-01-03 20:45:59.986 NONE  [7592] ---------------------------------------------
+2025-01-03 20:45:59.986 NONE  [7592]     core instance creation in progress...
+2025-01-03 20:45:59.986 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 20:45:59.986 ERROR [7592]     Init sgup task error
+2025-01-03 20:45:59.986 ERROR [7592]     init tasks - error
+2025-01-03 20:45:59.986 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 20:46:04.660 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:46:50.614 NONE  [7592] --> StovePC_Init
+2025-01-03 20:46:50.614 NONE  [7592]     checking input config value...
+2025-01-03 20:46:50.614 NONE  [7592]     config value checking successful
+2025-01-03 20:46:50.614 NONE  [7592]     checking log...
+2025-01-03 20:46:50.614 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:46:50.614 NONE  [7592] --> StovePC_Init
+2025-01-03 20:46:50.614 NONE  [7592]     checking input config value...
+2025-01-03 20:46:50.614 NONE  [7592]     config value checking successful
+2025-01-03 20:46:50.614 NONE  [7592]     checking log...
+2025-01-03 20:46:50.614 NONE  [7592] ---------------------------------------------
+2025-01-03 20:46:50.614 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 20:46:50.614 NONE  [7592] Game Env : live
+2025-01-03 20:46:50.614 NONE  [7592] Game LogLevel : 2
+2025-01-03 20:46:50.614 NONE  [7592] Game LogPath : 
+2025-01-03 20:46:50.614 NONE  [7592] ---------------------------------------------
+2025-01-03 20:46:50.614 NONE  [7592]     core instance creation in progress...
+2025-01-03 20:46:50.615 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 20:46:50.615 ERROR [7592]     Init sgup task error
+2025-01-03 20:46:50.615 ERROR [7592]     init tasks - error
+2025-01-03 20:46:50.615 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 20:46:55.839 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:58:33.211 NONE  [7592] --> StovePC_Init
+2025-01-03 20:58:33.211 NONE  [7592]     checking input config value...
+2025-01-03 20:58:33.211 NONE  [7592]     config value checking successful
+2025-01-03 20:58:33.211 NONE  [7592]     checking log...
+2025-01-03 20:58:33.211 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:58:33.211 NONE  [7592] --> StovePC_Init
+2025-01-03 20:58:33.211 NONE  [7592]     checking input config value...
+2025-01-03 20:58:33.211 NONE  [7592]     config value checking successful
+2025-01-03 20:58:33.211 NONE  [7592]     checking log...
+2025-01-03 20:58:33.211 NONE  [7592] ---------------------------------------------
+2025-01-03 20:58:33.211 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 20:58:33.211 NONE  [7592] Game Env : live
+2025-01-03 20:58:33.211 NONE  [7592] Game LogLevel : 2
+2025-01-03 20:58:33.211 NONE  [7592] Game LogPath : 
+2025-01-03 20:58:33.211 NONE  [7592] ---------------------------------------------
+2025-01-03 20:58:33.211 NONE  [7592]     core instance creation in progress...
+2025-01-03 20:58:33.212 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 20:58:33.212 ERROR [7592]     Init sgup task error
+2025-01-03 20:58:33.212 ERROR [7592]     init tasks - error
+2025-01-03 20:58:33.212 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 20:59:12.723 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:59:27.284 NONE  [7592] --> StovePC_Init
+2025-01-03 20:59:27.284 NONE  [7592]     checking input config value...
+2025-01-03 20:59:27.284 NONE  [7592]     config value checking successful
+2025-01-03 20:59:27.284 NONE  [7592]     checking log...
+2025-01-03 20:59:27.284 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 20:59:27.284 NONE  [7592] --> StovePC_Init
+2025-01-03 20:59:27.284 NONE  [7592]     checking input config value...
+2025-01-03 20:59:27.284 NONE  [7592]     config value checking successful
+2025-01-03 20:59:27.284 NONE  [7592]     checking log...
+2025-01-03 20:59:27.284 NONE  [7592] ---------------------------------------------
+2025-01-03 20:59:27.284 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 20:59:27.284 NONE  [7592] Game Env : live
+2025-01-03 20:59:27.284 NONE  [7592] Game LogLevel : 2
+2025-01-03 20:59:27.284 NONE  [7592] Game LogPath : 
+2025-01-03 20:59:27.284 NONE  [7592] ---------------------------------------------
+2025-01-03 20:59:27.284 NONE  [7592]     core instance creation in progress...
+2025-01-03 20:59:27.285 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 20:59:27.285 ERROR [7592]     Init sgup task error
+2025-01-03 20:59:27.285 ERROR [7592]     init tasks - error
+2025-01-03 20:59:27.285 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 20:59:39.528 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 21:01:21.859 NONE  [7592] --> StovePC_Init
+2025-01-03 21:01:21.859 NONE  [7592]     checking input config value...
+2025-01-03 21:01:21.859 NONE  [7592]     config value checking successful
+2025-01-03 21:01:21.859 NONE  [7592]     checking log...
+2025-01-03 21:01:21.859 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 21:01:21.859 NONE  [7592] --> StovePC_Init
+2025-01-03 21:01:21.859 NONE  [7592]     checking input config value...
+2025-01-03 21:01:21.859 NONE  [7592]     config value checking successful
+2025-01-03 21:01:21.859 NONE  [7592]     checking log...
+2025-01-03 21:01:21.859 NONE  [7592] ---------------------------------------------
+2025-01-03 21:01:21.859 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 21:01:21.859 NONE  [7592] Game Env : live
+2025-01-03 21:01:21.859 NONE  [7592] Game LogLevel : 2
+2025-01-03 21:01:21.859 NONE  [7592] Game LogPath : 
+2025-01-03 21:01:21.859 NONE  [7592] ---------------------------------------------
+2025-01-03 21:01:21.859 NONE  [7592]     core instance creation in progress...
+2025-01-03 21:01:21.859 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 21:01:21.860 ERROR [7592]     Init sgup task error
+2025-01-03 21:01:21.860 ERROR [7592]     init tasks - error
+2025-01-03 21:01:21.860 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 21:02:06.249 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 21:04:55.413 NONE  [7592] --> StovePC_Init
+2025-01-03 21:04:55.413 NONE  [7592]     checking input config value...
+2025-01-03 21:04:55.413 NONE  [7592]     config value checking successful
+2025-01-03 21:04:55.413 NONE  [7592]     checking log...
+2025-01-03 21:04:55.413 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 21:04:55.413 NONE  [7592] --> StovePC_Init
+2025-01-03 21:04:55.413 NONE  [7592]     checking input config value...
+2025-01-03 21:04:55.413 NONE  [7592]     config value checking successful
+2025-01-03 21:04:55.413 NONE  [7592]     checking log...
+2025-01-03 21:04:55.413 NONE  [7592] ---------------------------------------------
+2025-01-03 21:04:55.413 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 21:04:55.413 NONE  [7592] Game Env : live
+2025-01-03 21:04:55.413 NONE  [7592] Game LogLevel : 2
+2025-01-03 21:04:55.413 NONE  [7592] Game LogPath : 
+2025-01-03 21:04:55.413 NONE  [7592] ---------------------------------------------
+2025-01-03 21:04:55.413 NONE  [7592]     core instance creation in progress...
+2025-01-03 21:04:55.414 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 21:04:55.414 ERROR [7592]     Init sgup task error
+2025-01-03 21:04:55.414 ERROR [7592]     init tasks - error
+2025-01-03 21:04:55.414 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 21:09:36.024 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 21:09:47.810 NONE  [7592] --> StovePC_Init
+2025-01-03 21:09:47.810 NONE  [7592]     checking input config value...
+2025-01-03 21:09:47.811 NONE  [7592]     config value checking successful
+2025-01-03 21:09:47.811 NONE  [7592]     checking log...
+2025-01-03 21:09:47.811 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 21:09:47.811 NONE  [7592] --> StovePC_Init
+2025-01-03 21:09:47.811 NONE  [7592]     checking input config value...
+2025-01-03 21:09:47.811 NONE  [7592]     config value checking successful
+2025-01-03 21:09:47.811 NONE  [7592]     checking log...
+2025-01-03 21:09:47.811 NONE  [7592] ---------------------------------------------
+2025-01-03 21:09:47.811 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 21:09:47.811 NONE  [7592] Game Env : live
+2025-01-03 21:09:47.811 NONE  [7592] Game LogLevel : 2
+2025-01-03 21:09:47.811 NONE  [7592] Game LogPath : 
+2025-01-03 21:09:47.811 NONE  [7592] ---------------------------------------------
+2025-01-03 21:09:47.811 NONE  [7592]     core instance creation in progress...
+2025-01-03 21:09:47.811 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 21:09:47.811 ERROR [7592]     Init sgup task error
+2025-01-03 21:09:47.811 ERROR [7592]     init tasks - error
+2025-01-03 21:09:47.811 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 21:09:53.976 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 21:11:53.353 NONE  [7592] --> StovePC_Init
+2025-01-03 21:11:53.353 NONE  [7592]     checking input config value...
+2025-01-03 21:11:53.353 NONE  [7592]     config value checking successful
+2025-01-03 21:11:53.353 NONE  [7592]     checking log...
+2025-01-03 21:11:53.353 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-03 21:11:53.353 NONE  [7592] --> StovePC_Init
+2025-01-03 21:11:53.353 NONE  [7592]     checking input config value...
+2025-01-03 21:11:53.353 NONE  [7592]     config value checking successful
+2025-01-03 21:11:53.353 NONE  [7592]     checking log...
+2025-01-03 21:11:53.353 NONE  [7592] ---------------------------------------------
+2025-01-03 21:11:53.353 NONE  [7592] StovePCSDK(ver :2.6.6)
+2025-01-03 21:11:53.353 NONE  [7592] Game Env : live
+2025-01-03 21:11:53.353 NONE  [7592] Game LogLevel : 2
+2025-01-03 21:11:53.353 NONE  [7592] Game LogPath : 
+2025-01-03 21:11:53.353 NONE  [7592] ---------------------------------------------
+2025-01-03 21:11:53.353 NONE  [7592]     core instance creation in progress...
+2025-01-03 21:11:53.354 ERROR [7592]     SGUPAPI_Init is fail
+2025-01-03 21:11:53.354 ERROR [7592]     Init sgup task error
+2025-01-03 21:11:53.354 ERROR [7592]     init tasks - error
+2025-01-03 21:11:53.354 ERROR [7592]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-03 21:12:30.005 ERROR [7592]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-09 16:14:23.686 NONE  [10420] <<<<< ---------------- StoveSDK Module Load ---------------- >>>>>
+2025-01-09 16:14:23.695 INFO  [10420] 
+2025-01-09 16:14:23.695 NONE  [10420] --> StovePC_Init
+2025-01-09 16:14:23.695 NONE  [10420]     checking input config value...
+2025-01-09 16:14:23.695 NONE  [10420]     config value checking successful
+2025-01-09 16:14:23.695 NONE  [10420]     checking log...
+2025-01-09 16:14:23.695 NONE  [10420] ---------------------------------------------
+2025-01-09 16:14:23.695 NONE  [10420] StovePCSDK(ver :2.6.6)
+2025-01-09 16:14:23.695 NONE  [10420] Game Env : live
+2025-01-09 16:14:23.695 NONE  [10420] Game LogLevel : 2
+2025-01-09 16:14:23.695 NONE  [10420] Game LogPath : 
+2025-01-09 16:14:23.695 NONE  [10420] ---------------------------------------------
+2025-01-09 16:14:23.696 NONE  [10420]     core instance creation in progress...
+2025-01-09 16:14:23.750 ERROR [10420]     SGUPAPI_Init is fail
+2025-01-09 16:14:23.750 ERROR [10420]     Init sgup task error
+2025-01-09 16:14:23.750 ERROR [10420]     init tasks - error
+2025-01-09 16:14:23.752 ERROR [10420]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-09 16:14:37.223 ERROR [10420]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-11 17:24:07.027 NONE  [22624] <<<<< ---------------- StoveSDK Module Load ---------------- >>>>>
+2025-01-11 17:24:07.068 INFO  [22624] 
+2025-01-11 17:24:07.068 NONE  [22624] --> StovePC_Init
+2025-01-11 17:24:07.068 NONE  [22624]     checking input config value...
+2025-01-11 17:24:07.068 NONE  [22624]     config value checking successful
+2025-01-11 17:24:07.068 NONE  [22624]     checking log...
+2025-01-11 17:24:07.068 NONE  [22624] ---------------------------------------------
+2025-01-11 17:24:07.068 NONE  [22624] StovePCSDK(ver :2.6.6)
+2025-01-11 17:24:07.068 NONE  [22624] Game Env : live
+2025-01-11 17:24:07.068 NONE  [22624] Game LogLevel : 2
+2025-01-11 17:24:07.068 NONE  [22624] Game LogPath : 
+2025-01-11 17:24:07.068 NONE  [22624] ---------------------------------------------
+2025-01-11 17:24:07.068 NONE  [22624]     core instance creation in progress...
+2025-01-11 17:24:07.133 ERROR [22624]     SGUPAPI_Init is fail
+2025-01-11 17:24:07.134 ERROR [22624]     Init sgup task error
+2025-01-11 17:24:07.134 ERROR [22624]     init tasks - error
+2025-01-11 17:24:07.137 ERROR [22624]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-11 17:24:11.812 ERROR [22624]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-11 17:33:06.422 NONE  [22624] --> StovePC_Init
+2025-01-11 17:33:06.423 NONE  [22624]     checking input config value...
+2025-01-11 17:33:06.423 NONE  [22624]     config value checking successful
+2025-01-11 17:33:06.423 NONE  [22624]     checking log...
+2025-01-11 17:33:06.423 ERROR [22624]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-11 17:33:06.423 NONE  [22624] --> StovePC_Init
+2025-01-11 17:33:06.423 NONE  [22624]     checking input config value...
+2025-01-11 17:33:06.423 NONE  [22624]     config value checking successful
+2025-01-11 17:33:06.423 NONE  [22624]     checking log...
+2025-01-11 17:33:06.423 NONE  [22624] ---------------------------------------------
+2025-01-11 17:33:06.423 NONE  [22624] StovePCSDK(ver :2.6.6)
+2025-01-11 17:33:06.423 NONE  [22624] Game Env : live
+2025-01-11 17:33:06.423 NONE  [22624] Game LogLevel : 2
+2025-01-11 17:33:06.423 NONE  [22624] Game LogPath : 
+2025-01-11 17:33:06.423 NONE  [22624] ---------------------------------------------
+2025-01-11 17:33:06.423 NONE  [22624]     core instance creation in progress...
+2025-01-11 17:33:06.425 ERROR [22624]     SGUPAPI_Init is fail
+2025-01-11 17:33:06.426 ERROR [22624]     Init sgup task error
+2025-01-11 17:33:06.426 ERROR [22624]     init tasks - error
+2025-01-11 17:33:06.426 ERROR [22624]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-11 17:33:24.166 ERROR [22624]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-11 17:48:01.529 NONE  [4540] <<<<< ---------------- StoveSDK Module Load ---------------- >>>>>
+2025-01-11 17:48:01.574 INFO  [4540] 
+2025-01-11 17:48:01.574 NONE  [4540] --> StovePC_Init
+2025-01-11 17:48:01.574 NONE  [4540]     checking input config value...
+2025-01-11 17:48:01.574 NONE  [4540]     config value checking successful
+2025-01-11 17:48:01.574 NONE  [4540]     checking log...
+2025-01-11 17:48:01.574 NONE  [4540] ---------------------------------------------
+2025-01-11 17:48:01.574 NONE  [4540] StovePCSDK(ver :2.6.6)
+2025-01-11 17:48:01.574 NONE  [4540] Game Env : live
+2025-01-11 17:48:01.574 NONE  [4540] Game LogLevel : 2
+2025-01-11 17:48:01.574 NONE  [4540] Game LogPath : 
+2025-01-11 17:48:01.574 NONE  [4540] ---------------------------------------------
+2025-01-11 17:48:01.574 NONE  [4540]     core instance creation in progress...
+2025-01-11 17:48:01.583 ERROR [4540]     SGUPAPI_Init is fail
+2025-01-11 17:48:01.583 ERROR [4540]     Init sgup task error
+2025-01-11 17:48:01.583 ERROR [4540]     init tasks - error
+2025-01-11 17:48:01.583 ERROR [4540]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-11 17:48:30.892 ERROR [4540]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-12 18:47:44.542 NONE  [24096] <<<<< ---------------- StoveSDK Module Load ---------------- >>>>>
+2025-01-12 18:47:44.563 INFO  [24096] 
+2025-01-12 18:47:44.563 NONE  [24096] --> StovePC_Init
+2025-01-12 18:47:44.563 NONE  [24096]     checking input config value...
+2025-01-12 18:47:44.563 NONE  [24096]     config value checking successful
+2025-01-12 18:47:44.563 NONE  [24096]     checking log...
+2025-01-12 18:47:44.563 NONE  [24096] ---------------------------------------------
+2025-01-12 18:47:44.563 NONE  [24096] StovePCSDK(ver :2.6.6)
+2025-01-12 18:47:44.563 NONE  [24096] Game Env : live
+2025-01-12 18:47:44.563 NONE  [24096] Game LogLevel : 2
+2025-01-12 18:47:44.563 NONE  [24096] Game LogPath : 
+2025-01-12 18:47:44.563 NONE  [24096] ---------------------------------------------
+2025-01-12 18:47:44.563 NONE  [24096]     core instance creation in progress...
+2025-01-12 18:47:44.618 ERROR [24096]     SGUPAPI_Init is fail
+2025-01-12 18:47:44.619 ERROR [24096]     Init sgup task error
+2025-01-12 18:47:44.619 ERROR [24096]     init tasks - error
+2025-01-12 18:47:44.620 ERROR [24096]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-12 18:48:12.910 ERROR [24096]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-12 23:58:37.662 NONE  [24096] --> StovePC_Init
+2025-01-12 23:58:37.663 NONE  [24096]     checking input config value...
+2025-01-12 23:58:37.663 NONE  [24096]     config value checking successful
+2025-01-12 23:58:37.663 NONE  [24096]     checking log...
+2025-01-12 23:58:37.663 ERROR [24096]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-12 23:58:37.663 NONE  [24096] --> StovePC_Init
+2025-01-12 23:58:37.663 NONE  [24096]     checking input config value...
+2025-01-12 23:58:37.663 NONE  [24096]     config value checking successful
+2025-01-12 23:58:37.663 NONE  [24096]     checking log...
+2025-01-12 23:58:37.663 NONE  [24096] ---------------------------------------------
+2025-01-12 23:58:37.663 NONE  [24096] StovePCSDK(ver :2.6.6)
+2025-01-12 23:58:37.663 NONE  [24096] Game Env : live
+2025-01-12 23:58:37.663 NONE  [24096] Game LogLevel : 2
+2025-01-12 23:58:37.663 NONE  [24096] Game LogPath : 
+2025-01-12 23:58:37.663 NONE  [24096] ---------------------------------------------
+2025-01-12 23:58:37.663 NONE  [24096]     core instance creation in progress...
+2025-01-12 23:58:37.663 ERROR [24096]     SGUPAPI_Init is fail
+2025-01-12 23:58:37.664 ERROR [24096]     Init sgup task error
+2025-01-12 23:58:37.664 ERROR [24096]     init tasks - error
+2025-01-12 23:58:37.664 ERROR [24096]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-12 23:58:50.866 ERROR [24096]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-13 00:02:01.888 NONE  [24096] --> StovePC_Init
+2025-01-13 00:02:01.888 NONE  [24096]     checking input config value...
+2025-01-13 00:02:01.888 NONE  [24096]     config value checking successful
+2025-01-13 00:02:01.888 NONE  [24096]     checking log...
+2025-01-13 00:02:01.888 ERROR [24096]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-13 00:02:01.888 NONE  [24096] --> StovePC_Init
+2025-01-13 00:02:01.888 NONE  [24096]     checking input config value...
+2025-01-13 00:02:01.888 NONE  [24096]     config value checking successful
+2025-01-13 00:02:01.888 NONE  [24096]     checking log...
+2025-01-13 00:02:01.888 NONE  [24096] ---------------------------------------------
+2025-01-13 00:02:01.888 NONE  [24096] StovePCSDK(ver :2.6.6)
+2025-01-13 00:02:01.888 NONE  [24096] Game Env : live
+2025-01-13 00:02:01.888 NONE  [24096] Game LogLevel : 2
+2025-01-13 00:02:01.888 NONE  [24096] Game LogPath : 
+2025-01-13 00:02:01.888 NONE  [24096] ---------------------------------------------
+2025-01-13 00:02:01.888 NONE  [24096]     core instance creation in progress...
+2025-01-13 00:02:01.889 ERROR [24096]     SGUPAPI_Init is fail
+2025-01-13 00:02:01.889 ERROR [24096]     Init sgup task error
+2025-01-13 00:02:01.889 ERROR [24096]     init tasks - error
+2025-01-13 00:02:01.889 ERROR [24096]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-13 00:02:08.289 ERROR [24096]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-13 00:06:38.593 NONE  [24096] --> StovePC_Init
+2025-01-13 00:06:38.593 NONE  [24096]     checking input config value...
+2025-01-13 00:06:38.593 NONE  [24096]     config value checking successful
+2025-01-13 00:06:38.593 NONE  [24096]     checking log...
+2025-01-13 00:06:38.593 ERROR [24096]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-13 00:06:38.593 NONE  [24096] --> StovePC_Init
+2025-01-13 00:06:38.593 NONE  [24096]     checking input config value...
+2025-01-13 00:06:38.593 NONE  [24096]     config value checking successful
+2025-01-13 00:06:38.593 NONE  [24096]     checking log...
+2025-01-13 00:06:38.593 NONE  [24096] ---------------------------------------------
+2025-01-13 00:06:38.593 NONE  [24096] StovePCSDK(ver :2.6.6)
+2025-01-13 00:06:38.593 NONE  [24096] Game Env : live
+2025-01-13 00:06:38.593 NONE  [24096] Game LogLevel : 2
+2025-01-13 00:06:38.593 NONE  [24096] Game LogPath : 
+2025-01-13 00:06:38.593 NONE  [24096] ---------------------------------------------
+2025-01-13 00:06:38.593 NONE  [24096]     core instance creation in progress...
+2025-01-13 00:06:38.593 ERROR [24096]     SGUPAPI_Init is fail
+2025-01-13 00:06:38.593 ERROR [24096]     Init sgup task error
+2025-01-13 00:06:38.593 ERROR [24096]     init tasks - error
+2025-01-13 00:06:38.593 ERROR [24096]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-13 00:06:40.684 ERROR [24096]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-13 00:08:14.212 NONE  [24096] --> StovePC_Init
+2025-01-13 00:08:14.212 NONE  [24096]     checking input config value...
+2025-01-13 00:08:14.212 NONE  [24096]     config value checking successful
+2025-01-13 00:08:14.212 NONE  [24096]     checking log...
+2025-01-13 00:08:14.212 ERROR [24096]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-13 00:08:14.212 NONE  [24096] --> StovePC_Init
+2025-01-13 00:08:14.212 NONE  [24096]     checking input config value...
+2025-01-13 00:08:14.212 NONE  [24096]     config value checking successful
+2025-01-13 00:08:14.212 NONE  [24096]     checking log...
+2025-01-13 00:08:14.212 NONE  [24096] ---------------------------------------------
+2025-01-13 00:08:14.212 NONE  [24096] StovePCSDK(ver :2.6.6)
+2025-01-13 00:08:14.212 NONE  [24096] Game Env : live
+2025-01-13 00:08:14.212 NONE  [24096] Game LogLevel : 2
+2025-01-13 00:08:14.212 NONE  [24096] Game LogPath : 
+2025-01-13 00:08:14.212 NONE  [24096] ---------------------------------------------
+2025-01-13 00:08:14.212 NONE  [24096]     core instance creation in progress...
+2025-01-13 00:08:14.213 ERROR [24096]     SGUPAPI_Init is fail
+2025-01-13 00:08:14.213 ERROR [24096]     Init sgup task error
+2025-01-13 00:08:14.213 ERROR [24096]     init tasks - error
+2025-01-13 00:08:14.213 ERROR [24096]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-13 00:08:28.946 ERROR [24096]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-13 00:11:04.740 NONE  [24096] --> StovePC_Init
+2025-01-13 00:11:04.740 NONE  [24096]     checking input config value...
+2025-01-13 00:11:04.740 NONE  [24096]     config value checking successful
+2025-01-13 00:11:04.740 NONE  [24096]     checking log...
+2025-01-13 00:11:04.740 ERROR [24096]     StovePC_UnInit stove exception occurred. StovePCResult : 100
+2025-01-13 00:11:04.740 NONE  [24096] --> StovePC_Init
+2025-01-13 00:11:04.740 NONE  [24096]     checking input config value...
+2025-01-13 00:11:04.740 NONE  [24096]     config value checking successful
+2025-01-13 00:11:04.740 NONE  [24096]     checking log...
+2025-01-13 00:11:04.740 NONE  [24096] ---------------------------------------------
+2025-01-13 00:11:04.740 NONE  [24096] StovePCSDK(ver :2.6.6)
+2025-01-13 00:11:04.740 NONE  [24096] Game Env : live
+2025-01-13 00:11:04.740 NONE  [24096] Game LogLevel : 2
+2025-01-13 00:11:04.740 NONE  [24096] Game LogPath : 
+2025-01-13 00:11:04.740 NONE  [24096] ---------------------------------------------
+2025-01-13 00:11:04.740 NONE  [24096]     core instance creation in progress...
+2025-01-13 00:11:04.740 ERROR [24096]     SGUPAPI_Init is fail
+2025-01-13 00:11:04.740 ERROR [24096]     Init sgup task error
+2025-01-13 00:11:04.740 ERROR [24096]     init tasks - error
+2025-01-13 00:11:04.740 ERROR [24096]     error occurred when calling StovePC_Init. StovePCResult : 150
+2025-01-13 00:11:09.593 ERROR [24096]     StovePC_UnInit stove exception occurred. StovePCResult : 100

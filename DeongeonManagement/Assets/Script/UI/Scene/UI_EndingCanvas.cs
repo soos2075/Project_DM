@@ -15,6 +15,57 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
     }
 
 
+    private void LateUpdate()
+    {
+        if (Input.anyKey)
+        {
+            seconds = 0.04f;
+        }
+        else
+        {
+            seconds = 0.06f;
+        }
+
+
+        TurnOver_HotKey();
+    }
+
+    private float spaceStartTime = -1f; // 스페이스바를 누르기 시작한 시간
+    private const float HOLD_DURATION = 1.0f; // 필요한 홀드 시간
+
+    void TurnOver_HotKey()
+    {
+        // 스페이스바를 누르기 시작할 때
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            spaceStartTime = Time.time;
+        }
+
+        // 스페이스바를 떼었을 때
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            spaceStartTime = -1f; // 타이머 리셋
+        }
+
+        if (Input.GetKey(KeyCode.Escape) && spaceStartTime > 0f)
+        {
+            if (Time.time - spaceStartTime >= HOLD_DURATION)
+            {
+                Skip_Ending();
+                spaceStartTime = -1f; // 액션 실행 후 타이머 리셋
+            }
+        }
+    }
+
+
+    void Skip_Ending()
+    {
+        StopAllCoroutines();
+        var ui = Managers.UI.ShowPopUp<UI_Ending>();
+    }
+
+
+
     enum Images
     {
         BackGround,
@@ -78,11 +129,11 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
 
     int textCount;
     public int charCount = 1;
-    WaitForSeconds seconds;
+    public float seconds;
 
     void Init_Conversation()
     {
-        seconds = new WaitForSeconds(0.06f);
+        seconds = 0.06f;
 
         if (EndingData == null)
         {
@@ -269,7 +320,7 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
 
             string nowText = contents.Substring(0, charIndexer);
             SpeakSomething(nowText);
-            yield return seconds;
+            yield return new WaitForSeconds(seconds);
             charIndexer += charCount;
         }
         isTyping = false;

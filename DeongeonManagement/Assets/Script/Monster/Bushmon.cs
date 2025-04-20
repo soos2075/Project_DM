@@ -13,10 +13,5 @@ public class Bushmon : Monster
     }
 
 
-    void Trait_Original()
-    {
-        AddTrait(new Trait.IronSkin());
-    }
-
 
 }

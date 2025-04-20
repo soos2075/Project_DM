@@ -96,6 +96,9 @@ public class PlacementManager
             case NPC_Typeof.NPC_Type_Hunter:
                 gameobj.GetOrAddComponent<NPC_Hunter>();
                 break;
+            case NPC_Typeof.NPC_Type_RandomEvent:
+                gameobj.GetOrAddComponent<NPC_RandomEvent>();
+                break;
         }
         var obj = gameobj.GetComponent<IPlacementable>();
         obj.PlacementType = PlacementType.NPC;

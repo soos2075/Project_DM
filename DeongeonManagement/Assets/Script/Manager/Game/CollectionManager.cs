@@ -70,6 +70,7 @@ public class CollectionManager : MonoBehaviour
     SO_Technical[] TechnicalData;
     SO_Artifact[] ArtifactData;
     SO_Trait[] TraitData;
+    SO_Title[] TitleData;
     SO_Ending[] EndingData;
 
 
@@ -81,6 +82,7 @@ public class CollectionManager : MonoBehaviour
         TechnicalData = Resources.LoadAll<SO_Technical>("Data/Technical");
         ArtifactData = Resources.LoadAll<SO_Artifact>("Data/Artifact");
         TraitData = Resources.LoadAll<SO_Trait>("Data/Trait");
+        TitleData = Resources.LoadAll<SO_Title>("Data/Title");
         EndingData = Resources.LoadAll<SO_Ending>("Data/Ending");
 
 
@@ -90,11 +92,12 @@ public class CollectionManager : MonoBehaviour
         Array.Sort(TechnicalData, (a, b) => a.id.CompareTo(b.id));
         Array.Sort(ArtifactData, (a, b) => a.id.CompareTo(b.id));
         Array.Sort(TraitData, (a, b) => a.id.CompareTo(b.id));
+        Array.Sort(TitleData, (a, b) => a.id.CompareTo(b.id));
         Array.Sort(EndingData, (a, b) => a.id.CompareTo(b.id));
 
         foreach (var mon in MonsterData)
         {
-            mon.TraitableList.Sort((a, b) => a.CompareTo(b));
+            mon.traitList_Exp.Sort((a, b) => a.CompareTo(b));
         }
     }
 
@@ -107,6 +110,7 @@ public class CollectionManager : MonoBehaviour
     public List<CollectionUnitRegist<SO_Technical>> Register_Technical { get; private set; }
     public List<CollectionUnitRegist<SO_Artifact>> Register_Artifact { get; private set; }
     public List<CollectionUnitRegist<SO_Trait>> Register_Trait { get; private set; }
+    public List<CollectionUnitRegist<SO_Title>> Register_Title { get; private set; }
 
 
     public void DataResetAndNewGame()
@@ -161,6 +165,13 @@ public class CollectionManager : MonoBehaviour
             //if (TraitData[i].isCollected == false) continue;
             Register_Trait.Add(new CollectionUnitRegist<SO_Trait>(TraitData[i], new Regist_Info(), i + 1));
         }
+
+        Register_Title = new List<CollectionUnitRegist<SO_Title>>();
+        for (int i = 0; i < TitleData.Length; i++)
+        {
+            //if (TraitData[i].isCollected == false) continue;
+            Register_Title.Add(new CollectionUnitRegist<SO_Title>(TitleData[i], new Regist_Info(), i + 1));
+        }
     }
 
 
@@ -188,6 +199,10 @@ public class CollectionManager : MonoBehaviour
             if (item.unit == SO_Data) return item as CollectionUnitRegist<T>;
         }
         foreach (var item in Register_Trait)
+        {
+            if (item.unit == SO_Data) return item as CollectionUnitRegist<T>;
+        }
+        foreach (var item in Register_Title)
         {
             if (item.unit == SO_Data) return item as CollectionUnitRegist<T>;
         }
@@ -219,6 +234,10 @@ public class CollectionManager : MonoBehaviour
         foreach (var item in Register_Trait)
         {
             if (item.unit.traitName == _keyName) return item as CollectionUnitRegist<T>;
+        }
+        foreach (var item in Register_Title)
+        {
+            if (item.unit.keyName == _keyName) return item as CollectionUnitRegist<T>;
         }
 
         return null;
@@ -276,6 +295,14 @@ public class CollectionManager : MonoBehaviour
                 item.Apply_Info(isRegist.DeepCopy());
             }
         }
+        foreach (var item in Register_Title)
+        {
+            Regist_Info isRegist;
+            if (data.TryGetValue(item.unit.id + 30000, out isRegist))
+            {
+                item.Apply_Info(isRegist.DeepCopy());
+            }
+        }
     }
 
     public Dictionary<int, Regist_Info> SaveCollectionData()
@@ -311,6 +338,11 @@ public class CollectionManager : MonoBehaviour
         for (int i = 0; i < Register_Trait.Count; i++)
         {
             Register.Add(Register_Trait[i].unit.id + 20000, Register_Trait[i].info.DeepCopy());
+        }
+
+        for (int i = 0; i < Register_Title.Count; i++)
+        {
+            Register.Add(Register_Title[i].unit.id + 30000, Register_Title[i].info.DeepCopy());
         }
 
         return Register;
@@ -385,6 +417,9 @@ public class CollectionManager : MonoBehaviour
 
         RoundClearData.Init_Data(data);
         Managers.Data.SaveClearData();
+
+        //? 컬렉션 데이터 업데이트
+        Managers.Data.SaveCollectionData();
     }
 
 

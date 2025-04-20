@@ -32,6 +32,8 @@ public class UI_Placement_TypeSelect : UI_PopUp, IWorldSpaceUI
 
         Bind<GameObject>(typeof(Objects));
 
+        Init_NewOverlay();
+
         GetObject((int)Objects.Facility).AddUIEvent(data =>
         {
             ClosePopUp();
@@ -64,8 +66,23 @@ public class UI_Placement_TypeSelect : UI_PopUp, IWorldSpaceUI
         {
             GetObject((int)Objects.Monster).SetActive(false);
         }
+
     }
 
+
+
+    void Init_NewOverlay()
+    {
+        if (UserData.Instance.FileConfig.Notice_Facility)
+        {
+            AddNotice_UI("New", this, Objects.Facility.ToString(), "Notice_Facility");
+        }
+
+        if (UserData.Instance.FileConfig.Notice_Monster)
+        {
+            AddNotice_UI("New", this, Objects.Monster.ToString(), "Notice_Monster");
+        }
+    }
 
 
 }

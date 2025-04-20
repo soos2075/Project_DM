@@ -37,6 +37,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - csvData
+  - m_GUID: eb4d0a2658249394fb169b0dbacc5076
+    m_Address: Assets/Data/Title/Title_Result.csv
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - csvData
+  - m_GUID: f960fa8920446f54b890ad1ce3741d48
+    m_Address: Assets/Data/RandomEvent/RandomEvent_Result.csv
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - csvData
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: ee98e609717972e4589234052e5caa8a, type: 2}
   m_SchemaSet:

@@ -73,6 +73,10 @@ public class UI_CollectionUnit : UI_Base
         {
             mainUI.ShowBox_Trait(Data_Trait);
         }
+        else if (Data_Title != null)
+        {
+            mainUI.ShowBox_Title(Data_Title);
+        }
     }
 
 
@@ -84,6 +88,7 @@ public class UI_CollectionUnit : UI_Base
     CollectionManager.CollectionUnitRegist<SO_Technical> Data_Technical;
     CollectionManager.CollectionUnitRegist<SO_Artifact> Data_Artifact;
     CollectionManager.CollectionUnitRegist<SO_Trait> Data_Trait;
+    CollectionManager.CollectionUnitRegist<SO_Title> Data_Title;
 
 
 
@@ -177,6 +182,19 @@ public class UI_CollectionUnit : UI_Base
         GetObject((int)Objects.UnitSprite).GetComponent<Image>().color = Color.white;
         GetObject((int)Objects.UnitName).GetComponent<TextMeshProUGUI>().text = data.unit.labelName;
 
+    }
+
+    public void SetUnit_Title(CollectionManager.CollectionUnitRegist<SO_Title> data, UI_Collection parent)
+    {
+        InitAndSetData(parent);
+        Data_Title = data;
+
+        GetObject((int)Objects.UnitName).GetComponent<TextMeshProUGUI>().text = "? ? ?";
+
+        if (data.info.isRegist)
+        {
+            GetObject((int)Objects.UnitName).GetComponent<TextMeshProUGUI>().text = data.unit.Title;
+        }
     }
 
 }

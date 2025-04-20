@@ -19,10 +19,7 @@ public class Heroine : Monster, I_Projectile
         UnitDialogueEvent.AddEvent(UnitDialogueEventLabel.Heroin_First);
     }
 
-    void Trait_Original()
-    {
-        AddTrait(new Trait.Nimble());
-    }
+
 
     public override void ChangeValue_TraitCounter()
     {
@@ -56,6 +53,7 @@ public class Heroine : Monster, I_Projectile
 
     public override void LevelUpEvent(LevelUpEventType levelUpType)
     {
+        base.LevelUpEvent(levelUpType);
         if (LV + 1 >= 5)
         {
             UnitDialogueEvent.AddEvent(UnitDialogueEventLabel.Heroin_Lv5);
@@ -76,6 +74,8 @@ public class Heroine : Monster, I_Projectile
 
     public override void TurnOver()
     {
+        base.TurnOver();
+
         if (UnitDialogueEvent.ClearEventList.Contains((int)UnitDialogueEventLabel.Heroin_Day3) &&
             UnitDialogueEvent.ClearEventList.Contains((int)UnitDialogueEventLabel.Heroin_Day6) &&
             UnitDialogueEvent.ClearEventList.Contains((int)UnitDialogueEventLabel.Heroin_Day9) &&
@@ -94,6 +94,7 @@ public class Heroine : Monster, I_Projectile
     {
         if (EvolutionState == Evolution.Complete) return;
 
+        //Debug.Log($"Now Name : {CustomName}");
         if (CustomName == "Rena" || CustomName == "·¹³ª" || CustomName == "«ì«Ê" || CustomName == "ÖôÑÖ")
         {
             //? ÁøÈ­ÁøÇà
@@ -115,11 +116,11 @@ public class Heroine : Monster, I_Projectile
     void EvolutionComplete()
     {
         Data = GameManager.Monster.GetData("Rena");
-        AddTrait(new Trait.GaleForce());
+        AddTrait(new Trait.GaleForce_V2());
         Evolution_Status();
     }
 
-    public override void MonsterInit_Evolution()
+    public override void Load_EvolutionMonster()
     {
         Data = GameManager.Monster.GetData("Rena");
     }

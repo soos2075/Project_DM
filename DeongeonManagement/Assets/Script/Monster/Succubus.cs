@@ -17,29 +17,24 @@ public class Succubus : Monster
         {
             StartCoroutine(Init_Evolution());
         }
-        else
-        {
-            Debug.Log("이미 등록된 진화몹 있음");
-        }
     }
-    void Trait_Original()
-    {
-        AddTrait(new Trait.LifeDrain());
-    }
-    public override void MonsterInit_Evolution()
+
+    public override void Load_EvolutionMonster()
     {
         Data = GameManager.Monster.GetData("Lilith");
         GameManager.Monster.ChangeSLA_New(this, "Lilith");
         GameManager.Monster.Regist_Evolution("Succubus");
-        Trait_Original();
     }
 
-    public override void EvolutionMonster_Init()
+    public override void Create_EvolutionMonster_Init()
     {
         Data = GameManager.Monster.GetData("Succubus");
+        Trait_Original();
+
         Initialize_Status();
         EvolutionState = Evolution.Complete;
         EvolutionComplete();
+
         UnitDialogueEvent.ClearEvent(UnitDialogueEventLabel.Succubus_First);
     }
     IEnumerator Init_Evolution()
@@ -66,8 +61,22 @@ public class Succubus : Monster
     {
         List<ITrait> newTrait = new List<ITrait>();
 
-        newTrait.Add(new Trait.LifeDrain());
-        if (TraitCheck(TraitGroup.SurvivabilityB)) newTrait.Add(new Trait.SurvivabilityS());
+        AddTrait_DisableList(TraitGroup.LifeDrain);
+
+        foreach (var item in TraitList) //? 원래거 복사 (고유특성만 빼고)
+        {
+            if (item.ID == TraitGroup.LifeDrain)
+            {
+                newTrait.Add(new Trait.LifeDrain_V2());
+                continue;
+            }
+            if (item.ID == TraitGroup.SurvivabilityB)
+            {
+                newTrait.Add(new Trait.SurvivabilityS());
+                continue;
+            }
+            newTrait.Add(item);
+        }
 
         TraitList = newTrait;
     }

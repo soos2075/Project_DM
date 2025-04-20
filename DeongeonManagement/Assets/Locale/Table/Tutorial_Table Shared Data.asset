@@ -1,0 +1,184 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Tutorial_Table Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Tutorial_Table
+  m_TableCollectionNameGuidString: a61766a3190c674419c95249fd8014ea
+  m_Entries:
+  - m_Id: 2065667665920
+    m_Key: Main_1_Day
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3571758346240
+    m_Key: Main_1_Rank
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3752197304320
+    m_Key: Main_1_TurnOver
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6398740213760
+    m_Key: Main_2_Mana
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7603474345984
+    m_Key: Main_2_Gold
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9567188758528
+    m_Key: Main_2_Pop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9737586552832
+    m_Key: Main_2_AP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13541816086528
+    m_Key: Main_3_Save
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13896314466304
+    m_Key: Main_3_Result
+    m_Metadata:
+      m_Items: []
+  - m_Id: 14606665986048
+    m_Key: Main_3_Book
+    m_Metadata:
+      m_Items: []
+  - m_Id: 15336726540288
+    m_Key: Main_3_Config
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47319871598592
+    m_Key: Main_4_Facility
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47582745407488
+    m_Key: Main_4_Unit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 47832876920832
+    m_Key: Main_4_Guild
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48266677006336
+    m_Key: Main_4_Quest
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49006870999040
+    m_Key: Main_4_Dungeon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 57651004387328
+    m_Key: Main_5_Speed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 57712954257408
+    m_Key: Main_5_EventLog
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62858358632448
+    m_Key: Dungeon_1_Herb
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64707375607808
+    m_Key: Dungeon_1_Camera
+    m_Metadata:
+      m_Items: []
+  - m_Id: 64908484096000
+    m_Key: Dungeon_1_Obstacle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67137433710592
+    m_Key: Dungeon_2_Trap
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67212482392064
+    m_Key: Dungeon_2_Technical
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67335820095488
+    m_Key: Dungeon_2_Portal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67426949738496
+    m_Key: Dungeon_2_Treasure
+    m_Metadata:
+      m_Items: []
+  - m_Id: 69938029211648
+    m_Key: Dungeon_3_Orb
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70374421377024
+    m_Key: Dungeon_3_Statue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70462434652160
+    m_Key: Dungeon_3_Artifact
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75425755901952
+    m_Key: Dungeon_4_Secret
+    m_Metadata:
+      m_Items: []
+  - m_Id: 77456830836736
+    m_Key: Dungeon_4_Player
+    m_Metadata:
+      m_Items: []
+  - m_Id: 77544835723264
+    m_Key: Dungeon_4_Egg
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80887041699840
+    m_Key: "\uB2E8\uCD95\uD0A4"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 88660211085312
+    m_Key: HotKey_Dungeon_1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 88769665642496
+    m_Key: HotKey_Dungeon_2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 88853555916800
+    m_Key: HotKey_Dungeon_3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 96196851085312
+    m_Key: Btn_Main
+    m_Metadata:
+      m_Items: []
+  - m_Id: 96412274733056
+    m_Key: Btn_Dungeon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 96537197883392
+    m_Key: Btn_Hotkey
+    m_Metadata:
+      m_Items: []
+  - m_Id: 118985305829376
+    m_Key: "\uBA54\uB274\uC5BC"
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 5512482292992311302
+  references:
+    version: 2
+    RefIds:
+    - rid: 5512482292992311302
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1734775224813

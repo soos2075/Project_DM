@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SO_Artifact", menuName = "SO_Artifact")]
+//[CreateAssetMenu(fileName = "SO_Artifact", menuName = "SO_Artifact")]
 public class SO_Artifact : ScriptableObject, I_SO_Collection
 {
 

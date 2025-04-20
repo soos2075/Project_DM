@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_SystemMessage : UI_PopUp
 {
@@ -17,6 +18,9 @@ public class UI_SystemMessage : UI_PopUp
 
         BG,
         Message,
+
+        TopImage,
+        Contents,
     }
 
 
@@ -31,6 +35,23 @@ public class UI_SystemMessage : UI_PopUp
         PrintMessage();
 
         Wait_Delay = StartCoroutine(CloseDelay(DelayTime));
+
+        if (mainSprite == null)
+        {
+            GetObject((int)Contents.TopImage).SetActive(false);
+        }
+        else
+        {
+            GetObject((int)Contents.Contents).GetComponent<Image>().sprite = mainSprite;
+        }
+    }
+
+
+    Sprite mainSprite;
+
+    public void Set_Image(Sprite sprite)
+    {
+        mainSprite = sprite;
     }
 
     //[TextArea(2,10)]

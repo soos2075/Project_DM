@@ -733,6 +733,34 @@ MonoBehaviour:
     m_Localized: Would you like to offer mana?
     m_Metadata:
       m_Items: []
+  - m_Id: 103893641271128064
+    m_Localized: Recall All
+    m_Metadata:
+      m_Items: []
+  - m_Id: 103893741678571520
+    m_Localized: Auto Placement
+    m_Metadata:
+      m_Items: []
+  - m_Id: 104196754397933568
+    m_Localized: 'New '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 112512427419185152
+    m_Localized: Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 146994173980127232
+    m_Localized: Unique Trait
+    m_Metadata:
+      m_Items: []
+  - m_Id: 146994181362102272
+    m_Localized: Experience Trait
+    m_Metadata:
+      m_Items: []
+  - m_Id: 146994184415555584
+    m_Localized: Random Trait
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

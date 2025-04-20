@@ -14,11 +14,14 @@ public class Ravi : Monster
 
 
 
-    void Trait_Original()
-    {
-        AddTrait(new Trait.AbsoluteShield());
-        AddTrait(new Trait.SurvivabilityS());
-    }
+    //void Trait_Original()
+    //{
+    //    AddTrait(new Trait.AbsoluteShield());
+    //    AddTrait(new Trait.SurvivabilityS());
+
+    //    AddTrait_DisableList(TraitGroup.Predation);
+    //    AddTrait_DisableList(TraitGroup.Predation_V2);
+    //}
 
 
 }

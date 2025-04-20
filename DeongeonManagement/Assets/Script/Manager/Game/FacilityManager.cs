@@ -192,6 +192,21 @@ public class FacilityManager
         return count;
     }
 
+
+    public List<Facility> GetFacility<T>() where T : Facility
+    {
+        List<Facility> newList = new List<Facility>();
+
+        foreach (var item in facilityList)
+        {
+            if (item is T)
+            {
+                newList.Add(item);
+            }
+        }
+        return newList;
+    }
+
     #endregion
 
 

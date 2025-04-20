@@ -56,7 +56,7 @@ public class UI_Pause : UI_PopUp
         GetButton(((int)Buttons.Language)).gameObject.AddUIEvent((data) => SetLanguage());
         GetButton(((int)Buttons.DataReset)).gameObject.AddUIEvent((data) => DataReset());
 
-        //GetButton(((int)Buttons.Manual)).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_Tutorial>("UI_Tutorial_Demo"));
+        GetButton(((int)Buttons.Manual)).gameObject.AddUIEvent((data) => Managers.UI.ShowPopUp<UI_Manual>());
 
         GetButton(((int)Buttons.Licenses)).gameObject.AddUIEvent((data) => GetImage(((int)Images.Licenses_Panel)).gameObject.SetActive(true));
         GetButton(((int)Buttons.Licenses_Close)).gameObject.AddUIEvent((data) => GetImage(((int)Images.Licenses_Panel)).gameObject.SetActive(false));

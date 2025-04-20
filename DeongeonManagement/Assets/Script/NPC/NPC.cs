@@ -21,6 +21,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
         //? 가장 마지막에 커스텀으로 덮어씌우기 (스탯같은거)
         Start_Setting();
+
+        AddCollectionPoint();
     }
 
 
@@ -40,23 +42,23 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
                 break;
 
             case Define.DifficultyLevel.Normal:
-                HP = Mathf.RoundToInt(HP * 1.4f);
-                HP_MAX = Mathf.RoundToInt(HP_MAX * 1.4f);
-                ATK = Mathf.RoundToInt(ATK * 1.4f);
-                DEF = Mathf.RoundToInt(DEF * 1.2f);
-                AGI = Mathf.RoundToInt(AGI * 1.2f);
-                LUK = Mathf.RoundToInt(LUK * 1.2f);
-                ActionPoint = Mathf.RoundToInt(ActionPoint * 1.2f);
+                HP = Mathf.RoundToInt(HP * 1.25f);
+                HP_MAX = Mathf.RoundToInt(HP_MAX * 1.25f);
+                ATK = Mathf.RoundToInt(ATK * 1.25f);
+                DEF = Mathf.RoundToInt(DEF * 1.12f);
+                AGI = Mathf.RoundToInt(AGI * 1.12f);
+                LUK = Mathf.RoundToInt(LUK * 1.12f);
+                ActionPoint = Mathf.RoundToInt(ActionPoint * 1.25f);
                 break;
 
             case Define.DifficultyLevel.Hard:
-                HP = Mathf.RoundToInt(HP * 1.6f);
-                HP_MAX = Mathf.RoundToInt(HP_MAX * 1.6f);
-                ATK = Mathf.RoundToInt(ATK * 1.6f);
-                DEF = Mathf.RoundToInt(DEF * 1.3f);
-                AGI = Mathf.RoundToInt(AGI * 1.3f);
-                LUK = Mathf.RoundToInt(LUK * 1.3f);
-                ActionPoint = Mathf.RoundToInt(ActionPoint * 1.4f);
+                HP = Mathf.RoundToInt(HP * 1.5f);
+                HP_MAX = Mathf.RoundToInt(HP_MAX * 1.5f);
+                ATK = Mathf.RoundToInt(ATK * 1.5f);
+                DEF = Mathf.RoundToInt(DEF * 1.25f);
+                AGI = Mathf.RoundToInt(AGI * 1.25f);
+                LUK = Mathf.RoundToInt(LUK * 1.25f);
+                ActionPoint = Mathf.RoundToInt(ActionPoint * 1.5f);
                 break;
 
             case Define.DifficultyLevel.VeryHard:
@@ -66,7 +68,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
                 DEF = Mathf.RoundToInt(DEF * 1.5f);
                 AGI = Mathf.RoundToInt(AGI * 1.5f);
                 LUK = Mathf.RoundToInt(LUK * 1.5f);
-                ActionPoint = Mathf.RoundToInt(ActionPoint * 1.6f);
+                ActionPoint = Mathf.RoundToInt(ActionPoint * 1.75f);
                 break;
 
             case Define.DifficultyLevel.Master:
@@ -1234,7 +1236,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     }
     void Satisfaction_Base()
     {
-        AddCollectionPoint();
+        //AddCollectionPoint();
 
         if (Mana <= Data.MP / 4)
         {

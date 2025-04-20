@@ -51,6 +51,7 @@ public class Managers : MonoBehaviour
     void Awake()
     {
         Init();
+        //DontDestroyOnLoad(this);
 
         _data.Init();
         _sprite.Init();

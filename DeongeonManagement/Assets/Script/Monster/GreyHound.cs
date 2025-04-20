@@ -18,15 +18,16 @@ public class GreyHound : Monster
             StartCoroutine(Init_Evolution());
         }
     }
-    public override void EvolutionMonster_Init()
+    public override void Create_EvolutionMonster_Init()
     {
         Data = GameManager.Monster.GetData("GreyHound");
         Trait_Original();
+
         Initialize_Status();
         EvolutionState = Evolution.Complete;
         EvolutionComplete();
     }
-    public override void MonsterInit_Evolution()
+    public override void Load_EvolutionMonster()
     {
         Data = GameManager.Monster.GetData("HellHound");
         GameManager.Monster.ChangeSLA_New(this, "HellHound");
@@ -34,14 +35,10 @@ public class GreyHound : Monster
     }
 
 
-    void Trait_Original()
-    {
-        AddTrait(new Trait.GaleForce());
-    }
-
 
     public override void LevelUpEvent(LevelUpEventType levelUpType)
     {
+        base.LevelUpEvent(levelUpType);
         if (EvolutionState != Evolution.Ready) return;
 
         if (LV + 1 >= 20)
@@ -96,12 +93,43 @@ public class GreyHound : Monster
     {
         List<ITrait> newTrait = new List<ITrait>();
 
-        newTrait.Add(new Trait.GaleForce());
-        if (TraitCheck(TraitGroup.VeteranB)) newTrait.Add(new Trait.VeteranA());
-        if (TraitCheck(TraitGroup.DiscreetB)) newTrait.Add(new Trait.DiscreetA());
-        if (TraitCheck(TraitGroup.ShirkingB)) newTrait.Add(new Trait.ShirkingA());
-        if (TraitCheck(TraitGroup.SurvivabilityB)) newTrait.Add(new Trait.SurvivabilityA());
-        if (TraitCheck(TraitGroup.RuthlessB)) newTrait.Add(new Trait.RuthlessA());
+        AddTrait_DisableList(TraitGroup.GaleForce);
+
+        foreach (var item in TraitList) //? 원래거 복사 (고유특성만 빼고)
+        {
+            if (item.ID == TraitGroup.GaleForce)
+            {
+                newTrait.Add(new Trait.GaleForce_V2());
+                continue;
+            }
+            if (item.ID == TraitGroup.VeteranB)
+            {
+                newTrait.Add(new Trait.VeteranA());
+                continue;
+            }
+            if (item.ID == TraitGroup.DiscreetB)
+            {
+                newTrait.Add(new Trait.DiscreetA());
+                continue;
+            }
+            if (item.ID == TraitGroup.ShirkingB)
+            {
+                newTrait.Add(new Trait.ShirkingA());
+                continue;
+            }
+            if (item.ID == TraitGroup.SurvivabilityB)
+            {
+                newTrait.Add(new Trait.SurvivabilityA());
+                continue;
+            }
+            if (item.ID == TraitGroup.RuthlessB)
+            {
+                newTrait.Add(new Trait.RuthlessA());
+                continue;
+            }
+
+            newTrait.Add(item);
+        }
 
         TraitList = newTrait;
     }

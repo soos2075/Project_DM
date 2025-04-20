@@ -14,11 +14,4 @@ public class Rideer : Monster
 
 
 
-    void Trait_Original()
-    {
-        AddTrait(new Trait.DivineForce());
-        AddTrait(new Trait.SurvivabilityS());
-    }
-
-
 }

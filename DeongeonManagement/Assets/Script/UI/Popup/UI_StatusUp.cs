@@ -44,6 +44,26 @@ public class UI_StatusUp : UI_PopUp
 
     public string StateText { get; set; }
 
+    public void SetStateText(string contents)
+    {
+        if (string.IsNullOrEmpty(StateText) == false)
+        {
+            StateText += $"\n{contents}";
+        }
+        else
+        {
+            StateText = contents;
+        }
+
+    }
+
+    public void NewTrait(TraitGroup traitName)
+    {
+        SetStateText($"{UserData.Instance.LocaleText("New")}{UserData.Instance.LocaleText("Æ¯¼º")} : <b>{GameManager.Trait.GetData(traitName).labelName}</b>");
+    }
+
+
+
     public override void Init()
     {
         base.Init();

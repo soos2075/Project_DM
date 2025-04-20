@@ -141,4 +141,49 @@ public abstract class UI_Base : MonoBehaviour
 			CallbackAction = null;
 		}
     }
+
+
+
+	#region AddNotice
+	public void AddNotice_UI(string label, UI_Base parent, string findName, string setBoolName)
+	{
+		UserData.Instance.FileConfig.SetBoolValue(setBoolName, true);
+		StartCoroutine(WaitFrame(label, parent, findName, setBoolName));
+	}
+	IEnumerator WaitFrame(string label, UI_Base parent, string findName, string setBoolName)
+	{
+		yield return null;
+
+		var obj = Util.FindChild(parent.gameObject, findName, true);
+
+		var overlay = Managers.Resource.Instantiate("UI/PopUp/Element/OverlayImage", obj.transform);
+		var ui = overlay.GetComponent<UI_Overlay>();
+		ui.SetOverlay(Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Overlay_Icon", label), obj, setBoolName);
+	}
+
+	public void AddNotice_NoClear(string label, UI_Base parent, string findName, string setBoolName)
+	{
+		UserData.Instance.FileConfig.SetBoolValue(setBoolName, true);
+		StartCoroutine(WaitFrame_NoClear(label, parent, findName));
+	}
+	IEnumerator WaitFrame_NoClear(string label, UI_Base parent, string findName)
+	{
+		yield return null;
+
+		var obj = Util.FindChild(parent.gameObject, findName, true);
+
+		var overlay = Managers.Resource.Instantiate("UI/PopUp/Element/OverlayImage", obj.transform);
+		var ui = overlay.GetComponent<UI_Overlay>();
+		ui.SetOverlay_DontDest(Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Overlay_Icon", label), obj);
+	}
+
+	public void RemoveNotice_UI(GameObject btn)
+	{
+		var overlay = btn.GetComponentInChildren<UI_Overlay>();
+		if (overlay != null)
+		{
+			overlay.SelfDestroy();
+		}
+	}
+	#endregion
 }

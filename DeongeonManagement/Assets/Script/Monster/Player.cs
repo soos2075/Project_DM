@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Player : Monster
 {
+    protected override int HP_Bonus => GameManager.Buff.HpAdd_Player;
+    protected override int AllStat_Bonus => GameManager.Buff.StatAdd_Player;
+
     public override SO_Monster Data { get; set; }
     public override void MonsterInit()
     {
@@ -27,7 +30,7 @@ public class Player : Monster
     {
         if (GameManager.Artifact.GetArtifact(ArtifactLabel.ProofOfHero).Count > 0)
         {
-            AddTrait(TraitGroup.Blessing);
+            AddTrait_Default(TraitGroup.Blessing);
         }
     }
 
@@ -94,7 +97,7 @@ public class Player : Monster
 
     public override void TurnStart()
     {
-        HP_Damaged = 0;
+        //HP_Damaged = 0;
     }
 
     public override void MoveSelf()

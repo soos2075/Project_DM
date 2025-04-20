@@ -550,7 +550,7 @@ public class BattleField : MonoBehaviour
     {
         roundList = new List<Round>();
 
-        //? 시작효과
+        //? 시작효과 (몬스터)
         if (monster.TraitCheck(TraitGroup.Vitality))
         {
             int bonusHP = monster.GetSomething(TraitGroup.Vitality, monster.B_HP_Max);
@@ -560,13 +560,30 @@ public class BattleField : MonoBehaviour
             monster.HP_Damaged -= realValue;
             openingList.Add(new OpeningTrait(EffectType.Heal, monster, StatType.HP, realValue));
         }
+        if (monster.TraitCheck(TraitGroup.Vitality_V2))
+        {
+            int bonusHP = Mathf.RoundToInt(monster.B_HP_Max * 0.2f);
+            int applyHP = monster.B_HP + bonusHP;
+
+            int realValue = applyHP > monster.B_HP_Max ? (monster.B_HP_Max - monster.B_HP) : bonusHP;
+            monster.HP_Damaged -= realValue;
+            openingList.Add(new OpeningTrait(EffectType.Heal, monster, StatType.HP, realValue));
+        }
+
 
         if (monster.TraitCheck(TraitGroup.Overwhelm))
         {
-            int realValue = Mathf.RoundToInt(npc.B_HP * 0.2f);
+            int realValue = Mathf.RoundToInt(npc.B_HP * 0.15f);
             npc.HP_Damaged += realValue;
             openingList.Add(new OpeningTrait(EffectType.Damaged, npc, StatType.HP, realValue));
         }
+        if (monster.TraitCheck(TraitGroup.Overwhelm_V2))
+        {
+            int realValue = Mathf.RoundToInt(npc.B_HP * 0.3f);
+            npc.HP_Damaged += realValue;
+            openingList.Add(new OpeningTrait(EffectType.Damaged, npc, StatType.HP, realValue));
+        }
+
 
         if (monster.TraitCheck(TraitGroup.Reaper))
         {
@@ -727,6 +744,12 @@ public class BattleField : MonoBehaviour
             return false;
         }
 
+        if (atkCount == 2 && defender.TraitCheck(TraitGroup.Blindness))
+        {
+            return true;
+        }
+
+
 
         //? 회피확률. LUK가 1차이날수록 5%씩 증가, 최소 5%에  최대 95%
         int chance = Mathf.Clamp((defender.B_LUK - attacker.B_LUK), 1, 19);
@@ -762,20 +785,83 @@ public class BattleField : MonoBehaviour
             int bonusAttack = damage / 2;
             addList.Add((bonusAttack, DamageMeshType.Damage));
         }
+        if (attacker.TraitCheck(TraitGroup.Nimble_V2))
+        {
+            int bonusAttack = damage;
+            addList.Add((bonusAttack, DamageMeshType.Damage));
+        }
 
-        //? 질풍 = AGI 만큼 추가공격
+        //? 화상 = 0.2배 추가공격 3번
+        if (attacker.TraitCheck(TraitGroup.Burn))
+        {
+            int bonusAttack = Mathf.RoundToInt(damage * 0.2f);
+            addList.Add((bonusAttack, DamageMeshType.Damage));
+            addList.Add((bonusAttack, DamageMeshType.Damage));
+            addList.Add((bonusAttack, DamageMeshType.Damage));
+        }
+
+        //? 괴력 = ATK 의 30% / 60% 추가공격
+        if (attacker.TraitCheck(TraitGroup.Powerful))
+        {
+            int trueDamage = Mathf.RoundToInt((attacker.B_ATK) * 0.3f);
+            addList.Add((trueDamage, DamageMeshType.Special));
+        }
+        if (attacker.TraitCheck(TraitGroup.Powerful_V2))
+        {
+            int trueDamage = Mathf.RoundToInt((attacker.B_ATK) * 0.6f);
+            addList.Add((trueDamage, DamageMeshType.Special));
+        }
+
+        //? 철스킨 = DEF 의 50% / 100% 추가공격
+        if (attacker.TraitCheck(TraitGroup.IronSkin))
+        {
+            int trueDamage = attacker.B_DEF / 2;
+            addList.Add((trueDamage, DamageMeshType.Special));
+        }
+        if (attacker.TraitCheck(TraitGroup.IronSkin_V2))
+        {
+            int trueDamage = attacker.B_DEF;
+            addList.Add((trueDamage, DamageMeshType.Special));
+        }
+
+        //? 질풍 = AGI 의 50% / 100% 추가공격
         if (attacker.TraitCheck(TraitGroup.GaleForce))
+        {
+            int bonusAttack = attacker.B_AGI / 2;
+            addList.Add((bonusAttack, DamageMeshType.Special));
+        }
+        if (attacker.TraitCheck(TraitGroup.GaleForce_V2))
         {
             int bonusAttack = attacker.B_AGI;
             addList.Add((bonusAttack, DamageMeshType.Special));
         }
 
-        //? 철스킨 = def 50% 고정데미지
-        if (attacker.TraitCheck(TraitGroup.IronSkin))
+        //? 행운 = LUK 의 50% / 100% 추가공격
+        if (attacker.TraitCheck(TraitGroup.LuckyPunch))
         {
-            int trueDamage = attacker.GetSomething(TraitGroup.IronSkin, attacker.B_DEF);
-            addList.Add((trueDamage, DamageMeshType.Special));
+            int bonusAttack = attacker.B_LUK / 2;
+            addList.Add((bonusAttack, DamageMeshType.Special));
         }
+        if (attacker.TraitCheck(TraitGroup.LuckyPunch_V2))
+        {
+            int bonusAttack = attacker.B_LUK;
+            addList.Add((bonusAttack, DamageMeshType.Special));
+        }
+
+        //? 필살 = 모든 스탯 합계 의 20% / 40% 추가공격
+        if (attacker.TraitCheck(TraitGroup.Ultimate))
+        {
+            int bonusAttack = Mathf.RoundToInt((attacker.B_ATK + attacker.B_DEF + attacker.B_AGI + attacker.B_LUK) * 0.2f);
+            addList.Add((bonusAttack, DamageMeshType.Special));
+        }
+        if (attacker.TraitCheck(TraitGroup.Ultimate_V2))
+        {
+            int bonusAttack = Mathf.RoundToInt((attacker.B_ATK + attacker.B_DEF + attacker.B_AGI + attacker.B_LUK) * 0.4f);
+            addList.Add((bonusAttack, DamageMeshType.Special));
+        }
+
+
+
 
         //? 신성력	공격 시 상대 최대 HP의 8%만큼 추가데미지
         if (attacker.TraitCheck(TraitGroup.DivineForce))
@@ -799,33 +885,31 @@ public class BattleField : MonoBehaviour
     {
         List<(int, DamageMeshType)> addList = new List<(int, DamageMeshType)>();
 
-        //? 정기흡수 = dmg 25% 체력흡수
+        //? 정기흡수 = dmg 20% / 40% 체력흡수
         if (attacker.TraitCheck(TraitGroup.LifeDrain))
         {
-            int bonusHP = attacker.GetSomething(TraitGroup.LifeDrain, damage);
+            int bonusHP = Mathf.RoundToInt(damage * 0.2f);
             int applyHP = attacker.B_HP + bonusHP;
+
+            if (attacker is Monster mon)
+            {
+                mon.traitCounter.AddCustomValue(bonusHP);
+            }
 
             int realValue = applyHP > attacker.B_HP_Max ? (attacker.B_HP_Max - attacker.B_HP) : bonusHP;
             attacker.HP_Damaged -= realValue;
 
             addList.Add((realValue, DamageMeshType.Heal));
         }
-
-        return addList;
-    }
-
-    //? 유틸효과 - 몬스터 전용 (TraitCounter를 호출해야되서 분리함)
-    List<(int, DamageMeshType)> TryTrait_Util(Monster attacker, NPC defender, int damage)
-    {
-        List<(int, DamageMeshType)> addList = new List<(int, DamageMeshType)>();
-
-        //? 정기흡수 = dmg 25% 체력흡수
-        if (attacker.TraitCheck(TraitGroup.LifeDrain))
+        if (attacker.TraitCheck(TraitGroup.LifeDrain_V2))
         {
-            int bonusHP = attacker.GetSomething(TraitGroup.LifeDrain, damage);
+            int bonusHP = Mathf.RoundToInt(damage * 0.4f);
             int applyHP = attacker.B_HP + bonusHP;
 
-            attacker.traitCounter.AddCustomValue(bonusHP);
+            if (attacker is Monster mon)
+            {
+                mon.traitCounter.AddCustomValue(bonusHP);
+            }
 
             int realValue = applyHP > attacker.B_HP_Max ? (attacker.B_HP_Max - attacker.B_HP) : bonusHP;
             attacker.HP_Damaged -= realValue;

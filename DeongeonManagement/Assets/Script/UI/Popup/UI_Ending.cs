@@ -94,8 +94,23 @@ public class UI_Ending : UI_PopUp
         //? 그냥 메인으로 가자..
         Managers.Scene.LoadSceneAsync(SceneName._1_Start);
 
-        //? 만약 모든 엔딩을 다 봤다면 엔딩크레딧 연결하자
+        if (CollectionManager.Instance.RoundClearData.clearCounter == 1)
+        {
+            Managers.Scene.AddLoadAction_OneTime(() => NGP_Info());
+        }
 
+
+
+        //? 만약 모든 엔딩을 다 봤다면 엔딩크레딧 연결하자
+        if (CollectionManager.Instance.RoundClearData != null)
+        {
+            var data = CollectionManager.Instance.RoundClearData;
+            if (data.EndingClearCheck(Endings.Dog) && data.EndingClearCheck(Endings.Cat) && data.EndingClearCheck(Endings.Dragon) &&
+                data.EndingClearCheck(Endings.Demon) && data.EndingClearCheck(Endings.Hero) && data.EndingClearCheck(Endings.Ravi))
+            {
+                Managers.Scene.AddLoadAction_OneTime(() => Managers.UI.ShowPopUp<UI_Credit>());
+            }
+        }
         //StartCoroutine(Clear_Demo());
 
 
@@ -105,6 +120,15 @@ public class UI_Ending : UI_PopUp
 
         UserData.Instance.SetData(PrefsKey.FirstClear, 1);
     }
+
+    void NGP_Info()
+    {
+        var ui = Managers.UI.ShowPopUp<UI_SystemMessage>();
+        ui.Message = $"{UserData.Instance.LocaleText_NGP("First_Clear_MSG")}";
+    }
+
+
+
 
 
     IEnumerator Clear_Demo()

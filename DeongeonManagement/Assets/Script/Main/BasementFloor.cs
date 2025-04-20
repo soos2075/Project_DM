@@ -80,7 +80,7 @@ public class BasementFloor : MonoBehaviour
 
         BasementTile emptyTile = null;
         BasementTile tempTile = null;
-        while (whileCount < 100 && emptyTile == null)
+        while (whileCount < 200 && emptyTile == null)
         {
             whileCount++;
             randomTile = new Vector2Int(UnityEngine.Random.Range(0, tilemap.cellBounds.size.x), UnityEngine.Random.Range(0, tilemap.cellBounds.size.y));
@@ -160,6 +160,50 @@ public class BasementFloor : MonoBehaviour
             }
         }
     }
+
+    public List<BasementTile> GetAroundTile(BasementTile currentTile, int radius, out bool findEmpty)
+    {
+        List<BasementTile> emptyTileList = new List<BasementTile>();
+        Vector2Int currentPos = currentTile.index;
+        findEmpty = false;
+
+        // 현재 위치에서 반경만큼 순회
+        for (int y = -radius; y <= radius; y++)
+        {
+            for (int x = -radius; x <= radius; x++)
+            {
+                Vector2Int checkPos = new Vector2Int(currentPos.x + x, currentPos.y + y);
+
+                // 맨해튼 거리나 유클리드 거리로 반경 체크
+                if (Mathf.Abs(x) + Mathf.Abs(y) <= radius)  // 맨해튼 거리
+                                                            // 또는 if (Mathf.Sqrt(x * x + y * y) <= radius)  // 유클리드 거리
+                {
+                    // 맵 범위 체크
+                    if (OriginalCheck(checkPos))
+                    {
+                        BasementTile empty = null;
+                        if (TileMap.TryGetValue(checkPos, out empty))
+                        {
+                            emptyTileList.Add(empty);
+                            findEmpty = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        emptyTileList.Sort((a, b) => 
+        Vector3.Distance(currentTile.worldPosition, a.worldPosition).CompareTo(
+            Vector3.Distance(currentTile.worldPosition, b.worldPosition)));
+
+
+
+        return emptyTileList;
+    }
+
+
+
+
 
 
     bool OriginalCheck(Vector2Int index)

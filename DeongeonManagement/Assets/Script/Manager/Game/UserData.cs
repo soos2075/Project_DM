@@ -47,10 +47,10 @@ public class UserData : MonoBehaviour
         SteamInit();
 #endif
 
-
-
         Application.runInBackground = true;
         //Application.targetFrameRate = -1;
+        Application.targetFrameRate = 120;
+
         Init_Resolution();
         Init_Cursor();
         Init_Language();
@@ -384,8 +384,10 @@ public class UserData : MonoBehaviour
     }
 
 
-    //? PrefsKey.User_Resolution 의 값에 따른 해상도 // 0 = 1920*1080 // 1 = 1280*720
-    readonly Vector2Int[] resolution = new Vector2Int[2] { new Vector2Int(1920, 1080), new Vector2Int(1280, 720) };
+    //? PrefsKey.User_Resolution 의 값에 따른 해상도 // 0 = 1920*1080 (디폴트) // 첫줄 = 16:9 , 두번째줄 = 16:10
+    readonly Vector2Int[] resolution = new Vector2Int[] 
+    {   new Vector2Int(1920, 1080), new Vector2Int(2560 , 1440 ), new Vector2Int(1600 , 900 ), new Vector2Int(1280, 720),
+        new Vector2Int(1920 , 1200 ), new Vector2Int(2560  , 1600  ),new Vector2Int(1680, 1050), new Vector2Int(1440, 900), };
 
     int current_Index;
     public int CurrentResolution { get { return current_Index; } set { SetResolution(value); } }
@@ -405,7 +407,8 @@ public class UserData : MonoBehaviour
             current_Index = _value;
             Screen.SetResolution(resolution[current_Index].x, resolution[current_Index].y, screenMode);
             SetData(PrefsKey.User_Resolution, current_Index);
-            Debug.Log("해상도 변경");
+            Debug.Log($"Resolution Change - [{resolution[current_Index].x} * {resolution[current_Index].y}]");
+            Debug.Log($"ScreenMode - [{screenMode}]");
         }
     }
 
@@ -491,6 +494,8 @@ public class UserData : MonoBehaviour
     {
         GameSpeed = 1;
         Time.timeScale = 1;
+        //GameMode = Define.GameMode.Normal;
+        _gameMode = Define.GameMode.Normal;
     }
 
     public void GamePlay(int speed)

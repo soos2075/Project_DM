@@ -47,6 +47,18 @@ public class ArtifactManager
         Debug.Log($"{_keyName}: Data Not Exist");
         return null;
     }
+    public SO_Artifact GetData(int _id)
+    {
+        foreach (var item in so_data)
+        {
+            if (item.id == _id)
+            {
+                return item;
+            }
+        }
+        Debug.Log($"{_id}: Data Not Exist");
+        return null;
+    }
     #endregion
 
 
@@ -188,6 +200,18 @@ public class ArtifactManager
         }
         return null;
     }
+    public bool Check_Artifact_Exist(ArtifactLabel label)
+    {
+        foreach (var item in artifacts)
+        {
+            if (item.Indexer == label && item.Count > 0)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void AddArtifact(ArtifactLabel label)
     {
         GetArtifact(label).Add();
@@ -207,6 +231,36 @@ public class ArtifactManager
     {
         int random = Random.Range((int)ArtifactLabel.Harp, (int)ArtifactLabel.Dice + 1);
         AddArtifact((ArtifactLabel)random);
+
+
+        Managers.UI.Popup_Reservation(() => {
+            var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
+            message.DelayTime = 0;
+            //? 신규 아티팩트
+            var arti = GameManager.Artifact.GetData(random);
+            message.Message = $"{UserData.Instance.LocaleText("New")}{UserData.Instance.LocaleText("아티팩트")} : {arti.labelName}";
+            Sprite sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.Artifact, arti.SLA_category, arti.SLA_label);
+            message.Set_Image(sprite);
+
+            //message.Message += $"\n\naa\n\nfwab";
+        });
+    }
+
+
+    public void Check_10Treasure() //? 제 10대 비보를 다 모았는지
+    {
+        if (EventManager.Instance.CurrentClearEventData.Check_AlreadyClear(11020))
+        {
+            return;
+        }
+
+        if (Check_Artifact_Exist(ArtifactLabel.Harp) && Check_Artifact_Exist((ArtifactLabel)201) && Check_Artifact_Exist((ArtifactLabel)202) &&
+            Check_Artifact_Exist((ArtifactLabel)203) && Check_Artifact_Exist((ArtifactLabel)204) && Check_Artifact_Exist((ArtifactLabel)205) &&
+            Check_Artifact_Exist((ArtifactLabel)206) && Check_Artifact_Exist((ArtifactLabel)207) && Check_Artifact_Exist((ArtifactLabel)208) &&
+            Check_Artifact_Exist((ArtifactLabel)209))
+        {
+            EventManager.Instance.Add_GuildQuest_Special(11020);
+        }
     }
 
     #endregion
@@ -234,44 +288,44 @@ public class ArtifactManager
             switch (item.Indexer)
             {
                 case ArtifactLabel.Harp:
-                    GameManager.Buff.FacilityBonus = item.Count * 1;
+                    GameManager.Buff.ManaAdd_Facility = item.Count * 1;
                     break;
 
                 case ArtifactLabel.Hourglass:
-                    GameManager.Buff.HerbBonus = item.Count * 2;
+                    GameManager.Buff.ManaAdd_Herb = item.Count * 2;
                     break;
 
                 case ArtifactLabel.Lamp:
-                    GameManager.Buff.MineralBonus = item.Count * 2;
+                    GameManager.Buff.ManaAdd_Mineral = item.Count * 2;
                     break;
 
                 case ArtifactLabel.Mirror:
-                    GameManager.Buff.PortalBonus = item.Count * 1;
+                    GameManager.Buff.ManaAdd_Portal = item.Count * 1;
                     break;
 
                 case ArtifactLabel.Lyre:
-                    GameManager.Buff.BattleBonus = item.Count * 5;
+                    GameManager.Buff.ManaAdd_Battle = item.Count * 5;
                     break;
 
                 case ArtifactLabel.Pearl:
-                    GameManager.Buff.ExpBonus = item.Count * 3;
+                    GameManager.Buff.ExpAdd_Battle = item.Count * 3;
                     break;
 
                 case ArtifactLabel.Cup:
-                    GameManager.Buff.ManaBonus = item.Count * 5;
+                    GameManager.Buff.ManaUp_Final = item.Count * 5;
                     break;
 
                 case ArtifactLabel.Coin:
-                    GameManager.Buff.GoldBonus = item.Count * 5;
+                    GameManager.Buff.GoldUp_Final = item.Count * 5;
                     break;
 
-                case ArtifactLabel.Cross:
-                    GameManager.Buff.HpBonus = item.Count * 10;
-                    break;
+                //case ArtifactLabel.Cross:
+                //    GameManager.Buff.HpUp_Unit = item.Count * 10;
+                //    break;
 
-                case ArtifactLabel.Dice:
-                    GameManager.Buff.StatBonus = item.Count * 1;
-                    break;
+                //case ArtifactLabel.Dice:
+                //    GameManager.Buff.StatUp_Unit = item.Count * 5;
+                //    break;
             }
         }
     }
@@ -307,6 +361,8 @@ public class ArtifactManager
             Main.Instance.CurrentDay.AddPop(-5);
             Main.Instance.ShowDM(-5, Main.TextType.pop, ArtifactBox.transform, 2);
         }
+
+        Check_10Treasure();
     }
 
     #endregion
@@ -316,6 +372,9 @@ public enum ArtifactLabel
 {
     //? 키아이템
     DungeonMaster_Temp = 0,
+
+    Racing = 10,
+
 
     //? 진화재료 (효과없음)
     BananaBone = 100,

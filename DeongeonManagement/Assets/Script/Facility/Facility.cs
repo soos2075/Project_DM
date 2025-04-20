@@ -217,7 +217,7 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         //? 배율 보너스
         float trait_Ratio = npc.TraitCheck(TraitGroup.Overflow) ? 1.2f : 1;
         //? 고정값 보너스
-        int manabonus = GameManager.Buff.FacilityBonus;
+        int manabonus = GameManager.Buff.ManaAdd_Facility;
         //? 최종 계산
         int tempMP = (int)(mp * trait_Ratio) + manabonus;
         //? npc에 적용할 수 있는 최대값 계산

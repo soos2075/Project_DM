@@ -29,10 +29,10 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
             }
         }
     }
-    private void LateUpdate()
-    {
-        BubbleSizeFitter();
-    }
+    //private void LateUpdate()
+    //{
+    //    BubbleSizeFitter();
+    //}
     public void SetCanvasWorldSpace()
     {
         Managers.UI.SetCanvas(gameObject, RenderMode.WorldSpace, true);
@@ -133,6 +133,18 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
         }
     }
 
+
+    IEnumerator Box_Init(string _text)
+    {
+        mainText.GetComponent<ContentSizeFitter>().enabled = true;
+        mainText.color = Color.clear;
+        ShowText(_text);
+        yield return new WaitForEndOfFrame();
+        BubbleSizeFitter();
+        mainText.GetComponent<ContentSizeFitter>().enabled = false;
+        mainText.color = Color.black;
+        yield return null;
+    }
 
     void ShowText(string _text)
     {
@@ -392,6 +404,9 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
     {
         int charIndexer = 0;
         ClearEmoji();
+
+        //? 처음부터 말풍선 전부 다 띄워주는 코드
+        yield return StartCoroutine(Box_Init(contents));
 
         while (!isSkip && contents.Length >= charIndexer)
         {

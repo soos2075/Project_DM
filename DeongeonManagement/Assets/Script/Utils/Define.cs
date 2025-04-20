@@ -65,6 +65,16 @@ public class Define
         Master = 4,
     }
 
+    public enum StatType
+    {
+        Lv,
+        ATK,
+        DEF,
+        AGI,
+        LUK,
+        ALL,
+    }
+
     public enum DungeonRank
     {
         F = 1,
@@ -90,6 +100,7 @@ public class Define
 
         L = 99,
     }
+
 
     public enum DungeonFloor
     {

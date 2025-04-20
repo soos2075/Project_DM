@@ -103,23 +103,12 @@ public class UI_Monster_Management : UI_PopUp
         Command_Attack,
 
 
-        ////? 배치모드에서 회복
-        //Recover_Floor,
-
-        ////? Mode
-        //Mode_Managed,
-        //Mode_Placement,
-        //Mode_Edit,
-
-        ////? Floor
-        //Floor_Egg,
-        //Floor_01,
-        //Floor_02,
-        //Floor_03,
-        //Floor_04,
-        //Floor_05,
-        //Floor_06,
-        //Floor_07,
+        //? 일괄 행동
+        All_Placement,
+        All_Retrieve,
+        All_Fix,
+        All_Wander,
+        All_Attack,
     }
 
     public override void Init()
@@ -141,22 +130,120 @@ public class UI_Monster_Management : UI_PopUp
 
         PanelClear();
         Init_DefaultSetting();
+
+        Init_All_Button();
     }
 
 
-    //public enum Unit_Mode
-    //{
-    //    Management,
-    //    Placement,
-    //    Edit,
-    //}
-    //public Unit_Mode Mode { get; set; }
+    void Init_All_Button()
+    {
+        GetButton(((int)Buttons.All_Placement)).gameObject.AddUIEvent(data => All_Placement());
+        GetButton(((int)Buttons.All_Retrieve)).gameObject.AddUIEvent(data => All_Retrieve());
+        GetButton(((int)Buttons.All_Fix)).gameObject.AddUIEvent(data => All_Fix());
+        GetButton(((int)Buttons.All_Wander)).gameObject.AddUIEvent(data => All_Wander());
+        GetButton(((int)Buttons.All_Attack)).gameObject.AddUIEvent(data => All_Attack());
+    }
+
+
+    void All_Placement()
+    {
+        var mon = GameManager.Monster.GetMonsterAll(); //? player는 포함 안되는거 확인
+        var standbyList = new Queue<Monster>(); //? 배치할 수 있는 리스트
+        foreach (var item in mon)
+        {
+            if (item.State == Monster.MonsterState.Standby)
+            {
+                standbyList.Enqueue(item);
+            }
+        }
+
+        var currentFloor = Main.Instance.ActiveFloor_Basement - 1;
+
+        for (int i = currentFloor; i > 0; currentFloor--)
+        {
+            var floor = Main.Instance.Floor[currentFloor];
+            while (floor.MaxMonsterSize > 0 && standbyList.Count > 0)
+            {
+                var tile = floor.GetRandomTile();
+                if (tile != null)
+                {
+                    var tempMon = standbyList.Dequeue();
+                    GameManager.Placement.PlacementConfirm(tempMon, new PlacementInfo(floor, tile));
+                    floor.MaxMonsterSize--;
+                    tempMon.State = Monster.MonsterState.Placement;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if (standbyList.Count == 0)
+            {
+                break;
+            }
+        }
+
+
+        StartCoroutine(RefreshAll_NoSelected());
+    }
+    void All_Retrieve()
+    {
+        var mon = GameManager.Monster.GetMonsterAll(); //? player는 포함 안되는거 확인
+
+        for (int i = 0; i < mon.Count; i++)
+        {
+            //Debug.Log($"{mon[i].name}");
+            if (mon[i].State == Monster.MonsterState.Placement)
+            {
+                mon[i].MonsterOutFloor();
+            }
+        }
+        StartCoroutine(RefreshAll_NoSelected());
+    }
+    void All_Fix()
+    {
+        var mon = GameManager.Monster.GetMonsterAll(); //? player는 포함 안되는거 확인
+
+        for (int i = 0; i < mon.Count; i++)
+        {
+            mon[i].Mode = Monster.MoveType.Fixed;
+        }
+        StartCoroutine(RefreshAll_NoSelected());
+    }
+    void All_Wander()
+    {
+        var mon = GameManager.Monster.GetMonsterAll(); //? player는 포함 안되는거 확인
+
+        for (int i = 0; i < mon.Count; i++)
+        {
+            mon[i].Mode = Monster.MoveType.Wander;
+        }
+        StartCoroutine(RefreshAll_NoSelected());
+    }
+    void All_Attack()
+    {
+        var mon = GameManager.Monster.GetMonsterAll(); //? player는 포함 안되는거 확인
+
+        for (int i = 0; i < mon.Count; i++)
+        {
+            mon[i].Mode = Monster.MoveType.Attack;
+        }
+        StartCoroutine(RefreshAll_NoSelected());
+    }
+
+
 
 
     void Init_DefaultSetting()
     {
+        if (UserData.Instance.FileConfig.Notice_Summon)
+        {
+            AddNotice_UI("New_Small", this, "Summon", "Notice_Summon");
+        }
+
         GetObject((int)Etc.Summon).AddUIEvent((data) => Show_SummonUI());
-        GetObject((int)Etc.UnitCount).GetComponent<TextMeshProUGUI>().text = $"{GameManager.Monster.GetCurrentMonster()}/{GameManager.Monster.GetSlotSize()}";
+        GetObject((int)Etc.UnitCount).GetComponent<TextMeshProUGUI>().text = $"{GameManager.Monster.GetCurrentMonsterSize()}/{GameManager.Monster.GetSlotSize()}";
 
         var hp = GetImage(((int)Images.Image_HP)).gameObject.GetOrAddComponent<UI_Tooltip>();
         hp.SetTooltipContents("HP", UserData.Instance.LocaleText_Tooltip("Stat_HP"), UI_TooltipBox.ShowPosition.LeftUp);
@@ -317,7 +404,6 @@ public class UI_Monster_Management : UI_PopUp
             ShowDetail(selected);
         }
     }
-
 
     public void ShowDetail(UI_MonsterBox selected)
     {
@@ -609,6 +695,8 @@ public class UI_Monster_Management : UI_PopUp
         GetButton((int)Buttons.Recover).gameObject.AddUIEvent((data) => StartCoroutine(RefreshAll()));
         GetButton((int)Buttons.Retrieve).gameObject.AddUIEvent((data) => StartCoroutine(RefreshAll()));
         GetButton((int)Buttons.UnitEvent).gameObject.AddUIEvent((data) => StartCoroutine(RefreshAll()));
+
+        Init_All_Button();
     }
 
 
@@ -628,6 +716,18 @@ public class UI_Monster_Management : UI_PopUp
         //Add_CommandChangeEvent();
         //AddEditButtonEvent();
     }
+
+    IEnumerator RefreshAll_NoSelected()
+    {
+        yield return new WaitForEndOfFrame();
+        yield return UserData.Instance.Wait_GamePlay;
+        yield return new WaitForEndOfFrame();
+        for (int i = 0; i < childList.Count; i++)
+        {
+            childList[i].ShowContents();
+        }
+    }
+
 
     void AddButtonEvent()
     {

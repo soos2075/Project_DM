@@ -12,12 +12,4 @@ public class EvilEye : Monster
         Trait_Original();
     }
 
-
-    void Trait_Original()
-    {
-        AddTrait(new Trait.IronSkin());
-    }
-
-
-
 }
