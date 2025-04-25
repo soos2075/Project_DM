@@ -79,11 +79,25 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
-        AudioSources[(int)Define.AudioType.BGM].volume = UserData.Instance.GetDataFloat(PrefsKey.Volume_BGM, 0.7f);
-        AudioSources[(int)Define.AudioType.Effect].volume = UserData.Instance.GetDataFloat(PrefsKey.Volume_Effect, 0.7f);
+        //AudioSources[(int)Define.AudioType.BGM].volume = UserData.Instance.GetDataFloat(PrefsKey.Volume_BGM, 0.7f);
+        //AudioSources[(int)Define.AudioType.Effect].volume = UserData.Instance.GetDataFloat(PrefsKey.Volume_Effect, 0.7f);
+
+        //PlaySound("BGM/_Title_Arcade", Define.AudioType.BGM);
+
+        StartCoroutine(AfterAllStartsComplete());
+    }
+
+    private IEnumerator AfterAllStartsComplete()
+    {
+        yield return null;
+
+        AudioSources[(int)Define.AudioType.BGM].volume = UserData.Instance.CurrentPlayerData.option.Volume_BGM;
+        AudioSources[(int)Define.AudioType.Effect].volume = UserData.Instance.CurrentPlayerData.option.Volume_Effect;
 
         PlaySound("BGM/_Title_Arcade", Define.AudioType.BGM);
     }
+
+
 
     float timeCount;
     private void LateUpdate()
@@ -104,10 +118,12 @@ public class SoundManager : MonoBehaviour
         switch (type)
         {
             case Define.AudioType.Effect:
-                UserData.Instance.SetData(PrefsKey.Volume_Effect, value);
+                //UserData.Instance.SetData(PrefsKey.Volume_Effect, value);
+                UserData.Instance.CurrentPlayerData.option.Volume_Effect = value;
                 break;
             case Define.AudioType.BGM:
-                UserData.Instance.SetData(PrefsKey.Volume_BGM, value);
+                //UserData.Instance.SetData(PrefsKey.Volume_BGM, value);
+                UserData.Instance.CurrentPlayerData.option.Volume_BGM = value;
                 break;
         }
 

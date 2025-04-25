@@ -59,7 +59,7 @@ public class CollectionManager : MonoBehaviour
         //Register_NPC[1].isRegist = true;
         //Register_Technical[1].isRegist = true;
 
-        Managers.Data.LoadClearData();
+        //Managers.Data.LoadClearData();
     }
 
 
@@ -408,26 +408,27 @@ public class CollectionManager : MonoBehaviour
 
     #region Multi Play
 
-    public void GameClear(DataManager.SaveData data)
-    {
-        if (RoundClearData == null)
-        {
-            RoundClearData = new RoundData();
-        }
+    //public void GameClear(DataManager.SaveData data)
+    //{
+    //    if (RoundClearData == null)
+    //    {
+    //        RoundClearData = new RoundData();
+    //    }
 
-        RoundClearData.Init_Data(data);
-        Managers.Data.SaveClearData();
+    //    RoundClearData.Init_Data(data);
+    //    Managers.Data.SaveClearData();
 
-        //? 컬렉션 데이터 업데이트
-        Managers.Data.SaveCollectionData();
-    }
-
-
+    //    //? 컬렉션 데이터 업데이트
+    //    Managers.Data.SaveCollectionData();
+    //}
 
 
-    public RoundData RoundClearData { get; set; }
 
 
+    //public RoundData RoundClearData { get; set; }
+
+
+    //? 나중에 이거랑 아래 클리어로그 항목 전체 다 삭제하면 댐 (업데이트 미리 공지는 때려야할듯)
     public class RoundData
     {
         //? 클리어 횟수
@@ -611,22 +612,22 @@ public class CollectionManager : MonoBehaviour
 
 
 
-    public RoundData SaveMultiData()
-    {
-        if (RoundClearData != null)
-        {
-            return RoundClearData;
-        }
-        else
-        {
-            return null;
-        }
-    }
+    //public RoundData SaveMultiData()
+    //{
+    //    if (RoundClearData != null)
+    //    {
+    //        return RoundClearData;
+    //    }
+    //    else
+    //    {
+    //        return null;
+    //    }
+    //}
 
-    public void LoadMultiData(RoundData Data)
-    {
-        RoundClearData = Data;
-    }
+    //public void LoadMultiData(RoundData Data)
+    //{
+    //    RoundClearData = Data;
+    //}
 
 
     #endregion

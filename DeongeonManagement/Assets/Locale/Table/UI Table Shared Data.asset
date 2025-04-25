@@ -731,6 +731,10 @@ MonoBehaviour:
     m_Key: "\uB79C\uB364 \uD2B9\uC131"
     m_Metadata:
       m_Items: []
+  - m_Id: 149577308391550976
+    m_Key: Message_Tutorial_RandomEvent
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

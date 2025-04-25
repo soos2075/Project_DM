@@ -1194,6 +1194,16 @@ public class EventManager : MonoBehaviour
             child.localScale = Vector3.one;
         });
 
+        EventAction.Add("Tutorial_RandomEvent", () => {
+            Camera.main.GetComponent<CameraControl>().ChasingTarget(Main.Instance.Dungeon.position, 1.0f);
+            var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
+            msg.Message = UserData.Instance.LocaleText("Message_Tutorial_RandomEvent");
+        });
+
+        
+
+
+
         EventAction.Add("Player_FlipX_True", () =>
         {
             Main.Instance.Player.GetComponentInChildren<SpriteRenderer>().flipX = true;

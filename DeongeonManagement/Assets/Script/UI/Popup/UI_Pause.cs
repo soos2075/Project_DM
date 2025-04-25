@@ -9,6 +9,7 @@ public class UI_Pause : UI_PopUp
     void Start()
     {
         UserData.Instance.SavePlayTime();
+        UserData.Instance.Save_PlayerData();
         Init();
     }
 
@@ -116,6 +117,8 @@ public class UI_Pause : UI_PopUp
     {
         // 플레이어 데이터 삭제
         PlayerPrefs.DeleteAll();
+
+        UserData.Instance.CurrentPlayerData.option.Init();
     }
     void Delete_SaveData()
     {
@@ -126,8 +129,10 @@ public class UI_Pause : UI_PopUp
     void Delete_ClearData()
     {
         // 클리어 데이터 삭제
-        CollectionManager.Instance.RoundClearData = null;
-        Managers.Data.DeleteSaveFile("ClearData");
+        //CollectionManager.Instance.RoundClearData = null;
+        //Managers.Data.DeleteSaveFile("ClearData");
+
+        UserData.Instance.CurrentPlayerData.Init_ClearLog();
     }
 
     void Delete_CollectionData()

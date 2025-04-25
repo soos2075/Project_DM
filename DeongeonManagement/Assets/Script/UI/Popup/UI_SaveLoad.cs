@@ -109,7 +109,8 @@ public class UI_SaveLoad : UI_PopUp
     void SaveDataConfirm(int index)
     {
         Managers.Data.SaveAndAddFile($"DM_Save_{index}", index);
-        UserData.Instance.SetData(PrefsKey.SaveTimes, UserData.Instance.GetDataInt(PrefsKey.SaveTimes) + 1);
+        //UserData.Instance.SetData(PrefsKey.SaveTimes, UserData.Instance.GetDataInt(PrefsKey.SaveTimes) + 1);
+        UserData.Instance.CurrentPlayerData.config.SaveCount++;
 
         ShowDataInfo(index);
 
@@ -118,7 +119,8 @@ public class UI_SaveLoad : UI_PopUp
         msg.Message = UserData.Instance.LocaleText("Message_Saved");
 
         // 마지막 세이브 슬롯의 인덱스
-        UserData.Instance.SetData(PrefsKey.LastSaveSlotIndex, (index - 1) / 6);
+        //UserData.Instance.SetData(PrefsKey.LastSaveSlotIndex, (index - 1) / 6);
+        UserData.Instance.CurrentPlayerData.config.LastSaveSlotIndex = (index - 1) / 6;
     }
     void LoadDataConfirm(int index)
     {
@@ -187,7 +189,8 @@ public class UI_SaveLoad : UI_PopUp
                 else
                 {
                     Managers.Data.SaveAndAddFile($"DM_Save_{index}", index);
-                    UserData.Instance.SetData(PrefsKey.SaveTimes, UserData.Instance.GetDataInt(PrefsKey.SaveTimes) + 1);
+                    //UserData.Instance.SetData(PrefsKey.SaveTimes, UserData.Instance.GetDataInt(PrefsKey.SaveTimes) + 1);
+                    UserData.Instance.CurrentPlayerData.config.SaveCount++;
                 }
 
                 ShowDataInfo(index);
@@ -197,7 +200,8 @@ public class UI_SaveLoad : UI_PopUp
                 msg.Message = UserData.Instance.LocaleText("Message_Saved");
 
                 // 마지막 세이브 슬롯의 인덱스
-                UserData.Instance.SetData(PrefsKey.LastSaveSlotIndex, (index - 1) / 6);
+                //UserData.Instance.SetData(PrefsKey.LastSaveSlotIndex, (index - 1) / 6);
+                UserData.Instance.CurrentPlayerData.config.LastSaveSlotIndex = (index - 1) / 6;
                 break;
 
             case DataState.Load:
@@ -382,7 +386,8 @@ public class UI_SaveLoad : UI_PopUp
             }
         }
 
-        SelectSlotBox(UserData.Instance.GetDataInt(PrefsKey.LastSaveSlotIndex, 0));
+        //SelectSlotBox(UserData.Instance.GetDataInt(PrefsKey.LastSaveSlotIndex, 0));
+        SelectSlotBox(UserData.Instance.CurrentPlayerData.config.LastSaveSlotIndex);
     }
 
     void SelectSlotBox(int index)

@@ -14,6 +14,8 @@ public class SO_RandomEventContent : ScriptableObject
     public RandomEventPool pool;
     //? 이벤트 타입 (지속 / 발동)
     public RandomEventType type;
+    //? 좋은, 나쁜, 중립, 특별
+    public RandomEventValue eventValue;
 
     //? 지속시간 (발동형이면 0)
     public int continuousDays;

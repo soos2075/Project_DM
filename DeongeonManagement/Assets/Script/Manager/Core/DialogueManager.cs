@@ -8,9 +8,13 @@ public class DialogueManager
 {
     public void Init()
     {
-        CurrentTextSpeed = UserData.Instance.GetDataInt(PrefsKey.TextSpeed, 5);
 
         Init_GetLocalizationData();
+    }
+
+    public void Init_Start()
+    {
+        CurrentTextSpeed = UserData.Instance.CurrentPlayerData.option.TextSpeed;
     }
 
 
@@ -99,7 +103,8 @@ public class DialogueManager
     {
         textSpeedOption = _value;
         textSpeed = (11 - _value) * 0.01f;
-        UserData.Instance.SetData(PrefsKey.TextSpeed, textSpeedOption);
+        //UserData.Instance.SetData(PrefsKey.TextSpeed, textSpeedOption);
+        UserData.Instance.CurrentPlayerData.option.TextSpeed = textSpeedOption;
     }
 
 
@@ -479,6 +484,7 @@ public enum DialogueName
     Tutorial_Egg = 4,
     Tutorial_Guild = 5,
     Tutorial_Orb = 6,
+    Tutorial_RandomEvent = 7,
 
     GameOver = 10,
 

@@ -199,7 +199,7 @@ public class Main : MonoBehaviour
         }
 
         Init_BasementFloor();
-        Init_Animation();
+        Init_DefaultSetting();
         UI_Main.Start_Main();
 
         _DefaultSetting = true;
@@ -232,7 +232,7 @@ public class Main : MonoBehaviour
         NewGamePlus();
 
         Init_BasementFloor();
-        Init_Animation();
+        Init_DefaultSetting();
         UI_Main.Start_Main();
         Init_DayResult();
         ExpansionConfirm(false);
@@ -934,6 +934,9 @@ public class Main : MonoBehaviour
 
     void DayOver_Dayresult()
     {
+        //? 누적 통계 추가
+        UserData.Instance.CurrentPlayerData.statistics.Update_DayOver(new Save_DayResult(CurrentDay));
+
         DayList.Add(CurrentDay);
         //AddScore(CurrentDay);
 
@@ -1144,10 +1147,13 @@ public class Main : MonoBehaviour
 
 
     #region Camera
+
+    CameraControl mainCam;
+
     public void ShowGuild()
     {
-        var cam = Camera.main.GetComponent<CameraControl>();
-        cam.ChasingTarget(Dungeon, 1);
+        //var cam = Camera.main.GetComponent<CameraControl>();
+        mainCam.ChasingTarget(Dungeon, 1);
     }
     #endregion
 
@@ -1341,41 +1347,6 @@ public class Main : MonoBehaviour
                 break;
 
 
-//            case 30:
-//#if DEMO_BUILD
-//                Debug.Log("데모클리어");
-//                var clear = new CollectionManager.ClearDataLog();
-//                //clear.mana = GetTotalMana();
-//                //clear.gold = GetTotalGold();
-//                //clear.visit = GetTotalVisit();
-//                //clear.kill = GetTotalKill();
-//                //clear.satisfaction = GetTotalSatisfaction();
-//                //clear.return_Empty = GetTotalReturn();
-
-//                //clear.pop = PopularityOfDungeon;
-//                //clear.danger = DangerOfDungeon;
-//                //clear.rank = DungeonRank;
-//                //UserData.Instance.FileConfig.PlayTimeApply();
-//                //clear.clearTime = UserData.Instance.FileConfig.PlayTimes;
-//                //clear.monsterCount = GameManager.Monster.GetCurrentMonster();
-//                //int highestLv = 0;
-//                //string highestMonster = "";
-//                //foreach (var mon in GameManager.Monster.GetMonsterAll())
-//                //{
-//                //    if (mon.LV > highestLv)
-//                //    {
-//                //        highestMonster = mon.Name;
-//                //        highestLv = mon.LV;
-//                //    }
-//                //}
-//                //clear.highestMonster = highestMonster;
-//                //clear.highestMonsterLv = highestLv;
-
-//                //DemoManager.Instance.DemoClearData(clear);
-//                //AutoSave_Instant();
-//#endif
-//                break;
-
             default:
                 break;
         }
@@ -1486,11 +1457,12 @@ public class Main : MonoBehaviour
     Animator ani_Sky;
     Animator ani_Dungeon;
 
-    void Init_Animation()
+    void Init_DefaultSetting()
     {
         ani_MainUI = UI_Main.GetComponent<Animator>();
         ani_Sky = GameObject.Find("SkyBackground").GetComponent<Animator>();
         ani_Dungeon = GameObject.Find("DungeonSprite").GetComponent<Animator>();
+        mainCam = Camera.main.GetComponent<CameraControl>();
     }
 
 
@@ -1498,8 +1470,106 @@ public class Main : MonoBehaviour
     {
         ani_MainUI.SetBool("Management", Management);
         ani_Sky.SetBool("Management", Management);
-        ani_Dungeon.SetBool("Management", Management);
+        //ani_Dungeon.SetBool("Management", Management);
     }
+
+
+    public void Dungeon_Animation_RandomEvent(RandomEventManager.CurrentRandomEventContent content)
+    {
+        if (DungeonAnimCor != null)
+        {
+            StopCoroutine(DungeonAnimCor);
+            DungeonAnimCor = null;
+        }
+
+        StartCoroutine(DungeonAnim_Wait_Msg(content));
+    }
+
+    Coroutine DungeonAnimCor;
+    IEnumerator DungeonAnim_Wait_Msg(RandomEventManager.CurrentRandomEventContent content)
+    {
+        mainCam.ChasingTarget(Dungeon, 1.0f);
+        yield return new WaitForSeconds(1.0f);
+
+        switch (content.eventValue)
+        {
+            case RandomEventValue.Good:
+                ani_Dungeon.Play("Dungeon_Event_Green_Show");
+                break;
+
+            case RandomEventValue.Bad:
+                ani_Dungeon.Play("Dungeon_Event_Red_Show");
+                break;
+
+            case RandomEventValue.Normal:
+                ani_Dungeon.Play("Dungeon_Event_Blue_Show");
+                break;
+
+            case RandomEventValue.Special:
+                ani_Dungeon.Play("Dungeon_Event_Purple_Show");
+                break;
+        }
+
+        yield return null;
+
+        mainCam.CameraShake(1.0f, 0.3f);
+
+        //? 애니메이션 재생이 끝날때까지 기달
+        yield return new WaitUntil(() => {
+            // 매 프레임마다 상태 정보를 새로 가져옴
+            AnimatorStateInfo info = ani_Dungeon.GetCurrentAnimatorStateInfo(0);
+            return info.normalizedTime >= 1.0f;
+        });
+
+
+        UI_SystemMessage msg = null;
+
+        if (UserData.Instance.FileConfig.firstCheck_RandomEvent == false) //? 랜덤이벤트가 처음이라면
+        {
+            UserData.Instance.FileConfig.firstCheck_RandomEvent = true;
+            //? 첫랜덤이벤트 다이어로그 호출하기
+
+            Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_RandomEvent, Player);
+
+            Managers.UI.Popup_Reservation(() =>
+            {
+                msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
+                msg.Message = RandomEventManager.Instance.GetData(content.ID).description;
+            });
+        }
+        else
+        {
+            msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
+            msg.Message = RandomEventManager.Instance.GetData(content.ID).description;
+        }
+
+        yield return null;
+
+        //? 시스템메세지가 끝날떄까지 기달
+        yield return new WaitUntil(() => msg == null);
+
+        switch (content.eventValue)
+        {
+            case RandomEventValue.Good:
+                ani_Dungeon.Play("Dungeon_Idle_Green");
+                break;
+
+            case RandomEventValue.Bad:
+                ani_Dungeon.Play("Dungeon_Idle_Red");
+                break;
+
+            case RandomEventValue.Normal:
+                ani_Dungeon.Play("Dungeon_Idle_Blue");
+                break;
+
+            case RandomEventValue.Special:
+                ani_Dungeon.Play("Dungeon_Idle_Purple");
+                break;
+        }
+
+        DungeonAnimCor = null;
+    }
+
 
 
     #endregion
@@ -1639,7 +1709,8 @@ public class Main : MonoBehaviour
             Start_Entrance();
         }
 
-        Camera.main.GetComponent<CameraControl>().LimitRefresh();
+
+        mainCam.LimitRefresh();
     }
 
     //public void DungeonExpansionUI()
@@ -1839,6 +1910,10 @@ public class Statistics //? 각종 통계, 나중에 도전과제 업적으로도 충분히 사용 가
     public int Total_Mana;
     public int Total_Gold;
 
+    public int Total_Visit;
+    public int Total_Stisfaction;
+    public int Total_Defeat;
+
     //? 상호작용 횟수 통계
     public int Interaction_Herb;
     public int Interaction_Mineral;
@@ -1870,6 +1945,10 @@ public class Statistics //? 각종 통계, 나중에 도전과제 업적으로도 충분히 사용 가
     {
         Total_Mana = main.GetTotalMana();
         Total_Gold = main.GetTotalGold();
+
+        Total_Visit = main.GetTotalVisit();
+        Total_Stisfaction = main.GetTotalSatisfaction();
+        Total_Defeat = main.GetTotalKill();
     }
 
 

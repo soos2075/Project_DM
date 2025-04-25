@@ -61,8 +61,7 @@ public class Managers : MonoBehaviour
 
     void Start()
     {
-
-
+        _dialogue.Init_Start();
     }
 
     //void Update()

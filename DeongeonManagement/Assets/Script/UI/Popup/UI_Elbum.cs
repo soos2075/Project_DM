@@ -134,14 +134,14 @@ public class UI_Elbum : UI_PopUp
 
             GetTMP((int)TMP_Texts.HintText).text = "";
 
-            var log = CollectionManager.Instance.RoundClearData.Get_Datalog(data);
-            if (log == null)
+            var log = UserData.Instance.CurrentPlayerData.GetDataLog((Endings)data.id);
+            if (log.difficultyLevel == -1)
             {
                 return;
             }
 
-            int clearcount = 0;
-            CollectionManager.Instance.RoundClearData.endingClearCount.TryGetValue(log.endings, out clearcount);
+            int clearcount = UserData.Instance.CurrentPlayerData.GetEndingCount(log.endings);
+            //CollectionManager.Instance.RoundClearData.endingClearCount.TryGetValue(log.endings, out clearcount);
 
             string diff = "¡Ú";
             for (int i = 0; i < log.difficultyLevel; i++)

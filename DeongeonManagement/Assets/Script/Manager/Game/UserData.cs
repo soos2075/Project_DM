@@ -1,6 +1,7 @@
 using Steamworks;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using UnityEngine;
@@ -51,13 +52,21 @@ public class UserData : MonoBehaviour
         //Application.targetFrameRate = -1;
         Application.targetFrameRate = 120;
 
+
+
+
+        Init_PlayerData();
+
         Init_Resolution();
         Init_Cursor();
         Init_Language();
+
+        SavePlayTime();
+        //? 시간초기화
     }
 
 
-#region Steam SDK
+    #region Steam SDK
 
     public const uint STEAM_APP_ID = 2886090;
     public const uint STEAM_APP_ID_DEMO = 3241770;
@@ -135,7 +144,8 @@ public class UserData : MonoBehaviour
 
     void Init_Language()
     {
-        int lan = GetDataInt(PrefsKey.Language, -1);
+        //int lan = GetDataInt(PrefsKey.Language, -1);
+        int lan = CurrentPlayerData.option.Language;
         if (lan == -1)
         {
             var country = System.Globalization.CultureInfo.CurrentCulture;
@@ -179,7 +189,8 @@ public class UserData : MonoBehaviour
         yield return LocalizationSettings.InitializationOperation;
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[index];
         Language = (Define.Language)index;
-        SetData(PrefsKey.Language, (int)Language);
+        CurrentPlayerData.option.Language = (int)Language;
+        //SetData(PrefsKey.Language, (int)Language);
 
         Managers.Dialogue.Init_GetLocalizationData();
         if (Managers.Scene.GetCurrentScene() == SceneName._2_Management)
@@ -350,7 +361,7 @@ public class UserData : MonoBehaviour
         }
 
 
-        if (PlayerPrefs.GetInt(PrefsKey.Full_Screen.ToString(), 0) == 1)
+        if (CurrentPlayerData.option.Full_Screen == 1)
         {
             screenMode = true;
         }
@@ -359,28 +370,41 @@ public class UserData : MonoBehaviour
             screenMode = false;
         }
 
-
-        current_Index = PlayerPrefs.GetInt(PrefsKey.User_Resolution.ToString(), 0);
-
+        current_Index = CurrentPlayerData.option.User_Resolution;
 
         Screen.SetResolution(resolution[current_Index].x, resolution[current_Index].y, screenMode);
     }
 
     bool FirstSetting()
     {
-        if (PlayerPrefs.GetInt(PrefsKey.FirstStart.ToString(), 0) == 0)
+        if (CurrentPlayerData.config.NewGameCount == 0)
         {
-            SetData(PrefsKey.FirstStart, 1);
             Screen.SetResolution(1920, 1080, true);
             current_Index = 0;
             screenMode = true;
-            SetData(PrefsKey.User_Resolution, current_Index);
-            SetData(PrefsKey.Full_Screen, 1);
 
+            CurrentPlayerData.config.NewGameCount++;
+            CurrentPlayerData.option.User_Resolution = current_Index;
+            CurrentPlayerData.option.Full_Screen = 1;
             return true;
         }
         else
             return false;
+
+
+        //if (PlayerPrefs.GetInt(PrefsKey.FirstStart.ToString(), 0) == 0)
+        //{
+        //    SetData(PrefsKey.FirstStart, 1);
+        //    Screen.SetResolution(1920, 1080, true);
+        //    current_Index = 0;
+        //    screenMode = true;
+        //    SetData(PrefsKey.User_Resolution, current_Index);
+        //    SetData(PrefsKey.Full_Screen, 1);
+
+        //    return true;
+        //}
+        //else
+        //    return false;
     }
 
 
@@ -406,7 +430,8 @@ public class UserData : MonoBehaviour
         {
             current_Index = _value;
             Screen.SetResolution(resolution[current_Index].x, resolution[current_Index].y, screenMode);
-            SetData(PrefsKey.User_Resolution, current_Index);
+            CurrentPlayerData.option.User_Resolution = current_Index;
+            //SetData(PrefsKey.User_Resolution, current_Index);
             Debug.Log($"Resolution Change - [{resolution[current_Index].x} * {resolution[current_Index].y}]");
             Debug.Log($"ScreenMode - [{screenMode}]");
         }
@@ -421,12 +446,14 @@ public class UserData : MonoBehaviour
 
             if (screenMode)
             {
-                SetData(PrefsKey.Full_Screen, 1);
+                CurrentPlayerData.option.Full_Screen = 1;
+                //SetData(PrefsKey.Full_Screen, 1);
                 Cursor.lockState = CursorLockMode.Confined;
             }
             else
             {
-                SetData(PrefsKey.Full_Screen, 0);
+                CurrentPlayerData.option.Full_Screen = 0;
+                //SetData(PrefsKey.Full_Screen, 0);
                 Cursor.lockState = CursorLockMode.None;
             }
             
@@ -546,7 +573,12 @@ public class UserData : MonoBehaviour
         Debug.Log("Regular Game Clear");
 
         isClear = true;
-        CollectionManager.Instance.GameClear(data);
+        //CollectionManager.Instance.GameClear(data);
+
+        CurrentPlayerData.GameClear(data);
+
+        //? 컬렉션 데이터 업데이트
+        Managers.Data.SaveCollectionData();
     }
 
 
@@ -594,16 +626,23 @@ public class UserData : MonoBehaviour
     float currentTime;
     public void SavePlayTime()
     {
-        var saveTime = GetDataFloat(PrefsKey.PlayTime) + (Time.unscaledTime - currentTime);
-        //Debug.Log($"누적 플레이 시간 : {GetDataFloat(PrefsKey.PlayTime)} + {Time.unscaledTime - currentTime}");
-        SetData(PrefsKey.PlayTime, saveTime);
+        //var saveTime = GetDataFloat(PrefsKey.PlayTime) + (Time.unscaledTime - currentTime);
+        ////Debug.Log($"누적 플레이 시간 : {GetDataFloat(PrefsKey.PlayTime)} + {Time.unscaledTime - currentTime}");
+        //SetData(PrefsKey.PlayTime, saveTime);
+        //currentTime = Time.unscaledTime;
+
+
+        var saveTime = CurrentPlayerData.config.PlayTime + (Time.unscaledTime - currentTime);
+        //Debug.Log($"누적 플레이 시간 : {saveTime}");
+        CurrentPlayerData.config.PlayTime = saveTime;
         currentTime = Time.unscaledTime;
     }
 
     private void OnApplicationQuit()
     {
-        //? 종료전에 저장할 거 있으면 여기서 하면 됨. 코루틴을 돌려도 되긴하는데 안하는게 나은듯. 그냥 윈도우 세팅같은거나 볼륨같은거나 저장하자.
         SavePlayTime();
+        Save_PlayerData();
+
         Debug.Log($"Quit_Save_Success");
     }
 
@@ -632,6 +671,8 @@ public class UserData : MonoBehaviour
 
 
         // 첫 등장 이벤트 확인용 Bool
+        public bool firstCheck_RandomEvent;
+
         public bool firstAppear_Herbalist;
         public bool firstAppear_Miner;
         public bool firstAppear_Adventurer;
@@ -753,14 +794,16 @@ public class UserData : MonoBehaviour
         public void Apply_ClearInfo()
         {
             //? 클리어 데이터 관련
-            if (CollectionManager.Instance.RoundClearData != null)
-            {
-                PlayRounds = CollectionManager.Instance.RoundClearData.clearCounter + 1;
-            }
-            else
-            {
-                PlayRounds = 1;
-            }
+            //if (CollectionManager.Instance.RoundClearData != null)
+            //{
+            //    PlayRounds = CollectionManager.Instance.RoundClearData.clearCounter + 1;
+            //}
+            //else
+            //{
+            //    PlayRounds = 1;
+            //}
+
+            PlayRounds = UserData.Instance.CurrentPlayerData.GetClearCount() + 1;
         }
     }
 
@@ -791,44 +834,403 @@ public class UserData : MonoBehaviour
 
 
 
-    public void SetData(PrefsKey _key, float _float)
+    //public void SetData(PrefsKey _key, float _float)
+    //{
+    //    PlayerPrefs.SetFloat(_key.ToString(), _float);
+    //}
+    //public void SetData(PrefsKey _key, int _int)
+    //{
+    //    PlayerPrefs.SetInt(_key.ToString(), _int);
+    //}
+    //public void SetData(PrefsKey _key, string _string)
+    //{
+    //    PlayerPrefs.SetString(_key.ToString(), _string);
+    //}
+
+
+    //public float GetDataFloat(PrefsKey _key, float _defalutValue = 0)
+    //{
+    //    return PlayerPrefs.GetFloat(_key.ToString(), _defalutValue);
+    //}
+    //public int GetDataInt(PrefsKey _key, int _defalutValue = 0)
+    //{
+    //    return PlayerPrefs.GetInt(_key.ToString(), _defalutValue);
+    //}
+    //public string GetDataString(PrefsKey _key)
+    //{
+    //    return PlayerPrefs.GetString(_key.ToString());
+    //}
+
+
+    //public void DeleteAllData()
+    //{
+    //    PlayerPrefs.DeleteAll();
+    //}
+
+
+
+
+
+    #region PlayerData.Json (New)
+
+
+    public PlayerData CurrentPlayerData { get; set; }
+
+    void Init_PlayerData()
     {
-        PlayerPrefs.SetFloat(_key.ToString(), _float);
+        //? PlayerData.json 로드 / 만약 PlayerData.json 이 없다면 새로 생성
+        var playerdata = Load_PlayerData();
+        if (playerdata == null)
+        {
+            playerdata = new PlayerData();
+        }
+
+        //? 아래구간은 다다음 업데이트에서 삭제. 이후로는 ClearData.json파일은 무시하기 (혹은 그냥 삭제)
+        //? 만약 ClearData.Json 이 있다면 PlayerData로 옮기기 후 ClearData.json은 삭제
+        var legacyData = Managers.Data.LoadFile_LegacyClearData();
+        if (legacyData != null)
+        {
+            foreach (var item in legacyData.dataLog)
+            {
+                PlayerData.ClearDataLog newLog = new PlayerData.ClearDataLog();
+
+                newLog.ID = item.Key;
+                newLog.mana = item.Value.mana;
+                newLog.gold = item.Value.gold;
+                newLog.rank = item.Value.rank;
+                newLog.pop = item.Value.pop;
+                newLog.danger = item.Value.danger;
+                newLog.visit = item.Value.visit;
+                newLog.endings = item.Value.endings;
+                newLog.clearTime = item.Value.clearTime;
+                newLog.difficultyLevel = item.Value.difficultyLevel;
+
+                playerdata.clearLog.Add(newLog);
+            }
+        }
+
+
+        //? 있으면 DataManager에서 받아온 클래스를 들고있기
+        CurrentPlayerData = playerdata;
+        Save_PlayerData();
     }
-    public void SetData(PrefsKey _key, int _int)
+
+    //? PlayerData는 세이브파일에 종속되지 않기에 사실 게임 켜고 끌때만 저장/로드 하면 되긴하는데.. 정상적으로 종료 안할때가 문제임.
+    //? 근데 그건 사용자문제니까 알빠노. 일단은 클리어시랑 시작,종료 이 세타이밍에만 하도록 하자.
+
+    public void Save_PlayerData()
     {
-        PlayerPrefs.SetInt(_key.ToString(), _int);
+        Managers.Data.SaveFile_PlayerData();
     }
-    public void SetData(PrefsKey _key, string _string)
+    public PlayerData Load_PlayerData()
     {
-        PlayerPrefs.SetString(_key.ToString(), _string);
+        return Managers.Data.LoadFile_PlayerData();
     }
 
-
-    public float GetDataFloat(PrefsKey _key, float _defalutValue = 0)
+    public class PlayerData
     {
-        return PlayerPrefs.GetFloat(_key.ToString(), _defalutValue);
+        /*
+        1. 유저 세팅 (인게임설정) - 언어, 해상도, 볼륨, 텍스트스피드, 기타 설정값이 있다면 추가하면 됨
+        2. 자동저장되는 값들 - 마지막 세이브슬롯, 새게임횟수, 총 세이브 횟수, 총 로드 횟수, 총 플레이 시간, 튜토리얼체크, 첫게임시작 체크, 
+        3. 게임정보 - 최대 일차, 클리어 횟수, 난이도, 재화 총합 등등
+        4. 클리어한 데이터 로그
+         */
+
+        public Option option;
+        public Config config;
+        public Statistics statistics;
+
+
+        public PlayerData()
+        {
+            option = new Option();
+            option.Init();
+
+            config = new Config();
+            statistics = new Statistics();
+
+            Init_ClearLog();
+        }
+
+        public struct Option
+        {
+            public int Language;
+            public int User_Resolution;
+            public int Full_Screen;
+
+            public float Volume_BGM;
+            public float Volume_Effect;
+            public int TextSpeed;
+
+            public int Tutorial_Skip; //? 1이면 2회차 이상에서 튜토리얼대화는 스킵, 0이면 재생
+
+            public void Init()
+            {
+                Language = PlayerPrefs.GetInt("Language", -1);
+                User_Resolution = PlayerPrefs.GetInt("User_Resolution", -1);
+                Full_Screen = PlayerPrefs.GetInt("Full_Screen", -1);
+
+                Volume_BGM = 0.7f;
+                Volume_Effect = 0.7f;
+                TextSpeed = 5;
+
+                Tutorial_Skip = 0;
+            }
+        }
+
+        public struct Config
+        {
+            public int NewGameCount;
+            public int GameOverCount;
+            public int SaveCount;
+            public int LoadCount;
+            public float PlayTime;
+
+            public int LastSaveSlotIndex;
+
+            //? 기타 저장할만한게 있으면 추가
+
+
+        }
+
+        public struct Statistics //? 꼭 클리어가 아니여도 누적되도록 해야할듯. 저장할때마다 업데이트하는게? 아무튼 이거의 목적은 업적용 전체통계임
+        {
+            public int total_mana;
+            public int total_gold;
+            public int total_visit;
+            public int total_satisfaction;
+            public int total_defeat;
+
+            public int total_pop;
+            public int total_danger;
+
+            //? 추가할만한거 - Main의 Statistics에 있는 항목들? 뭐 천천히 추가하자.
+
+            //? 하루가 지날 때 호출하기. 근데 세이브타이밍에 하면 안됨. 세이브 반복하면 펌핑되니까. 걍 정상적으로 하루가 지났을때만 호출하기.
+            public void Update_DayOver(Save_DayResult day)
+            {
+                total_mana = total_mana +
+                    day.Mana_Get_Facility +
+                    day.Mana_Get_Artifacts +
+                    day.Mana_Get_Monster +
+                    day.Mana_Get_Etc +
+                    day.Mana_Get_Bonus;
+
+                total_gold = total_gold +
+                    day.Gold_Get_Facility +
+                    day.Gold_Get_Monster +
+                    day.Gold_Get_Technical +
+                    day.Gold_Get_Etc +
+                    day.Gold_Get_Bonus;
+
+                total_visit += day.NPC_Visit;
+                total_satisfaction += day.NPC_Satisfaction;
+                total_defeat += day.NPC_Defeat;
+
+                total_pop += day.GetPopularity;
+                total_danger += day.GetDanger;
+            }
+        }
+
+
+
+        public void Init_ClearLog()
+        {
+            clearLog = new List<ClearDataLog>();
+        }
+
+
+        //? 중복허용 X에서 허용 O으로 바꿨음. 이제 모든 클리어한 데이터는 저장됨.
+        //? 클리어 횟수는 1개의 아이디당 1번만 적용.
+        public List<ClearDataLog> clearLog;
+
+        public struct ClearDataLog
+        {
+            public int ID;
+
+            public Endings endings;
+            public int difficultyLevel;
+            public float clearTime;
+
+            public int rank;
+            public int pop;
+            public int danger;
+
+            public int mana;
+            public int gold;
+
+            public int visit;
+            public int satisfaction;
+            public int defeat;
+
+            public int unit_Size;
+            public int unit_Lv_Sum;
+
+            public void Set_Data(DataManager.SaveData data)
+            {
+                ID = data.savefileConfig.fileID;
+
+                endings = data.endgins;
+                difficultyLevel = data.difficultyLevel;
+                clearTime = data.playTimes;
+
+                rank = data.mainData.DungeonLV;
+                pop = data.mainData.FameOfDungeon;
+                danger = data.mainData.DangerOfDungeon;
+
+                mana = data.statistics.Total_Mana;
+                gold = data.statistics.Total_Gold;
+
+                visit = data.statistics.Total_Visit;
+                satisfaction = data.statistics.Total_Stisfaction;
+                defeat = data.statistics.Total_Defeat;
+
+                foreach (var item in data.monsterList)
+                {
+                    unit_Size++;
+                    unit_Lv_Sum += item.LV;
+                }
+            }
+        }
+
+
+        public void Add_ClearLog(DataManager.SaveData data) 
+        {
+            var newLog = new ClearDataLog();
+            newLog.Set_Data(data);
+            clearLog.Add(newLog);
+        }
+
+
+
+        #region 필요한 값 가져오기
+        //? 뉴겜플 플러스포인트 계산
+        public int GetClearPoint()
+        {
+            int point = 0;
+
+            point += GetClearCount() * 5;
+            point += GetHighestDifficultyLevel() * 10;
+            point += EndingClearNumber() * 10;
+
+            return point;
+        }
+
+        //? 클리어한 엔딩종류
+        public int EndingClearNumber()
+        {
+            int anotherEnding = 0;
+            foreach (Endings item in Enum.GetValues(typeof(Endings)))
+            {
+                if (EndingClearCheck(item))
+                {
+                    anotherEnding++;
+                }
+            }
+            return anotherEnding;
+        }
+
+
+        //? 엔딩 클리어 체크
+        public bool EndingClearCheck(Endings ending)
+        {
+            foreach (var item in clearLog)
+            {
+                if (item.endings == ending)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        //? 엔딩별 클리어 횟수 (중복 O)
+        public int GetEndingCount(Endings ending)
+        {
+            int count = 0;
+            foreach (var item in clearLog)
+            {
+                if (item.endings == ending)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        //? 엔딩앨범에 표시할 정보
+        public ClearDataLog GetDataLog(Endings ending)
+        {
+            ClearDataLog log = new ClearDataLog();
+            log.difficultyLevel = -1;
+
+            foreach (var item in clearLog)
+            {
+                if (item.endings == ending)
+                {
+                    if (log.difficultyLevel < item.difficultyLevel)
+                    {
+                        log = item;
+                    }
+                }
+            }
+            return log;
+        }
+
+
+        //? 클리어 횟수 (중복 X)
+        public int GetClearCount()
+        {
+            HashSet<int> ID_Count = new HashSet<int>();
+
+            foreach (var item in clearLog)
+            {
+                ID_Count.Add(item.ID);
+            }
+
+            return ID_Count.Count;
+        }
+
+        //? 최고 난이도 가져오기
+        public int GetHighestDifficultyLevel()
+        {
+            int lv = 0;
+            foreach (var item in clearLog)
+            {
+                if (lv < item.difficultyLevel)
+                {
+                    lv = item.difficultyLevel;
+                }
+            }
+            return lv;
+        }
+
+        #endregion
+
+
+
+        public void GameClear(DataManager.SaveData data)
+        {
+            Add_ClearLog(data);
+
+            UserData.Instance.Save_PlayerData();
+        }
+
+
+
+        //? 얘는 깊은복사를 안하고있음. 오히려 참조로 들고있어서 나쁠게 없다는 생각인거긴 한데, 버그나오면 고치자.
+        public PlayerData DeepCopy()
+        {
+            PlayerData newData = (PlayerData)this.MemberwiseClone();
+            return newData;
+        }
     }
-    public int GetDataInt(PrefsKey _key, int _defalutValue = 0)
-    {
-        return PlayerPrefs.GetInt(_key.ToString(), _defalutValue);
-    }
-    public string GetDataString(PrefsKey _key)
-    {
-        return PlayerPrefs.GetString(_key.ToString());
-    }
 
 
 
+    #endregion
 
 
-
-
-
-    public void DeleteAllData()
-    {
-        PlayerPrefs.DeleteAll();
-    }
 
 }
 
@@ -853,10 +1255,7 @@ public enum PrefsKey
 
     High_Scroe,
 
-    // 최대 진행한 턴(클리어라면 30, 줄어들지는 않음)
     High_Turn,
-    //? 기타 랭크나 던전확장, 머니, 골드, 몬스터 등등 추가할만한건 많은데 어차피 업적관련이라 지금은 의미없음.
-
 
     PlayTime,
     ClearTimes,

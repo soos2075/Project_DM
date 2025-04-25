@@ -61,27 +61,30 @@ public class RandomEventManager : MonoBehaviour
 
         foreach (var item in CurrentEventList)
         {
-            if (item.type == RandomEventType.Once && item.startDay == turn)
-            {
-                RandomEventActionDict[item.ID].Invoke();
-
-                Managers.UI.Popup_Reservation(() =>
-                {
-                    var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
-                    msg.Message = GetData(item.ID).description;
-                });
-            }
-
             //? 지속형이면 매일 턴 시작시에 갱신되도록 (안그럼 시작과 끝날 때 서로 다른 함수 2개가 필요함)
             if (item.type == RandomEventType.Continuous && item.startDay <= turn && turn < item.endDay)
             {
                 RandomEventActionDict[item.ID].Invoke();
+                Main.Instance.Dungeon_Animation_RandomEvent(item);
 
-                Managers.UI.Popup_Reservation(() =>
-                {
-                    var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
-                    msg.Message = GetData(item.ID).description;
-                });
+                //Managers.UI.Popup_Reservation(() =>
+                //{
+                //    var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
+                //    msg.Message = GetData(item.ID).description;
+                //});
+            }
+
+            //? Once가 뒤인 이유는 던전 애니메이션을 얘로 갱신해야되서
+            if (item.type == RandomEventType.Once && item.startDay == turn)
+            {
+                RandomEventActionDict[item.ID].Invoke();
+                Main.Instance.Dungeon_Animation_RandomEvent(item);
+
+                //Managers.UI.Popup_Reservation(() =>
+                //{
+                //    var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
+                //    msg.Message = GetData(item.ID).description;
+                //});
             }
         }
     }
@@ -310,6 +313,15 @@ public class RandomEventManager : MonoBehaviour
         //? 발동형 / 지속형
         public RandomEventType type;
 
+        //?  이벤트 종류
+        public RandomEventValue eventValue;
+
+
+        public CurrentRandomEventContent()
+        {
+
+        }
+
 
         public CurrentRandomEventContent DeepCopy()
         {
@@ -419,6 +431,7 @@ public class RandomEventManager : MonoBehaviour
             content.startDay = tempStart;
             content.endDay = tempStart + item.continuousDays;
             content.type = item.type;
+            content.eventValue = item.eventValue;
 
             CurrentEventList.Add(content);
 
@@ -558,6 +571,14 @@ public enum RandomEventType
 {
     Once,
     Continuous,
+}
+
+public enum RandomEventValue
+{
+    Good,
+    Bad,
+    Normal,
+    Special,
 }
 
 

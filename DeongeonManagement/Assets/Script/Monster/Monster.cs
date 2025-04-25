@@ -1409,11 +1409,11 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     public virtual void LevelUpEvent(LevelUpEventType levelUpType)
     {
         //? 10레벨 마다 랜덤 특성 획득 (lv++전이니까 % 10 == 9로 해야 10레벨임)
-        if (LV % 10 == 9)
+        //? 배틀은 실시간으로 특성을 얻거나 진화하는데 그 때 호출됨. 근데 그땐 호출되서 특성 얻으면 안되니까 수정
+        if (LV % 10 == 9 && levelUpType != LevelUpEventType.Battle)
         {
             RandomTraitAdd_New();
         }
-        //RandomTraitAdd();
     }
     public virtual void BattleEvent(BattleField.BattleResult result, NPC npc)
     {

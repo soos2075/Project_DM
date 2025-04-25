@@ -736,7 +736,8 @@ public class DataManager
             LoadFileApply(data);
 
             Debug.Log($"Load Success : {fileKey}");
-            UserData.Instance.SetData(PrefsKey.LoadTimes, UserData.Instance.GetDataInt(PrefsKey.LoadTimes) + 1);
+            //UserData.Instance.SetData(PrefsKey.LoadTimes, UserData.Instance.GetDataInt(PrefsKey.LoadTimes) + 1);
+            UserData.Instance.CurrentPlayerData.config.LoadCount++;
         }
         else
         {
@@ -953,30 +954,77 @@ public class DataManager
     }
 
 
-    public void SaveClearData()
+    //public void SaveClearData()
+    //{
+    //    string jsonData = JsonConvert.SerializeObject(CollectionManager.Instance.SaveMultiData());
+    //    var result = FileOperation(FileMode.Create, $"{Application.persistentDataPath}/Savefile/ClearData.json", jsonData);
+    //}
+    //public bool LoadClearData()
+    //{
+    //    if (SaveFileSearch("ClearData"))
+    //    {
+    //        var _fileData = FileOperation(FileMode.Open, $"{Application.persistentDataPath}/Savefile/ClearData.json");
+    //        var loadData = JsonConvert.DeserializeObject<CollectionManager.RoundData>(_fileData);
+    //        CollectionManager.Instance.LoadMultiData(loadData);
+    //        return true;
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("ClearData Not Exsit");
+    //        return false;
+    //    }
+    //}
+
+
+
+    #endregion
+
+
+    #region PlayerDataJson
+
+    public void SaveFile_PlayerData()
     {
-        string jsonData = JsonConvert.SerializeObject(CollectionManager.Instance.SaveMultiData());
-        var result = FileOperation(FileMode.Create, $"{Application.persistentDataPath}/Savefile/ClearData.json", jsonData);
+        string jsonData = JsonConvert.SerializeObject(UserData.Instance.CurrentPlayerData);
+        var result = FileOperation(FileMode.Create, $"{Application.persistentDataPath}/Savefile/PlayerData.json", jsonData);
     }
-    public bool LoadClearData()
+
+    public UserData.PlayerData LoadFile_PlayerData()
+    {
+        if (SaveFileSearch("PlayerData"))
+        {
+            var _fileData = FileOperation(FileMode.Open, $"{Application.persistentDataPath}/Savefile/PlayerData.json");
+            var loadData = JsonConvert.DeserializeObject<UserData.PlayerData>(_fileData);
+            return loadData;
+        }
+        else
+        {
+            Debug.Log("PlayerData.json Not Exsit");
+            return null;
+        }
+    }
+
+    public CollectionManager.RoundData LoadFile_LegacyClearData()
     {
         if (SaveFileSearch("ClearData"))
         {
             var _fileData = FileOperation(FileMode.Open, $"{Application.persistentDataPath}/Savefile/ClearData.json");
             var loadData = JsonConvert.DeserializeObject<CollectionManager.RoundData>(_fileData);
-            CollectionManager.Instance.LoadMultiData(loadData);
-            return true;
+
+            //? 전달해주고 원본은 삭제
+            DeleteSaveFile("ClearData");
+            return loadData;
         }
         else
         {
-            Debug.Log("ClearData Not Exsit");
-            return false;
+            Debug.Log("ClearData.json Not Exsit");
+            return null;
         }
     }
 
 
 
     #endregion
+
 
 
 

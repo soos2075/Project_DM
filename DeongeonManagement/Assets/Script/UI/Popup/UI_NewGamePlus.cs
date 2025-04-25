@@ -9,6 +9,8 @@ public class UI_NewGamePlus : UI_PopUp
 {
     private void Start()
     {
+        Init_LocalData();
+
         Init_EventData();
         Init();
     }
@@ -64,7 +66,8 @@ public class UI_NewGamePlus : UI_PopUp
         GetButton((int)Btn.PrevBtn).gameObject.AddUIEvent(data => CurrentPage--);
 
         CurrentPage = 0;
-        CurrentPoint = CollectionManager.Instance.RoundClearData.GetClearPoint();
+        CurrentPoint = UserData.Instance.CurrentPlayerData.GetClearPoint();
+
 
         GetButton((int)Btn.GameStart).gameObject.AddUIEvent(data => GameStart());
     }
@@ -88,6 +91,56 @@ public class UI_NewGamePlus : UI_PopUp
         Managers.UI.ClosePopUp();
     }
 
+
+
+
+    #region SO_Data_Arti
+    SO_Artifact[] so_data;
+
+    public void Init_LocalData()
+    {
+        so_data = Resources.LoadAll<SO_Artifact>("Data/Artifact");
+        foreach (var item in so_data)
+        {
+            string[] datas = Managers.Data.GetTextData_Artifact(item.id);
+
+            if (datas == null)
+            {
+                Debug.Log($"{item.id} : CSV Data Not Exist");
+                continue;
+            }
+
+            item.labelName = datas[0];
+            item.detail = datas[1];
+            item.tooltip_Effect = datas[2];
+        }
+    }
+
+    public SO_Artifact GetData(string _keyName)
+    {
+        foreach (var item in so_data)
+        {
+            if (item.keyName == _keyName)
+            {
+                return item;
+            }
+        }
+        Debug.Log($"{_keyName}: Data Not Exist");
+        return null;
+    }
+    public SO_Artifact GetData(int _id)
+    {
+        foreach (var item in so_data)
+        {
+            if (item.id == _id)
+            {
+                return item;
+            }
+        }
+        Debug.Log($"{_id}: Data Not Exist");
+        return null;
+    }
+    #endregion
 
 
 
@@ -194,7 +247,7 @@ public class UI_NewGamePlus : UI_PopUp
             item.gameObject.SetActive(false);
         }
 
-        int currentMaxLevel = CollectionManager.Instance.RoundClearData.highestDifficultyLevel;
+        int currentMaxLevel = UserData.Instance.CurrentPlayerData.GetHighestDifficultyLevel();
         for (int i = 0; i < currentMaxLevel + 2; i++)
         {
             if (i > 4) break;
@@ -248,27 +301,27 @@ public class UI_NewGamePlus : UI_PopUp
         //Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Hero);
 
 
-        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Dog))
+        if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Dog))
         {
             Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Dog);
         }
-        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Ravi))
+        if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Ravi))
         {
             Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Ravi);
         }
-        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Dragon))
+        if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Dragon))
         {
             Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Dragon);
         }
-        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Cat))
+        if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Cat))
         {
             Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Cat);
         }
-        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Demon))
+        if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Demon))
         {
             Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Demon);
         }
-        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Hero))
+        if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Hero))
         {
             Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Hero);
         }
@@ -306,49 +359,68 @@ public class UI_NewGamePlus : UI_PopUp
         }
 
 
-        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Cat))
+        if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Cat))
         {
             Add_Content(Panel.UnitPanel, Bonus.Unit_Rena);
         }
 
 
-        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Ravi))
+        if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Ravi))
         {
             Add_Content(Panel.UnitPanel, Bonus.Unit_Ravi);
         }
-        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Demon))
+        if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Demon))
         {
             Add_Content(Panel.UnitPanel, Bonus.Unit_Lievil);
         }
-        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Hero))
+        if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Hero))
         {
             Add_Content(Panel.UnitPanel, Bonus.Unit_Rideer);
         }
-
 
     }
 
     void Init_Artifact()
     {
-        Add_Content(Panel.ArtifactPanel, Bonus.Arti_Pop);
-        Add_Content(Panel.ArtifactPanel, Bonus.Arti_Danger);
+        Add_Content_Artifact(Panel.ArtifactPanel, Bonus.Arti_Pop, GetData((int)ArtifactLabel.OrbOfPopularity));
+        Add_Content_Artifact(Panel.ArtifactPanel, Bonus.Arti_Danger, GetData((int)ArtifactLabel.OrbOfDanger));
 
-        if (CollectionManager.Instance.RoundClearData.clearCounter >= 2)
+        if (UserData.Instance.CurrentPlayerData.GetClearCount() >= 2)
         {
-            Add_Content(Panel.ArtifactPanel, Bonus.Arti_DownDanger);
-            Add_Content(Panel.ArtifactPanel, Bonus.Arti_DownPop);
+            Add_Content_Artifact(Panel.ArtifactPanel, Bonus.Arti_DownDanger, GetData((int)ArtifactLabel.MarbleOfOblivion));
+            Add_Content_Artifact(Panel.ArtifactPanel, Bonus.Arti_DownPop, GetData((int)ArtifactLabel.MarbleOfReassurance));
         }
 
-        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Demon))
+        if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Demon))
         {
-            Add_Content(Panel.ArtifactPanel, Bonus.Arti_Decay);
+            Add_Content_Artifact(Panel.ArtifactPanel, Bonus.Arti_Decay, GetData((int)ArtifactLabel.TouchOfDecay));
         }
-        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Hero))
+        if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Hero))
         {
-            Add_Content(Panel.ArtifactPanel, Bonus.Arti_Hero);
+            Add_Content_Artifact(Panel.ArtifactPanel, Bonus.Arti_Hero, GetData((int)ArtifactLabel.ProofOfHero));
         }
     }
 
+
+    void Add_Content_Artifact(Panel _panel, Bonus _label, SO_Artifact arti)
+    {
+        var parent = GetImage((int)_panel).GetComponentInChildren<GridLayoutGroup>();
+
+        var obj = Managers.Resource.Instantiate("UI/PopUp/Element/NewGameBonusElement", parent.transform);
+        obj.GetComponentInChildren<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText_NGP($"{_label}")} <b>({BonusDict[_label].point}P)</b>";
+
+        //? AddEvent - ContentClick
+        obj.AddUIEvent(data => ContentClick(_label, obj.GetComponent<Button>()));
+
+        //? 툴팁 등록
+        var tool = obj.GetOrAddComponent<UI_Tooltip>();
+        tool.SetTooltipContents("", arti.tooltip_Effect, UI_TooltipBox.ShowPosition.RightDown);
+
+
+        //? 등록할 때 껐다 켜서 이미지 최신화
+        ContentClick(_label, obj.GetComponent<Button>());
+        ContentClick(_label, obj.GetComponent<Button>());
+    }
 
 
 

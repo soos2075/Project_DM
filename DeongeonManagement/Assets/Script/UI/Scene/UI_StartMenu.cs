@@ -73,57 +73,69 @@ public class UI_StartMenu : UI_Scene
         StartCoroutine(Add_ElbumBtn());
 
 
-        if (CollectionManager.Instance.RoundClearData != null)
+        if (UserData.Instance.CurrentPlayerData.EndingClearNumber() == System.Enum.GetNames(typeof(Endings)).Length)
         {
-            var data = CollectionManager.Instance.RoundClearData;
-            if (data.EndingClearCheck(Endings.Dog) && data.EndingClearCheck(Endings.Cat) && data.EndingClearCheck(Endings.Dragon) &&
-                data.EndingClearCheck(Endings.Demon) && data.EndingClearCheck(Endings.Hero) && data.EndingClearCheck(Endings.Ravi))
-            {
-                GetButton((int)Buttons.Credit).gameObject.SetActive(true);
-                GetButton(((int)Buttons.Credit)).gameObject.AddUIEvent(data => Managers.UI.ShowPopUp<UI_Credit>());
-            }
+            GetButton((int)Buttons.Credit).gameObject.SetActive(true);
+            GetButton(((int)Buttons.Credit)).gameObject.AddUIEvent(data => Managers.UI.ShowPopUp<UI_Credit>());
         }
+
+        //if (CollectionManager.Instance.RoundClearData != null)
+        //{
+        //    var data = CollectionManager.Instance.RoundClearData;
+        //    if (data.EndingClearCheck(Endings.Dog) && data.EndingClearCheck(Endings.Cat) && data.EndingClearCheck(Endings.Dragon) &&
+        //        data.EndingClearCheck(Endings.Demon) && data.EndingClearCheck(Endings.Hero) && data.EndingClearCheck(Endings.Ravi))
+        //    {
+        //        GetButton((int)Buttons.Credit).gameObject.SetActive(true);
+        //        GetButton(((int)Buttons.Credit)).gameObject.AddUIEvent(data => Managers.UI.ShowPopUp<UI_Credit>());
+        //    }
+        //}
     }
 
     IEnumerator Add_ElbumBtn()
     {
         yield return null;
 
-        if (CollectionManager.Instance.RoundClearData != null)
+
+        if (UserData.Instance.CurrentPlayerData.GetClearCount() > 0)
         {
             GetButton((int)Buttons.Elbum).gameObject.SetActive(true);
             GetButton(((int)Buttons.Elbum)).gameObject.AddUIEvent(data => Managers.UI.ShowPopUp<UI_Elbum>());
             Title_Clear();
-
-
         }
+
+        //if (CollectionManager.Instance.RoundClearData != null)
+        //{
+        //    GetButton((int)Buttons.Elbum).gameObject.SetActive(true);
+        //    GetButton(((int)Buttons.Elbum)).gameObject.AddUIEvent(data => Managers.UI.ShowPopUp<UI_Elbum>());
+        //    Title_Clear();
+        //}
     }
 
     void Title_Clear()
     {
         var back = GameObject.Find("Background");
 
-        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Dog))
+        if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Dog))
         {
             back.transform.Find("Title_Dog").gameObject.SetActive(true);
         }
-        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Dragon))
+        if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Dragon))
         {
             back.transform.Find("Title_Dragon").gameObject.SetActive(true);
         }
-        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Ravi))
+        if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Ravi))
         {
             back.transform.Find("Title_Ravi").gameObject.SetActive(true);
         }
-        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Cat))
+        if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Cat))
         {
             back.transform.Find("Title_Heroine").gameObject.SetActive(true);
         }
-        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Demon))
+        if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Demon))
         {
             back.transform.Find("Title_Evil").gameObject.SetActive(true);
         }
-        if (CollectionManager.Instance.RoundClearData.EndingClearCheck(Endings.Hero))
+        if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Hero))
         {
             back.transform.Find("Title_Deer").gameObject.SetActive(true);
         }
@@ -156,7 +168,8 @@ public class UI_StartMenu : UI_Scene
     {
         NewGameCor = StartCoroutine(OpeningSkip());
 
-        UserData.Instance.SetData(PrefsKey.NewGameTimes, UserData.Instance.GetDataInt(PrefsKey.NewGameTimes) + 1);
+        //UserData.Instance.SetData(PrefsKey.NewGameTimes, UserData.Instance.GetDataInt(PrefsKey.NewGameTimes) + 1);
+        UserData.Instance.CurrentPlayerData.config.NewGameCount++;
     }
 
     IEnumerator OpeningSkip()
@@ -172,10 +185,14 @@ public class UI_StartMenu : UI_Scene
 
 
         //? 2회차 이상 - 뉴게임플러스 팝업
-        if (CollectionManager.Instance.RoundClearData != null)
+        if (UserData.Instance.CurrentPlayerData.GetClearCount() > 0)
         {
             yield return StartCoroutine(NewGamePlus());
         }
+        //if (CollectionManager.Instance.RoundClearData != null)
+        //{
+        //    yield return StartCoroutine(NewGamePlus());
+        //}
 
 
 

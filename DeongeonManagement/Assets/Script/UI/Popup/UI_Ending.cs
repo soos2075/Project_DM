@@ -91,34 +91,35 @@ public class UI_Ending : UI_PopUp
         bg.color = color;
 
 
-        //? 그냥 메인으로 가자..
+        //? 메인으로 돌아가기
         Managers.Scene.LoadSceneAsync(SceneName._1_Start);
 
-        if (CollectionManager.Instance.RoundClearData.clearCounter == 1)
+        if (UserData.Instance.CurrentPlayerData.GetClearCount() == 1)
         {
             Managers.Scene.AddLoadAction_OneTime(() => NGP_Info());
         }
 
-
-
         //? 만약 모든 엔딩을 다 봤다면 엔딩크레딧 연결하자
-        if (CollectionManager.Instance.RoundClearData != null)
+        if (UserData.Instance.CurrentPlayerData.EndingClearNumber() == System.Enum.GetNames(typeof(Endings)).Length)
         {
-            var data = CollectionManager.Instance.RoundClearData;
-            if (data.EndingClearCheck(Endings.Dog) && data.EndingClearCheck(Endings.Cat) && data.EndingClearCheck(Endings.Dragon) &&
-                data.EndingClearCheck(Endings.Demon) && data.EndingClearCheck(Endings.Hero) && data.EndingClearCheck(Endings.Ravi))
-            {
-                Managers.Scene.AddLoadAction_OneTime(() => Managers.UI.ShowPopUp<UI_Credit>());
-            }
+            Managers.Scene.AddLoadAction_OneTime(() => Managers.UI.ShowPopUp<UI_Credit>());
         }
+
+
+        //if (CollectionManager.Instance.RoundClearData != null)
+        //{
+        //    var data = CollectionManager.Instance.RoundClearData;
+        //    if (data.EndingClearCheck(Endings.Dog) && data.EndingClearCheck(Endings.Cat) && data.EndingClearCheck(Endings.Dragon) &&
+        //        data.EndingClearCheck(Endings.Demon) && data.EndingClearCheck(Endings.Hero) && data.EndingClearCheck(Endings.Ravi))
+        //    {
+        //        Managers.Scene.AddLoadAction_OneTime(() => Managers.UI.ShowPopUp<UI_Credit>());
+        //    }
+        //}
         //StartCoroutine(Clear_Demo());
 
 
         //? 임시 테스트
         //StartCoroutine(SaveClearData());
-
-
-        UserData.Instance.SetData(PrefsKey.FirstClear, 1);
     }
 
     void NGP_Info()

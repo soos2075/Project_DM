@@ -8,8 +8,6 @@ public class UI_SteamLink : UI_PopUp
     void Start()
     {
         Init();
-        UserData.Instance.SavePlayTime();
-        //Debug.Log("시간초기화");
     }
 
 

@@ -7,7 +7,7 @@ using UnityEngine.U2D;
 public class CameraControl : MonoBehaviour
 {
 
-    float limit_up = 0;
+    float limit_up = 6;
     float limit_down = -17;
 
     float limit_left;
@@ -34,6 +34,7 @@ public class CameraControl : MonoBehaviour
         pixelCam = GetComponent<PixelPerfectCamera>();
         Move = true;
         doubleDelay = 0.3f;
+        shake = GetComponent<CameraShake>();
     }
 
 
@@ -55,8 +56,8 @@ public class CameraControl : MonoBehaviour
 
         if (Time.timeScale == 0 && FindObjectOfType<UI_Stop>() == null) return;
 
-        limit_left = -1500 / (mainCam.orthographicSize * mainCam.orthographicSize);
-        limit_right = 1500 / (mainCam.orthographicSize * mainCam.orthographicSize);
+        limit_left = -1200 / (mainCam.orthographicSize * mainCam.orthographicSize);
+        limit_right = 1200 / (mainCam.orthographicSize * mainCam.orthographicSize);
 
 
         PPU_Zoom_Keyboard();
@@ -640,6 +641,29 @@ public class CameraControl : MonoBehaviour
 
 
     #endregion
+
+
+    #region CameraShake
+
+    CameraShake shake;
+
+    public void CameraShake(float duration, float power, float rotationPower = 0f, float fadeOutTime = -1f)
+    {
+
+        shake.StartShake(duration, power, rotationPower, fadeOutTime);
+
+
+    }
+
+
+
+
+
+    #endregion
+
+
+
+
 
     Vector3 CurrentCamPos;
     int CurrentPPU;

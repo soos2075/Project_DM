@@ -33,14 +33,13 @@ public class UI_Ending_Content : UI_Base
         btn = GetComponent<Button>();
         main = transform.GetChild(0).GetComponent<Image>();
 
-        CollectionManager coll = CollectionManager.Instance;
-        isClear = coll.RoundClearData.EndingClearCheck((Endings)Data.id);
+        //CollectionManager coll = CollectionManager.Instance;
 
-
+        isClear = UserData.Instance.CurrentPlayerData.EndingClearCheck((Endings)Data.id);
         //? 확인한 엔딩은 썸네일 - 알이미지 (0번째 이미지)
         if (isClear)
         {
-            main.sprite = coll.GetData_Ending((Endings)Data.id).cutSceneList[0].sprite;
+            main.sprite = CollectionManager.Instance.GetData_Ending((Endings)Data.id).cutSceneList[0].sprite;
         }
         else
         {

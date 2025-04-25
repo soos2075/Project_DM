@@ -761,6 +761,14 @@ MonoBehaviour:
     m_Localized: Random Trait
     m_Metadata:
       m_Items: []
+  - m_Id: 149577308391550976
+    m_Localized: 'Random events occur in the dungeon occasionally.
+
+      They trigger
+      at the start of a turn and include good events, bad events, neutral events,
+      and special events.'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

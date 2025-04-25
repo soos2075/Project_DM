@@ -26,8 +26,8 @@ public class UI_GameOver : UI_PopUp
         SoundManager.Instance.StopMusic();
         SoundManager.Instance.PlaySound("SFX/GameOver");
 
-        UserData.Instance.SetData(PrefsKey.GameOverTimes, UserData.Instance.GetDataInt(PrefsKey.GameOverTimes) + 1);
-
+        //UserData.Instance.SetData(PrefsKey.GameOverTimes, UserData.Instance.GetDataInt(PrefsKey.GameOverTimes) + 1);
+        UserData.Instance.CurrentPlayerData.config.GameOverCount++;
 
         StartCoroutine(GameOver());
     }
