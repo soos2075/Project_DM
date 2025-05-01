@@ -53,6 +53,10 @@ public class UI_SystemMessage : UI_PopUp
     {
         mainSprite = sprite;
     }
+    public void Set_Text(string _text)
+    {
+        Message = _text;
+    }
 
     //[TextArea(2,10)]
     public string Message { get; set; }

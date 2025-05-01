@@ -42,7 +42,7 @@ public class Slime : Monster
 
         Initialize_Status();
         EvolutionState = Evolution.Complete;
-        EvolutionComplete();
+        EvolutionComplete("Slime", "BloodySlime");
     }
 
 
@@ -98,22 +98,16 @@ public class Slime : Monster
                     ui.TargetMonster(this);
                     ui.StateText = $"{GameManager.Monster.GetData("Slime").labelName} ¡æ " +
                         $"{GameManager.Monster.GetData("BloodySlime").labelName} {UserData.Instance.LocaleText("ÁøÈ­")}!!";
-                    EvolutionComplete();
+                    EvolutionComplete("Slime", "BloodySlime");
                 }
                 break;
         }
     }
 
-
-    void EvolutionComplete()
+    protected override void EvolutionComplete(string _original_key, string _evolution_Key)
     {
-        Data = GameManager.Monster.GetData("BloodySlime");
-        Evolution_Status();
-        GameManager.Monster.ChangeSLA_New(this, "Slime_Bloody");
-        GameManager.Monster.Regist_Evolution("Slime");
-
+        base.EvolutionComplete(_original_key, _evolution_Key);
         ChangeTrait_Evolution();
-
         UnitDialogueEvent.AddEvent(UnitDialogueEventLabel.BloodySlime_First);
     }
 

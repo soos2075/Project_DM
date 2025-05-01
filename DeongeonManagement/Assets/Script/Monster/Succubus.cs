@@ -33,7 +33,7 @@ public class Succubus : Monster
 
         Initialize_Status();
         EvolutionState = Evolution.Complete;
-        EvolutionComplete();
+        EvolutionComplete("Succubus", "Lilith");
 
         UnitDialogueEvent.ClearEvent(UnitDialogueEventLabel.Succubus_First);
     }
@@ -46,15 +46,11 @@ public class Succubus : Monster
         }
     }
 
-    void EvolutionComplete()
+
+    protected override void EvolutionComplete(string _original_key, string _evolution_Key)
     {
-        Data = GameManager.Monster.GetData("Lilith");
-        Evolution_Status();
-        GameManager.Monster.ChangeSLA_New(this, "Lilith");
-        GameManager.Monster.Regist_Evolution("Succubus");
-
+        base.EvolutionComplete(_original_key, _evolution_Key);
         ChangeTrait_Evolution();
-
         UnitDialogueEvent.AddEvent(UnitDialogueEventLabel.Lilith_First);
     }
     void ChangeTrait_Evolution()
@@ -101,7 +97,7 @@ public class Succubus : Monster
         ui.TargetMonster(this);
         ui.StateText = $"{GameManager.Monster.GetData("Succubus").labelName} ¡æ " +
             $"{GameManager.Monster.GetData("Lilith").labelName} {UserData.Instance.LocaleText("ÁøÈ­")}!!";
-        EvolutionComplete();
+        EvolutionComplete("Succubus", "Lilith");
     }
 
     public void Refeat_Evolution()

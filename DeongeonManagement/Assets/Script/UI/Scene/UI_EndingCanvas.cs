@@ -19,11 +19,13 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
     {
         if (Input.anyKey)
         {
-            seconds = 0.04f;
+            //seconds = 0.03f;
+            Time.timeScale = 2.0f;
         }
         else
         {
-            seconds = 0.06f;
+            //seconds = 0.06f;
+            Time.timeScale = 1.0f;
         }
 
 

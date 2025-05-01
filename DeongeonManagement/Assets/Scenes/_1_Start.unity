@@ -1489,6 +1489,8 @@ MonoBehaviour:
   isEndingTest: 0
   isManagementTest: 0
   Demo_30_Clear: 0
+  UI_Cheat: {fileID: 0}
+  ui_Off: 0
 --- !u!4 &201329367
 Transform:
   m_ObjectHideFlags: 0

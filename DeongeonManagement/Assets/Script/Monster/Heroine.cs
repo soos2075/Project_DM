@@ -109,15 +109,25 @@ public class Heroine : Monster, I_Projectile
         ui.TargetMonster(this);
         ui.StateText = $"{GameManager.Monster.GetData("Heroine").labelName} ¡æ " +
             $"{GameManager.Monster.GetData("Rena").labelName} {UserData.Instance.LocaleText("ÁøÈ­")}!!";
-        EvolutionComplete();
+        EvolutionComplete("", "");
     }
 
 
-    void EvolutionComplete()
+    //void EvolutionComplete()
+    //{
+    //    Data = GameManager.Monster.GetData("Rena");
+    //    AddTrait(new Trait.GaleForce_V2());
+    //    Evolution_Status();
+
+    //    AddCollectionPoint();
+    //}
+    protected override void EvolutionComplete(string _original_key, string _evolution_Key)
     {
         Data = GameManager.Monster.GetData("Rena");
         AddTrait(new Trait.GaleForce_V2());
         Evolution_Status();
+
+        AddCollectionPoint();
     }
 
     public override void Load_EvolutionMonster()

@@ -230,18 +230,18 @@ public class DialogueManager
     }
 
 
-    public Action ReserveAction { get; set; }
+    public Action CurrentReserveAction { get; set; }
     Coroutine WaitCor;
 
     public void ActionReserve(Action action) //? 대화 끝나고 바로 시작할 액션을 예약해놓는곳
     {
-        if (ReserveAction == null)
+        if (CurrentReserveAction == null)
         {
-            ReserveAction = action;
+            CurrentReserveAction = action;
         }
         else
         {
-            ReserveAction += action;
+            CurrentReserveAction += action;
         }
 
 
@@ -261,8 +261,8 @@ public class DialogueManager
             yield return null;
         }
 
-        ReserveAction.Invoke();
-        ReserveAction = null;
+        CurrentReserveAction.Invoke();
+        CurrentReserveAction = null;
         WaitCor = null;
     }
 
@@ -313,6 +313,26 @@ public class DialogueManager
             currentDialogue.AddOption(btn);
         }
     }
+
+    public void Show_SelectOption(int[] dialogueList, string[] addText = null)
+    {
+        currentDialogue.CloseOptionBox();
+
+        for (int i = 0; i < dialogueList.Length; i++)
+        {
+            DialogueData data = GetDialogue(dialogueList[i]);
+            if (data == null)
+            {
+                Debug.Log($"선택지 없음 : ID {dialogueList[i]}");
+                continue;
+            }
+
+            var btn = Managers.Resource.Instantiate("UI/PopUp/Element/OptionButton");
+            btn.GetComponent<UI_OptionButton>().SetAction((pointer) => Select_NewDialogue(data), data.dialogueName + addText[i]);
+            currentDialogue.AddOption(btn);
+        }
+    }
+
 
     void Select_NewDialogue(DialogueData data)
     {
@@ -648,6 +668,9 @@ public enum DialogueName
 
     RetiredHero_0 = 15000,
     RetiredHero_10 = 15010,
+
+    Soothsayer_First = 16010,
+    Soothsayer_Continue = 16011,
 
 
     Mastia_Enter = 1711001,

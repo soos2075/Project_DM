@@ -193,14 +193,17 @@ public class UserData : MonoBehaviour
         //SetData(PrefsKey.Language, (int)Language);
 
         Managers.Dialogue.Init_GetLocalizationData();
+        RandomEventManager.Instance.Init_LocalData();
         if (Managers.Scene.GetCurrentScene() == SceneName._2_Management)
         {
+            GameManager.Artifact.Init_LocalData();
             GameManager.Content.Init_LocalData();
             GameManager.Facility.Init_LocalData();
             GameManager.Monster.Init_LocalData();
             GameManager.NPC.Init_LocalData();
             GameManager.Technical.Init_LocalData();
             GameManager.Trait.Init_LocalData();
+            GameManager.Title.Init_LocalData();
         }
 
         Cor_Operation_ChangeLanguage = null;
@@ -1087,6 +1090,10 @@ public class UserData : MonoBehaviour
 
                 foreach (var item in data.monsterList)
                 {
+                    if (item == null)
+                    {
+                        continue;
+                    }
                     unit_Size++;
                     unit_Lv_Sum += item.LV;
                 }

@@ -23,7 +23,7 @@ public class Griffy : Monster
 
         Initialize_Status();
         EvolutionState = Evolution.Complete;
-        EvolutionComplete();
+        EvolutionComplete("Griffy", "Griffin");
     }
     public override void Load_EvolutionMonster()
     {
@@ -65,14 +65,12 @@ public class Griffy : Monster
         ui.TargetMonster(this);
         ui.StateText = $"{GameManager.Monster.GetData("Griffy").labelName} ¡æ " +
             $"{GameManager.Monster.GetData("Griffin").labelName} {UserData.Instance.LocaleText("ÁøÈ­")}!!";
-        EvolutionComplete();
+        EvolutionComplete("Griffy", "Griffin");
     }
-    void EvolutionComplete()
+
+    protected override void EvolutionComplete(string _original_key, string _evolution_Key)
     {
-        Data = GameManager.Monster.GetData("Griffin");
-        Evolution_Status();
-        GameManager.Monster.ChangeSLA_New(this, "Griffin");
-        GameManager.Monster.Regist_Evolution("Griffy");
+        base.EvolutionComplete(_original_key, _evolution_Key);
 
         ChangeTrait_Evolution();
     }

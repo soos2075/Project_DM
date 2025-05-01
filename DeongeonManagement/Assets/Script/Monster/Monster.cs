@@ -184,8 +184,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     }
 
     private MonsterState state;
-    public MonsterState State { get { return state; } 
-        set 
+    public MonsterState State { get { return state; }
+        set
         {
             state = value;
             if (state == MonsterState.Injury)
@@ -197,7 +197,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
                     Cor_Moving = null;
                 }
             }
-        } 
+        }
     }
 
 
@@ -325,9 +325,9 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     int LUK_Bonus { get { return 0; } }
 
 
-    protected virtual int AllStat_Bonus { get { return 
-                Floor_Bonus + 
-                Trait_Friend + 
+    protected virtual int AllStat_Bonus { get { return
+                Floor_Bonus +
+                Trait_Friend +
                 Trait_Veteran +
                 GameManager.Buff.StatAdd_Unit; } }
 
@@ -852,7 +852,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     public abstract void MonsterInit();
     //public abstract void Trait_Original();
     public virtual void Load_EvolutionMonster() //? 진화몹을 로드할 때 나중에 abstract로 변경하면 댐
-    { 
+    {
 
     }
     public virtual void Create_EvolutionMonster_Init() //? 첫 생성시 진화몹을 생성할 때 호출
@@ -906,6 +906,17 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         //luk_chance = Data.up_luk;
 
         Init_TraitCounter();
+    }
+
+
+    protected virtual void EvolutionComplete(string _original_key, string _evolution_Key)
+    {
+        Data = GameManager.Monster.GetData(_evolution_Key);
+        Evolution_Status();
+        GameManager.Monster.ChangeSLA(this, _evolution_Key);
+        GameManager.Monster.Regist_Evolution(_original_key);
+
+        AddCollectionPoint();
     }
 
 

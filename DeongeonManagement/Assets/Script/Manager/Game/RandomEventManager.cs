@@ -104,10 +104,10 @@ public class RandomEventManager : MonoBehaviour
     {
         //? 101 ~ : n기의 유닛 회복 또는 전투 불능
         RandomEventActionDict.Add(101, () => { Debug.Log("Action : 101"); RandomUnitStateEvent(true, 30); });
-        RandomEventActionDict.Add(102, () => { Debug.Log("Action : 102"); RandomUnitStateEvent(false, 3); });
-        RandomEventActionDict.Add(103, () => { Debug.Log("Action : 103"); RandomUnitStateEvent(false, 6); });
-        RandomEventActionDict.Add(104, () => { Debug.Log("Action : 104"); RandomUnitStateEvent(false, 9); });
-        RandomEventActionDict.Add(105, () => { Debug.Log("Action : 105"); RandomUnitStateEvent(false, 30); });
+        RandomEventActionDict.Add(102, () => { Debug.Log("Action : 102"); RandomUnitStateEvent(false, 2); });
+        RandomEventActionDict.Add(103, () => { Debug.Log("Action : 103"); RandomUnitStateEvent(false, 4); });
+        RandomEventActionDict.Add(104, () => { Debug.Log("Action : 104"); RandomUnitStateEvent(false, 6); });
+        RandomEventActionDict.Add(105, () => { Debug.Log("Action : 105"); RandomUnitStateEvent(false, 8); });
         RandomEventActionDict.Add(106, () => { Debug.Log("Action : 106"); RandomUnitStateEvent(true, 3); });
         RandomEventActionDict.Add(107, () => { Debug.Log("Action : 107"); RandomUnitStateEvent(true, 6); });
 
@@ -117,14 +117,16 @@ public class RandomEventManager : MonoBehaviour
         RandomEventActionDict.Add(112, () => { Debug.Log("Action : 112"); RandomFacilityInteractionEvent<Herb>(200); });
         RandomEventActionDict.Add(113, () => { Debug.Log("Action : 113"); RandomFacilityInteractionEvent<Herb>(50); });
         RandomEventActionDict.Add(114, () => { Debug.Log("Action : 114"); RandomFacilityRemoveEvent<Herb>(50); });
-        RandomEventActionDict.Add(115, () => { Debug.Log("Action : 115"); RandomFacilityRemoveEvent<Herb>(100); });
+        //RandomEventActionDict.Add(115, () => { Debug.Log("Action : 115"); RandomFacilityRemoveEvent<Herb>(100); });
+        RandomEventActionDict.Add(115, () => { Debug.Log("Action : 115"); RandomFacilityInteractionEvent<Herb>(0); });
 
         //? Mineral 이벤트
         RandomEventActionDict.Add(121, () => { Debug.Log("Action : 121"); RandomFacilityInteractionEvent<Mineral>(150); });
         RandomEventActionDict.Add(122, () => { Debug.Log("Action : 122"); RandomFacilityInteractionEvent<Mineral>(200); });
         RandomEventActionDict.Add(123, () => { Debug.Log("Action : 123"); RandomFacilityInteractionEvent<Mineral>(50); });
         RandomEventActionDict.Add(124, () => { Debug.Log("Action : 124"); RandomFacilityRemoveEvent<Mineral>(50); });
-        RandomEventActionDict.Add(125, () => { Debug.Log("Action : 125"); RandomFacilityRemoveEvent<Mineral>(100); });
+        //RandomEventActionDict.Add(125, () => { Debug.Log("Action : 125"); RandomFacilityRemoveEvent<Mineral>(100); });
+        RandomEventActionDict.Add(125, () => { Debug.Log("Action : 125"); RandomFacilityInteractionEvent<Mineral>(0); });
 
 
         //? Stat + 이벤트
@@ -199,7 +201,7 @@ public class RandomEventManager : MonoBehaviour
     #region Real Action Detail
 
     //? n개의 유닛 회복 또는 전투불능
-    void RandomUnitStateEvent(bool heal, int count) 
+    void RandomUnitStateEvent(bool heal, int count)
     {
         if (heal) //? 랜덤유닛 회복
         {
@@ -270,6 +272,8 @@ public class RandomEventManager : MonoBehaviour
             }
         }
     }
+
+
     //? 특정타입의 facility 소멸
     void RandomFacilityRemoveEvent<T>(float Percentage) where T : Facility
     {
@@ -334,7 +338,27 @@ public class RandomEventManager : MonoBehaviour
         {
             Debug.Log($"{index}번 째 이벤트 정보 \nID : {ID} \nStartDay : {startDay} \nEndDay : {endDay} \nType : {type}");
         }
+
+
     }
+
+    public (int _id, int _startDay) Get_NextRandomEventID(int currentTurn, List<CurrentRandomEventContent> eventList)
+    {
+        foreach (var item in eventList)
+        {
+            if (item.startDay < currentTurn) //? endDay로 안하는건 지속형이여도 이미 발동된건 의미가 없으니까
+            {
+                continue;
+            }
+            //? 일단 순차적으로 되있을테니 바로 다음꺼 리턴하긴 하는데, 만약 나중이벤트가 걸린다면 바로 다음이벤트인지 체크가 필요 (날짜계산으로)
+
+            return (item.ID, item.startDay);
+        }
+        return (-1, -1);
+    }
+
+
+
 
     //? 이번 회차에 사용 될 랜덤 이벤트 시드
     public List<CurrentRandomEventContent> CurrentEventList { get; set; } = new List<CurrentRandomEventContent>();

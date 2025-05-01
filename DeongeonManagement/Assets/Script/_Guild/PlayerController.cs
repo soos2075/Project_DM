@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour
         sprite = GetComponentInChildren<SpriteRenderer>();
 
         playerSize = transform.localScale.y;
+
+        mainUI = FindAnyObjectByType<UI_Guild_Info>();
     }
 
    
@@ -299,17 +301,36 @@ public class PlayerController : MonoBehaviour
 
 
 
+    bool mainUI_Hide = false;
+    UI_Guild_Info mainUI;
+
     void Key_Esc()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (Managers.UI._popupStack.Count == 0)
+            //if (Managers.UI._popupStack.Count == 0)
+            //{
+            //    Managers.UI.ShowPopUp<UI_Pause>();
+            //}
+            //else if (Managers.UI._popupStack.Peek().EscapeKeyAction())
+            //{
+            //    Managers.UI.ClosePopUp();
+            //}
+
+            if (Managers.UI._popupStack.Count > 0)
             {
-                Managers.UI.ShowPopUp<UI_Pause>();
+                return;
             }
-            else if (Managers.UI._popupStack.Peek().EscapeKeyAction())
+
+            if (mainUI_Hide == false)
             {
-                Managers.UI.ClosePopUp();
+                mainUI_Hide = true;
+                mainUI.gameObject.SetActive(false);
+            }
+            else
+            {
+                mainUI_Hide = false;
+                mainUI.gameObject.SetActive(true);
             }
         }
     }

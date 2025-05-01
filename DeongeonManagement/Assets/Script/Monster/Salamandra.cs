@@ -36,7 +36,7 @@ public class Salamandra : Monster
 
         Initialize_Status();
         EvolutionState = Evolution.Complete;
-        EvolutionComplete();
+        EvolutionComplete("Salamandra", "Salinu");
     }
 
 
@@ -69,19 +69,14 @@ public class Salamandra : Monster
             ui.TargetMonster(this);
             ui.StateText = $"{GameManager.Monster.GetData("Salamandra").labelName} ¡æ " +
                 $"{GameManager.Monster.GetData("Salinu").labelName} {UserData.Instance.LocaleText("ÁøÈ­")}!!";
-            EvolutionComplete();
+            EvolutionComplete("Salamandra", "Salinu");
         }
     }
 
-    void EvolutionComplete()
+    protected override void EvolutionComplete(string _original_key, string _evolution_Key)
     {
-        Data = GameManager.Monster.GetData("Salinu");
-        Evolution_Status();
-        GameManager.Monster.ChangeSLA_New(this, "Salinu");
-        GameManager.Monster.Regist_Evolution("Salamandra");
-
+        base.EvolutionComplete(_original_key, _evolution_Key);
         ChangeTrait_Evolution();
-
         UnitDialogueEvent.AddEvent(150600);
     }
 

@@ -443,6 +443,7 @@ public enum Guild_DayOption
 public enum GuildNPC_LabelName
 {
     QuestZone = 1000,
+
     StaffA = 2000,
     StaffB = 3000,
     Heroine = 4000,
@@ -460,4 +461,6 @@ public enum GuildNPC_LabelName
     Lightning = 12000,
 
     RetiredHero = 15000,
+
+    Soothsayer = 16000,
 }

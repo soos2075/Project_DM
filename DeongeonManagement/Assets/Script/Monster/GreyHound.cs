@@ -25,7 +25,7 @@ public class GreyHound : Monster
 
         Initialize_Status();
         EvolutionState = Evolution.Complete;
-        EvolutionComplete();
+        EvolutionComplete("GreyHound", "HellHound");
     }
     public override void Load_EvolutionMonster()
     {
@@ -76,14 +76,12 @@ public class GreyHound : Monster
         ui.TargetMonster(this);
         ui.StateText = $"{GameManager.Monster.GetData("GreyHound").labelName} ¡æ " +
             $"{GameManager.Monster.GetData("HellHound").labelName} {UserData.Instance.LocaleText("ÁøÈ­")}!!";
-        EvolutionComplete();
+        EvolutionComplete("GreyHound", "HellHound");
     }
-    void EvolutionComplete()
+
+    protected override void EvolutionComplete(string _original_key, string _evolution_Key)
     {
-        Data = GameManager.Monster.GetData("HellHound");
-        Evolution_Status();
-        GameManager.Monster.ChangeSLA_New(this, "HellHound");
-        GameManager.Monster.Regist_Evolution("GreyHound");
+        base.EvolutionComplete(_original_key, _evolution_Key);
 
         ChangeTrait_Evolution();
     }

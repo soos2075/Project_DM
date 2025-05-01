@@ -735,6 +735,18 @@ MonoBehaviour:
     m_Key: Message_Tutorial_RandomEvent
     m_Metadata:
       m_Items: []
+  - m_Id: 149876079704879104
+    m_Key: "\uCE6D\uD638 \uB9AC\uC2A4\uD2B8"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 151754916323602432
+    m_Key: "\uC544\uBB34\uC77C\uC5C6\uC74C"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 151754922149490688
+    m_Key: "~\uC77C \uD6C4"
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

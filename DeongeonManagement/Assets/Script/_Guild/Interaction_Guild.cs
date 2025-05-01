@@ -54,6 +54,13 @@ public class Interaction_Guild : MonoBehaviour
                 break;
         }
 
+        //? 다회차 전용 NPC
+        if (GuildManager.Instance.GetData(data.Original_Index).MultipleNPC && UserData.Instance.FileConfig.PlayRounds == 1)
+        {
+            gameObject.SetActive(false);
+        }
+
+
         if (GuildManager.Instance.GetData(data.Original_Index).FirstDay > turn)
         {
             gameObject.SetActive(false);

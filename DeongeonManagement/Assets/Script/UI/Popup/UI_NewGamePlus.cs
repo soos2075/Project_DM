@@ -143,6 +143,24 @@ public class UI_NewGamePlus : UI_PopUp
     #endregion
 
 
+    #region SO_Data_Statue 임시 (걍 수동연결)
+
+    public string GetStatueData(int id)
+    {
+        string[] datas = Managers.Data.GetTextData_Object(id);
+
+        if (datas == null)
+        {
+            Debug.Log($"{id} : CSV Data Not Exist");
+            return "";
+        }
+
+        return datas[1];
+    }
+
+
+    #endregion
+
 
 
 
@@ -289,8 +307,8 @@ public class UI_NewGamePlus : UI_PopUp
         statueList.Add(Bonus.Statue_Mana);
         statueList.Add(Bonus.Statue_Gold);
 
-        Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Gold);
-        Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Mana);
+        Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Gold, 3901);
+        Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Mana, 3902);
 
         ////? 테스트용으로 임시 전부 개방
         //Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Dog);
@@ -303,27 +321,27 @@ public class UI_NewGamePlus : UI_PopUp
 
         if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Dog))
         {
-            Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Dog);
+            Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Dog, 3903);
         }
         if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Ravi))
         {
-            Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Ravi);
+            Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Ravi, 3905);
         }
         if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Dragon))
         {
-            Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Dragon);
+            Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Dragon, 3904);
         }
         if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Cat))
         {
-            Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Cat);
+            Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Cat, 3906);
         }
         if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Demon))
         {
-            Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Demon);
+            Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Demon, 3907);
         }
         if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Hero))
         {
-            Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Hero);
+            Add_Content_Statue(Panel.StatuePanel, Bonus.Statue_Hero, 3908);
         }
     }
 
@@ -439,7 +457,7 @@ public class UI_NewGamePlus : UI_PopUp
         ContentClick(_label, obj.GetComponent<Button>());
         ContentClick(_label, obj.GetComponent<Button>());
     }
-    void Add_Content_Statue(Panel _panel, Bonus _label)
+    void Add_Content_Statue(Panel _panel, Bonus _label, int _id)
     {
         var parent = GetImage((int)_panel).GetComponentInChildren<GridLayoutGroup>();
 
@@ -448,6 +466,10 @@ public class UI_NewGamePlus : UI_PopUp
 
         //? AddEvent - ContentClick
         obj.AddUIEvent(data => ContentClick_Statue(_label, obj.GetComponent<Button>()));
+
+        //? 툴팁 등록
+        var tool = obj.GetOrAddComponent<UI_Tooltip>();
+        tool.SetTooltipContents("", GetStatueData(_id), UI_TooltipBox.ShowPosition.RightDown);
 
         //? 등록할 때 껐다 켜서 이미지 최신화
         ContentClick_Statue(_label, obj.GetComponent<Button>());

@@ -127,7 +127,7 @@ public class EventManager : MonoBehaviour
         Reservation_Quest = new List<Quest_Reservation>();
         CurrentClearEventData = new ClearEventData();
         TurnOverEventReserve = null;
-        Managers.Dialogue.ReserveAction = null;
+        Managers.Dialogue.CurrentReserveAction = null;
     }
 
     public void NewGameReset()
@@ -1176,6 +1176,16 @@ public class EventManager : MonoBehaviour
         });
 
 
+        EventAction.Add("DenySkip", () => {
+            Managers.Dialogue.AllowPerfectSkip = false;
+        });
+
+        EventAction.Add("AllowSkip", () => {
+            Managers.Dialogue.AllowPerfectSkip = true;
+        });
+
+
+
 
         EventAction.Add("Dialogue_Close", () => {
             Managers.Dialogue.Close_CurrentDialogue();
@@ -1682,6 +1692,50 @@ public class EventManager : MonoBehaviour
                 GameManager.Monster.State = MonsterManager.SelectState.Yes2;
             }
         });
+
+
+        EventAction.Add("Soothsayer_Continue", () =>
+        {
+            GuildHelper.Instance.VIP_Room_Talk(FindAnyObjectByType<PlayerController>().gameObject,
+    GuildHelper.Instance.Get_Current_Guild_NPC(GuildNPC_LabelName.Soothsayer),
+    DialogueName.Soothsayer_Continue);
+        });
+
+
+        EventAction.Add("Soothsayer_Option", () =>
+        {
+            var saveData = Managers.Data.GetData("Temp_GuildSave");
+            int gold = Mathf.RoundToInt(saveData.mainData.Player_Gold * 0.3f);
+            Managers.Dialogue.Show_SelectOption(new int[] { 16199, 16299 }, new string[] { $" ({gold} {UserData.Instance.LocaleText("Gold")})", "" });
+        });
+
+
+        EventAction.Add("Soothsayer_Yes", () =>
+        {
+            Managers.Dialogue.ActionReserve(() => 
+            {
+                var saveData = Managers.Data.GetData("Temp_GuildSave");
+                int gold = Mathf.RoundToInt(saveData.mainData.Player_Gold * 0.3f);
+                saveData.mainData.Player_Gold -= gold;
+
+                Debug.Log("시스템 메세지 - 다음 던전 이벤트에 대한 정보");
+                var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
+
+                var data = RandomEventManager.Instance.Get_NextRandomEventID(CurrentTurn, saveData.currentRandomEventList);
+                if (data._id < 0)
+                {
+                    msg.Set_Text(UserData.Instance.LocaleText("아무일없음"));
+                    return;
+                }
+                else
+                {
+                    msg.Set_Text($"{data._startDay - CurrentTurn}{UserData.Instance.LocaleText("~일 후")}, \n" +
+                        $"{RandomEventManager.Instance.GetData(data._id).description} ");
+                }
+            });
+        });
+
+
 
 
         //EventAction.Add("Ending", () =>

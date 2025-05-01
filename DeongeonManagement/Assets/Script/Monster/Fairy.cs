@@ -32,7 +32,7 @@ public class Fairy : Monster
 
         Initialize_Status();
         EvolutionState = Evolution.Complete;
-        EvolutionComplete();
+        EvolutionComplete("Fairy", "Pixie");
     }
     IEnumerator Init_Evolution()
     {
@@ -42,16 +42,14 @@ public class Fairy : Monster
             EvolutionState = Evolution.Ready;
         }
     }
-    void EvolutionComplete()
-    {
-        Data = GameManager.Monster.GetData("Pixie");
-        Evolution_Status();
-        GameManager.Monster.ChangeSLA_New(this, "Pixie");
-        GameManager.Monster.Regist_Evolution("Fairy");
-        ChangeTrait_Evolution();
 
+    protected override void EvolutionComplete(string _original_key, string _evolution_Key)
+    {
+        base.EvolutionComplete(_original_key, _evolution_Key);
+        ChangeTrait_Evolution();
         UnitDialogueEvent.AddEvent(UnitDialogueEventLabel.Pixie_First);
     }
+
     void ChangeTrait_Evolution()
     {
         List<ITrait> newTrait = new List<ITrait>();
@@ -135,7 +133,7 @@ public class Fairy : Monster
         ui.TargetMonster(this);
         ui.StateText = $"{GameManager.Monster.GetData("Fairy").labelName} ¡æ " +
             $"{GameManager.Monster.GetData("Pixie").labelName} {UserData.Instance.LocaleText("ÁøÈ­")}!!";
-        EvolutionComplete();
+        EvolutionComplete("Fairy", "Pixie");
     }
 
 

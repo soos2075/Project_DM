@@ -24,7 +24,7 @@ public class EarthGolem : Monster
 
         Initialize_Status();
         EvolutionState = Evolution.Complete;
-        EvolutionComplete();
+        EvolutionComplete("EarthGolem", "FlameGolem");
     }
 
 
@@ -86,18 +86,15 @@ public class EarthGolem : Monster
                     ui.TargetMonster(this);
                     ui.StateText = $"{GameManager.Monster.GetData("EarthGolem").labelName} ¡æ " +
                         $"{GameManager.Monster.GetData("FlameGolem").labelName} {UserData.Instance.LocaleText("ÁøÈ­")}!!";
-                    EvolutionComplete();
+                    EvolutionComplete("EarthGolem", "FlameGolem");
                 }
                 break;
         }
     }
 
-    void EvolutionComplete()
+    protected override void EvolutionComplete(string _original_key, string _evolution_Key)
     {
-        Data = GameManager.Monster.GetData("FlameGolem");
-        Evolution_Status();
-        GameManager.Monster.ChangeSLA(this, "FlameGolem");
-        GameManager.Monster.Regist_Evolution("EarthGolem");
+        base.EvolutionComplete(_original_key, _evolution_Key);
 
         ChangeTrait_Evolution();
     }
