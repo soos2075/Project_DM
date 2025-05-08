@@ -204,6 +204,7 @@ public class UserData : MonoBehaviour
             GameManager.Technical.Init_LocalData();
             GameManager.Trait.Init_LocalData();
             GameManager.Title.Init_LocalData();
+            GameManager.Buff.Init_LocalData();
         }
 
         Cor_Operation_ChangeLanguage = null;

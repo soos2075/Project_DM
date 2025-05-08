@@ -244,6 +244,12 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     public int B_AGI { get => AGI_Final; }
     public int B_LUK { get => LUK_Final; }
 
+
+
+    BattleStatus currentBattleStatus = new BattleStatus();
+    public BattleStatus BattleStatus { get => currentBattleStatus; set => currentBattleStatus = value; }
+
+
     #endregion
 
 

@@ -13,6 +13,10 @@ public class SO_Trait : ScriptableObject, I_SO_Collection
     public TraitRating rating;
     public TraitGroup trait;
 
+    [Header("SLA")]
+    public string SLA_Category;
+    public string SLA_Label;
+
 
     [Header("Collection")]
     public bool isCollected;

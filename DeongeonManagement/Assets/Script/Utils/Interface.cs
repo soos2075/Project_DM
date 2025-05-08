@@ -60,6 +60,8 @@ public interface I_BattleStat
     int HP { get; set; }
 
     int HP_Damaged { get; set; }
+
+    BattleStatus BattleStatus { get; set; }
 }
 
 

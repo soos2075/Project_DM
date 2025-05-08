@@ -9,8 +9,6 @@ public class UI_NewGamePlus : UI_PopUp
 {
     private void Start()
     {
-        Init_LocalData();
-
         Init_EventData();
         Init();
     }
@@ -95,55 +93,71 @@ public class UI_NewGamePlus : UI_PopUp
 
 
     #region SO_Data_Arti
-    SO_Artifact[] so_data;
+    //SO_Artifact[] so_data;
 
-    public void Init_LocalData()
-    {
-        so_data = Resources.LoadAll<SO_Artifact>("Data/Artifact");
-        foreach (var item in so_data)
-        {
-            string[] datas = Managers.Data.GetTextData_Artifact(item.id);
+    //public void Init_LocalData()
+    //{
+    //    so_data = Resources.LoadAll<SO_Artifact>("Data/Artifact");
+    //    foreach (var item in so_data)
+    //    {
+    //        string[] datas = Managers.Data.GetTextData_Artifact(item.id);
 
-            if (datas == null)
-            {
-                Debug.Log($"{item.id} : CSV Data Not Exist");
-                continue;
-            }
+    //        if (datas == null)
+    //        {
+    //            Debug.Log($"{item.id} : CSV Data Not Exist");
+    //            continue;
+    //        }
 
-            item.labelName = datas[0];
-            item.detail = datas[1];
-            item.tooltip_Effect = datas[2];
-        }
-    }
+    //        item.labelName = datas[0];
+    //        item.detail = datas[1];
+    //        item.tooltip_Effect = datas[2];
+    //    }
+    //}
 
-    public SO_Artifact GetData(string _keyName)
-    {
-        foreach (var item in so_data)
-        {
-            if (item.keyName == _keyName)
-            {
-                return item;
-            }
-        }
-        Debug.Log($"{_keyName}: Data Not Exist");
-        return null;
-    }
-    public SO_Artifact GetData(int _id)
-    {
-        foreach (var item in so_data)
-        {
-            if (item.id == _id)
-            {
-                return item;
-            }
-        }
-        Debug.Log($"{_id}: Data Not Exist");
-        return null;
-    }
+    //public SO_Artifact GetData(string _keyName)
+    //{
+    //    foreach (var item in so_data)
+    //    {
+    //        if (item.keyName == _keyName)
+    //        {
+    //            return item;
+    //        }
+    //    }
+    //    Debug.Log($"{_keyName}: Data Not Exist");
+    //    return null;
+    //}
+    //public SO_Artifact GetData(int _id)
+    //{
+    //    foreach (var item in so_data)
+    //    {
+    //        if (item.id == _id)
+    //        {
+    //            return item;
+    //        }
+    //    }
+    //    Debug.Log($"{_id}: Data Not Exist");
+    //    return null;
+    //}
+
+
+
+
     #endregion
 
 
-    #region SO_Data_Statue 임시 (걍 수동연결)
+    #region SO_Data_ 필요한 툴팁 텍스트만 DataManager에서 직접 가져오기
+    public string GetArtifactData(ArtifactLabel label)
+    {
+        string[] datas = Managers.Data.GetTextData_Artifact((int)label);
+
+        if (datas == null)
+        {
+            Debug.Log($"{label} : CSV Data Not Exist");
+            return "";
+        }
+
+        return datas[2];
+    }
 
     public string GetStatueData(int id)
     {
@@ -400,27 +414,28 @@ public class UI_NewGamePlus : UI_PopUp
 
     void Init_Artifact()
     {
-        Add_Content_Artifact(Panel.ArtifactPanel, Bonus.Arti_Pop, GetData((int)ArtifactLabel.OrbOfPopularity));
-        Add_Content_Artifact(Panel.ArtifactPanel, Bonus.Arti_Danger, GetData((int)ArtifactLabel.OrbOfDanger));
+        Add_Content_Artifact(Panel.ArtifactPanel, Bonus.Arti_Pop, ArtifactLabel.OrbOfPopularity);
+        Add_Content_Artifact(Panel.ArtifactPanel, Bonus.Arti_Danger, ArtifactLabel.OrbOfDanger);
 
         if (UserData.Instance.CurrentPlayerData.GetClearCount() >= 2)
         {
-            Add_Content_Artifact(Panel.ArtifactPanel, Bonus.Arti_DownDanger, GetData((int)ArtifactLabel.MarbleOfOblivion));
-            Add_Content_Artifact(Panel.ArtifactPanel, Bonus.Arti_DownPop, GetData((int)ArtifactLabel.MarbleOfReassurance));
+            Add_Content_Artifact(Panel.ArtifactPanel, Bonus.Arti_DownDanger, ArtifactLabel.MarbleOfReassurance);
+            Add_Content_Artifact(Panel.ArtifactPanel, Bonus.Arti_DownPop, ArtifactLabel.MarbleOfOblivion);
         }
+        
 
         if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Demon))
         {
-            Add_Content_Artifact(Panel.ArtifactPanel, Bonus.Arti_Decay, GetData((int)ArtifactLabel.TouchOfDecay));
+            Add_Content_Artifact(Panel.ArtifactPanel, Bonus.Arti_Decay, ArtifactLabel.TouchOfDecay);
         }
         if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Hero))
         {
-            Add_Content_Artifact(Panel.ArtifactPanel, Bonus.Arti_Hero, GetData((int)ArtifactLabel.ProofOfHero));
+            Add_Content_Artifact(Panel.ArtifactPanel, Bonus.Arti_Hero, ArtifactLabel.ProofOfHero);
         }
     }
 
 
-    void Add_Content_Artifact(Panel _panel, Bonus _label, SO_Artifact arti)
+    void Add_Content_Artifact(Panel _panel, Bonus _label, ArtifactLabel arti)
     {
         var parent = GetImage((int)_panel).GetComponentInChildren<GridLayoutGroup>();
 
@@ -432,7 +447,7 @@ public class UI_NewGamePlus : UI_PopUp
 
         //? 툴팁 등록
         var tool = obj.GetOrAddComponent<UI_Tooltip>();
-        tool.SetTooltipContents("", arti.tooltip_Effect, UI_TooltipBox.ShowPosition.RightDown);
+        tool.SetTooltipContents("", GetArtifactData(arti), UI_TooltipBox.ShowPosition.RightDown);
 
 
         //? 등록할 때 껐다 켜서 이미지 최신화

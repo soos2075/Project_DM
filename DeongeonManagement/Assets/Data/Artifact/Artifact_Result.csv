@@ -29,7 +29,7 @@ ID,KeyName,Name_KR,Detail_KR,Effect_KR,Name_EN,Detail_EN,Effect_EN,Name_JP,Detai
 ,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 300,ProofOfHero,용사의 증표,선택받은 용사에게만 주어지는 아티팩트입니다. 세상에 단 하나밖에 없어요. \지닌 자에게 강인함을 부여합니다.,플레이어 강화,Hero's Mark,An artifact given only to chosen heroes. Only one exists in the world. \Grants fortitude to its bearer.,Strengthens player,勇者の証,選ばれし勇者にのみ与えられるアーティファクト。世界に一つだけ存在します。\持つ者に強靭さを授けます。,プレイヤーを強化,勇者之证,只授予被选中的勇者的神器。世间仅此一件。\赋予持有者强韧之力。,强化玩家
-301,TouchOfDecay,부패의 손길,강력한 저주가 걸려있는 아티팩트입니다. \대상이 강할수록 강한 효과를 발휘합니다.,모험가 약화,Touch of Decay,An artifact bearing a powerful curse. \The stronger the target- the stronger its effect.,Weakens adventurers,腐敗の手,強力な呪いが掛けられたアーティファクト。\対象が強いほど- 強い効果を発揮します。,冒険者を弱体化,腐朽之触,带有强大诅咒的神器。\目标越强大- 效果越显著。,削弱冒险者
+301,TouchOfDecay,부패의 손길,강력한 저주가 걸려있는 아티팩트입니다. \대상이 강할수록 강한 효과를 발휘합니다.,모험가에게 [저주] 상태 부여,Touch of Decay,An artifact bearing a powerful curse. \The stronger the target- the stronger its effect.,Inflict [Decay] status on adventurers,腐敗の手,強力な呪いが掛けられたアーティファクト。\対象が強いほど- 強い効果を発揮します。,冒険者に[呪い]状態を付与,腐朽之触,带有强大诅咒的神器。\目标越强大- 效果越显著。,对冒险者施加[诅咒]状态
 ,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 ,,,,,,,,,,,,,

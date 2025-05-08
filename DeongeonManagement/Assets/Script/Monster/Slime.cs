@@ -115,8 +115,14 @@ public class Slime : Monster
     {
         List<ITrait> newTrait = new List<ITrait>();
 
-        foreach (var item in TraitList) //? 원래거 복사 (고유특성만 빼고)
+        foreach (var item in TraitList) //? 원래거 복사 (고유특성은 업글)
         {
+            if (item.ID == TraitGroup.Acid)
+            {
+                newTrait.Add(new Trait.Acid_V2());
+                continue;
+            }
+
             if (item.ID == TraitGroup.VeteranC)
             {
                 newTrait.Add(new Trait.VeteranB());

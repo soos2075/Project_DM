@@ -1211,6 +1211,49 @@ public class Trait
     #endregion
 
 
+    #region New_Original
+
+    public class Spore : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Spore;
+    }
+    public class Spore_V2 : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Spore_V2;
+    }
+
+    public class Acid : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Acid;
+    }
+    public class Acid_V2 : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Acid_V2;
+    }
+
+    public class ThornyVine : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.ThornyVine;
+    }
+    public class ThornyVine_V2 : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.ThornyVine_V2;
+    }
+
+    public class Spirit : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Spirit;
+    }
+    public class Spirit_V2 : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Spirit_V2;
+    }
+
+
+
+    #endregion
+
+
 
 
     #region General_Trait
@@ -1375,10 +1418,19 @@ public interface ITrait_Value : ITrait
 
 public enum TraitRating
 {
+    //? 딱히 없음
     Normal = 0,
+
+    //? 고유특성 - 얻을 수 없음
     Original = 1,
+
+    //? 경험 특성 - 경험으로 얻을 수 있음
     Battle = 2,
+
     Facility_Value = 3,
+
+    //? 랜덤 특성 - 레벨업 등으로 얻을 수 있음
+    Unique = 4,
 }
 
 public enum TraitGroup
@@ -1475,6 +1527,19 @@ public enum TraitGroup
 
 
 
+    //? 신규 고유특성
+    Spore = 1000,
+    Spore_V2 = 1001,
+
+    Acid = 1010,
+    Acid_V2 = 1011,
+
+    ThornyVine = 1020,
+    ThornyVine_V2 = 1021,
+
+    Spirit = 1030,
+    Spirit_V2 = 1031,
+
 
 
     //? ----------------공통 특성
@@ -1485,6 +1550,8 @@ public enum TraitGroup
     //? 심안 : 첫 번째 공격이 반드시 명중
     EagleEye = 5002,
 
+    DoubleAttack = 5003,
+    TripleAttack = 5004,
 
 
 

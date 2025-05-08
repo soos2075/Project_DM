@@ -6,8 +6,51 @@ public class BuffManager
 {
     public void Init()
     {
+        Init_LocalData();
         CurrentBuff = new BuffList();
     }
+
+
+    #region SO_Buff (상태이상)
+
+    SO_BattleStatus[] so_data;
+    public void Init_LocalData()
+    {
+        so_data = Resources.LoadAll<SO_BattleStatus>("Data/BattleStatus");
+
+        foreach (var item in so_data)
+        {
+            string[] datas = Managers.Data.GetTextData_BattleStatus(item.id);
+
+            if (datas == null)
+            {
+                Debug.Log($"{item.id} : CSV Data Not Exist");
+                continue;
+            }
+
+            item.labelName = datas[0];
+            item.detail = datas[1];
+        }
+    }
+
+
+    public SO_BattleStatus GetData(BattleStatusLabel _keyName)
+    {
+        foreach (var item in so_data)
+        {
+            if (item.label == _keyName)
+            {
+                return item;
+            }
+        }
+        Debug.Log($"RE_{_keyName}: Data Not Exist");
+        return null;
+    }
+
+
+
+    #endregion
+
 
 
 
@@ -284,4 +327,134 @@ public class BuffList
 
         return buff;
     }
+}
+
+public class BattleStatus
+{
+    Dictionary<BattleStatusLabel, int> currentStatus;
+
+    public BattleStatus()
+    {
+        InitValue();
+    }
+
+
+    public void InitValue()
+    {
+        currentStatus = new Dictionary<BattleStatusLabel, int>();
+        foreach (BattleStatusLabel item in System.Enum.GetValues(typeof(BattleStatusLabel)))
+        {
+            currentStatus.Add(item, 0);
+        }
+    }
+    public void AddValue(BattleStatusLabel _label, int _value)
+    {
+        currentStatus[_label] += _value;
+
+        //? 데이터 상 최대치 제한
+        if (GameManager.Buff.GetData(_label).MaximumCount < currentStatus[_label])
+        {
+            currentStatus[_label] = GameManager.Buff.GetData(_label).MaximumCount;
+        }
+    }
+
+    public Dictionary<BattleStatusLabel, int> GetCurrentBattleStatus()
+    {
+        return currentStatus;
+    }
+
+    public Dictionary<BattleStatusLabel, int> GetCurrentBattleStatus_Active()
+    {
+        Dictionary<BattleStatusLabel, int> newDict = new Dictionary<BattleStatusLabel, int>();
+
+        foreach (var item in currentStatus)
+        {
+            if (item.Value > 0)
+            {
+                newDict.Add(item.Key, item.Value);
+            }
+        }
+        return newDict;
+    }
+
+
+    int Get_AllStat()
+    {
+        int value = 0;
+
+        value += currentStatus[BattleStatusLabel.Empower] * 5;
+        value += currentStatus[BattleStatusLabel.Vigor] * 10;
+        value += currentStatus[BattleStatusLabel.Blessing] * 20;
+
+        value -= currentStatus[BattleStatusLabel.Weaken] * 5;
+        value -= currentStatus[BattleStatusLabel.Fatigue] * 10;
+        value -= currentStatus[BattleStatusLabel.Decay] * 20;
+
+        return value;
+    }
+
+    public float Get_ATK_Status()
+    {
+        int value = Get_AllStat();
+
+        value += currentStatus[BattleStatusLabel.Sharp] * 5;
+        value -= currentStatus[BattleStatusLabel.Wither] * 5;
+
+        float ratio = value / 100f;
+        return Mathf.Clamp(ratio, -1, ratio);
+    }
+    public float Get_DEF_Status()
+    {
+        int value = Get_AllStat();
+
+        value += currentStatus[BattleStatusLabel.Guard] * 5;
+        value -= currentStatus[BattleStatusLabel.Corrode] * 5;
+
+        float ratio = value / 100f;
+        return Mathf.Clamp(ratio, -1, ratio);
+    }
+    public float Get_AGI_Status()
+    {
+        int value = Get_AllStat();
+
+        value += currentStatus[BattleStatusLabel.Haste] * 5;
+        value -= currentStatus[BattleStatusLabel.Slow] * 5;
+
+        float ratio = value / 100f;
+        return Mathf.Clamp(ratio, -1, ratio);
+    }
+    public float Get_LUK_Status()
+    {
+        int value = Get_AllStat();
+
+        value += currentStatus[BattleStatusLabel.Chance] * 5;
+        value -= currentStatus[BattleStatusLabel.Jinx] * 5;
+
+        float ratio = value / 100f;
+        return Mathf.Clamp(ratio, -1, ratio);
+    }
+}
+
+public enum BattleStatusLabel
+{
+    //? 버프
+    Empower = 1000,
+    Vigor = 1001,
+    Blessing = 1002,
+
+    Sharp = 1100,
+    Guard = 1200,
+    Haste = 1300,
+    Chance = 1400,
+
+
+    //? 디버프
+    Weaken = 2000,
+    Fatigue = 2001,
+    Decay = 2002,
+
+    Wither = 2100,
+    Corrode = 2200,
+    Slow = 2300,
+    Jinx = 2400,
 }

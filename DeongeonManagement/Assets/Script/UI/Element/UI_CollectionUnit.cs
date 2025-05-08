@@ -179,9 +179,14 @@ public class UI_CollectionUnit : UI_Base
         InitAndSetData(parent);
         Data_Trait = data;
 
-        GetObject((int)Objects.UnitSprite).GetComponent<Image>().color = Color.white;
+        //GetObject((int)Objects.UnitSprite).GetComponent<Image>().color = Color.white;
         GetObject((int)Objects.UnitName).GetComponent<TextMeshProUGUI>().text = data.unit.labelName;
 
+        string category = string.IsNullOrEmpty(data.unit.SLA_Category) ? "Basic" : data.unit.SLA_Category;
+        string label = string.IsNullOrEmpty(data.unit.SLA_Label) ? "Entry" : data.unit.SLA_Label;
+
+        GetObject((int)Objects.UnitSprite).GetComponentInChildren<Image>().sprite =
+            Managers.Sprite.Get_SLA(SpriteManager.Library.Trait, category, label);
     }
 
     public void SetUnit_Title(CollectionManager.CollectionUnitRegist<SO_Title> data, UI_Collection parent)

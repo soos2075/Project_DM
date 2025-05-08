@@ -90,6 +90,7 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
                     trait += $"{GameManager.Trait.GetData(item).labelName}  ";
                 }
                 view.View_State(trait);
+                view.View_StatBox(npc);
                 break;
         }
     }
@@ -194,6 +195,7 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
                         trait += $"{GameManager.Trait.GetData(item).labelName}  ";
                     }
                     view.View_State(trait);
+                    view.View_StatBox(npc);
                     break;
             }
         }

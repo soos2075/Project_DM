@@ -47,6 +47,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - csvData
+  - m_GUID: 0a4efd16dc8f36142aff9ab3ada58af6
+    m_Address: Assets/Data/BattleStatus/BattleStatus_Result.csv
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - csvData
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: ee98e609717972e4589234052e5caa8a, type: 2}
   m_SchemaSet:

@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -14,6 +15,10 @@ public class UI_TileView_Tile : UI_Base
     {
         TileView_Tile,
     }
+
+
+
+
     public BasementTile Tile { get; set; }
     UI_TileView_Floor parent;
 
@@ -34,6 +39,8 @@ public class UI_TileView_Tile : UI_Base
         gameObject.AddUIEvent((data) => TileDownEvent(data), Define.UIEvent.Down);
         gameObject.AddUIEvent((data) => TileUpEvent(data), Define.UIEvent.Up);
     }
+
+
 
 
 

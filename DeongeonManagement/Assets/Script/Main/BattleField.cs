@@ -550,52 +550,9 @@ public class BattleField : MonoBehaviour
     {
         roundList = new List<Round>();
 
-        //? 시작효과 (몬스터)
-        if (monster.TraitCheck(TraitGroup.Vitality))
-        {
-            int bonusHP = monster.GetSomething(TraitGroup.Vitality, monster.B_HP_Max);
-            int applyHP = monster.B_HP + bonusHP;
+        StartEffect_Monster();
 
-            int realValue = applyHP > monster.B_HP_Max ? (monster.B_HP_Max - monster.B_HP) : bonusHP;
-            monster.HP_Damaged -= realValue;
-            openingList.Add(new OpeningTrait(EffectType.Heal, monster, StatType.HP, realValue));
-        }
-        if (monster.TraitCheck(TraitGroup.Vitality_V2))
-        {
-            int bonusHP = Mathf.RoundToInt(monster.B_HP_Max * 0.2f);
-            int applyHP = monster.B_HP + bonusHP;
-
-            int realValue = applyHP > monster.B_HP_Max ? (monster.B_HP_Max - monster.B_HP) : bonusHP;
-            monster.HP_Damaged -= realValue;
-            openingList.Add(new OpeningTrait(EffectType.Heal, monster, StatType.HP, realValue));
-        }
-
-
-        if (monster.TraitCheck(TraitGroup.Overwhelm))
-        {
-            int realValue = Mathf.RoundToInt(npc.B_HP * 0.15f);
-            npc.HP_Damaged += realValue;
-            openingList.Add(new OpeningTrait(EffectType.Damaged, npc, StatType.HP, realValue));
-        }
-        if (monster.TraitCheck(TraitGroup.Overwhelm_V2))
-        {
-            int realValue = Mathf.RoundToInt(npc.B_HP * 0.3f);
-            npc.HP_Damaged += realValue;
-            openingList.Add(new OpeningTrait(EffectType.Damaged, npc, StatType.HP, realValue));
-        }
-
-
-        if (monster.TraitCheck(TraitGroup.Reaper))
-        {
-            int realValue = Mathf.RoundToInt(monster.B_HP_Max * 0.05f);
-            monster.HP_Damaged += realValue;
-            openingList.Add(new OpeningTrait(EffectType.Damaged, monster, StatType.HP, realValue));
-
-            npc.HP_Damaged += realValue * 2;
-            openingList.Add(new OpeningTrait(EffectType.Damaged, npc, StatType.HP, realValue * 2));
-        }
-
-
+        //? npc 시작효과도 넣어야함
 
         int agi = npc.B_AGI - monster.B_AGI;
         if (agi > 5)
@@ -643,11 +600,34 @@ public class BattleField : MonoBehaviour
     {
         List<(int, DamageMeshType)> damageList = new List<(int, DamageMeshType)>();
 
-        int normalAttackDamage = TryDodge(monster, npc, counter) ? 0 : Calc_Damaged(monster, npc);
+        DamageMeshType normalAttackType = DamageMeshType.Damage;
+        int attackValue = Calc_AttackValue(monster, npc, out normalAttackType);
 
-        damageList.Add((normalAttackDamage, DamageMeshType.Damage));
-        damageList.AddRange(TryTrait(monster, npc, normalAttackDamage));
+        //? 기본공격
+        damageList.Add((TryDodge(monster, npc, counter) ? 0 : Calc_Damaged(attackValue, npc.B_DEF), normalAttackType));
+        //? 2회 공격
+        if (monster.TraitCheck(TraitGroup.DoubleAttack))
+        {
+            damageList.Add((TryDodge(monster, npc, counter) ? 0 : Calc_Damaged(attackValue, npc.B_DEF), normalAttackType));
+        }
+        //? 3회 공격
+        if (monster.TraitCheck(TraitGroup.TripleAttack))
+        {
+            damageList.Add((TryDodge(monster, npc, counter) ? 0 : Calc_Damaged(attackValue, npc.B_DEF), normalAttackType));
+            damageList.Add((TryDodge(monster, npc, counter) ? 0 : Calc_Damaged(attackValue, npc.B_DEF), normalAttackType));
+        }
 
+        //? 특수공격
+        damageList.AddRange(TryTrait(monster, npc, Mathf.Clamp((attackValue - npc.B_DEF), 1, attackValue)));
+
+
+
+        //? 데미지 증감 특성 계산
+        for (int i = 0; i < damageList.Count; i++)
+        {
+            var item = damageList[i];
+            damageList[i] = (TryTrait_Final_Damaged(monster, npc, item.Item1), item.Item2);
+        }
 
 
         int damage_Sum = 0;
@@ -657,7 +637,7 @@ public class BattleField : MonoBehaviour
         }
 
         List<(int, DamageMeshType)> healList = new List<(int, DamageMeshType)>();
-        healList.AddRange(TryTrait_Util(monster, npc, normalAttackDamage));
+        healList.AddRange(TryTrait_Util(monster, npc, damage_Sum));
 
         int heal_Sum = 0;
         foreach (var item in healList)
@@ -681,11 +661,35 @@ public class BattleField : MonoBehaviour
     {
         List<(int, DamageMeshType)> damageList = new List<(int, DamageMeshType)>();
 
-        int damage = TryDodge(npc, monster, counter) ? 0 : Calc_Damaged(npc, monster);
+        //int damage = TryDodge(npc, monster, counter) ? 0 : Calc_Damaged(npc, monster);
 
-        damageList.Add((damage, DamageMeshType.Damage));
-        damageList.AddRange(TryTrait(npc, monster, damage));
-        damageList.AddRange(TryTrait_Targeting(npc, monster, damage));
+        //damageList.Add((damage, DamageMeshType.Damage));
+        //damageList.AddRange(TryTrait(npc, monster, damage));
+        //damageList.AddRange(TryTrait_Targeting(npc, monster, damage));
+
+
+        DamageMeshType normalAttackType = DamageMeshType.Damage;
+        int attackValue = Calc_AttackValue(npc, monster, out normalAttackType);
+
+        //? 기본공격
+        damageList.Add((TryDodge(npc, monster, counter) ? 0 : Calc_Damaged(attackValue, monster.B_DEF), normalAttackType));
+        //? 2회 공격
+        if (npc.TraitCheck(TraitGroup.DoubleAttack))
+        {
+            damageList.Add((TryDodge(npc, monster, counter) ? 0 : Calc_Damaged(attackValue, monster.B_DEF), normalAttackType));
+        }
+        //? 3회 공격
+        if (npc.TraitCheck(TraitGroup.TripleAttack))
+        {
+            damageList.Add((TryDodge(npc, monster, counter) ? 0 : Calc_Damaged(attackValue, monster.B_DEF), normalAttackType));
+            damageList.Add((TryDodge(npc, monster, counter) ? 0 : Calc_Damaged(attackValue, monster.B_DEF), normalAttackType));
+        }
+
+        //? 특수공격
+        damageList.AddRange(TryTrait(npc, monster, Mathf.Clamp((attackValue - monster.B_DEF), 1, attackValue)));
+        damageList.AddRange(TryTrait_Targeting(npc, monster, Mathf.Clamp((attackValue - monster.B_DEF), 1, attackValue)));
+
+
 
         //? 데미지 증감 특성 계산
         for (int i = 0; i < damageList.Count; i++)
@@ -701,7 +705,7 @@ public class BattleField : MonoBehaviour
         }
 
         List<(int, DamageMeshType)> healList = new List<(int, DamageMeshType)>();
-        healList.AddRange(TryTrait_Util(npc, monster, damage));
+        healList.AddRange(TryTrait_Util(npc, monster, damage_Sum));
 
         int heal_Sum = 0;
         foreach (var item in healList)
@@ -724,16 +728,181 @@ public class BattleField : MonoBehaviour
     }
 
 
-    //? 기본 공격
-    int Calc_Damaged<T1, T2>(T1 attacker, T2 defender) where T1 : I_TraitSystem, I_BattleStat where T2 : I_TraitSystem, I_BattleStat
+
+
+
+    //? 시작효과
+    void StartEffect_Monster()
     {
-        int damage = 1;
+        //? 디버프
+        if (monster.TraitCheck(TraitGroup.Spore))
+        {
+            npc.BattleStatus.AddValue(BattleStatusLabel.Wither, 1);
+        }
+        if (monster.TraitCheck(TraitGroup.Spore_V2))
+        {
+            npc.BattleStatus.AddValue(BattleStatusLabel.Wither, 2);
+        }
 
-        int atkRange = (int)UnityEngine.Random.Range(attacker.B_ATK * 0.8f, attacker.B_ATK * 1.2f);
-        damage = Mathf.Clamp((atkRange - defender.B_DEF), 1, atkRange);
+        if (monster.TraitCheck(TraitGroup.Acid))
+        {
+            npc.BattleStatus.AddValue(BattleStatusLabel.Corrode, 1);
+        }
+        if (monster.TraitCheck(TraitGroup.Acid_V2))
+        {
+            npc.BattleStatus.AddValue(BattleStatusLabel.Corrode, 2);
+        }
 
+        if (monster.TraitCheck(TraitGroup.ThornyVine))
+        {
+            npc.BattleStatus.AddValue(BattleStatusLabel.Slow, 1);
+        }
+        if (monster.TraitCheck(TraitGroup.ThornyVine_V2))
+        {
+            npc.BattleStatus.AddValue(BattleStatusLabel.Slow, 2);
+        }
+
+        if (monster.TraitCheck(TraitGroup.Spirit))
+        {
+            npc.BattleStatus.AddValue(BattleStatusLabel.Jinx, 1);
+        }
+        if (monster.TraitCheck(TraitGroup.Spirit_V2))
+        {
+            npc.BattleStatus.AddValue(BattleStatusLabel.Jinx, 2);
+        }
+
+
+
+
+        //? 기존꺼
+        if (monster.TraitCheck(TraitGroup.Vitality))
+        {
+            int bonusHP = monster.GetSomething(TraitGroup.Vitality, monster.B_HP_Max);
+            int applyHP = monster.B_HP + bonusHP;
+
+            int realValue = applyHP > monster.B_HP_Max ? (monster.B_HP_Max - monster.B_HP) : bonusHP;
+            monster.HP_Damaged -= realValue;
+            openingList.Add(new OpeningTrait(EffectType.Heal, monster, StatType.HP, realValue));
+        }
+        if (monster.TraitCheck(TraitGroup.Vitality_V2))
+        {
+            int bonusHP = Mathf.RoundToInt(monster.B_HP_Max * 0.2f);
+            int applyHP = monster.B_HP + bonusHP;
+
+            int realValue = applyHP > monster.B_HP_Max ? (monster.B_HP_Max - monster.B_HP) : bonusHP;
+            monster.HP_Damaged -= realValue;
+            openingList.Add(new OpeningTrait(EffectType.Heal, monster, StatType.HP, realValue));
+        }
+
+
+        if (monster.TraitCheck(TraitGroup.Overwhelm))
+        {
+            int realValue = Mathf.RoundToInt(npc.B_HP * 0.15f);
+            npc.HP_Damaged += realValue;
+            openingList.Add(new OpeningTrait(EffectType.Damaged, npc, StatType.HP, realValue));
+        }
+        if (monster.TraitCheck(TraitGroup.Overwhelm_V2))
+        {
+            int realValue = Mathf.RoundToInt(npc.B_HP * 0.3f);
+            npc.HP_Damaged += realValue;
+            openingList.Add(new OpeningTrait(EffectType.Damaged, npc, StatType.HP, realValue));
+        }
+
+
+        if (monster.TraitCheck(TraitGroup.Reaper))
+        {
+            int realValue = Mathf.RoundToInt(monster.B_HP_Max * 0.05f);
+            monster.HP_Damaged += realValue;
+            openingList.Add(new OpeningTrait(EffectType.Damaged, monster, StatType.HP, realValue));
+
+            npc.HP_Damaged += realValue * 2;
+            openingList.Add(new OpeningTrait(EffectType.Damaged, npc, StatType.HP, realValue * 2));
+        }
+    }
+
+
+
+
+
+    //? 공격할 스탯 (방어 계산 전)
+    int Calc_AttackValue<T1, T2>(T1 attacker, T2 defender, out DamageMeshType dmgType) where T1 : I_TraitSystem, I_BattleStat where T2 : I_TraitSystem, I_BattleStat
+    {
+        DamageMeshType type = DamageMeshType.Damage;
+        int atkRange = attacker.B_ATK;
+
+        //? 괴력 = ATK 의 30% / 60% 추가공격
+        if (attacker.TraitCheck(TraitGroup.Powerful)) atkRange += Mathf.RoundToInt((attacker.B_ATK) * 0.3f);
+        if (attacker.TraitCheck(TraitGroup.Powerful_V2)) atkRange += Mathf.RoundToInt((attacker.B_ATK) * 0.6f);
+
+        //? 철스킨 = DEF 의 50% / 100% 추가공격
+        if (attacker.TraitCheck(TraitGroup.IronSkin)) atkRange += attacker.B_DEF / 2;
+        if (attacker.TraitCheck(TraitGroup.IronSkin_V2)) atkRange += attacker.B_DEF;
+
+        //? 질풍 = AGI 의 50% / 100% 추가공격
+        if (attacker.TraitCheck(TraitGroup.GaleForce)) atkRange += attacker.B_AGI / 2;
+        if (attacker.TraitCheck(TraitGroup.GaleForce_V2)) atkRange += attacker.B_AGI;
+
+        //? 행운 = LUK 의 50% / 100% 추가공격
+        if (attacker.TraitCheck(TraitGroup.LuckyPunch)) atkRange += attacker.B_LUK / 2;
+        if (attacker.TraitCheck(TraitGroup.LuckyPunch_V2)) atkRange += attacker.B_LUK;
+
+        //? 필살 = 모든 스탯 합계 의 20% / 40% 추가공격
+        if (attacker.TraitCheck(TraitGroup.Ultimate)) atkRange += Mathf.RoundToInt((attacker.B_ATK + attacker.B_DEF + attacker.B_AGI + attacker.B_LUK) * 0.2f);
+        if (attacker.TraitCheck(TraitGroup.Ultimate_V2)) atkRange += Mathf.RoundToInt((attacker.B_ATK + attacker.B_DEF + attacker.B_AGI + attacker.B_LUK) * 0.4f);
+
+
+        if (atkRange > attacker.B_ATK)
+        {
+            type = DamageMeshType.Critical;
+        }
+        dmgType = type;
+
+        return atkRange;
+    }
+
+    //? 진짜 공격 = 데미지 스프레드 후 방어 적용
+    int Calc_Damaged(int attackValue, int _DEF)
+    {
+        int lastATK = Mathf.RoundToInt(UnityEngine.Random.Range(attackValue * 0.8f, attackValue * 1.2f));
+        int damage = Mathf.Clamp((lastATK - _DEF), 1, lastATK);
         return damage;
     }
+
+
+    ////? 기본 공격
+    //int Calc_Damaged<T1, T2>(T1 attacker, T2 defender) where T1 : I_TraitSystem, I_BattleStat where T2 : I_TraitSystem, I_BattleStat
+    //{
+    //    int damage = 1;
+    //    int atkRange = attacker.B_ATK;
+
+    //    //? 괴력 = ATK 의 30% / 60% 추가공격
+    //    if (attacker.TraitCheck(TraitGroup.Powerful)) atkRange += Mathf.RoundToInt((attacker.B_ATK) * 0.3f);
+    //    if (attacker.TraitCheck(TraitGroup.Powerful_V2)) atkRange += Mathf.RoundToInt((attacker.B_ATK) * 0.6f);
+
+    //    //? 철스킨 = DEF 의 50% / 100% 추가공격
+    //    if (attacker.TraitCheck(TraitGroup.IronSkin)) atkRange += attacker.B_DEF / 2;
+    //    if (attacker.TraitCheck(TraitGroup.IronSkin_V2)) atkRange += attacker.B_DEF;
+
+    //    //? 질풍 = AGI 의 50% / 100% 추가공격
+    //    if (attacker.TraitCheck(TraitGroup.GaleForce)) atkRange += attacker.B_AGI / 2;
+    //    if (attacker.TraitCheck(TraitGroup.GaleForce_V2)) atkRange += attacker.B_AGI;
+
+    //    //? 행운 = LUK 의 50% / 100% 추가공격
+    //    if (attacker.TraitCheck(TraitGroup.LuckyPunch)) atkRange += attacker.B_LUK / 2;
+    //    if (attacker.TraitCheck(TraitGroup.LuckyPunch_V2)) atkRange += attacker.B_LUK;
+
+    //    //? 필살 = 모든 스탯 합계 의 20% / 40% 추가공격
+    //    if (attacker.TraitCheck(TraitGroup.Ultimate)) atkRange += Mathf.RoundToInt((attacker.B_ATK + attacker.B_DEF + attacker.B_AGI + attacker.B_LUK) * 0.2f);
+    //    if (attacker.TraitCheck(TraitGroup.Ultimate_V2)) atkRange += Mathf.RoundToInt((attacker.B_ATK + attacker.B_DEF + attacker.B_AGI + attacker.B_LUK) * 0.4f);
+
+
+
+    //    int lastATK = (int)UnityEngine.Random.Range(atkRange * 0.8f, atkRange * 1.2f);
+
+    //    damage = Mathf.Clamp((lastATK - defender.B_DEF), 1, lastATK);
+
+    //    return damage;
+    //}
 
 
     //? 회피시스템
@@ -799,68 +968,6 @@ public class BattleField : MonoBehaviour
             addList.Add((bonusAttack, DamageMeshType.Damage));
             addList.Add((bonusAttack, DamageMeshType.Damage));
         }
-
-        //? 괴력 = ATK 의 30% / 60% 추가공격
-        if (attacker.TraitCheck(TraitGroup.Powerful))
-        {
-            int trueDamage = Mathf.RoundToInt((attacker.B_ATK) * 0.3f);
-            addList.Add((trueDamage, DamageMeshType.Special));
-        }
-        if (attacker.TraitCheck(TraitGroup.Powerful_V2))
-        {
-            int trueDamage = Mathf.RoundToInt((attacker.B_ATK) * 0.6f);
-            addList.Add((trueDamage, DamageMeshType.Special));
-        }
-
-        //? 철스킨 = DEF 의 50% / 100% 추가공격
-        if (attacker.TraitCheck(TraitGroup.IronSkin))
-        {
-            int trueDamage = attacker.B_DEF / 2;
-            addList.Add((trueDamage, DamageMeshType.Special));
-        }
-        if (attacker.TraitCheck(TraitGroup.IronSkin_V2))
-        {
-            int trueDamage = attacker.B_DEF;
-            addList.Add((trueDamage, DamageMeshType.Special));
-        }
-
-        //? 질풍 = AGI 의 50% / 100% 추가공격
-        if (attacker.TraitCheck(TraitGroup.GaleForce))
-        {
-            int bonusAttack = attacker.B_AGI / 2;
-            addList.Add((bonusAttack, DamageMeshType.Special));
-        }
-        if (attacker.TraitCheck(TraitGroup.GaleForce_V2))
-        {
-            int bonusAttack = attacker.B_AGI;
-            addList.Add((bonusAttack, DamageMeshType.Special));
-        }
-
-        //? 행운 = LUK 의 50% / 100% 추가공격
-        if (attacker.TraitCheck(TraitGroup.LuckyPunch))
-        {
-            int bonusAttack = attacker.B_LUK / 2;
-            addList.Add((bonusAttack, DamageMeshType.Special));
-        }
-        if (attacker.TraitCheck(TraitGroup.LuckyPunch_V2))
-        {
-            int bonusAttack = attacker.B_LUK;
-            addList.Add((bonusAttack, DamageMeshType.Special));
-        }
-
-        //? 필살 = 모든 스탯 합계 의 20% / 40% 추가공격
-        if (attacker.TraitCheck(TraitGroup.Ultimate))
-        {
-            int bonusAttack = Mathf.RoundToInt((attacker.B_ATK + attacker.B_DEF + attacker.B_AGI + attacker.B_LUK) * 0.2f);
-            addList.Add((bonusAttack, DamageMeshType.Special));
-        }
-        if (attacker.TraitCheck(TraitGroup.Ultimate_V2))
-        {
-            int bonusAttack = Mathf.RoundToInt((attacker.B_ATK + attacker.B_DEF + attacker.B_AGI + attacker.B_LUK) * 0.4f);
-            addList.Add((bonusAttack, DamageMeshType.Special));
-        }
-
-
 
 
         //? 신성력	공격 시 상대 최대 HP의 8%만큼 추가데미지

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_TraitBar : UI_Base
 {
@@ -32,6 +33,12 @@ public class UI_TraitBar : UI_Base
         Data = _data;
         Init();
         traitName.text = _data.labelName;
+
+
+        string category = string.IsNullOrEmpty(Data.SLA_Category) ? "Basic" : Data.SLA_Category;
+        string label = string.IsNullOrEmpty(Data.SLA_Label) ? "Entry" : Data.SLA_Label;
+
+        GetComponentInChildren<Image>().sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.Trait, category, label);
     }
 
 

@@ -46,6 +46,10 @@ public class DataManager
         //? RandomEvent
         Addressables.LoadAssetAsync<TextAsset>("Assets/Data/RandomEvent/RandomEvent_Result.csv").Completed +=
     (handle) => { CSV_File_Parsing_RandomEvent(OnCSVLoaded(handle)); };
+
+        //? BattleStatue (상태이상)
+        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/BattleStatus/BattleStatus_Result.csv").Completed +=
+    (handle) => { CSV_File_Parsing_BattleStatus(OnCSVLoaded(handle)); };
     }
 
 
@@ -71,7 +75,7 @@ public class DataManager
 
     //? 모든 어드레서블 csv파일이 성공적으로 로드 됐는지 확인 후 콜백. 숫자는 추가할때마다 바꿔야함. LoadSucceed 참조 횟수 = csvFileAll
     int csvLoadCount = 0;
-    int csvFileAll = 6;
+    int csvFileAll = 7;
     public event Action OnAddressablesComplete;
 
     void LoadSucceed()
@@ -197,6 +201,30 @@ public class DataManager
 
             case Define.Language.SCC:
                 Managers.Data.RandomEvent_SCC.TryGetValue(id, out datas);
+                break;
+        }
+        return datas;
+    }
+
+    public string[] GetTextData_BattleStatus(int id)
+    {
+        string[] datas = null;
+        switch (UserData.Instance.Language)
+        {
+            case Define.Language.EN:
+                Managers.Data.BattleStatus_EN.TryGetValue(id, out datas);
+                break;
+
+            case Define.Language.KR:
+                Managers.Data.BattleStatus_KR.TryGetValue(id, out datas);
+                break;
+
+            case Define.Language.JP:
+                Managers.Data.BattleStatus_JP.TryGetValue(id, out datas);
+                break;
+
+            case Define.Language.SCC:
+                Managers.Data.BattleStatus_SCC.TryGetValue(id, out datas);
                 break;
         }
         return datas;
@@ -512,7 +540,36 @@ public class DataManager
         LoadSucceed();
     }
 
+    //? BattleStatus
+    public Dictionary<int, string[]> BattleStatus_KR = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> BattleStatus_EN = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> BattleStatus_JP = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> BattleStatus_SCC = new Dictionary<int, string[]>();
+    // 0 ID
+    // 1 KR, 2 EN, 3 JP, 4 SCC,
+    void CSV_File_Parsing_BattleStatus(string _stringData)
+    {
+        if (string.IsNullOrEmpty(_stringData)) return;
 
+        var spl_n = _stringData.Split('\n');
+
+        for (int i = 1; i < spl_n.Length; i++)
+        {
+            var spl_comma = spl_n[i].Split(',');
+
+            if (spl_comma.Length < 2 || string.IsNullOrEmpty(spl_comma[1])) //? 빈칸이면 다음으로
+            {
+                continue;
+            }
+            string[] datas = spl_comma;
+
+            BattleStatus_KR.Add(int.Parse(datas[0]), new string[] { datas[1], ContainsAndJoin(datas[2]) });
+            BattleStatus_EN.Add(int.Parse(datas[0]), new string[] { datas[3], ContainsAndJoin(datas[4]) });
+            BattleStatus_JP.Add(int.Parse(datas[0]), new string[] { datas[5], ContainsAndJoin(datas[6]) });
+            BattleStatus_SCC.Add(int.Parse(datas[0]), new string[] { datas[7], ContainsAndJoin(datas[8]) });
+        }
+        LoadSucceed();
+    }
 
 
 

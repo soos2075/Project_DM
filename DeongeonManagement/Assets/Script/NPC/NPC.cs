@@ -23,6 +23,11 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         Start_Setting();
 
         AddCollectionPoint();
+
+        if (GameManager.Artifact.GetArtifact(ArtifactLabel.TouchOfDecay).Count > 0)
+        {
+            BattleStatus.AddValue(BattleStatusLabel.Decay, 1);
+        }
     }
 
 
@@ -839,29 +844,35 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     public int B_AGI { get => AGI_Final; }
     public int B_LUK { get => LUK_Final; }
 
+
+    BattleStatus currentBattleStatus = new BattleStatus();
+    public BattleStatus BattleStatus { get => currentBattleStatus; set => currentBattleStatus = value; }
+
     #endregion
+
+
+
 
     #region Stat Bonus
     public int HP_Damaged { get; set; }
 
 
-    int HP_Final { get { return Mathf.RoundToInt((HP + HP_Bonus) * HP_Ratio); } }
-    int HPMax_Final { get { return Mathf.RoundToInt((HP_MAX + HP_Bonus) * HP_Ratio); } }
+    int HP_Final { get { return HP + HP_Bonus; } }
+    int HPMax_Final { get { return HP_MAX + HP_Bonus; } }
 
     int HP_Bonus { get { return 0; } }
 
 
-    int ATK_Final { get { return Mathf.RoundToInt((ATK + ATK_Bonus + AllStat_Bonus) * AllStat_Ratio); } }
-    int DEF_Final { get { return Mathf.RoundToInt((DEF + DEF_Bonus + AllStat_Bonus) * AllStat_Ratio); } }
-    int AGI_Final { get { return Mathf.RoundToInt((AGI + AGI_Bonus + AllStat_Bonus) * AllStat_Ratio); } }
-    int LUK_Final { get { return Mathf.RoundToInt((LUK + LUK_Bonus + AllStat_Bonus) * AllStat_Ratio); } }
+    int ATK_Final { get { return ATK_normal + ATK_Status; } }
+    int DEF_Final { get { return DEF_normal + DEF_Status; } }
+    int AGI_Final { get { return AGI_normal + AGI_Status; } }
+    int LUK_Final { get { return LUK_normal + LUK_Status; } }
 
 
     int ATK_Bonus { get { return 0; } }
     int DEF_Bonus { get { return 0; } }
     int AGI_Bonus { get { return 0; } }
     int LUK_Bonus { get { return 0; } }
-
 
     int AllStat_Bonus
     {
@@ -871,23 +882,38 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         }
     }
 
-    float HP_Ratio
-    {
-        get
-        {
-            return 1 + Artifact_Decay;
-        }
-    }
-    float AllStat_Ratio
-    {
-        get
-        {
-            return 1 + Artifact_Decay;
-        }
-    }
+    //float HP_Ratio
+    //{
+    //    get
+    //    {
+    //        return 1 + Artifact_Decay;
+    //    }
+    //}
+    //float AllStat_Ratio
+    //{
+    //    get
+    //    {
+    //        return 1 + Artifact_Decay;
+    //    }
+    //}
+
+    //? 상태이상이 없을 떄 기본수치
+    int ATK_normal { get => (ATK + ATK_Bonus + AllStat_Bonus); }
+    int DEF_normal { get => (DEF + DEF_Bonus + AllStat_Bonus); }
+    int AGI_normal { get => (AGI + AGI_Bonus + AllStat_Bonus); }
+    int LUK_normal { get => (LUK + LUK_Bonus + AllStat_Bonus); }
+
+    //? 현재 상태이상을 적용시킨 수치
+    int ATK_Status { get => Mathf.RoundToInt(ATK_normal * BattleStatus.Get_ATK_Status()); }
+    int DEF_Status { get => Mathf.RoundToInt(DEF_normal * BattleStatus.Get_DEF_Status()); }
+    int AGI_Status { get => Mathf.RoundToInt(AGI_normal * BattleStatus.Get_AGI_Status()); }
+    int LUK_Status { get => Mathf.RoundToInt(LUK_normal * BattleStatus.Get_LUK_Status()); }
 
 
-    float Artifact_Decay { get { return GameManager.Artifact.GetArtifact(ArtifactLabel.TouchOfDecay).Count > 0 ? -0.2f : 0; } }
+
+
+
+    //float Artifact_Decay { get { return GameManager.Artifact.GetArtifact(ArtifactLabel.TouchOfDecay).Count > 0 ? -0.2f : 0; } }
 
     //float Difficulty_HP_Ratio //? 이건 그냥 start 같은곳에서 일괄적용하는게 나을듯. hp말고 다른것도 다 달라져야되니까
     //{

@@ -415,3 +415,6 @@ public class BattleManager : MonoBehaviour
     //    new Vector3(-27.5f, -9f, 0),
     //};
 }
+
+
+
