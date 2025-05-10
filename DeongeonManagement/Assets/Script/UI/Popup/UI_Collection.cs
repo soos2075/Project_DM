@@ -21,6 +21,7 @@ public class UI_Collection : UI_PopUp
         Technical,
         Artifact,
         Trait,
+        BattleStatus,
         Title,
     }
 
@@ -33,6 +34,7 @@ public class UI_Collection : UI_PopUp
         TechnicalBox_Content,
         ArtifactBox_Content,
         TraitBox_Content,
+        BattleStatusBox_Content,
         TitleBox_Content,
     }
 
@@ -49,23 +51,12 @@ public class UI_Collection : UI_PopUp
         TechnicalBox,
         ArtifactBox,
         TraitBox,
+        BattleStatusBox,
         TitleBox,
-
 
         ShowBox,
         //Content,
         VerticalBox,
-
-        //TMP_Stat_Main1,
-        //TMP_Stat_Main2,
-        //TMP_Stat_Main3,
-        //TMP_Stat_Main4,
-        //TMP_Stat_Main5,
-        //TMP_Stat_Main6,
-
-        //TMP_Stat_Sub1,
-        //TMP_Stat_Sub2,
-        //TMP_Stat_Sub3,
     }
 
     enum ShowBoxText
@@ -115,6 +106,7 @@ public class UI_Collection : UI_PopUp
         GetButton((int)MenuButtons.Technical).gameObject.AddUIEvent(data => MenuButton(MenuButtons.Technical, Objects.TechnicalBox));
         GetButton((int)MenuButtons.Artifact).gameObject.AddUIEvent(data => MenuButton(MenuButtons.Artifact, Objects.ArtifactBox));
         GetButton((int)MenuButtons.Trait).gameObject.AddUIEvent(data => MenuButton(MenuButtons.Trait, Objects.TraitBox));
+        GetButton((int)MenuButtons.BattleStatus).gameObject.AddUIEvent(data => MenuButton(MenuButtons.BattleStatus, Objects.BattleStatusBox));
         GetButton((int)MenuButtons.Title).gameObject.AddUIEvent(data => MenuButton(MenuButtons.Title, Objects.TitleBox));
 
 
@@ -169,6 +161,13 @@ public class UI_Collection : UI_PopUp
             unit.GetComponent<UI_CollectionUnit>().SetUnit_Trait(CollectionManager.Instance.Register_Trait[i], this);
         }
 
+        for (int i = 0; i < CollectionManager.Instance.Register_BattleStatus.Count; i++)
+        {
+            var unit = Managers.Resource.Instantiate("UI/PopUp/Collection/CollectionUnit",
+                Get<GridLayoutGroup>((int)GridGroups.BattleStatusBox_Content).transform);
+            unit.GetComponent<UI_CollectionUnit>().SetUnit_BattleStatus(CollectionManager.Instance.Register_BattleStatus[i], this);
+        }
+
         for (int i = 0; i < CollectionManager.Instance.Register_Title.Count; i++)
         {
             var unit = Managers.Resource.Instantiate("UI/PopUp/Collection/CollectionUnit_Title_Content",
@@ -207,6 +206,7 @@ public class UI_Collection : UI_PopUp
         GetObject((int)Objects.TechnicalBox).SetActive(false);
         GetObject((int)Objects.ArtifactBox).SetActive(false);
         GetObject((int)Objects.TraitBox).SetActive(false);
+        GetObject((int)Objects.BattleStatusBox).SetActive(false);
         GetObject((int)Objects.TitleBox).SetActive(false);
     }
 
@@ -659,7 +659,7 @@ public class UI_Collection : UI_PopUp
         SO_Trait SO_Data = data.unit;
         //Debug.Log(SO_Data.keyName);
 
-        GetTMP((int)ShowBoxText.TMP_Point).text = $"Point\n{data.info.UnlockPoint}";
+        GetTMP((int)ShowBoxText.TMP_Point).text = "";
         GetTMP((int)ShowBoxText.TMP_Number).text = $"No.{data.CollectionNumber}";
 
         GetImage((int)ShowBoxImage.MainSprite).sprite = Managers.Sprite.GetClear();
@@ -674,6 +674,21 @@ public class UI_Collection : UI_PopUp
             OptionContentSet(textBox1.GetComponentInChildren<TextMeshProUGUI>(), SO_Data.Acquire, true);
         }
     }
+
+    public void ShowBox_BattleStatus(CollectionManager.CollectionUnitRegist<SO_BattleStatus> data)
+    {
+        SO_BattleStatus SO_Data = data.unit;
+
+        GetTMP((int)ShowBoxText.TMP_Point).text = "";
+        GetTMP((int)ShowBoxText.TMP_Number).text = $"No.{data.CollectionNumber}";
+
+        GetImage((int)ShowBoxImage.MainSprite).sprite = Managers.Sprite.GetClear();
+        GetTMP((int)ShowBoxText.TMP_Name).text = SO_Data.labelName;
+        GetTMP((int)ShowBoxText.TMP_Detail).text = $"{SO_Data.detail}";
+
+        GetTMP((int)ShowBoxText.TMP_Detail).text += $"\n\n{UserData.Instance.LocaleText("√÷¥Î ¡ﬂ√∏")} : {SO_Data.MaximumCount}";
+    }
+
 
     public void ShowBox_Title(CollectionManager.CollectionUnitRegist<SO_Title> data)
     {

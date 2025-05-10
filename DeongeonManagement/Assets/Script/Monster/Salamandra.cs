@@ -88,6 +88,12 @@ public class Salamandra : Monster
 
         foreach (var item in TraitList) //? 원래거 복사 (고유특성만 빼고)
         {
+            if (item.ID == TraitGroup.ToughSkin)
+            {
+                newTrait.Add(new Trait.ToughSkin_V2());
+                continue;
+            }
+
             if (item.ID == TraitGroup.Overwhelm)
             {
                 newTrait.Add(new Trait.Overwhelm_V2());

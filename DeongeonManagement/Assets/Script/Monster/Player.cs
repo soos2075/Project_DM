@@ -26,11 +26,17 @@ public class Player : Monster
         //Hero_Buff();
     }
 
-    public void Hero_Buff()
+
+    protected override void BattleStatue_TurnStart()
     {
         if (GameManager.Artifact.GetArtifact(ArtifactLabel.ProofOfHero).Count > 0)
         {
-            AddTrait_Default(TraitGroup.Blessing);
+            BattleStatus.AddValue(BattleStatusLabel.Heroism, 1);
+        }
+
+        if (GameManager.Artifact.GetArtifact(ArtifactLabel.Cross).Count > 0)
+        {
+            BattleStatus.AddValue(BattleStatusLabel.Master, GameManager.Artifact.GetArtifact(ArtifactLabel.Cross).Count);
         }
     }
 
@@ -39,7 +45,7 @@ public class Player : Monster
     {
         LV = _LoadData.LV;
         HP = _LoadData.HP;
-        HP_Max = _LoadData.HP_MAX;
+        HP_MAX = _LoadData.HP_MAX;
 
         ATK = _LoadData.ATK;
         DEF = _LoadData.DEF;
@@ -60,7 +66,7 @@ public class Player : Monster
         {
             LV++;
 
-            HP_Max += 50;
+            HP_MAX += 50;
             HP += 50;
 
             ATK += 5;

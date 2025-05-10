@@ -361,31 +361,31 @@ public class UI_NewGamePlus : UI_PopUp
 
     void Init_Unit()
     {
-        if (CollectionManager.Instance.Get_Collection_KeyName<SO_Monster>("BloodySlime").info.isRegist)
+        if (CollectionManager.Instance.Get_Collection_Monster("BloodySlime").info.isRegist)
         {
             Add_Content(Panel.UnitPanel, Bonus.Unit_BloodySlime);
         }
-        if (CollectionManager.Instance.Get_Collection_KeyName<SO_Monster>("FlameGolem").info.isRegist)
+        if (CollectionManager.Instance.Get_Collection_Monster("FlameGolem").info.isRegist)
         {
             Add_Content(Panel.UnitPanel, Bonus.Unit_FlameGolem);
         }
-        if (CollectionManager.Instance.Get_Collection_KeyName<SO_Monster>("Pixie").info.isRegist)
+        if (CollectionManager.Instance.Get_Collection_Monster("Pixie").info.isRegist)
         {
             Add_Content(Panel.UnitPanel, Bonus.Unit_Pixie);
         }
-        if (CollectionManager.Instance.Get_Collection_KeyName<SO_Monster>("Salinu").info.isRegist)
+        if (CollectionManager.Instance.Get_Collection_Monster("Salinu").info.isRegist)
         {
             Add_Content(Panel.UnitPanel, Bonus.Unit_Salinu);
         }
-        if (CollectionManager.Instance.Get_Collection_KeyName<SO_Monster>("HellHound").info.isRegist)
+        if (CollectionManager.Instance.Get_Collection_Monster("HellHound").info.isRegist)
         {
             Add_Content(Panel.UnitPanel, Bonus.Unit_HellHound);
         }
-        if (CollectionManager.Instance.Get_Collection_KeyName<SO_Monster>("Griffin").info.isRegist)
+        if (CollectionManager.Instance.Get_Collection_Monster("Griffin").info.isRegist)
         {
             Add_Content(Panel.UnitPanel, Bonus.Unit_Griffin);
         }
-        if (CollectionManager.Instance.Get_Collection_KeyName<SO_Monster>("Lilith").info.isRegist)
+        if (CollectionManager.Instance.Get_Collection_Monster("Lilith").info.isRegist)
         {
             Add_Content(Panel.UnitPanel, Bonus.Unit_Lilith);
         }

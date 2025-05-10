@@ -1240,6 +1240,47 @@ public class Trait
         public TraitGroup ID { get; } = TraitGroup.ThornyVine_V2;
     }
 
+    public class Golem : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Golem;
+    }
+    public class Golem_V2 : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Golem_V2;
+    }
+
+    public class Succubus : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Succubus;
+    }
+    public class Succubus_V2 : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Succubus_V2;
+    }
+    public class ToughSkin : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.ToughSkin;
+    }
+    public class ToughSkin_V2 : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.ToughSkin_V2;
+    }
+    public class Wind : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Wind;
+    }
+    public class Wind_V2 : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Wind_V2;
+    }
+    public class Fierce : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Fierce;
+    }
+    public class Fierce_V2 : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Fierce_V2;
+    }
     public class Spirit : ITrait
     {
         public TraitGroup ID { get; } = TraitGroup.Spirit;
@@ -1258,48 +1299,48 @@ public class Trait
 
     #region General_Trait
 
-    public class Blessing : ITrait_Value
-    {
-        public TraitGroup ID { get; } = TraitGroup.Blessing;
-        public int ApplyHP(int current)
-        {
-            return 150;
-        }
-        public int ApplyHP_Max(int current)
-        {
-            return 150;
-        }
-        public int ApplyATK(int current)
-        {
-            return 20;
-        }
-        public int ApplyDEF(int current)
-        {
-            return 10;
-        }
-        public int ApplyAGI(int current)
-        {
-            return 10;
-        }
-        public int ApplyLUK(int current)
-        {
-            return 10;
-        }
+    //public class Blessing : ITrait_Value
+    //{
+    //    public TraitGroup ID { get; } = TraitGroup.Blessing;
+    //    public int ApplyHP(int current)
+    //    {
+    //        return 150;
+    //    }
+    //    public int ApplyHP_Max(int current)
+    //    {
+    //        return 150;
+    //    }
+    //    public int ApplyATK(int current)
+    //    {
+    //        return 20;
+    //    }
+    //    public int ApplyDEF(int current)
+    //    {
+    //        return 10;
+    //    }
+    //    public int ApplyAGI(int current)
+    //    {
+    //        return 10;
+    //    }
+    //    public int ApplyLUK(int current)
+    //    {
+    //        return 10;
+    //    }
 
-        public void DoSomething()
-        {
+    //    public void DoSomething()
+    //    {
 
-        }
-        public int GetSomething<T>(T current)
-        {
-            return 0;
-        }
+    //    }
+    //    public int GetSomething<T>(T current)
+    //    {
+    //        return 0;
+    //    }
 
-        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
-        {
-            return current as T1;
-        }
-    }
+    //    public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
+    //    {
+    //        return current as T1;
+    //    }
+    //}
     public class Venom : ITrait
     {
         public TraitGroup ID { get; } = TraitGroup.Venom;
@@ -1480,7 +1521,7 @@ public enum TraitGroup
     RuthlessB = 702,
     RuthlessA = 703,
 
-    
+
 
 
 
@@ -1537,14 +1578,30 @@ public enum TraitGroup
     ThornyVine = 1020,
     ThornyVine_V2 = 1021,
 
-    Spirit = 1030,
-    Spirit_V2 = 1031,
+    Golem = 1030,
+    Golem_V2 = 1031,
+
+    Succubus = 1100,
+    Succubus_V2 = 1101,
+
+    ToughSkin = 1110,
+    ToughSkin_V2 = 1111,
+
+    Wind = 1120,
+    Wind_V2 = 1121,
+
+    Fierce = 1130,
+    Fierce_V2 = 1131,
+
+
+    Spirit = 1200,
+    Spirit_V2 = 1201,
 
 
 
     //? ----------------공통 특성
-    //? 용사의 가호를 받아 모든 능력치 강화
-    Blessing = 5000,
+    ////? 용사의 가호를 받아 모든 능력치 강화
+    //Blessing = 5000,
     //? 공격 시 상대 현재 HP의 12%만큼 추가데미지
     Venom = 5001,
     //? 심안 : 첫 번째 공격이 반드시 명중

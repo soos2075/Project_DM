@@ -116,36 +116,26 @@ public class UI_TileView : UI_PopUp, IWorldSpaceUI
         GetObject((int)Contents.ProfilePanel).SetActive(false);
     }
 
-    public void View_StatBox(NPC npc)
+    public void View_StatBox<T>(T target) where T : I_BattleStat
     {
         GetObject((int)Contents.ProfilePanel).SetActive(true);
 
-        GetTMP((int)Texts.Status_HP).text = $"{npc.B_HP}/{npc.B_HP_Max}";
+        GetTMP((int)Texts.Status_HP).text = $"{target.B_HP}/{target.B_HP_Max}";
 
-        string atk = npc.B_ATK - npc.ATK >= 0 ? $"+{npc.B_ATK - npc.ATK}" : $"{npc.B_ATK - npc.ATK}";
-        GetTMP((int)Texts.Status_ATK).text = $"{npc.B_ATK} ({atk})";
+        string atk = target.B_ATK - target.Base_ATK >= 0 ? $"+{target.B_ATK - target.Base_ATK}" : $"{target.B_ATK - target.Base_ATK}";
+        GetTMP((int)Texts.Status_ATK).text = $"{target.B_ATK} ({atk})";
 
-        string def = npc.B_DEF - npc.DEF >= 0 ? $"+{npc.B_DEF - npc.DEF}" : $"{npc.B_DEF - npc.DEF}";
-        GetTMP((int)Texts.Status_DEF).text = $"{npc.B_DEF} ({def})";
+        string def = target.B_DEF - target.Base_DEF >= 0 ? $"+{target.B_DEF - target.Base_DEF}" : $"{target.B_DEF - target.Base_DEF}";
+        GetTMP((int)Texts.Status_DEF).text = $"{target.B_DEF} ({def})";
 
-        string agi = npc.B_AGI - npc.AGI >= 0 ? $"+{npc.B_AGI - npc.AGI}" : $"{npc.B_AGI - npc.AGI}";
-        GetTMP((int)Texts.Status_AGI).text = $"{npc.B_AGI} ({agi})";
+        string agi = target.B_AGI - target.Base_AGI >= 0 ? $"+{target.B_AGI - target.Base_AGI}" : $"{target.B_AGI - target.Base_AGI}";
+        GetTMP((int)Texts.Status_AGI).text = $"{target.B_AGI} ({agi})";
 
-        string luk = npc.B_LUK - npc.LUK >= 0 ? $"+{npc.B_LUK - npc.LUK}" : $"{npc.B_LUK - npc.LUK}";
-        GetTMP((int)Texts.Status_LUK).text = $"{npc.B_LUK} ({luk})";
+        string luk = target.B_LUK - target.Base_LUK >= 0 ? $"+{target.B_LUK - target.Base_LUK}" : $"{target.B_LUK - target.Base_LUK}";
+        GetTMP((int)Texts.Status_LUK).text = $"{target.B_LUK} ({luk})";
 
-        View_CurrentStatus(npc);
+        View_CurrentStatus(target);
     }
-
-    public void View_StatBox(Monster mon)
-    {
-        GetObject((int)Contents.ProfilePanel).SetActive(true);
-
-        View_CurrentStatus(mon);
-    }
-
-
-
 
     void View_CurrentStatus(I_BattleStat target)
     {
@@ -157,8 +147,16 @@ public class UI_TileView : UI_PopUp, IWorldSpaceUI
         {
             var strData = GameManager.Buff.GetData(item.Key);
 
-            detail += strData.detail;
-            detail += $" x {item.Value}";
+            if (strData.statusType == SO_BattleStatus.StatusType.Up)
+            {
+                detail += $"[<b>{strData.labelName.SetTextColorTag(Define.TextColor.Plus_Green)}</b>]";
+            }
+            else if (strData.statusType == SO_BattleStatus.StatusType.Down)
+            {
+                detail += $"[<b>{strData.labelName.SetTextColorTag(Define.TextColor.Plus_Red)}</b>]";
+            }
+
+            detail += $"<b> x {item.Value}\n</b>";
         }
 
         GetTMP((int)Texts.State).text = detail;

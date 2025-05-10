@@ -491,20 +491,20 @@ public class UI_Monster_Management : UI_PopUp
         GetTMP((int)Texts.Name).text = Current.monster.CallName;
 
         int currentHP = Mathf.Clamp(Current.monster.B_HP, 0, Current.monster.B_HP);
-        GetTMP((int)Texts.Status_HP).text = $"{currentHP}/{Current.monster.HP_Max} " +
-            $"{Util.SetTextColorTag($"(+{Current.monster.HP_Final - Current.monster.HP})", Define.TextColor.LightYellow)}";
+        GetTMP((int)Texts.Status_HP).text = $"{currentHP}/{Current.monster.HP_MAX} " +
+            $"{Util.SetTextColorTag($"(+{Current.monster.B_HP - Current.monster.HP})", Define.TextColor.LightYellow)}";
 
         GetTMP((int)Texts.Status_ATK).text = $"{Current.monster.ATK} " +
-            $"{Util.SetTextColorTag($"(+{Current.monster.ATK_Final - Current.monster.ATK})", Define.TextColor.LightYellow)}";
+            $"{Util.SetTextColorTag($"(+{Current.monster.B_ATK - Current.monster.ATK})", Define.TextColor.LightYellow)}";
 
         GetTMP((int)Texts.Status_DEF).text = $"{Current.monster.DEF} " +
-            $"{Util.SetTextColorTag($"(+{Current.monster.DEF_Final - Current.monster.DEF})", Define.TextColor.LightYellow)}";
+            $"{Util.SetTextColorTag($"(+{Current.monster.B_DEF - Current.monster.DEF})", Define.TextColor.LightYellow)}";
 
         GetTMP((int)Texts.Status_AGI).text = $"{Current.monster.AGI} " +
-            $"{Util.SetTextColorTag($"(+{Current.monster.AGI_Final - Current.monster.AGI})", Define.TextColor.LightYellow)}";
+            $"{Util.SetTextColorTag($"(+{Current.monster.B_AGI - Current.monster.AGI})", Define.TextColor.LightYellow)}";
 
         GetTMP((int)Texts.Status_LUK).text = $"{Current.monster.LUK} " +
-            $"{Util.SetTextColorTag($"(+{Current.monster.LUK_Final - Current.monster.LUK})", Define.TextColor.LightYellow)}";
+            $"{Util.SetTextColorTag($"(+{Current.monster.B_LUK - Current.monster.LUK})", Define.TextColor.LightYellow)}";
 
 
         var TraitPanel = GetObject((int)Etc.TraitPanel).transform;

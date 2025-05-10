@@ -107,6 +107,11 @@ public class EarthGolem : Monster
 
         foreach (var item in TraitList) //? 특성 업그레이드
         {
+            if (item.ID == TraitGroup.Golem)
+            {
+                newTrait.Add(new Trait.Golem_V2());
+                continue;
+            }
             if (item.ID == TraitGroup.Vitality)
             {
                 newTrait.Add(new Trait.Vitality_V2());

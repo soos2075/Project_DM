@@ -165,14 +165,14 @@ public class UI_StatusUp : UI_PopUp
         monster = _monster;
 
         before_lv = monster.LV;
-        before_hp = monster.HP_Max;
+        before_hp = monster.HP_MAX;
         before_atk = monster.ATK;
         before_def = monster.DEF;
         before_agi = monster.AGI;
         before_luk = monster.LUK;
 
         show_lv = monster.LV.ToString();
-        show_hp = monster.HP_Max.ToString();
+        show_hp = monster.HP_MAX.ToString();
         show_atk = monster.ATK.ToString();
         show_def = monster.DEF.ToString();
         show_agi = monster.AGI.ToString();
@@ -201,7 +201,7 @@ public class UI_StatusUp : UI_PopUp
     void AfterStatus()
     {
         after_lv = monster.LV;
-        after_hp = monster.HP_Max;
+        after_hp = monster.HP_MAX;
         after_atk = monster.ATK;
         after_def = monster.DEF;
         after_agi = monster.AGI;

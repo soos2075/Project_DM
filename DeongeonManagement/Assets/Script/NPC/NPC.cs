@@ -837,37 +837,54 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
     #region I_Battle Stat
 
-    public int B_HP { get => HP_Final - HP_Damaged; }
-    public int B_HP_Max { get => HPMax_Final; }
-    public int B_ATK { get => ATK_Final; }
-    public int B_DEF { get => DEF_Final; }
-    public int B_AGI { get => AGI_Final; }
-    public int B_LUK { get => LUK_Final; }
-
-
     BattleStatus currentBattleStatus = new BattleStatus();
     public BattleStatus BattleStatus { get => currentBattleStatus; set => currentBattleStatus = value; }
+
+    //? 전투시 사용할 스탯 (최종 결과값)
+    public int B_HP { get => (HP_normal + HP_Status) - HP_Damaged; }
+    public int B_HP_Max { get => HP_MAX + HP_Bonus; }
+    public int B_ATK { get => ATK_normal + ATK_Status; }
+    public int B_DEF { get => DEF_normal + DEF_Status; }
+    public int B_AGI { get => AGI_normal + AGI_Status; }
+    public int B_LUK { get => LUK_normal + LUK_Status; }
+
+
+    public int HP_Damaged { get; set; }
+
+    public int HP_normal { get => HP + HP_Bonus; }
+    public int HP_Status { get => Mathf.RoundToInt(HP_normal * BattleStatus.Get_HP_Stauts()); }
+
+
+
+    //? 기본 수치 (에디터 및 계산용)
+    public int Base_HP_MAX { get => HP_MAX; }
+    public int Base_ATK { get=> ATK; }
+    public int Base_DEF { get=> DEF; }
+    public int Base_AGI { get=> AGI; }
+    public int Base_LUK { get => LUK; }
+
+
+    //? 상태이상이 없을 떄 수치 (각종 보너스나 특성 등은 전부 적용 된 상태)
+    public int ATK_normal { get => (ATK + ATK_Bonus + AllStat_Bonus); }
+    public int DEF_normal { get => (DEF + DEF_Bonus + AllStat_Bonus); }
+    public int AGI_normal { get => (AGI + AGI_Bonus + AllStat_Bonus); }
+    public int LUK_normal { get => (LUK + LUK_Bonus + AllStat_Bonus); }
+
+    //? 현재 상태이상을 적용시킨 수치
+    public int ATK_Status { get => Mathf.RoundToInt(ATK_normal * BattleStatus.Get_ATK_Status()); }
+    public int DEF_Status { get => Mathf.RoundToInt(DEF_normal * BattleStatus.Get_DEF_Status()); }
+    public int AGI_Status { get => Mathf.RoundToInt(AGI_normal * BattleStatus.Get_AGI_Status()); }
+    public int LUK_Status { get => Mathf.RoundToInt(LUK_normal * BattleStatus.Get_LUK_Status()); }
+
 
     #endregion
 
 
-
-
     #region Stat Bonus
-    public int HP_Damaged { get; set; }
-
-
-    int HP_Final { get { return HP + HP_Bonus; } }
-    int HPMax_Final { get { return HP_MAX + HP_Bonus; } }
+    //int HP_Final { get { return HP + HP_Bonus; } }
+    //int HPMax_Final { get { return HP_MAX + HP_Bonus; } }
 
     int HP_Bonus { get { return 0; } }
-
-
-    int ATK_Final { get { return ATK_normal + ATK_Status; } }
-    int DEF_Final { get { return DEF_normal + DEF_Status; } }
-    int AGI_Final { get { return AGI_normal + AGI_Status; } }
-    int LUK_Final { get { return LUK_normal + LUK_Status; } }
-
 
     int ATK_Bonus { get { return 0; } }
     int DEF_Bonus { get { return 0; } }
@@ -897,46 +914,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     //    }
     //}
 
-    //? 상태이상이 없을 떄 기본수치
-    int ATK_normal { get => (ATK + ATK_Bonus + AllStat_Bonus); }
-    int DEF_normal { get => (DEF + DEF_Bonus + AllStat_Bonus); }
-    int AGI_normal { get => (AGI + AGI_Bonus + AllStat_Bonus); }
-    int LUK_normal { get => (LUK + LUK_Bonus + AllStat_Bonus); }
-
-    //? 현재 상태이상을 적용시킨 수치
-    int ATK_Status { get => Mathf.RoundToInt(ATK_normal * BattleStatus.Get_ATK_Status()); }
-    int DEF_Status { get => Mathf.RoundToInt(DEF_normal * BattleStatus.Get_DEF_Status()); }
-    int AGI_Status { get => Mathf.RoundToInt(AGI_normal * BattleStatus.Get_AGI_Status()); }
-    int LUK_Status { get => Mathf.RoundToInt(LUK_normal * BattleStatus.Get_LUK_Status()); }
-
-
-
-
-
     //float Artifact_Decay { get { return GameManager.Artifact.GetArtifact(ArtifactLabel.TouchOfDecay).Count > 0 ? -0.2f : 0; } }
 
-    //float Difficulty_HP_Ratio //? 이건 그냥 start 같은곳에서 일괄적용하는게 나을듯. hp말고 다른것도 다 달라져야되니까
-    //{
-    //    get
-    //    {
-    //        switch (UserData.Instance.FileConfig.Difficulty)
-    //        {
-    //            case Define.DifficultyLevel.Easy:
-    //                return 0;
-    //            case Define.DifficultyLevel.Normal:
-    //                return 0.5f;
-    //            case Define.DifficultyLevel.Hard:
-    //                return 1.0f;
-    //            case Define.DifficultyLevel.VeryHard:
-    //                return 1.5f;
-    //            case Define.DifficultyLevel.Master:
-    //                return 2.0f;
-
-    //            default:
-    //                return 0;
-    //        }
-    //    }
-    //}
     #endregion
 
 
@@ -987,6 +966,11 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
             value = Mathf.Clamp(value, -1, 1);
         }
         ActionPoint += value;
+
+        if (ActionPoint < 0)
+        {
+            BattleStatus.AddValue(BattleStatusLabel.Fatigue, 1);
+        }
     }
 
     [field: SerializeField]

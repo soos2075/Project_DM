@@ -734,42 +734,32 @@ public class BattleField : MonoBehaviour
     //? 시작효과
     void StartEffect_Monster()
     {
+        //? 버프
+        if (monster.TraitCheck(TraitGroup.Succubus)) { npc.BattleStatus.AddValue(BattleStatusLabel.Chance, 1); }
+        if (monster.TraitCheck(TraitGroup.Succubus_V2)) { npc.BattleStatus.AddValue(BattleStatusLabel.Chance, 2); }
+
+        if (monster.TraitCheck(TraitGroup.ToughSkin)) { npc.BattleStatus.AddValue(BattleStatusLabel.Guard, 1); }
+        if (monster.TraitCheck(TraitGroup.ToughSkin_V2)) { npc.BattleStatus.AddValue(BattleStatusLabel.Guard, 2); }
+
+        if (monster.TraitCheck(TraitGroup.Wind)) { npc.BattleStatus.AddValue(BattleStatusLabel.Haste, 1); }
+        if (monster.TraitCheck(TraitGroup.Wind_V2)) { npc.BattleStatus.AddValue(BattleStatusLabel.Haste, 2); }
+
+        if (monster.TraitCheck(TraitGroup.Fierce)) { npc.BattleStatus.AddValue(BattleStatusLabel.Sharp, 1); }
+        if (monster.TraitCheck(TraitGroup.Fierce_V2)) { npc.BattleStatus.AddValue(BattleStatusLabel.Sharp, 2); }
+
+
         //? 디버프
-        if (monster.TraitCheck(TraitGroup.Spore))
-        {
-            npc.BattleStatus.AddValue(BattleStatusLabel.Wither, 1);
-        }
-        if (monster.TraitCheck(TraitGroup.Spore_V2))
-        {
-            npc.BattleStatus.AddValue(BattleStatusLabel.Wither, 2);
-        }
+        if (monster.TraitCheck(TraitGroup.Spore)) { npc.BattleStatus.AddValue(BattleStatusLabel.Wither, 1); }
+        if (monster.TraitCheck(TraitGroup.Spore_V2)) { npc.BattleStatus.AddValue(BattleStatusLabel.Wither, 2); }
 
-        if (monster.TraitCheck(TraitGroup.Acid))
-        {
-            npc.BattleStatus.AddValue(BattleStatusLabel.Corrode, 1);
-        }
-        if (monster.TraitCheck(TraitGroup.Acid_V2))
-        {
-            npc.BattleStatus.AddValue(BattleStatusLabel.Corrode, 2);
-        }
+        if (monster.TraitCheck(TraitGroup.Acid)) { npc.BattleStatus.AddValue(BattleStatusLabel.Corrode, 1); }
+        if (monster.TraitCheck(TraitGroup.Acid_V2)) { npc.BattleStatus.AddValue(BattleStatusLabel.Corrode, 2); }
 
-        if (monster.TraitCheck(TraitGroup.ThornyVine))
-        {
-            npc.BattleStatus.AddValue(BattleStatusLabel.Slow, 1);
-        }
-        if (monster.TraitCheck(TraitGroup.ThornyVine_V2))
-        {
-            npc.BattleStatus.AddValue(BattleStatusLabel.Slow, 2);
-        }
+        if (monster.TraitCheck(TraitGroup.ThornyVine)) { npc.BattleStatus.AddValue(BattleStatusLabel.Slow, 1); }
+        if (monster.TraitCheck(TraitGroup.ThornyVine_V2)) { npc.BattleStatus.AddValue(BattleStatusLabel.Slow, 2); }
 
-        if (monster.TraitCheck(TraitGroup.Spirit))
-        {
-            npc.BattleStatus.AddValue(BattleStatusLabel.Jinx, 1);
-        }
-        if (monster.TraitCheck(TraitGroup.Spirit_V2))
-        {
-            npc.BattleStatus.AddValue(BattleStatusLabel.Jinx, 2);
-        }
+        if (monster.TraitCheck(TraitGroup.Golem)) { npc.BattleStatus.AddValue(BattleStatusLabel.Jinx, 1); }
+        if (monster.TraitCheck(TraitGroup.Golem_V2)) { npc.BattleStatus.AddValue(BattleStatusLabel.Jinx, 2); }
 
 
 

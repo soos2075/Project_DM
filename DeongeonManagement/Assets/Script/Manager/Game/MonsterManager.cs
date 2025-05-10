@@ -962,7 +962,7 @@ public class MonsterStatusTemporary
     {
         monster = _monster;
         lv = monster.LV;
-        hpMax = monster.HP_Max;
+        hpMax = monster.HP_MAX;
         atk = monster.ATK;
         def = monster.DEF;
         agi = monster.AGI;
@@ -1026,7 +1026,7 @@ public class Save_MonsterData
         PrefabPath = monster.Data.prefabPath;
         LV = monster.LV;
         HP = monster.HP;
-        HP_MAX = monster.HP_Max;
+        HP_MAX = monster.HP_MAX;
         ATK = monster.ATK;
         DEF = monster.DEF;
         AGI = monster.AGI;

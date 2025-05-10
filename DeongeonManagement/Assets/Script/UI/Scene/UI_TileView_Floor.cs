@@ -79,6 +79,7 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
             case PlacementType.Monster:
                 var monster = current as Monster;
                 view.ViewDetail($"{monster.B_HP}/{monster.B_HP_Max}".SetTextColorTag(Define.TextColor.HeavyGreen));
+                view.View_StatBox(monster);
                 break;
 
             case PlacementType.NPC:
@@ -184,6 +185,7 @@ public class UI_TileView_Floor : UI_Scene, IWorldSpaceUI
                 case PlacementType.Monster:
                     var monster = CurrentTile.Original as Monster;
                     view.ViewDetail($"{monster.B_HP}/{monster.B_HP_Max}".SetTextColorTag(Define.TextColor.HeavyGreen));
+                    view.View_StatBox(monster);
                     break;
 
                 case PlacementType.NPC:

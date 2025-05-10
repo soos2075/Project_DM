@@ -546,7 +546,7 @@ public class DataManager
     public Dictionary<int, string[]> BattleStatus_JP = new Dictionary<int, string[]>();
     public Dictionary<int, string[]> BattleStatus_SCC = new Dictionary<int, string[]>();
     // 0 ID
-    // 1 KR, 2 EN, 3 JP, 4 SCC,
+    // 23 KR, 45 EN, 67 JP, 89 SCC,
     void CSV_File_Parsing_BattleStatus(string _stringData)
     {
         if (string.IsNullOrEmpty(_stringData)) return;
@@ -563,10 +563,10 @@ public class DataManager
             }
             string[] datas = spl_comma;
 
-            BattleStatus_KR.Add(int.Parse(datas[0]), new string[] { datas[1], ContainsAndJoin(datas[2]) });
-            BattleStatus_EN.Add(int.Parse(datas[0]), new string[] { datas[3], ContainsAndJoin(datas[4]) });
-            BattleStatus_JP.Add(int.Parse(datas[0]), new string[] { datas[5], ContainsAndJoin(datas[6]) });
-            BattleStatus_SCC.Add(int.Parse(datas[0]), new string[] { datas[7], ContainsAndJoin(datas[8]) });
+            BattleStatus_KR.Add(int.Parse(datas[0]), new string[] { datas[2], ContainsAndJoin(datas[3]) });
+            BattleStatus_EN.Add(int.Parse(datas[0]), new string[] { datas[4], ContainsAndJoin(datas[5]) });
+            BattleStatus_JP.Add(int.Parse(datas[0]), new string[] { datas[6], ContainsAndJoin(datas[7]) });
+            BattleStatus_SCC.Add(int.Parse(datas[0]), new string[] { datas[8], ContainsAndJoin(datas[9]) });
         }
         LoadSucceed();
     }

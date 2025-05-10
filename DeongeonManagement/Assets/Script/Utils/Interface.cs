@@ -60,8 +60,30 @@ public interface I_BattleStat
     int HP { get; set; }
 
     int HP_Damaged { get; set; }
+    int HP_normal { get; }
+    int HP_Status { get; }
 
     BattleStatus BattleStatus { get; set; }
+
+
+    //? 기본 수치 (에디터 및 계산용)
+    int Base_HP_MAX { get; }
+    int Base_ATK { get; }
+    int Base_DEF { get; }
+    int Base_AGI { get; }
+    int Base_LUK { get; }
+
+    //? 상태이상이 없을 떄 기본수치
+    int ATK_normal { get; }
+    int DEF_normal { get; }
+    int AGI_normal { get; }
+    int LUK_normal { get; }
+
+    //? 현재 상태이상을 적용시킨 수치
+    int ATK_Status { get; }
+    int DEF_Status { get; }
+    int AGI_Status { get; }
+    int LUK_Status { get; }
 }
 
 

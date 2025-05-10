@@ -14,8 +14,20 @@ public class SO_BattleStatus : ScriptableObject, I_SO_Collection
     public BattleStatusLabel label;
     public int MaximumCount;
 
+    public StatusType statusType;
+
+
 
     [Header("CSV(Localization)")] //? external CSV Data
     public string labelName;
     public string detail;
+
+
+
+    public enum StatusType
+    {
+        Up,
+        Down,
+        Special,
+    }
 }

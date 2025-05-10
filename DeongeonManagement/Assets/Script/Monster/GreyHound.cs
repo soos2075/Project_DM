@@ -95,6 +95,12 @@ public class GreyHound : Monster
 
         foreach (var item in TraitList) //? 원래거 복사 (고유특성만 빼고)
         {
+            if (item.ID == TraitGroup.Wind)
+            {
+                newTrait.Add(new Trait.Wind_V2());
+                continue;
+            }
+
             if (item.ID == TraitGroup.GaleForce)
             {
                 newTrait.Add(new Trait.GaleForce_V2());

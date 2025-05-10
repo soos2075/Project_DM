@@ -781,6 +781,14 @@ MonoBehaviour:
     m_Localized: ' days later'
     m_Metadata:
       m_Items: []
+  - m_Id: 154940258455334912
+    m_Localized: Status Ailment
+    m_Metadata:
+      m_Items: []
+  - m_Id: 154955274785075200
+    m_Localized: Maximum Stack
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

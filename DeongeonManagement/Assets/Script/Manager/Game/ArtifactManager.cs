@@ -273,12 +273,12 @@ public class ArtifactManager
 
     void Artifact_AddCallback(ArtifactLabel label)
     {
-        switch (label)
-        {
-            case ArtifactLabel.ProofOfHero:
-                Main.Instance.Player.GetComponent<Player>().Hero_Buff();
-                break;
-        }
+        //switch (label)
+        //{
+        //    case ArtifactLabel.ProofOfHero:
+        //        Main.Instance.Player.GetComponent<Player>().Hero_Buff();
+        //        break;
+        //}
     }
 
     void Artifact_Effection()
@@ -287,45 +287,45 @@ public class ArtifactManager
         {
             switch (item.Indexer)
             {
-                case ArtifactLabel.Harp:
-                    GameManager.Buff.ManaAdd_Facility = item.Count * 1;
-                    break;
+                //case ArtifactLabel.Harp:
+                //    GameManager.Buff.ManaAdd_Facility = item.Count * 1;
+                //    break;
 
-                case ArtifactLabel.Hourglass:
-                    GameManager.Buff.ManaAdd_Herb = item.Count * 2;
-                    break;
+                //case ArtifactLabel.Hourglass:
+                //    GameManager.Buff.ManaAdd_Herb = item.Count * 2;
+                //    break;
 
-                case ArtifactLabel.Lamp:
-                    GameManager.Buff.ManaAdd_Mineral = item.Count * 2;
-                    break;
+                //case ArtifactLabel.Lamp:
+                //    GameManager.Buff.ManaAdd_Mineral = item.Count * 2;
+                //    break;
 
-                case ArtifactLabel.Mirror:
-                    GameManager.Buff.ManaAdd_Portal = item.Count * 1;
-                    break;
+                //case ArtifactLabel.Mirror:
+                //    GameManager.Buff.ManaAdd_Portal = item.Count * 1;
+                //    break;
 
-                case ArtifactLabel.Lyre:
-                    GameManager.Buff.ManaAdd_Battle = item.Count * 5;
-                    break;
+                //case ArtifactLabel.Lyre:
+                //    GameManager.Buff.ManaAdd_Battle = item.Count * 5;
+                //    break;
 
-                case ArtifactLabel.Pearl:
-                    GameManager.Buff.ExpAdd_Battle = item.Count * 3;
-                    break;
+                //case ArtifactLabel.Pearl:
+                //    GameManager.Buff.ExpAdd_Battle = item.Count * 3;
+                //    break;
 
                 case ArtifactLabel.Cup:
-                    GameManager.Buff.ManaUp_Final = item.Count * 5;
+                    GameManager.Buff.ManaUp_Final = item.Count * 3;
                     break;
 
                 case ArtifactLabel.Coin:
-                    GameManager.Buff.GoldUp_Final = item.Count * 5;
+                    GameManager.Buff.GoldUp_Final = item.Count * 3;
                     break;
 
                 //case ArtifactLabel.Cross:
                 //    GameManager.Buff.HpUp_Unit = item.Count * 10;
                 //    break;
 
-                //case ArtifactLabel.Dice:
-                //    GameManager.Buff.StatUp_Unit = item.Count * 5;
-                //    break;
+                case ArtifactLabel.Dice:
+                    GameManager.Buff.ManaAdd_Portal = item.Count * 1;
+                    break;
             }
         }
     }

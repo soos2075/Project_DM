@@ -192,24 +192,24 @@ public class BuffManager
         }
     }
 
-    public int HpUp_Unit            //? 유닛 체력 보너스 %
-    {
-        get
-        {
-            int result = 0;
-            result += (GameManager.Artifact.GetArtifact(ArtifactLabel.Cross).Count * 10);
-            return result;
-        }
-    }
-    public int StatUp_Unit          //? 유닛 올스탯 보너스 %
-    {
-        get
-        {
-            int result = 0;
-            result += (GameManager.Artifact.GetArtifact(ArtifactLabel.Dice).Count * 5);
-            return result;
-        }
-    }
+    //public int HpUp_Unit            //? 유닛 체력 보너스 %
+    //{
+    //    get
+    //    {
+    //        int result = 0;
+    //        result += (GameManager.Artifact.GetArtifact(ArtifactLabel.Cross).Count * 10);
+    //        return result;
+    //    }
+    //}
+    //public int StatUp_Unit          //? 유닛 올스탯 보너스 %
+    //{
+    //    get
+    //    {
+    //        int result = 0;
+    //        result += (GameManager.Artifact.GetArtifact(ArtifactLabel.Dice).Count * 5);
+    //        return result;
+    //    }
+    //}
 
 
     public int HpAdd_Player
@@ -378,14 +378,33 @@ public class BattleStatus
     }
 
 
+
+    public float Get_HP_Stauts()
+    {
+        int value = 0;
+
+        value += currentStatus[BattleStatusLabel.Robust] * 10;
+
+        value -= currentStatus[BattleStatusLabel.Wound] * 10;
+
+        float ratio = value / 100f;
+        return Mathf.Clamp(ratio, -1, ratio);
+    }
+
+
     int Get_AllStat()
     {
         int value = 0;
 
+        //? 오리지널
+        value += currentStatus[BattleStatusLabel.Spiritual] * 7;
+
+        //? 올스탯 버프
         value += currentStatus[BattleStatusLabel.Empower] * 5;
         value += currentStatus[BattleStatusLabel.Vigor] * 10;
         value += currentStatus[BattleStatusLabel.Blessing] * 20;
 
+        //? 올스탯 디버프
         value -= currentStatus[BattleStatusLabel.Weaken] * 5;
         value -= currentStatus[BattleStatusLabel.Fatigue] * 10;
         value -= currentStatus[BattleStatusLabel.Decay] * 20;
@@ -437,6 +456,14 @@ public class BattleStatus
 
 public enum BattleStatusLabel
 {
+    //? 오리지널 상태이상 (특수 혹은 특성)
+    Spiritual = 100,
+    Heroism = 101,
+
+    Master = 200,
+
+
+
     //? 버프
     Empower = 1000,
     Vigor = 1001,
@@ -446,6 +473,8 @@ public enum BattleStatusLabel
     Guard = 1200,
     Haste = 1300,
     Chance = 1400,
+
+    Robust = 1500,
 
 
     //? 디버프
@@ -457,4 +486,6 @@ public enum BattleStatusLabel
     Corrode = 2200,
     Slow = 2300,
     Jinx = 2400,
+
+    Wound = 2500,
 }

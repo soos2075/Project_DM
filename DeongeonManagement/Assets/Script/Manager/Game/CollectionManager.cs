@@ -70,6 +70,7 @@ public class CollectionManager : MonoBehaviour
     SO_Technical[] TechnicalData;
     SO_Artifact[] ArtifactData;
     SO_Trait[] TraitData;
+    SO_BattleStatus[] BattleStatusData;
     SO_Title[] TitleData;
     SO_Ending[] EndingData;
 
@@ -82,6 +83,7 @@ public class CollectionManager : MonoBehaviour
         TechnicalData = Resources.LoadAll<SO_Technical>("Data/Technical");
         ArtifactData = Resources.LoadAll<SO_Artifact>("Data/Artifact");
         TraitData = Resources.LoadAll<SO_Trait>("Data/Trait");
+        BattleStatusData = Resources.LoadAll<SO_BattleStatus>("Data/BattleStatus");
         TitleData = Resources.LoadAll<SO_Title>("Data/Title");
         EndingData = Resources.LoadAll<SO_Ending>("Data/Ending");
 
@@ -92,6 +94,7 @@ public class CollectionManager : MonoBehaviour
         Array.Sort(TechnicalData, (a, b) => a.id.CompareTo(b.id));
         Array.Sort(ArtifactData, (a, b) => a.id.CompareTo(b.id));
         Array.Sort(TraitData, (a, b) => a.id.CompareTo(b.id));
+        Array.Sort(BattleStatusData, (a, b) => a.id.CompareTo(b.id));
         Array.Sort(TitleData, (a, b) => a.id.CompareTo(b.id));
         Array.Sort(EndingData, (a, b) => a.id.CompareTo(b.id));
 
@@ -110,6 +113,7 @@ public class CollectionManager : MonoBehaviour
     public List<CollectionUnitRegist<SO_Technical>> Register_Technical { get; private set; }
     public List<CollectionUnitRegist<SO_Artifact>> Register_Artifact { get; private set; }
     public List<CollectionUnitRegist<SO_Trait>> Register_Trait { get; private set; }
+    public List<CollectionUnitRegist<SO_BattleStatus>> Register_BattleStatus { get; private set; }
     public List<CollectionUnitRegist<SO_Title>> Register_Title { get; private set; }
 
 
@@ -162,8 +166,13 @@ public class CollectionManager : MonoBehaviour
         Register_Trait = new List<CollectionUnitRegist<SO_Trait>>();
         for (int i = 0; i < TraitData.Length; i++)
         {
-            //if (TraitData[i].isCollected == false) continue;
             Register_Trait.Add(new CollectionUnitRegist<SO_Trait>(TraitData[i], new Regist_Info(), i + 1));
+        }
+
+        Register_BattleStatus = new List<CollectionUnitRegist<SO_BattleStatus>>();
+        for (int i = 0; i < BattleStatusData.Length; i++)
+        {
+            Register_BattleStatus.Add(new CollectionUnitRegist<SO_BattleStatus>(BattleStatusData[i], new Regist_Info(), i + 1));
         }
 
         Register_Title = new List<CollectionUnitRegist<SO_Title>>();
@@ -202,6 +211,10 @@ public class CollectionManager : MonoBehaviour
         {
             if (item.unit == SO_Data) return item as CollectionUnitRegist<T>;
         }
+        foreach (var item in Register_BattleStatus)
+        {
+            if (item.unit == SO_Data) return item as CollectionUnitRegist<T>;
+        }
         foreach (var item in Register_Title)
         {
             if (item.unit == SO_Data) return item as CollectionUnitRegist<T>;
@@ -209,42 +222,88 @@ public class CollectionManager : MonoBehaviour
 
         return null;
     }
-    public CollectionUnitRegist<T> Get_Collection_KeyName<T>(string _keyName) where T : ScriptableObject, I_SO_Collection
-    {
-        foreach (var item in Register_Monster)
-        {
-            if (item.unit.keyName == _keyName) return item as CollectionUnitRegist<T>;
-        }
-        foreach (var item in Register_Facility)
-        {
-            if (item.unit.keyName == _keyName) return item as CollectionUnitRegist<T>;
-        }
-        foreach (var item in Register_NPC)
-        {
-            if (item.unit.keyName == _keyName) return item as CollectionUnitRegist<T>;
-        }
-        foreach (var item in Register_Technical)
-        {
-            if (item.unit.keyName == _keyName) return item as CollectionUnitRegist<T>;
-        }
-        foreach (var item in Register_Artifact)
-        {
-            if (item.unit.keyName == _keyName) return item as CollectionUnitRegist<T>;
-        }
-        foreach (var item in Register_Trait)
-        {
-            if (item.unit.traitName == _keyName) return item as CollectionUnitRegist<T>;
-        }
-        foreach (var item in Register_Title)
-        {
-            if (item.unit.keyName == _keyName) return item as CollectionUnitRegist<T>;
-        }
 
+    //? 컬렉션 데이터 확인용인데 필요없는 항목들도 있음 (상태이상같은거)
+    public CollectionUnitRegist<SO_Monster> Get_Collection_Monster(string _keyName)
+    {
+        foreach (var item in Register_Monster) { if (item.unit.keyName == _keyName) return item; }
+        return null;
+    }
+    public CollectionUnitRegist<SO_Facility> Get_Collection_Facility(string _keyName)
+    {
+        foreach (var item in Register_Facility) { if (item.unit.keyName == _keyName) return item; }
+        return null;
+    }
+    public CollectionUnitRegist<SO_NPC> Get_Collection_NPC(string _keyName)
+    {
+        foreach (var item in Register_NPC) { if (item.unit.keyName == _keyName) return item; }
+        return null;
+    }
+    public CollectionUnitRegist<SO_Technical> Get_Collection_Technical(string _keyName)
+    {
+        foreach (var item in Register_Technical) { if (item.unit.keyName == _keyName) return item; }
+        return null;
+    }
+    public CollectionUnitRegist<SO_Artifact> Get_Collection_Artifact(string _keyName)
+    {
+        foreach (var item in Register_Artifact) { if (item.unit.keyName == _keyName) return item; }
+        return null;
+    }
+    public CollectionUnitRegist<SO_Trait> Get_Collection_Trait(string _keyName)
+    {
+        foreach (var item in Register_Trait) { if (item.unit.traitName == _keyName) return item; }
+        return null;
+    }
+    public CollectionUnitRegist<SO_Title> Get_Collection_Title(string _keyName)
+    {
+        foreach (var item in Register_Title) { if (item.unit.keyName == _keyName) return item; }
         return null;
     }
 
 
+    //public CollectionUnitRegist<T> Get_Collection_KeyName<T>(string _keyName) where T : ScriptableObject, I_SO_Collection
+    //{
 
+    //    foreach (var item in Register_Monster)
+    //    {
+    //        if (item.unit.keyName == _keyName) return item as CollectionUnitRegist<T>;
+    //    }
+    //    foreach (var item in Register_Facility)
+    //    {
+    //        if (item.unit.keyName == _keyName) return item as CollectionUnitRegist<T>;
+    //    }
+    //    foreach (var item in Register_NPC)
+    //    {
+    //        if (item.unit.keyName == _keyName) return item as CollectionUnitRegist<T>;
+    //    }
+    //    foreach (var item in Register_Technical)
+    //    {
+    //        if (item.unit.keyName == _keyName) return item as CollectionUnitRegist<T>;
+    //    }
+    //    foreach (var item in Register_Artifact)
+    //    {
+    //        if (item.unit.keyName == _keyName) return item as CollectionUnitRegist<T>;
+    //    }
+    //    foreach (var item in Register_Trait)
+    //    {
+    //        if (item.unit.traitName == _keyName) return item as CollectionUnitRegist<T>;
+    //    }
+    //    //foreach (var item in Register_BattleStatus)
+    //    //{
+    //    //    if (item.unit.id == _keyName) return item as CollectionUnitRegist<T>;
+    //    //}
+    //    foreach (var item in Register_Title)
+    //    {
+    //        if (item.unit.keyName == _keyName) return item as CollectionUnitRegist<T>;
+    //    }
+
+    //    return null;
+    //}
+
+
+
+
+    #region 세이브 / 로드  // Trait이랑 BattleStatus같은건 딱히 점수가 없어서 저장/세이브도 필요없음
     public void LoadCollectionData(Dictionary<int, Regist_Info> data)
     {
         foreach (var item in Register_Monster)
@@ -287,14 +346,14 @@ public class CollectionManager : MonoBehaviour
                 item.Apply_Info(isRegist.DeepCopy());
             }
         }
-        foreach (var item in Register_Trait)
-        {
-            Regist_Info isRegist;
-            if (data.TryGetValue(item.unit.id + 20000, out isRegist))
-            {
-                item.Apply_Info(isRegist.DeepCopy());
-            }
-        }
+        //foreach (var item in Register_Trait)
+        //{
+        //    Regist_Info isRegist;
+        //    if (data.TryGetValue(item.unit.id + 20000, out isRegist))
+        //    {
+        //        item.Apply_Info(isRegist.DeepCopy());
+        //    }
+        //}
         foreach (var item in Register_Title)
         {
             Regist_Info isRegist;
@@ -335,10 +394,10 @@ public class CollectionManager : MonoBehaviour
             Register.Add(Register_Artifact[i].unit.id + 10000, Register_Artifact[i].info.DeepCopy());
         }
 
-        for (int i = 0; i < Register_Trait.Count; i++)
-        {
-            Register.Add(Register_Trait[i].unit.id + 20000, Register_Trait[i].info.DeepCopy());
-        }
+        //for (int i = 0; i < Register_Trait.Count; i++)
+        //{
+        //    Register.Add(Register_Trait[i].unit.id + 20000, Register_Trait[i].info.DeepCopy());
+        //}
 
         for (int i = 0; i < Register_Title.Count; i++)
         {
@@ -347,6 +406,10 @@ public class CollectionManager : MonoBehaviour
 
         return Register;
     }
+    #endregion
+
+
+
 
 
     public class CollectionUnitRegist<T> where T : I_SO_Collection

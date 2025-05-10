@@ -225,7 +225,7 @@ public class RandomEventManager : MonoBehaviour
             {
                 if (monsterAll.Count <= i) break; //? 대상 유닛수가 반복회수보다 적으면 브레이크
 
-                monsterAll[i].HP_Damaged = monsterAll[i].HP_Final;
+                monsterAll[i].HP_Damaged = monsterAll[i].B_HP;
                 if (monsterAll[i].State == Monster.MonsterState.Placement)
                 {
                     monsterAll[i].MonsterOutFloor();

@@ -83,6 +83,12 @@ public class Griffy : Monster
 
         foreach (var item in TraitList) //? 원래거 복사 (고유특성만 빼고)
         {
+            if (item.ID == TraitGroup.Fierce)
+            {
+                newTrait.Add(new Trait.Fierce_V2());
+                continue;
+            }
+
             if (item.ID == TraitGroup.Predation)
             {
                 newTrait.Add(new Trait.Predation_V2());

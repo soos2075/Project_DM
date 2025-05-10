@@ -136,7 +136,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
         LV = _LoadData.LV;
         HP = _LoadData.HP;
-        HP_Max = _LoadData.HP_MAX;
+        HP_MAX = _LoadData.HP_MAX;
 
         ATK = _LoadData.ATK;
         DEF = _LoadData.DEF;
@@ -237,22 +237,183 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
     #region I_Battle Stat
 
-    public int B_HP { get => HP_Final - HP_Damaged; }
-    public int B_HP_Max { get => HPMax_Final; }
-    public int B_ATK { get => ATK_Final; }
-    public int B_DEF { get => DEF_Final; }
-    public int B_AGI { get => AGI_Final; }
-    public int B_LUK { get => LUK_Final; }
-
-
-
     BattleStatus currentBattleStatus = new BattleStatus();
     public BattleStatus BattleStatus { get => currentBattleStatus; set => currentBattleStatus = value; }
 
+    //? 전투시 사용할 스탯 (최종 결과값)
+    public int B_HP { get => (HP_normal + HP_Status) - HP_Damaged; }
+    public int B_HP_Max { get => HP_MAX + HP_Bonus; }
+    public int B_ATK { get => ATK_normal + ATK_Status; }
+    public int B_DEF { get => DEF_normal + DEF_Status; }
+    public int B_AGI { get => AGI_normal + AGI_Status; }
+    public int B_LUK { get => LUK_normal + LUK_Status; }
+
+
+    public int HP_Damaged { get; set; }
+
+    public int HP_normal { get => HP + HP_Bonus + Trait_HP; }
+    public int HP_Status { get => Mathf.RoundToInt(HP_normal * BattleStatus.Get_HP_Stauts()); }
+
+    //? 기본 수치 (에디터 및 계산용)
+    public int Base_HP_MAX { get => HP_MAX; }
+    public int Base_ATK { get => ATK; }
+    public int Base_DEF { get => DEF; }
+    public int Base_AGI { get => AGI; }
+    public int Base_LUK { get => LUK; }
+
+    //? 상태이상이 없을 떄 기본수치 (각종 보너스나 특성 등은 전부 적용 된 상태
+    public int ATK_normal { get => (ATK + ATK_Bonus + AllStat_Bonus + Trait_ATK); }
+    public int DEF_normal { get => (DEF + DEF_Bonus + AllStat_Bonus + Trait_DEF); }
+    public int AGI_normal { get => (AGI + AGI_Bonus + AllStat_Bonus + Trait_AGI); }
+    public int LUK_normal { get => (LUK + LUK_Bonus + AllStat_Bonus + Trait_LUK); }
+
+    //? 현재 상태이상을 적용시킨 수치
+    public int ATK_Status { get => Mathf.RoundToInt(ATK_normal * BattleStatus.Get_ATK_Status()); }
+    public int DEF_Status { get => Mathf.RoundToInt(DEF_normal * BattleStatus.Get_DEF_Status()); }
+    public int AGI_Status { get => Mathf.RoundToInt(AGI_normal * BattleStatus.Get_AGI_Status()); }
+    public int LUK_Status { get => Mathf.RoundToInt(LUK_normal * BattleStatus.Get_LUK_Status()); }
 
     #endregion
 
 
+    #region Stat Bonus
+
+    //? 매턴 초기화 되는 상태이상과, 매 턴 유지되는 상태이상을 나눠야하고 처리해야함.
+
+    //? 전부 초기화 된 다음 매 턴 새로 부여하는게 좋을 것 같긴 함 (병원 / 훈련시설 같은거)
+
+    //? 병원은 매턴 강건 2스택, 훈련시설은 매 턴 활기 2스택 주면 되겠다
+
+
+    void BattleStatus_Init()
+    {
+        BattleStatus = new BattleStatus();
+    }
+    protected virtual void BattleStatue_TurnStart()
+    {
+        //? 특성
+        if (TraitCheck(TraitGroup.Spirit))
+        {
+            var floor = PlacementInfo.Place_Floor.FloorIndex;
+
+            var monList = GameManager.Monster.GetMonsterAll(MonsterState.Placement);
+            foreach (var item in monList)
+            {
+                if (item.PlacementInfo.Place_Floor.FloorIndex == floor)
+                {
+                    item.BattleStatus.AddValue(BattleStatusLabel.Spiritual, 1);
+                }
+            }
+        }
+        if (TraitCheck(TraitGroup.Spirit_V2))
+        {
+            var floor = PlacementInfo.Place_Floor.FloorIndex;
+
+            var monList = GameManager.Monster.GetMonsterAll(MonsterState.Placement);
+            foreach (var item in monList)
+            {
+                if (item.PlacementInfo.Place_Floor.FloorIndex == floor)
+                {
+                    item.BattleStatus.AddValue(BattleStatusLabel.Spiritual, 2);
+                }
+            }
+        }
+
+        //? 아티팩트
+        BattleStatus.AddValue(BattleStatusLabel.Empower, GameManager.Artifact.GetArtifact(ArtifactLabel.Harp).Count);
+        BattleStatus.AddValue(BattleStatusLabel.Sharp, GameManager.Artifact.GetArtifact(ArtifactLabel.Hourglass).Count);
+        BattleStatus.AddValue(BattleStatusLabel.Guard, GameManager.Artifact.GetArtifact(ArtifactLabel.Lamp).Count);
+        BattleStatus.AddValue(BattleStatusLabel.Haste, GameManager.Artifact.GetArtifact(ArtifactLabel.Mirror).Count);
+        BattleStatus.AddValue(BattleStatusLabel.Chance, GameManager.Artifact.GetArtifact(ArtifactLabel.Lyre).Count);
+        BattleStatus.AddValue(BattleStatusLabel.Robust, GameManager.Artifact.GetArtifact(ArtifactLabel.Pearl).Count);
+
+
+        //? 오브
+        if (GameManager.Buff.CurrentBuff.Orb_red > 0)
+        {
+            BattleStatus.AddValue(BattleStatusLabel.Vigor, GameManager.Buff.CurrentBuff.Orb_red);
+        }
+
+        //? 특수시설
+        if (GameManager.Technical.Get_Technical<Hospital>() != null)
+        {
+            BattleStatus.AddValue(BattleStatusLabel.Robust, 2);
+        }
+
+        if (GameManager.Technical.Get_Technical<TrainingCenter>() != null)
+        {
+            BattleStatus.AddValue(BattleStatusLabel.Empower, 2);
+        }
+    }
+    //? Technical Bonus
+    float HP_Hospital { get { return GameManager.Technical.Get_Technical<Hospital>() != null ? 0.25f : 0; } }
+    float TrainingCenter { get { return GameManager.Technical.Get_Technical<TrainingCenter>() != null ? 0.05f : 0; } }
+
+    //? 전투의 오브 활성화 보너스
+    float Orb_Bonus { get { return GameManager.Buff.CurrentBuff.Orb_red > 0 ? 0.1f * GameManager.Buff.CurrentBuff.Orb_red : 0; } }
+
+
+    //public int HP_Final { get { return Mathf.RoundToInt((HP + Trait_HP + HP_Bonus) * HP_Bonus_Ratio); } }
+    //public int HPMax_Final { get { return Mathf.RoundToInt((HP_Max + Trait_HP + HP_Bonus) * HP_Bonus_Ratio); } }
+    //protected virtual float HP_Bonus_Ratio { get { return 1 + HP_Hospital + (GameManager.Buff.HpUp_Unit * 0.01f); } }
+
+
+    //public int ATK_Final { get { return Mathf.RoundToInt((ATK + AllStat_Bonus + Trait_ATK + ATK_Bonus) * AllStat_Bonus_Ratio); } }
+    //public int DEF_Final { get { return Mathf.RoundToInt((DEF + AllStat_Bonus + Trait_DEF + DEF_Bonus) * AllStat_Bonus_Ratio); } }
+    //public int AGI_Final { get { return Mathf.RoundToInt((AGI + AllStat_Bonus + Trait_AGI + AGI_Bonus) * AllStat_Bonus_Ratio); } }
+    //public int LUK_Final { get { return Mathf.RoundToInt((LUK + AllStat_Bonus + Trait_LUK + LUK_Bonus) * AllStat_Bonus_Ratio); } }
+
+    protected virtual int HP_Bonus { get { return GameManager.Buff.HpAdd_Unit; } }
+
+    int ATK_Bonus { get { return 0; } }
+    int DEF_Bonus { get { return 0; } }
+    int AGI_Bonus { get { return 0; } }
+    int LUK_Bonus { get { return 0; } }
+
+
+    protected virtual int AllStat_Bonus { get => Floor_Bonus + Trait_Friend + Trait_Veteran + GameManager.Buff.StatAdd_Unit; }
+
+    //protected virtual float AllStat_Bonus_Ratio { get { return 1 + TrainingCenter + Orb_Bonus + (GameManager.Buff.StatUp_Unit * 0.01f); } }
+
+    //? 깊은 층에 배치할수록 스탯보너스
+    int Floor_Bonus { get { return PlacementInfo != null ? PlacementInfo.Place_Floor.FloorIndex * 1 : 0; } }
+
+    //? 같은층의 몬스터 수에 따른 보너스
+    int Trait_Friend
+    {
+        get
+        {
+            if (State == MonsterState.Placement)
+            {
+                int bonus = 0;
+                if (TraitCheck(TraitGroup.Friend))
+                {
+                    bonus = (PlacementInfo.Place_Floor.GetFloorObjectList(Define.TileType.Monster).Count - 1) * 1;
+                }
+                if (TraitCheck(TraitGroup.Friend_V2))
+                {
+                    bonus = (PlacementInfo.Place_Floor.GetFloorObjectList(Define.TileType.Monster).Count - 1) * 2;
+                }
+                return bonus;
+            }
+            return 0;
+        }
+    }
+
+    //? Trait_Veteran
+    int Trait_Veteran
+    {
+        get
+        {
+            if (TraitCheck(TraitGroup.VeteranC)) { return 1; }
+            if (TraitCheck(TraitGroup.VeteranB)) { return 2; }
+            if (TraitCheck(TraitGroup.VeteranA)) { return 3; }
+            return 0;
+        }
+    }
+
+
+    #endregion
 
 
 
@@ -260,7 +421,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     public string Name { get; protected set; }
     public int LV { get; protected set; }
     public int HP { get; set; }
-    public int HP_Max { get; protected set; }
+    public int HP_MAX { get; protected set; }
 
     public int ATK { get; protected set; }
     public int DEF { get; protected set; }
@@ -302,90 +463,6 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     public float agi_chance;
     [HideInInspector]
     public float luk_chance;
-
-
-    //? 받은 데미지. 일차가 바뀔 때 초기화되면 됨. 데미지를 받을 때 +되고 회복할 때 -가 되면 됨. 0밑으로 내려갈 수 없음
-    public int HP_Damaged { get; set; }
-
-
-    public int HP_Final { get { return Mathf.RoundToInt((HP + Trait_HP + HP_Bonus) * HP_Bonus_Ratio); } }
-    public int HPMax_Final { get { return Mathf.RoundToInt((HP_Max + Trait_HP + HP_Bonus) * HP_Bonus_Ratio); } }
-
-
-    protected virtual int HP_Bonus { get { return GameManager.Buff.HpAdd_Unit; } }
-
-    protected virtual float HP_Bonus_Ratio { get { return 1 + HP_Hospital + (GameManager.Buff.HpUp_Unit * 0.01f); } }
-
-
-
-    public int ATK_Final { get { return Mathf.RoundToInt((ATK + AllStat_Bonus + Trait_ATK + ATK_Bonus) * AllStat_Bonus_Ratio); } }
-    public int DEF_Final { get { return Mathf.RoundToInt((DEF + AllStat_Bonus + Trait_DEF + DEF_Bonus) * AllStat_Bonus_Ratio); } }
-    public int AGI_Final { get { return Mathf.RoundToInt((AGI + AllStat_Bonus + Trait_AGI + AGI_Bonus) * AllStat_Bonus_Ratio); } }
-    public int LUK_Final { get { return Mathf.RoundToInt((LUK + AllStat_Bonus + Trait_LUK + LUK_Bonus) * AllStat_Bonus_Ratio); } }
-
-
-
-    int ATK_Bonus { get { return 0; } }
-    int DEF_Bonus { get { return 0; } }
-    int AGI_Bonus { get { return 0; } }
-    int LUK_Bonus { get { return 0; } }
-
-
-    protected virtual int AllStat_Bonus { get { return
-                Floor_Bonus +
-                Trait_Friend +
-                Trait_Veteran +
-                GameManager.Buff.StatAdd_Unit; } }
-
-
-
-    protected virtual float AllStat_Bonus_Ratio { get { return 1 + TrainingCenter + Orb_Bonus + (GameManager.Buff.StatUp_Unit * 0.01f); } }
-
-
-
-    //? Technical Bonus
-    float HP_Hospital { get { return GameManager.Technical.Get_Technical<Hospital>() != null ? 0.25f : 0; } }
-    float TrainingCenter { get { return GameManager.Technical.Get_Technical<TrainingCenter>() != null ? 0.05f : 0; } }
-
-    //? 전투의 오브 활성화 보너스
-    float Orb_Bonus { get { return GameManager.Buff.CurrentBuff.Orb_red > 0 ? 0.1f * GameManager.Buff.CurrentBuff.Orb_red : 0; } }
-
-    //? 깊은 층에 배치할수록 스탯보너스
-    int Floor_Bonus { get { return PlacementInfo != null ? PlacementInfo.Place_Floor.FloorIndex * 1 : 0; } }
-
-    //? 같은층의 몬스터 수에 따른 보너스
-    int Trait_Friend
-    {
-        get
-        {
-            if (State == MonsterState.Placement)
-            {
-                int bonus = 0;
-                if (TraitCheck(TraitGroup.Friend))
-                {
-                    bonus = (PlacementInfo.Place_Floor.GetFloorObjectList(Define.TileType.Monster).Count - 1) * 1;
-                }
-                if (TraitCheck(TraitGroup.Friend_V2))
-                {
-                    bonus = (PlacementInfo.Place_Floor.GetFloorObjectList(Define.TileType.Monster).Count - 1) * 2;
-                }
-                return bonus;
-            }
-            return 0;
-        }
-    }
-
-    //? Trait_Veteran
-    int Trait_Veteran
-    {
-        get
-        {
-            if (TraitCheck(TraitGroup.VeteranC)) { return 1; }
-            if (TraitCheck(TraitGroup.VeteranB)) { return 2; }
-            if (TraitCheck(TraitGroup.VeteranA)) { return 3; }
-            return 0;
-        }
-    }
 
 
     #region Trait_SaveData
@@ -742,7 +819,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         {
             if (trait is ITrait_Value value)
             {
-                applyValue += value.ApplyHP_Max(HP_Max);
+                applyValue += value.ApplyHP_Max(HP_MAX);
             }
         }
         return applyValue;
@@ -874,7 +951,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         LV = Data.startLv;
 
         HP = Data.hp;
-        HP_Max = Data.hp;
+        HP_MAX = Data.hp;
 
         ATK = Data.atk;
         DEF = Data.def;
@@ -898,7 +975,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         //LV = Data.startLv;
 
         HP += Data.hp;
-        HP_Max += Data.hp;
+        HP_MAX += Data.hp;
 
         ATK += Data.atk;
         DEF += Data.def;
@@ -958,6 +1035,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
                 }
                 break;
         }
+
+        BattleStatue_TurnStart();
     }
 
     public virtual void TurnOver()
@@ -966,6 +1045,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         {
             HP_Damaged = 0;
         }
+
+        BattleStatus_Init();
     }
 
     public virtual void MoveSelf()
@@ -1319,12 +1400,12 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
                 if (TraitCheck(TraitGroup.Predation))
                 {
-                    HP_Max += 1;
+                    HP_MAX += 1;
                     HP += 1;
                 }
                 if (TraitCheck(TraitGroup.Predation_V2))
                 {
-                    HP_Max += 2;
+                    HP_MAX += 2;
                     HP += 2;
                 }
                 //? 수전노 특성
@@ -1740,8 +1821,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         switch (ran)
         {
             case 0:
-                HP_Max += 5;
-                HP = HP_Max;
+                HP_MAX += 5;
+                HP = HP_MAX;
                 break;
 
             case 1:
@@ -1822,8 +1903,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         }
 
 
-        HP_Max += TryStatUp(hp_value, ref hp_chance);
-        HP = HP_Max;
+        HP_MAX += TryStatUp(hp_value, ref hp_chance);
+        HP = HP_MAX;
 
         ATK += TryStatUp(atk_value, ref atk_chance);
         DEF += TryStatUp(def_value, ref def_chance);
@@ -1877,7 +1958,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         {
             case StatEnum.HP:
                 HP += value;
-                HP_Max += value;
+                HP_MAX += value;
                 break;
 
             case StatEnum.ATK:
