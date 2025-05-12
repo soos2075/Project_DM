@@ -61,7 +61,10 @@ public class GuildHelper : MonoBehaviour
     {
         if (origin.name == "Player")
         {
-            return Managers.Resource.Instantiate("Player_Clone", pos);
+            var player = Managers.Resource.Instantiate("Player_Clone", pos);
+            player.GetComponent<Animator>().Play(Define.ANIM_Idle_Sit);
+            player.GetComponent<Animator>().speed = Random.Range(0.5f, 0.9f);
+            return player;
         }
         else
         {

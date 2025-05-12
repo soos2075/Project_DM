@@ -87,7 +87,6 @@ public class UI_Management : UI_Base
     public enum ButtonEvent
     {
         _1_Facility,
-        //_2_Summon,
         _3_Management,
         _4_Guild,
         _5_Quest,
@@ -321,7 +320,6 @@ public class UI_Management : UI_Base
     void Init_Button()
     {
         GetButton((int)ButtonEvent._1_Facility).gameObject.AddUIEvent((data) => Button_Facility());
-        //GetButton((int)ButtonEvent._2_Summon).gameObject.AddUIEvent((data) => Button_Summon());
         GetButton((int)ButtonEvent._3_Management).gameObject.AddUIEvent((data) => Button_MonsterManage());
         GetButton((int)ButtonEvent._4_Guild).gameObject.AddUIEvent((data) => Visit_Guild());
         GetButton((int)ButtonEvent._5_Quest).gameObject.AddUIEvent((data) => Button_Quest());
@@ -439,10 +437,11 @@ public class UI_Management : UI_Base
     public void Button_Quest()
     {
         if (!Main.Instance.Management) return;
-        if (UserData.Instance.FileConfig.PlayRounds == 1 && Main.Instance.Turn < 6)
-        {
-            return;
-        }
+
+        //if (UserData.Instance.FileConfig.PlayRounds == 1 && Main.Instance.Turn < 6)
+        //{
+        //    return;
+        //}
 
 
         if (questUI == null)
@@ -633,7 +632,6 @@ public class UI_Management : UI_Base
     {
         yield return new WaitForSecondsRealtime(1);
         GetButton((int)ButtonEvent._1_Facility).gameObject.SetActive(true);
-        //GetButton((int)ButtonEvent._2_Summon).gameObject.SetActive(true);
         GetButton((int)ButtonEvent._3_Management).gameObject.SetActive(true);
         GetButton((int)ButtonEvent._4_Guild).gameObject.SetActive(true);
         GetButton((int)ButtonEvent._5_Quest).gameObject.SetActive(true);
@@ -695,7 +693,6 @@ public class UI_Management : UI_Base
     void DayZero()
     {
         GetButton((int)ButtonEvent._1_Facility).gameObject.SetActive(false);
-        //GetButton((int)ButtonEvent._2_Summon).gameObject.SetActive(false);
         GetButton((int)ButtonEvent._3_Management).gameObject.SetActive(false);
         GetButton((int)ButtonEvent._4_Guild).gameObject.SetActive(false);
         GetButton((int)ButtonEvent._5_Quest).gameObject.SetActive(false);
@@ -720,10 +717,9 @@ public class UI_Management : UI_Base
                 break;
 
             case 1:
-                //GetButton((int)ButtonEvent._2_Summon).gameObject.SetActive(false);
                 GetButton((int)ButtonEvent._3_Management).gameObject.SetActive(false);
                 GetButton((int)ButtonEvent._4_Guild).gameObject.SetActive(false);
-                GetButton((int)ButtonEvent._5_Quest).gameObject.SetActive(false);
+                //GetButton((int)ButtonEvent._5_Quest).gameObject.SetActive(false);
                 //GetButton((int)ButtonEvent._6_DungeonEdit).gameObject.SetActive(false);
                 break;
 
@@ -732,7 +728,7 @@ public class UI_Management : UI_Base
             case 4:
             case 5:
                 GetButton((int)ButtonEvent._4_Guild).gameObject.SetActive(false);
-                GetButton((int)ButtonEvent._5_Quest).gameObject.SetActive(false);
+                //GetButton((int)ButtonEvent._5_Quest).gameObject.SetActive(false);
                 break;
 
 

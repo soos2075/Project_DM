@@ -38,6 +38,40 @@ public class RandomEventManager : MonoBehaviour
 
     #endregion
 
+    #region SO_Data
+    SO_RandomEventContent[] so_data;
+
+    public void Init_LocalData()
+    {
+        so_data = Resources.LoadAll<SO_RandomEventContent>("Data/RandomEvent");
+        foreach (var item in so_data)
+        {
+            string datas = Managers.Data.GetTextData_RandomEvent(item.ID);
+
+            if (datas == null)
+            {
+                Debug.Log($"RandomEvent ID [{item.ID}] : CSV Data Not Exist");
+                continue;
+            }
+
+            item.description = datas;
+        }
+    }
+
+    public SO_RandomEventContent GetData(int _id)
+    {
+        foreach (var item in so_data)
+        {
+            if (item.ID == _id)
+            {
+                return item;
+            }
+        }
+        Debug.Log($"RE_{_id}: Data Not Exist");
+        return null;
+    }
+    #endregion
+
     private void Start()
     {
         Managers.Data.OnAddressablesComplete += () => Init_LocalData();
@@ -47,8 +81,9 @@ public class RandomEventManager : MonoBehaviour
     {
         Init_RandomEvent_Normal();
         Init_RandomEvent_Infinity();
-        Init_RandomEvent_Normal_Continue();
         Init_RandomEvent_Visit();
+        Init_RandomEvent_Normal_Continue();
+        Init_RandomEvent_Normal_Continue_Remover();
     }
 
 
@@ -61,17 +96,20 @@ public class RandomEventManager : MonoBehaviour
 
         foreach (var item in CurrentEventList)
         {
-            //? 지속형이면 매일 턴 시작시에 갱신되도록 (안그럼 시작과 끝날 때 서로 다른 함수 2개가 필요함)
-            if (item.type == RandomEventType.Continuous && item.startDay <= turn && turn < item.endDay)
+            //? 지속형이면 매일 턴 시작시에 호출하긴 하는데.. 시작날과 종료날만 필요할 수도 있음
+            //? 왜냐면 어차피 체크를 Check_Current_ContinueEvent 이 함수를 써서 해야할텐데, 그럼 결국 CurrentEventList에 등록만 되있으면 되는거라서..
+            //? 결국 길드에 퀘스트 등록과 같은 일회성 퀘스트때문에 필요한건데 (이건 이제 길드정보도 알아서 저장되니까) 다른 정보들도 저장된다면
+            //? 그냥 시작때 한번 / 종료때 한번 하면 그만이긴 하네. 지속체크는 얘가 해주는게 아니니까.
+            if (item.type == RandomEventType.Continuous && item.startDay <= turn && turn <= item.endDay)
             {
-                RandomEventActionDict[item.ID].Invoke();
-                Main.Instance.Dungeon_Animation_RandomEvent(item);
-
-                //Managers.UI.Popup_Reservation(() =>
-                //{
-                //    var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
-                //    msg.Message = GetData(item.ID).description;
-                //});
+                if (turn == item.endDay)
+                {
+                    RandomEventActionDict[item.ID + 50000].Invoke();
+                }
+                else
+                {
+                    RandomEventActionDict[item.ID].Invoke();
+                }
             }
 
             //? Once가 뒤인 이유는 던전 애니메이션을 얘로 갱신해야되서
@@ -79,12 +117,6 @@ public class RandomEventManager : MonoBehaviour
             {
                 RandomEventActionDict[item.ID].Invoke();
                 Main.Instance.Dungeon_Animation_RandomEvent(item);
-
-                //Managers.UI.Popup_Reservation(() =>
-                //{
-                //    var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
-                //    msg.Message = GetData(item.ID).description;
-                //});
             }
         }
     }
@@ -96,7 +128,7 @@ public class RandomEventManager : MonoBehaviour
 
 
 
-
+    #region 랜덤 이벤트 항목
     public Dictionary<int, Action> RandomEventActionDict { get; set; } = new Dictionary<int, Action>();
 
 
@@ -148,12 +180,6 @@ public class RandomEventManager : MonoBehaviour
     {
 
     }
-
-    void Init_RandomEvent_Normal_Continue()
-    {
-
-    }
-
     void Init_RandomEvent_Visit()
     {
         //? 만남이벤트
@@ -197,6 +223,56 @@ public class RandomEventManager : MonoBehaviour
     }
 
 
+    void Init_RandomEvent_Normal_Continue()
+    {
+        var E_manager = EventManager.Instance;
+
+        RandomEventActionDict.Add(2102, () => { Debug.Log("Action : 2102"); E_manager.Add_GuildQuest_Special(2102, false, false); });
+        RandomEventActionDict.Add(2103, () => { Debug.Log("Action : 2103"); E_manager.Add_GuildQuest_Special(2103, false, false); });
+        RandomEventActionDict.Add(2104, () => { Debug.Log("Action : 2104"); E_manager.Add_GuildQuest_Special(2104, false, false); });
+    }
+    void Init_RandomEvent_Normal_Continue_Remover() //? 발동퀘스트에 50000을 더한게 마지막날 종료 이벤트번호
+    {
+        var E_manager = EventManager.Instance;
+        var J_manager = GameManager.Journal;
+
+        RandomEventActionDict.Add(52102, () => { Debug.Log("Action : 2102 Over"); E_manager.Remove_GuildQuest(2102); J_manager.RemoveJournal(2102); });
+        RandomEventActionDict.Add(52103, () => { Debug.Log("Action : 2102 Over"); E_manager.Remove_GuildQuest(2103); J_manager.RemoveJournal(2103); });
+        RandomEventActionDict.Add(52104, () => { Debug.Log("Action : 2102 Over"); E_manager.Remove_GuildQuest(2104); J_manager.RemoveJournal(2104); });
+
+    }
+
+
+    ////? 따로하는 이유는? 굳이 점쟁이 구슬에서 지속형까지 체크하지는 않도록...?이면 그냥 continue를 스킵하면 되는건데 흠
+    //public List<CurrentRandomEventContent> CurrentEventList_Continue { get; set; } = new List<CurrentRandomEventContent>();
+    //? 현재 지속퀘스트가 발동중인지를 체크
+    public bool Check_Current_ContinueEvent(int currentTurn, int eventID)
+    {
+        foreach (var item in CurrentEventList)
+        {
+            //? 발동형 퀘스트 패스
+            if (item.type == RandomEventType.Once) continue;
+
+            if (item.ID == eventID && item.startDay <= currentTurn && currentTurn <= item.endDay)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    public bool Check_Current_ContinueEvent(int currentTurn, ContinueRE eventID)
+    {
+        return Check_Current_ContinueEvent(currentTurn, (int)eventID);
+    }
+
+    public enum ContinueRE
+    {
+        Herbalist_Up = 2102,
+        Miner_Up = 2103,
+        Adv_Up = 2104,
+    }
+
+    #endregion
 
     #region Real Action Detail
 
@@ -342,16 +418,18 @@ public class RandomEventManager : MonoBehaviour
 
     }
 
+    //? 점쟁이 예측용
     public (int _id, int _startDay) Get_NextRandomEventID(int currentTurn, List<CurrentRandomEventContent> eventList)
     {
         foreach (var item in eventList)
         {
-            if (item.startDay < currentTurn) //? endDay로 안하는건 지속형이여도 이미 발동된건 의미가 없으니까
-            {
-                continue;
-            }
-            //? 일단 순차적으로 되있을테니 바로 다음꺼 리턴하긴 하는데, 만약 나중이벤트가 걸린다면 바로 다음이벤트인지 체크가 필요 (날짜계산으로)
+            //? 지속형 퀘스트 패스
+            if (item.type == RandomEventType.Continuous) continue;
 
+            //? 이미 지난 퀘스트 패스
+            if (item.startDay < currentTurn) continue;
+
+            //? 일단 순차적으로 되있을테니 바로 다음꺼 리턴하긴 하는데, 만약 나중이벤트가 걸린다면 바로 다음이벤트인지 체크가 필요 (날짜계산으로)
             return (item.ID, item.startDay);
         }
         return (-1, -1);
@@ -454,7 +532,7 @@ public class RandomEventManager : MonoBehaviour
             content.index = counter;
             content.startDay = tempStart;
             content.endDay = tempStart + item.continuousDays;
-            content.type = item.type;
+            content.type = item.continuousDays == 0 ? RandomEventType.Once : RandomEventType.Continuous;
             content.eventValue = item.eventValue;
 
             CurrentEventList.Add(content);
@@ -471,39 +549,7 @@ public class RandomEventManager : MonoBehaviour
 
 
 
-    #region SO_Data
-    SO_RandomEventContent[] so_data;
 
-    public void Init_LocalData()
-    {
-        so_data = Resources.LoadAll<SO_RandomEventContent>("Data/RandomEvent");
-        foreach (var item in so_data)
-        {
-            string datas = Managers.Data.GetTextData_RandomEvent(item.ID);
-
-            if (datas == null)
-            {
-                Debug.Log($"RandomEvent ID [{item.ID}] : CSV Data Not Exist");
-                continue;
-            }
-
-            item.description = datas;
-        }
-    }
-
-    public SO_RandomEventContent GetData(int _id)
-    {
-        foreach (var item in so_data)
-        {
-            if (item.ID == _id)
-            {
-                return item;
-            }
-        }
-        Debug.Log($"RE_{_id}: Data Not Exist");
-        return null;
-    }
-    #endregion
 
 
 
@@ -582,6 +628,22 @@ public class RandomEventManager : MonoBehaviour
         return sum;
     }
     #endregion
+
+
+    #region 지속형 랜덤이벤트 시드 만들기
+
+    //? 이건 랜덤? 아니면 점수제? 어떻게 하는게 좋을까? 일반시드랑은 별개로 일어나긴 할텐데 음....
+
+    //? 걍 겜 시작시에 일반과 랜덤을 모두 더해서 정할까? 일반 몇개 랜덤 몇개 이런식으로?
+    //? 점수계산도 같이하고???? 흐으으음.....
+
+    
+
+
+
+    #endregion
+
+
 
 
 }

@@ -375,6 +375,8 @@ public enum ArtifactLabel
 
     Racing = 10,
 
+    SoothsayerOrb = 20,
+
 
     //? 진화재료 (효과없음)
     BananaBone = 100,

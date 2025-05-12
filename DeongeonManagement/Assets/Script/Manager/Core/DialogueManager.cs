@@ -672,6 +672,9 @@ public enum DialogueName
     Soothsayer_First = 16010,
     Soothsayer_Continue = 16011,
 
+    Soothsayer_Orb = 16020,
+    Soothsayer_Orb_Continue = 16021,
+
 
     Mastia_Enter = 1711001,
     Karen_Enter = 1712001,

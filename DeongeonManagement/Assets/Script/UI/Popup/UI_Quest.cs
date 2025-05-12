@@ -19,17 +19,54 @@ public class UI_Quest : UI_PopUp
     public override void Init()
     {
         base.Init();
-
         Bind<Image>(typeof(Images));
+        pos = GetComponentInChildren<ContentSizeFitter>().transform;
+
+
 
         //GetImage(((int)Images.Close)).gameObject.AddUIEvent((data) => Managers.UI.ClosePopupPick(this));
-        Init_Contents();
+
+        //? 랜덤이벤트 예측
+        Soothsayer_Orb();
+        Init_CurrentJournal();
+        //Init_Contents();
     }
+
+
+    Transform pos;
+
+
+
+    void Init_CurrentJournal()
+    {
+        foreach (var item in GameManager.Journal.CurrentJournalList)
+        {
+            var content = Managers.Resource.Instantiate("UI/PopUp/Element/QuestBox", pos).GetComponent<UI_QuestBox>();
+
+            var textData = GameManager.Journal.GetData(item.ID);
+
+            string dayInfo = "";
+            if (item.startDay != 0 && item.endDay != 0)
+            {
+                if (item.startDay == item.endDay)
+                {
+                    dayInfo = $"{item.startDay}{UserData.Instance.LocaleText("Day")}";
+                }
+                else
+                {
+                    dayInfo = $"{item.startDay}{UserData.Instance.LocaleText("Day")}~{item.endDay}{UserData.Instance.LocaleText("Day")}";
+                }
+            }
+
+            content.SetText(textData.title, textData.description, dayInfo);
+        }
+    }
+
 
 
     void Init_Contents()
     {
-        var pos = GetComponentInChildren<ContentSizeFitter>().transform;
+        //var pos = GetComponentInChildren<ContentSizeFitter>().transform;
 
         foreach (var item in EventManager.Instance.CurrentQuestAction_forSave)
         {
@@ -90,6 +127,36 @@ public class UI_Quest : UI_PopUp
         //    content.SetText(title, detail, dayOption);
         //}
     }
+
+
+    void Soothsayer_Orb()
+    {
+        if (GameManager.Artifact.Check_Artifact_Exist(ArtifactLabel.SoothsayerOrb) == false)
+        {
+            return;
+        }
+
+        int turn = Main.Instance.Turn;
+        var data = RandomEventManager.Instance.Get_NextRandomEventID(turn, RandomEventManager.Instance.CurrentEventList);
+        var content = Managers.Resource.Instantiate("UI/PopUp/Element/QuestBox", pos).GetComponent<UI_QuestBox>();
+        string msg = "";
+        string day = "";
+
+        if (data._id < 0)
+        {
+            msg = UserData.Instance.LocaleText("아무일없음");
+        }
+        else
+        {
+            day = $"{data._startDay - turn}{UserData.Instance.LocaleText("~일 후")}";
+            msg = $"{RandomEventManager.Instance.GetData(data._id).description} ";
+
+        }
+
+        content.SetText(GameManager.Artifact.GetData("SoothsayerOrb").labelName, msg, day);
+    }
+
+
 
 
 

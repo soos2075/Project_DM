@@ -205,6 +205,7 @@ public class UserData : MonoBehaviour
             GameManager.Trait.Init_LocalData();
             GameManager.Title.Init_LocalData();
             GameManager.Buff.Init_LocalData();
+            GameManager.Journal.Init_LocalData();
         }
 
         Cor_Operation_ChangeLanguage = null;
@@ -782,6 +783,16 @@ public class UserData : MonoBehaviour
         //    }
         //    return newConfig;
         //}
+
+
+        #region 기타 저장해야할 int,float,string값 등등
+
+        //? 점쟁이골드
+        public int soothsayerGoldValue;
+
+
+        #endregion
+
 
 
 

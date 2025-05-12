@@ -141,37 +141,37 @@ public class EventManager : MonoBehaviour
     #region 턴 시작 / 종료시 조건에 따라 여러 이벤트 추가하는곳
     void TurnStart_EventSchedule()
     {
-        switch (CurrentTurn)
-        {
-            case 8:
-                Add_GuildQuest_Special(2102, false);
-                break;
+        //switch (CurrentTurn)
+        //{
+        //    case 8:
+        //        Add_GuildQuest_Special(2102, false);
+        //        break;
 
-            case 15:
-                Add_GuildQuest_Special(2103, false);
-                break;
-        }
+        //    case 15:
+        //        Add_GuildQuest_Special(2103, false);
+        //        break;
+        //}
     }
     void TurnOver_EventSchedule()
     {
-        switch (CurrentTurn)
-        {
-            case 11:
-                Remove_GuildQuest(2102);
-                ClearQuestAction(772102);
-                GameManager.NPC.Event_Herb = false;
-                break;
+        //switch (CurrentTurn)
+        //{
+        //    case 11:
+        //        Remove_GuildQuest(2102);
+        //        ClearQuestAction(772102);
+        //        GameManager.NPC.Event_Herb = false;
+        //        break;
 
-            case 18:
-                Remove_GuildQuest(2103);
-                ClearQuestAction(772103);
-                GameManager.NPC.Event_Mineral = false;
-                break;
+        //    case 18:
+        //        Remove_GuildQuest(2103);
+        //        ClearQuestAction(772103);
+        //        GameManager.NPC.Event_Mineral = false;
+        //        break;
 
-            //default:
-            //    Add_Daily(2100);
-            //    break;
-        }
+        //    //default:
+        //    //    Add_Daily(2100);
+        //    //    break;
+        //}
         //? 인기도 상승 이벤트
         Add_Daily(2100);
     }
@@ -255,6 +255,7 @@ public class EventManager : MonoBehaviour
             UserData.Instance.FileConfig.Notice_Facility = true;
             UserData.Instance.FileConfig.Notice_Monster = true;
             UserData.Instance.FileConfig.Notice_Summon = true;
+            GameManager.Journal.RemoveJournal(1);
             return true;
         }
 
@@ -849,7 +850,7 @@ public class EventManager : MonoBehaviour
     //? 길드정보 저장용 - 모든 길드관련 데이터를 가지고있고 씬 변경시에도 사라지지않음. 저장과 불러오기에도 동일하게 사용
     public List<GuildNPC_Data> CurrentGuildData { get; set; }
 
-    public void Add_GuildQuest_Special(int index, bool special = true)
+    public void Add_GuildQuest_Special(int index, bool special = true, bool clearOptionInclude = true)
     {
         int id = (index / 1000) * 1000;
         int questIndex = index - id;
@@ -858,7 +859,7 @@ public class EventManager : MonoBehaviour
         {
             if (item.Original_Index == id)
             {
-                item.AddQuest(questIndex, special);
+                item.AddQuest(questIndex, special, clearOptionInclude);
             }
         }
     }
@@ -967,6 +968,7 @@ public class EventManager : MonoBehaviour
 
 
 
+
     public void AddQuestAction(int _index)
     {
         if (!CurrentQuestAction_forSave.Contains(_index))
@@ -1057,16 +1059,16 @@ public class EventManager : MonoBehaviour
 
 
         //? 퀘스트 등록용
-        forQuestAction.Add(772102, () =>
-        {
-            Debug.Log("약초 직업류 방문확률 3배!!");
-            GameManager.NPC.Event_Herb = true;
-        });
-        forQuestAction.Add(772103, () =>
-        {
-            Debug.Log("광물 직업류 방문확률 3배!!");
-            GameManager.NPC.Event_Mineral = true;
-        });
+        //forQuestAction.Add(772102, () =>
+        //{
+        //    Debug.Log("약초 직업류 방문확률 3배!!");
+        //    GameManager.NPC.Event_Herb = true;
+        //});
+        //forQuestAction.Add(772103, () =>
+        //{
+        //    Debug.Log("광물 직업류 방문확률 3배!!");
+        //    GameManager.NPC.Event_Mineral = true;
+        //});
 
         forQuestAction.Add(774020, () =>
         {
@@ -1114,21 +1116,22 @@ public class EventManager : MonoBehaviour
         {
             Managers.Dialogue.ActionReserve(() => 
             {
-                int ranPop = UnityEngine.Random.Range(10, 20 + CurrentTurn);
+                int ranPop = UnityEngine.Random.Range(10, 20 + (CurrentTurn / 2));
                 var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
                 msg.Message = $"{ranPop} {UserData.Instance.LocaleText("Message_Get_Pop")}";
 
                 Managers.Data.GetData("Temp_GuildSave").mainData.FameOfDungeon += ranPop;
-                //GuildManager.Instance.AddBackAction(() =>
-                //{
-                //    Main.Instance.CurrentDay.AddPop(ranPop);
-                //    //Debug.Log($"던전의 인기도가 {ranPop} 올랐습니다.");
-                //});
             });
         });
 
-        GuildNPCAction.Add(2102, () => { AddQuestAction(772102); });
-        GuildNPCAction.Add(2103, () => { AddQuestAction(772103); });
+
+        GuildNPCAction.Add(1110, () => { GameManager.Journal.AddJournal(1110); });
+        GuildNPCAction.Add(1111, () => { GameManager.Journal.AddJournal(1111); });
+
+        GuildNPCAction.Add(2102, () => { GameManager.Journal.AddJournal(2102); });
+        GuildNPCAction.Add(2103, () => { GameManager.Journal.AddJournal(2103); });
+        GuildNPCAction.Add(2104, () => { GameManager.Journal.AddJournal(2104); });
+        GuildNPCAction.Add(2105, () => { GameManager.Journal.AddJournal(2105); });
 
 
 
@@ -1717,6 +1720,11 @@ public class EventManager : MonoBehaviour
                 var saveData = Managers.Data.GetData("Temp_GuildSave");
                 int gold = Mathf.RoundToInt(saveData.mainData.Player_Gold * 0.3f);
                 saveData.mainData.Player_Gold -= gold;
+                saveData.savefileConfig.soothsayerGoldValue += gold;
+                if (saveData.savefileConfig.soothsayerGoldValue >= 3000)
+                {
+                    Add_GuildQuest_Special(16020);
+                }
 
                 Debug.Log("시스템 메세지 - 다음 던전 이벤트에 대한 정보");
                 var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
@@ -1732,6 +1740,29 @@ public class EventManager : MonoBehaviour
                     msg.Set_Text($"{data._startDay - CurrentTurn}{UserData.Instance.LocaleText("~일 후")}, \n" +
                         $"{RandomEventManager.Instance.GetData(data._id).description} ");
                 }
+            });
+        });
+
+
+        EventAction.Add("Soothsayer_Continue2", () =>
+        {
+            GuildHelper.Instance.VIP_Room_Talk(FindAnyObjectByType<PlayerController>().gameObject,
+                GuildHelper.Instance.Get_Current_Guild_NPC(GuildNPC_LabelName.Soothsayer), DialogueName.Soothsayer_Orb_Continue);
+        });
+
+        EventAction.Add("Soothsayer_Orb", () =>
+        {
+            GuildManager.Instance.AddBackAction(() =>
+            {
+                GuildManager.Instance.AddDeleteGuildNPC(GuildNPC_LabelName.Soothsayer);
+
+                GameManager.Artifact.AddArtifact(ArtifactLabel.SoothsayerOrb);
+
+                var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
+                message.DelayTime = 2;
+                //? 신규 아티팩트
+                message.Message = $"{UserData.Instance.LocaleText("New")}{UserData.Instance.LocaleText("아티팩트")} : " +
+                $"{GameManager.Artifact.GetData("SoothsayerOrb").labelName}";
             });
         });
 

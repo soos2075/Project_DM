@@ -18,37 +18,42 @@ MonoBehaviour:
   m_GUID: 9ec5c619fd91d934f86954d9d16bdd0f
   m_SerializeEntries:
   - m_GUID: 0b48e6aa454879e4e92e2c58507b53f5
-    m_Address: Assets/Data/Trait/Trait_Result.csv
+    m_Address: Assets/Data/CsvData/Trait_Result.csv
     m_ReadOnly: 0
     m_SerializedLabels:
     - csvData
   - m_GUID: f8c025a8aa57bbb4383e6190a5f8ee91
-    m_Address: Assets/Data/Object/Object_Result.csv
+    m_Address: Assets/Data/CsvData/Object_Result.csv
     m_ReadOnly: 0
     m_SerializedLabels:
     - csvData
   - m_GUID: 0a9b5b02ac6545147b17e1f87938c270
-    m_Address: Assets/Data/Dialogue/Dialogue_Result.csv
+    m_Address: Assets/Data/CsvData/Dialogue_Result.csv
     m_ReadOnly: 0
     m_SerializedLabels:
     - csvData
   - m_GUID: 344c2626892f4a94e9f5c4ec40a524c5
-    m_Address: Assets/Data/Artifact/Artifact_Result.csv
+    m_Address: Assets/Data/CsvData/Artifact_Result.csv
     m_ReadOnly: 0
     m_SerializedLabels:
     - csvData
   - m_GUID: eb4d0a2658249394fb169b0dbacc5076
-    m_Address: Assets/Data/Title/Title_Result.csv
+    m_Address: Assets/Data/CsvData/Title_Result.csv
     m_ReadOnly: 0
     m_SerializedLabels:
     - csvData
   - m_GUID: f960fa8920446f54b890ad1ce3741d48
-    m_Address: Assets/Data/RandomEvent/RandomEvent_Result.csv
+    m_Address: Assets/Data/CsvData/RandomEvent_Result.csv
     m_ReadOnly: 0
     m_SerializedLabels:
     - csvData
   - m_GUID: 0a4efd16dc8f36142aff9ab3ada58af6
-    m_Address: Assets/Data/BattleStatus/BattleStatus_Result.csv
+    m_Address: Assets/Data/CsvData/BattleStatus_Result.csv
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - csvData
+  - m_GUID: f808660addbd0a7439c851ad842dfef6
+    m_Address: Assets/Data/CsvData/Journal_Result.csv
     m_ReadOnly: 0
     m_SerializedLabels:
     - csvData

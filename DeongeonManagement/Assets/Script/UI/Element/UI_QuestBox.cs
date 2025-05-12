@@ -13,6 +13,7 @@ public class UI_QuestBox : UI_Base
     public override void Init()
     {
         Bind<TextMeshProUGUI>(typeof(TMP));
+        rect = GetComponent<RectTransform>();
     }
 
     enum TMP
@@ -26,6 +27,9 @@ public class UI_QuestBox : UI_Base
     {
         StartCoroutine(WaitFrame(_title, _main, _day));
     }
+
+    RectTransform rect;
+
 
     IEnumerator WaitFrame(string _title, string _main, int _day)
     {
@@ -41,6 +45,22 @@ public class UI_QuestBox : UI_Base
             GetTMP(((int)TMP.Day)).text = "";
         }
 
+    }
+
+    public void SetText(string _title, string _main, string _day)
+    {
+        StartCoroutine(WaitFrame(_title, _main, _day));
+    }
+    IEnumerator WaitFrame(string _title, string _main, string _day)
+    {
+        yield return new WaitForEndOfFrame();
+        GetTMP(((int)TMP.Title)).text = _title;
+        GetTMP(((int)TMP.Detali)).text = _main;
+        GetTMP(((int)TMP.Day)).text = _day;
+
+        yield return new WaitForEndOfFrame();
+        float h = GetTMP(((int)TMP.Detali)).rectTransform.sizeDelta.y;
+        rect.sizeDelta = new Vector2(rect.sizeDelta.x, h + 42);
     }
 
 

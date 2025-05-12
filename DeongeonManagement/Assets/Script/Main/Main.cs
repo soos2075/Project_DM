@@ -1313,7 +1313,8 @@ public class Main : MonoBehaviour
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Tutorial_Facility, Player);
                 UI_Main.Active_Button(UI_Management.ButtonEvent._1_Facility);
                 UI_Main.Active_Button(UI_Management.ButtonEvent._6_DungeonEdit);
-
+                UI_Main.Active_Button(UI_Management.ButtonEvent._5_Quest);
+                GameManager.Journal.AddJournal(1);
 
                 StartCoroutine(Wait_AP_Tutorial());
                 break;

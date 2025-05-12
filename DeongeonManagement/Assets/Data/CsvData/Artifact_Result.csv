@@ -4,6 +4,8 @@ ID,KeyName,Name_KR,Detail_KR,Effect_KR,Name_EN,Detail_EN,Effect_EN,Name_JP,Detai
 ,,,,,,,,,,,,,
 10,Racing,[던전경주] 인증서,이 던전은 [던전경주]를 하기에 적합한 던전이므로 이 인증서를 부여합니다. \^던전 레이서 협회^,매 턴 인기도 +5,Dungeon Racing Certificate,This dungeon is certified as suitable for Dungeon Racing. \^Dungeon Racer Association^,+5 Popularity per turn,ダンジョンレース認定証,このダンジョンはダンジョンレースに適したダンジョンとして認定します。\^ダンジョンレーサー協会^,毎ターン人気度 +5,地下城竞速认证书,特此证明此地下城适合进行地下城竞速赛。\^地下城竞速者协会^,每回合人气度 +5
 ,,,,,,,,,,,,,
+20,SoothsayerOrb,점쟁이 구슬,능력이 제한적이긴 하지만- 미래를 볼 수 있는 신비로운 아티팩트입니다. \어느 모험가에게서 받았습니다.,다음번에 발생할 랜덤 이벤트를 알 수 있음,Soothsayer Orb,A mysterious artifact that can see the future - although its abilities are limited. \You received it from an adventurer.,Reveals the next random event that will occur,占い師の水晶球,能力は限られていますが、未来を見ることができる神秘的なアーティファクトです。\ある冒険者から受け取りました。,次に発生するランダムイベントを知ることができます,算命师水晶球,一件神秘的神器，虽然能力有限，但可以看到未来。\你从一位冒险者那里得到它。,可以预知下一次将发生的随机事件
+,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 100,BananaBone,신기한 뼈,신비한 형태의 뼈 모양 아티팩트입니다. 절대 부서지지 않는다고 해요.,그레이하운드 진화 시 필요,Mystical Bone,A bone-shaped artifact of mysterious form. Said to be unbreakable.,Required for Greyhound evolution,神秘の骨,不思議な形をした骨型のアーティファクト。決して砕けないと言われています。,グレイハウンドの進化に必要,神秘骨,形状神秘的骨型神器。据说永不破碎。,灰猎犬进化所需

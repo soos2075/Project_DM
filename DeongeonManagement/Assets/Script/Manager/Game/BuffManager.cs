@@ -356,6 +356,12 @@ public class BattleStatus
         {
             currentStatus[_label] = GameManager.Buff.GetData(_label).MaximumCount;
         }
+
+        //? 0보다 작을 순 없음
+        if (currentStatus[_label] < 0)
+        {
+            currentStatus[_label] = 0;
+        }
     }
 
     public Dictionary<BattleStatusLabel, int> GetCurrentBattleStatus()

@@ -345,7 +345,10 @@ public class GuildNPC_Data
         Managers.Dialogue.OneTimeOption(OptionList, Original_Index);
     }
 
-    public void AddQuest(int _questIndex, bool special = true)
+
+    //? 퀘스트 번호 / 스페셜타입 or 옵션타입 / 클리어퀘스트 포함 or 제외
+    //? 이미 있는 퀘스트는 무조건 안댐
+    public void AddQuest(int _questIndex, bool special = true, bool clearInclude = true)
     {
         if (special && !InstanceQuestList.Contains(_questIndex) && !AlreadyClearList.Contains(_questIndex))
         {
@@ -354,7 +357,14 @@ public class GuildNPC_Data
 
         if (!special && !OptionList.Contains(_questIndex))
         {
-            OptionList.Add(_questIndex);
+            if (clearInclude)
+            {
+                OptionList.Add(_questIndex);
+            }
+            else if (!clearInclude && !AlreadyClearList.Contains(_questIndex))
+            {
+                OptionList.Add(_questIndex);
+            }
         }
     }
     public void RemoveQuest(int _questIndex)

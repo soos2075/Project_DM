@@ -24,31 +24,35 @@ public class DataManager
     void Init_Object_CSV()
     {
         //? Object
-        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Object/Object_Result.csv").Completed +=
-(handle) => { CSV_File_Parsing_ObjectAll(OnCSVLoaded(handle)); };
+        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/CsvData/Object_Result.csv").Completed +=
+    (handle) => { CSV_File_Parsing_ObjectAll(OnCSVLoaded(handle)); };
 
         //? Dialogue
-        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Dialogue/Dialogue_Result.csv").Completed +=
-(handle) => { CSV_File_Parsing_DialogueAll(OnCSVLoaded(handle)); };
+        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/CsvData/Dialogue_Result.csv").Completed +=
+    (handle) => { CSV_File_Parsing_DialogueAll(OnCSVLoaded(handle)); };
+
+        //? 일지 (퀘스트나 이벤트 표시)
+        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/CsvData/Journal_Result.csv").Completed +=
+    (handle) => { CSV_File_Parsing_Journal(OnCSVLoaded(handle)); };
 
         //? Trait - 한영일 하나의 파일로 파싱
-        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Trait/Trait_Result.csv").Completed +=
+        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/CsvData/Trait_Result.csv").Completed +=
     (handle) => { CSV_File_Parsing_Trait(OnCSVLoaded(handle)); };
 
         //? Artifact
-        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Artifact/Artifact_Result.csv").Completed +=
+        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/CsvData/Artifact_Result.csv").Completed +=
     (handle) => { CSV_File_Parsing_Artifact(OnCSVLoaded(handle)); };
 
         //? Title
-        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/Title/Title_Result.csv").Completed +=
+        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/CsvData/Title_Result.csv").Completed +=
     (handle) => { CSV_File_Parsing_Title(OnCSVLoaded(handle)); };
 
         //? RandomEvent
-        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/RandomEvent/RandomEvent_Result.csv").Completed +=
+        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/CsvData/RandomEvent_Result.csv").Completed +=
     (handle) => { CSV_File_Parsing_RandomEvent(OnCSVLoaded(handle)); };
 
         //? BattleStatue (상태이상)
-        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/BattleStatus/BattleStatus_Result.csv").Completed +=
+        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/CsvData/BattleStatus_Result.csv").Completed +=
     (handle) => { CSV_File_Parsing_BattleStatus(OnCSVLoaded(handle)); };
     }
 
@@ -75,7 +79,7 @@ public class DataManager
 
     //? 모든 어드레서블 csv파일이 성공적으로 로드 됐는지 확인 후 콜백. 숫자는 추가할때마다 바꿔야함. LoadSucceed 참조 횟수 = csvFileAll
     int csvLoadCount = 0;
-    int csvFileAll = 7;
+    int csvFileAll = 8;
     public event Action OnAddressablesComplete;
 
     void LoadSucceed()
@@ -107,6 +111,29 @@ public class DataManager
 
             case Define.Language.SCC:
                 Managers.Data.ObjectsLabel_SCC.TryGetValue(id, out datas);
+                break;
+        }
+        return datas;
+    }
+    public string[] GetTextData_Journal(int id)
+    {
+        string[] datas = null;
+        switch (UserData.Instance.Language)
+        {
+            case Define.Language.EN:
+                Managers.Data.Journal_EN.TryGetValue(id, out datas);
+                break;
+
+            case Define.Language.KR:
+                Managers.Data.Journal_KR.TryGetValue(id, out datas);
+                break;
+
+            case Define.Language.JP:
+                Managers.Data.Journal_JP.TryGetValue(id, out datas);
+                break;
+
+            case Define.Language.SCC:
+                Managers.Data.Journal_SCC.TryGetValue(id, out datas);
                 break;
         }
         return datas;
@@ -399,6 +426,47 @@ public class DataManager
     }
 
 
+
+    
+    public Dictionary<int, string[]> Journal_KR = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> Journal_EN = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> Journal_JP = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> Journal_SCC = new Dictionary<int, string[]>();
+
+    //? csv 데이터 항목
+    // 0 ID, 1 KeyName,
+    // 2 Name_KR, 3 Detail_KR, 
+    // 4 Name_EN, 5 Detail_EN, 
+    // 6 Name_JP, 7 Detail_JP, 
+    // 8 Name_SC, 9 Detail_SC,
+    void CSV_File_Parsing_Journal(string _stringData)
+    {
+        if (string.IsNullOrEmpty(_stringData)) return;
+
+        var spl_n = _stringData.Split('\n');
+
+        for (int i = 1; i < spl_n.Length; i++)
+        {
+            var spl_comma = spl_n[i].Split(',');
+
+            if (spl_comma.Length < 2 || string.IsNullOrEmpty(spl_comma[0]))
+            {
+                continue;
+            }
+            string[] datas = spl_comma;
+
+            Journal_KR.Add(int.Parse(datas[0]), new string[] { datas[2], ContainsAndJoin(datas[3]) });
+            Journal_EN.Add(int.Parse(datas[0]), new string[] { datas[4], ContainsAndJoin(datas[5]) });
+            Journal_JP.Add(int.Parse(datas[0]), new string[] { datas[6], ContainsAndJoin(datas[7]) });
+            Journal_SCC.Add(int.Parse(datas[0]), new string[] { datas[8], ContainsAndJoin(datas[9]) });
+        }
+        LoadSucceed();
+    }
+
+
+
+
+
     public Dictionary<TraitGroup, string[]> Trait_KR = new Dictionary<TraitGroup, string[]>();
     public Dictionary<TraitGroup, string[]> Trait_EN = new Dictionary<TraitGroup, string[]>();
     public Dictionary<TraitGroup, string[]> Trait_JP = new Dictionary<TraitGroup, string[]>();
@@ -624,6 +692,9 @@ public class DataManager
         //? 던전 칭호 정보
         public List<TitleManager.DungeonTitle> titleList;
 
+        //? 현재 일지(퀘스트) 정보
+        public List<JournalManager.JournalData> journalList;
+
 
         public UserData.SavefileConfig savefileConfig;
 
@@ -655,6 +726,7 @@ public class DataManager
 
         public EventManager.ClearEventData CurrentClearEventData;
     }
+
     #endregion
 
 
@@ -869,6 +941,7 @@ public class DataManager
         saveData.uniqueNPC_List = GameManager.NPC.Save_NPCData();
         saveData.artifactList = GameManager.Artifact.Save_ArtifactData();
         saveData.titleList = GameManager.Title.Save_TitlesData();
+        saveData.journalList = GameManager.Journal.Save_JournalData();
 
 
         //? 아래 두개는 실제로 쓰는 데이터를 저장하는 관계로 저장할때와 로드할 때 각각 다 딥카피를 따로 해줘야함.
@@ -954,6 +1027,7 @@ public class DataManager
         GameManager.NPC.Load_NPCData(loadData.uniqueNPC_List);
         GameManager.Artifact.Load_ArtifactData(loadData.artifactList);
         GameManager.Title.Load_TitlesData(loadData.titleList);
+        GameManager.Journal.Load_JournalData(loadData.journalList);
     }
     void LoadGuildData(SaveData loadData)
     {
