@@ -75,7 +75,7 @@ public class EventManager : MonoBehaviour
         {
             //? 30일 이벤트를 셀프로 대체
             Last_Judgment();
-            ClearQuestAction(7710003);
+            ClearQuestAction(10003);
         }
         else if (CurrentTurn == 30 && Main.Instance.CurrentEndingState == Endings.Hero)
         {
@@ -141,16 +141,7 @@ public class EventManager : MonoBehaviour
     #region 턴 시작 / 종료시 조건에 따라 여러 이벤트 추가하는곳
     void TurnStart_EventSchedule()
     {
-        //switch (CurrentTurn)
-        //{
-        //    case 8:
-        //        Add_GuildQuest_Special(2102, false);
-        //        break;
 
-        //    case 15:
-        //        Add_GuildQuest_Special(2103, false);
-        //        break;
-        //}
     }
     void TurnOver_EventSchedule()
     {
@@ -255,7 +246,7 @@ public class EventManager : MonoBehaviour
             UserData.Instance.FileConfig.Notice_Facility = true;
             UserData.Instance.FileConfig.Notice_Monster = true;
             UserData.Instance.FileConfig.Notice_Summon = true;
-            GameManager.Journal.RemoveJournal(1);
+            JournalManager.Instance.RemoveJournal(1);
             return true;
         }
 
@@ -556,7 +547,7 @@ public class EventManager : MonoBehaviour
         //? 활성화 된 길드원의 메인퀘스트가 있을경우
         foreach (var item in guildData)
         {
-            //? 퀘스트 없으면 넘기고
+            //? 노란색 퀘스트 없으면 넘기고
             if (item.InstanceQuestList.Count == 0)
             {
                 continue;
@@ -620,6 +611,17 @@ public class EventManager : MonoBehaviour
             if ((GuildNPC_LabelName)item.Original_Index == GuildNPC_LabelName.StaffA)
             {
                 if (item.OptionList.Count >= 2)
+                {
+                    return true;
+                }
+            }
+        }
+        //? 게시판에 퀘스트 있을 땐 알림
+        foreach (var item in CurrentGuildData)
+        {
+            if ((GuildNPC_LabelName)item.Original_Index == GuildNPC_LabelName.QuestZone)
+            {
+                if (item.OptionList.Count >= 1)
                 {
                     return true;
                 }
@@ -798,28 +800,28 @@ public class EventManager : MonoBehaviour
         DayEventActionRegister.Add(DayEventLabel.Guild_Raid_1, () => {
             Debug.Log("길드 토벌대 1 이벤트");
             Guild_Raid_First();
-            ClearQuestAction(777010);
+            ClearQuestAction(7010);
             Clear_GuildQuest(7010);
         });
 
         DayEventActionRegister.Add(DayEventLabel.Guild_Raid_2, () => {
             Debug.Log("길드 토벌대 2 이벤트");
             Guild_Raid_Second();
-            ClearQuestAction(777020);
+            ClearQuestAction(7020);
             Clear_GuildQuest(7020);
         });
 
         DayEventActionRegister.Add(DayEventLabel.Forest_Raid_1, () => {
             Debug.Log("숲레이드 1 이벤트");
             Forest_Raid_1();
-            ClearQuestAction(778010);
+            ClearQuestAction(8010);
             Clear_GuildQuest(8010);
         });
 
         DayEventActionRegister.Add(DayEventLabel.Forest_Raid_2, () => {
             Debug.Log("숲레이드 2 이벤트");
             Forest_Raid_2();
-            ClearQuestAction(778020);
+            ClearQuestAction(8020);
             Clear_GuildQuest(8020);
         });
 
@@ -987,6 +989,9 @@ public class EventManager : MonoBehaviour
     {
         CurrentClearEventData.AddClear_Quest(_index);
         RemoveQuestAction(_index);
+
+        //? 만약 같은 이름의 일지가 있으면 클리어와 동시에 삭제
+        JournalManager.Instance.RemoveJournal(_index);
     }
     public void RemoveQuestAction(int _index)
     {
@@ -1029,34 +1034,29 @@ public class EventManager : MonoBehaviour
         });
 
 
-        forQuestAction.Add(1140, () =>
-        {
-            Debug.Log("던전의 재앙 대기중");
-        });
-
         forQuestAction.Add(1141, () =>
         {
             Debug.Log("지속되는 재앙");
             GameManager.NPC.AddEventNPC(NPC_Type_MainEvent.EM_Catastrophe.ToString(), 10, NPC_Typeof.NPC_Type_MainEvent);
         });
 
-        forQuestAction.Add(771141, () =>
-        {
-            Debug.Log("해결의 실마리");
-        });
 
-        forQuestAction.Add(1150, () =>
-        {
-            Debug.Log("고블린 파티 방문 대기중");
-        });
 
-        forQuestAction.Add(1151, () =>
+        forQuestAction.Add(4020, () =>
         {
-            Debug.Log("은퇴한 영웅 방문 대기중");
+            GameManager.NPC.AddEventNPC(NPC_Type_SubEvent.Heroine.ToString(), 7, NPC_Typeof.NPC_Type_SubEvent);
+        });
+        forQuestAction.Add(4030, () =>
+        {
+            GameManager.NPC.AddEventNPC(NPC_Type_SubEvent.Heroine.ToString(), 7, NPC_Typeof.NPC_Type_SubEvent);
         });
 
 
-
+        forQuestAction.Add(12000, () =>
+        {
+            //Debug.Log("라이트닝");
+            GameManager.NPC.AddEventNPC(NPC_Type_SubEvent.Lightning.ToString(), 3, NPC_Typeof.NPC_Type_SubEvent);
+        });
 
         //? 퀘스트 등록용
         //forQuestAction.Add(772102, () =>
@@ -1070,53 +1070,43 @@ public class EventManager : MonoBehaviour
         //    GameManager.NPC.Event_Mineral = true;
         //});
 
-        forQuestAction.Add(774020, () =>
-        {
-            GameManager.NPC.AddEventNPC(NPC_Type_SubEvent.Heroine.ToString(), 7, NPC_Typeof.NPC_Type_SubEvent);
-        });
-        forQuestAction.Add(774030, () =>
-        {
-            GameManager.NPC.AddEventNPC(NPC_Type_SubEvent.Heroine.ToString(), 7, NPC_Typeof.NPC_Type_SubEvent);
-        });
 
-        forQuestAction.Add(777010, () =>
-        {
-            Debug.Log("1차 길드레이드 준비중");
-        });
 
-        forQuestAction.Add(777020, () =>
-        {
-            Debug.Log("2차 길드레이드 준비중");
-        });
+        //forQuestAction.Add(777010, () =>
+        //{
+        //    Debug.Log("1차 길드레이드 준비중");
+        //});
 
-        forQuestAction.Add(778010, () =>
-        {
-            Debug.Log("1차 숲의습격 준비중");
-        });
+        //forQuestAction.Add(777020, () =>
+        //{
+        //    Debug.Log("2차 길드레이드 준비중");
+        //});
 
-        forQuestAction.Add(778020, () =>
-        {
-            Debug.Log("2차 숲의습격 준비중");
-        });
+        //forQuestAction.Add(778010, () =>
+        //{
+        //    Debug.Log("1차 숲의습격 준비중");
+        //});
 
-        forQuestAction.Add(7710003, () =>
-        {
-            Debug.Log("최후의 심판 준비중");
-        });
+        //forQuestAction.Add(778020, () =>
+        //{
+        //    Debug.Log("2차 숲의습격 준비중");
+        //});
 
-        forQuestAction.Add(7712000, () =>
-        {
-            Debug.Log("라이트닝");
-            GameManager.NPC.AddEventNPC(NPC_Type_SubEvent.Lightning.ToString(), 3, NPC_Typeof.NPC_Type_SubEvent);
-        });
+        //forQuestAction.Add(7710003, () =>
+        //{
+        //    Debug.Log("최후의 심판 준비중");
+        //});
+
+
     }
     void Init_DialogueAction() //? 대화를 통해서 호출하는곳. 코드상에는 없고 Dialogue에 Index로만 존재함
     {
+
         GuildNPCAction.Add(2100, () =>
         {
             Managers.Dialogue.ActionReserve(() => 
             {
-                int ranPop = UnityEngine.Random.Range(10, 20 + (CurrentTurn / 2));
+                int ranPop = UnityEngine.Random.Range(10, 15 + (CurrentTurn / 2));
                 var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
                 msg.Message = $"{ranPop} {UserData.Instance.LocaleText("Message_Get_Pop")}";
 
@@ -1125,19 +1115,25 @@ public class EventManager : MonoBehaviour
         });
 
 
-        GuildNPCAction.Add(1110, () => { GameManager.Journal.AddJournal(1110); });
-        GuildNPCAction.Add(1111, () => { GameManager.Journal.AddJournal(1111); });
+        GuildNPCAction.Add(1110, () => { JournalManager.Instance.AddJournal(1110); });
+        GuildNPCAction.Add(1111, () => { JournalManager.Instance.AddJournal(1111); });
 
-        GuildNPCAction.Add(2102, () => { GameManager.Journal.AddJournal(2102); });
-        GuildNPCAction.Add(2103, () => { GameManager.Journal.AddJournal(2103); });
-        GuildNPCAction.Add(2104, () => { GameManager.Journal.AddJournal(2104); });
-        GuildNPCAction.Add(2105, () => { GameManager.Journal.AddJournal(2105); });
+        GuildNPCAction.Add(2102, () => { JournalManager.Instance.AddJournal(2102); });
+        GuildNPCAction.Add(2103, () => { JournalManager.Instance.AddJournal(2103); });
+        GuildNPCAction.Add(2104, () => { JournalManager.Instance.AddJournal(2104); });
+        GuildNPCAction.Add(2105, () => { JournalManager.Instance.AddJournal(2105); });
+        GuildNPCAction.Add(2106, () => { JournalManager.Instance.AddJournal(2106); });
+        GuildNPCAction.Add(2107, () => { JournalManager.Instance.AddJournal(2107); });
 
 
 
         GuildNPCAction.Add(1100, () => { AddQuestAction(1100); });
         GuildNPCAction.Add(1101, () => { AddQuestAction(1101); });
-        GuildNPCAction.Add(1140, () => { AddQuestAction(1140); });
+
+        //? 던전의재앙 (길드원 B한테서 받는 첫퀘스트)
+        GuildNPCAction.Add(1140, () => { JournalManager.Instance.AddJournal(1140); });
+
+
         //GuildNPCAction.Add(1151, () => { AddQuestAction(1151); });
 
 
@@ -1152,15 +1148,15 @@ public class EventManager : MonoBehaviour
             });
         });
 
-        GuildNPCAction.Add(7010, () => { AddQuestAction(777010); });
-        GuildNPCAction.Add(7020, () => { AddQuestAction(777020); });
-        GuildNPCAction.Add(8010, () => { AddQuestAction(778010); });
-        GuildNPCAction.Add(8020, () => { AddQuestAction(778020); });
+        GuildNPCAction.Add(7010, () => { JournalManager.Instance.AddJournal(7010); });
+        GuildNPCAction.Add(7020, () => { JournalManager.Instance.AddJournal(7020); });
+        GuildNPCAction.Add(8010, () => { JournalManager.Instance.AddJournal(8010); });
+        GuildNPCAction.Add(8020, () => { JournalManager.Instance.AddJournal(8020); });
 
         //? 라이트닝 레이서
         GuildNPCAction.Add(12010, () =>
         {
-            AddQuestAction(7712000);
+            AddQuestAction(12000);
             GuildManager.Instance.GetInteraction(12000).Remove_Option(0); //? 확장될 때 마다 추가되는 퀘스트라서 여기서 삭제해줘야함(선택지없으니까)
         });
 
@@ -1314,7 +1310,8 @@ public class EventManager : MonoBehaviour
 
         EventAction.Add("Hero_Quest_1", () =>
         {
-            AddQuestAction(1151);
+            //AddQuestAction(1151);
+            JournalManager.Instance.AddJournal(1151);
             Debug.Log("영웅 길드 대화");
             var fade = Managers.UI.ShowPopUp<UI_Fade>();
             fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 1, true);
@@ -1345,7 +1342,9 @@ public class EventManager : MonoBehaviour
 
         EventAction.Add("Heroine_Quest_2", () =>
         {
-            AddQuestAction(774020);
+            AddQuestAction(4020);
+            JournalManager.Instance.AddJournal(4020);
+
             Debug.Log("히로인 대화2");
             var fade = Managers.UI.ShowPopUp<UI_Fade>();
             fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 1, true);
@@ -1381,8 +1380,9 @@ public class EventManager : MonoBehaviour
             player.transform.position = GuildHelper.Instance.GetPos(GuildHelper.Pos.Exit).position;
             FindAnyObjectByType<UI_DialogueBubble>().Bubble_MoveToTarget(player.transform);
 
-            ClearQuestAction(774020);
-            AddQuestAction(774030);
+            ClearQuestAction(4020);
+            AddQuestAction(4030);
+            JournalManager.Instance.AddJournal(4030);
         });
 
         EventAction.Add("Heroine_Quest_Prison", () =>
@@ -1500,7 +1500,8 @@ public class EventManager : MonoBehaviour
         {
             Debug.Log("고블린 만족 - 고블린 파티 이벤트 연계");
             AddDayEvent(DayEventLabel.Goblin_Party, priority: 0, embargo: 14, delay: 0);
-            AddQuestAction(1150); //? 고블린파티 바로 퀘스트에 추가
+            //AddQuestAction(1150); //? 고블린파티 바로 퀘스트에 추가
+            JournalManager.Instance.AddJournal(1150);
 
             var fade = Managers.UI.ShowPopUp<UI_Fade>();
             fade.SetFadeOption(UI_Fade.FadeMode.BlackIn, 2, true);
@@ -1510,10 +1511,6 @@ public class EventManager : MonoBehaviour
         {
             Debug.Log("고블린 Die or Empty - 오크파티");
             AddDayEvent(DayEventLabel.Orc_Party, priority: 0, embargo: 14, delay: 0);
-
-
-            //AddDayEvent(DayEventLabel.Catastrophe, priority: 0, embargo: 12, delay: 0);
-            //Add_GuildQuest_Special(3014); //? 길드원한테 소식듣는 퀘스트 추가 - 이후 1140으로 연결
         });
 
         EventAction.Add("Orc_Leader_Left", () =>
@@ -1538,6 +1535,7 @@ public class EventManager : MonoBehaviour
             Debug.Log("던전의 재앙 - 해결할 때 까지 지속 이벤트");
             ClearQuestAction(1140);
             AddQuestAction(1141); //? 해결되기전까지 1141은 지속발생되는 이벤트(퀘스트헌터마냥)
+            JournalManager.Instance.AddJournal(1141);
 
             GuildManager.Instance.AddInstanceGuildNPC(GuildNPC_LabelName.DeathMagician);
             Add_GuildQuest_Special(10001, true);
@@ -1554,7 +1552,8 @@ public class EventManager : MonoBehaviour
             player.GetComponentInChildren<SpriteRenderer>().transform.localScale = Vector3.one;
             player.transform.position = GuildHelper.Instance.GetPos(GuildHelper.Pos.DeathMagician).position;
 
-            AddQuestAction(771141);
+            JournalManager.Instance.RemoveJournal(1141);
+            JournalManager.Instance.AddJournal(1142);
             GuildManager.Instance.RemoveInstanceGuildNPC(GuildNPC_LabelName.DeathMagician);
         });
 
@@ -1599,7 +1598,8 @@ public class EventManager : MonoBehaviour
                 GameManager.Artifact.AddArtifact(ArtifactLabel.TouchOfDecay);
             });
             //? 용사이벤트 추가 (퀘스트에 등록될 예비이벤트임)
-            AddQuestAction(7710003);
+            //AddQuestAction(7710003);
+            JournalManager.Instance.AddJournal(10003);
         });
 
 
@@ -1720,13 +1720,16 @@ public class EventManager : MonoBehaviour
                 var saveData = Managers.Data.GetData("Temp_GuildSave");
                 int gold = Mathf.RoundToInt(saveData.mainData.Player_Gold * 0.3f);
                 saveData.mainData.Player_Gold -= gold;
-                saveData.savefileConfig.soothsayerGoldValue += gold;
-                if (saveData.savefileConfig.soothsayerGoldValue >= 3000)
+                UserData.Instance.FileConfig.soothsayerGoldValue += gold;
+                if (UserData.Instance.FileConfig.soothsayerGoldValue >= 3000)
                 {
                     Add_GuildQuest_Special(16020);
                 }
 
                 Debug.Log("시스템 메세지 - 다음 던전 이벤트에 대한 정보");
+                UserData.Instance.FileConfig.Next_RE_Info = true;
+                UserData.Instance.FileConfig.Notice_Quest = true;
+
                 var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
 
                 var data = RandomEventManager.Instance.Get_NextRandomEventID(CurrentTurn, saveData.currentRandomEventList);

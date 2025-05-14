@@ -39,26 +39,44 @@ public class UI_Quest : UI_PopUp
 
     void Init_CurrentJournal()
     {
-        foreach (var item in GameManager.Journal.CurrentJournalList)
+        foreach (var item in JournalManager.Instance.CurrentJournalList)
         {
             var content = Managers.Resource.Instantiate("UI/PopUp/Element/QuestBox", pos).GetComponent<UI_QuestBox>();
 
-            var textData = GameManager.Journal.GetData(item.ID);
+            var textData = JournalManager.Instance.GetData(item.ID);
 
             string dayInfo = "";
             if (item.startDay != 0 && item.endDay != 0)
             {
                 if (item.startDay == item.endDay)
                 {
-                    dayInfo = $"{item.startDay}{UserData.Instance.LocaleText("Day")}";
+                    //dayInfo = $"{item.startDay}{UserData.Instance.LocaleText("Day")}";
+                    dayInfo = $"<b>D-{item.startDay - Main.Instance.Turn}</b>";
                 }
                 else
                 {
-                    dayInfo = $"{item.startDay}{UserData.Instance.LocaleText("Day")}~{item.endDay}{UserData.Instance.LocaleText("Day")}";
+                    //dayInfo = $"~{item.endDay}{UserData.Instance.LocaleText("Day")}";
+                    //dayInfo = $"D-{item.endDay}";
+                    for (int i = 0; i < Main.Instance.Turn - (item.startDay - 1); i++)
+                    {
+                        dayInfo += "●";
+                    }
+                    for (int i = 0; i < item.endDay - Main.Instance.Turn; i++)
+                    {
+                        dayInfo += "○";
+                    }
                 }
             }
 
+            //? 고정날짜 이벤트
+            if (textData.fixedEvent)
+            {
+                dayInfo = $"<b>D-{textData.dayInfo - Main.Instance.Turn}</b>";
+            }
+
             content.SetText(textData.title, textData.description, dayInfo);
+
+            item.noticeCheck = true;
         }
     }
 
@@ -131,7 +149,7 @@ public class UI_Quest : UI_PopUp
 
     void Soothsayer_Orb()
     {
-        if (GameManager.Artifact.Check_Artifact_Exist(ArtifactLabel.SoothsayerOrb) == false)
+        if (GameManager.Artifact.Check_Artifact_Exist(ArtifactLabel.SoothsayerOrb) == false && UserData.Instance.FileConfig.Next_RE_Info == false)
         {
             return;
         }
@@ -148,7 +166,9 @@ public class UI_Quest : UI_PopUp
         }
         else
         {
-            day = $"{data._startDay - turn}{UserData.Instance.LocaleText("~일 후")}";
+            //day = $"{data._startDay - turn}{UserData.Instance.LocaleText("~일 후")}";
+            day = $"<b>D-{data._startDay - turn}</b>";
+
             msg = $"{RandomEventManager.Instance.GetData(data._id).description} ";
 
         }

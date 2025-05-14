@@ -92,8 +92,16 @@ public class UI_TileView_Tile : UI_Base
         //Debug.Log(Managers.UI._popupStack.Count);
 
 
-        if (CurrentTempData != null)
+        if (CurrentTempData != null && CurrentTempData.GetObject())
         {
+            //var obj = CurrentTempData.GetObject();
+            //if (obj)
+            //{
+            //    if (obj.GetComponentInChildren<SpriteRenderer>(true).enabled)
+            //    {
+            //        parent.ChildMoveEvent_CurrentData(CurrentTempData);
+            //    }
+            //}
             if (CurrentTempData.GetObject().GetComponentInChildren<SpriteRenderer>(true).enabled)
             {
                 parent.ChildMoveEvent_CurrentData(CurrentTempData);

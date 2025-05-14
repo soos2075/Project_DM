@@ -781,7 +781,7 @@ public class NPC_MainEvent : NPC
                     //? 봉인결계로 이동해서 이벤트 발생시키기
                     EventManager.Instance.ClearQuestAction(1140);
                     EventManager.Instance.ClearQuestAction(1141);
-                    EventManager.Instance.ClearQuestAction(771141);
+                    EventManager.Instance.ClearQuestAction(1142);
                     Managers.Dialogue.ShowDialogueUI(DialogueName.Catastrophe_Seal, transform);
                 }
                 else

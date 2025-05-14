@@ -73,6 +73,30 @@ public class BasementFloor : MonoBehaviour
         //}
     }
 
+
+    public IPlacementable Get_Original_To_Index(Vector2Int _index)
+    {
+        foreach (var item in npcList)
+        {
+            if (item.PlacementInfo.Place_Tile.index == _index && item.GetObject().GetComponentInChildren<SpriteRenderer>(true).enabled)
+            {
+                return item;
+            }
+        }
+
+        foreach (var item in monsterList)
+        {
+            if (item.PlacementInfo.Place_Tile.index == _index && item.GetObject().GetComponentInChildren<SpriteRenderer>(true).enabled)
+            {
+                return item;
+            }
+        }
+
+        return null;
+    }
+
+
+
     public BasementTile GetRandomTile()
     {
         int whileCount = 0; //? 무한루프 방지용
@@ -1050,7 +1074,7 @@ public class BasementTile
         }
     }
 
-    public void ClearPlacement(IPlacementable placementable)
+    public void ClearPlacement(IPlacementable placementable, bool remove)
     {
         if (placementable == Original)
         {
@@ -1062,7 +1086,14 @@ public class BasementTile
             }
             else
             {
-                ClearAbsolute();
+                if (remove)
+                {
+                    ClearAndReset();
+                }
+                else
+                {
+                    ClearAbsolute();
+                }
             }
         }
         else if (placementable == Current)
@@ -1078,6 +1109,20 @@ public class BasementTile
         Original = null;
         tileType_Current = Define.TileType.Empty;
         tileType_Original = Define.TileType.Empty;
+    }
+    void ClearAndReset()
+    {
+        Current = null;
+        Original = null;
+        tileType_Current = Define.TileType.Empty;
+        tileType_Original = Define.TileType.Empty;
+
+        //? 오리지널도 큐런트도 없는데, 만약 같은 좌표에 무언가 있다면 (살아있는) 걔로 오리지널 세팅을 해야함. npc랑 몬스터만 대상
+        var newOrigin = floor.Get_Original_To_Index(index);
+        if (newOrigin != null)
+        {
+            SetPlacement(newOrigin);
+        }
     }
 
 

@@ -194,6 +194,7 @@ public class UserData : MonoBehaviour
 
         Managers.Dialogue.Init_GetLocalizationData();
         RandomEventManager.Instance.Init_LocalData();
+        JournalManager.Instance.Init_LocalData();
         if (Managers.Scene.GetCurrentScene() == SceneName._2_Management)
         {
             GameManager.Artifact.Init_LocalData();
@@ -205,7 +206,6 @@ public class UserData : MonoBehaviour
             GameManager.Trait.Init_LocalData();
             GameManager.Title.Init_LocalData();
             GameManager.Buff.Init_LocalData();
-            GameManager.Journal.Init_LocalData();
         }
 
         Cor_Operation_ChangeLanguage = null;
@@ -694,6 +694,7 @@ public class UserData : MonoBehaviour
 
         //? Config Option - 각종 개인환경 옵션
         public bool Placement_Continuous;
+        public bool Next_RE_Info;
 
 
         //? 새로운거 알림

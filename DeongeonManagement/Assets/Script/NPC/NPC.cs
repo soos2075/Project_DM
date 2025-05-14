@@ -21,13 +21,9 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
         //? 가장 마지막에 커스텀으로 덮어씌우기 (스탯같은거)
         Start_Setting();
+        Apply_BattleStatus();
 
         AddCollectionPoint();
-
-        if (GameManager.Artifact.GetArtifact(ArtifactLabel.TouchOfDecay).Count > 0)
-        {
-            BattleStatus.AddValue(BattleStatusLabel.Decay, 1);
-        }
     }
 
 
@@ -102,6 +98,32 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     //{
     //    ActionPoint = Mathf.RoundToInt(ActionPoint * ratio);
     //}
+
+
+
+
+    void Apply_BattleStatus()
+    {
+        if (GameManager.Artifact.GetArtifact(ArtifactLabel.TouchOfDecay).Count > 0)
+        {
+            BattleStatus.AddValue(BattleStatusLabel.Decay, 1);
+        }
+
+        if (RandomEventManager.Instance.Check_Current_ContinueEvent(RandomEventManager.ContinueRE.Adv_Power_Down))
+        {
+            BattleStatus.AddValue(BattleStatusLabel.Weaken, 5);
+        }
+
+        if (RandomEventManager.Instance.Check_Current_ContinueEvent(RandomEventManager.ContinueRE.Adv_Power_Up))
+        {
+            BattleStatus.AddValue(BattleStatusLabel.Blessing, 1);
+        }
+
+        if (RandomEventManager.Instance.Check_Current_ContinueEvent(RandomEventManager.ContinueRE.Gold_Bonus))
+        {
+            KillGold += (KillGold / 2);
+        }
+    }
 
 
 
@@ -382,6 +404,10 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     public PlacementState PlacementState { get; set; }
     public GameObject GetObject()
     {
+        if (!this || !this.gameObject)
+        {
+            return null;  // 파괴된 경우 null 반환
+        }
         return this.gameObject;
     }
     public string Name_Color { get { return $"{name_Tag_Start}{Name}{Name_Index}{name_Tag_End}"; } }

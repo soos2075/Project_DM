@@ -335,7 +335,8 @@ public class GuildNPC_Data
         {
             return;
         }
-
+        //? 선택하고 클리어가 안될 퀘스트는 무조건 99여야함
+        //AlreadyClearList.Add(OptionList[index]);
         OptionList.RemoveAt(index);
     }
 

@@ -2,12 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JournalManager
+public class JournalManager : MonoBehaviour
 {
-    public void Init()
+    #region Singleton
+    private static JournalManager _instance;
+    public static JournalManager Instance { get { Initialize(); return _instance; } }
+
+    private static void Initialize()
     {
-        Init_LocalData();
+        if (_instance == null)
+        {
+            _instance = FindObjectOfType<JournalManager>();
+            if (_instance == null)
+            {
+                GameObject go = new GameObject { name = "@JournalManager" };
+                _instance = go.AddComponent<JournalManager>();
+            }
+            DontDestroyOnLoad(_instance);
+        }
     }
+
+
+    private void Awake()
+    {
+        Initialize();
+        if (_instance != null)
+        {
+            if (_instance != this)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    #endregion
 
     #region SO_Data
     SO_Journal[] so_data;
@@ -44,6 +72,12 @@ public class JournalManager
     }
     #endregion
 
+    private void Start()
+    {
+        Managers.Data.OnAddressablesComplete += () => Init_LocalData();
+    }
+
+
 
     #region Save Load
 
@@ -73,6 +107,25 @@ public class JournalManager
 
 
 
+    //? 새 일지 알림용
+    public bool Check_Journal
+    {
+        get 
+            {
+            foreach (var item in CurrentJournalList)
+            {
+                if (item.noticeCheck == false)
+                {
+                    return true;
+                }
+            }
+            return false;
+        } 
+    }
+
+    ////? 1회용 점쟁이 구슬 (이벤트 봤을 때)
+    //public bool Next_RE_Info { get; set; }
+
 
 
 
@@ -85,9 +138,18 @@ public class JournalManager
         public int startDay;
         public int endDay;
 
+        public bool noticeCheck;
+
         public JournalData(int _id)
         {
             ID = _id;
+
+            var currentData = RandomEventManager.Instance.GetRandomEventData(_id);
+            if (currentData != null)
+            {
+                startDay = currentData.startDay;
+                endDay = currentData.endDay;
+            }
         }
 
 
@@ -110,6 +172,14 @@ public class JournalManager
     //? 기한 없는 퀘스트나 일지
     public void AddJournal(int _id)
     {
+        foreach (var item in CurrentJournalList)
+        {
+            if (item.ID == _id)
+            {
+                return;
+            }
+        }
+
         CurrentJournalList.Add(new JournalData(_id));
     }
     public void AddJournal(int _id, int _startDay, int _endDay, string _dayInfo = "")
@@ -130,6 +200,7 @@ public class JournalManager
             if (item.ID == _id)
             {
                 CurrentJournalList.Remove(item);
+                return;
             }
         }
     }

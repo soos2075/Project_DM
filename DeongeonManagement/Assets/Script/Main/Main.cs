@@ -245,6 +245,7 @@ public class Main : MonoBehaviour
 
             //? 이벤트 시드
             RandomEventManager.Instance.Init_RE_Seed(UserData.Instance.FileConfig.Difficulty);
+            //RandomEventManager.Instance.Test_Add_RE();
         }
         else
         {
@@ -950,6 +951,14 @@ public class Main : MonoBehaviour
         {
             Player_AP++;
         }
+        if (RandomEventManager.Instance.Check_Current_ContinueEvent(RandomEventManager.ContinueRE.AP_Up))
+        {
+            Player_AP += 2;
+        }
+        if (RandomEventManager.Instance.Check_Current_ContinueEvent(RandomEventManager.ContinueRE.AP_Down))
+        {
+            Player_AP -= 2;
+        }
 
         //? 위가 적용 아래가 새로교체
         Init_DayResult();
@@ -1314,7 +1323,7 @@ public class Main : MonoBehaviour
                 UI_Main.Active_Button(UI_Management.ButtonEvent._1_Facility);
                 UI_Main.Active_Button(UI_Management.ButtonEvent._6_DungeonEdit);
                 UI_Main.Active_Button(UI_Management.ButtonEvent._5_Quest);
-                GameManager.Journal.AddJournal(1);
+                JournalManager.Instance.AddJournal(1);
 
                 StartCoroutine(Wait_AP_Tutorial());
                 break;

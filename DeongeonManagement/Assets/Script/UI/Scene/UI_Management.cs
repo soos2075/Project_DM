@@ -269,7 +269,8 @@ public class UI_Management : UI_Base
         }
 
 
-        if (UserData.Instance.FileConfig.Notice_Quest)
+        //if (UserData.Instance.FileConfig.Notice_Quest)
+        if (UserData.Instance.FileConfig.Notice_Quest || JournalManager.Instance.Check_Journal)
         {
             AddNotice_UI("Notice", this, ButtonEvent._5_Quest.ToString(), "Notice_Quest");
         }

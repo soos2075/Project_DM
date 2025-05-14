@@ -54,6 +54,11 @@ public class UI_EventHandler : MonoBehaviour, IPointerClickHandler, IDragHandler
 	public Action<PointerEventData> OnMoveHandler = null;
 	public void OnPointerMove(PointerEventData eventData)
     {
+        if (SceneChangeNoAction())
+        {
+			return;
+        }
+
 		if (OnMoveHandler != null)
 			OnMoveHandler.Invoke(eventData);
 	}
@@ -98,7 +103,14 @@ public class UI_EventHandler : MonoBehaviour, IPointerClickHandler, IDragHandler
 	}
 
 
+	//? 만약 씬 체인지 중에 호출되는 함수가 남아있다면 자기자신이 삭제됐을땐 호출되지않도록 변경하기
+	bool SceneChangeNoAction()
+    {
+		if (!this || !this.gameObject || !this.gameObject.activeInHierarchy)
+			return true;
 
+		return false;
+	}
 
 
 	//? 전부 리셋

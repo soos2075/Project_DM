@@ -158,7 +158,7 @@ public class NPC_SubEvent : NPC
                 emotion.GetComponent<SpriteRenderer>().sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Element_State", "Perfect");
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Lightning_Success, transform);
                 EventManager.Instance.Add_GuildQuest_Special(12020);
-                EventManager.Instance.ClearQuestAction(7712000);
+                EventManager.Instance.ClearQuestAction(12000);
                 Main.Instance.CurrentDay.AddPop(100);
                 Main.Instance.ShowDM(100, Main.TextType.pop, transform, 1);
                 //AddCollectionPoint();
@@ -240,7 +240,7 @@ public class NPC_SubEvent : NPC
                     Main.Instance.CurrentDay.AddDanger(50);
                     Main.Instance.ShowDM(50, Main.TextType.danger, transform, 1);
                     Managers.Dialogue.ShowDialogueUI(DialogueName.Lightning_Defeat, transform);
-                    EventManager.Instance.ClearQuestAction(7712000);
+                    EventManager.Instance.ClearQuestAction(12000);
                     GuildManager.Instance.RemoveInstanceGuildNPC(GuildNPC_LabelName.Lightning);
                     GuildManager.Instance.AddDeleteGuildNPC(GuildNPC_LabelName.Lightning);
                     break;
@@ -260,8 +260,8 @@ public class NPC_SubEvent : NPC
         {
             case NPC_Type_SubEvent.Heroine:
                 EventManager.Instance.AddTurnOverEventReserve(() => Managers.Dialogue.ShowDialogueUI(DialogueName.Heroine_Prison, Main.Instance.Player));
-                EventManager.Instance.ClearQuestAction(774020);
-                EventManager.Instance.ClearQuestAction(774030);
+                EventManager.Instance.ClearQuestAction(4020);
+                EventManager.Instance.ClearQuestAction(4030);
                 EventManager.Instance.Clear_GuildQuest(4030);
                 break;
 
@@ -269,7 +269,7 @@ public class NPC_SubEvent : NPC
                 Main.Instance.CurrentDay.AddDanger(50);
                 Main.Instance.ShowDM(50, Main.TextType.danger, transform, 1);
                 Managers.Dialogue.ShowDialogueUI(DialogueName.Lightning_Defeat, transform);
-                EventManager.Instance.ClearQuestAction(7712000);
+                EventManager.Instance.ClearQuestAction(12000);
                 GuildManager.Instance.RemoveInstanceGuildNPC(GuildNPC_LabelName.Lightning);
                 GuildManager.Instance.AddDeleteGuildNPC(GuildNPC_LabelName.Lightning);
                 break;

@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     BuffManager _buff = new BuffManager();
     ArtifactManager _artifact = new ArtifactManager();
     TitleManager _title = new TitleManager();
-    JournalManager _journal = new JournalManager();
+    //JournalManager _journal = new JournalManager();
 
 
 
@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     public static BuffManager Buff { get { return Instance._buff; } }
     public static ArtifactManager Artifact { get { return Instance._artifact; } }
     public static TitleManager Title { get { return Instance._title; } }
-    public static JournalManager Journal { get { return Instance._journal; } }
+    //public static JournalManager Journal { get { return Instance._journal; } }
 
 
 
@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
         _buff.Init();
         _artifact.Init();
         _title.Init();
-        _journal.Init();
+        //_journal.Init();
     }
 
     void Start()

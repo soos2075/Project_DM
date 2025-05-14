@@ -21,6 +21,10 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     public PlacementInfo PlacementInfo { get; set; }
     public GameObject GetObject()
     {
+        if (!this || !this.gameObject)
+        {
+            return null;  // 파괴된 경우 null 반환
+        }
         return this.gameObject;
     }
 
@@ -292,7 +296,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     protected virtual void BattleStatue_TurnStart()
     {
         //? 특성
-        if (TraitCheck(TraitGroup.Spirit))
+        if (TraitCheck(TraitGroup.Spirit) && State == MonsterState.Placement)
         {
             var floor = PlacementInfo.Place_Floor.FloorIndex;
 
@@ -305,7 +309,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
                 }
             }
         }
-        if (TraitCheck(TraitGroup.Spirit_V2))
+        if (TraitCheck(TraitGroup.Spirit_V2) && State == MonsterState.Placement)
         {
             var floor = PlacementInfo.Place_Floor.FloorIndex;
 
@@ -318,6 +322,14 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
                 }
             }
         }
+
+        //? 랜덤이벤트
+        if (RandomEventManager.Instance.Check_Current_ContinueEvent(RandomEventManager.ContinueRE.Monster_Power_Down))
+        {
+            BattleStatus.AddValue(BattleStatusLabel.Decay, 1);
+        }
+
+
 
         //? 아티팩트
         BattleStatus.AddValue(BattleStatusLabel.Empower, GameManager.Artifact.GetArtifact(ArtifactLabel.Harp).Count);
@@ -345,12 +357,12 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
             BattleStatus.AddValue(BattleStatusLabel.Empower, 2);
         }
     }
-    //? Technical Bonus
-    float HP_Hospital { get { return GameManager.Technical.Get_Technical<Hospital>() != null ? 0.25f : 0; } }
-    float TrainingCenter { get { return GameManager.Technical.Get_Technical<TrainingCenter>() != null ? 0.05f : 0; } }
+    ////? Technical Bonus
+    //float HP_Hospital { get { return GameManager.Technical.Get_Technical<Hospital>() != null ? 0.25f : 0; } }
+    //float TrainingCenter { get { return GameManager.Technical.Get_Technical<TrainingCenter>() != null ? 0.05f : 0; } }
 
-    //? 전투의 오브 활성화 보너스
-    float Orb_Bonus { get { return GameManager.Buff.CurrentBuff.Orb_red > 0 ? 0.1f * GameManager.Buff.CurrentBuff.Orb_red : 0; } }
+    ////? 전투의 오브 활성화 보너스
+    //float Orb_Bonus { get { return GameManager.Buff.CurrentBuff.Orb_red > 0 ? 0.1f * GameManager.Buff.CurrentBuff.Orb_red : 0; } }
 
 
     //public int HP_Final { get { return Mathf.RoundToInt((HP + Trait_HP + HP_Bonus) * HP_Bonus_Ratio); } }
@@ -1843,9 +1855,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         }
     }
 
-
-
-    public void LevelUp(bool _showPopup, bool TrainingBonus = false)
+    public void LevelUp(bool _showPopup, bool TrainingBonus = false, bool OneMore = false)
     {
         if (Data.maxLv <= LV)
         {
@@ -1858,6 +1868,13 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
             var ui = Managers.UI.ShowPopUp<UI_StatusUp>("Monster/UI_StatusUp");
             ui.TargetMonster(this);
         }
+
+        //? 몬스터 웨이브 기간동은 레벨업이 두배
+        if (!OneMore && RandomEventManager.Instance.Check_Current_ContinueEvent(RandomEventManager.ContinueRE.Monster_Wave))
+        {
+            LevelUp(false, TrainingBonus, true);
+        }
+
 
         LevelUpEvent(LevelUpEventType.Normal);
         LV++;

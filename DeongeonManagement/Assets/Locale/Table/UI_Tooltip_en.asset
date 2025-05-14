@@ -174,7 +174,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 30063477735501824
-    m_Localized: All unit stats +10%
+    m_Localized: Grant [Vigor] status to allied units
     m_Metadata:
       m_Items: []
   - m_Id: 44245981308596224

@@ -106,7 +106,7 @@ public class RandomEventManager : MonoBehaviour
                 {
                     RandomEventActionDict[item.ID + 50000].Invoke();
                 }
-                else
+                else if (turn == item.startDay)
                 {
                     RandomEventActionDict[item.ID].Invoke();
                 }
@@ -117,6 +117,7 @@ public class RandomEventManager : MonoBehaviour
             {
                 RandomEventActionDict[item.ID].Invoke();
                 Main.Instance.Dungeon_Animation_RandomEvent(item);
+                UserData.Instance.FileConfig.Next_RE_Info = false;
             }
         }
     }
@@ -183,39 +184,39 @@ public class RandomEventManager : MonoBehaviour
     void Init_RandomEvent_Visit()
     {
         //? 만남이벤트
-        RandomEventActionDict.Add(2011, () =>
+        RandomEventActionDict.Add(900, () =>
         {
-            Debug.Log("Action : 2011");
+            Debug.Log("Action : 900");
             GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Mastia.ToString(), 5, NPC_Typeof.NPC_Type_RandomEvent);
         });
 
-        RandomEventActionDict.Add(2012, () =>
+        RandomEventActionDict.Add(901, () =>
         {
-            Debug.Log("Action : 2012");
+            Debug.Log("Action : 901");
             GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Karen.ToString(), 5, NPC_Typeof.NPC_Type_RandomEvent);
         });
 
-        RandomEventActionDict.Add(2013, () =>
+        RandomEventActionDict.Add(902, () =>
         {
-            Debug.Log("Action : 2013");
+            Debug.Log("Action : 902");
             GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Stan.ToString(), 5, NPC_Typeof.NPC_Type_RandomEvent);
         });
 
-        RandomEventActionDict.Add(2014, () =>
+        RandomEventActionDict.Add(903, () =>
         {
-            Debug.Log("Action : 2014");
+            Debug.Log("Action : 903");
             GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Euh.ToString(), 5, NPC_Typeof.NPC_Type_RandomEvent);
         });
 
-        RandomEventActionDict.Add(2015, () =>
+        RandomEventActionDict.Add(904, () =>
         {
-            Debug.Log("Action : 2015");
+            Debug.Log("Action : 904");
             GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Romys.ToString(), 5, NPC_Typeof.NPC_Type_RandomEvent);
         });
 
-        RandomEventActionDict.Add(2016, () =>
+        RandomEventActionDict.Add(905, () =>
         {
-            Debug.Log("Action : 2016");
+            Debug.Log("Action : 905");
             GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Siri.ToString(), 5, NPC_Typeof.NPC_Type_RandomEvent);
         });
 
@@ -226,20 +227,38 @@ public class RandomEventManager : MonoBehaviour
     void Init_RandomEvent_Normal_Continue()
     {
         var E_manager = EventManager.Instance;
+        var J_manager = JournalManager.Instance;
+
+        RandomEventActionDict.Add(1000, () => { Debug.Log("Action : 1000"); J_manager.AddJournal(1000); });
+        RandomEventActionDict.Add(1001, () => { Debug.Log("Action : 1001"); J_manager.AddJournal(1001); });
+
+        RandomEventActionDict.Add(1110, () => { Debug.Log("Action : 1110"); E_manager.Add_GuildQuest_Special(1110, false, false); });
+        RandomEventActionDict.Add(1111, () => { Debug.Log("Action : 1111"); E_manager.Add_GuildQuest_Special(1111, false, false); });
+
 
         RandomEventActionDict.Add(2102, () => { Debug.Log("Action : 2102"); E_manager.Add_GuildQuest_Special(2102, false, false); });
         RandomEventActionDict.Add(2103, () => { Debug.Log("Action : 2103"); E_manager.Add_GuildQuest_Special(2103, false, false); });
         RandomEventActionDict.Add(2104, () => { Debug.Log("Action : 2104"); E_manager.Add_GuildQuest_Special(2104, false, false); });
+        RandomEventActionDict.Add(2105, () => { Debug.Log("Action : 2105"); E_manager.Add_GuildQuest_Special(2105, false, false); });
+        RandomEventActionDict.Add(2106, () => { Debug.Log("Action : 2106"); E_manager.Add_GuildQuest_Special(2106, false, false); });
+        RandomEventActionDict.Add(2107, () => { Debug.Log("Action : 2107"); E_manager.Add_GuildQuest_Special(2107, false, false); });
     }
     void Init_RandomEvent_Normal_Continue_Remover() //? 발동퀘스트에 50000을 더한게 마지막날 종료 이벤트번호
     {
         var E_manager = EventManager.Instance;
-        var J_manager = GameManager.Journal;
 
-        RandomEventActionDict.Add(52102, () => { Debug.Log("Action : 2102 Over"); E_manager.Remove_GuildQuest(2102); J_manager.RemoveJournal(2102); });
-        RandomEventActionDict.Add(52103, () => { Debug.Log("Action : 2102 Over"); E_manager.Remove_GuildQuest(2103); J_manager.RemoveJournal(2103); });
-        RandomEventActionDict.Add(52104, () => { Debug.Log("Action : 2102 Over"); E_manager.Remove_GuildQuest(2104); J_manager.RemoveJournal(2104); });
+        RandomEventActionDict.Add(51000, () => { Debug.Log("Action : 1000 Over"); E_manager.ClearQuestAction(1000); });
+        RandomEventActionDict.Add(51001, () => { Debug.Log("Action : 1001 Over"); E_manager.ClearQuestAction(1001); });
 
+        RandomEventActionDict.Add(51110, () => { Debug.Log("Action : 1110 Over"); E_manager.Remove_GuildQuest(1110); E_manager.ClearQuestAction(1110); });
+        RandomEventActionDict.Add(51111, () => { Debug.Log("Action : 1111 Over"); E_manager.Remove_GuildQuest(1111); E_manager.ClearQuestAction(1111); });
+
+        RandomEventActionDict.Add(52102, () => { Debug.Log("Action : 2102 Over"); E_manager.Remove_GuildQuest(2102); E_manager.ClearQuestAction(2102); });
+        RandomEventActionDict.Add(52103, () => { Debug.Log("Action : 2103 Over"); E_manager.Remove_GuildQuest(2103); E_manager.ClearQuestAction(2103); });
+        RandomEventActionDict.Add(52104, () => { Debug.Log("Action : 2104 Over"); E_manager.Remove_GuildQuest(2104); E_manager.ClearQuestAction(2104); });
+        RandomEventActionDict.Add(52105, () => { Debug.Log("Action : 2105 Over"); E_manager.Remove_GuildQuest(2105); E_manager.ClearQuestAction(2105); });
+        RandomEventActionDict.Add(52106, () => { Debug.Log("Action : 2106 Over"); E_manager.Remove_GuildQuest(2106); E_manager.ClearQuestAction(2106); });
+        RandomEventActionDict.Add(52107, () => { Debug.Log("Action : 2107 Over"); E_manager.Remove_GuildQuest(2107); E_manager.ClearQuestAction(2107); });
     }
 
 
@@ -260,16 +279,25 @@ public class RandomEventManager : MonoBehaviour
         }
         return false;
     }
-    public bool Check_Current_ContinueEvent(int currentTurn, ContinueRE eventID)
+    public bool Check_Current_ContinueEvent(ContinueRE eventID)
     {
-        return Check_Current_ContinueEvent(currentTurn, (int)eventID);
+        return Check_Current_ContinueEvent(Main.Instance.Turn, (int)eventID);
     }
 
     public enum ContinueRE
     {
-        Herbalist_Up = 2102,
-        Miner_Up = 2103,
-        Adv_Up = 2104,
+        AP_Up = 1000,
+        AP_Down = 1001,
+
+        Monster_Wave = 1110,
+        Monster_Power_Down = 1111,
+
+        Herbalist_Visit_Up = 2102,
+        Miner_Visit_Up = 2103,
+        Adv_Visit_Up = 2104,
+        Adv_Power_Down = 2105,
+        Adv_Power_Up = 2106,
+        Gold_Bonus = 2107,
     }
 
     #endregion
@@ -401,6 +429,17 @@ public class RandomEventManager : MonoBehaviour
         {
 
         }
+        public CurrentRandomEventContent(int _id, int _index, int _startDay)
+        {
+            var data = RandomEventManager.Instance.GetData(_id);
+
+            ID = data.ID;
+            index = _index;
+            startDay = _startDay;
+            endDay = _startDay + data.continuousDays;
+            type = data.continuousDays == 0 ? RandomEventType.Once : RandomEventType.Continuous;
+            eventValue = data.eventValue;
+        }
 
 
         public CurrentRandomEventContent DeepCopy()
@@ -427,7 +466,7 @@ public class RandomEventManager : MonoBehaviour
             if (item.type == RandomEventType.Continuous) continue;
 
             //? 이미 지난 퀘스트 패스
-            if (item.startDay < currentTurn) continue;
+            if (item.startDay <= currentTurn) continue;
 
             //? 일단 순차적으로 되있을테니 바로 다음꺼 리턴하긴 하는데, 만약 나중이벤트가 걸린다면 바로 다음이벤트인지 체크가 필요 (날짜계산으로)
             return (item.ID, item.startDay);
@@ -440,6 +479,22 @@ public class RandomEventManager : MonoBehaviour
 
     //? 이번 회차에 사용 될 랜덤 이벤트 시드
     public List<CurrentRandomEventContent> CurrentEventList { get; set; } = new List<CurrentRandomEventContent>();
+
+
+
+    public CurrentRandomEventContent GetRandomEventData(int _id)
+    {
+        foreach (var item in CurrentEventList)
+        {
+            if (item.ID == _id)
+            {
+                return item;
+            }
+        }
+        return null;
+    }
+
+
 
     #region Save / Load
     public List<CurrentRandomEventContent> Save_RE_Seed()
@@ -480,36 +535,51 @@ public class RandomEventManager : MonoBehaviour
         switch (difficulty)
         {
             case Define.DifficultyLevel.Easy:
-                re = Pick_RE(30, 5, 10, RandomEventPool.Normal);
+                re = Pick_RE(30, 4, 7, RandomEventPool.Normal, 3);
                 break;
 
             case Define.DifficultyLevel.Normal:
-                re = Pick_RE(0, 5, 10, RandomEventPool.Normal);
+                re = Pick_RE(0, 5, 8, RandomEventPool.Normal, 3);
                 break;
 
             case Define.DifficultyLevel.Hard:
-                re = Pick_RE(-30, 5, 10, RandomEventPool.Normal);
+                re = Pick_RE(-30, 6, 9, RandomEventPool.Normal, 4);
                 break;
 
             case Define.DifficultyLevel.VeryHard:
-                re = Pick_RE(-60, 7, 12, RandomEventPool.Normal);
+                re = Pick_RE(-60, 7, 10, RandomEventPool.Normal, 4);
                 break;
 
             case Define.DifficultyLevel.Master:
-                re = Pick_RE(-100, 8, 13, RandomEventPool.Normal);
+                re = Pick_RE(-100, 8, 12, RandomEventPool.Normal, 5);
                 break;
         }
 
 
         //? 뽑은거 적당히 분배하기
+        var re_Once = new List<SO_RandomEventContent>();
+        var re_Continue = new List<SO_RandomEventContent>();
+        foreach (var item in re)
+        {
+            switch (item.type)
+            {
+                case RandomEventType.Once:
+                    re_Once.Add(item);
+                    break;
 
-        //? 하나의 이벤트 다음 이벤트 최대 간격 (30이 아닌이유는 1,20,30일차는 빼야되서) (최소는 2일로)
-        int maxInterval = (27 / re.Count);
+                case RandomEventType.Continuous:
+                    re_Continue.Add(item);
+                    break;
+            }
+        }
+
+        //? Once 이벤트 분배
+        //? 하나의 이벤트 다음 이벤트 최대 간격 (30이 아닌이유는 1,20일차는 빼야되서) (최소는 2일로)
+        int maxInterval = (28 / re_Once.Count);
         int startDay = 1;
         int counter = 0;
 
-
-        foreach (var item in re)
+        foreach (var item in re_Once)
         {
             var content = new CurrentRandomEventContent();
 
@@ -525,13 +595,41 @@ public class RandomEventManager : MonoBehaviour
                 tempStart = startDay + ranInterval;
             }
 
-
             startDay += maxInterval;
 
             content.ID = item.ID;
             content.index = counter;
             content.startDay = tempStart;
             content.endDay = tempStart + item.continuousDays;
+            content.type = item.continuousDays == 0 ? RandomEventType.Once : RandomEventType.Continuous;
+            content.eventValue = item.eventValue;
+
+            CurrentEventList.Add(content);
+
+            //? 디버그
+            content.Check_EventInfo();
+        }
+
+        //? Continue 이벤트 분배
+        maxInterval = (25 / re_Continue.Count);
+        startDay = 0;
+        counter = 0;
+        foreach (var item in re_Continue)
+        {
+            var content = new CurrentRandomEventContent();
+
+            counter++;
+
+            int ranInterval = UnityEngine.Random.Range(3, maxInterval + 1);
+            int tempStart = startDay + ranInterval;
+
+            //? 계산해보니까 이게 적당한 간격임 (랜덤이벤트 개수가 3~5개일 때)
+            startDay += (maxInterval - 1);
+
+            content.ID = item.ID;
+            content.index = counter;
+            content.startDay = tempStart;
+            content.endDay = tempStart + (item.continuousDays - 1);
             content.type = item.continuousDays == 0 ? RandomEventType.Once : RandomEventType.Continuous;
             content.eventValue = item.eventValue;
 
@@ -549,6 +647,25 @@ public class RandomEventManager : MonoBehaviour
 
 
 
+    [Obsolete]
+    public void Test_Add_RE()
+    {
+        //CurrentEventList = new List<CurrentRandomEventContent>();
+
+        CurrentEventList.Add(new CurrentRandomEventContent(1000, 0, 1));
+        CurrentEventList.Add(new CurrentRandomEventContent(1001, 0, 5));
+
+        CurrentEventList.Add(new CurrentRandomEventContent(1110, 0, 2));
+        CurrentEventList.Add(new CurrentRandomEventContent(1111, 0, 3));
+
+        CurrentEventList.Add(new CurrentRandomEventContent(2102, 0, 4));
+        CurrentEventList.Add(new CurrentRandomEventContent(2103, 0, 4));
+        CurrentEventList.Add(new CurrentRandomEventContent(2104, 0, 4));
+        CurrentEventList.Add(new CurrentRandomEventContent(2105, 0, 4));
+        CurrentEventList.Add(new CurrentRandomEventContent(2106, 0, 4));
+        CurrentEventList.Add(new CurrentRandomEventContent(2107, 0, 4));
+    }
+
 
 
 
@@ -557,24 +674,39 @@ public class RandomEventManager : MonoBehaviour
 
     //? 1. 이벤트가 담긴 통에서 랜덤하게 몇개를 뽑아서 리스트를 만듦 2. 점수에 따라서 무한반복
 
-    //? 뽑기통
+    //? 뽑기통 즉시발동 / 지속형
     List<SO_RandomEventContent> PickerList;
+    List<SO_RandomEventContent> PickerList_Continue;
+
+    ////? 결과값
+    //List<SO_RandomEventContent> ResultPickerList;
 
     void AddPicker(RandomEventPool addType)
     {
         PickerList = new List<SO_RandomEventContent>();
+        PickerList_Continue = new List<SO_RandomEventContent>();
 
         foreach (var item in so_data)
         {
             if (item.pool == addType)
             {
-                PickerList.Add(item);
+                switch (item.type)
+                {
+                    case RandomEventType.Once:
+                        PickerList.Add(item);
+                        break;
+
+                    case RandomEventType.Continuous:
+                        PickerList_Continue.Add(item);
+                        break;
+                }
             }
         }
     }
 
+
     //? 값에 맞게 랜덤이벤트를 뽑아오는 함수
-    List<SO_RandomEventContent> Pick_RE(int resultValue, int minPick, int maxPick, RandomEventPool addType)
+    List<SO_RandomEventContent> Pick_RE(int resultValue, int minPick, int maxPick, RandomEventPool addType, int re_Counter_Continue)
     {
         AddPicker(addType);
 
@@ -587,13 +719,18 @@ public class RandomEventManager : MonoBehaviour
         {
             //? 뽑기통 셔플
             Util.ListShuffle(PickerList);
+            Util.ListShuffle(PickerList_Continue);
+
             //? 이벤트 개수
             re_Counter = UnityEngine.Random.Range(minPick, maxPick);
+
             //? 뽑힌 이벤트 값 계산
-            tempValue = Calculation_RE_Value(re_Counter);
+            tempValue = Calculation_RE_Value(re_Counter, PickerList);
+            tempValue += Calculation_RE_Value(re_Counter_Continue, PickerList_Continue);
+
             //? 반복횟수
             counter++;
-            Debug.Log($"{counter}번 째 시도 : {re_Counter}개 이벤트의 값 = {tempValue}");
+            Debug.Log($"{counter}번 째 시도 : 일반형 {re_Counter}개 / 지속형 {re_Counter_Continue}개 총 Value = {tempValue}");
         }
 
         var tempList = new List<SO_RandomEventContent>();
@@ -601,6 +738,10 @@ public class RandomEventManager : MonoBehaviour
         for (int i = 0; i < re_Counter; i++)
         {
             tempList.Add(PickerList[i]);
+        }
+        for (int i = 0; i < re_Counter_Continue; i++)
+        {
+            tempList.Add(PickerList_Continue[i]);
         }
 
         return tempList;
@@ -616,33 +757,18 @@ public class RandomEventManager : MonoBehaviour
     }
 
 
-    int Calculation_RE_Value(int index)
+    int Calculation_RE_Value(int index, List<SO_RandomEventContent> _pickerList)
     {
         int sum = 0;
 
         for (int i = 0; i < index; i++)
         {
-            sum += PickerList[i].value;
+            sum += _pickerList[i].value;
         }
 
         return sum;
     }
     #endregion
-
-
-    #region 지속형 랜덤이벤트 시드 만들기
-
-    //? 이건 랜덤? 아니면 점수제? 어떻게 하는게 좋을까? 일반시드랑은 별개로 일어나긴 할텐데 음....
-
-    //? 걍 겜 시작시에 일반과 랜덤을 모두 더해서 정할까? 일반 몇개 랜덤 몇개 이런식으로?
-    //? 점수계산도 같이하고???? 흐으으음.....
-
-    
-
-
-
-    #endregion
-
 
 
 

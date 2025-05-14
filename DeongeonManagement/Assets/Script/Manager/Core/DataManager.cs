@@ -800,7 +800,7 @@ public class DataManager
         }
         catch (Exception e)
         {
-            Debug.Log($"Deleting old save file: {fileName}");
+            Debug.Log($"Exception {e} : Deleting old save file: {fileName}");
             DeleteSaveFile(fileName);
         }
     }
@@ -941,7 +941,7 @@ public class DataManager
         saveData.uniqueNPC_List = GameManager.NPC.Save_NPCData();
         saveData.artifactList = GameManager.Artifact.Save_ArtifactData();
         saveData.titleList = GameManager.Title.Save_TitlesData();
-        saveData.journalList = GameManager.Journal.Save_JournalData();
+        saveData.journalList = JournalManager.Instance.Save_JournalData();
 
 
         //? 아래 두개는 실제로 쓰는 데이터를 저장하는 관계로 저장할때와 로드할 때 각각 다 딥카피를 따로 해줘야함.
@@ -1027,13 +1027,13 @@ public class DataManager
         GameManager.NPC.Load_NPCData(loadData.uniqueNPC_List);
         GameManager.Artifact.Load_ArtifactData(loadData.artifactList);
         GameManager.Title.Load_TitlesData(loadData.titleList);
-        GameManager.Journal.Load_JournalData(loadData.journalList);
     }
     void LoadGuildData(SaveData loadData)
     {
         GuildManager.Instance.Data_LoadInstanceNPC(loadData.instanceGuildNPC);
         GuildManager.Instance.Data_LoadDeleteNPC(loadData.deleteGuildNPC);
         EventManager.Instance.Data_LoadEventManager(loadData);
+        JournalManager.Instance.Load_JournalData(loadData.journalList);
     }
 
 

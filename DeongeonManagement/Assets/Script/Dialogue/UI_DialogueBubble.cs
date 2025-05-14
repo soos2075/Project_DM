@@ -58,6 +58,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
     TextMeshProUGUI mainText;
     RectTransform bubbleImage;
     RectTransform textTransform;
+    RectTransform emojiTransform;
 
     public override void Init()
     {
@@ -70,6 +71,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
         bubbleImage = GetObject(((int)Contents.Bubble)).GetComponent<RectTransform>();
         mainText = GetObject(((int)Contents.Text)).GetComponent<TextMeshProUGUI>();
         textTransform = GetObject(((int)Contents.Text)).GetComponent<RectTransform>();
+        emojiTransform = GetObject(((int)Contents.Emoji)).GetComponent<RectTransform>();
 
         Init_BubblePosition();
         Init_Conversation();
@@ -204,6 +206,8 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
         textTransform.localScale = Vector3.one * -1;
         textTransform.localPosition = new Vector3(0, 10, 0);
 
+        emojiTransform.localScale = Vector3.one * -1;
+
         //GetComponent<RectTransform>().rotation = Quaternion.Euler(180, 0, 0);
         //GetObject(((int)Contents.Panel)).GetComponent<RectTransform>().localRotation = Quaternion.Euler(180, 0, 0);
         //textTransform.localRotation = Quaternion.Euler(180, 0, 0);
@@ -214,6 +218,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
         GetComponent<RectTransform>().localScale = Vector3.one * OffsetSize;
         textTransform.localScale = Vector3.one * 1;
         textTransform.localPosition = new Vector3(0, textTransform.sizeDelta.y / 2, 0);
+        emojiTransform.localScale = Vector3.one;
 
         //GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0);
         //GetObject(((int)Contents.Panel)).GetComponent<RectTransform>().localRotation = Quaternion.Euler(0, 0, 0);

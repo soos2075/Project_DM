@@ -1,6 +1,10 @@
 ID,KeyName,Name_KR,Detail_KR,Name_EN,Detail_EN,Name_JP,Detail_JP,Name_SCC,Detail_SCC
 1,,던전 마스터의 일,이제부터 시작이군.  \\일단은 던전의 랭크를 높이는 걸 목표로 해볼까?,Dungeon Master's Work,Now it begins. \\Should I aim to raise the dungeon's rank first?,ダンジョンマスターの仕事,これからが始まりだな。\\まずはダンジョンのランクを上げることを目標にしてみようか？,地下城主人的工作,现在才刚刚开始。\\首先以提高地下城的等级为目标吧？
 ,,,,,,,,,
+1000,,베스트 컨디션,컨디션이 최상이다. \최대 행동력 +2,Best Condition,Your condition is at its best. \Action Points +2,ベストコンディション,調子が最高だ。\AP +2,最佳状态,状态非常好。\行动力 +2
+1001,,워스트 컨디션,컨디션이 최악이다. \최대 행동력 ^2,Worst Condition,Your condition is at its worst. \Action Points ^2,ワーストコンディション,調子が最悪だ。\AP ^2,最差状态,状态非常糟。\行动力 ^2
+,,,,,,,,,
+,,,,,,,,,
 ,,,,,,,,,
 1100,,초보자 던전의 슬라임,초보자 던전의 슬라임을 괴롭히려는 헌터가 찾아온다. \평범한 슬라임이 아니라는 것을 알려주자.,Slime of the Novice Dungeon,A hunter is coming to harass the slime in the Novice Dungeon. \Let's show them that this is no ordinary slime.,初心者ダンジョンのスライム,初心者ダンジョンのスライムを困らせようとするハンターがやってくる。\普通のスライムではないことを教えてやろう。,新手地下城的史莱姆,有猎人来骚扰新手地下城的史莱姆。\让他们知道这不是普通的史莱姆。
 1101,,어스 골렘의 핵,어스 골렘을 사냥해 핵을 가져가려는 자가 있다. \골렘의 강함을 보여주자.,Earth Golem's Core,Someone is trying to hunt the Earth Golem and take its core. \Let's demonstrate the golem's strength.,アースゴーレムの核,アースゴーレムを狩って核を持ち帰ろうとする者がいる。\ゴーレムの強さを見せつけよう。,土元素巨像的核心,有人想猎杀土元素巨像并带走它的核心。\让我们展示巨像的强大。
@@ -25,7 +29,8 @@ ID,KeyName,Name_KR,Detail_KR,Name_EN,Detail_EN,Name_JP,Detail_JP,Name_SCC,Detail
 2103,,옆나라 성의 재건축,옆 나라 왕국에서 성의 재건축으로 인해 건축자재용 광물이 많이 필요하다고 한다. \이에 따라 당분간 광물을 원하는 모험가들이 많이 방문할 것 같다.,Reconstruction of Neighboring Castle,The neighboring kingdom needs many minerals for construction materials due to castle reconstruction. \It seems many adventurers looking for minerals will visit for a while.,隣国の城の再建,隣国の王国で城の再建により建築材料用の鉱物が大量に必要とされているそうです。\しばらくの間- 鉱物を求める冒険者が多く訪れそうです。,邻国城堡的重建,据说邻国因城堡重建需要大量建筑用矿物。\因此- 近期寻找矿物的冒险者可能会增多。
 2104,,최강 모험가 토너먼트,최강 모험가 토너먼트라는게 열린다고 한다. \그것을 위해 모험가들이 평소보다 더 부지런히 움직인다고 하니 주의하자.,Ultimate Adventurer Tournament,I hear that something called the Ultimate Adventurer Tournament will be held. \Adventurers are moving more diligently than usual for it - so let's be careful.,最強冒険者トーナメント,最強冒険者トーナメントというものが開催されるらしい。\そのために冒険者たちがいつもより忙しく動いているようなので注意しよう。,最强冒险者锦标赛,据说将举办一个叫做最强冒险者锦标赛的活动。\为此冒险者们比平时更加勤奋地活动，我们要注意。
 2105,,알 수 없는 전염병,전염병이 돌고 있다고 한다. 이상하게 나는 건강한걸? \모험가들만 약해진다면- 나쁠 건 없지.,Unknown Epidemic,They say an epidemic is going around. Strange that I'm healthy? \If only adventurers get weaker - that's not so bad.,原因不明の伝染病,伝染病が流行しているらしい。不思議なことに私は健康だが？\冒険者たちだけが弱くなるなら、悪いことではない。,不明传染病,据说有传染病正在流行。奇怪的是我很健康？\如果只有冒险者变弱，那也不是坏事。
-,,,,,,,,,
+2106,,[여신제],일정 기간 모험가들이 여신의 축복을 받아 강해진다. 평소보다 더 조심할 필요가 있겠어. \그런데 나는 왜 그대로지? \의문투성이군.,[Goddess Festival],For a certain period - adventurers receive the Goddess's blessing and become stronger. I need to be more careful than usual. \But why am I unchanged? \So many questions.,[女神祭],一定期間、冒険者たちが女神の祝福を受けて強くなる。普段より注意する必要がありそうだ。\でも私はなぜ変わらないのだろう？\疑問だらけだ。,[女神节],在特定时期，冒险者们获得女神祝福变得更强。需要比平时更加小心。\但为什么我没有变化？\真是疑问重重。
+2107,,골드가 많은 모험가,길드의 이벤트로 모험가들이 평소보다 골드를 더 많이 들고있다. \조금만 뜯어내 볼까?,More Gold,Due to the guild's event - adventurers are carrying more gold than usual. \Shall I skim a little off the top?,もっと多くのゴールド,ギルドのイベントで冒険者たちがいつもよりゴールドをたくさん持っている。\少し巻き上げてみようか？,更多金币,因公会活动，冒险者们比平时携带更多金币。\要不要敲诈一点？
 ,,,,,,,,,
 ,,,,,,,,,
 4020,,녹빛 궁사,초록머리의 궁사가 던전에 찾아온다. \뭔가를 찾고 있는듯 한데...?,Verdant Archer,A green^haired archer is coming to the dungeon. \It seems like they are looking for something...?,緑色の弓矢,緑髪の弓使いがダンジョンにやって来る。\何かを探しているようだけど...?,翠绿弓手,绿发的弓手来到了地下城。 \看起来像在寻找什么...？

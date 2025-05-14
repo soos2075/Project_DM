@@ -144,9 +144,8 @@ public class PlacementManager
         }
 
         //Debug.Log($"{obj.GetObject().name} 가 {obj.PlacementInfo.Place_Floor.Name_KR} - {obj.PlacementInfo.Place_Tile.index} 에서 해제");
-
         obj.PlacementInfo.Place_Floor.RemoveObject(obj);
-        obj.PlacementInfo.Place_Tile.ClearPlacement(obj);
+        obj.PlacementInfo.Place_Tile.ClearPlacement(obj, true);
         obj.PlacementInfo = null;
         Disable(obj);
     }
@@ -162,7 +161,7 @@ public class PlacementManager
 
     public void PlacementMove(IPlacementable obj, PlacementInfo newPlace)
     {
-        obj.PlacementInfo.Place_Tile.ClearPlacement(obj);
+        obj.PlacementInfo.Place_Tile.ClearPlacement(obj, false);
         obj.PlacementInfo = newPlace;
         newPlace.Place_Tile.SetPlacement(obj);
         //obj.GetObject().transform.position = obj.PlacementInfo.Place_Tile.worldPosition;

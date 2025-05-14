@@ -361,30 +361,33 @@ public class NPCManager
     }
 
 
-    public bool Event_Herb { get; set; }
-    public bool Event_Mineral { get; set; }
-    public bool Event_Monster { get; set; }
+    //public bool Event_Herb { get; set; }
+    //public bool Event_Mineral { get; set; }
+    //public bool Event_Monster { get; set; }
 
     public void Event_ValueChange()
     {
-        if (Event_Herb)
+        if (RandomEventManager.Instance.Check_Current_ContinueEvent(RandomEventManager.ContinueRE.Herbalist_Visit_Up))
         {
-            Weight_NPC[NPC_Type_Normal.Herbalist1] *= 4;
-            Weight_NPC[NPC_Type_Normal.Herbalist2] *= 4;
-            Weight_NPC[NPC_Type_Normal.Herbalist3] *= 4;
-            Weight_NPC[NPC_Type_Normal.Elf] *= 4;
+            Weight_NPC[NPC_Type_Normal.Herbalist1] *= 5;
+            Weight_NPC[NPC_Type_Normal.Herbalist2] *= 5;
+            Weight_NPC[NPC_Type_Normal.Herbalist3] *= 5;
+            Weight_NPC[NPC_Type_Normal.Elf] *= 5;
         }
 
-        if (Event_Mineral)
+        if (RandomEventManager.Instance.Check_Current_ContinueEvent(RandomEventManager.ContinueRE.Miner_Visit_Up))
         {
-            Weight_NPC[NPC_Type_Normal.Miner1] *= 4;
-            Weight_NPC[NPC_Type_Normal.Miner2] *= 4;
-            Weight_NPC[NPC_Type_Normal.Miner3] *= 4;
-            Weight_NPC[NPC_Type_Normal.Wizard] *= 4;
+            Weight_NPC[NPC_Type_Normal.Miner1] *= 5;
+            Weight_NPC[NPC_Type_Normal.Miner2] *= 5;
+            Weight_NPC[NPC_Type_Normal.Miner3] *= 5;
+            Weight_NPC[NPC_Type_Normal.Wizard] *= 5;
         }
-        if (Event_Monster)
+        if (RandomEventManager.Instance.Check_Current_ContinueEvent(RandomEventManager.ContinueRE.Adv_Visit_Up))
         {
-
+            Weight_NPC[NPC_Type_Normal.Adventurer1] *= 5;
+            Weight_NPC[NPC_Type_Normal.Adventurer2] *= 5;
+            Weight_NPC[NPC_Type_Normal.DarkElf] *= 5;
+            Weight_NPC[NPC_Type_Normal.Vampire] *= 5;
         }
 
 

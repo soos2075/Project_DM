@@ -86,7 +86,7 @@ public class UI_QuestBoard : UI_PopUp, IDialogue
         foreach (var item in Data.TextDataList)
         {
             GetTMP(((int)TMP.Content)).text += item.mainText;
-            GetTMP(((int)TMP.Content)).text += "\n\n";
+            GetTMP(((int)TMP.Content)).text += "\n";
         }
     }
 

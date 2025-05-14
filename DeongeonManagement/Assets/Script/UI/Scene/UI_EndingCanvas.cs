@@ -339,17 +339,17 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
     }
 
 
-    //void SkipText()
-    //{
-    //    if (isTyping)
-    //    {
-    //        isSkip = true;
-    //    }
-    //    else
-    //    {
-    //        isTyping = true;
-    //    }
-    //}
+    void SkipText()
+    {
+        if (isTyping)
+        {
+            isSkip = true;
+        }
+        else
+        {
+            isTyping = true;
+        }
+    }
 
 
 
