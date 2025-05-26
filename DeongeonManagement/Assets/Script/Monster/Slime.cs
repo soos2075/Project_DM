@@ -28,7 +28,7 @@ public class Slime : Monster
     public override void Load_EvolutionMonster()
     {
         Data = GameManager.Monster.GetData("BloodySlime");
-        GameManager.Monster.ChangeSLA_New(this, "Slime_Bloody");
+        GameManager.Monster.ChangeSLA(this, "Slime_Bloody");
 
         GameManager.Monster.Regist_Evolution("Slime");
 

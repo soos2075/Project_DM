@@ -187,37 +187,37 @@ public class RandomEventManager : MonoBehaviour
         RandomEventActionDict.Add(900, () =>
         {
             Debug.Log("Action : 900");
-            GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Mastia.ToString(), 5, NPC_Typeof.NPC_Type_RandomEvent);
+            GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Mastia.ToString(), 10, NPC_Typeof.NPC_Type_RandomEvent);
         });
 
         RandomEventActionDict.Add(901, () =>
         {
             Debug.Log("Action : 901");
-            GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Karen.ToString(), 5, NPC_Typeof.NPC_Type_RandomEvent);
+            GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Karen.ToString(), 10, NPC_Typeof.NPC_Type_RandomEvent);
         });
 
         RandomEventActionDict.Add(902, () =>
         {
             Debug.Log("Action : 902");
-            GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Stan.ToString(), 5, NPC_Typeof.NPC_Type_RandomEvent);
+            GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Stan.ToString(), 10, NPC_Typeof.NPC_Type_RandomEvent);
         });
 
         RandomEventActionDict.Add(903, () =>
         {
             Debug.Log("Action : 903");
-            GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Euh.ToString(), 5, NPC_Typeof.NPC_Type_RandomEvent);
+            GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Euh.ToString(), 10, NPC_Typeof.NPC_Type_RandomEvent);
         });
 
         RandomEventActionDict.Add(904, () =>
         {
             Debug.Log("Action : 904");
-            GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Romys.ToString(), 5, NPC_Typeof.NPC_Type_RandomEvent);
+            GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Romys.ToString(), 10, NPC_Typeof.NPC_Type_RandomEvent);
         });
 
         RandomEventActionDict.Add(905, () =>
         {
             Debug.Log("Action : 905");
-            GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Siri.ToString(), 5, NPC_Typeof.NPC_Type_RandomEvent);
+            GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Siri.ToString(), 10, NPC_Typeof.NPC_Type_RandomEvent);
         });
 
 
@@ -535,7 +535,7 @@ public class RandomEventManager : MonoBehaviour
         switch (difficulty)
         {
             case Define.DifficultyLevel.Easy:
-                re = Pick_RE(30, 4, 7, RandomEventPool.Normal, 3);
+                re = Pick_RE(50, 4, 7, RandomEventPool.Normal, 3);
                 break;
 
             case Define.DifficultyLevel.Normal:
@@ -543,12 +543,12 @@ public class RandomEventManager : MonoBehaviour
                 break;
 
             case Define.DifficultyLevel.Hard:
-                re = Pick_RE(-30, 6, 9, RandomEventPool.Normal, 4);
+                re = Pick_RE(-50, 7, 10, RandomEventPool.Normal, 4);
                 break;
 
-            case Define.DifficultyLevel.VeryHard:
-                re = Pick_RE(-60, 7, 10, RandomEventPool.Normal, 4);
-                break;
+            //case Define.DifficultyLevel.VeryHard:
+            //    re = Pick_RE(-60, 7, 10, RandomEventPool.Normal, 4);
+            //    break;
 
             case Define.DifficultyLevel.Master:
                 re = Pick_RE(-100, 8, 12, RandomEventPool.Normal, 5);

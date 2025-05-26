@@ -572,6 +572,11 @@ public class EventManager : MonoBehaviour
                     break;
 
                 case Guild_DayOption.Always:
+                    var data = GuildManager.Instance.GetData(item.Original_Index);
+                    if (data.MultipleNPC && UserData.Instance.FileConfig.PlayRounds <= 1)
+                    {
+                        break;
+                    }
                     if (GuildManager.Instance.GetData(item.Original_Index).FirstDay <= CurrentTurn)
                     {
                         Debug.Log($"길드 퀘스트 발생중 : {item.Original_Index}");
@@ -611,6 +616,10 @@ public class EventManager : MonoBehaviour
             if ((GuildNPC_LabelName)item.Original_Index == GuildNPC_LabelName.StaffA)
             {
                 if (item.OptionList.Count >= 2)
+                {
+                    return true;
+                }
+                if (item.OptionList.Count >= 1 && item.OptionList[0] != 100)
                 {
                     return true;
                 }
@@ -1265,13 +1274,13 @@ public class EventManager : MonoBehaviour
         {
             GuildManager.Instance.AddBackAction(() =>
             {
-                GameManager.Artifact.AddArtifact(ArtifactLabel.Racing);
+                GameManager.Artifact.AddArtifact(ArtifactLabel.Racing, true);
 
-                var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
-                message.DelayTime = 2;
-                //? 신규 아티팩트
-                message.Message = $"{UserData.Instance.LocaleText("New")}{UserData.Instance.LocaleText("아티팩트")} : " +
-                $"{GameManager.Artifact.GetData("Racing").labelName}";
+                //var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
+                //message.DelayTime = 2;
+                ////? 신규 아티팩트
+                //message.Message = $"{UserData.Instance.LocaleText("New")}{UserData.Instance.LocaleText("아티팩트")} : " +
+                //$"{GameManager.Artifact.GetData("Racing").labelName}";
             });
         });
 
@@ -1595,7 +1604,7 @@ public class EventManager : MonoBehaviour
             //? 아티팩트 추가
             GuildManager.Instance.AddBackAction(() =>
             {
-                GameManager.Artifact.AddArtifact(ArtifactLabel.TouchOfDecay);
+                GameManager.Artifact.AddArtifact(ArtifactLabel.TouchOfDecay, true);
             });
             //? 용사이벤트 추가 (퀘스트에 등록될 예비이벤트임)
             //AddQuestAction(7710003);
@@ -1619,7 +1628,7 @@ public class EventManager : MonoBehaviour
             saveData.mainData.Player_Gold -= 800;
             GuildManager.Instance.AddBackAction(() =>
             {
-                GameManager.Artifact.AddArtifact(ArtifactLabel.BananaBone);
+                GameManager.Artifact.AddArtifact(ArtifactLabel.BananaBone, true);
             });
             Clear_GuildQuest(5199);
             Clear_GuildQuest(5299);
@@ -1645,14 +1654,14 @@ public class EventManager : MonoBehaviour
                 GameManager.Artifact.Add_RandomArtifact();
             });
         });
-        EventAction.Add("Artifact_ID", () =>
-        {
-            Debug.Log("유물 ID 구매");
-            GuildManager.Instance.AddBackAction(() =>
-            {
-                GameManager.Artifact.AddArtifact(ArtifactLabel.Pearl); //? 추가한 아티팩트로 바꾸면 댐
-            });
-        });
+        //EventAction.Add("Artifact_ID", () =>
+        //{
+        //    Debug.Log("유물 ID 구매");
+        //    GuildManager.Instance.AddBackAction(() =>
+        //    {
+        //        GameManager.Artifact.AddArtifact(ArtifactLabel.Pearl, true); //? 추가한 아티팩트로 바꾸면 댐
+        //    });
+        //});
 
 
         EventAction.Add("Monster_Yes", () =>
@@ -1759,13 +1768,13 @@ public class EventManager : MonoBehaviour
             {
                 GuildManager.Instance.AddDeleteGuildNPC(GuildNPC_LabelName.Soothsayer);
 
-                GameManager.Artifact.AddArtifact(ArtifactLabel.SoothsayerOrb);
+                GameManager.Artifact.AddArtifact(ArtifactLabel.SoothsayerOrb, true);
 
-                var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
-                message.DelayTime = 2;
-                //? 신규 아티팩트
-                message.Message = $"{UserData.Instance.LocaleText("New")}{UserData.Instance.LocaleText("아티팩트")} : " +
-                $"{GameManager.Artifact.GetData("SoothsayerOrb").labelName}";
+                //var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
+                //message.DelayTime = 2;
+                ////? 신규 아티팩트
+                //message.Message = $"{UserData.Instance.LocaleText("New")}{UserData.Instance.LocaleText("아티팩트")} : " +
+                //$"{GameManager.Artifact.GetData("SoothsayerOrb").labelName}";
             });
         });
 

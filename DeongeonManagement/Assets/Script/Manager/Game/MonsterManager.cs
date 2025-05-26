@@ -141,6 +141,9 @@ public class MonsterManager
                 monster.TurnStart();
             }
         }
+
+        //? 플레이어는 유닛으로 등록이 안되있으니 따로 호출해줘야함
+        Main.Instance.Player.GetComponent<Player>().TurnStart();
     }
 
     public void MonsterTurnOverEvent()
@@ -152,6 +155,9 @@ public class MonsterManager
                 monster.TurnOver();
             }
         }
+
+        //? 플레이어는 유닛으로 등록이 안되있으니 따로 호출해줘야함
+        Main.Instance.Player.GetComponent<Player>().TurnOver();
 
         Main.Instance.CurrentStatistics.Highest_Unit_Lv = GetCurrentHighestLv();
         Main.Instance.CurrentStatistics.Hightest_Unit_Size = GetCurrentMonsterSize();
@@ -404,7 +410,7 @@ public class MonsterManager
 
     public void Resize_MonsterSlot()
     {
-        int size = slotSize + Main.Instance.AddUnitSlotCount + (Main.Instance.DungeonRank - 1) * 2;
+        int size = slotSize + Main.Instance.AddUnitSlotCount + (Main.Instance.DungeonRank - 1) * 3;
         //if (EventManager.Instance.CurrentClearEventData.Check_AlreadyClear(DialogueName.Heroine_40))
         //{
         //    size++;
@@ -422,7 +428,7 @@ public class MonsterManager
 
     void Init_MonsterSlot()
     {
-        int size = slotSize + Main.Instance.AddUnitSlotCount + (Main.Instance.DungeonRank - 1) * 2;
+        int size = slotSize + Main.Instance.AddUnitSlotCount + (Main.Instance.DungeonRank - 1) * 3;
         Monsters = new Monster[size];
     }
 
@@ -528,25 +534,45 @@ public class MonsterManager
     }
     public void ChangeSLA(Monster _monster, string _SLA)
     {
+        SpriteLibraryAsset newSLA = null;
+
         foreach (var item in Monster_SLA)
         {
             if (item.name == _SLA)
             {
-                _monster.GetComponentInChildren<SpriteLibrary>().spriteLibraryAsset = item;
+                newSLA = item;
+                //_monster.GetComponentInChildren<SpriteLibrary>().spriteLibraryAsset = item;
             }
         }
-    }
 
-    public void ChangeSLA_New(Monster _monster, string _SLA)
-    {
+        //? 구버전 신버전이 있음 (예를 들면 Fairy). 근데 무조건 신버전으로 업데이트 한다음 교체하기로
         foreach (var item in Monster_SLA_New)
         {
             if (item.name == _SLA)
             {
-                _monster.GetComponentInChildren<SpriteLibrary>().spriteLibraryAsset = item;
+                newSLA = item;
+                //_monster.GetComponentInChildren<SpriteLibrary>().spriteLibraryAsset = item;
             }
         }
+
+        if (newSLA != null)
+        {
+            _monster.GetComponentInChildren<SpriteLibrary>().spriteLibraryAsset = newSLA;
+            return;
+        }
+        Debug.Log($"SpriteAsset is Null : {_SLA}");
     }
+
+    //public void ChangeSLA_New(Monster _monster, string _SLA)
+    //{
+    //    foreach (var item in Monster_SLA_New)
+    //    {
+    //        if (item.name == _SLA)
+    //        {
+    //            _monster.GetComponentInChildren<SpriteLibrary>().spriteLibraryAsset = item;
+    //        }
+    //    }
+    //}
 
 
     #endregion

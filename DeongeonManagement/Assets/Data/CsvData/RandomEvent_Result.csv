@@ -1,100 +1,100 @@
-ID,Description_KR,Description_EN,Description_JP,Description_SCC
-,,,,
-101,모든 전투 불능 유닛이 회복,All incapacitated units recover,全ての戦闘不能ユニットが回復,所有战斗不能单位恢复
-102,2기의 유닛이 전투 불능,2 units are incapacitated,2体のユニットが戦闘不能,2个单位战斗不能
-103,4기의 유닛이 전투 불능,4 units are incapacitated,4体のユニットが戦闘不能,4个单位战斗不能
-104,6기의 유닛이 전투 불능,6 units are incapacitated,6体のユニットが戦闘不能,6个单位战斗不能
-105,8기의 유닛이 전투 불능,8 units are incapacitated,8体のユニットが戦闘不能,8个单位战斗不能
-106,3기의 전투 불능 유닛이 회복,3 incapacitated units recover,3体の戦闘不能ユニットが回復,3个战斗不能单位恢复
-107,6기의 전투 불능 유닛이 회복,6 incapacitated units recover,6体の戦闘不能ユニットが回復,6个战斗不能单位恢复
-,,,,
-,,,,
-,,,,
-,,,,
-111,설치된 모든 약초의 사용 횟수가 50% 증가,Usage count of all installed herbs increased by 50%,設置された全ての薬草の使用回数が50%増加,所有已安装草药的使用次数增加50%
-112,설치된 모든 약초의 사용 횟수가 100% 증가,Usage count of all installed herbs increased by 100%,設置された全ての薬草の使用回数が100%増加,所有已安装草药的使用次数增加100%
-113,설치된 모든 약초의 사용 횟수가 50% 감소,Usage count of all installed herbs decreased by 50%,設置された全ての薬草の使用回数が50%減少,所有已安装草药的使用次数减少50%
-114,설치된 모든 약초가 50% 확률로 소멸됨,All installed herbs have 50% chance to vanish,設置された全ての薬草が50%の確率で消滅,所有已安装草药有50%几率消失
-115,설치된 모든 약초의 사용 횟수가 1로 감소,Usage count of all installed herbs reduced to 1,設置された全ての薬草の使用回数が1に減少,所有已安装草药的使用次数减少至1
-,,,,
-,,,,
-,,,,
-121,설치된 모든 광물의 사용 횟수가 50% 증가,Usage count of all installed minerals increased by 50%,設置された全ての鉱物の使用回数が50%増加,所有已安装矿物的使用次数增加50%
-122,설치된 모든 광물의 사용 횟수가 100% 증가,Usage count of all installed minerals increased by 100%,設置された全ての鉱物の使用回数が100%増加,所有已安装矿物的使用次数增加100%
-123,설치된 모든 광물의 사용 횟수가 50% 감소,Usage count of all installed minerals decreased by 50%,設置された全ての鉱物の使用回数が50%減少,所有已安装矿物的使用次数减少50%
-124,설치된 모든 광물이 50% 확률로 소멸됨,All installed minerals have 50% chance to vanish,設置された全ての鉱物が50%の確率で消滅,所有已安装矿物有50%几率消失
-125,설치된 모든 광물의 사용 횟수가 1로 감소,Usage count of all installed minerals reduced to 1,設置された全ての鉱物の使用回数が1に減少,所有已安装矿物的使用次数减少至1
-,,,,
-,,,,
-,,,,
-131,모든 유닛의 LV +1,All units LV +1,全てのユニットのLV +1,所有单位LV +1
-132,모든 유닛의 ATK +2,All units ATK +2,全てのユニットのATK +2,所有单位ATK +2
-133,모든 유닛의 DEF +1,All units DEF +1,全てのユニットのDEF +1,所有单位DEF +1
-134,모든 유닛의 AGI +1,All units AGI +1,全てのユニットのAGI +1,所有单位AGI +1
-135,모든 유닛의 LUK +1,All units LUK +1,全てのユニットのLUK +1,所有单位LUK +1
-136,모든 유닛의 ALL STAT +1,All units ALL STAT +1,全てのユニットのALL STAT +1,所有单位ALL STAT +1
-,,,,
-142,모든 유닛의 ATK ^2,All units ATK ^2,全てのユニットのATK ^2,所有单位ATK ^2
-143,모든 유닛의 DEF ^1,All units DEF ^1,全てのユニットのDEF ^1,所有单位DEF ^1
-144,모든 유닛의 AGI ^1,All units AGI ^1,全てのユニットのAGI ^1,所有单位AGI ^1
-145,모든 유닛의 LUK ^1,All units LUK ^1,全てのユニットのLUK ^1,所有单位LUK ^1
-146,모든 유닛의 ALL STAT ^1,All units ALL STAT ^1,全てのユニットのALL STAT ^1,所有单位ALL STAT ^1
-,,,,
-,,,,
-,,,,
-,,,,
-900,던전에 특별한 모험가가 방문합니다,A special adventurer visits the dungeon,特別な冒険者がダンジョンを訪れます,特殊冒险者访问地下城
-901,던전에 특별한 모험가가 방문합니다,A special adventurer visits the dungeon,特別な冒険者がダンジョンを訪れます,特殊冒险者访问地下城
-902,던전에 특별한 모험가가 방문합니다,A special adventurer visits the dungeon,特別な冒険者がダンジョンを訪れます,特殊冒险者访问地下城
-903,던전에 특별한 모험가가 방문합니다,A special adventurer visits the dungeon,特別な冒険者がダンジョンを訪れます,特殊冒险者访问地下城
-904,던전에 특별한 모험가가 방문합니다,A special adventurer visits the dungeon,特別な冒険者がダンジョンを訪れます,特殊冒险者访问地下城
-905,던전에 특별한 모험가가 방문합니다,A special adventurer visits the dungeon,特別な冒険者がダンジョンを訪れます,特殊冒险者访问地下城
-,,,,
-1000,행동력 최대치 +2,Best Condition,+10,
-1001,행동력 최대치 -2,Worst Condition,-10,
-,,,,
-,,,,
-1110,몬스터웨이브 이벤트,Monster Wave,+20,
-1111,몬스터 대토벌 이벤트,Monster Extermination,-20,
-,,,,
-,,,,
-2102,약초꾼 증가 이벤트,Herb up,0,
-2103,광부 증가 이벤트,Miner Up,0,
-2104,모험가 증가 이벤트,Adv Up,0,
-2105,모험가 약화 이벤트,Adv Power Down,+30,
-2106,모험가 강화 이벤트,Adv Power Up,-30,
-2107,길드 의뢰 보너스 이벤트,Gold +50%,+10,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
+ID,Description_KR,Description_EN,Description_JP,Description_SC,Description_TC
+,,,,,
+101,모든 전투 불능 유닛이 회복,All incapacitated units recover,全ての戦闘不能ユニットが回復,所有战斗不能单位恢复,所有戰鬥不能單位恢復
+102,2기의 유닛이 전투 불능,2 units are incapacitated,2体のユニットが戦闘不能,2个单位战斗不能,2個單位戰鬥不能
+103,4기의 유닛이 전투 불능,4 units are incapacitated,4体のユニットが戦闘不能,4个单位战斗不能,4個單位戰鬥不能
+104,6기의 유닛이 전투 불능,6 units are incapacitated,6体のユニットが戦闘不能,6个单位战斗不能,6個單位戰鬥不能
+105,8기의 유닛이 전투 불능,8 units are incapacitated,8体のユニットが戦闘不能,8个单位战斗不能,8個單位戰鬥不能
+106,3기의 전투 불능 유닛이 회복,3 incapacitated units recover,3体の戦闘不能ユニットが回復,3个战斗不能单位恢复,3個戰鬥不能單位恢復
+107,6기의 전투 불능 유닛이 회복,6 incapacitated units recover,6体の戦闘不能ユニットが回復,6个战斗不能单位恢复,6個戰鬥不能單位恢復
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+111,설치된 모든 약초의 사용 횟수가 50% 증가,Usage count of all installed herbs increased by 50%,設置された全ての薬草の使用回数が50%増加,所有已安装草药的使用次数增加50%,所有已安裝草藥的使用次数增加50%
+112,설치된 모든 약초의 사용 횟수가 100% 증가,Usage count of all installed herbs increased by 100%,設置された全ての薬草の使用回数が100%増加,所有已安装草药的使用次数增加100%,所有已安裝草藥的使用次数增加100%
+113,설치된 모든 약초의 사용 횟수가 50% 감소,Usage count of all installed herbs decreased by 50%,設置された全ての薬草の使用回数が50%減少,所有已安装草药的使用次数减少50%,所有已安裝草藥的使用次数减少50%
+114,설치된 모든 약초가 50% 확률로 소멸됨,All installed herbs have 50% chance to vanish,設置された全ての薬草が50%の確率で消滅,所有已安装草药有50%几率消失,所有已安裝草藥有50%几率消失
+115,설치된 모든 약초의 사용 횟수가 1로 감소,Usage count of all installed herbs reduced to 1,設置された全ての薬草の使用回数が1に減少,所有已安装草药的使用次数减少至1,所有已安裝草藥的使用次数减少至1
+,,,,,
+,,,,,
+,,,,,
+121,설치된 모든 광물의 사용 횟수가 50% 증가,Usage count of all installed minerals increased by 50%,設置された全ての鉱物の使用回数が50%増加,所有已安装矿物的使用次数增加50%,所有已安裝礦物的使用次数增加50%
+122,설치된 모든 광물의 사용 횟수가 100% 증가,Usage count of all installed minerals increased by 100%,設置された全ての鉱物の使用回数が100%増加,所有已安装矿物的使用次数增加100%,所有已安裝礦物的使用次数增加100%
+123,설치된 모든 광물의 사용 횟수가 50% 감소,Usage count of all installed minerals decreased by 50%,設置された全ての鉱物の使用回数が50%減少,所有已安装矿物的使用次数减少50%,所有已安裝礦物的使用次数减少50%
+124,설치된 모든 광물이 50% 확률로 소멸됨,All installed minerals have 50% chance to vanish,設置された全ての鉱物が50%の確率で消滅,所有已安装矿物有50%几率消失,所有已安裝礦物有50%几率消失
+125,설치된 모든 광물의 사용 횟수가 1로 감소,Usage count of all installed minerals reduced to 1,設置された全ての鉱物の使用回数が1に減少,所有已安装矿物的使用次数减少至1,所有已安裝礦物的使用次数减少至1
+,,,,,
+,,,,,
+,,,,,
+131,모든 유닛의 LV +1,All units LV +1,全てのユニットのLV +1,所有单位LV +1,所有單位LV +1
+132,모든 유닛의 ATK +2,All units ATK +2,全てのユニットのATK +2,所有单位ATK +2,所有單位ATK +2
+133,모든 유닛의 DEF +1,All units DEF +1,全てのユニットのDEF +1,所有单位DEF +1,所有單位DEF +1
+134,모든 유닛의 AGI +1,All units AGI +1,全てのユニットのAGI +1,所有单位AGI +1,所有單位AGI +1
+135,모든 유닛의 LUK +1,All units LUK +1,全てのユニットのLUK +1,所有单位LUK +1,所有單位LUK +1
+136,모든 유닛의 ALL STAT +1,All units ALL STAT +1,全てのユニットのALL STAT +1,所有单位ALL STAT +1,所有單位ALL STAT +1
+,,,,,
+142,모든 유닛의 ATK ^2,All units ATK ^2,全てのユニットのATK ^2,所有单位ATK ^2,所有單位ATK ^2
+143,모든 유닛의 DEF ^1,All units DEF ^1,全てのユニットのDEF ^1,所有单位DEF ^1,所有單位DEF ^1
+144,모든 유닛의 AGI ^1,All units AGI ^1,全てのユニットのAGI ^1,所有单位AGI ^1,所有單位AGI ^1
+145,모든 유닛의 LUK ^1,All units LUK ^1,全てのユニットのLUK ^1,所有单位LUK ^1,所有單位LUK ^1
+146,모든 유닛의 ALL STAT ^1,All units ALL STAT ^1,全てのユニットのALL STAT ^1,所有单位ALL STAT ^1,所有單位ALL STAT ^1
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+900,던전에 특별한 모험가가 방문합니다,A special adventurer visits the dungeon,特別な冒険者がダンジョンを訪れます,特殊冒险者访问地下城,特殊冒險者訪問地下城
+901,던전에 특별한 모험가가 방문합니다,A special adventurer visits the dungeon,特別な冒険者がダンジョンを訪れます,特殊冒险者访问地下城,特殊冒險者訪問地下城
+902,던전에 특별한 모험가가 방문합니다,A special adventurer visits the dungeon,特別な冒険者がダンジョンを訪れます,特殊冒险者访问地下城,特殊冒險者訪問地下城
+903,던전에 특별한 모험가가 방문합니다,A special adventurer visits the dungeon,特別な冒険者がダンジョンを訪れます,特殊冒险者访问地下城,特殊冒險者訪問地下城
+904,던전에 특별한 모험가가 방문합니다,A special adventurer visits the dungeon,特別な冒険者がダンジョンを訪れます,特殊冒险者访问地下城,特殊冒險者訪問地下城
+905,던전에 특별한 모험가가 방문합니다,A special adventurer visits the dungeon,特別な冒険者がダンジョンを訪れます,特殊冒险者访问地下城,特殊冒險者訪問地下城
+,,,,,
+1000,행동력 최대치 +2,Best Condition,+10,,
+1001,행동력 최대치 ^2,Worst Condition,-10,,
+,,,,,
+,,,,,
+1110,몬스터웨이브 이벤트,Monster Wave,+20,,
+1111,몬스터 대토벌 이벤트,Monster Extermination,-20,,
+,,,,,
+,,,,,
+2102,약초꾼 증가 이벤트,Herb up,0,,
+2103,광부 증가 이벤트,Miner Up,0,,
+2104,모험가 증가 이벤트,Adv Up,0,,
+2105,모험가 약화 이벤트,Adv Power Down,+30,,
+2106,모험가 강화 이벤트,Adv Power Up,-30,,
+2107,길드 의뢰 보너스 이벤트,Gold +50%,+10,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,

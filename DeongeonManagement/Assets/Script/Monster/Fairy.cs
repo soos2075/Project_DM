@@ -21,7 +21,7 @@ public class Fairy : Monster
     public override void Load_EvolutionMonster()
     {
         Data = GameManager.Monster.GetData("Pixie");
-        GameManager.Monster.ChangeSLA_New(this, "Pixie");
+        GameManager.Monster.ChangeSLA(this, "Pixie");
         GameManager.Monster.Regist_Evolution("Fairy");
     }
 

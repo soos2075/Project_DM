@@ -212,12 +212,26 @@ public class ArtifactManager
         return false;
     }
 
-    public void AddArtifact(ArtifactLabel label)
+    public void AddArtifact(ArtifactLabel label, bool popUp = false)
     {
         GetArtifact(label).Add();
         Artifact_Effection();
         Artifact_AddCallback(label);
         ArtifactBox.Box_Update();
+
+
+        if (popUp)
+        {
+            Managers.UI.Popup_Reservation(() => {
+                var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
+                message.DelayTime = 0.5f;
+                //? ½Å±Ô ¾ÆÆ¼ÆÑÆ®
+                var arti = GameManager.Artifact.GetData((int)label);
+                message.Message = $"{UserData.Instance.LocaleText("New")}{UserData.Instance.LocaleText("¾ÆÆ¼ÆÑÆ®")} : {arti.labelName}";
+                Sprite sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.Artifact, arti.SLA_category, arti.SLA_label);
+                message.Set_Image(sprite);
+            });
+        }
     }
     public void SubtractArtifact(ArtifactLabel label)
     {
@@ -230,20 +244,20 @@ public class ArtifactManager
     public void Add_RandomArtifact()
     {
         int random = Random.Range((int)ArtifactLabel.Harp, (int)ArtifactLabel.Dice + 1);
-        AddArtifact((ArtifactLabel)random);
+        AddArtifact((ArtifactLabel)random, true);
 
 
-        Managers.UI.Popup_Reservation(() => {
-            var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
-            message.DelayTime = 0;
-            //? ½Å±Ô ¾ÆÆ¼ÆÑÆ®
-            var arti = GameManager.Artifact.GetData(random);
-            message.Message = $"{UserData.Instance.LocaleText("New")}{UserData.Instance.LocaleText("¾ÆÆ¼ÆÑÆ®")} : {arti.labelName}";
-            Sprite sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.Artifact, arti.SLA_category, arti.SLA_label);
-            message.Set_Image(sprite);
+        //Managers.UI.Popup_Reservation(() => {
+        //    var message = Managers.UI.ShowPopUp<UI_SystemMessage>();
+        //    message.DelayTime = 0;
+        //    //? ½Å±Ô ¾ÆÆ¼ÆÑÆ®
+        //    var arti = GameManager.Artifact.GetData(random);
+        //    message.Message = $"{UserData.Instance.LocaleText("New")}{UserData.Instance.LocaleText("¾ÆÆ¼ÆÑÆ®")} : {arti.labelName}";
+        //    Sprite sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.Artifact, arti.SLA_category, arti.SLA_label);
+        //    message.Set_Image(sprite);
 
-            //message.Message += $"\n\naa\n\nfwab";
-        });
+        //    //message.Message += $"\n\naa\n\nfwab";
+        //});
     }
 
 

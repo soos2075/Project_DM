@@ -24,7 +24,7 @@ public class Salamandra : Monster
     public override void Load_EvolutionMonster()
     {
         Data = GameManager.Monster.GetData("Salinu");
-        GameManager.Monster.ChangeSLA_New(this, "Salinu");
+        GameManager.Monster.ChangeSLA(this, "Salinu");
         GameManager.Monster.Regist_Evolution("Salamandra");
     }
 

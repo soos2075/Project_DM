@@ -512,6 +512,7 @@ public class BattleField : MonoBehaviour
     {
         obj_Left = Instantiate(npc.gameObject, pos_Left);
         Destroy(obj_Left.GetComponent<NPC>());
+        Destroy(obj_Left.GetComponentInChildren<Anim_BattleStatus>().gameObject);
         obj_Left.transform.localPosition = Vector3.zero;
         obj_Left.transform.localScale = Vector3.one * 2;
         obj_Left.GetComponentInChildren<SpriteRenderer>().sortingOrder = sort + 1;
@@ -521,6 +522,7 @@ public class BattleField : MonoBehaviour
 
         obj_Right = Instantiate(monster.gameObject, pos_Right);
         Destroy(obj_Right.GetComponent<Monster>());
+        Destroy(obj_Right.GetComponentInChildren<Anim_BattleStatus>().gameObject);
         obj_Right.transform.localPosition = Vector3.zero;
         obj_Right.transform.localScale = Vector3.one * 2;
         obj_Right.GetComponentInChildren<SpriteRenderer>().flipX = true;
@@ -735,17 +737,17 @@ public class BattleField : MonoBehaviour
     void StartEffect_Monster()
     {
         //? 버프
-        if (monster.TraitCheck(TraitGroup.Succubus)) { npc.BattleStatus.AddValue(BattleStatusLabel.Chance, 1); }
-        if (monster.TraitCheck(TraitGroup.Succubus_V2)) { npc.BattleStatus.AddValue(BattleStatusLabel.Chance, 2); }
+        if (monster.TraitCheck(TraitGroup.Succubus)) { monster.BattleStatus.AddValue(BattleStatusLabel.Chance, 1); }
+        if (monster.TraitCheck(TraitGroup.Succubus_V2)) { monster.BattleStatus.AddValue(BattleStatusLabel.Chance, 2); }
 
-        if (monster.TraitCheck(TraitGroup.ToughSkin)) { npc.BattleStatus.AddValue(BattleStatusLabel.Guard, 1); }
-        if (monster.TraitCheck(TraitGroup.ToughSkin_V2)) { npc.BattleStatus.AddValue(BattleStatusLabel.Guard, 2); }
+        if (monster.TraitCheck(TraitGroup.ToughSkin)) { monster.BattleStatus.AddValue(BattleStatusLabel.Guard, 1); }
+        if (monster.TraitCheck(TraitGroup.ToughSkin_V2)) { monster.BattleStatus.AddValue(BattleStatusLabel.Guard, 2); }
 
-        if (monster.TraitCheck(TraitGroup.Wind)) { npc.BattleStatus.AddValue(BattleStatusLabel.Haste, 1); }
-        if (monster.TraitCheck(TraitGroup.Wind_V2)) { npc.BattleStatus.AddValue(BattleStatusLabel.Haste, 2); }
+        if (monster.TraitCheck(TraitGroup.Wind)) { monster.BattleStatus.AddValue(BattleStatusLabel.Haste, 1); }
+        if (monster.TraitCheck(TraitGroup.Wind_V2)) { monster.BattleStatus.AddValue(BattleStatusLabel.Haste, 2); }
 
-        if (monster.TraitCheck(TraitGroup.Fierce)) { npc.BattleStatus.AddValue(BattleStatusLabel.Sharp, 1); }
-        if (monster.TraitCheck(TraitGroup.Fierce_V2)) { npc.BattleStatus.AddValue(BattleStatusLabel.Sharp, 2); }
+        if (monster.TraitCheck(TraitGroup.Fierce)) { monster.BattleStatus.AddValue(BattleStatusLabel.Sharp, 1); }
+        if (monster.TraitCheck(TraitGroup.Fierce_V2)) { monster.BattleStatus.AddValue(BattleStatusLabel.Sharp, 2); }
 
 
         //? 디버프
@@ -770,7 +772,8 @@ public class BattleField : MonoBehaviour
             int bonusHP = monster.GetSomething(TraitGroup.Vitality, monster.B_HP_Max);
             int applyHP = monster.B_HP + bonusHP;
 
-            int realValue = applyHP > monster.B_HP_Max ? (monster.B_HP_Max - monster.B_HP) : bonusHP;
+
+            int realValue = applyHP > monster.B_HP_Max ? (monster.HP_Damaged) : bonusHP;
             monster.HP_Damaged -= realValue;
             openingList.Add(new OpeningTrait(EffectType.Heal, monster, StatType.HP, realValue));
         }
@@ -779,7 +782,7 @@ public class BattleField : MonoBehaviour
             int bonusHP = Mathf.RoundToInt(monster.B_HP_Max * 0.2f);
             int applyHP = monster.B_HP + bonusHP;
 
-            int realValue = applyHP > monster.B_HP_Max ? (monster.B_HP_Max - monster.B_HP) : bonusHP;
+            int realValue = applyHP > monster.B_HP_Max ? (monster.HP_Damaged) : bonusHP;
             monster.HP_Damaged -= realValue;
             openingList.Add(new OpeningTrait(EffectType.Heal, monster, StatType.HP, realValue));
         }
@@ -787,13 +790,13 @@ public class BattleField : MonoBehaviour
 
         if (monster.TraitCheck(TraitGroup.Overwhelm))
         {
-            int realValue = Mathf.RoundToInt(npc.B_HP * 0.15f);
+            int realValue = Mathf.RoundToInt(npc.B_HP * 0.1f);
             npc.HP_Damaged += realValue;
             openingList.Add(new OpeningTrait(EffectType.Damaged, npc, StatType.HP, realValue));
         }
         if (monster.TraitCheck(TraitGroup.Overwhelm_V2))
         {
-            int realValue = Mathf.RoundToInt(npc.B_HP * 0.3f);
+            int realValue = Mathf.RoundToInt(npc.B_HP * 0.2f);
             npc.HP_Damaged += realValue;
             openingList.Add(new OpeningTrait(EffectType.Damaged, npc, StatType.HP, realValue));
         }

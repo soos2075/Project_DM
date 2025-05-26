@@ -195,15 +195,20 @@ MonoBehaviour:
     m_Localized: 'Place various facilities and monsters in your dungeon to give your
       adventurers mana!
 
+      
 
+      
 
-      Mana is basically earned from most of the actions
-      your adventurers take in the dungeon.
+      Mana is basically earned from most
+      of the actions your adventurers take in the dungeon.
 
+      
 
+      
 
-      Once you''re done managing your
-      dungeon, you can end your day by hitting End Turn in the top left corner.'
+      Once
+      you''re done managing your dungeon, you can end your day by hitting End Turn
+      in the top left corner.'
     m_Metadata:
       m_Items: []
   - m_Id: 125754480472066
@@ -469,13 +474,16 @@ MonoBehaviour:
   - m_Id: 43749063683944448
     m_Localized: 'AP is fully restored every turn.
 
+      
 
-      AP is used in various
-      activities such as interacting with units, visiting guilds, removing dungeon
-      obstacles, and praying at statues.
+      AP is used in
+      various activities such as interacting with units, visiting guilds, removing
+      dungeon obstacles, and praying at statues.
 
+      
 
-      Try clicking on a statue first!'
+      Try clicking on
+      a statue first!'
     m_Metadata:
       m_Items: []
   - m_Id: 44085068026818560
@@ -641,10 +649,6 @@ MonoBehaviour:
     m_Localized: Battles
     m_Metadata:
       m_Items: []
-  - m_Id: 74470872322355200
-    m_Localized: Bonus
-    m_Metadata:
-      m_Items: []
   - m_Id: 74470886645903360
     m_Localized: Penalty
     m_Metadata:
@@ -714,7 +718,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 98034953885003776
-    m_Localized: "Are you sure you want to initialize? \n(This cannot be undone)"
+    m_Localized: "Are you sure you want to initialize? \r\n(This cannot be undone)"
     m_Metadata:
       m_Items: []
   - m_Id: 98739352731070464
@@ -791,6 +795,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 155389415427092480
     m_Localized: Journal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 159090866691190784
+    m_Localized: Bonus
     m_Metadata:
       m_Items: []
   references:

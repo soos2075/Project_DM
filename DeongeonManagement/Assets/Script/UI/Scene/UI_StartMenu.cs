@@ -177,6 +177,7 @@ public class UI_StartMenu : UI_Scene
         UserData.Instance.NewGameConfig();
         EventManager.Instance.NewGameReset();
         GuildManager.Instance.NewGameReset();
+        JournalManager.Instance.NewGame_Init();
 
         var fade = Managers.UI.ShowPopUpAlone<UI_Fade>();
         fade.SetFadeOption(UI_Fade.FadeMode.BlackOut, 2, false);

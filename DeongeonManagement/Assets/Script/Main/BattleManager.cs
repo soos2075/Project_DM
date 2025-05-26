@@ -89,7 +89,7 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            field.sprite_BG.sprite = Battle_SLA.GetSprite("Field", "3");
+            field.sprite_BG.sprite = Battle_SLA.GetSprite("Field", "Entry");
         }
 
 

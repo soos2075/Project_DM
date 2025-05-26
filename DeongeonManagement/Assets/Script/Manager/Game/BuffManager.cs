@@ -333,8 +333,14 @@ public class BattleStatus
 {
     Dictionary<BattleStatusLabel, int> currentStatus;
 
-    public BattleStatus()
+    GameObject parentObject;
+    int sort;
+
+    Anim_BattleStatus anim_BattleStatus;
+
+    public BattleStatus(GameObject parent)
     {
+        parentObject = parent;
         InitValue();
     }
 
@@ -346,6 +352,16 @@ public class BattleStatus
         {
             currentStatus.Add(item, 0);
         }
+        sort = parentObject.GetComponentInChildren<SpriteRenderer>().sortingOrder;
+
+        anim_BattleStatus = parentObject.GetComponentInChildren<Anim_BattleStatus>();
+        if (anim_BattleStatus == null)
+        {
+            anim_BattleStatus = Managers.Resource.Instantiate($"Effect/Anim_BattleStatus", parentObject.transform)
+                .GetComponent<Anim_BattleStatus>();
+        }
+        anim_BattleStatus.Anim_Reset();
+        anim_BattleStatus.GetComponent<UnityEngine.Rendering.SortingGroup>().sortingOrder = sort + 1;
     }
     public void AddValue(BattleStatusLabel _label, int _value)
     {
@@ -362,7 +378,12 @@ public class BattleStatus
         {
             currentStatus[_label] = 0;
         }
+
+        anim_BattleStatus.Update_BattleStatus(_label, currentStatus);
     }
+
+
+
 
     public Dictionary<BattleStatusLabel, int> GetCurrentBattleStatus()
     {
@@ -383,14 +404,37 @@ public class BattleStatus
         return newDict;
     }
 
+    //? 고정 add 값
+    public int Get_Fixed_HP()
+    {
+        int value = 0;
+
+        value += currentStatus[BattleStatusLabel.Heroism] > 0 ? 150 : 0;
+
+        return value;
+    }
+    //? 고정 add 값
+    public int Get_Fixed_AllStat()
+    {
+        int value = 0;
+
+        value += currentStatus[BattleStatusLabel.Heroism] > 0 ? 15 : 0;
+
+        return value;
+    }
 
 
     public float Get_HP_Stauts()
     {
         int value = 0;
 
+        //? 오리지널
+        value += currentStatus[BattleStatusLabel.Master] * 10;
+
+        //? 플러스
         value += currentStatus[BattleStatusLabel.Robust] * 10;
 
+        //? 마이너스
         value -= currentStatus[BattleStatusLabel.Wound] * 10;
 
         float ratio = value / 100f;
@@ -404,6 +448,7 @@ public class BattleStatus
 
         //? 오리지널
         value += currentStatus[BattleStatusLabel.Spiritual] * 7;
+        value += currentStatus[BattleStatusLabel.Master] * 5;
 
         //? 올스탯 버프
         value += currentStatus[BattleStatusLabel.Empower] * 5;

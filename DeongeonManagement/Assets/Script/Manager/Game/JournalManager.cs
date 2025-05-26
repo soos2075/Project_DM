@@ -169,6 +169,13 @@ public class JournalManager : MonoBehaviour
 
     public List<JournalData> CurrentJournalList { get; set; } = new List<JournalData>();
 
+
+    public void NewGame_Init()
+    {
+        CurrentJournalList = new List<JournalData>();
+    }
+
+
     //? 기한 없는 퀘스트나 일지
     public void AddJournal(int _id)
     {

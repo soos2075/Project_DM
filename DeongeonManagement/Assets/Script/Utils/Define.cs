@@ -11,7 +11,8 @@ public class Define
         EN = 0,
         KR = 1,
         JP = 2,
-        SCC = 3,
+        SC = 3,
+        TC = 4,
     }
 
     public enum GameMode
@@ -61,8 +62,8 @@ public class Define
         Easy = 0,
         Normal = 1,
         Hard = 2,
-        VeryHard = 3,
-        Master = 4,
+        //VeryHard = 3,
+        Master = 3,
     }
 
     public enum StatType

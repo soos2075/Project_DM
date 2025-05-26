@@ -1265,12 +1265,10 @@ public class Main : MonoBehaviour
                 //{
                 //    Managers.UI.ShowPopUp<UI_Manual>();
                 //}
-                //GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Mastia.ToString(), 5, NPC_Typeof.NPC_Type_RandomEvent);
-                //GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Karen.ToString(), 6, NPC_Typeof.NPC_Type_RandomEvent);
-                //GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Stan.ToString(), 7, NPC_Typeof.NPC_Type_RandomEvent);
-                //GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Euh.ToString(), 8, NPC_Typeof.NPC_Type_RandomEvent);
                 //GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Romys.ToString(), 5, NPC_Typeof.NPC_Type_RandomEvent);
-                //GameManager.NPC.AddEventNPC(NPC_Type_RandomEvent.Siri.ToString(), 10, NPC_Typeof.NPC_Type_RandomEvent);
+                //GameManager.NPC.AddEventNPC(NPC_Type_SubEvent.Venom.ToString(), 2, NPC_Typeof.NPC_Type_SubEvent);
+                //GameManager.NPC.AddEventNPC(NPC_Type_SubEvent.Judgement.ToString(), 4, NPC_Typeof.NPC_Type_SubEvent);
+                //GameManager.NPC.AddEventNPC(NPC_Type_SubEvent.Judgement.ToString(), 10, NPC_Typeof.NPC_Type_SubEvent);
                 break;
 
             case 3: //? FirstAdv Event

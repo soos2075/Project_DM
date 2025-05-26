@@ -682,7 +682,10 @@ public class UI_Collection : UI_PopUp
         GetTMP((int)ShowBoxText.TMP_Point).text = "";
         GetTMP((int)ShowBoxText.TMP_Number).text = $"No.{data.CollectionNumber}";
 
-        GetImage((int)ShowBoxImage.MainSprite).sprite = Managers.Sprite.GetClear();
+
+        GetImage((int)ShowBoxImage.MainSprite).sprite = 
+            Managers.Sprite.Get_SLA(SpriteManager.Library.BattleStatus, $"{SO_Data.statusType}", $"{SO_Data.label}");
+            //Managers.Sprite.GetClear();
         GetTMP((int)ShowBoxText.TMP_Name).text = SO_Data.labelName;
         GetTMP((int)ShowBoxText.TMP_Detail).text = $"{SO_Data.detail}";
 

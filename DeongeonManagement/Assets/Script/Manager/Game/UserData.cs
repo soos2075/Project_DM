@@ -144,6 +144,8 @@ public class UserData : MonoBehaviour
 
     void Init_Language()
     {
+        Debug.Log(System.Globalization.CultureInfo.CurrentCulture.Name);
+
         //int lan = GetDataInt(PrefsKey.Language, -1);
         int lan = CurrentPlayerData.option.Language;
         if (lan == -1)
@@ -151,17 +153,21 @@ public class UserData : MonoBehaviour
             var country = System.Globalization.CultureInfo.CurrentCulture;
 
 
-            if (country.Name.Contains("KR"))
+            if (country.Name.Contains("KR") || country.Name.Contains("ko"))
             {
                 ChangeLanguage(1);
             }
-            else if (country.Name.Contains("JP"))
+            else if (country.Name.Contains("JP") || country.Name.Contains("ja"))
             {
                 ChangeLanguage(2);
             }
-            else if (country.Name.Contains("zh-"))
+            else if (country.Name.Contains("zh-Hans") || country.Name.Contains("zh-CN") || country.Name.Contains("zh-SG"))
             {
                 ChangeLanguage(3);
+            }
+            else if (country.Name.Contains("zh-Hant") || country.Name.Contains("zh-TW") || country.Name.Contains("zh-MO") || country.Name.Contains("zh-HK"))
+            {
+                ChangeLanguage(4);
             }
             else
             {
@@ -270,11 +276,21 @@ public class UserData : MonoBehaviour
             case Define.Language.EN:
                 cultureInfo = new CultureInfo("en-US");
                 break;
+
             case Define.Language.KR:
                 cultureInfo = new CultureInfo("ko-KR");
                 break;
+
             case Define.Language.JP:
                 cultureInfo = new CultureInfo("ja-JP");
+                break;
+
+            case Define.Language.SC:
+                cultureInfo = new CultureInfo("zh-CN");
+                break;
+
+            case Define.Language.TC:
+                cultureInfo = new CultureInfo("zh-TW");
                 break;
 
             default:
@@ -360,10 +376,16 @@ public class UserData : MonoBehaviour
 
     void Init_Resolution()
     {
-        if (FirstSetting())
+        if (CurrentPlayerData.option.User_Resolution == -1)
         {
+            Reset_Resolution();
             return;
         }
+
+        //if (FirstSetting())
+        //{
+        //    return;
+        //}
 
 
         if (CurrentPlayerData.option.Full_Screen == 1)
@@ -378,6 +400,17 @@ public class UserData : MonoBehaviour
         current_Index = CurrentPlayerData.option.User_Resolution;
 
         Screen.SetResolution(resolution[current_Index].x, resolution[current_Index].y, screenMode);
+    }
+
+
+    void Reset_Resolution()
+    {
+        Screen.SetResolution(1920, 1080, true);
+        current_Index = 0;
+        screenMode = true;
+
+        CurrentPlayerData.option.User_Resolution = current_Index;
+        CurrentPlayerData.option.Full_Screen = 1;
     }
 
     bool FirstSetting()
@@ -664,6 +697,9 @@ public class UserData : MonoBehaviour
 
         //? 난이도
         public Define.DifficultyLevel Difficulty;
+
+        //? 무한모드인가요?
+        public bool InfinityMode;
 
         // 몇회차인지에 대한 정보
         public int PlayRounds;

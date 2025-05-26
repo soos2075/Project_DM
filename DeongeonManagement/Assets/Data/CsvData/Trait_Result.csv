@@ -1,156 +1,156 @@
-ID,TraitName,Name_KR,Detail_KR,Acquire_KR,Name_EN,Detail_EN,Acquire_EN,Name_JP,Detail_JP,Acquire_JP,Name_SCC,Detail_SCC,Acquire_SCC
-,,,,,,,,,,,,,
-1,Reconfigure,재구성,부상 하루 뒤 회복,,Reconfigure,Recover from injuries after one day,,再構成,負傷から一日後に回復,,重构,受伤一天后恢复,
-2,Vitality,활력,전투 시작 시 최대 HP의 10% 회복,,Vitality,Recover 10% of max HP at battle start,,活力,戦闘開始時に最大HPの10%回復,,活力,战斗开始时恢复最大生命值的10%,
-3,Predation,포식,적을 쓰러트릴 시 HP가 영구적으로 1만큼 증가,,Predation,Gain 1 permanent HP when defeating an enemy,,捕食,敵を倒すとHPが永久的に1増加,,捕食,击倒敌人时永久增加1点生命值,
-4,IronSkin,철피부,공격 시 DEF의 50%만큼 추가공격,,IronSkin,Additional attack equal to 50% of DEF when attacking,,鉄壁,攻撃時にDEFの50%分の追加攻撃,,钢肤,攻击时追加等同于DEF 50%的额外攻击,
-5,Friend,친구,층에 있는 다른 유닛마다 모든 스탯 +1,,Friend,+1 to all stats for each other unit on the floor,,仲間,階にいる他のユニットごとに全ステータス+1,,友伴,楼层上每有一个其他单位全属性+1,
-6,Overwhelm,압도,전투 시작 시 상대의 현재 HP ^15%,,Overwhelm,Opponent's current HP ^15% at battle start,,圧倒,戦闘開始時に相手の現在HP^15%,,压制,战斗开始时对手当前生命值^15%,
-7,Nimble,재빠름,공격 시 데미지의 50%의 추가공격,,Nimble,Additional attack equal to 50% of damage when attacking,,俊敏,攻撃時にダメージの50%分の追加攻撃,,敏捷,攻击时追加等同于伤害50%的额外攻击,
-8,GaleForce,질풍,공격 시 AGI의 50%만큼 추가공격,,GaleForce,Additional attack equal to 50% of AGI when attacking,,疾風,攻撃時にAGIの50%分の追加攻撃,,疾风,攻击时追加等同于AGI 50%的额外攻击,
-9,LuckyPunch,행운,공격 시 LUK의 50%만큼 추가공격,,LuckyPunch,Additional attack equal to 50% of LUK when attacking,,幸運撃,攻撃時にLUKの50%分の追加攻撃,,幸运一击,攻击时追加等同于LUK 50%的额外攻击,
-10,Powerful,괴력,공격 시 ATK의 30%만큼 추가공격,,Powerful,Additional attack equal to 30% of ATK when attacking,,怪力,攻撃時にATKの30%分の追加攻撃,,巨力,攻击时追加等同于ATK 30%的额外攻击,
-11,Ultimate,필살,공격 시 모든 스탯의 20%만큼 추가공격,,Ultimate,Additional attack equal to 20% of all stats when attacking,,必殺,攻撃時に全ステータスの20%分の追加攻撃,,必杀,攻击时追加等同于全属性20%的额外攻击,
-12,Harmony,조화,다른 모든 유닛에게 모든 스탯 +2,,Harmony,+2 to all stats for all other units,,調和,他の全てのユニットに全ステータス +2,,和谐,为所有其他单位ALL STAT +2,
-13,Blindness,야맹증,두 번째 공격을 반드시 회피,,Blindness,Always dodge the second attack,,夜盲症,2回目の攻撃を必ず回避,,夜盲症,必定闪避第二次攻击,
-14,Burn,화상,공격 시 데미지의 20%의 추가공격 3회,,Burn,Additional attack equal to 20% of damage 3 times when attacking,,火傷,攻撃時にダメージの20%分の追加攻撃を3回,,灼烧,攻击时追加等同于伤害20%的额外攻击3次,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-20,LifeDrain,정기흡수,공격 시 데미지의 20%만큼 체력흡수,,LifeDrain,Absorb 20% of damage as health when attacking,,生気吸収,攻撃時にダメージの20%分の体力吸収,,生命吸取,攻击时吸收造成伤害20%的生命值,
-21,DivineForce,신성력,공격 시 상대 최대 HP의 8%만큼 추가데미지,고유 특성,DivineForce,Deal additional damage equal to 8% of target's maximum HP on attack,Unique Trait,聖力,攻撃時 ・ 相手の最大HPの8%を追加ダメージとして与える,固有特性,圣威,攻击时造成目标最大生命值8%的额外伤害,固有特性
-22,AbsoluteShield,절대방패,모든 받는 데미지를 1로 경감,고유 특성,AbsoluteShield,Reduces all incoming damage to 1,Unique Trait,絶壁,受けるダメージが全て1に軽減される,固有特性,绝盾,所有受到的伤害降低至1,固有特性
-23,Reaper,사신,전투 시작 시 최대 HP의 5%의 피해를 입고 상대에게 2배의 피해,고유 특성,Reaper,Take 5% of max HP damage at battle start and deal double damage to enemy,Unique Trait,死神,戦闘開始時に最大HPの5%のダメージを受け、相手に2倍のダメージを与える,固有特性,死使,战斗开始时受到最大生命值5%的伤害 · 对敌人造成双倍伤害,固有特性
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-30,Miser,수전노,승리 시 획득 골드 +50%,,Miser,+50% gold gained on victory,,守銭奴,勝利時の獲得ゴールド +50%,,守财奴,胜利时获得金币 +50%,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-102,Vitality_V2,활력+,전투 시작 시 최대 HP의 20% 회복,고유 특성,Vitality+,Recover 20% of max HP at battle start,Unique Trait,活力+,戦闘開始時に最大HPの20%回復,固有特性,活力+,战斗开始时恢复最大生命值的20%,固有特性
-103,Predation_V2,포식+,적을 쓰러트릴 시 HP가 영구적으로 2만큼 증가,고유 특성,Predation+,Gain 2 permanent HP when defeating an enemy,Unique Trait,捕食+,敵を倒すとHPが永久的に2増加,固有特性,捕食+,击倒敌人时永久增加2点生命值,固有特性
-104,IronSkin_V2,철피부+,공격 시 DEF의 100%만큼 추가공격,고유 특성,IronSkin+,Additional attack equal to 100% of DEF when attacking,Unique Trait,鉄壁+,攻撃時にDEFの100%分の追加攻撃,固有特性,钢肤+,攻击时追加等同于DEF 100%的额外攻击,固有特性
-105,Friend_V2,친구+,층에 있는 다른 유닛마다 모든 스탯 +2,고유 특성,Friend+,+2 to all stats for each other unit on the floor,Unique Trait,仲間+,階にいる他のユニットごとに全ステータス+2,固有特性,友伴+,楼层上每有一个其他单位全属性+2,固有特性
-106,Overwhelm_V2,압도+,전투 시작 시 상대의 현재 HP ^30%,고유 특성,Overwhelm+,Opponent's current HP ^30% at battle start,Unique Trait,圧倒+,戦闘開始時に相手の現在HP^30%,固有特性,压制+,战斗开始时对手当前生命值^30%,固有特性
-107,Nimble_V2,재빠름+,공격 시 데미지의 100%의 추가공격,고유 특성,Nimble+,Additional attack equal to 100% of damage when attacking,Unique Trait,俊敏+,攻撃時にダメージの100%分の追加攻撃,固有特性,敏捷+,攻击时追加等同于伤害100%的额外攻击,固有特性
-108,GaleForce_V2,질풍+,공격 시 AGI의 100% 만큼 추가공격,고유 특성,GaleForce+,Additional attack equal to 100% of AGI when attacking,Unique Trait,疾風+,攻撃時にAGIの100%分の追加攻撃,固有特性,疾风+,攻击时追加等同于AGI 100%的额外攻击,固有特性
-109,LuckyPunch_V2,행운+,공격 시 LUK의 100%만큼 추가공격,고유 특성,LuckyPunch+,Additional attack equal to 100% of LUK when attacking,Unique Trait,幸運撃+,攻撃時にLUKの100%分の追加攻撃,固有特性,幸运一击+,攻击时追加等同于LUK 100%的额外攻击,固有特性
-110,Powerful_V2,괴력+,공격 시 ATK의 60%만큼 추가공격,고유 특성,Powerful+,Additional attack equal to 60% of ATK when attacking,Unique Trait,怪力+,攻撃時にATKの60%分の追加攻撃,固有特性,巨力+,攻击时追加等同于ATK 60%的额外攻击,固有特性
-111,Ultimate_V2,필살+,공격 시 모든 스탯의 40%만큼 추가공격,고유 특성,Ultimate+,Additional attack equal to 40% of all stats when attacking,Unique Trait,必殺+,攻撃時に全ステータスの40%分の追加攻撃,固有特性,必杀+,攻击时追加等同于全属性40%的额外攻击,固有特性
-,,,,,,,,,,,,,
-120,LifeDrain_V2,정기흡수+,공격 시 데미지의 40%만큼 체력흡수,고유 특성,LifeDrain+,Absorb 40% of damage as health when attacking,Unique Trait,生気吸収+,攻撃時にダメージの40%分の体力吸収,固有特性,生命吸取+,攻击时吸收造成伤害40%的生命值,固有特性
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-201,VeteranC,베테랑C,모든 스탯 +1,전투 횟수 10회,VeteranC,All stats +1,Battle 10 times,ベテランC,全ステータス+1,戦闘回数10回,老兵C,所有属性+1,战斗10次
-202,VeteranB,베테랑B,모든 스탯 +2,전투 횟수 15회,VeteranB,All stats +2,Battle 15 times,ベテランB,全ステータス+2,戦闘回数10回,老兵B,所有属性+2,战斗15次
-203,VeteranA,베테랑A,모든 스탯 +3,전투 횟수 20회,VeteranA,All stats +3,Battle 20 times,ベテランA,全ステータス+3,戦闘回数10回,老兵A,所有属性+3,战斗20次
-,,,,,,,,,,,,,
-301,EliteC,엘리트C,레벨 업 시 스탯 상승률 UP,훈련 횟수 5회,EliteC,Stat growth UP on level up,Training 5 times,エリートC,レベルアップ時のステータス上昇率UP,訓練回数5回,精英C,升级时属性提升率增加,训练5次
-302,EliteB,엘리트B,레벨 업 시 스탯 상승률 UP+,훈련 횟수 10회,EliteB,Stat growth UP+ on level up,Training 10 times,エリートB,レベルアップ時のステータス上昇率UP+,訓練回数10回,精英B,升级时属性提升率大幅增加,训练10次
-303,EliteA,엘리트A,레벨 업 시 스탯 상승률 UP++,훈련 횟수 15회,EliteA,Stat growth UP++ on level up,Training 15 times,エリートA,レベルアップ時のステータス上昇率UP++,訓練回数15回,精英A,升级时属性提升率显著增加,训练15次
-,,,,,,,,,,,,,
-401,ShirkingC,꾀병C,부상 회복 마나 ^10%,부상 3회,ShirkingC,^10% mana for injury heal,Injured 3 times,サボりC,負傷回復マナ^10%,負傷3回,逃避C,恢复伤势所需魔力^10%,受伤3次
-402,ShirkingB,꾀병B,부상 회복 마나 ^20%,부상 4회,ShirkingB,^20% mana for injury heal,Injured 4 times,サボりB,負傷回復マナ^20%,負傷4回,逃避B,恢复伤势所需魔力^20%,受伤4次
-403,ShirkingA,꾀병A,부상 회복 마나 ^30%,부상 5회,ShirkingA,^30% mana for injury heal,Injured 5 times,サボりA,負傷回復マナ^30%,負傷5回,逃避A,恢复伤势所需魔力^30%,受伤5次
-,,,,,,,,,,,,,
-501,SurvivabilityC,생존력C,HP +15,배치상태로 4일 생존,SurvivabilityC,HP +15,Survive 4 days on placement,生存力C,HP+15,配置状態で4日間生存,生存能力C,生命值+15,部署状态下存活4天
-502,SurvivabilityB,생존력B,HP +30,배치상태로 7일 생존,SurvivabilityB,HP +30,Survive 7 days on placement,生存力B,HP+30,配置状態で7日間生存,生存能力B,生命值+30,部署状态下存活7天
-503,SurvivabilityA,생존력A,HP +50,배치상태로 10일 생존,SurvivabilityA,HP +50,Survive 10 days on placement,生存力A,HP+50,配置状態で10日間生存,生存能力A,生命值+50,部署状态下存活10天
-504,SurvivabilityS,생존력S,부상당하지 않음,배치상태로 15일 생존,SurvivabilityS,Immune to injuries,Survive 15 days on placement,生存力S,負傷しない,配置状態で15日間生存,生存能力S,免疫伤害,部署状态下存活15天
-,,,,,,,,,,,,,
-601,DiscreetC,신중함C,전투로 얻는 경험치 +20%,대기상태로 4일,DiscreetC,+20% combat EXP,4 days on standby,慎重さC,戦闘経験値+20%,待機状態で4日間,谨慎C,战斗获得的经验值+20%,待机状态4天
-602,DiscreetB,신중함B,전투로 얻는 경험치 +40%,대기상태로 6일,DiscreetB,+40% combat EXP,6 days on standby,慎重さB,戦闘経験値+40%,待機状態で6日間,谨慎B,战斗获得的经验值+40%,待机状态6天
-603,DiscreetA,신중함A,전투로 얻는 경험치 +60%,대기상태로 8일,DiscreetA,+60% combat EXP,8 days on standby,慎重さA,戦闘経験値+60%,待機状態で8日間,谨慎A,战斗获得的经验值+60%,待机状态8天
-,,,,,,,,,,,,,
-701,RuthlessC,무자비C,ATK +3,전투 승리 10회,RuthlessC,ATK +3,Battle Victory 10 times,無慈悲C,ATK +3,戦闘勝利10回,无情C,攻击力+3,战斗胜利10次
-702,RuthlessB,무자비B,ATK +6,전투 승리 15회,RuthlessB,ATK +6,Battle Victory 15 times,無慈悲B,ATK +6,戦闘勝利15回,无情B,攻击力+6,战斗胜利15次
-703,RuthlessA,무자비A,ATK +9,전투 승리 20회,RuthlessA,ATK +9,Battle Victory 20 times,無慈悲A,ATK +9,戦闘勝利20回,无情A,攻击力+9,战斗胜利20次
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-1000,Spore,포자,전투가 시작될 때마다 상대에게 [쇠약] 상태 부여,,Spore,Inflicts [Wither] status on opponents at the start of every battle,,胞子,戦闘が始まるたびに相手に[衰弱]状態を付与,,孢子,每次战斗开始时对对手施加[衰弱]状态,
-1001,Spore_V2,포자+,전투가 시작될 때마다 상대에게 [쇠약 x 2] 상태 부여,,Spore+,Inflicts [Wither x 2] status on opponents at the start of every battle,,胞子+,戦闘が始まるたびに相手に[衰弱 x 2]状態を付与,,孢子+,每次战斗开始时对对手施加[衰弱 x 2]状态,
-,,,,,,,,,,,,,
-1010,Acid,산성액,전투가 시작될 때마다 상대에게 [부식] 상태 부여,,Acid,Inflicts [Corrode] status on opponents at the start of every battle,,酸性液,戦闘が始まるたびに相手に[腐食]状態を付与,,酸液,每次战斗开始时对对手施加[腐蚀]状态,
-1011,Acid_V2,산성액+,전투가 시작될 때마다 상대에게 [부식 x 2] 상태 부여,,Acid+,Inflicts [Corrode x 2] status on opponents at the start of every battle,,酸性液+,戦闘が始まるたびに相手に[腐食 x 2]状態を付与,,酸液+,每次战斗开始时对对手施加[腐蚀 x 2]状态,
-,,,,,,,,,,,,,
-1020,ThornyVine,가시덩쿨,전투가 시작될 때마다 상대에게 [슬로우] 상태 부여,,Thorny Vine,Inflicts [Slow] status on opponents at the start of every battle,,棘蔓,戦闘が始まるたびに相手に[スロウ]状態を付与,,刺藤,每次战斗开始时对对手施加[减速]状态,
-1021,ThornyVine_V2,가시덩쿨+,전투가 시작될 때마다 상대에게 [슬로우 x 2] 상태 부여,,Thorny Vine+,Inflicts [Slow x 2] status on opponents at the start of every battle,,棘蔓+,戦闘が始まるたびに相手に[スロウ x 2]状態を付与,,刺藤+,每次战斗开始时对对手施加[减速 x 2]状态,
-,,,,,,,,,,,,,
-1030,Golem,골렘,전투가 시작될 때마다 상대에게 [불운] 상태 부여,,Golem,Inflicts [Jinx] status on opponents at the start of every battle,,ゴーレム,戦闘が始まるたびに相手に[厄運]状態を付与,,魔像,每次战斗开始时对对手施加[厄运]状态,
-1031,Golem_V2,골렘+,전투가 시작될 때마다 상대에게 [불운 x 2] 상태 부여,,Golem+,Inflicts [Jinx x 2] status on opponents at the start of every battle,,ゴーレム+,戦闘が始まるたびに相手に[厄運 x 2]状態を付与,,魔像+,每次战斗开始时对对手施加[厄运 x 2]状态,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-1100,Succubus,몽마,전투가 시작될 때마다 자신에게 [기회] 상태 부여,,Succubus,Grants [Chance] status to self at the start of every battle,,夢魔,戦闘が始まるたびに自身に[チャンス]状態を付与,,梦魔,每次战斗开始时对自身施加[机会]状态,
-1101,Succubus_V2,몽마+,전투가 시작될 때마다 자신에게 [기회 x 2] 상태 부여,,Succubus+,Grants [Chance x 2] status to self at the start of every battle,,夢魔+,戦闘が始まるたびに自身に[チャンス x 2]状態を付与,,梦魔+,每次战斗开始时对自身施加[机会 x 2]状态,
-,,,,,,,,,,,,,
-1110,ToughSkin,질긴 피부,전투가 시작될 때마다 자신에게 [수호] 상태 부여,,Tough Skin,Grants [Guard] status to self at the start of every battle,,丈夫な皮膚,戦闘が始まるたびに自身に[守護]状態を付与,,坚韧皮肤,每次战斗开始时对自身施加[守护]状态,
-1111,ToughSkin_V2,질긴 피부+,전투가 시작될 때마다 자신에게 [수호 x 2] 상태 부여,,Tough Skin+,Grants [Guard x 2] status to self at the start of every battle,,丈夫な皮膚+,戦闘が始まるたびに自身に[守護 x 2]状態を付与,,坚韧皮肤+,每次战斗开始时对自身施加[守护 x 2]状态,
-,,,,,,,,,,,,,
-1120,Wind,바람,전투가 시작될 때마다 자신에게 [가속] 상태 부여,,Wind,Grants [Haste] status to self at the start of every battle,,風,戦闘が始まるたびに自身に[加速]状態を付与,,风,每次战斗开始时对自身施加[加速]状态,
-1121,Wind_V2,바람+,전투가 시작될 때마다 자신에게 [가속 x 2] 상태 부여,,Wind+,Grants [Haste x 2] status to self at the start of every battle,,風+,戦闘が始まるたびに自身に[加速 x 2]状態を付与,,风+,每次战斗开始时对自身施加[加速 x 2]状态,
-,,,,,,,,,,,,,
-1130,Fierce,맹공,전투가 시작될 때마다 자신에게 [예리] 상태 부여,,Fierce Attack,Grants [Sharp] status to self at the start of every battle,,猛攻,戦闘が始まるたびに自身に[鋭利]状態を付与,,猛攻,每次战斗开始时对自身施加[锐利]状态,
-1131,Fierce_V2,맹공+,전투가 시작될 때마다 자신에게 [예리 x 2] 상태 부여,,Fierce Attack+,Grants [Sharp x 2] status to self at the start of every battle,,猛攻+,戦闘が始まるたびに自身に[鋭利 x 2]状態を付与,,猛攻+,每次战斗开始时对自身施加[锐利 x 2]状态,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-1200,Spirit,정령,같은 층의 유닛에게 [정령의 가호] 상태 부여,,Spirit,Grant [Spiritual] status to units on the same floor,,精霊,同じ階のユニットに[精霊の加護]状態を付与,,精灵,对同一楼层的单位施加[精灵护佑]状态,
-1201,Spirit_V2,정령+,같은 층의 유닛에게 [정령의 가호 x 2] 상태 부여,,Spirit+,Grants [Spiritual x 2] status to units on the same floor,,精霊+,同じ階のユニットに[精霊の加護 x 2]状態を付与,,精灵+,对同一楼层的单位施加[精灵护佑 x 2]状态,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-5000,Blessing,축복,용사의 가호를 받아 모든 능력치 강화,,Blessing,All stats enhanced by hero's blessing,,祝福,勇者の加護により全ての能力値が強化される,,祝福,受勇者庇护 · 全属性强化,
-5001,Venom,맹독,공격 시 상대 현재 HP의 12%만큼 추가데미지,,Venom,Deal additional damage equal to 12% of target's current HP on attack,,猛毒,攻撃時 ・ 相手の現在HPの12%を追加ダメージとして与える,,剧毒,攻击时造成目标当前生命值12%的额外伤害,
-5002,EagleEye,심안,첫 번째 공격이 반드시 명중,,EagleEye,First attack always hits,,心眼,最初の攻撃が必ず命中する,,心眼,首次攻击必定命中,
-5003,DoubleAttack,2연격,공격 시 2회 공격,,DoubleAttack,Attack 2 times when attacking,,2連撃,攻撃時に2回攻撃,,二连击,攻击时连续攻击2次,
-5004,TripleAttack,3연격,공격 시 3회 공격,,TripleAttack,Attack 3 times when attacking,,3連撃,攻撃時に3回攻撃,,三连击,攻击时连续攻击3次,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-7000,Herbalism,약초학,약초류 보너스,,Herbalism,Herb Bonus,,薬草学,薬草系ボーナス,,草药学,草药类加成,
-7001,Mineralogy,광물학,광물류 보너스,,Mineralogy,Mineral Bonus,,鉱物学,鉱物系ボーナス,,矿物学,矿物类加成,
-7002,Collector,보물사냥꾼,보물류 보너스,,Collector,Treasure Bonus,,宝探し,宝物系ボーナス,,收藏家,宝物类加成,
-7003,Overflow,흘러넘침,모든 상호작용 보너스,,Overflow,All Interaction Bonus,,オーバーフロー,全相互作用ボーナス,,溢出,所有互动加成,
-,,,,,,,,,,,,,
-8000,Weed,잡초,약초류 패널티,,Weed,Herb Penalty,,雑草,薬草系ペナルティ,,杂草,草药类减益,
-8001,Stone,돌멩이,광물류 패널티,,Stone,Mineral Penalty,,石畳,鉱物系ペナルティ,,石头,矿物类减益,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-9000,Militant,전투원,전투시 마나 보너스,,Militant,Combat Mana Bonus,,闘士,戦闘時マナボーナス,,战斗人员,战斗魔力加成,
-9001,Civilian,비전투원,전투시 마나 패널티,,Civilian,Combat Mana Penalty,,一般人,戦闘時マナペナルティ,,非战斗人员,战斗魔力减益,
-9002,Trample,짓밟기,모든 시설물 파괴 및 전투시 보너스,,Trample,All Facility Destruction & Combat Bonus,,踏みつけ,全施設破壊＆戦闘ボーナス,,践踏,所有设施破坏及战斗加成,
-9003,Swiftness,신속함,상호작용 속도 증가,,Swiftness,Interaction Speed Up,,迅速性,相互作用速度上昇,,迅捷,互动速度提升,
-9004,Indomitable,불굴의의지,절대 지치지 않음,,Indomitable,Never Tire,,不屈の意志,疲労無効,,不屈意志,永不疲惫,
-9005,Void,공허,마나 획득 불가능,,Void,Mana Immune,,空虚,マナ免疫,,虚空,魔力免疫,
-9006,Instructor,교관,전투시 경험치 보너스,,Instructor,Combat EXP Bonus,,教官,戦闘経験値ボーナス,,指导员,战斗经验加成,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-9900,Hunting:Slime,사냥:슬라임,특정 대상에게 추가공격,,Hunting:Slime,Extra Attack vs Specific Target,,狩猟:スライム,特定対象に追加攻撃,,狩猎:史莱姆,特定目标额外攻击,
-9901,Hunting:Golem,사냥:골렘,특정 대상에게 추가공격,,Hunting:Golem,Extra Attack vs Specific Target,,狩猟:ゴーレム,特定対象に追加攻撃,,狩猎:魔像,特定目标额外攻击,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
+ID,TraitName,Name_KR,Detail_KR,Acquire_KR,Name_EN,Detail_EN,Acquire_EN,Name_JP,Detail_JP,Acquire_JP,Name_SC,Detail_SC,Acquire_SC,Name_TC,Detail_TC,Acquire_TC
+,,,,,,,,,,,,,,,,
+1,Reconfigure,재구성,부상 하루 뒤 회복,,Reconfigure,Recover from injuries after one day,,再構成,負傷から一日後に回復,,重构,受伤一天后恢复,,重構,受傷一天后恢復,
+2,Vitality,활력,전투 시작 시 최대 HP의 10% 회복,,Vitality,Recover 10% of max HP at battle start,,活力,戦闘開始時に最大HPの10%回復,,活力,战斗开始时恢复最大生命值的10%,,活力,戰鬥開始時恢復最大生命值的10%,
+3,Predation,포식,적을 쓰러트릴 시 HP가 영구적으로 1만큼 증가,,Predation,Gain 1 permanent HP when defeating an enemy,,捕食,敵を倒すとHPが永久的に1増加,,捕食,击倒敌人时永久增加1点生命值,,捕食,击倒敌人時永久增加1點生命值,
+4,IronSkin,철피부,공격 시 DEF의 50%만큼 추가공격,,IronSkin,Additional attack equal to 50% of DEF when attacking,,鉄壁,攻撃時にDEFの50%分の追加攻撃,,钢肤,攻击时追加等同于DEF 50%的额外攻击,,鋼膚,攻擊時追加等同於DEF 50%的額外攻擊,
+5,Friend,친구,층에 있는 다른 유닛마다 모든 스탯 +1,,Friend,+1 to all stats for each other unit on the floor,,仲間,階にいる他のユニットごとに全ステータス+1,,友伴,楼层上每有一个其他单位全属性+1,,友伴,楼層上每有一個其他单位全屬性+1,
+6,Overwhelm,압도,전투 시작 시 상대의 현재 HP ^10%,,Overwhelm,Opponent's current HP ^10% at battle start,,圧倒,戦闘開始時に相手の現在HP^10%,,压制,战斗开始时对手当前生命值^10%,,压制,戰鬥開始時對手當前生命值^10%,
+7,Nimble,재빠름,공격 시 데미지의 50%의 추가공격,,Nimble,Additional attack equal to 50% of damage when attacking,,俊敏,攻撃時にダメージの50%分の追加攻撃,,敏捷,攻击时追加等同于伤害50%的额外攻击,,敏捷,攻擊時追加等同於傷害50%的額外攻擊,
+8,GaleForce,질풍,공격 시 AGI의 50%만큼 추가공격,,GaleForce,Additional attack equal to 50% of AGI when attacking,,疾風,攻撃時にAGIの50%分の追加攻撃,,疾风,攻击时追加等同于AGI 50%的额外攻击,,疾风,攻擊時追加等同於AGI 50%的額外攻擊,
+9,LuckyPunch,행운,공격 시 LUK의 50%만큼 추가공격,,LuckyPunch,Additional attack equal to 50% of LUK when attacking,,幸運撃,攻撃時にLUKの50%分の追加攻撃,,幸运一击,攻击时追加等同于LUK 50%的额外攻击,,幸運一击,攻擊時追加等同於LUK 50%的額外攻擊,
+10,Powerful,괴력,공격 시 ATK의 30%만큼 추가공격,,Powerful,Additional attack equal to 30% of ATK when attacking,,怪力,攻撃時にATKの30%分の追加攻撃,,巨力,攻击时追加等同于ATK 30%的额外攻击,,巨力,攻擊時追加等同於ATK 30%的額外攻擊,
+11,Ultimate,필살,공격 시 모든 스탯의 20%만큼 추가공격,,Ultimate,Additional attack equal to 20% of all stats when attacking,,必殺,攻撃時に全ステータスの20%分の追加攻撃,,必杀,攻击时追加等同于全属性20%的额外攻击,,必杀,攻擊時追加等同於全屬性20%的額外攻擊,
+12,Harmony,조화,다른 모든 유닛에게 모든 스탯 +2,,Harmony,+2 to all stats for all other units,,調和,他の全てのユニットに全ステータス +2,,和谐,为所有其他单位ALL STAT +2,,和諧,為所有其他单位ALL STAT +2,
+13,Blindness,야맹증,두 번째 공격을 반드시 회피,,Blindness,Always dodge the second attack,,夜盲症,2回目の攻撃を必ず回避,,夜盲症,必定闪避第二次攻击,,夜盲症,必定閃避第二次攻擊,
+14,Burn,화상,공격 시 데미지의 20%의 추가공격 3회,,Burn,Additional attack equal to 20% of damage 3 times when attacking,,火傷,攻撃時にダメージの20%分の追加攻撃を3回,,灼烧,攻击时追加等同于伤害20%的额外攻击3次,,灼烧,攻擊時追加等同於傷害20%的額外攻擊3次,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+20,LifeDrain,정기흡수,공격 시 데미지의 20%만큼 체력흡수,,LifeDrain,Absorb 20% of damage as health when attacking,,生気吸収,攻撃時にダメージの20%分の体力吸収,,生命吸取,攻击时吸收造成伤害20%的生命值,,生命吸取,攻擊時吸收造成傷害20%的生命值,
+21,DivineForce,신성력,공격 시 상대 최대 HP의 8%만큼 추가데미지,고유 특성,DivineForce,Deal additional damage equal to 8% of target's maximum HP on attack,Unique Trait,聖力,攻撃時 ・ 相手の最大HPの8%を追加ダメージとして与える,固有特性,圣威,攻击时造成目标最大生命值8%的额外伤害,固有特性,圣威,攻擊時造成目標最大生命值8%的額外傷害,固有特性
+22,AbsoluteShield,절대방패,모든 받는 데미지를 1로 경감,고유 특성,AbsoluteShield,Reduces all incoming damage to 1,Unique Trait,絶壁,受けるダメージが全て1に軽減される,固有特性,绝盾,所有受到的伤害降低至1,固有特性,絕盾,所有受到的傷害降低至1,固有特性
+23,Reaper,사신,전투 시작 시 최대 HP의 5%의 피해를 입고 상대에게 2배의 피해,고유 특성,Reaper,Take 5% of max HP damage at battle start and deal double damage to enemy,Unique Trait,死神,戦闘開始時に最大HPの5%のダメージを受け、相手に2倍のダメージを与える,固有特性,死使,战斗开始时受到最大生命值5%的伤害 · 对敌人造成双倍伤害,固有特性,死使,戰鬥開始時受到最大生命值5%的傷害 · 對敌人造成双倍傷害,固有特性
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+30,Miser,수전노,승리 시 획득 골드 +50%,,Miser,+50% gold gained on victory,,守銭奴,勝利時の獲得ゴールド +50%,,守财奴,胜利时获得金币 +50%,,守財奴,勝利時获得金幣 +50%,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+102,Vitality_V2,활력+,전투 시작 시 최대 HP의 20% 회복,,Vitality+,Recover 20% of max HP at battle start,,活力+,戦闘開始時に最大HPの20%回復,,活力+,战斗开始时恢复最大生命值的20%,,活力+,戰鬥開始時恢復最大生命值的20%,
+103,Predation_V2,포식+,적을 쓰러트릴 시 HP가 영구적으로 2만큼 증가,,Predation+,Gain 2 permanent HP when defeating an enemy,,捕食+,敵を倒すとHPが永久的に2増加,,捕食+,击倒敌人时永久增加2点生命值,,捕食+,击倒敌人時永久增加2點生命值,
+104,IronSkin_V2,철피부+,공격 시 DEF의 100%만큼 추가공격,,IronSkin+,Additional attack equal to 100% of DEF when attacking,,鉄壁+,攻撃時にDEFの100%分の追加攻撃,,钢肤+,攻击时追加等同于DEF 100%的额外攻击,,鋼膚+,攻擊時追加等同於DEF 100%的額外攻擊,
+105,Friend_V2,친구+,층에 있는 다른 유닛마다 모든 스탯 +2,,Friend+,+2 to all stats for each other unit on the floor,,仲間+,階にいる他のユニットごとに全ステータス+2,,友伴+,楼层上每有一个其他单位全属性+2,,友伴+,楼層上每有一個其他单位全屬性+2,
+106,Overwhelm_V2,압도+,전투 시작 시 상대의 현재 HP ^20%,,Overwhelm+,Opponent's current HP ^20% at battle start,,圧倒+,戦闘開始時に相手の現在HP^20%,,压制+,战斗开始时对手当前生命值^20%,,压制+,戰鬥開始時對手當前生命值^20%,
+107,Nimble_V2,재빠름+,공격 시 데미지의 100%의 추가공격,,Nimble+,Additional attack equal to 100% of damage when attacking,,俊敏+,攻撃時にダメージの100%分の追加攻撃,,敏捷+,攻击时追加等同于伤害100%的额外攻击,,敏捷+,攻擊時追加等同於傷害100%的額外攻擊,
+108,GaleForce_V2,질풍+,공격 시 AGI의 100% 만큼 추가공격,,GaleForce+,Additional attack equal to 100% of AGI when attacking,,疾風+,攻撃時にAGIの100%分の追加攻撃,,疾风+,攻击时追加等同于AGI 100%的额外攻击,,疾风+,攻擊時追加等同於AGI 100%的額外攻擊,
+109,LuckyPunch_V2,행운+,공격 시 LUK의 100%만큼 추가공격,,LuckyPunch+,Additional attack equal to 100% of LUK when attacking,,幸運撃+,攻撃時にLUKの100%分の追加攻撃,,幸运一击+,攻击时追加等同于LUK 100%的额外攻击,,幸運一击+,攻擊時追加等同於LUK 100%的額外攻擊,
+110,Powerful_V2,괴력+,공격 시 ATK의 60%만큼 추가공격,,Powerful+,Additional attack equal to 60% of ATK when attacking,,怪力+,攻撃時にATKの60%分の追加攻撃,,巨力+,攻击时追加等同于ATK 60%的额外攻击,,巨力+,攻擊時追加等同於ATK 60%的額外攻擊,
+111,Ultimate_V2,필살+,공격 시 모든 스탯의 40%만큼 추가공격,,Ultimate+,Additional attack equal to 40% of all stats when attacking,,必殺+,攻撃時に全ステータスの40%分の追加攻撃,,必杀+,攻击时追加等同于全属性40%的额外攻击,,必杀+,攻擊時追加等同於全屬性40%的額外攻擊,
+,,,,,,,,,,,,,,,,
+120,LifeDrain_V2,정기흡수+,공격 시 데미지의 40%만큼 체력흡수,,LifeDrain+,Absorb 40% of damage as health when attacking,,生気吸収+,攻撃時にダメージの40%分の体力吸収,,生命吸取+,攻击时吸收造成伤害40%的生命值,,生命吸取+,攻擊時吸收造成傷害40%的生命值,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+201,VeteranC,베테랑C,모든 스탯 +1,전투 횟수 10회,VeteranC,All stats +1,Battle 10 times,ベテランC,全ステータス+1,戦闘回数10回,老兵C,所有属性+1,战斗10次,老兵C,所有屬性+1,戰鬥10次
+202,VeteranB,베테랑B,모든 스탯 +2,전투 횟수 15회,VeteranB,All stats +2,Battle 15 times,ベテランB,全ステータス+2,戦闘回数10回,老兵B,所有属性+2,战斗15次,老兵B,所有屬性+2,戰鬥15次
+203,VeteranA,베테랑A,모든 스탯 +3,전투 횟수 20회,VeteranA,All stats +3,Battle 20 times,ベテランA,全ステータス+3,戦闘回数10回,老兵A,所有属性+3,战斗20次,老兵A,所有屬性+3,戰鬥20次
+,,,,,,,,,,,,,,,,
+301,EliteC,엘리트C,레벨 업 시 스탯 상승률 UP,훈련 횟수 5회,EliteC,Stat growth UP on level up,Training 5 times,エリートC,レベルアップ時のステータス上昇率UP,訓練回数5回,精英C,升级时属性提升率增加,训练5次,精英C,升級時屬性提升率增加,訓練5次
+302,EliteB,엘리트B,레벨 업 시 스탯 상승률 UP+,훈련 횟수 10회,EliteB,Stat growth UP+ on level up,Training 10 times,エリートB,レベルアップ時のステータス上昇率UP+,訓練回数10回,精英B,升级时属性提升率大幅增加,训练10次,精英B,升級時屬性提升率大幅增加,訓練10次
+303,EliteA,엘리트A,레벨 업 시 스탯 상승률 UP++,훈련 횟수 15회,EliteA,Stat growth UP++ on level up,Training 15 times,エリートA,レベルアップ時のステータス上昇率UP++,訓練回数15回,精英A,升级时属性提升率显著增加,训练15次,精英A,升級時屬性提升率顯著增加,訓練15次
+,,,,,,,,,,,,,,,,
+401,ShirkingC,꾀병C,부상 회복 마나 ^10%,부상 3회,ShirkingC,^10% mana for injury heal,Injured 3 times,サボりC,負傷回復マナ^10%,負傷3回,逃避C,恢复伤势所需魔力^10%,受伤3次,逃避C,恢復傷势所需魔力^10%,受傷3次
+402,ShirkingB,꾀병B,부상 회복 마나 ^20%,부상 4회,ShirkingB,^20% mana for injury heal,Injured 4 times,サボりB,負傷回復マナ^20%,負傷4回,逃避B,恢复伤势所需魔力^20%,受伤4次,逃避B,恢復傷势所需魔力^20%,受傷4次
+403,ShirkingA,꾀병A,부상 회복 마나 ^30%,부상 5회,ShirkingA,^30% mana for injury heal,Injured 5 times,サボりA,負傷回復マナ^30%,負傷5回,逃避A,恢复伤势所需魔力^30%,受伤5次,逃避A,恢復傷势所需魔力^30%,受傷5次
+,,,,,,,,,,,,,,,,
+501,SurvivabilityC,생존력C,HP +15,배치상태로 4일 생존,SurvivabilityC,HP +15,Survive 4 days on placement,生存力C,HP+15,配置状態で4日間生存,生存能力C,生命值+15,部署状态下存活4天,生存能力C,生命值+15,部署狀态下存活4天
+502,SurvivabilityB,생존력B,HP +30,배치상태로 7일 생존,SurvivabilityB,HP +30,Survive 7 days on placement,生存力B,HP+30,配置状態で7日間生存,生存能力B,生命值+30,部署状态下存活7天,生存能力B,生命值+30,部署狀态下存活7天
+503,SurvivabilityA,생존력A,HP +50,배치상태로 10일 생존,SurvivabilityA,HP +50,Survive 10 days on placement,生存力A,HP+50,配置状態で10日間生存,生存能力A,生命值+50,部署状态下存活10天,生存能力A,生命值+50,部署狀态下存活10天
+504,SurvivabilityS,생존력S,부상당하지 않음,배치상태로 15일 생존,SurvivabilityS,Immune to injuries,Survive 15 days on placement,生存力S,負傷しない,配置状態で15日間生存,生存能力S,免疫伤害,部署状态下存活15天,生存能力S,免疫傷害,部署狀态下存活15天
+,,,,,,,,,,,,,,,,
+601,DiscreetC,신중함C,전투로 얻는 경험치 +20%,대기상태로 4일,DiscreetC,+20% combat EXP,4 days on standby,慎重さC,戦闘経験値+20%,待機状態で4日間,谨慎C,战斗获得的经验值+20%,待机状态4天,謹慎C,戰鬥获得的經驗值+20%,待機狀态4天
+602,DiscreetB,신중함B,전투로 얻는 경험치 +40%,대기상태로 6일,DiscreetB,+40% combat EXP,6 days on standby,慎重さB,戦闘経験値+40%,待機状態で6日間,谨慎B,战斗获得的经验值+40%,待机状态6天,謹慎B,戰鬥获得的經驗值+40%,待機狀态6天
+603,DiscreetA,신중함A,전투로 얻는 경험치 +60%,대기상태로 8일,DiscreetA,+60% combat EXP,8 days on standby,慎重さA,戦闘経験値+60%,待機状態で8日間,谨慎A,战斗获得的经验值+60%,待机状态8天,謹慎A,戰鬥获得的經驗值+60%,待機狀态8天
+,,,,,,,,,,,,,,,,
+701,RuthlessC,무자비C,ATK +3,전투 승리 10회,RuthlessC,ATK +3,Battle Victory 10 times,無慈悲C,ATK +3,戦闘勝利10回,无情C,攻击力+3,战斗胜利10次,无情C,攻擊力+3,戰鬥勝利10次
+702,RuthlessB,무자비B,ATK +6,전투 승리 15회,RuthlessB,ATK +6,Battle Victory 15 times,無慈悲B,ATK +6,戦闘勝利15回,无情B,攻击力+6,战斗胜利15次,无情B,攻擊力+6,戰鬥勝利15次
+703,RuthlessA,무자비A,ATK +9,전투 승리 20회,RuthlessA,ATK +9,Battle Victory 20 times,無慈悲A,ATK +9,戦闘勝利20回,无情A,攻击力+9,战斗胜利20次,无情A,攻擊力+9,戰鬥勝利20次
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+1000,Spore,포자,전투가 시작될 때마다 상대에게 [쇠약] 상태 부여,고유 특성,Spore,Inflicts [Wither] status on opponents at the start of every battle,Unique Trait,胞子,戦闘が始まるたびに相手に[衰弱]状態を付与,固有特性,孢子,每次战斗开始时对对手施加[衰弱]状态,固有特性,孢子,每次戰鬥開始時對對手施加[衰弱]狀态,固有特性
+1001,Spore_V2,포자+,전투가 시작될 때마다 상대에게 [쇠약 x 2] 상태 부여,고유 특성,Spore+,Inflicts [Wither x 2] status on opponents at the start of every battle,Unique Trait,胞子+,戦闘が始まるたびに相手に[衰弱 x 2]状態を付与,固有特性,孢子+,每次战斗开始时对对手施加[衰弱 x 2]状态,固有特性,孢子+,每次戰鬥開始時對對手施加[衰弱 x 2]狀态,固有特性
+,,,,,,,,,,,,,,,,
+1010,Acid,산성액,전투가 시작될 때마다 상대에게 [부식] 상태 부여,고유 특성,Acid,Inflicts [Corrode] status on opponents at the start of every battle,Unique Trait,酸性液,戦闘が始まるたびに相手に[腐食]状態を付与,固有特性,酸液,每次战斗开始时对对手施加[腐蚀]状态,固有特性,酸液,每次戰鬥開始時對對手施加[腐蝕]狀态,固有特性
+1011,Acid_V2,산성액+,전투가 시작될 때마다 상대에게 [부식 x 2] 상태 부여,고유 특성,Acid+,Inflicts [Corrode x 2] status on opponents at the start of every battle,Unique Trait,酸性液+,戦闘が始まるたびに相手に[腐食 x 2]状態を付与,固有特性,酸液+,每次战斗开始时对对手施加[腐蚀 x 2]状态,固有特性,酸液+,每次戰鬥開始時對對手施加[腐蝕 x 2]狀态,固有特性
+,,,,,,,,,,,,,,,,
+1020,ThornyVine,가시덩쿨,전투가 시작될 때마다 상대에게 [슬로우] 상태 부여,고유 특성,Thorny Vine,Inflicts [Slow] status on opponents at the start of every battle,Unique Trait,棘蔓,戦闘が始まるたびに相手に[スロウ]状態を付与,固有特性,刺藤,每次战斗开始时对对手施加[减速]状态,固有特性,刺藤,每次戰鬥開始時對對手施加[减速]狀态,固有特性
+1021,ThornyVine_V2,가시덩쿨+,전투가 시작될 때마다 상대에게 [슬로우 x 2] 상태 부여,고유 특성,Thorny Vine+,Inflicts [Slow x 2] status on opponents at the start of every battle,Unique Trait,棘蔓+,戦闘が始まるたびに相手に[スロウ x 2]状態を付与,固有特性,刺藤+,每次战斗开始时对对手施加[减速 x 2]状态,固有特性,刺藤+,每次戰鬥開始時對對手施加[减速 x 2]狀态,固有特性
+,,,,,,,,,,,,,,,,
+1030,Golem,골렘,전투가 시작될 때마다 상대에게 [불운] 상태 부여,고유 특성,Golem,Inflicts [Jinx] status on opponents at the start of every battle,Unique Trait,ゴーレム,戦闘が始まるたびに相手に[厄運]状態を付与,固有特性,魔像,每次战斗开始时对对手施加[厄运]状态,固有特性,魔像,每次戰鬥開始時對對手施加[厄運]狀态,固有特性
+1031,Golem_V2,골렘+,전투가 시작될 때마다 상대에게 [불운 x 2] 상태 부여,고유 특성,Golem+,Inflicts [Jinx x 2] status on opponents at the start of every battle,Unique Trait,ゴーレム+,戦闘が始まるたびに相手に[厄運 x 2]状態を付与,固有特性,魔像+,每次战斗开始时对对手施加[厄运 x 2]状态,固有特性,魔像+,每次戰鬥開始時對對手施加[厄運 x 2]狀态,固有特性
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+1100,Succubus,몽마,전투가 시작될 때마다 자신에게 [기회] 상태 부여,고유 특성,Succubus,Grants [Chance] status to self at the start of every battle,Unique Trait,夢魔,戦闘が始まるたびに自身に[チャンス]状態を付与,固有特性,梦魔,每次战斗开始时对自身施加[机会]状态,固有特性,梦魔,每次戰鬥開始時對自身施加[機會]狀态,固有特性
+1101,Succubus_V2,몽마+,전투가 시작될 때마다 자신에게 [기회 x 2] 상태 부여,고유 특성,Succubus+,Grants [Chance x 2] status to self at the start of every battle,Unique Trait,夢魔+,戦闘が始まるたびに自身に[チャンス x 2]状態を付与,固有特性,梦魔+,每次战斗开始时对自身施加[机会 x 2]状态,固有特性,梦魔+,每次戰鬥開始時對自身施加[機會 x 2]狀态,固有特性
+,,,,,,,,,,,,,,,,
+1110,ToughSkin,질긴 피부,전투가 시작될 때마다 자신에게 [수호] 상태 부여,고유 특성,Tough Skin,Grants [Guard] status to self at the start of every battle,Unique Trait,丈夫な皮膚,戦闘が始まるたびに自身に[守護]状態を付与,固有特性,坚韧皮肤,每次战斗开始时对自身施加[守护]状态,固有特性,坚韧皮膚,每次戰鬥開始時對自身施加[守護]狀态,固有特性
+1111,ToughSkin_V2,질긴 피부+,전투가 시작될 때마다 자신에게 [수호 x 2] 상태 부여,고유 특성,Tough Skin+,Grants [Guard x 2] status to self at the start of every battle,Unique Trait,丈夫な皮膚+,戦闘が始まるたびに自身に[守護 x 2]状態を付与,固有特性,坚韧皮肤+,每次战斗开始时对自身施加[守护 x 2]状态,固有特性,坚韧皮膚+,每次戰鬥開始時對自身施加[守護 x 2]狀态,固有特性
+,,,,,,,,,,,,,,,,
+1120,Wind,바람,전투가 시작될 때마다 자신에게 [가속] 상태 부여,고유 특성,Wind,Grants [Haste] status to self at the start of every battle,Unique Trait,風,戦闘が始まるたびに自身に[加速]状態を付与,固有特性,风,每次战斗开始时对自身施加[加速]状态,固有特性,风,每次戰鬥開始時對自身施加[加速]狀态,固有特性
+1121,Wind_V2,바람+,전투가 시작될 때마다 자신에게 [가속 x 2] 상태 부여,고유 특성,Wind+,Grants [Haste x 2] status to self at the start of every battle,Unique Trait,風+,戦闘が始まるたびに自身に[加速 x 2]状態を付与,固有特性,风+,每次战斗开始时对自身施加[加速 x 2]状态,固有特性,风+,每次戰鬥開始時對自身施加[加速 x 2]狀态,固有特性
+,,,,,,,,,,,,,,,,
+1130,Fierce,맹공,전투가 시작될 때마다 자신에게 [예리] 상태 부여,고유 특성,Fierce Attack,Grants [Sharp] status to self at the start of every battle,Unique Trait,猛攻,戦闘が始まるたびに自身に[鋭利]状態を付与,固有特性,猛攻,每次战斗开始时对自身施加[锐利]状态,固有特性,猛攻,每次戰鬥開始時對自身施加[銳利]狀态,固有特性
+1131,Fierce_V2,맹공+,전투가 시작될 때마다 자신에게 [예리 x 2] 상태 부여,고유 특성,Fierce Attack+,Grants [Sharp x 2] status to self at the start of every battle,Unique Trait,猛攻+,戦闘が始まるたびに自身に[鋭利 x 2]状態を付与,固有特性,猛攻+,每次战斗开始时对自身施加[锐利 x 2]状态,固有特性,猛攻+,每次戰鬥開始時對自身施加[銳利 x 2]狀态,固有特性
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+1200,Spirit,정령,같은 층의 유닛에게 [정령의 가호] 상태 부여,고유 특성,Spirit,Grant [Spiritual] status to units on the same floor,Unique Trait,精霊,同じ階のユニットに[精霊の加護]状態を付与,固有特性,精灵,对同一楼层的单位施加[精灵护佑]状态,固有特性,精靈,對同一楼層的单位施加[精靈護佑]狀态,固有特性
+1201,Spirit_V2,정령+,같은 층의 유닛에게 [정령의 가호 x 2] 상태 부여,고유 특성,Spirit+,Grants [Spiritual x 2] status to units on the same floor,Unique Trait,精霊+,同じ階のユニットに[精霊の加護 x 2]状態を付与,固有特性,精灵+,对同一楼层的单位施加[精灵护佑 x 2]状态,固有特性,精靈+,對同一楼層的单位施加[精靈護佑 x 2]狀态,固有特性
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+5000,Blessing,축복,용사의 가호를 받아 모든 능력치 강화,,Blessing,All stats enhanced by hero's blessing,,祝福,勇者の加護により全ての能力値が強化される,,祝福,受勇者庇护 · 全属性强化,,祝福,受勇者庇護 · 全屬性強化,
+5001,Venom,맹독,공격 시 상대 현재 HP의 12%만큼 추가데미지,,Venom,Deal additional damage equal to 12% of target's current HP on attack,,猛毒,攻撃時 ・ 相手の現在HPの12%を追加ダメージとして与える,,剧毒,攻击时造成目标当前生命值12%的额外伤害,,剧毒,攻擊時造成目標當前生命值12%的額外傷害,
+5002,EagleEye,심안,첫 번째 공격이 반드시 명중,,EagleEye,First attack always hits,,心眼,最初の攻撃が必ず命中する,,心眼,首次攻击必定命中,,心眼,首次攻擊必定命中,
+5003,DoubleAttack,2연격,공격 시 2회 공격,,DoubleAttack,Attack 2 times when attacking,,2連撃,攻撃時に2回攻撃,,二连击,攻击时连续攻击2次,,二連击,攻擊時連續攻擊2次,
+5004,TripleAttack,3연격,공격 시 3회 공격,,TripleAttack,Attack 3 times when attacking,,3連撃,攻撃時に3回攻撃,,三连击,攻击时连续攻击3次,,三連击,攻擊時連續攻擊3次,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+7000,Herbalism,약초학,약초류 보너스,,Herbalism,Herb Bonus,,薬草学,薬草系ボーナス,,草药学,草药类加成,,草藥学,草藥類加成,
+7001,Mineralogy,광물학,광물류 보너스,,Mineralogy,Mineral Bonus,,鉱物学,鉱物系ボーナス,,矿物学,矿物类加成,,礦物学,礦物類加成,
+7002,Collector,보물사냥꾼,보물류 보너스,,Collector,Treasure Bonus,,宝探し,宝物系ボーナス,,收藏家,宝物类加成,,收藏家,宝物類加成,
+7003,Overflow,흘러넘침,모든 상호작용 보너스,,Overflow,All Interaction Bonus,,オーバーフロー,全相互作用ボーナス,,溢出,所有互动加成,,溢出,所有互动加成,
+,,,,,,,,,,,,,,,,
+8000,Weed,잡초,약초류 패널티,,Weed,Herb Penalty,,雑草,薬草系ペナルティ,,杂草,草药类减益,,杂草,草藥類减益,
+8001,Stone,돌멩이,광물류 패널티,,Stone,Mineral Penalty,,石畳,鉱物系ペナルティ,,石头,矿物类减益,,石頭,礦物類减益,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+9000,Militant,전투원,전투시 마나 보너스,,Militant,Combat Mana Bonus,,闘士,戦闘時マナボーナス,,战斗人员,战斗魔力加成,,戰鬥人员,戰鬥魔力加成,
+9001,Civilian,비전투원,전투시 마나 패널티,,Civilian,Combat Mana Penalty,,一般人,戦闘時マナペナルティ,,非战斗人员,战斗魔力减益,,非戰鬥人员,戰鬥魔力减益,
+9002,Trample,짓밟기,모든 시설물 파괴 및 전투시 보너스,,Trample,All Facility Destruction & Combat Bonus,,踏みつけ,全施設破壊＆戦闘ボーナス,,践踏,所有设施破坏及战斗加成,,践踏,所有設施破坏及戰鬥加成,
+9003,Swiftness,신속함,상호작용 속도 증가,,Swiftness,Interaction Speed Up,,迅速性,相互作用速度上昇,,迅捷,互动速度提升,,迅捷,互动速度提升,
+9004,Indomitable,불굴의의지,절대 지치지 않음,,Indomitable,Never Tire,,不屈の意志,疲労無効,,不屈意志,永不疲惫,,不屈意志,永不疲惫,
+9005,Void,공허,마나 획득 불가능,,Void,Mana Immune,,空虚,マナ免疫,,虚空,魔力免疫,,虛空,魔力免疫,
+9006,Instructor,교관,전투시 경험치 보너스,,Instructor,Combat EXP Bonus,,教官,戦闘経験値ボーナス,,指导员,战斗经验加成,,指导员,戰鬥經驗加成,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+9900,Hunting:Slime,사냥:슬라임,특정 대상에게 추가공격,,Hunting:Slime,Extra Attack vs Specific Target,,狩猟:スライム,特定対象に追加攻撃,,狩猎:史莱姆,特定目标额外攻击,,狩獵:史莱姆,特定目標額外攻擊,
+9901,Hunting:Golem,사냥:골렘,특정 대상에게 추가공격,,Hunting:Golem,Extra Attack vs Specific Target,,狩猟:ゴーレム,特定対象に追加攻撃,,狩猎:魔像,特定目标额外攻击,,狩獵:魔像,特定目標額外攻擊,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,

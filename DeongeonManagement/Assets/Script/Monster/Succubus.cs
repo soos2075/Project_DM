@@ -22,7 +22,7 @@ public class Succubus : Monster
     public override void Load_EvolutionMonster()
     {
         Data = GameManager.Monster.GetData("Lilith");
-        GameManager.Monster.ChangeSLA_New(this, "Lilith");
+        GameManager.Monster.ChangeSLA(this, "Lilith");
         GameManager.Monster.Regist_Evolution("Succubus");
     }
 

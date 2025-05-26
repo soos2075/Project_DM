@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Localization-String-Tables-Chinese (Traditional) (zh-Hant)
+  m_EditorClassIdentifier: 
+  m_GroupName: Localization-String-Tables-Chinese (Traditional) (zh-Hant)
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 6575ad7a627137849a0e8c871052eba1
+  m_SerializeEntries:
+  - m_GUID: ea2d68176dba8164096a66c1a3598359
+    m_Address: UI_Tooltip_zh-Hant
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-Hant
+    - Preload
+  - m_GUID: b8faf156b49afb74da60e57e9912f010
+    m_Address: UI Table_zh-Hant
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-Hant
+    - Preload
+  - m_GUID: 66120f8a21ab52844b07e64ad370068b
+    m_Address: Tutorial_Table_zh-Hant
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-Hant
+    - Preload
+  - m_GUID: e26f8c2b9f8c71149a4cb89cecdd02c6
+    m_Address: NewGamePlus_zh-Hant
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-Hant
+    - Preload
+  - m_GUID: 9ae7595aed4ae87418d30f057d0bcde5
+    m_Address: Label Group_zh-Hant
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-Hant
+    - Preload
+  m_ReadOnly: 1
+  m_Settings: {fileID: 11400000, guid: ee98e609717972e4589234052e5caa8a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: d9e41be5e234c6a4d9d9bebdd349474c, type: 2}
+    - {fileID: 11400000, guid: 7682166c14b752245a61d32d973fcbb0, type: 2}

@@ -83,13 +83,14 @@ public class NPC_SubEvent : NPC
                 break;
 
 
-            case NPC_Type_SubEvent.Judgement:
-                sla.spriteLibraryAsset = Managers.Sprite.Get_NPC_Anim("Main_Judgement");
-                break;
+                //? æÍ≥Ÿ «¡∏Æ∆’¿Ã ∫∞µµ
+            //case NPC_Type_SubEvent.Judgement:
+            //    sla.spriteLibraryAsset = Managers.Sprite.Get_NPC_Anim("Main_Judgement");
+            //    break;
 
-            case NPC_Type_SubEvent.Venom:
-                sla.spriteLibraryAsset = Managers.Sprite.Get_NPC_Anim("Main_Venom");
-                break;
+            //case NPC_Type_SubEvent.Venom:
+            //    sla.spriteLibraryAsset = Managers.Sprite.Get_NPC_Anim("Main_Venom");
+            //    break;
         }
     }
 

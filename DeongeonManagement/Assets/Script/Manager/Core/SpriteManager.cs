@@ -46,7 +46,7 @@ public class SpriteManager
         Contents_library = Resources.Load<SpriteLibraryAsset>("SpriteLibraryAsset/SLA_Contents");
         Artifacts_Library = Resources.Load<SpriteLibraryAsset>("SpriteLibraryAsset/SLA_Artifact");
         Trait_Library = Resources.Load<SpriteLibraryAsset>("SpriteLibraryAsset/SLA_TraitBar");
-        
+        BattleStatus_Library = Resources.Load<SpriteLibraryAsset>("SpriteLibraryAsset/SLA_BattleStatus");
     }
 
 
@@ -85,6 +85,7 @@ public class SpriteManager
     SpriteLibraryAsset UI_library;
     SpriteLibraryAsset Contents_library;
     SpriteLibraryAsset Artifacts_Library;
+    SpriteLibraryAsset BattleStatus_Library;
     SpriteLibraryAsset Trait_Library;
 
     public Sprite Get_SLA(Library type, string category, string label)
@@ -93,6 +94,9 @@ public class SpriteManager
         {
             case Library.Artifact:
                 return Get_SLA(Artifacts_Library, category, label);
+
+            case Library.BattleStatus:
+                return Get_SLA(BattleStatus_Library, category, label);
 
             case Library.Contents:
                 return Get_SLA(Contents_library, category, label);
@@ -161,6 +165,7 @@ public class SpriteManager
         Contents,
         Artifact,
         Trait,
+        BattleStatus,
     }
 
 

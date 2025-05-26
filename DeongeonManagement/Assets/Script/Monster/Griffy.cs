@@ -28,7 +28,7 @@ public class Griffy : Monster
     public override void Load_EvolutionMonster()
     {
         Data = GameManager.Monster.GetData("Griffin");
-        GameManager.Monster.ChangeSLA_New(this, "Griffin");
+        GameManager.Monster.ChangeSLA(this, "Griffin");
         GameManager.Monster.Regist_Evolution("Griffy");
     }
 

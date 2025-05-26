@@ -40,70 +40,48 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         switch (UserData.Instance.FileConfig.Difficulty)
         {
             case Define.DifficultyLevel.Easy:
+                HP = Mathf.RoundToInt(HP * 0.8f);
+                HP_MAX = Mathf.RoundToInt(HP_MAX * 0.8f);
+                ATK = Mathf.RoundToInt(ATK * 0.8f);
+                DEF = Mathf.RoundToInt(DEF * 0.8f);
+                AGI = Mathf.RoundToInt(AGI * 0.8f);
+                LUK = Mathf.RoundToInt(LUK * 0.8f);
+                ActionPoint = Mathf.RoundToInt(ActionPoint * 0.8f);
                 break;
 
             case Define.DifficultyLevel.Normal:
-                HP = Mathf.RoundToInt(HP * 1.25f);
-                HP_MAX = Mathf.RoundToInt(HP_MAX * 1.25f);
-                ATK = Mathf.RoundToInt(ATK * 1.25f);
-                DEF = Mathf.RoundToInt(DEF * 1.12f);
-                AGI = Mathf.RoundToInt(AGI * 1.12f);
-                LUK = Mathf.RoundToInt(LUK * 1.12f);
-                ActionPoint = Mathf.RoundToInt(ActionPoint * 1.25f);
                 break;
 
             case Define.DifficultyLevel.Hard:
                 HP = Mathf.RoundToInt(HP * 1.5f);
                 HP_MAX = Mathf.RoundToInt(HP_MAX * 1.5f);
                 ATK = Mathf.RoundToInt(ATK * 1.5f);
-                DEF = Mathf.RoundToInt(DEF * 1.25f);
-                AGI = Mathf.RoundToInt(AGI * 1.25f);
-                LUK = Mathf.RoundToInt(LUK * 1.25f);
-                ActionPoint = Mathf.RoundToInt(ActionPoint * 1.5f);
-                break;
-
-            case Define.DifficultyLevel.VeryHard:
-                HP = Mathf.RoundToInt(HP * 2.0f);
-                HP_MAX = Mathf.RoundToInt(HP_MAX * 2.0f);
-                ATK = Mathf.RoundToInt(ATK * 2.0f);
                 DEF = Mathf.RoundToInt(DEF * 1.5f);
                 AGI = Mathf.RoundToInt(AGI * 1.5f);
                 LUK = Mathf.RoundToInt(LUK * 1.5f);
-                ActionPoint = Mathf.RoundToInt(ActionPoint * 1.75f);
+                ActionPoint = Mathf.RoundToInt(ActionPoint * 1.5f);
+                Mana = Mathf.RoundToInt(Mana * 1.25f);
                 break;
 
             case Define.DifficultyLevel.Master:
-                HP = Mathf.RoundToInt(HP * 2.5f);
-                HP_MAX = Mathf.RoundToInt(HP_MAX * 2.5f);
-                ATK = Mathf.RoundToInt(ATK * 2.5f);
+                HP = Mathf.RoundToInt(HP * 2.0f);
+                HP_MAX = Mathf.RoundToInt(HP_MAX * 2.0f);
+                ATK = Mathf.RoundToInt(ATK * 2.0f);
                 DEF = Mathf.RoundToInt(DEF * 2.0f);
                 AGI = Mathf.RoundToInt(AGI * 2.0f);
                 LUK = Mathf.RoundToInt(LUK * 2.0f);
                 ActionPoint = Mathf.RoundToInt(ActionPoint * 2.0f);
+                Mana = Mathf.RoundToInt(Mana * 1.5f);
                 break;
         }
     }
 
 
-    //protected void Multiply_AllStat(float ratio)
-    //{
-    //    HP = Mathf.RoundToInt(HP * ratio);
-    //    HP_MAX = Mathf.RoundToInt(HP_MAX * ratio);
-    //    ATK = Mathf.RoundToInt(ATK * ratio);
-    //    DEF = Mathf.RoundToInt(DEF * ratio);
-    //    AGI = Mathf.RoundToInt(AGI * ratio);
-    //    LUK = Mathf.RoundToInt(LUK * ratio);
-    //}
-    //protected void Multiply_AP(float ratio)
-    //{
-    //    ActionPoint = Mathf.RoundToInt(ActionPoint * ratio);
-    //}
-
-
-
 
     void Apply_BattleStatus()
     {
+        BattleStatus = new BattleStatus(this.gameObject);
+
         if (GameManager.Artifact.GetArtifact(ArtifactLabel.TouchOfDecay).Count > 0)
         {
             BattleStatus.AddValue(BattleStatusLabel.Decay, 1);
@@ -863,7 +841,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
     #region I_Battle Stat
 
-    BattleStatus currentBattleStatus = new BattleStatus();
+    BattleStatus currentBattleStatus;
     public BattleStatus BattleStatus { get => currentBattleStatus; set => currentBattleStatus = value; }
 
     //? 전투시 사용할 스탯 (최종 결과값)
@@ -878,7 +856,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     public int HP_Damaged { get; set; }
 
     public int HP_normal { get => HP + HP_Bonus; }
-    public int HP_Status { get => Mathf.RoundToInt(HP_normal * BattleStatus.Get_HP_Stauts()); }
+    public int HP_Status { get => BattleStatus.Get_Fixed_HP() + Mathf.RoundToInt(HP_normal * BattleStatus.Get_HP_Stauts()); }
 
 
 
@@ -897,10 +875,10 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     public int LUK_normal { get => (LUK + LUK_Bonus + AllStat_Bonus); }
 
     //? 현재 상태이상을 적용시킨 수치
-    public int ATK_Status { get => Mathf.RoundToInt(ATK_normal * BattleStatus.Get_ATK_Status()); }
-    public int DEF_Status { get => Mathf.RoundToInt(DEF_normal * BattleStatus.Get_DEF_Status()); }
-    public int AGI_Status { get => Mathf.RoundToInt(AGI_normal * BattleStatus.Get_AGI_Status()); }
-    public int LUK_Status { get => Mathf.RoundToInt(LUK_normal * BattleStatus.Get_LUK_Status()); }
+    public int ATK_Status { get => BattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(ATK_normal * BattleStatus.Get_ATK_Status()); }
+    public int DEF_Status { get => BattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(DEF_normal * BattleStatus.Get_DEF_Status()); }
+    public int AGI_Status { get => BattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(AGI_normal * BattleStatus.Get_AGI_Status()); }
+    public int LUK_Status { get => BattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(LUK_normal * BattleStatus.Get_LUK_Status()); }
 
 
     #endregion
@@ -1237,7 +1215,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         }
     }
 
-    bool OneTimeCheck = false;
+    public bool OneTimeCheck = false;
     void NPC_Inactive()
     {
         if (OneTimeCheck == false)

@@ -1,128 +1,128 @@
-ID,KeyName,Name_KR,Detail_KR,Name_EN,Detail_EN,Name_JP,Detail_JP,Name_SCC,Detail_SCC
-1,,던전 마스터의 일,이제부터 시작이군.  \\일단은 던전의 랭크를 높이는 걸 목표로 해볼까?,Dungeon Master's Work,Now it begins. \\Should I aim to raise the dungeon's rank first?,ダンジョンマスターの仕事,これからが始まりだな。\\まずはダンジョンのランクを上げることを目標にしてみようか？,地下城主人的工作,现在才刚刚开始。\\首先以提高地下城的等级为目标吧？
-,,,,,,,,,
-1000,,베스트 컨디션,컨디션이 최상이다. \최대 행동력 +2,Best Condition,Your condition is at its best. \Action Points +2,ベストコンディション,調子が最高だ。\AP +2,最佳状态,状态非常好。\行动力 +2
-1001,,워스트 컨디션,컨디션이 최악이다. \최대 행동력 ^2,Worst Condition,Your condition is at its worst. \Action Points ^2,ワーストコンディション,調子が最悪だ。\AP ^2,最差状态,状态非常糟。\行动力 ^2
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-1100,,초보자 던전의 슬라임,초보자 던전의 슬라임을 괴롭히려는 헌터가 찾아온다. \평범한 슬라임이 아니라는 것을 알려주자.,Slime of the Novice Dungeon,A hunter is coming to harass the slime in the Novice Dungeon. \Let's show them that this is no ordinary slime.,初心者ダンジョンのスライム,初心者ダンジョンのスライムを困らせようとするハンターがやってくる。\普通のスライムではないことを教えてやろう。,新手地下城的史莱姆,有猎人来骚扰新手地下城的史莱姆。\让他们知道这不是普通的史莱姆。
-1101,,어스 골렘의 핵,어스 골렘을 사냥해 핵을 가져가려는 자가 있다. \골렘의 강함을 보여주자.,Earth Golem's Core,Someone is trying to hunt the Earth Golem and take its core. \Let's demonstrate the golem's strength.,アースゴーレムの核,アースゴーレムを狩って核を持ち帰ろうとする者がいる。\ゴーレムの強さを見せつけよう。,土元素巨像的核心,有人想猎杀土元素巨像并带走它的核心。\让我们展示巨像的强大。
-,,,,,,,,,
-1110,,[몬스터 웨이브],평소보다 몬스터가 강해지는 현상이라고 한다. \확인해 보니- 평소보다 몬스터의 성장이 빠른 걸 알아냈다. \이 기회를 잘 이용해 보자.,[Monster Wave],They say it's a phenomenon where monsters become stronger than usual. \Upon checking - I discovered that monsters grow faster than normal. \Let's make good use of this opportunity.,[モンスターウェーブ],普段よりモンスターが強くなる現象だという。\確認してみると、普段よりモンスターの成長が速いことがわかった。\このチャンスをうまく活用しよう。,[怪物潮汐],据说是怪物比平时更强的现象。\经检查，发现怪物的成长比平时更快。\好好利用这个机会吧。
-1111,,[몬스터 대토벌],여신의 가호로 던전의 모든 몬스터가 약화된다고 한다. \평소보다 각별히 더 신경 쓰자. \그나저나 변덕이 심한 여신이네.,[Monster Extermination],They say all dungeon monsters are weakened by the Goddess's blessing. \Let's be even more careful than usual. \What a capricious goddess.,[モンスター大討伐],女神の加護によりダンジョンのすべてのモンスターが弱体化するという。\普段以上に特に気をつけよう。\それにしても気まぐれな女神だな。,[怪物大讨伐],据说女神的护佑会使地下城的所有怪物减弱。\比平时更加小心吧。\话说回来，真是个多变的女神。
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-1140,,던전의 재앙,초보자 던전에 위험이 다가오고 있다.\대비가 필요하다.,Catastrophe of the Dungeon,Danger is approaching the Novice dungeon. \Preparation is needed.,ダンジョンの災厄,初心者ダンジョンに危険が迫っている。\対策が必要だ。,地下城的灾难,危险正在逼近新手地下城。\需要做好准备。
-1141,,지속되는 재앙,계속해서 재앙이 찾아온다. \해결 할 방법을 찾자.,The catastrophe continues,Disasters keep coming. \Find a way to resolve them.,続く災厄,災害が続けて訪れている。\解決方法を見つけよう。,持续的灾难,灾难接二连三地来临。 \让我们找到解决的方法。
-1142,,재앙 해결의 실마리,수상한 자에게서 단서를 얻었다. \분명 봉인 결계라고 했지? \밑져야 본전이니까 한 번 시도해보자.,Clues to solving catastrophe,I got a clue from that suspicious figure. \They definitely mentioned a Barrier of Sealing- right? \There's nothing to lose- so let's give it a try.,大惨事を解決する糸口,怪しい者から手がかりを得た。\確か封印結界って言ったよな？\せっかくだから一度やってみよう。,灾难解决的线索,从可疑的人那里得到了线索。 \他确实说了封印结界吧？ \反正试试也无妨- 让我们试一试吧。
-,,,,,,,,,
-,,,,,,,,,
-1150,,고블린의 재방문,고블린이 분명 다시 올 것 같다.\\던전이 위험해질 수도 있으니 단단히 준비하자!,Goblin Revisited,The goblins will definitely come back. \Prepare well as the dungeon might become dangerous!,ゴブリンの再訪,ゴブリンが確実に再び来るようだ。\ダンジョンが危険になるかもしれないので、しっかり準備しよう！,哥布林的再次来访,哥布林肯定会再来的。\\地下城可能会变得危险- 要做好充分准备！
-1151,,은퇴한 영웅,은퇴한 영웅이 던전에 방문할 계획을 세우고 있다.\\던전이 격파당하지 않도록 단단히 준비하자!,Retired Heroes,A retired hero is planning to visit the dungeon. \Prepare thoroughly to ensure the dungeon is not defeated!,引退した英雄,引退した英雄がダンジョンを訪れる計画を立てている。\ダンジョンが破壊されないようにしっかり準備しよう！,退休的英雄,退休的英雄计划访问地下城。\\为了不让地下城被攻破- 要做好充分准备！
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-2102,,북쪽 나라의 전쟁,북쪽에서 전쟁으로 인해 포션의 수요가 급증해 약초가 귀해졌다고 한다.\아마 던전을 찾는 약초꾼들도 더 많아질 것 같으니 당분간 상황에 맞춰서 대응하자.,War in the Northern Country,They say the war in the north has caused a surge in potion demand- making herbs scarce.\More herb gatherers will likely come to the dungeon- so let's adapt to the situation for now.,北国の戦争,北部での戦争によりポーションの需要が急増し、薬草が貴重になったそうだ。\おそらくダンジョンを訪れる薬草採集者も増えるだろうから、しばらくは状況に応じて対応しよう。,北方国家的战争,据说北方的战争导致药水需求激增- 药草变得稀缺了。\可能来地下城找药草的人也会增多- 所以暂时要根据情况应对。
-2103,,옆나라 성의 재건축,옆 나라 왕국에서 성의 재건축으로 인해 건축자재용 광물이 많이 필요하다고 한다. \이에 따라 당분간 광물을 원하는 모험가들이 많이 방문할 것 같다.,Reconstruction of Neighboring Castle,The neighboring kingdom needs many minerals for construction materials due to castle reconstruction. \It seems many adventurers looking for minerals will visit for a while.,隣国の城の再建,隣国の王国で城の再建により建築材料用の鉱物が大量に必要とされているそうです。\しばらくの間- 鉱物を求める冒険者が多く訪れそうです。,邻国城堡的重建,据说邻国因城堡重建需要大量建筑用矿物。\因此- 近期寻找矿物的冒险者可能会增多。
-2104,,최강 모험가 토너먼트,최강 모험가 토너먼트라는게 열린다고 한다. \그것을 위해 모험가들이 평소보다 더 부지런히 움직인다고 하니 주의하자.,Ultimate Adventurer Tournament,I hear that something called the Ultimate Adventurer Tournament will be held. \Adventurers are moving more diligently than usual for it - so let's be careful.,最強冒険者トーナメント,最強冒険者トーナメントというものが開催されるらしい。\そのために冒険者たちがいつもより忙しく動いているようなので注意しよう。,最强冒险者锦标赛,据说将举办一个叫做最强冒险者锦标赛的活动。\为此冒险者们比平时更加勤奋地活动，我们要注意。
-2105,,알 수 없는 전염병,전염병이 돌고 있다고 한다. 이상하게 나는 건강한걸? \모험가들만 약해진다면- 나쁠 건 없지.,Unknown Epidemic,They say an epidemic is going around. Strange that I'm healthy? \If only adventurers get weaker - that's not so bad.,原因不明の伝染病,伝染病が流行しているらしい。不思議なことに私は健康だが？\冒険者たちだけが弱くなるなら、悪いことではない。,不明传染病,据说有传染病正在流行。奇怪的是我很健康？\如果只有冒险者变弱，那也不是坏事。
-2106,,[여신제],일정 기간 모험가들이 여신의 축복을 받아 강해진다. 평소보다 더 조심할 필요가 있겠어. \그런데 나는 왜 그대로지? \의문투성이군.,[Goddess Festival],For a certain period - adventurers receive the Goddess's blessing and become stronger. I need to be more careful than usual. \But why am I unchanged? \So many questions.,[女神祭],一定期間、冒険者たちが女神の祝福を受けて強くなる。普段より注意する必要がありそうだ。\でも私はなぜ変わらないのだろう？\疑問だらけだ。,[女神节],在特定时期，冒险者们获得女神祝福变得更强。需要比平时更加小心。\但为什么我没有变化？\真是疑问重重。
-2107,,골드가 많은 모험가,길드의 이벤트로 모험가들이 평소보다 골드를 더 많이 들고있다. \조금만 뜯어내 볼까?,More Gold,Due to the guild's event - adventurers are carrying more gold than usual. \Shall I skim a little off the top?,もっと多くのゴールド,ギルドのイベントで冒険者たちがいつもよりゴールドをたくさん持っている。\少し巻き上げてみようか？,更多金币,因公会活动，冒险者们比平时携带更多金币。\要不要敲诈一点？
-,,,,,,,,,
-,,,,,,,,,
-4020,,녹빛 궁사,초록머리의 궁사가 던전에 찾아온다. \뭔가를 찾고 있는듯 한데...?,Verdant Archer,A green^haired archer is coming to the dungeon. \It seems like they are looking for something...?,緑色の弓矢,緑髪の弓使いがダンジョンにやって来る。\何かを探しているようだけど...?,翠绿弓手,绿发的弓手来到了地下城。 \看起来像在寻找什么...？
-4030,,녹빛 궁사,초록머리의 궁사가 계속 던전에 찾아온다. \뭔가를 찾고 있는 듯 하지만 대화가 통하질 않는다. \특수시설 중에서 뭔가 방법이 있지 않을까?,Verdant Archer,The green^haired archer keeps coming to the dungeon. \She seems to be looking for something- but communication is impossible. \Could there be a solution among the special facilities?,緑色の弓矢,緑髪の弓使いが地下城に来続けている。\何かを探しているようだが- 会話が通じない。\特殊施設の中に何か方法があるのではないだろうか？,翠绿弓手,绿发弓箭手不断造访地下城。\她似乎在寻找什么- 但无法与之交流。\特殊设施中会不会有什么办法呢？
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-7010,,길드 토벌대,길드 토벌대가 준비중이다. \대비하자.,Guild Raid Team,The Guild raid team are coming. \Let's get ready.,ギルド討伐隊,ギルド討伐隊が準備中だ。\準備しよう。,公会讨伐队,公会的讨伐队正在准备中。 \做好准备吧。
-7020,,두번 째 길드 토벌대,두번 째 길드 토벌대가 준비중이다. \대비하자.,Second Guild Raid Team,The second Guild raid team are coming. \Let's get ready.,第二回目のギルド討伐隊,第二回目のギルド討伐隊が準備中。準備しよう。,第二支公会讨伐队,第二支公会讨伐队正在准备中。 \做好准备吧。
-,,,,,,,,,
-8010,,숲에서의 습격,던전 근처의 숲에서 수상한 움직임이 포착됐다. \던전을 노리고 있을테니 대비하자.,Forest Raid,Suspicious movements detected in the forest near the dungeon. \They must be targeting the dungeon- let's prepare.,森からの襲撃,ダンジョン近くの森で不審な動きが察知された。\ダンジョンを狙っているはずだ- 備えを整えよう。,森林袭击,在地下城附近的森林中发现可疑动静。\他们一定在盯着地下城- 做好准备吧。
-8020,,숲에서의 두번 째 습격,던전 근처의 숲에서 더 큰 움직임이 포착됐다. \던전의 안쪽까지 오지 못하게 최대한 대비하자.,Second Forest Raid,Larger movements detected in the forest near the dungeon. \Let's prepare thoroughly to prevent them from reaching deep into the dungeon.,森からの第二の襲撃,ダンジョン近くの森でより大きな動きが察知された。\ダンジョンの奥まで来させないよう- 万全の備えをしよう。,第二次森林袭击,在地下城附近的森林中发现更大规模的动静。\全力准备- 不能让他们深入地下城。
-,,,,,,,,,
-10003,,최후의 심판,심판의 날이 다가온다. \최후의 결전을 준비하자.,Final Judgment,The day of judgment approaches. \Let's prepare for the final battle.,最後の審判,審判の日が近づいている。\最後の決戦の準備をしよう。,最终审判,审判之日即将来临。\准备最后的决战吧。
-,,,,,,,,,
-,,,,,,,,,
-12000,,던전 레이서 [라이트닝],던전을 최단 거리로 답파하는 [던전경주]의 프로인 [라이트닝]이 던전을 찾아온다. \성공적으로 완주할 수 있도록 도움을 주면 던전의 명성이 높아질 것 같다.,Dungeon Racer Lightning,Lightning- a professional Dungeon Racing champion who clears dungeons in record time- visits the dungeon. \Helping them complete the run successfully might increase the dungeon's reputation.,ダンジョンレーサー・ライトニング,ダンジョンを最短距離で攻略するダンジョンレースのプロ- ライトニングがダンジョンを訪れる。\無事に完走できるよう手助けすれば- ダンジョンの名声が上がりそうだ。,地下城竞速者闪电,以最短路线攻克地下城的职业地下城竞速赛选手闪电来访地下城。\如果能帮助她顺利完成比赛- 地下城的声望应该会提高。
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
-,,,,,,,,,
+ID,KeyName,Name_KR,Detail_KR,Name_EN,Detail_EN,Name_JP,Detail_JP,Name_SC,Detail_SC,Name_TC,Detail_TC
+1,,던전 마스터의 일,이제부터 시작이군.  \\일단은 던전의 랭크를 높이는 걸 목표로 해볼까?,Dungeon Master's Work,Now it begins. \\Should I aim to raise the dungeon's rank first?,ダンジョンマスターの仕事,これからが始まりだな。\\まずはダンジョンのランクを上げることを目標にしてみようか？,地下城主人的工作,现在才刚刚开始。\\首先以提高地下城的等级为目标吧？,地下城主人的工作,現在才刚刚开始。\\首先以提高地下城的等級為目标吧？
+,,,,,,,,,,,
+1000,,베스트 컨디션,컨디션이 최상이다. \최대 행동력 +2,Best Condition,Your condition is at its best. \Action Points +2,ベストコンディション,調子が最高だ。\AP +2,最佳状态,状态非常好。\行动力 +2,最佳状态,状态非常好。\\行動力 +2
+1001,,워스트 컨디션,컨디션이 최악이다. \최대 행동력 ^2,Worst Condition,Your condition is at its worst. \Action Points ^2,ワーストコンディション,調子が最悪だ。\AP ^2,最差状态,状态非常糟。\行动力 ^2,最差状态,状态非常糟。\\行動力 ^2
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+1100,,초보자 던전의 슬라임,초보자 던전의 슬라임을 괴롭히려는 헌터가 찾아온다. \평범한 슬라임이 아니라는 것을 알려주자.,Slime of the Novice Dungeon,A hunter is coming to harass the slime in the Novice Dungeon. \Let's show them that this is no ordinary slime.,初心者ダンジョンのスライム,初心者ダンジョンのスライムを困らせようとするハンターがやってくる。\普通のスライムではないことを教えてやろう。,新手地下城的史莱姆,有猎人来骚扰新手地下城的史莱姆。\让他们知道这不是普通的史莱姆。,新手地下城的史莱姆,有猎人來骚扰新手地下城的史莱姆。\\讓他們知道這不是普通的史莱姆。
+1101,,어스 골렘의 핵,어스 골렘을 사냥해 핵을 가져가려는 자가 있다. \골렘의 강함을 보여주자.,Earth Golem's Core,Someone is trying to hunt the Earth Golem and take its core. \Let's demonstrate the golem's strength.,アースゴーレムの核,アースゴーレムを狩って核を持ち帰ろうとする者がいる。\ゴーレムの強さを見せつけよう。,土元素巨像的核心,有人想猎杀土元素巨像并带走它的核心。\让我们展示巨像的强大。,土元素巨像的核心,有人想猎杀土元素巨像并带走它的核心。\\讓我們展示巨像的强大。
+,,,,,,,,,,,
+1110,,[몬스터 웨이브],평소보다 몬스터가 강해지는 현상이라고 한다. \확인해 보니- 평소보다 몬스터의 성장이 빠른 걸 알아냈다. \이 기회를 잘 이용해 보자.,[Monster Wave],They say it's a phenomenon where monsters become stronger than usual. \Upon checking - I discovered that monsters grow faster than normal. \Let's make good use of this opportunity.,[モンスターウェーブ],普段よりモンスターが強くなる現象だという。\確認してみると、普段よりモンスターの成長が速いことがわかった。\このチャンスをうまく活用しよう。,[怪物潮汐],据说是怪物比平时更强的现象。\经检查，发现怪物的成长比平时更快。\好好利用这个机会吧。,[怪物潮汐],据說是怪物比平時更强的現象。\\經檢查，發現怪物的成长比平時更快。\\好好利用這個機会吧。
+1111,,[몬스터 대토벌],여신의 가호로 던전의 모든 몬스터가 약화된다고 한다. \평소보다 각별히 더 신경 쓰자. \그나저나 변덕이 심한 여신이네.,[Monster Extermination],They say all dungeon monsters are weakened by the Goddess's blessing. \Let's be even more careful than usual. \What a capricious goddess.,[モンスター大討伐],女神の加護によりダンジョンのすべてのモンスターが弱体化するという。\普段以上に特に気をつけよう。\それにしても気まぐれな女神だな。,[怪物大讨伐],据说女神的护佑会使地下城的所有怪物减弱。\比平时更加小心吧。\话说回来，真是个多变的女神。,[怪物大讨伐],据說女神的護佑会使地下城的所有怪物减弱。\\比平時更加小心吧。\\話說回來，真是個多變的女神。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+1140,,던전의 재앙,초보자 던전에 위험이 다가오고 있다.\대비가 필요하다.,Catastrophe of the Dungeon,Danger is approaching the Novice dungeon. \Preparation is needed.,ダンジョンの災厄,初心者ダンジョンに危険が迫っている。\対策が必要だ。,地下城的灾难,危险正在逼近新手地下城。\需要做好准备。,地下城的灾難,危險正在逼近新手地下城。\\需要做好准备。
+1141,,지속되는 재앙,계속해서 재앙이 찾아온다. \해결 할 방법을 찾자.,The catastrophe continues,Disasters keep coming. \Find a way to resolve them.,続く災厄,災害が続けて訪れている。\解決方法を見つけよう。,持续的灾难,灾难接二连三地来临。 \让我们找到解决的方法。,持续的灾難,灾難接二連三地來临。 \\讓我們找到解决的方法。
+1142,,재앙 해결의 실마리,수상한 자에게서 단서를 얻었다. \분명 봉인 결계라고 했지? \밑져야 본전이니까 한 번 시도해보자.,Clues to solving catastrophe,I got a clue from that suspicious figure. \They definitely mentioned a Barrier of Sealing- right? \There's nothing to lose- so let's give it a try.,大惨事を解決する糸口,怪しい者から手がかりを得た。\確か封印結界って言ったよな？\せっかくだから一度やってみよう。,灾难解决的线索,从可疑的人那里得到了线索。 \他确实说了封印结界吧？ \反正试试也无妨- 让我们试一试吧。,灾難解决的線索,从可疑的人那里得到了線索。 \\他確實說了封印结界吧？ \\反正试试也無妨- 讓我們试一试吧。
+,,,,,,,,,,,
+,,,,,,,,,,,
+1150,,고블린의 재방문,고블린이 분명 다시 올 것 같다.\\던전이 위험해질 수도 있으니 단단히 준비하자!,Goblin Revisited,The goblins will definitely come back. \Prepare well as the dungeon might become dangerous!,ゴブリンの再訪,ゴブリンが確実に再び来るようだ。\ダンジョンが危険になるかもしれないので、しっかり準備しよう！,哥布林的再次来访,哥布林肯定会再来的。\\地下城可能会变得危险- 要做好充分准备！,哥布林的再次來访,哥布林肯定会再來的。\\地下城可能会變得危險- 要做好充分准备！
+1151,,은퇴한 영웅,은퇴한 영웅이 던전에 방문할 계획을 세우고 있다.\\던전이 격파당하지 않도록 단단히 준비하자!,Retired Heroes,A retired hero is planning to visit the dungeon. \Prepare thoroughly to ensure the dungeon is not defeated!,引退した英雄,引退した英雄がダンジョンを訪れる計画を立てている。\ダンジョンが破壊されないようにしっかり準備しよう！,退休的英雄,退休的英雄计划访问地下城。\\为了不让地下城被攻破- 要做好充分准备！,退休的英雄,退休的英雄計划访问地下城。\\為了不讓地下城被攻破- 要做好充分准备！
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+2102,,북쪽 나라의 전쟁,북쪽에서 전쟁으로 인해 포션의 수요가 급증해 약초가 귀해졌다고 한다.\아마 던전을 찾는 약초꾼들도 더 많아질 것 같으니 당분간 상황에 맞춰서 대응하자.,War in the Northern Country,They say the war in the north has caused a surge in potion demand- making herbs scarce.\More herb gatherers will likely come to the dungeon- so let's adapt to the situation for now.,北国の戦争,北部での戦争によりポーションの需要が急増し、薬草が貴重になったそうだ。\おそらくダンジョンを訪れる薬草採集者も増えるだろうから、しばらくは状況に応じて対応しよう。,北方国家的战争,据说北方的战争导致药水需求激增- 药草变得稀缺了。\可能来地下城找药草的人也会增多- 所以暂时要根据情况应对。,北方國家的战争,据說北方的战争導致藥水需求激增- 藥草變得稀缺了。\\可能來地下城找藥草的人也会增多- 所以暂時要根据情况应對。
+2103,,옆나라 성의 재건축,옆 나라 왕국에서 성의 재건축으로 인해 건축자재용 광물이 많이 필요하다고 한다. \이에 따라 당분간 광물을 원하는 모험가들이 많이 방문할 것 같다.,Reconstruction of Neighboring Castle,The neighboring kingdom needs many minerals for construction materials due to castle reconstruction. \It seems many adventurers looking for minerals will visit for a while.,隣国の城の再建,隣国の王国で城の再建により建築材料用の鉱物が大量に必要とされているそうです。\しばらくの間- 鉱物を求める冒険者が多く訪れそうです。,邻国城堡的重建,据说邻国因城堡重建需要大量建筑用矿物。\因此- 近期寻找矿物的冒险者可能会增多。,鄰國城堡的重建,据說鄰國因城堡重建需要大量建筑用礦物。\\因此- 近期寻找礦物的冒險者可能会增多。
+2104,,최강 모험가 토너먼트,최강 모험가 토너먼트라는게 열린다고 한다. \그것을 위해 모험가들이 평소보다 더 부지런히 움직인다고 하니 주의하자.,Ultimate Adventurer Tournament,I hear that something called the Ultimate Adventurer Tournament will be held. \Adventurers are moving more diligently than usual for it - so let's be careful.,最強冒険者トーナメント,最強冒険者トーナメントというものが開催されるらしい。\そのために冒険者たちがいつもより忙しく動いているようなので注意しよう。,最强冒险者锦标赛,据说将举办一个叫做最强冒险者锦标赛的活动。\为此冒险者们比平时更加勤奋地活动，我们要注意。,最强冒險者锦标賽,据說将举办一個叫做最强冒險者锦标賽的活動。\\為此冒險者們比平時更加勤奋地活動，我們要注意。
+2105,,알 수 없는 전염병,전염병이 돌고 있다고 한다. 이상하게 나는 건강한걸? \모험가들만 약해진다면- 나쁠 건 없지.,Unknown Epidemic,They say an epidemic is going around. Strange that I'm healthy? \If only adventurers get weaker - that's not so bad.,原因不明の伝染病,伝染病が流行しているらしい。不思議なことに私は健康だが？\冒険者たちだけが弱くなるなら、悪いことではない。,不明传染病,据说有传染病正在流行。奇怪的是我很健康？\如果只有冒险者变弱，那也不是坏事。,不明傳染病,据說有傳染病正在流行。奇怪的是我很健康？\\如果只有冒險者變弱，那也不是坏事。
+2106,,[여신제],일정 기간 모험가들이 여신의 축복을 받아 강해진다. 평소보다 더 조심할 필요가 있겠어. \그런데 나는 왜 그대로지? \의문투성이군.,[Goddess Festival],For a certain period - adventurers receive the Goddess's blessing and become stronger. I need to be more careful than usual. \But why am I unchanged? \So many questions.,[女神祭],一定期間、冒険者たちが女神の祝福を受けて強くなる。普段より注意する必要がありそうだ。\でも私はなぜ変わらないのだろう？\疑問だらけだ。,[女神节],在特定时期，冒险者们获得女神祝福变得更强。需要比平时更加小心。\但为什么我没有变化？\真是疑问重重。,[女神節],在特定時期，冒險者們獲得女神祝福變得更强。需要比平時更加小心。\\但為什么我没有變化？\\真是疑问重重。
+2107,,골드가 많은 모험가,길드의 이벤트로 모험가들이 평소보다 골드를 더 많이 들고있다. \조금만 뜯어내 볼까?,More Gold,Due to the guild's event - adventurers are carrying more gold than usual. \Shall I skim a little off the top?,もっと多くのゴールド,ギルドのイベントで冒険者たちがいつもよりゴールドをたくさん持っている。\少し巻き上げてみようか？,更多金币,因公会活动，冒险者们比平时携带更多金币。\要不要敲诈一点？,更多金幣,因公会活動，冒險者們比平時携带更多金幣。\\要不要敲诈一點？
+,,,,,,,,,,,
+,,,,,,,,,,,
+4020,,녹빛 궁사,초록머리의 궁사가 던전에 찾아온다. \뭔가를 찾고 있는듯 한데...?,Verdant Archer,A green^haired archer is coming to the dungeon. \It seems like they are looking for something...?,緑色の弓矢,緑髪の弓使いがダンジョンにやって来る。\何かを探しているようだけど...?,翠绿弓手,绿发的弓手来到了地下城。 \看起来像在寻找什么...？,翠绿弓手,绿發的弓手來到了地下城。 \\看起來像在寻找什么...？
+4030,,녹빛 궁사,초록머리의 궁사가 계속 던전에 찾아온다. \뭔가를 찾고 있는 듯 하지만 대화가 통하질 않는다. \특수시설 중에서 뭔가 방법이 있지 않을까?,Verdant Archer,The green^haired archer keeps coming to the dungeon. \She seems to be looking for something- but communication is impossible. \Could there be a solution among the special facilities?,緑色の弓矢,緑髪の弓使いが地下城に来続けている。\何かを探しているようだが- 会話が通じない。\特殊施設の中に何か方法があるのではないだろうか？,翠绿弓手,绿发弓箭手不断造访地下城。\她似乎在寻找什么- 但无法与之交流。\特殊设施中会不会有什么办法呢？,翠绿弓手,绿發弓箭手不断造访地下城。\\她似乎在寻找什么- 但無法与之交流。\\特殊設施中会不会有什么办法呢？
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+7010,,길드 토벌대,길드 토벌대가 준비중이다. \대비하자.,Guild Raid Team,The Guild raid team are coming. \Let's get ready.,ギルド討伐隊,ギルド討伐隊が準備中だ。\準備しよう。,公会讨伐队,公会的讨伐队正在准备中。 \做好准备吧。,公会讨伐隊,公会的讨伐隊正在准备中。 \\做好准备吧。
+7020,,두번 째 길드 토벌대,두번 째 길드 토벌대가 준비중이다. \대비하자.,Second Guild Raid Team,The second Guild raid team are coming. \Let's get ready.,第二回目のギルド討伐隊,第二回目のギルド討伐隊が準備中。準備しよう。,第二支公会讨伐队,第二支公会讨伐队正在准备中。 \做好准备吧。,第二支公会讨伐隊,第二支公会讨伐隊正在准备中。 \\做好准备吧。
+,,,,,,,,,,,
+8010,,숲에서의 습격,던전 근처의 숲에서 수상한 움직임이 포착됐다. \던전을 노리고 있을테니 대비하자.,Forest Raid,Suspicious movements detected in the forest near the dungeon. \They must be targeting the dungeon- let's prepare.,森からの襲撃,ダンジョン近くの森で不審な動きが察知された。\ダンジョンを狙っているはずだ- 備えを整えよう。,森林袭击,在地下城附近的森林中发现可疑动静。\他们一定在盯着地下城- 做好准备吧。,森林袭击,在地下城附近的森林中發現可疑動静。\\他們一定在盯着地下城- 做好准备吧。
+8020,,숲에서의 두번 째 습격,던전 근처의 숲에서 더 큰 움직임이 포착됐다. \던전의 안쪽까지 오지 못하게 최대한 대비하자.,Second Forest Raid,Larger movements detected in the forest near the dungeon. \Let's prepare thoroughly to prevent them from reaching deep into the dungeon.,森からの第二の襲撃,ダンジョン近くの森でより大きな動きが察知された。\ダンジョンの奥まで来させないよう- 万全の備えをしよう。,第二次森林袭击,在地下城附近的森林中发现更大规模的动静。\全力准备- 不能让他们深入地下城。,第二次森林袭击,在地下城附近的森林中發現更大規模的動静。\\全力准备- 不能讓他們深入地下城。
+,,,,,,,,,,,
+10003,,최후의 심판,심판의 날이 다가온다. \최후의 결전을 준비하자.,Final Judgment,The day of judgment approaches. \Let's prepare for the final battle.,最後の審判,審判の日が近づいている。\最後の決戦の準備をしよう。,最终审判,审判之日即将来临。\准备最后的决战吧。,最终审判,审判之日即将來临。\\准备最后的决战吧。
+,,,,,,,,,,,
+,,,,,,,,,,,
+12000,,던전 레이서 [라이트닝],던전을 최단 거리로 답파하는 [던전경주]의 프로인 [라이트닝]이 던전을 찾아온다. \성공적으로 완주할 수 있도록 도움을 주면 던전의 명성이 높아질 것 같다.,Dungeon Racer Lightning,Lightning- a professional Dungeon Racing champion who clears dungeons in record time- visits the dungeon. \Helping them complete the run successfully might increase the dungeon's reputation.,ダンジョンレーサー・ライトニング,ダンジョンを最短距離で攻略するダンジョンレースのプロ- ライトニングがダンジョンを訪れる。\無事に完走できるよう手助けすれば- ダンジョンの名声が上がりそうだ。,地下城竞速者闪电,以最短路线攻克地下城的职业地下城竞速赛选手闪电来访地下城。\如果能帮助她顺利完成比赛- 地下城的声望应该会提高。,地下城竞速者闪電,以最短路線攻克地下城的职业地下城竞速賽選手闪電來访地下城。\\如果能帮助她順利完成比賽- 地下城的声望应该会提高。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,

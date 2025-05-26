@@ -155,6 +155,10 @@ public class UI_TileView : UI_PopUp, IWorldSpaceUI
             {
                 detail += $"[<b>{strData.labelName.SetTextColorTag(Define.TextColor.Plus_Red)}</b>]";
             }
+            else if (strData.statusType == SO_BattleStatus.StatusType.Special)
+            {
+                detail += $"[<b>{strData.labelName.SetTextColorTag(Define.TextColor.Plus_Blue)}</b>]";
+            }
 
             detail += $"<b> x {item.Value}\n</b>";
         }

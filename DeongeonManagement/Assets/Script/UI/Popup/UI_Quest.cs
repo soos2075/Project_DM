@@ -82,69 +82,39 @@ public class UI_Quest : UI_PopUp
 
 
 
-    void Init_Contents()
-    {
-        //var pos = GetComponentInChildren<ContentSizeFitter>().transform;
+    //void Init_Contents()
+    //{
+    //    //var pos = GetComponentInChildren<ContentSizeFitter>().transform;
 
-        foreach (var item in EventManager.Instance.CurrentQuestAction_forSave)
-        {
-            int id = item;
+    //    foreach (var item in EventManager.Instance.CurrentQuestAction_forSave)
+    //    {
+    //        int id = item;
 
-            string title = Managers.Dialogue.GetDialogue((DialogueName)id).dialogueName;
-            string detail = Managers.Dialogue.GetDialogue((DialogueName)id).TextDataList[0].mainText;
-            string day = Managers.Dialogue.GetDialogue((DialogueName)id).TextDataList[0].optionString;
-
-
-            if (day.Contains("@NoView"))
-            {
-                continue;
-            }
-
-            var content = Managers.Resource.Instantiate("UI/PopUp/Element/QuestBox", pos).GetComponent<UI_QuestBox>();
-
-            int dayOption = 0;
-            if (day.Contains("@Day"))
-            {
-                string numbersOnly = System.Text.RegularExpressions.Regex.Replace(day, "[^0-9]", "");
-                if (string.IsNullOrEmpty(numbersOnly) == false)
-                {
-                    dayOption = int.Parse(numbersOnly);
-                }
-            }
-
-            content.SetText(title, detail, dayOption);
-        }
+    //        string title = Managers.Dialogue.GetDialogue((DialogueName)id).dialogueName;
+    //        string detail = Managers.Dialogue.GetDialogue((DialogueName)id).TextDataList[0].mainText;
+    //        string day = Managers.Dialogue.GetDialogue((DialogueName)id).TextDataList[0].optionString;
 
 
-        //for (int i = 0; i < EventManager.Instance.CurrentQuestAction_forSave.Count; i++)
-        //{
-        //    int id = EventManager.Instance.CurrentQuestAction_forSave[i];
+    //        if (day.Contains("@NoView"))
+    //        {
+    //            continue;
+    //        }
 
-        //    string title = Managers.Dialogue.GetDialogue((DialogueName)id).dialogueName;
-        //    string detail = Managers.Dialogue.GetDialogue((DialogueName)id).TextDataList[0].mainText;
-        //    string day = Managers.Dialogue.GetDialogue((DialogueName)id).TextDataList[0].optionString;
+    //        var content = Managers.Resource.Instantiate("UI/PopUp/Element/QuestBox", pos).GetComponent<UI_QuestBox>();
 
-        //    if (day.Contains("@NoView"))
-        //    {
-        //        continue;
-        //    }
+    //        int dayOption = 0;
+    //        if (day.Contains("@Day"))
+    //        {
+    //            string numbersOnly = System.Text.RegularExpressions.Regex.Replace(day, "[^0-9]", "");
+    //            if (string.IsNullOrEmpty(numbersOnly) == false)
+    //            {
+    //                dayOption = int.Parse(numbersOnly);
+    //            }
+    //        }
 
-
-        //    var content = Managers.Resource.Instantiate("UI/PopUp/Element/QuestBox", pos).GetComponent<UI_QuestBox>();
-
-        //    int dayOption = 0;
-        //    if (day.Contains("@Day"))
-        //    {
-        //        string numbersOnly = System.Text.RegularExpressions.Regex.Replace(day, "[^0-9]", "");
-        //        if (string.IsNullOrEmpty(numbersOnly) == false)
-        //        {
-        //            dayOption = int.Parse(numbersOnly);
-        //        }
-        //    }
-
-        //    content.SetText(title, detail, dayOption);
-        //}
-    }
+    //        content.SetText(title, detail, dayOption);
+    //    }
+    //}
 
 
     void Soothsayer_Orb()

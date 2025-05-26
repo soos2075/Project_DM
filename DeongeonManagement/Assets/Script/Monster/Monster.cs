@@ -12,6 +12,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     {
         anim = GetComponentInChildren<Animator>();
         sizeOffset = transform.localScale.x;
+        BattleStatus_Init();
     }
 
 
@@ -241,12 +242,12 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
     #region I_Battle Stat
 
-    BattleStatus currentBattleStatus = new BattleStatus();
+    BattleStatus currentBattleStatus;
     public BattleStatus BattleStatus { get => currentBattleStatus; set => currentBattleStatus = value; }
 
     //? 전투시 사용할 스탯 (최종 결과값)
     public int B_HP { get => (HP_normal + HP_Status) - HP_Damaged; }
-    public int B_HP_Max { get => HP_MAX + HP_Bonus; }
+    public int B_HP_Max { get => HP_MAX + HP_Bonus + Trait_HP; }
     public int B_ATK { get => ATK_normal + ATK_Status; }
     public int B_DEF { get => DEF_normal + DEF_Status; }
     public int B_AGI { get => AGI_normal + AGI_Status; }
@@ -256,7 +257,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     public int HP_Damaged { get; set; }
 
     public int HP_normal { get => HP + HP_Bonus + Trait_HP; }
-    public int HP_Status { get => Mathf.RoundToInt(HP_normal * BattleStatus.Get_HP_Stauts()); }
+    public int HP_Status { get => BattleStatus.Get_Fixed_HP() + Mathf.RoundToInt(HP_normal * BattleStatus.Get_HP_Stauts()); }
 
     //? 기본 수치 (에디터 및 계산용)
     public int Base_HP_MAX { get => HP_MAX; }
@@ -272,10 +273,10 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     public int LUK_normal { get => (LUK + LUK_Bonus + AllStat_Bonus + Trait_LUK); }
 
     //? 현재 상태이상을 적용시킨 수치
-    public int ATK_Status { get => Mathf.RoundToInt(ATK_normal * BattleStatus.Get_ATK_Status()); }
-    public int DEF_Status { get => Mathf.RoundToInt(DEF_normal * BattleStatus.Get_DEF_Status()); }
-    public int AGI_Status { get => Mathf.RoundToInt(AGI_normal * BattleStatus.Get_AGI_Status()); }
-    public int LUK_Status { get => Mathf.RoundToInt(LUK_normal * BattleStatus.Get_LUK_Status()); }
+    public int ATK_Status { get => BattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(ATK_normal * BattleStatus.Get_ATK_Status()); }
+    public int DEF_Status { get => BattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(DEF_normal * BattleStatus.Get_DEF_Status()); }
+    public int AGI_Status { get => BattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(AGI_normal * BattleStatus.Get_AGI_Status()); }
+    public int LUK_Status { get => BattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(LUK_normal * BattleStatus.Get_LUK_Status()); }
 
     #endregion
 
@@ -291,7 +292,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
     void BattleStatus_Init()
     {
-        BattleStatus = new BattleStatus();
+        BattleStatus = new BattleStatus(this.gameObject);
     }
     protected virtual void BattleStatue_TurnStart()
     {

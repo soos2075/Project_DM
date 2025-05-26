@@ -50,8 +50,8 @@ public class DialogueManager
                 currentData = Managers.Data.Dialogue_JP;
                 break;
 
-            case Define.Language.SCC:
-                currentData = Managers.Data.Dialogue_SCC;
+            case Define.Language.SC:
+                currentData = Managers.Data.Dialogue_SC;
                 break;
         }
     }
@@ -245,10 +245,23 @@ public class DialogueManager
         }
 
 
-        if (WaitCor == null)
+        if (WaitCor != null)
         {
-            WaitCor = Managers.Instance.StartCoroutine(WaitDialogueAndAction());
+            Managers.Instance.StopCoroutine(WaitCor);
+            WaitCor = null;
         }
+
+        WaitCor = Managers.Instance.StartCoroutine(WaitDialogueAndAction());
+
+        //if (WaitCor == null)
+        //{
+        //    WaitCor = Managers.Instance.StartCoroutine(WaitDialogueAndAction());
+        //}
+        //else
+        //{
+        //    Managers.Instance.StopCoroutine(WaitCor);
+        //    WaitCor = Managers.Instance.StartCoroutine(WaitDialogueAndAction());
+        //}
     }
 
     IEnumerator WaitDialogueAndAction()

@@ -200,15 +200,12 @@ public class UI_CollectionUnit : UI_Base
         InitAndSetData(parent);
         Data_BattleStatus = data;
 
-        //GetObject((int)Objects.UnitSprite).GetComponent<Image>().color = Color.white;
         GetObject((int)Objects.UnitName).GetComponent<TextMeshProUGUI>().text = data.unit.labelName;
 
-        //string category = string.IsNullOrEmpty(data.unit.SLA_Category) ? "Basic" : data.unit.SLA_Category;
-        //string label = string.IsNullOrEmpty(data.unit.SLA_Label) ? "Entry" : data.unit.SLA_Label;
-
+        GetObject((int)Objects.UnitSprite).GetComponent<Image>().color = Color.white;
         GetObject((int)Objects.UnitSprite).GetComponentInChildren<Image>().sprite =
-            Managers.Sprite.GetClear();
-            //Managers.Sprite.Get_SLA(SpriteManager.Library.Trait, category, label);
+            Managers.Sprite.Get_SLA(SpriteManager.Library.BattleStatus, $"{data.unit.statusType}", $"{data.unit.label}");
+            //Managers.Sprite.GetClear();
     }
 
 

@@ -30,7 +30,7 @@ public class GreyHound : Monster
     public override void Load_EvolutionMonster()
     {
         Data = GameManager.Monster.GetData("HellHound");
-        GameManager.Monster.ChangeSLA_New(this, "HellHound");
+        GameManager.Monster.ChangeSLA(this, "HellHound");
         GameManager.Monster.Regist_Evolution("GreyHound");
     }
 

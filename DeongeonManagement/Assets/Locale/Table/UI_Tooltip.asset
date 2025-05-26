@@ -18,6 +18,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 82634c32d061748459d2b4f14a86c782, type: 2}
   - {fileID: 11400000, guid: 90739995df0ec4f408528126c356a19b, type: 2}
   - {fileID: 11400000, guid: c87866d6e92ec6d40890efe6579f6c92, type: 2}
+  - {fileID: 11400000, guid: ea2d68176dba8164096a66c1a3598359, type: 2}
   m_Extensions:
   - rid: 8083692477963304974
   m_Group: String Table
@@ -34,6 +35,7 @@ MonoBehaviour:
         - rid: 8083692477963304977
         - rid: 8083692477963304978
         - rid: 8083692477963304979
+        - rid: 8368730929062477827
         m_ConnectedFile: 
     - rid: 8083692477963304975
       type: {class: KeyIdColumns, ns: UnityEditor.Localization.Plugins.CSV.Columns, asm: Unity.Localization.Editor}
@@ -74,4 +76,12 @@ MonoBehaviour:
           m_Code: zh-Hans
         m_FieldName: Chinese (Simplified)(zh-Hans)
         m_CommentFieldName: Chinese (Simplified)(zh-Hans) Comments
+        m_IncludeComments: 0
+    - rid: 8368730929062477827
+      type: {class: LocaleColumns, ns: UnityEditor.Localization.Plugins.CSV.Columns, asm: Unity.Localization.Editor}
+      data:
+        m_LocaleIdentifier:
+          m_Code: zh-Hant
+        m_FieldName: Chinese (Traditional)(zh-Hant)
+        m_CommentFieldName: Chinese (Traditional)(zh-Hant) Comments
         m_IncludeComments: 0

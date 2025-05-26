@@ -272,7 +272,7 @@ public class UI_NewGamePlus : UI_PopUp
         btn[1].gameObject.AddUIEvent(data => DifficultSelect(1));
         btn[2].gameObject.AddUIEvent(data => DifficultSelect(2));
         btn[3].gameObject.AddUIEvent(data => DifficultSelect(3));
-        btn[4].gameObject.AddUIEvent(data => DifficultSelect(4));
+        //btn[4].gameObject.AddUIEvent(data => DifficultSelect(4));
 
         foreach (var item in btn)
         {
@@ -282,7 +282,7 @@ public class UI_NewGamePlus : UI_PopUp
         int currentMaxLevel = UserData.Instance.CurrentPlayerData.GetHighestDifficultyLevel();
         for (int i = 0; i < currentMaxLevel + 2; i++)
         {
-            if (i > 4) break;
+            if (i >= 4) break;
 
             btn[i].gameObject.SetActive(true);
         }
@@ -579,18 +579,18 @@ public class UI_NewGamePlus : UI_PopUp
 
 
 
-        BonusDict.Add(Bonus.Unit_BloodySlime, new BtnEvent(Panel.UnitPanel, Bonus.Unit_BloodySlime, 3));
-        BonusDict.Add(Bonus.Unit_FlameGolem, new BtnEvent(Panel.UnitPanel, Bonus.Unit_FlameGolem, 3));
+        BonusDict.Add(Bonus.Unit_BloodySlime, new BtnEvent(Panel.UnitPanel, Bonus.Unit_BloodySlime, 5));
+        BonusDict.Add(Bonus.Unit_FlameGolem, new BtnEvent(Panel.UnitPanel, Bonus.Unit_FlameGolem, 5));
 
-        BonusDict.Add(Bonus.Unit_Pixie, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Pixie, 6));
-        BonusDict.Add(Bonus.Unit_HellHound, new BtnEvent(Panel.UnitPanel, Bonus.Unit_HellHound, 6));
+        BonusDict.Add(Bonus.Unit_Pixie, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Pixie, 10));
+        BonusDict.Add(Bonus.Unit_HellHound, new BtnEvent(Panel.UnitPanel, Bonus.Unit_HellHound, 10));
 
-        BonusDict.Add(Bonus.Unit_Salinu, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Salinu, 9));
-        BonusDict.Add(Bonus.Unit_Griffin, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Griffin, 9));
-        BonusDict.Add(Bonus.Unit_Lilith, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Lilith, 9));
+        BonusDict.Add(Bonus.Unit_Salinu, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Salinu, 12));
+        BonusDict.Add(Bonus.Unit_Griffin, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Griffin, 15));
+        BonusDict.Add(Bonus.Unit_Lilith, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Lilith, 13));
 
 
-        BonusDict.Add(Bonus.Unit_Rena, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Rena, 12));
+        BonusDict.Add(Bonus.Unit_Rena, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Rena, 15));
 
         BonusDict.Add(Bonus.Unit_Ravi, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Ravi, 15));
         BonusDict.Add(Bonus.Unit_Lievil, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Lievil, 15));
@@ -599,12 +599,12 @@ public class UI_NewGamePlus : UI_PopUp
 
 
         //? artifact
-        BonusDict.Add(Bonus.Arti_Hero, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_Hero, 10));
-        BonusDict.Add(Bonus.Arti_Decay, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_Decay, 15));
-        BonusDict.Add(Bonus.Arti_Pop, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_Pop, 3));
-        BonusDict.Add(Bonus.Arti_Danger, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_Danger, 3));
-        BonusDict.Add(Bonus.Arti_DownDanger, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_DownDanger,6));
-        BonusDict.Add(Bonus.Arti_DownPop, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_DownPop, 6));
+        BonusDict.Add(Bonus.Arti_Hero, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_Hero, 15));
+        BonusDict.Add(Bonus.Arti_Decay, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_Decay, 20));
+        BonusDict.Add(Bonus.Arti_Pop, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_Pop, 5));
+        BonusDict.Add(Bonus.Arti_Danger, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_Danger, 5));
+        BonusDict.Add(Bonus.Arti_DownDanger, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_DownDanger,7));
+        BonusDict.Add(Bonus.Arti_DownPop, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_DownPop, 7));
     }
 
 

@@ -50,6 +50,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7d88a9d56592f454bb8e740d1baad72f, type: 2}
   - {fileID: 11400000, guid: 4e9092a83052eea42b7bda5924657ac4, type: 2}
   - {fileID: 11400000, guid: 2a74b965985eaa34799f2950f0a6dd36, type: 2}
+  - {fileID: 11400000, guid: 2c155882e3bf97045ba6a2ee14f5769d, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -98,6 +99,7 @@ MonoBehaviour:
     - Locale-ko
     - csvData
     - Locale-zh-Hans
+    - Locale-zh-Hant
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 394412ef2cdbfb04086d42b660c1a35a, type: 2}

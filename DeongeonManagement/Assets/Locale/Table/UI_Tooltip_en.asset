@@ -184,8 +184,8 @@ MonoBehaviour:
   - m_Id: 44919874486743040
     m_Localized: 'Unit''s health.
 
-      When it reaches 0, the unit is injured and
-      retreats.'
+      When it reaches 0, the unit is injured
+      and retreats.'
     m_Metadata:
       m_Items: []
   - m_Id: 44919896993378304

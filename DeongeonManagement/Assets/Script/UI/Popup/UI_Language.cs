@@ -25,8 +25,8 @@ public class UI_Language : UI_PopUp
         Country_EN,
         Country_KO,
         Country_JP,
-        //Country_CN,
-        Country_SCC,
+        Country_SC,
+        Country_TC,
     }
 
 
@@ -37,7 +37,8 @@ public class UI_Language : UI_PopUp
         GetObject((int)Selection.Country_EN).AddUIEvent((data) => ChangeLanguage(Define.Language.EN));
         GetObject((int)Selection.Country_KO).AddUIEvent((data) => ChangeLanguage(Define.Language.KR));
         GetObject((int)Selection.Country_JP).AddUIEvent((data) => ChangeLanguage(Define.Language.JP));
-        GetObject((int)Selection.Country_SCC).AddUIEvent((data) => ChangeLanguage(Define.Language.SCC));
+        GetObject((int)Selection.Country_SC).AddUIEvent((data) => ChangeLanguage(Define.Language.SC));
+        GetObject((int)Selection.Country_TC).AddUIEvent((data) => ChangeLanguage(Define.Language.TC));
     }
 
 

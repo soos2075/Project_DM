@@ -109,8 +109,12 @@ public class DataManager
                 Managers.Data.ObjectsLabel_JP.TryGetValue(id, out datas);
                 break;
 
-            case Define.Language.SCC:
-                Managers.Data.ObjectsLabel_SCC.TryGetValue(id, out datas);
+            case Define.Language.SC:
+                Managers.Data.ObjectsLabel_SC.TryGetValue(id, out datas);
+                break;
+
+            case Define.Language.TC:
+                Managers.Data.ObjectsLabel_TC.TryGetValue(id, out datas);
                 break;
         }
         return datas;
@@ -132,8 +136,12 @@ public class DataManager
                 Managers.Data.Journal_JP.TryGetValue(id, out datas);
                 break;
 
-            case Define.Language.SCC:
-                Managers.Data.Journal_SCC.TryGetValue(id, out datas);
+            case Define.Language.SC:
+                Managers.Data.Journal_SC.TryGetValue(id, out datas);
+                break;
+
+            case Define.Language.TC:
+                Managers.Data.Journal_TC.TryGetValue(id, out datas);
                 break;
         }
         return datas;
@@ -155,8 +163,12 @@ public class DataManager
                 Managers.Data.Trait_JP.TryGetValue((TraitGroup)id, out datas);
                 break;
 
-            case Define.Language.SCC:
-                Managers.Data.Trait_SCC.TryGetValue((TraitGroup)id, out datas);
+            case Define.Language.SC:
+                Managers.Data.Trait_SC.TryGetValue((TraitGroup)id, out datas);
+                break;
+
+            case Define.Language.TC:
+                Managers.Data.Trait_TC.TryGetValue((TraitGroup)id, out datas);
                 break;
         }
         return datas;
@@ -179,8 +191,12 @@ public class DataManager
                 Managers.Data.Artifact_JP.TryGetValue((ArtifactLabel)id, out datas);
                 break;
 
-            case Define.Language.SCC:
-                Managers.Data.Artifact_SCC.TryGetValue((ArtifactLabel)id, out datas);
+            case Define.Language.SC:
+                Managers.Data.Artifact_SC.TryGetValue((ArtifactLabel)id, out datas);
+                break;
+
+            case Define.Language.TC:
+                Managers.Data.Artifact_TC.TryGetValue((ArtifactLabel)id, out datas);
                 break;
         }
         return datas;
@@ -202,8 +218,12 @@ public class DataManager
                 Managers.Data.Title_JP.TryGetValue(id, out datas);
                 break;
 
-            case Define.Language.SCC:
-                Managers.Data.Title_SCC.TryGetValue(id, out datas);
+            case Define.Language.SC:
+                Managers.Data.Title_SC.TryGetValue(id, out datas);
+                break;
+
+            case Define.Language.TC:
+                Managers.Data.Title_TC.TryGetValue(id, out datas);
                 break;
         }
         return datas;
@@ -226,8 +246,12 @@ public class DataManager
                 Managers.Data.RandomEvent_JP.TryGetValue(id, out datas);
                 break;
 
-            case Define.Language.SCC:
-                Managers.Data.RandomEvent_SCC.TryGetValue(id, out datas);
+            case Define.Language.SC:
+                Managers.Data.RandomEvent_SC.TryGetValue(id, out datas);
+                break;
+
+            case Define.Language.TC:
+                Managers.Data.RandomEvent_TC.TryGetValue(id, out datas);
                 break;
         }
         return datas;
@@ -250,8 +274,12 @@ public class DataManager
                 Managers.Data.BattleStatus_JP.TryGetValue(id, out datas);
                 break;
 
-            case Define.Language.SCC:
-                Managers.Data.BattleStatus_SCC.TryGetValue(id, out datas);
+            case Define.Language.SC:
+                Managers.Data.BattleStatus_SC.TryGetValue(id, out datas);
+                break;
+
+            case Define.Language.TC:
+                Managers.Data.BattleStatus_TC.TryGetValue(id, out datas);
                 break;
         }
         return datas;
@@ -267,14 +295,15 @@ public class DataManager
     public Dictionary<int, string[]> ObjectsLabel_KR = new Dictionary<int, string[]>();
     public Dictionary<int, string[]> ObjectsLabel_EN = new Dictionary<int, string[]>();
     public Dictionary<int, string[]> ObjectsLabel_JP = new Dictionary<int, string[]>();
-    public Dictionary<int, string[]> ObjectsLabel_SCC = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> ObjectsLabel_SC = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> ObjectsLabel_TC = new Dictionary<int, string[]>();
 
     //? csv 데이터 항목 - Option은 좀 더 상세분류로 나뉨 - @Op1::Op1  가 존재하면 옵션이 존재하는것
     // 0 KeyName / 1 id /
     // 2 Label_KR / 3 Detail_KR / 4 Option_KR
     // 5 Label_EN / 6 Detail_EN / 7 Option_EN
     // 8 Label_JP / 9 Detail_JP / 10 Option_JP
-    // 11 Label_SCC / 12 Detail_SCC / 13 Option_SCC
+    // 11 Label_SC / 12 Detail_SC / 13 Option_SC
     void CSV_File_Parsing_ObjectAll(string _stringData)
     {
         if (string.IsNullOrEmpty(_stringData)) return;
@@ -322,7 +351,8 @@ public class DataManager
             ObjectsLabel_KR.Add(int.Parse(datas[1]), new string[] { datas[2], datas[3], datas[4] });
             ObjectsLabel_EN.Add(int.Parse(datas[1]), new string[] { datas[5], datas[6], datas[7] });
             ObjectsLabel_JP.Add(int.Parse(datas[1]), new string[] { datas[8], datas[9], datas[10] });
-            ObjectsLabel_SCC.Add(int.Parse(datas[1]), new string[] { datas[11], datas[12], datas[13] });
+            ObjectsLabel_SC.Add(int.Parse(datas[1]), new string[] { datas[11], datas[12], datas[13] });
+            ObjectsLabel_TC.Add(int.Parse(datas[1]), new string[] { datas[14], datas[15], datas[16] });
         }
         LoadSucceed();
     }
@@ -331,14 +361,15 @@ public class DataManager
     public Dictionary<DialogueName, DialogueData> Dialogue_KR { get; } = new Dictionary<DialogueName, DialogueData>();
     public Dictionary<DialogueName, DialogueData> Dialogue_EN { get; } = new Dictionary<DialogueName, DialogueData>();
     public Dictionary<DialogueName, DialogueData> Dialogue_JP { get; } = new Dictionary<DialogueName, DialogueData>();
-    public Dictionary<DialogueName, DialogueData> Dialogue_SCC { get; } = new Dictionary<DialogueName, DialogueData>();
+    public Dictionary<DialogueName, DialogueData> Dialogue_SC { get; } = new Dictionary<DialogueName, DialogueData>();
+    public Dictionary<DialogueName, DialogueData> Dialogue_TC { get; } = new Dictionary<DialogueName, DialogueData>();
 
     //? csv 데이터 항목
     // 0 Type(Bubble/Quest) / 1 ID / 2 KeyName / 3 Index / 4 optionString
     // 5 mainText_KR / 11 Title_KR
     // 6 mainText_EN / 12 Title_EN
     // 7 mainText_JP / 13 Title_JP
-    // 8 mainText_SCC / 14 Title_SCC (간체자)
+    // 8 mainText_SC / 14 Title_SC
 
     void CSV_File_Parsing_DialogueAll(string _stringData)
     {
@@ -361,7 +392,8 @@ public class DataManager
             var dialogue_KR = new DialogueData(id, type, spl_comma[11]);
             var dialogue_EN = new DialogueData(id, type, spl_comma[12]);
             var dialogue_JP = new DialogueData(id, type, spl_comma[13]);
-            var dialogue_SCC = new DialogueData(id, type, spl_comma[14]);
+            var dialogue_SC = new DialogueData(id, type, spl_comma[14]);
+            var dialogue_TC = new DialogueData(id, type, spl_comma[15]);
 
             while (string.IsNullOrEmpty(spl_comma[3]) == false)
             {
@@ -371,7 +403,8 @@ public class DataManager
                 string mainText_KR = ContainsAndJoin(spl_comma[5]);
                 string mainText_EN = ContainsAndJoin(spl_comma[6]);
                 string mainText_JP = ContainsAndJoin(spl_comma[7]);
-                string mainText_SCC = ContainsAndJoin(spl_comma[8]);
+                string mainText_SC = ContainsAndJoin(spl_comma[8]);
+                string mainText_TC = ContainsAndJoin(spl_comma[9]);
 
                 //var textData = new DialogueData.TextData(optionString, mainText);
                 //dialogue.TextDataList.Add(textData);
@@ -380,13 +413,14 @@ public class DataManager
                 var textData_KR = new DialogueData.TextData(optionString, mainText_KR);
                 var textData_EN = new DialogueData.TextData(optionString, mainText_EN);
                 var textData_JP = new DialogueData.TextData(optionString, mainText_JP);
-                var textData_SCC = new DialogueData.TextData(optionString, mainText_SCC);
+                var textData_SC = new DialogueData.TextData(optionString, mainText_SC);
+                var textData_TC = new DialogueData.TextData(optionString, mainText_TC);
 
                 dialogue_KR.TextDataList.Add(textData_KR);
                 dialogue_EN.TextDataList.Add(textData_EN);
                 dialogue_JP.TextDataList.Add(textData_JP);
-                dialogue_SCC.TextDataList.Add(textData_SCC);
-
+                dialogue_SC.TextDataList.Add(textData_SC);
+                dialogue_TC.TextDataList.Add(textData_TC);
 
                 i++;
                 spl_comma = spl_n[i].Split(',');
@@ -399,7 +433,8 @@ public class DataManager
             Dialogue_KR.Add((DialogueName)id, dialogue_KR);
             Dialogue_EN.Add((DialogueName)id, dialogue_EN);
             Dialogue_JP.Add((DialogueName)id, dialogue_JP);
-            Dialogue_SCC.Add((DialogueName)id, dialogue_SCC);
+            Dialogue_SC.Add((DialogueName)id, dialogue_SC);
+            Dialogue_TC.Add((DialogueName)id, dialogue_TC);
         }
         LoadSucceed();
     }
@@ -431,7 +466,8 @@ public class DataManager
     public Dictionary<int, string[]> Journal_KR = new Dictionary<int, string[]>();
     public Dictionary<int, string[]> Journal_EN = new Dictionary<int, string[]>();
     public Dictionary<int, string[]> Journal_JP = new Dictionary<int, string[]>();
-    public Dictionary<int, string[]> Journal_SCC = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> Journal_SC = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> Journal_TC = new Dictionary<int, string[]>();
 
     //? csv 데이터 항목
     // 0 ID, 1 KeyName,
@@ -458,7 +494,8 @@ public class DataManager
             Journal_KR.Add(int.Parse(datas[0]), new string[] { datas[2], ContainsAndJoin(datas[3]) });
             Journal_EN.Add(int.Parse(datas[0]), new string[] { datas[4], ContainsAndJoin(datas[5]) });
             Journal_JP.Add(int.Parse(datas[0]), new string[] { datas[6], ContainsAndJoin(datas[7]) });
-            Journal_SCC.Add(int.Parse(datas[0]), new string[] { datas[8], ContainsAndJoin(datas[9]) });
+            Journal_SC.Add(int.Parse(datas[0]), new string[] { datas[8], ContainsAndJoin(datas[9]) });
+            Journal_TC.Add(int.Parse(datas[0]), new string[] { datas[10], ContainsAndJoin(datas[11]) });
         }
         LoadSucceed();
     }
@@ -470,14 +507,15 @@ public class DataManager
     public Dictionary<TraitGroup, string[]> Trait_KR = new Dictionary<TraitGroup, string[]>();
     public Dictionary<TraitGroup, string[]> Trait_EN = new Dictionary<TraitGroup, string[]>();
     public Dictionary<TraitGroup, string[]> Trait_JP = new Dictionary<TraitGroup, string[]>();
-    public Dictionary<TraitGroup, string[]> Trait_SCC = new Dictionary<TraitGroup, string[]>();
+    public Dictionary<TraitGroup, string[]> Trait_SC = new Dictionary<TraitGroup, string[]>();
+    public Dictionary<TraitGroup, string[]> Trait_TC = new Dictionary<TraitGroup, string[]>();
 
     //? csv 데이터 항목
     // 0 ID, 1 TraitName,
     // 2 Name_KR, 3 Detail_KR, 4 Acquire_KR,
     // 5 Name_EN, 6 Detail_EN, 7 Acquire_EN,
     // 8 Name_JP, 9 Detail_JP, 10 Acquire_JP,
-    // 9 Name_SCC, 10 Detail_SCC, 11 Acquire_SCC,
+    // 9 Name_SC, 10 Detail_SC, 11 Acquire_SC,
     void CSV_File_Parsing_Trait(string _stringData)
     {
         if (string.IsNullOrEmpty(_stringData)) return;
@@ -497,7 +535,8 @@ public class DataManager
             Trait_KR.Add((TraitGroup)int.Parse(datas[0]), new string[] { datas[2], ContainsAndJoin(datas[3]), datas[4] });
             Trait_EN.Add((TraitGroup)int.Parse(datas[0]), new string[] { datas[5], ContainsAndJoin(datas[6]), datas[7] });
             Trait_JP.Add((TraitGroup)int.Parse(datas[0]), new string[] { datas[8], ContainsAndJoin(datas[9]), datas[10] });
-            Trait_SCC.Add((TraitGroup)int.Parse(datas[0]), new string[] { datas[11], ContainsAndJoin(datas[12]), datas[13] });
+            Trait_SC.Add((TraitGroup)int.Parse(datas[0]), new string[] { datas[11], ContainsAndJoin(datas[12]), datas[13] });
+            Trait_TC.Add((TraitGroup)int.Parse(datas[0]), new string[] { datas[14], ContainsAndJoin(datas[15]), datas[16] });
         }
         LoadSucceed();
     }
@@ -508,14 +547,15 @@ public class DataManager
     public Dictionary<ArtifactLabel, string[]> Artifact_KR = new Dictionary<ArtifactLabel, string[]>();
     public Dictionary<ArtifactLabel, string[]> Artifact_EN = new Dictionary<ArtifactLabel, string[]>();
     public Dictionary<ArtifactLabel, string[]> Artifact_JP = new Dictionary<ArtifactLabel, string[]>();
-    public Dictionary<ArtifactLabel, string[]> Artifact_SCC = new Dictionary<ArtifactLabel, string[]>();
+    public Dictionary<ArtifactLabel, string[]> Artifact_SC = new Dictionary<ArtifactLabel, string[]>();
+    public Dictionary<ArtifactLabel, string[]> Artifact_TC = new Dictionary<ArtifactLabel, string[]>();
 
     //? csv 데이터 항목 - 이름 / 설명 / 효과
     // 0 ID, 1 KeyName,
     // 2 Name_KR, 3 Detail_KR, 4 Acquire_KR,
     // 5 Name_EN, 6 Detail_EN, 7 Acquire_EN,
     // 8 Name_JP, 9 Detail_JP, 10 Acquire_JP,
-    // 11 Name_SCC, 12 Detail_SCC, 13 Acquire_SCC,
+    // 11 Name_SC, 12 Detail_SC, 13 Acquire_SC,
     void CSV_File_Parsing_Artifact(string _stringData)
     {
         if (string.IsNullOrEmpty(_stringData)) return;
@@ -535,7 +575,8 @@ public class DataManager
             Artifact_KR.Add((ArtifactLabel)int.Parse(datas[0]), new string[] { datas[2], ContainsAndJoin(datas[3]), datas[4] });
             Artifact_EN.Add((ArtifactLabel)int.Parse(datas[0]), new string[] { datas[5], ContainsAndJoin(datas[6]), datas[7] });
             Artifact_JP.Add((ArtifactLabel)int.Parse(datas[0]), new string[] { datas[8], ContainsAndJoin(datas[9]), datas[10] });
-            Artifact_SCC.Add((ArtifactLabel)int.Parse(datas[0]), new string[] { datas[11], ContainsAndJoin(datas[12]), datas[13] });
+            Artifact_SC.Add((ArtifactLabel)int.Parse(datas[0]), new string[] { datas[11], ContainsAndJoin(datas[12]), datas[13] });
+            Artifact_TC.Add((ArtifactLabel)int.Parse(datas[0]), new string[] { datas[14], ContainsAndJoin(datas[15]), datas[16] });
         }
         LoadSucceed();
     }
@@ -544,7 +585,8 @@ public class DataManager
     public Dictionary<int, string[]> Title_KR = new Dictionary<int, string[]>();
     public Dictionary<int, string[]> Title_EN = new Dictionary<int, string[]>();
     public Dictionary<int, string[]> Title_JP = new Dictionary<int, string[]>();
-    public Dictionary<int, string[]> Title_SCC = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> Title_SC = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> Title_TC = new Dictionary<int, string[]>();
 
     //? csv 데이터 항목 - 이름 / 설명 / 효과
     // 0 ID, 1 KeyName,
@@ -571,7 +613,8 @@ public class DataManager
             Title_KR.Add(int.Parse(datas[0]), new string[] { datas[2], ContainsAndJoin(datas[3]), datas[4], datas[5] });
             Title_EN.Add(int.Parse(datas[0]), new string[] { datas[6], ContainsAndJoin(datas[7]), datas[8], datas[9] });
             Title_JP.Add(int.Parse(datas[0]), new string[] { datas[10], ContainsAndJoin(datas[11]), datas[12], datas[13] });
-            Title_SCC.Add(int.Parse(datas[0]), new string[] { datas[14], ContainsAndJoin(datas[15]), datas[16], datas[17] });
+            Title_SC.Add(int.Parse(datas[0]), new string[] { datas[14], ContainsAndJoin(datas[15]), datas[16], datas[17] });
+            Title_TC.Add(int.Parse(datas[0]), new string[] { datas[18], ContainsAndJoin(datas[19]), datas[20], datas[21] });
         }
         LoadSucceed();
     }
@@ -581,9 +624,10 @@ public class DataManager
     public Dictionary<int, string> RandomEvent_KR = new Dictionary<int, string>();
     public Dictionary<int, string> RandomEvent_EN = new Dictionary<int, string>();
     public Dictionary<int, string> RandomEvent_JP = new Dictionary<int, string>();
-    public Dictionary<int, string> RandomEvent_SCC = new Dictionary<int, string>();
+    public Dictionary<int, string> RandomEvent_SC = new Dictionary<int, string>();
+    public Dictionary<int, string> RandomEvent_TC = new Dictionary<int, string>();
     // 0 ID
-    // 1 KR, 2 EN, 3 JP, 4 SCC,
+    // 1 KR, 2 EN, 3 JP, 4 SC,
     void CSV_File_Parsing_RandomEvent(string _stringData)
     {
         if (string.IsNullOrEmpty(_stringData)) return;
@@ -603,7 +647,8 @@ public class DataManager
             RandomEvent_KR.Add(int.Parse(datas[0]), ContainsAndJoin(datas[1]));
             RandomEvent_EN.Add(int.Parse(datas[0]), ContainsAndJoin(datas[2]));
             RandomEvent_JP.Add(int.Parse(datas[0]), ContainsAndJoin(datas[3]));
-            RandomEvent_SCC.Add(int.Parse(datas[0]), ContainsAndJoin(datas[4]));
+            RandomEvent_SC.Add(int.Parse(datas[0]), ContainsAndJoin(datas[4]));
+            RandomEvent_TC.Add(int.Parse(datas[0]), ContainsAndJoin(datas[5]));
         }
         LoadSucceed();
     }
@@ -612,9 +657,10 @@ public class DataManager
     public Dictionary<int, string[]> BattleStatus_KR = new Dictionary<int, string[]>();
     public Dictionary<int, string[]> BattleStatus_EN = new Dictionary<int, string[]>();
     public Dictionary<int, string[]> BattleStatus_JP = new Dictionary<int, string[]>();
-    public Dictionary<int, string[]> BattleStatus_SCC = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> BattleStatus_SC = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> BattleStatus_TC = new Dictionary<int, string[]>();
     // 0 ID
-    // 23 KR, 45 EN, 67 JP, 89 SCC,
+    // 23 KR, 45 EN, 67 JP, 89 SC,
     void CSV_File_Parsing_BattleStatus(string _stringData)
     {
         if (string.IsNullOrEmpty(_stringData)) return;
@@ -634,7 +680,8 @@ public class DataManager
             BattleStatus_KR.Add(int.Parse(datas[0]), new string[] { datas[2], ContainsAndJoin(datas[3]) });
             BattleStatus_EN.Add(int.Parse(datas[0]), new string[] { datas[4], ContainsAndJoin(datas[5]) });
             BattleStatus_JP.Add(int.Parse(datas[0]), new string[] { datas[6], ContainsAndJoin(datas[7]) });
-            BattleStatus_SCC.Add(int.Parse(datas[0]), new string[] { datas[8], ContainsAndJoin(datas[9]) });
+            BattleStatus_SC.Add(int.Parse(datas[0]), new string[] { datas[8], ContainsAndJoin(datas[9]) });
+            BattleStatus_TC.Add(int.Parse(datas[0]), new string[] { datas[10], ContainsAndJoin(datas[11]) });
         }
         LoadSucceed();
     }

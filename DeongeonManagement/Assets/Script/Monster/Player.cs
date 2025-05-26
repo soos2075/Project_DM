@@ -104,6 +104,7 @@ public class Player : Monster
     public override void TurnStart()
     {
         //HP_Damaged = 0;
+        BattleStatue_TurnStart();
     }
 
     public override void MoveSelf()
