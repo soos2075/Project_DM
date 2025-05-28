@@ -382,6 +382,10 @@ public class BattleStatus
         anim_BattleStatus.Update_BattleStatus(_label, currentStatus);
     }
 
+    public void Die()
+    {
+        anim_BattleStatus.Anim_Reset();
+    }
 
 
 

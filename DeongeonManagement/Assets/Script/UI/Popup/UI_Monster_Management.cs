@@ -159,9 +159,10 @@ public class UI_Monster_Management : UI_PopUp
 
         var currentFloor = Main.Instance.ActiveFloor_Basement - 1;
 
-        for (int i = currentFloor; i > 0; currentFloor--)
+        for (int i = currentFloor; i >= 0; i--)
         {
-            var floor = Main.Instance.Floor[currentFloor];
+            //Debug.Log($"¹¹³Ä°íÀÌ°Å" + i);
+            var floor = Main.Instance.Floor[i];
             while (floor.MaxMonsterSize > 0 && standbyList.Count > 0)
             {
                 var tile = floor.GetRandomTile();

@@ -929,6 +929,35 @@ public class BasementFloor : MonoBehaviour
     }
 
 
+    public List<T> GetFloorObjectList<T>() where T : class, IPlacementable
+    {
+        var list = new List<T>();
+
+        foreach (var item in facilityList)
+        {
+            if (item is T)
+            {
+                list.Add(item as T);
+            }
+        }
+        foreach (var item in monsterList)
+        {
+            if (item is T)
+            {
+                list.Add(item as T);
+            }
+        }
+        foreach (var item in npcList)
+        {
+            if (item is T)
+            {
+                list.Add(item as T);
+            }
+        }
+
+        return list;
+    }
+
 
 }
 

@@ -19,35 +19,48 @@ public interface IWorldSpaceUI
 }
 
 
-public interface I_Projectile
+public interface I_AttackEffect
 {
     public class AttackEffect
     {
-        public AttackType AttackAnim;
+        public AttackType attack_Type;
         public string effectName;
-        public string projectile_Category;
-        public string projectile_Label;
-
-        public AttackEffect(AttackType type, string effect = "")
-        {
-
-        }
-
-        public void SetProjectile(AttackType type, string category, string label)
-        {
-            AttackAnim = type;
-            projectile_Category = category;
-            projectile_Label = label;
-        }
     }
-    public enum AttackType
-    {
-        Normal,
-        Bow,
-        Magic,
-    }
+
     public AttackEffect AttackOption { get; set; }
+    public GameObject GetGameObject { get; }
 }
+
+
+//public interface I_Projectile
+//{
+//    public class AttackEffect
+//    {
+//        public AttackType AttackAnim;
+//        public string effectName;
+//        public string projectile_Category;
+//        public string projectile_Label;
+
+//        public AttackEffect(AttackType type, string effect = "")
+//        {
+
+//        }
+
+//        public void SetProjectile(AttackType type, string category, string label)
+//        {
+//            AttackAnim = type;
+//            projectile_Category = category;
+//            projectile_Label = label;
+//        }
+//    }
+//    public enum AttackType
+//    {
+//        Normal,
+//        Bow,
+//        Magic,
+//    }
+//    public AttackEffect AttackOption { get; set; }
+//}
 public interface I_BattleStat
 {
     int B_HP { get; }
@@ -63,7 +76,7 @@ public interface I_BattleStat
     int HP_normal { get; }
     int HP_Status { get; }
 
-    BattleStatus BattleStatus { get; set; }
+    BattleStatus CurrentBattleStatus { get; set; }
 
 
     //? 기본 수치 (에디터 및 계산용)

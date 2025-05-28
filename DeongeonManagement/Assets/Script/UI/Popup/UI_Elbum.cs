@@ -147,6 +147,10 @@ public class UI_Elbum : UI_PopUp
             for (int i = 0; i < log.difficultyLevel; i++)
             {
                 diff += "¡Ú";
+                if (i == 2)
+                {
+                    diff += "¡Ú";
+                }
             }
 
             GetTMP((int)TMP_Texts.HintText).text = $"{UserData.Instance.LocaleText_NGP("Log_Å¬¸®¾îÈ½¼ö")} : {clearcount}" +

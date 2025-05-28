@@ -37,6 +37,17 @@ public class BattleField : MonoBehaviour
     public Transform pos_Left;
     public Transform pos_Right;
 
+    //public Transform pos_L_text;
+    //public Transform pos_R_text;
+
+    //public Transform pos_L_Effect;
+    //public Transform pos_R_Effect;
+
+    //public Transform pos_L_Projectile;
+    //public Transform pos_R_Projectile;
+
+
+
     GameObject obj_Left;
     GameObject obj_Right;
 
@@ -133,11 +144,11 @@ public class BattleField : MonoBehaviour
         for (int i = 0; i < roundList.Count; i++)
         {
             yield return UserData.Instance.Wait_GamePlay;
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1.0f);
 
             if (roundList[i].attacker == PlacementType.Monster)
             {
-                AddFlashWhite(obj_Left.GetComponentInChildren<SpriteRenderer>());
+                //AddFlashWhite(obj_Left.GetComponentInChildren<SpriteRenderer>());
                 AddHPBar(roundList[i].damage, -roundList[i].heal);
                 ani_monster.CrossFade(Define.ANIM_Attack, 0.1f);
                 yield return new WaitForSeconds(0.1f); //? crossFade 시간 동안은 hash값이 바뀌지 않으므로 그만큼은 기다려줘야함
@@ -146,7 +157,7 @@ public class BattleField : MonoBehaviour
                 {
                     foreach (var item in roundList[i].damage_show)
                     {
-                        AddAction(item.Item1, pos_Left, ani_npc, item.Item2);
+                        AddAction_Defeat(item.Item1, pos_Left, ani_npc, item.Item2);
                     }
                     foreach (var item in roundList[i].heal_show)
                     {
@@ -157,7 +168,7 @@ public class BattleField : MonoBehaviour
                         ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Ready ||
                         ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Idle);
                     Main.Instance.ShowDM_MSG("Win!", transform.position + (Vector3.up), new Color32(0, 255, 136, 255), 1);
-                    yield return new WaitForSeconds(0.5f);
+                    yield return new WaitForSeconds(0.6f);
                     break;
                 }
                 else
@@ -175,12 +186,12 @@ public class BattleField : MonoBehaviour
                 yield return new WaitUntil(() => 
                     ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Ready ||
                     ani_monster.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Idle);
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.6f);
             }
 
             if (roundList[i].attacker == PlacementType.NPC)
             {
-                AddFlashWhite(obj_Right.GetComponentInChildren<SpriteRenderer>());
+                //AddFlashWhite(obj_Right.GetComponentInChildren<SpriteRenderer>());
                 AddHPBar(-roundList[i].heal, roundList[i].damage);
                 NPC_AttackAnim();
                 yield return new WaitForSeconds(0.1f); //? crossFade 시간 동안은 hash값이 바뀌지 않으므로 그만큼은 기다려줘야함
@@ -189,7 +200,7 @@ public class BattleField : MonoBehaviour
                 {
                     foreach (var item in roundList[i].damage_show)
                     {
-                        AddAction(item.Item1, pos_Right, ani_monster, item.Item2);
+                        AddAction_Defeat(item.Item1, pos_Right, ani_monster, item.Item2);
                     }
                     foreach (var item in roundList[i].heal_show)
                     {
@@ -200,7 +211,7 @@ public class BattleField : MonoBehaviour
                         ani_npc.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Idle ||
                         ani_npc.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Ready);
                     Main.Instance.ShowDM_MSG("Lose...", transform.position + (Vector3.up), new Color32(255, 150, 150, 255), 1);
-                    yield return new WaitForSeconds(0.5f);
+                    yield return new WaitForSeconds(0.6f);
                     break;
                 }
                 else
@@ -218,7 +229,7 @@ public class BattleField : MonoBehaviour
                 yield return new WaitUntil(() => 
                     ani_npc.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Idle ||
                     ani_npc.GetCurrentAnimatorStateInfo(0).shortNameHash == Define.ANIM_Ready);
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.6f);
             }
         }
 
@@ -230,80 +241,187 @@ public class BattleField : MonoBehaviour
 
     #region ForAnimationVoid
 
+    void Anim_Attack_NPC()
+    {
+        var pos_Damage = pos_Left.GetChild(0);
+        var pos_Projectile = pos_Left.GetChild(1);
+        var pos_Effect = pos_Right.GetChild(2);
+    }
+
+    void Anim_Attack_Monster()
+    {
+        var pos_Damage = pos_Right.GetChild(0);
+        var pos_Projectile = pos_Right.GetChild(1);
+        var pos_Effect = pos_Left.GetChild(2);
+    }
+
+
+
+
     void NPC_AttackAnim()
     {
-        switch (npc.AttackOption.AttackAnim)
-        {
-            case NPC.AttackType.Normal:
-                ani_npc.CrossFade(Define.ANIM_Attack, 0.1f);
-                break;
-            case NPC.AttackType.Bow:
-                ani_npc.CrossFade(Define.ANIM_Shot, 0.1f);
-                break;
-            case NPC.AttackType.Magic:
-                ani_npc.CrossFade(Define.ANIM_Jab, 0.1f);
-                break;
-        }
-    }
+        //? 일단은 마법사나 궁수나 전부 attack로 통일해보자. 법사랑 원거리 공격하는애들 이상하면 그때 바꾸기
+        ani_npc.CrossFade(Define.ANIM_Attack, 0.1f);
 
-    public void Projectile_Launch()
-    {
-        var projectile = Managers.Resource.Instantiate("Battle/Projectile", pos_Left);
-        projectile.transform.position = pos_Left.transform.position;
-        projectile.GetComponentInChildren<SpriteRenderer>().sortingOrder = sort + 2;
 
-        projectile.GetComponentInChildren<SpriteResolver>().SetCategoryAndLabel(npc.AttackOption.projectile_Category, npc.AttackOption.projectile_Label);
-
-        StartCoroutine(Shotting(projectile));
-    }
-    IEnumerator Shotting(GameObject _projectile)
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            float interval = 0.05f;
-            _projectile.transform.position += Vector3.right * interval * 4;
-            yield return new WaitForSeconds(interval);
-        }
-        //float timer = 0;
-        //while (timer < 0.5f)
+        //switch (npc.AttackOption.AttackAnim)
         //{
-        //    yield return null;
-        //    timer += Time.deltaTime;
-
-        //    _projectile.transform.Translate(Vector3.right * Time.deltaTime * 4);
+        //    case NPC.AttackType.Normal:
+        //        ani_npc.CrossFade(Define.ANIM_Attack, 0.1f);
+        //        break;
+        //    case NPC.AttackType.Bow:
+        //        ani_npc.CrossFade(Define.ANIM_Shot, 0.1f);
+        //        break;
+        //    case NPC.AttackType.Magic:
+        //        ani_npc.CrossFade(Define.ANIM_Jab, 0.1f);
+        //        break;
         //}
-        _projectile.SetActive(false);
-        Call_Mash();
     }
-    public void Projectile_Launch_Right()
-    {
-        var projectile = Managers.Resource.Instantiate("Battle/Projectile", pos_Right);
-        projectile.transform.position = pos_Right.transform.position;
-        projectile.GetComponentInChildren<SpriteRenderer>().flipX = true;
-        projectile.GetComponentInChildren<SpriteRenderer>().sortingOrder = sort + 2;
 
-        var attackOp = monster as I_Projectile;
-        projectile.GetComponentInChildren<SpriteResolver>().SetCategoryAndLabel(attackOp.AttackOption.projectile_Category, attackOp.AttackOption.projectile_Label);
+    //public void Projectile_Launch()
+    //{
+    //    var projectile = Managers.Resource.Instantiate("Battle/Projectile", pos_Left);
+    //    projectile.transform.position = pos_Left.transform.position;
+    //    projectile.GetComponentInChildren<SpriteRenderer>().sortingOrder = sort + 2;
 
-        StartCoroutine(Shotting_Right(projectile));
-    }
-    IEnumerator Shotting_Right(GameObject _projectile)
+    //    projectile.GetComponentInChildren<SpriteResolver>().SetCategoryAndLabel(npc.AttackOption.projectile_Category, npc.AttackOption.projectile_Label);
+
+    //    StartCoroutine(Shotting(projectile));
+    //}
+    //IEnumerator Shotting(GameObject _projectile)
+    //{
+    //    for (int i = 0; i < 5; i++)
+    //    {
+    //        float interval = 0.05f;
+    //        _projectile.transform.position += Vector3.right * interval * 4;
+    //        yield return new WaitForSeconds(interval);
+    //    }
+    //    //float timer = 0;
+    //    //while (timer < 0.5f)
+    //    //{
+    //    //    yield return null;
+    //    //    timer += Time.deltaTime;
+
+    //    //    _projectile.transform.Translate(Vector3.right * Time.deltaTime * 4);
+    //    //}
+    //    _projectile.SetActive(false);
+    //    Call_Mash();
+    //}
+    //public void Projectile_Launch_Right()
+    //{
+    //    var projectile = Managers.Resource.Instantiate("Battle/Projectile", pos_Right);
+    //    projectile.transform.position = pos_Right.transform.position;
+    //    projectile.GetComponentInChildren<SpriteRenderer>().flipX = true;
+    //    projectile.GetComponentInChildren<SpriteRenderer>().sortingOrder = sort + 2;
+
+    //    var attackOp = monster as I_Projectile;
+    //    projectile.GetComponentInChildren<SpriteResolver>().SetCategoryAndLabel(attackOp.AttackOption.projectile_Category, attackOp.AttackOption.projectile_Label);
+
+    //    StartCoroutine(Shotting_Right(projectile));
+    //}
+    //IEnumerator Shotting_Right(GameObject _projectile)
+    //{
+    //    for (int i = 0; i < 5; i++)
+    //    {
+    //        float interval = 0.05f;
+    //        _projectile.transform.position += Vector3.left * interval * 4;
+    //        yield return new WaitForSeconds(interval);
+    //    }
+    //    _projectile.SetActive(false);
+    //    Call_Mash();
+    //}
+
+
+
+    public void Event_Attack(GameObject obj)
     {
-        for (int i = 0; i < 5; i++)
+        I_AttackEffect attacker;
+        I_AttackEffect defender;
+
+        //Transform pos_Damage;
+        Transform pos_Projectile;
+        Transform pos_Effect;
+
+        if (obj == obj_Left)
         {
-            float interval = 0.05f;
-            _projectile.transform.position += Vector3.left * interval * 4;
-            yield return new WaitForSeconds(interval);
+            attacker = npc;
+            defender = monster;
+
+            //pos_Damage = pos_Left.GetChild(0);
+            pos_Projectile = pos_Left.GetChild(1);
+            pos_Effect = pos_Right.GetChild(2);
+
+            SoundManager.Instance.PlaySound("SFX/Battle_npc");
+            switch (attacker.AttackOption.attack_Type)
+            {
+                case AttackType.Normal:
+                    StartCoroutine(FlashWhite(obj_Right.GetComponentInChildren<SpriteRenderer>()));
+                    Event_ShowDamageNumber();
+                    break;
+
+                case AttackType.Projectile:
+                    Projectile_Launch(obj_Left, obj_Right, attacker.AttackOption.effectName, pos_Projectile);
+                    break;
+
+                case AttackType.Skill:
+                    Projectile_Launch(obj_Left, obj_Right, attacker.AttackOption.effectName, pos_Effect);
+                    break;
+            }
         }
-        _projectile.SetActive(false);
-        Call_Mash();
+        else if (obj == obj_Right)
+        {
+            attacker = monster;
+            defender = npc;
+
+            //pos_Damage = pos_Right.GetChild(0);
+            pos_Projectile = pos_Right.GetChild(1);
+            pos_Effect = pos_Left.GetChild(2);
+
+            SoundManager.Instance.PlaySound("SFX/Battle_monster");
+            switch (attacker.AttackOption.attack_Type)
+            {
+                case AttackType.Normal:
+                    StartCoroutine(FlashWhite(obj_Left.GetComponentInChildren<SpriteRenderer>()));
+                    Event_ShowDamageNumber();
+                    break;
+
+                case AttackType.Projectile:
+                    Projectile_Launch(obj_Right, obj_Left, attacker.AttackOption.effectName, pos_Projectile);
+                    break;
+
+                case AttackType.Skill:
+                    Projectile_Launch(obj_Right, obj_Left, attacker.AttackOption.effectName, pos_Effect);
+                    break;
+            }
+        }
+    }
+
+    void Projectile_Launch(GameObject atk, GameObject def, string effectName, Transform parents)
+    {
+        var projectile = Managers.Resource.Instantiate($"Effect/Attack/{effectName}", parents);
+        projectile.GetComponentInChildren<SpriteRenderer>().sortingOrder = sort + 2;
+        projectile.GetOrAddComponent<AnimationCall>().Init_Battle(this, atk, def);
     }
 
 
-    public void Call_Mash()
+
+    public void Event_FlashWhite(GameObject defender)
+    {
+        StartCoroutine(FlashWhite(defender.GetComponentInChildren<SpriteRenderer>()));
+    }
+
+
+    public void Event_ShowDamageNumber()
     {
         Call_Damage?.Invoke();
+        Call_Damage = null;
     }
+
+
+    //public void Call_Mash()
+    //{
+    //    Call_Damage?.Invoke();
+    //}
 
     Action Call_Damage;
     public DamageNumber damageMesh;
@@ -321,30 +439,30 @@ public class BattleField : MonoBehaviour
 
     public void InstantAction(int _dam, Transform parent, DamageMeshType meshType = DamageMeshType.Damage)
     {
-        var pos = parent.GetChild(0);
+        var pos_Damage = parent.GetChild(0);
         switch (meshType)
         {
             case DamageMeshType.Damage:
                 if (_dam == 0)
                 {
-                    DamageNumber dn = damageMesh.Spawn(pos.transform.position, "miss");
+                    DamageNumber dn = damageMesh.Spawn(pos_Damage.transform.position, "miss");
                 }
                 else
                 {
-                    DamageNumber dn = damageMesh.Spawn(pos.transform.position, _dam);
+                    DamageNumber dn = damageMesh.Spawn(pos_Damage.transform.position, _dam);
                 }
                 break;
 
             case DamageMeshType.Special:
-                DamageNumber dn1 = specialMesh.Spawn(pos.transform.position, _dam);
+                DamageNumber dn1 = specialMesh.Spawn(pos_Damage.transform.position, _dam);
                 break;
 
             case DamageMeshType.Critical:
-                DamageNumber dn2 = criticalMesh.Spawn(pos.transform.position, _dam);
+                DamageNumber dn2 = criticalMesh.Spawn(pos_Damage.transform.position, _dam);
                 break;
 
             case DamageMeshType.Heal:
-                DamageNumber dn3 = healMesh.Spawn(pos.transform.position, _dam);
+                DamageNumber dn3 = healMesh.Spawn(pos_Damage.transform.position, _dam);
                 break;
         }
     }
@@ -353,43 +471,44 @@ public class BattleField : MonoBehaviour
     {
         Call_Damage += () =>
         {
-            var pos = parent.GetChild(0);
+            var pos_Damage = parent.GetChild(0);
             switch (meshType)
             {
                 case DamageMeshType.Damage:
                     if (_dam == 0)
                     {
-                        DamageNumber damageNumber = damageMesh.Spawn(pos.transform.position, "miss");
+                        DamageNumber damageNumber = damageMesh.Spawn(pos_Damage.transform.position, "miss");
                     }
                     else
                     {
-                        DamageNumber damageNumber = damageMesh.Spawn(pos.transform.position, _dam);
+                        DamageNumber damageNumber = damageMesh.Spawn(pos_Damage.transform.position, _dam);
                     }
                     break;
 
                 case DamageMeshType.Special:
-                    DamageNumber damageNumber1 = specialMesh.Spawn(pos.transform.position, _dam);
+                    DamageNumber damageNumber1 = specialMesh.Spawn(pos_Damage.transform.position, _dam);
                     break;
 
                 case DamageMeshType.Critical:
-                    DamageNumber damageNumber2 = criticalMesh.Spawn(pos.transform.position, _dam);
+                    DamageNumber damageNumber2 = criticalMesh.Spawn(pos_Damage.transform.position, _dam);
                     break;
 
                 case DamageMeshType.Heal:
-                    DamageNumber damageNumber3 = healMesh.Spawn(pos.transform.position, _dam);
+                    DamageNumber damageNumber3 = healMesh.Spawn(pos_Damage.transform.position, _dam);
                     break;
             }
         };
     }
-    public void AddAction(int _dam, Transform parent, Animator deadAnim, DamageMeshType meshType = DamageMeshType.Damage)
+    public void AddAction_Defeat(int _dam, Transform parent, Animator deadAnim, DamageMeshType meshType = DamageMeshType.Damage)
     {
         AddAction(_dam, parent, meshType);
         Call_Damage += () => deadAnim.Play(Define.ANIM_Dead);
     }
-    public void AddFlashWhite(SpriteRenderer renderer)
-    {
-        Call_Damage = () => StartCoroutine(FlashWhite(renderer));
-    }
+    ////? 얘는 가장 처음 발동해야되서 초기화까지..? 근데 얘도 바꿔야겠네
+    //public void AddFlashWhite(SpriteRenderer renderer)
+    //{
+    //    Call_Damage = () => StartCoroutine(FlashWhite(renderer));
+    //}
     void AddHPBar(int _left, int _right)
     {
         Call_Damage += () => ChangeHPValue(_left, _right);
@@ -530,6 +649,10 @@ public class BattleField : MonoBehaviour
         obj_Right.GetComponentInChildren<SpriteRenderer>().material = mat_monster;
         ani_monster = obj_Right.GetComponent<Animator>();
         this.monster = monster;
+
+
+        obj_Left.GetOrAddComponent<AnimationCall>().Init_Battle(this, obj_Left, obj_Right);
+        obj_Right.GetOrAddComponent<AnimationCall>().Init_Battle(this, obj_Right, obj_Left);
 
 
         if (!npc || !monster)
@@ -737,31 +860,31 @@ public class BattleField : MonoBehaviour
     void StartEffect_Monster()
     {
         //? 버프
-        if (monster.TraitCheck(TraitGroup.Succubus)) { monster.BattleStatus.AddValue(BattleStatusLabel.Chance, 1); }
-        if (monster.TraitCheck(TraitGroup.Succubus_V2)) { monster.BattleStatus.AddValue(BattleStatusLabel.Chance, 2); }
+        if (monster.TraitCheck(TraitGroup.Succubus)) { monster.CurrentBattleStatus.AddValue(BattleStatusLabel.Chance, 1); }
+        if (monster.TraitCheck(TraitGroup.Succubus_V2)) { monster.CurrentBattleStatus.AddValue(BattleStatusLabel.Chance, 2); }
 
-        if (monster.TraitCheck(TraitGroup.ToughSkin)) { monster.BattleStatus.AddValue(BattleStatusLabel.Guard, 1); }
-        if (monster.TraitCheck(TraitGroup.ToughSkin_V2)) { monster.BattleStatus.AddValue(BattleStatusLabel.Guard, 2); }
+        if (monster.TraitCheck(TraitGroup.ToughSkin)) { monster.CurrentBattleStatus.AddValue(BattleStatusLabel.Guard, 1); }
+        if (monster.TraitCheck(TraitGroup.ToughSkin_V2)) { monster.CurrentBattleStatus.AddValue(BattleStatusLabel.Guard, 2); }
 
-        if (monster.TraitCheck(TraitGroup.Wind)) { monster.BattleStatus.AddValue(BattleStatusLabel.Haste, 1); }
-        if (monster.TraitCheck(TraitGroup.Wind_V2)) { monster.BattleStatus.AddValue(BattleStatusLabel.Haste, 2); }
+        if (monster.TraitCheck(TraitGroup.Wind)) { monster.CurrentBattleStatus.AddValue(BattleStatusLabel.Haste, 1); }
+        if (monster.TraitCheck(TraitGroup.Wind_V2)) { monster.CurrentBattleStatus.AddValue(BattleStatusLabel.Haste, 2); }
 
-        if (monster.TraitCheck(TraitGroup.Fierce)) { monster.BattleStatus.AddValue(BattleStatusLabel.Sharp, 1); }
-        if (monster.TraitCheck(TraitGroup.Fierce_V2)) { monster.BattleStatus.AddValue(BattleStatusLabel.Sharp, 2); }
+        if (monster.TraitCheck(TraitGroup.Fierce)) { monster.CurrentBattleStatus.AddValue(BattleStatusLabel.Sharp, 1); }
+        if (monster.TraitCheck(TraitGroup.Fierce_V2)) { monster.CurrentBattleStatus.AddValue(BattleStatusLabel.Sharp, 2); }
 
 
         //? 디버프
-        if (monster.TraitCheck(TraitGroup.Spore)) { npc.BattleStatus.AddValue(BattleStatusLabel.Wither, 1); }
-        if (monster.TraitCheck(TraitGroup.Spore_V2)) { npc.BattleStatus.AddValue(BattleStatusLabel.Wither, 2); }
+        if (monster.TraitCheck(TraitGroup.Spore)) { npc.CurrentBattleStatus.AddValue(BattleStatusLabel.Wither, 1); }
+        if (monster.TraitCheck(TraitGroup.Spore_V2)) { npc.CurrentBattleStatus.AddValue(BattleStatusLabel.Wither, 2); }
 
-        if (monster.TraitCheck(TraitGroup.Acid)) { npc.BattleStatus.AddValue(BattleStatusLabel.Corrode, 1); }
-        if (monster.TraitCheck(TraitGroup.Acid_V2)) { npc.BattleStatus.AddValue(BattleStatusLabel.Corrode, 2); }
+        if (monster.TraitCheck(TraitGroup.Acid)) { npc.CurrentBattleStatus.AddValue(BattleStatusLabel.Corrode, 1); }
+        if (monster.TraitCheck(TraitGroup.Acid_V2)) { npc.CurrentBattleStatus.AddValue(BattleStatusLabel.Corrode, 2); }
 
-        if (monster.TraitCheck(TraitGroup.ThornyVine)) { npc.BattleStatus.AddValue(BattleStatusLabel.Slow, 1); }
-        if (monster.TraitCheck(TraitGroup.ThornyVine_V2)) { npc.BattleStatus.AddValue(BattleStatusLabel.Slow, 2); }
+        if (monster.TraitCheck(TraitGroup.ThornyVine)) { npc.CurrentBattleStatus.AddValue(BattleStatusLabel.Slow, 1); }
+        if (monster.TraitCheck(TraitGroup.ThornyVine_V2)) { npc.CurrentBattleStatus.AddValue(BattleStatusLabel.Slow, 2); }
 
-        if (monster.TraitCheck(TraitGroup.Golem)) { npc.BattleStatus.AddValue(BattleStatusLabel.Jinx, 1); }
-        if (monster.TraitCheck(TraitGroup.Golem_V2)) { npc.BattleStatus.AddValue(BattleStatusLabel.Jinx, 2); }
+        if (monster.TraitCheck(TraitGroup.Golem)) { npc.CurrentBattleStatus.AddValue(BattleStatusLabel.Jinx, 1); }
+        if (monster.TraitCheck(TraitGroup.Golem_V2)) { npc.CurrentBattleStatus.AddValue(BattleStatusLabel.Jinx, 2); }
 
 
 

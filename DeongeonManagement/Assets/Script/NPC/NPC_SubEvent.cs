@@ -16,7 +16,7 @@ public class NPC_SubEvent : NPC
         switch (NPCType)
         {
             case NPC_Type_SubEvent.Heroine:
-                AttackOption.SetProjectile(AttackType.Bow, "LegucyElf", "ElfA");
+                //AttackOption.SetProjectile(AttackType.Bow, "LegucyElf", "ElfA");
                 RunawayHpRatio = 3;
                 if (GameManager.Technical.Prison != null)
                 {

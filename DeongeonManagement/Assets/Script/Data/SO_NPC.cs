@@ -38,6 +38,10 @@ public class SO_NPC : ScriptableObject, I_SO_Collection
     public float groundSpeed;
     public float actionDelay;
 
+    [Header("Attack")]
+    public AttackType attackType;
+    public string effectPrefabName;
+
 
     [Header("CSV(Localization)")] //? external CSV Data
     public string labelName;

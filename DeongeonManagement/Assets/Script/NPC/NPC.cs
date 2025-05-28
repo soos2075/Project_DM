@@ -5,13 +5,15 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using Assets.PixelFantasy.PixelHeroes.Common.Scripts.CharacterScripts;
 
-public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_TraitSystem
+public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_TraitSystem, I_AttackEffect
 {
     void Start()
     {
         anim = GetComponent<Animator>();
         characterBuilder = GetComponent<CharacterBuilder>();
-        AttackOption = new AttackEffect(AttackType.Normal);
+
+        //AttackOption = new AttackEffect(AttackType.Normal);
+        //Init_AttackEffect();
 
         Difficulty_Setting();
 
@@ -80,21 +82,21 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
     void Apply_BattleStatus()
     {
-        BattleStatus = new BattleStatus(this.gameObject);
+        CurrentBattleStatus = new BattleStatus(this.gameObject);
 
         if (GameManager.Artifact.GetArtifact(ArtifactLabel.TouchOfDecay).Count > 0)
         {
-            BattleStatus.AddValue(BattleStatusLabel.Decay, 1);
+            CurrentBattleStatus.AddValue(BattleStatusLabel.Decay, 1);
         }
 
         if (RandomEventManager.Instance.Check_Current_ContinueEvent(RandomEventManager.ContinueRE.Adv_Power_Down))
         {
-            BattleStatus.AddValue(BattleStatusLabel.Weaken, 5);
+            CurrentBattleStatus.AddValue(BattleStatusLabel.Weaken, 5);
         }
 
         if (RandomEventManager.Instance.Check_Current_ContinueEvent(RandomEventManager.ContinueRE.Adv_Power_Up))
         {
-            BattleStatus.AddValue(BattleStatusLabel.Blessing, 1);
+            CurrentBattleStatus.AddValue(BattleStatusLabel.Blessing, 1);
         }
 
         if (RandomEventManager.Instance.Check_Current_ContinueEvent(RandomEventManager.ContinueRE.Gold_Bonus))
@@ -119,37 +121,57 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     #endregion
 
 
+    #region I_AttackEffect
+
+    public I_AttackEffect.AttackEffect AttackOption { get; set; } = new I_AttackEffect.AttackEffect();
+    public GameObject GetGameObject { get => this.gameObject; }
+
+    public void Init_AttackEffect()
+    {
+        AttackOption = new I_AttackEffect.AttackEffect();
+    }
+
+    public void Apply_AttackEffect()
+    {
+        if (Data == null) return;
+
+        AttackOption.attack_Type = Data.attackType;
+        AttackOption.effectName = Data.effectPrefabName;
+    }
+
+
+    #endregion
 
 
     #region Animation
-    public class AttackEffect
-    {
-        public AttackType AttackAnim;
-        public string effectName;
-        public string projectile_Category;
-        public string projectile_Label;
+    //public class AttackEffect
+    //{
+    //    public AttackType AttackAnim;
+    //    public string effectName;
+    //    public string projectile_Category;
+    //    public string projectile_Label;
 
-        public AttackEffect(AttackType type, string category = "", string label = "")
-        {
-            AttackAnim = type;
-            projectile_Category = category;
-            projectile_Label = label;
-        }
+    //    public AttackEffect(AttackType type, string category = "", string label = "")
+    //    {
+    //        AttackAnim = type;
+    //        projectile_Category = category;
+    //        projectile_Label = label;
+    //    }
 
-        public void SetProjectile(AttackType type, string category, string label)
-        {
-            AttackAnim = type;
-            projectile_Category = category;
-            projectile_Label = label;
-        }
-    }
-    public enum AttackType
-    {
-        Normal,
-        Bow,
-        Magic,
-    }
-    public AttackEffect AttackOption { get; set; }
+    //    public void SetProjectile(AttackType type, string category, string label)
+    //    {
+    //        AttackAnim = type;
+    //        projectile_Category = category;
+    //        projectile_Label = label;
+    //    }
+    //}
+    //public enum AttackType
+    //{
+    //    Normal,
+    //    Bow,
+    //    Magic,
+    //}
+    //public AttackEffect AttackOption { get; set; }
 
     Animator anim;
     public enum animState
@@ -842,7 +864,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     #region I_Battle Stat
 
     BattleStatus currentBattleStatus;
-    public BattleStatus BattleStatus { get => currentBattleStatus; set => currentBattleStatus = value; }
+    public BattleStatus CurrentBattleStatus { get => currentBattleStatus; set => currentBattleStatus = value; }
 
     //? 전투시 사용할 스탯 (최종 결과값)
     public int B_HP { get => (HP_normal + HP_Status) - HP_Damaged; }
@@ -856,7 +878,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     public int HP_Damaged { get; set; }
 
     public int HP_normal { get => HP + HP_Bonus; }
-    public int HP_Status { get => BattleStatus.Get_Fixed_HP() + Mathf.RoundToInt(HP_normal * BattleStatus.Get_HP_Stauts()); }
+    public int HP_Status { get => CurrentBattleStatus.Get_Fixed_HP() + Mathf.RoundToInt(HP_normal * CurrentBattleStatus.Get_HP_Stauts()); }
 
 
 
@@ -875,10 +897,10 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     public int LUK_normal { get => (LUK + LUK_Bonus + AllStat_Bonus); }
 
     //? 현재 상태이상을 적용시킨 수치
-    public int ATK_Status { get => BattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(ATK_normal * BattleStatus.Get_ATK_Status()); }
-    public int DEF_Status { get => BattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(DEF_normal * BattleStatus.Get_DEF_Status()); }
-    public int AGI_Status { get => BattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(AGI_normal * BattleStatus.Get_AGI_Status()); }
-    public int LUK_Status { get => BattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(LUK_normal * BattleStatus.Get_LUK_Status()); }
+    public int ATK_Status { get => CurrentBattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(ATK_normal * CurrentBattleStatus.Get_ATK_Status()); }
+    public int DEF_Status { get => CurrentBattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(DEF_normal * CurrentBattleStatus.Get_DEF_Status()); }
+    public int AGI_Status { get => CurrentBattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(AGI_normal * CurrentBattleStatus.Get_AGI_Status()); }
+    public int LUK_Status { get => CurrentBattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(LUK_normal * CurrentBattleStatus.Get_LUK_Status()); }
 
 
     #endregion
@@ -973,7 +995,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
         if (ActionPoint < 0)
         {
-            BattleStatus.AddValue(BattleStatusLabel.Fatigue, 1);
+            CurrentBattleStatus.AddValue(BattleStatusLabel.Fatigue, 1);
         }
     }
 
@@ -1020,6 +1042,8 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
 
         gameObject.name = data.keyName;
         EventID = data.id;
+
+        Apply_AttackEffect();
     }
 
     #endregion
@@ -1274,6 +1298,7 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
     void Die_Base()
     {
         Main.Instance.CurrentDay.AddDefeatNPC(1);
+        CurrentBattleStatus.Die();
         NPC_Die();
     }
 

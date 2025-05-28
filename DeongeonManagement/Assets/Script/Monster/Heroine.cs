@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Heroine : Monster, I_Projectile
+public class Heroine : Monster
 {
     public override SO_Monster Data { get; set; }
-    public I_Projectile.AttackEffect AttackOption { get; set; } = new I_Projectile.AttackEffect(I_Projectile.AttackType.Normal);
+    //public I_Projectile.AttackEffect AttackOption { get; set; } = new I_Projectile.AttackEffect(I_Projectile.AttackType.Normal);
 
     public override void MonsterInit()
     {
@@ -14,7 +14,7 @@ public class Heroine : Monster, I_Projectile
 
         Data = GameManager.Monster.GetData("Heroine");
         Trait_Original();
-        AttackOption.SetProjectile(I_Projectile.AttackType.Normal, "LegucyElf", "ElfA");
+        //AttackOption.SetProjectile(I_Projectile.AttackType.Normal, "LegucyElf", "ElfA");
 
         UnitDialogueEvent.AddEvent(UnitDialogueEventLabel.Heroin_First);
     }

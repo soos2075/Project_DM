@@ -282,12 +282,12 @@ public class UI_NewGamePlus : UI_PopUp
         int currentMaxLevel = UserData.Instance.CurrentPlayerData.GetHighestDifficultyLevel();
         for (int i = 0; i < currentMaxLevel + 2; i++)
         {
-            if (i >= 4) break;
+            if (i > 3) break;
 
             btn[i].gameObject.SetActive(true);
         }
 
-        DifficultSelect(currentMaxLevel);
+        DifficultSelect(Mathf.Clamp(currentMaxLevel, 0, 3));
     }
 
     void DifficultSelect(int diff)

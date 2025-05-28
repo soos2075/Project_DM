@@ -11,17 +11,17 @@ public class UI_Ending : UI_PopUp
         Time.timeScale = 1;
         Init();
     }
-    private void Update()
-    {
-        if (Input.anyKey)
-        {
-            Time.timeScale = 2.0f;
-        }
-        else
-        {
-            Time.timeScale = 1;
-        }
-    }
+    //private void Update()
+    //{
+    //    if (Input.anyKey)
+    //    {
+    //        Time.timeScale = 2.0f;
+    //    }
+    //    else
+    //    {
+    //        Time.timeScale = 1;
+    //    }
+    //}
 
     enum Background
     {

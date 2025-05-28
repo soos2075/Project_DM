@@ -139,7 +139,7 @@ public class UI_TileView : UI_PopUp, IWorldSpaceUI
 
     void View_CurrentStatus(I_BattleStat target)
     {
-        var data = target.BattleStatus.GetCurrentBattleStatus_Active();
+        var data = target.CurrentBattleStatus.GetCurrentBattleStatus_Active();
 
         string detail = "";
 

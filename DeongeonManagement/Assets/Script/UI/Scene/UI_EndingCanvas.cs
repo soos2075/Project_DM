@@ -17,6 +17,11 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
 
     private void LateUpdate()
     {
+        if (overCheck)
+        {
+            return;
+        }
+
         if (Input.anyKey)
         {
             //seconds = 0.03f;
@@ -60,10 +65,14 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
     }
 
 
+    bool overCheck = false;
+
     void Skip_Ending()
     {
         StopAllCoroutines();
-        var ui = Managers.UI.ShowPopUp<UI_Ending>();
+        overCheck = true;
+        //var ui = Managers.UI.ShowPopUp<UI_Ending>();
+        GoToStartScene();
     }
 
 
@@ -167,7 +176,32 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
             yield return new WaitForSeconds(1);
         }
 
-        var ui = Managers.UI.ShowPopUp<UI_Ending>();
+        //var ui = Managers.UI.ShowPopUp<UI_Ending>();
+        GoToStartScene();
+    }
+
+
+    void GoToStartScene()
+    {
+        //? 메인으로 돌아가기
+        Managers.Scene.LoadSceneAsync(SceneName._1_Start);
+
+        if (UserData.Instance.CurrentPlayerData.GetClearCount() == 1)
+        {
+            Managers.Scene.AddLoadAction_OneTime(() => NGP_Info());
+        }
+
+        //? 만약 모든 엔딩을 다 봤다면 엔딩크레딧 연결하자
+        if (UserData.Instance.CurrentPlayerData.EndingClearNumber() == System.Enum.GetNames(typeof(Endings)).Length)
+        {
+            Managers.Scene.AddLoadAction_OneTime(() => Managers.UI.ShowPopUp<UI_Credit>());
+        }
+    }
+
+    void NGP_Info()
+    {
+        var ui = Managers.UI.ShowPopUp<UI_SystemMessage>();
+        ui.Message = $"{UserData.Instance.LocaleText_NGP("First_Clear_MSG")}";
     }
 
 

@@ -50,6 +50,10 @@ public class SO_Monster : ScriptableObject, I_SO_Collection
     public float ActionInterval;
     public float moveSpeed;
 
+    [Header("Attack")]
+    public AttackType attackType;
+    public string effectPrefabName;
+
 
     [Header("CSV(Localization)")] //? external CSV Data
     public string labelName;

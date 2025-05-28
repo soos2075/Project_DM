@@ -12,16 +12,16 @@ public class NPC_Normal : NPC
 
     protected override void Start_Setting()
     {
-        //? 공격타입과 투사체 세팅
-        switch (NPCType)
-        {
-            case NPC_Type_Normal.Elf:
-                AttackOption.SetProjectile(AttackType.Bow, "LegucyElf", "ElfA");
-                break;
-            case NPC_Type_Normal.Wizard:
-                AttackOption.SetProjectile(AttackType.Magic, "Fireball", "4");
-                break;
-        }
+        ////? 공격타입과 투사체 세팅
+        //switch (NPCType)
+        //{
+        //    case NPC_Type_Normal.Elf:
+        //        AttackOption.SetProjectile(AttackType.Bow, "LegucyElf", "ElfA");
+        //        break;
+        //    case NPC_Type_Normal.Wizard:
+        //        AttackOption.SetProjectile(AttackType.Magic, "Fireball", "4");
+        //        break;
+        //}
 
         //? 킬골드와 도망치는 조건 등등의 세팅
         switch (NPCType)
@@ -528,9 +528,12 @@ public class NPC_Normal : NPC
         switch (NPCType)
         {
             case NPC_Type_Normal.Herbalist1:
+            case NPC_Type_Normal.Miner1:
+                dangerValue = Data.Rank * 3;
+                break;
+
             case NPC_Type_Normal.Herbalist2:
             case NPC_Type_Normal.Herbalist3:
-            case NPC_Type_Normal.Miner1:
             case NPC_Type_Normal.Miner2:
             case NPC_Type_Normal.Miner3:
             case NPC_Type_Normal.Normal_Goblin:

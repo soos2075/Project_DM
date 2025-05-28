@@ -31,12 +31,12 @@ public class Player : Monster
     {
         if (GameManager.Artifact.GetArtifact(ArtifactLabel.ProofOfHero).Count > 0)
         {
-            BattleStatus.AddValue(BattleStatusLabel.Heroism, 1);
+            CurrentBattleStatus.AddValue(BattleStatusLabel.Heroism, 1);
         }
 
         if (GameManager.Artifact.GetArtifact(ArtifactLabel.Cross).Count > 0)
         {
-            BattleStatus.AddValue(BattleStatusLabel.Master, GameManager.Artifact.GetArtifact(ArtifactLabel.Cross).Count);
+            CurrentBattleStatus.AddValue(BattleStatusLabel.Master, GameManager.Artifact.GetArtifact(ArtifactLabel.Cross).Count);
         }
     }
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_TraitSystem
+public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_TraitSystem, I_AttackEffect
 {
     protected void Awake()
     {
@@ -12,8 +12,32 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     {
         anim = GetComponentInChildren<Animator>();
         sizeOffset = transform.localScale.x;
-        BattleStatus_Init();
+        Init_BattleStatus();
+        //Init_AttackEffect();
     }
+
+
+    #region I_AttackEffect
+
+    public I_AttackEffect.AttackEffect AttackOption { get; set; } = new I_AttackEffect.AttackEffect();
+    public GameObject GetGameObject { get => this.gameObject; }
+
+
+    public void Init_AttackEffect()
+    {
+        AttackOption = new I_AttackEffect.AttackEffect();
+    }
+
+    public void Apply_AttackEffect()
+    {
+        if (Data == null) return;
+
+        AttackOption.attack_Type = Data.attackType;
+        AttackOption.effectName = Data.effectPrefabName;
+    }
+    
+
+    #endregion
 
 
     #region IPlacementable
@@ -243,7 +267,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     #region I_Battle Stat
 
     BattleStatus currentBattleStatus;
-    public BattleStatus BattleStatus { get => currentBattleStatus; set => currentBattleStatus = value; }
+    public BattleStatus CurrentBattleStatus { get => currentBattleStatus; set => currentBattleStatus = value; }
 
     //? 전투시 사용할 스탯 (최종 결과값)
     public int B_HP { get => (HP_normal + HP_Status) - HP_Damaged; }
@@ -257,7 +281,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     public int HP_Damaged { get; set; }
 
     public int HP_normal { get => HP + HP_Bonus + Trait_HP; }
-    public int HP_Status { get => BattleStatus.Get_Fixed_HP() + Mathf.RoundToInt(HP_normal * BattleStatus.Get_HP_Stauts()); }
+    public int HP_Status { get => CurrentBattleStatus.Get_Fixed_HP() + Mathf.RoundToInt(HP_normal * CurrentBattleStatus.Get_HP_Stauts()); }
 
     //? 기본 수치 (에디터 및 계산용)
     public int Base_HP_MAX { get => HP_MAX; }
@@ -273,10 +297,10 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     public int LUK_normal { get => (LUK + LUK_Bonus + AllStat_Bonus + Trait_LUK); }
 
     //? 현재 상태이상을 적용시킨 수치
-    public int ATK_Status { get => BattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(ATK_normal * BattleStatus.Get_ATK_Status()); }
-    public int DEF_Status { get => BattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(DEF_normal * BattleStatus.Get_DEF_Status()); }
-    public int AGI_Status { get => BattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(AGI_normal * BattleStatus.Get_AGI_Status()); }
-    public int LUK_Status { get => BattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(LUK_normal * BattleStatus.Get_LUK_Status()); }
+    public int ATK_Status { get => CurrentBattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(ATK_normal * CurrentBattleStatus.Get_ATK_Status()); }
+    public int DEF_Status { get => CurrentBattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(DEF_normal * CurrentBattleStatus.Get_DEF_Status()); }
+    public int AGI_Status { get => CurrentBattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(AGI_normal * CurrentBattleStatus.Get_AGI_Status()); }
+    public int LUK_Status { get => CurrentBattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(LUK_normal * CurrentBattleStatus.Get_LUK_Status()); }
 
     #endregion
 
@@ -290,12 +314,19 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     //? 병원은 매턴 강건 2스택, 훈련시설은 매 턴 활기 2스택 주면 되겠다
 
 
-    void BattleStatus_Init()
+    void Init_BattleStatus()
     {
-        BattleStatus = new BattleStatus(this.gameObject);
+        CurrentBattleStatus = new BattleStatus(this.gameObject);
     }
     protected virtual void BattleStatue_TurnStart()
     {
+        if (State != MonsterState.Placement)
+        {
+            return;
+        }
+
+
+
         //? 특성
         if (TraitCheck(TraitGroup.Spirit) && State == MonsterState.Placement)
         {
@@ -306,7 +337,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
             {
                 if (item.PlacementInfo.Place_Floor.FloorIndex == floor)
                 {
-                    item.BattleStatus.AddValue(BattleStatusLabel.Spiritual, 1);
+                    item.CurrentBattleStatus.AddValue(BattleStatusLabel.Spiritual, 1);
                 }
             }
         }
@@ -319,7 +350,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
             {
                 if (item.PlacementInfo.Place_Floor.FloorIndex == floor)
                 {
-                    item.BattleStatus.AddValue(BattleStatusLabel.Spiritual, 2);
+                    item.CurrentBattleStatus.AddValue(BattleStatusLabel.Spiritual, 2);
                 }
             }
         }
@@ -327,35 +358,35 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         //? 랜덤이벤트
         if (RandomEventManager.Instance.Check_Current_ContinueEvent(RandomEventManager.ContinueRE.Monster_Power_Down))
         {
-            BattleStatus.AddValue(BattleStatusLabel.Decay, 1);
+            CurrentBattleStatus.AddValue(BattleStatusLabel.Decay, 1);
         }
 
 
 
         //? 아티팩트
-        BattleStatus.AddValue(BattleStatusLabel.Empower, GameManager.Artifact.GetArtifact(ArtifactLabel.Harp).Count);
-        BattleStatus.AddValue(BattleStatusLabel.Sharp, GameManager.Artifact.GetArtifact(ArtifactLabel.Hourglass).Count);
-        BattleStatus.AddValue(BattleStatusLabel.Guard, GameManager.Artifact.GetArtifact(ArtifactLabel.Lamp).Count);
-        BattleStatus.AddValue(BattleStatusLabel.Haste, GameManager.Artifact.GetArtifact(ArtifactLabel.Mirror).Count);
-        BattleStatus.AddValue(BattleStatusLabel.Chance, GameManager.Artifact.GetArtifact(ArtifactLabel.Lyre).Count);
-        BattleStatus.AddValue(BattleStatusLabel.Robust, GameManager.Artifact.GetArtifact(ArtifactLabel.Pearl).Count);
+        CurrentBattleStatus.AddValue(BattleStatusLabel.Empower, GameManager.Artifact.GetArtifact(ArtifactLabel.Harp).Count);
+        CurrentBattleStatus.AddValue(BattleStatusLabel.Sharp, GameManager.Artifact.GetArtifact(ArtifactLabel.Hourglass).Count);
+        CurrentBattleStatus.AddValue(BattleStatusLabel.Guard, GameManager.Artifact.GetArtifact(ArtifactLabel.Lamp).Count);
+        CurrentBattleStatus.AddValue(BattleStatusLabel.Haste, GameManager.Artifact.GetArtifact(ArtifactLabel.Mirror).Count);
+        CurrentBattleStatus.AddValue(BattleStatusLabel.Chance, GameManager.Artifact.GetArtifact(ArtifactLabel.Lyre).Count);
+        CurrentBattleStatus.AddValue(BattleStatusLabel.Robust, GameManager.Artifact.GetArtifact(ArtifactLabel.Pearl).Count);
 
 
         //? 오브
         if (GameManager.Buff.CurrentBuff.Orb_red > 0)
         {
-            BattleStatus.AddValue(BattleStatusLabel.Vigor, GameManager.Buff.CurrentBuff.Orb_red);
+            CurrentBattleStatus.AddValue(BattleStatusLabel.Vigor, GameManager.Buff.CurrentBuff.Orb_red);
         }
 
         //? 특수시설
         if (GameManager.Technical.Get_Technical<Hospital>() != null)
         {
-            BattleStatus.AddValue(BattleStatusLabel.Robust, 2);
+            CurrentBattleStatus.AddValue(BattleStatusLabel.Robust, 2);
         }
 
         if (GameManager.Technical.Get_Technical<TrainingCenter>() != null)
         {
-            BattleStatus.AddValue(BattleStatusLabel.Empower, 2);
+            CurrentBattleStatus.AddValue(BattleStatusLabel.Empower, 2);
         }
     }
     ////? Technical Bonus
@@ -976,7 +1007,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         //def_chance = Data.up_def;
         //agi_chance = Data.up_agi;
         //luk_chance = Data.up_luk;
-
+        Apply_AttackEffect();
         Init_TraitCounter();
     }
 
@@ -1001,6 +1032,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         //agi_chance = Data.up_agi;
         //luk_chance = Data.up_luk;
 
+        Apply_AttackEffect();
         Init_TraitCounter();
     }
 
@@ -1059,7 +1091,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
             HP_Damaged = 0;
         }
 
-        BattleStatus_Init();
+        Init_BattleStatus();
     }
 
     public virtual void MoveSelf()
@@ -1091,9 +1123,11 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
     protected IEnumerator MoveCor()
     {
-        float delay = Data.moveSpeed * 0.5f; //? 높을수록 느림. 1칸 이동하는데 걸리는 시간이라고 보면 댐
-        float interval = Data.ActionInterval * 0.5f; //? 얘가 NPC로 치면 ActionDelay
-        yield return new WaitForSeconds(1); //? 가장 처음 동작은 npc가 도망칠 시간은 줘야되서 1초정도 기다리기(일반액션은 상관없음)
+        //float delay = Data.moveSpeed * 0.5f; //? 높을수록 느림. 1칸 이동하는데 걸리는 시간이라고 보면 댐
+        //float interval = Data.ActionInterval * 0.5f; //? 얘가 NPC로 치면 ActionDelay
+
+        float interval = Data.ActionInterval * 0.5f * UnityEngine.Random.Range(0.9f, 1.1f);
+        yield return new WaitForSeconds(1.2f); //? 가장 처음 동작은 npc가 도망칠 시간은 줘야되서 1초정도 기다리기(일반액션은 상관없음)
 
         while (Main.Instance.Management == false && State == MonsterState.Placement)
         {
@@ -1104,15 +1138,15 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
                     break;
 
                 case MoveType.Wander:
-                    Moving(delay);
+                    Moving(interval);
                     break;
 
                 case MoveType.Attack:
-                    Moving_Attack(delay);
+                    Moving_Attack(interval);
                     break;
             }
             yield return UserData.Instance.Wait_GamePlay;
-            yield return new WaitForSeconds(delay + interval);
+            yield return new WaitForSeconds(interval * 1.1f);
         }
     }
 
@@ -1187,7 +1221,10 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         float prev_dist = 1000;
         
         // Floor에게 전체 npc를 받아와서 가장 가까운 npc를 찾아서 tile을 해당 npc의 tile로 갱신
-        var npcList = PlacementInfo.Place_Floor.GetFloorObjectList(Define.TileType.NPC);
+        var _npcList = PlacementInfo.Place_Floor.GetFloorObjectList<NPC>();
+        //? 현재 바쁜상태가 아닌애들만
+        var npcList = _npcList.FindAll(npc => npc.PlacementState == PlacementState.Standby);
+
         if (npcList.Count == 0)
         {
             //Debug.Log("층에 npc가 없으므로 이동하지 않음");
@@ -1196,10 +1233,11 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
         foreach (var item in npcList)
         {
-            float current_dist = (item.worldPosition - PlacementInfo.Place_Tile.worldPosition).magnitude;
+            var npcTile = item.PlacementInfo.Place_Tile;
+            float current_dist = (npcTile.worldPosition - PlacementInfo.Place_Tile.worldPosition).magnitude;
             if (current_dist < prev_dist )
             {
-                tile = item;
+                tile = npcTile;
                 prev_dist = current_dist;
             }
         }
@@ -1493,6 +1531,8 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
     public void MonsterOutFloor()
     {
+        CurrentBattleStatus.Die();
+
         var player = this as Player;
         if (player != null)
         {

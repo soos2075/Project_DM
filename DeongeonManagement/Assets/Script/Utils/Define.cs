@@ -76,6 +76,8 @@ public class Define
         ALL,
     }
 
+
+
     public enum DungeonRank
     {
         F = 1,
