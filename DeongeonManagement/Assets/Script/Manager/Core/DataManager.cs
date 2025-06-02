@@ -23,13 +23,17 @@ public class DataManager
 
     void Init_Object_CSV()
     {
+        //? Dialogue
+        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/CsvData/Dialogue_Result.csv").Completed +=
+    (handle) => { CSV_File_Parsing_DialogueAll(OnCSVLoaded(handle)); };
+
         //? Object
         Addressables.LoadAssetAsync<TextAsset>("Assets/Data/CsvData/Object_Result.csv").Completed +=
     (handle) => { CSV_File_Parsing_ObjectAll(OnCSVLoaded(handle)); };
 
-        //? Dialogue
-        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/CsvData/Dialogue_Result.csv").Completed +=
-    (handle) => { CSV_File_Parsing_DialogueAll(OnCSVLoaded(handle)); };
+        //? Monster
+        Addressables.LoadAssetAsync<TextAsset>("Assets/Data/CsvData/Monster_Result.csv").Completed +=
+    (handle) => { CSV_File_Parsing_Monster(OnCSVLoaded(handle)); };
 
         //? 일지 (퀘스트나 이벤트 표시)
         Addressables.LoadAssetAsync<TextAsset>("Assets/Data/CsvData/Journal_Result.csv").Completed +=
@@ -79,7 +83,7 @@ public class DataManager
 
     //? 모든 어드레서블 csv파일이 성공적으로 로드 됐는지 확인 후 콜백. 숫자는 추가할때마다 바꿔야함. LoadSucceed 참조 횟수 = csvFileAll
     int csvLoadCount = 0;
-    int csvFileAll = 8;
+    int csvFileAll = 9;
     public event Action OnAddressablesComplete;
 
     void LoadSucceed()
@@ -115,6 +119,33 @@ public class DataManager
 
             case Define.Language.TC:
                 Managers.Data.ObjectsLabel_TC.TryGetValue(id, out datas);
+                break;
+        }
+        return datas;
+    }
+    public string[] GetTextData_Monster(int id)
+    {
+        string[] datas = null;
+        switch (UserData.Instance.Language)
+        {
+            case Define.Language.EN:
+                Managers.Data.Monster_EN.TryGetValue(id, out datas);
+                break;
+
+            case Define.Language.KR:
+                Managers.Data.Monster_KR.TryGetValue(id, out datas);
+                break;
+
+            case Define.Language.JP:
+                Managers.Data.Monster_JP.TryGetValue(id, out datas);
+                break;
+
+            case Define.Language.SC:
+                Managers.Data.Monster_SC.TryGetValue(id, out datas);
+                break;
+
+            case Define.Language.TC:
+                Managers.Data.Monster_TC.TryGetValue(id, out datas);
                 break;
         }
         return datas;
@@ -286,76 +317,29 @@ public class DataManager
     }
 
 
-
-
-
-
-
-
-    public Dictionary<int, string[]> ObjectsLabel_KR = new Dictionary<int, string[]>();
-    public Dictionary<int, string[]> ObjectsLabel_EN = new Dictionary<int, string[]>();
-    public Dictionary<int, string[]> ObjectsLabel_JP = new Dictionary<int, string[]>();
-    public Dictionary<int, string[]> ObjectsLabel_SC = new Dictionary<int, string[]>();
-    public Dictionary<int, string[]> ObjectsLabel_TC = new Dictionary<int, string[]>();
-
-    //? csv 데이터 항목 - Option은 좀 더 상세분류로 나뉨 - @Op1::Op1  가 존재하면 옵션이 존재하는것
-    // 0 KeyName / 1 id /
-    // 2 Label_KR / 3 Detail_KR / 4 Option_KR
-    // 5 Label_EN / 6 Detail_EN / 7 Option_EN
-    // 8 Label_JP / 9 Detail_JP / 10 Option_JP
-    // 11 Label_SC / 12 Detail_SC / 13 Option_SC
-    void CSV_File_Parsing_ObjectAll(string _stringData)
+    //? 아래부터 데이터 파싱 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    string ContainsAndJoin(string mainText)
     {
-        if (string.IsNullOrEmpty(_stringData)) return;
-
-        var spl_n = _stringData.Split('\n');
-
-        for (int i = 1; i < spl_n.Length; i++)
+        if (mainText.Contains('\\'))
         {
-            var spl_comma = spl_n[i].Split(',');
-
-            if (spl_comma.Length < 2 || string.IsNullOrEmpty(spl_comma[1])) //? 빈칸이면 다음으로
-            {
-                continue;
-            }
-
-            string[] datas = spl_comma;
-
-            //Debug.Log(datas.Length);
-            //foreach (var item in datas)
-            //{
-            //    Debug.Log(item);
-            //}
-
-            for (int k = 0; k < datas.Length; k++)
-            {
-                if (datas[k].Contains('\\'))
-                {
-                    var split = datas[k].Split('\\');
-                    datas[k] = string.Join("\n", split);
-                }
-
-                if (datas[k].Contains('-'))
-                {
-                    var split = datas[k].Split('-');
-                    datas[k] = string.Join(',', split);
-                }
-
-                if (datas[k].Contains('^'))
-                {
-                    var split = datas[k].Split('^');
-                    datas[k] = string.Join('-', split);
-                }
-            }
-
-            ObjectsLabel_KR.Add(int.Parse(datas[1]), new string[] { datas[2], datas[3], datas[4] });
-            ObjectsLabel_EN.Add(int.Parse(datas[1]), new string[] { datas[5], datas[6], datas[7] });
-            ObjectsLabel_JP.Add(int.Parse(datas[1]), new string[] { datas[8], datas[9], datas[10] });
-            ObjectsLabel_SC.Add(int.Parse(datas[1]), new string[] { datas[11], datas[12], datas[13] });
-            ObjectsLabel_TC.Add(int.Parse(datas[1]), new string[] { datas[14], datas[15], datas[16] });
+            var split = mainText.Split('\\');
+            mainText = string.Join("\n", split);
         }
-        LoadSucceed();
+        if (mainText.Contains('-'))
+        {
+            var split = mainText.Split('-');
+            mainText = string.Join(',', split);
+        }
+        if (mainText.Contains('^'))
+        {
+            var split = mainText.Split('^');
+            mainText = string.Join('-', split);
+        }
+
+        return mainText;
     }
+
+
 
 
     public Dictionary<DialogueName, DialogueData> Dialogue_KR { get; } = new Dictionary<DialogueName, DialogueData>();
@@ -439,26 +423,90 @@ public class DataManager
         LoadSucceed();
     }
 
-    string ContainsAndJoin(string mainText)
-    {
-        if (mainText.Contains('\\'))
-        {
-            var split = mainText.Split('\\');
-            mainText = string.Join("\n", split);
-        }
-        if (mainText.Contains('-'))
-        {
-            var split = mainText.Split('-');
-            mainText = string.Join(',', split);
-        }
-        if (mainText.Contains('^'))
-        {
-            var split = mainText.Split('^');
-            mainText = string.Join('-', split);
-        }
 
-        return mainText;
+
+    public Dictionary<int, string[]> ObjectsLabel_KR = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> ObjectsLabel_EN = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> ObjectsLabel_JP = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> ObjectsLabel_SC = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> ObjectsLabel_TC = new Dictionary<int, string[]>();
+
+    //? option은 monster만 썼는데, monster 항목을 분리함과 동시에 option 탭을 삭제했음
+    // 0 KeyName / 1 id /
+    // 2 Label_KR / 3 Detail_KR / X option
+    void CSV_File_Parsing_ObjectAll(string _stringData)
+    {
+        if (string.IsNullOrEmpty(_stringData)) return;
+
+        var spl_n = _stringData.Split('\n');
+
+        for (int i = 1; i < spl_n.Length; i++)
+        {
+            var spl_comma = spl_n[i].Split(',');
+
+            if (spl_comma.Length < 2 || string.IsNullOrEmpty(spl_comma[1])) //? ID가 빈칸이면 다음으로
+            {
+                continue;
+            }
+
+            string[] datas = spl_comma;
+
+            //Debug.Log(datas.Length);
+            //foreach (var item in datas)
+            //{
+            //    Debug.Log(item);
+            //}
+
+            ObjectsLabel_KR.Add(int.Parse(datas[1]), new string[] { datas[2], ContainsAndJoin(datas[3]) });
+            ObjectsLabel_EN.Add(int.Parse(datas[1]), new string[] { datas[4], ContainsAndJoin(datas[5]) });
+            ObjectsLabel_JP.Add(int.Parse(datas[1]), new string[] { datas[6], ContainsAndJoin(datas[7]) });
+            ObjectsLabel_SC.Add(int.Parse(datas[1]), new string[] { datas[8], ContainsAndJoin(datas[9]) });
+            ObjectsLabel_TC.Add(int.Parse(datas[1]), new string[] { datas[10], ContainsAndJoin(datas[11]) });
+        }
+        LoadSucceed();
     }
+
+
+    public Dictionary<int, string[]> Monster_KR = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> Monster_EN = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> Monster_JP = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> Monster_SC = new Dictionary<int, string[]>();
+    public Dictionary<int, string[]> Monster_TC = new Dictionary<int, string[]>();
+
+    // 0 KeyName / 1 id /
+    // 2 Label_KR / 3 Detail_KR / 4 Option_KR / 5 Option2_KR
+    void CSV_File_Parsing_Monster(string _stringData)
+    {
+        if (string.IsNullOrEmpty(_stringData)) return;
+
+        var spl_n = _stringData.Split('\n');
+
+        for (int i = 1; i < spl_n.Length; i++)
+        {
+            var spl_comma = spl_n[i].Split(',');
+
+            if (spl_comma.Length < 2 || string.IsNullOrEmpty(spl_comma[1])) //? ID가 빈칸이면 다음으로
+            {
+                continue;
+            }
+
+            string[] datas = spl_comma;
+
+            Monster_KR.Add(int.Parse(datas[1]), new string[] { datas[2], ContainsAndJoin(datas[3]), ContainsAndJoin(datas[4]), ContainsAndJoin(datas[5]) });
+            Monster_EN.Add(int.Parse(datas[1]), new string[] { datas[6], ContainsAndJoin(datas[7]), ContainsAndJoin(datas[8]), ContainsAndJoin(datas[9]) });
+            Monster_JP.Add(int.Parse(datas[1]), new string[] { datas[10], ContainsAndJoin(datas[11]), ContainsAndJoin(datas[12]), ContainsAndJoin(datas[13]) });
+            Monster_SC.Add(int.Parse(datas[1]), new string[] { datas[14], ContainsAndJoin(datas[15]), ContainsAndJoin(datas[16]), ContainsAndJoin(datas[17]) });
+            Monster_TC.Add(int.Parse(datas[1]), new string[] { datas[18], ContainsAndJoin(datas[19]), ContainsAndJoin(datas[20]), ContainsAndJoin(datas[21]) });
+        }
+        LoadSucceed();
+    }
+
+
+
+
+    
+
+
 
 
 

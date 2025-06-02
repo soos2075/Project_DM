@@ -105,10 +105,13 @@ public class BattleField : MonoBehaviour
             for (int i = 0; i < openingList.Count; i++)
             {
                 yield return UserData.Instance.Wait_GamePlay;
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.6f);
 
                 if (openingList[i].target is Monster)
                 {
+                    //? 효과이펙트
+                    Instant_StartEffect(pos_Right, openingList[i].effectType);
+
                     switch (openingList[i].effectType)
                     {
                         case EffectType.Damaged:
@@ -124,6 +127,9 @@ public class BattleField : MonoBehaviour
                 }
                 else if (openingList[i].target is NPC)
                 {
+                    //? 효과이펙트
+                    Instant_StartEffect(pos_Left, openingList[i].effectType);
+
                     switch (openingList[i].effectType)
                     {
                         case EffectType.Damaged:
@@ -241,19 +247,19 @@ public class BattleField : MonoBehaviour
 
     #region ForAnimationVoid
 
-    void Anim_Attack_NPC()
-    {
-        var pos_Damage = pos_Left.GetChild(0);
-        var pos_Projectile = pos_Left.GetChild(1);
-        var pos_Effect = pos_Right.GetChild(2);
-    }
+    //void Anim_Attack_NPC()
+    //{
+    //    var pos_Damage = pos_Left.GetChild(0);
+    //    var pos_Projectile = pos_Left.GetChild(1);
+    //    var pos_Effect = pos_Right.GetChild(2);
+    //}
 
-    void Anim_Attack_Monster()
-    {
-        var pos_Damage = pos_Right.GetChild(0);
-        var pos_Projectile = pos_Right.GetChild(1);
-        var pos_Effect = pos_Left.GetChild(2);
-    }
+    //void Anim_Attack_Monster()
+    //{
+    //    var pos_Damage = pos_Right.GetChild(0);
+    //    var pos_Projectile = pos_Right.GetChild(1);
+    //    var pos_Effect = pos_Left.GetChild(2);
+    //}
 
 
 
@@ -261,8 +267,16 @@ public class BattleField : MonoBehaviour
     void NPC_AttackAnim()
     {
         //? 일단은 마법사나 궁수나 전부 attack로 통일해보자. 법사랑 원거리 공격하는애들 이상하면 그때 바꾸기
-        ani_npc.CrossFade(Define.ANIM_Attack, 0.1f);
+        //? 마법사는 ㄱㅊ고 궁수만 문제니까 활쏘는애들 어차피 Elf밖에없는데 얘네만 고치자
 
+        if (npc.name.Contains("Elf"))
+        {
+            ani_npc.CrossFade(Define.ANIM_Shot, 0.1f);
+        }
+        else
+        {
+            ani_npc.CrossFade(Define.ANIM_Attack, 0.1f);
+        }
 
         //switch (npc.AttackOption.AttackAnim)
         //{
@@ -398,9 +412,10 @@ public class BattleField : MonoBehaviour
 
     void Projectile_Launch(GameObject atk, GameObject def, string effectName, Transform parents)
     {
-        var projectile = Managers.Resource.Instantiate($"Effect/Attack/{effectName}", parents);
-        projectile.GetComponentInChildren<SpriteRenderer>().sortingOrder = sort + 2;
-        projectile.GetOrAddComponent<AnimationCall>().Init_Battle(this, atk, def);
+        Instant_Effect($"Attack/{effectName}", parents, atk, def);
+        //var projectile = Managers.Resource.Instantiate($"Effect/Attack/{effectName}", parents);
+        //projectile.GetComponentInChildren<SpriteRenderer>().sortingOrder = sort + 2;
+        //projectile.GetOrAddComponent<AnimationCall>().Init_Battle(this, atk, def);
     }
 
 
@@ -428,6 +443,7 @@ public class BattleField : MonoBehaviour
     public DamageNumber specialMesh;
     public DamageNumber criticalMesh;
     public DamageNumber healMesh;
+    public DamageNumber missMesh;
 
     public enum DamageMeshType
     {
@@ -443,14 +459,7 @@ public class BattleField : MonoBehaviour
         switch (meshType)
         {
             case DamageMeshType.Damage:
-                if (_dam == 0)
-                {
-                    DamageNumber dn = damageMesh.Spawn(pos_Damage.transform.position, "miss");
-                }
-                else
-                {
-                    DamageNumber dn = damageMesh.Spawn(pos_Damage.transform.position, _dam);
-                }
+                DamageNumber dn = damageMesh.Spawn(pos_Damage.transform.position, _dam);
                 break;
 
             case DamageMeshType.Special:
@@ -467,6 +476,47 @@ public class BattleField : MonoBehaviour
         }
     }
 
+    void Instant_StartEffect(Transform parent, EffectType type)
+    {
+        var pos_Effect = parent.GetChild(2);
+
+        switch (type)
+        {
+            case EffectType.Damaged:
+                Instant_Effect("Etc/Hit_1", pos_Effect);
+                break;
+
+            case EffectType.Heal:
+                Instant_Effect("Etc/Heal", pos_Effect);
+                break;
+
+            case EffectType.Up_Status:
+                Instant_Effect("Etc/Effect_Up", pos_Effect);
+                break;
+
+            case EffectType.Down_Status:
+                Instant_Effect("Etc/Effect_Down", pos_Effect);
+                break;
+        }
+    }
+
+
+    void Instant_Effect(string path, Transform parent)
+    {
+        var effect = Managers.Resource.Instantiate($"Effect/{path}", parent);
+        effect.GetComponentInChildren<SpriteRenderer>().sortingOrder = sort + 2;
+    }
+    void Instant_Effect(string path, Transform parent, GameObject atk, GameObject def)
+    {
+        var effect = Managers.Resource.Instantiate($"Effect/{path}", parent);
+        effect.GetComponentInChildren<SpriteRenderer>().sortingOrder = sort + 2;
+        effect.GetOrAddComponent<AnimationCall>().Init_Battle(this, atk, def);
+    }
+
+
+
+
+
     public void AddAction(int _dam, Transform parent, DamageMeshType meshType = DamageMeshType.Damage)
     {
         Call_Damage += () =>
@@ -477,7 +527,7 @@ public class BattleField : MonoBehaviour
                 case DamageMeshType.Damage:
                     if (_dam == 0)
                     {
-                        DamageNumber damageNumber = damageMesh.Spawn(pos_Damage.transform.position, "miss");
+                        DamageNumber damageNumber = missMesh.Spawn(pos_Damage.transform.position, "miss");
                     }
                     else
                     {
@@ -486,11 +536,26 @@ public class BattleField : MonoBehaviour
                     break;
 
                 case DamageMeshType.Special:
-                    DamageNumber damageNumber1 = specialMesh.Spawn(pos_Damage.transform.position, _dam);
+                    if (_dam == 0)
+                    {
+                        DamageNumber damageNumber1 = missMesh.Spawn(pos_Damage.transform.position, "miss");
+                    }
+                    else
+                    {
+                        DamageNumber damageNumber1 = specialMesh.Spawn(pos_Damage.transform.position, _dam);
+                    }
                     break;
 
                 case DamageMeshType.Critical:
-                    DamageNumber damageNumber2 = criticalMesh.Spawn(pos_Damage.transform.position, _dam);
+                    if (_dam == 0)
+                    {
+                        DamageNumber damageNumber2 = missMesh.Spawn(pos_Damage.transform.position, "miss");
+                    }
+                    else
+                    {
+                        DamageNumber damageNumber2 = criticalMesh.Spawn(pos_Damage.transform.position, _dam);
+                    }
+
                     break;
 
                 case DamageMeshType.Heal:
@@ -534,23 +599,6 @@ public class BattleField : MonoBehaviour
         renderer.material.SetFloat("_FlashIntensity", 0);
     }
 
-    //[Obsolete]
-    //public void _AddAction(int _dam, Transform parent) //? 데미지프로안쓰는버전
-    //{
-    //    Call_Damage = () =>
-    //    {
-    //        var pos = parent.GetChild(0);
-    //        pos.localPosition = new Vector3(UnityEngine.Random.Range(-0.25f, 0.25f), UnityEngine.Random.Range(0.25f, 0.5f), 0);
-
-    //        var mesh = Managers.Resource.Instantiate("Battle/DamageMesh", pos);
-    //        mesh.transform.position = pos.transform.position;
-
-    //        mesh.GetComponent<TextMeshPro>().sortingOrder = (sprite_BG.sortingOrder + 1);
-    //        mesh.GetComponent<TextMeshPro>().text = _dam.ToString();
-    //    };
-    //}
-
-
     #endregion
 
     List<OpeningTrait> openingList = new List<OpeningTrait>();
@@ -587,6 +635,8 @@ public class BattleField : MonoBehaviour
     {
         Damaged,
         Heal,
+        Up_Status,
+        Down_Status,
     }
 
 
@@ -675,9 +725,8 @@ public class BattleField : MonoBehaviour
     {
         roundList = new List<Round>();
 
-        StartEffect_Monster();
-
-        //? npc 시작효과도 넣어야함
+        StartEffect(monster, npc);
+        StartEffect(npc, monster);
 
         int agi = npc.B_AGI - monster.B_AGI;
         if (agi > 5)
@@ -857,82 +906,146 @@ public class BattleField : MonoBehaviour
 
 
     //? 시작효과
-    void StartEffect_Monster()
+    void StartEffect<T1, T2>(T1 attacker, T2 defender) where T1 : I_TraitSystem, I_BattleStat where T2 : I_TraitSystem, I_BattleStat
     {
         //? 버프
-        if (monster.TraitCheck(TraitGroup.Succubus)) { monster.CurrentBattleStatus.AddValue(BattleStatusLabel.Chance, 1); }
-        if (monster.TraitCheck(TraitGroup.Succubus_V2)) { monster.CurrentBattleStatus.AddValue(BattleStatusLabel.Chance, 2); }
 
-        if (monster.TraitCheck(TraitGroup.ToughSkin)) { monster.CurrentBattleStatus.AddValue(BattleStatusLabel.Guard, 1); }
-        if (monster.TraitCheck(TraitGroup.ToughSkin_V2)) { monster.CurrentBattleStatus.AddValue(BattleStatusLabel.Guard, 2); }
+        if (attacker.TraitCheck(TraitGroup.Fierce))
+        {
+            attacker.CurrentBattleStatus.AddValue(BattleStatusLabel.Sharp, 1);
+            openingList.Add(new OpeningTrait(EffectType.Up_Status, attacker, StatType.ATK, 0));
+        }
+        if (attacker.TraitCheck(TraitGroup.Fierce_V2))
+        {
+            attacker.CurrentBattleStatus.AddValue(BattleStatusLabel.Sharp, 2);
+            openingList.Add(new OpeningTrait(EffectType.Up_Status, attacker, StatType.ATK, 0));
+        }
 
-        if (monster.TraitCheck(TraitGroup.Wind)) { monster.CurrentBattleStatus.AddValue(BattleStatusLabel.Haste, 1); }
-        if (monster.TraitCheck(TraitGroup.Wind_V2)) { monster.CurrentBattleStatus.AddValue(BattleStatusLabel.Haste, 2); }
+        if (attacker.TraitCheck(TraitGroup.ToughSkin))
+        {
+            attacker.CurrentBattleStatus.AddValue(BattleStatusLabel.Guard, 1);
+            openingList.Add(new OpeningTrait(EffectType.Up_Status, attacker, StatType.DEF, 0));
+        }
+        if (attacker.TraitCheck(TraitGroup.ToughSkin_V2))
+        {
+            attacker.CurrentBattleStatus.AddValue(BattleStatusLabel.Guard, 2);
+            openingList.Add(new OpeningTrait(EffectType.Up_Status, attacker, StatType.DEF, 0));
+        }
 
-        if (monster.TraitCheck(TraitGroup.Fierce)) { monster.CurrentBattleStatus.AddValue(BattleStatusLabel.Sharp, 1); }
-        if (monster.TraitCheck(TraitGroup.Fierce_V2)) { monster.CurrentBattleStatus.AddValue(BattleStatusLabel.Sharp, 2); }
+        if (attacker.TraitCheck(TraitGroup.Wind))
+        {
+            attacker.CurrentBattleStatus.AddValue(BattleStatusLabel.Haste, 1);
+            openingList.Add(new OpeningTrait(EffectType.Up_Status, attacker, StatType.AGI, 0));
+        }
+        if (attacker.TraitCheck(TraitGroup.Wind_V2))
+        {
+            attacker.CurrentBattleStatus.AddValue(BattleStatusLabel.Haste, 2);
+            openingList.Add(new OpeningTrait(EffectType.Up_Status, attacker, StatType.AGI, 0));
+        }
+        if (attacker.TraitCheck(TraitGroup.Succubus))
+        {
+            attacker.CurrentBattleStatus.AddValue(BattleStatusLabel.Chance, 1);
+            openingList.Add(new OpeningTrait(EffectType.Up_Status, attacker, StatType.LUK, 0));
+        }
+        if (attacker.TraitCheck(TraitGroup.Succubus_V2))
+        {
+            attacker.CurrentBattleStatus.AddValue(BattleStatusLabel.Chance, 2);
+            openingList.Add(new OpeningTrait(EffectType.Up_Status, attacker, StatType.LUK, 0));
+        }
+
+
 
 
         //? 디버프
-        if (monster.TraitCheck(TraitGroup.Spore)) { npc.CurrentBattleStatus.AddValue(BattleStatusLabel.Wither, 1); }
-        if (monster.TraitCheck(TraitGroup.Spore_V2)) { npc.CurrentBattleStatus.AddValue(BattleStatusLabel.Wither, 2); }
+        if (attacker.TraitCheck(TraitGroup.Spore))
+        {
+            defender.CurrentBattleStatus.AddValue(BattleStatusLabel.Wither, 1);
+            openingList.Add(new OpeningTrait(EffectType.Down_Status, defender, StatType.ATK, 0));
+        }
+        if (attacker.TraitCheck(TraitGroup.Spore_V2))
+        {
+            defender.CurrentBattleStatus.AddValue(BattleStatusLabel.Wither, 2);
+            openingList.Add(new OpeningTrait(EffectType.Down_Status, defender, StatType.ATK, 0));
+        }
 
-        if (monster.TraitCheck(TraitGroup.Acid)) { npc.CurrentBattleStatus.AddValue(BattleStatusLabel.Corrode, 1); }
-        if (monster.TraitCheck(TraitGroup.Acid_V2)) { npc.CurrentBattleStatus.AddValue(BattleStatusLabel.Corrode, 2); }
+        if (attacker.TraitCheck(TraitGroup.Acid))
+        {
+            defender.CurrentBattleStatus.AddValue(BattleStatusLabel.Corrode, 1);
+            openingList.Add(new OpeningTrait(EffectType.Down_Status, defender, StatType.DEF, 0));
+        }
+        if (attacker.TraitCheck(TraitGroup.Acid_V2))
+        {
+            defender.CurrentBattleStatus.AddValue(BattleStatusLabel.Corrode, 2);
+            openingList.Add(new OpeningTrait(EffectType.Down_Status, defender, StatType.DEF, 0));
+        }
 
-        if (monster.TraitCheck(TraitGroup.ThornyVine)) { npc.CurrentBattleStatus.AddValue(BattleStatusLabel.Slow, 1); }
-        if (monster.TraitCheck(TraitGroup.ThornyVine_V2)) { npc.CurrentBattleStatus.AddValue(BattleStatusLabel.Slow, 2); }
+        if (attacker.TraitCheck(TraitGroup.ThornyVine))
+        {
+            defender.CurrentBattleStatus.AddValue(BattleStatusLabel.Slow, 1);
+            openingList.Add(new OpeningTrait(EffectType.Down_Status, defender, StatType.AGI, 0));
+        }
+        if (attacker.TraitCheck(TraitGroup.ThornyVine_V2))
+        {
+            defender.CurrentBattleStatus.AddValue(BattleStatusLabel.Slow, 2);
+            openingList.Add(new OpeningTrait(EffectType.Down_Status, defender, StatType.AGI, 0));
+        }
 
-        if (monster.TraitCheck(TraitGroup.Golem)) { npc.CurrentBattleStatus.AddValue(BattleStatusLabel.Jinx, 1); }
-        if (monster.TraitCheck(TraitGroup.Golem_V2)) { npc.CurrentBattleStatus.AddValue(BattleStatusLabel.Jinx, 2); }
+        if (attacker.TraitCheck(TraitGroup.Golem))
+        {
+            defender.CurrentBattleStatus.AddValue(BattleStatusLabel.Jinx, 1);
+            openingList.Add(new OpeningTrait(EffectType.Down_Status, defender, StatType.LUK, 0));
+        }
+        if (attacker.TraitCheck(TraitGroup.Golem_V2))
+        {
+            defender.CurrentBattleStatus.AddValue(BattleStatusLabel.Jinx, 2);
+            openingList.Add(new OpeningTrait(EffectType.Down_Status, defender, StatType.LUK, 0));
+        }
 
 
 
 
         //? 기존꺼
-        if (monster.TraitCheck(TraitGroup.Vitality))
+        if (attacker.TraitCheck(TraitGroup.Vitality))
         {
-            int bonusHP = monster.GetSomething(TraitGroup.Vitality, monster.B_HP_Max);
-            int applyHP = monster.B_HP + bonusHP;
+            //int bonusHP = attacker.GetSomething(TraitGroup.Vitality, attacker.B_HP_Max);
+            //int applyHP = attacker.B_HP + bonusHP;
 
-
-            int realValue = applyHP > monster.B_HP_Max ? (monster.HP_Damaged) : bonusHP;
-            monster.HP_Damaged -= realValue;
-            openingList.Add(new OpeningTrait(EffectType.Heal, monster, StatType.HP, realValue));
+            int bonusHP = Mathf.RoundToInt(attacker.B_HP_Max * 0.1f);
+            int applyHP = attacker.HP_Damaged >= bonusHP ? bonusHP : attacker.HP_Damaged;
+            attacker.HP_Damaged -= applyHP;
+            openingList.Add(new OpeningTrait(EffectType.Heal, attacker, StatType.HP, applyHP));
         }
-        if (monster.TraitCheck(TraitGroup.Vitality_V2))
+        if (attacker.TraitCheck(TraitGroup.Vitality_V2))
         {
-            int bonusHP = Mathf.RoundToInt(monster.B_HP_Max * 0.2f);
-            int applyHP = monster.B_HP + bonusHP;
-
-            int realValue = applyHP > monster.B_HP_Max ? (monster.HP_Damaged) : bonusHP;
-            monster.HP_Damaged -= realValue;
-            openingList.Add(new OpeningTrait(EffectType.Heal, monster, StatType.HP, realValue));
+            int bonusHP = Mathf.RoundToInt(attacker.B_HP_Max * 0.2f);
+            int applyHP = attacker.HP_Damaged >= bonusHP ? bonusHP : attacker.HP_Damaged;
+            attacker.HP_Damaged -= applyHP;
+            openingList.Add(new OpeningTrait(EffectType.Heal, attacker, StatType.HP, applyHP));
         }
 
 
-        if (monster.TraitCheck(TraitGroup.Overwhelm))
+        if (attacker.TraitCheck(TraitGroup.Overwhelm))
         {
-            int realValue = Mathf.RoundToInt(npc.B_HP * 0.1f);
-            npc.HP_Damaged += realValue;
-            openingList.Add(new OpeningTrait(EffectType.Damaged, npc, StatType.HP, realValue));
+            int realValue = Mathf.RoundToInt(defender.B_HP * 0.1f);
+            defender.HP_Damaged += realValue;
+            openingList.Add(new OpeningTrait(EffectType.Damaged, defender, StatType.HP, realValue));
         }
-        if (monster.TraitCheck(TraitGroup.Overwhelm_V2))
+        if (attacker.TraitCheck(TraitGroup.Overwhelm_V2))
         {
-            int realValue = Mathf.RoundToInt(npc.B_HP * 0.2f);
-            npc.HP_Damaged += realValue;
-            openingList.Add(new OpeningTrait(EffectType.Damaged, npc, StatType.HP, realValue));
+            int realValue = Mathf.RoundToInt(defender.B_HP * 0.2f);
+            defender.HP_Damaged += realValue;
+            openingList.Add(new OpeningTrait(EffectType.Damaged, defender, StatType.HP, realValue));
         }
 
 
-        if (monster.TraitCheck(TraitGroup.Reaper))
+        if (attacker.TraitCheck(TraitGroup.Reaper))
         {
-            int realValue = Mathf.RoundToInt(monster.B_HP_Max * 0.05f);
-            monster.HP_Damaged += realValue;
-            openingList.Add(new OpeningTrait(EffectType.Damaged, monster, StatType.HP, realValue));
+            int realValue = Mathf.RoundToInt(attacker.B_HP_Max * 0.05f);
+            attacker.HP_Damaged += realValue;
+            openingList.Add(new OpeningTrait(EffectType.Damaged, attacker, StatType.HP, realValue));
 
-            npc.HP_Damaged += realValue * 2;
-            openingList.Add(new OpeningTrait(EffectType.Damaged, npc, StatType.HP, realValue * 2));
+            defender.HP_Damaged += realValue * 2;
+            openingList.Add(new OpeningTrait(EffectType.Damaged, defender, StatType.HP, realValue * 2));
         }
     }
 
@@ -1112,32 +1225,26 @@ public class BattleField : MonoBehaviour
         if (attacker.TraitCheck(TraitGroup.LifeDrain))
         {
             int bonusHP = Mathf.RoundToInt(damage * 0.2f);
-            int applyHP = attacker.B_HP + bonusHP;
-
             if (attacker is Monster mon)
             {
                 mon.traitCounter.AddCustomValue(bonusHP);
             }
 
-            int realValue = applyHP > attacker.B_HP_Max ? (attacker.B_HP_Max - attacker.B_HP) : bonusHP;
-            attacker.HP_Damaged -= realValue;
-
-            addList.Add((realValue, DamageMeshType.Heal));
+            int applyHP = attacker.HP_Damaged >= bonusHP ? bonusHP : attacker.HP_Damaged;
+            attacker.HP_Damaged -= applyHP;
+            addList.Add((applyHP, DamageMeshType.Heal));
         }
         if (attacker.TraitCheck(TraitGroup.LifeDrain_V2))
         {
             int bonusHP = Mathf.RoundToInt(damage * 0.4f);
-            int applyHP = attacker.B_HP + bonusHP;
-
             if (attacker is Monster mon)
             {
                 mon.traitCounter.AddCustomValue(bonusHP);
             }
 
-            int realValue = applyHP > attacker.B_HP_Max ? (attacker.B_HP_Max - attacker.B_HP) : bonusHP;
-            attacker.HP_Damaged -= realValue;
-
-            addList.Add((realValue, DamageMeshType.Heal));
+            int applyHP = attacker.HP_Damaged >= bonusHP ? bonusHP : attacker.HP_Damaged;
+            attacker.HP_Damaged -= applyHP;
+            addList.Add((applyHP, DamageMeshType.Heal));
         }
 
         return addList;

@@ -1047,6 +1047,11 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
         AddCollectionPoint();
     }
 
+    public virtual void Regist_Evloution_Callback()
+    {
+
+    }
+
 
 
     #endregion

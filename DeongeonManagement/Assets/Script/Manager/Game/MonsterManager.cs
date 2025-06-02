@@ -26,7 +26,7 @@ public class MonsterManager
         so_data = Resources.LoadAll<SO_Monster>("Data/Monster");
         foreach (var item in so_data)
         {
-            string[] datas = Managers.Data.GetTextData_Object(item.id);
+            string[] datas = Managers.Data.GetTextData_Monster(item.id);
 
             if (datas == null)
             {
@@ -36,21 +36,41 @@ public class MonsterManager
 
             item.labelName = datas[0];
             item.detail = datas[1];
-
-
-            if (datas[2].Contains("@Op1::"))
-            {
-                string op1 = datas[2].Substring(datas[2].IndexOf("@Op1::") + 6, datas[2].IndexOf("::Op1") - (datas[2].IndexOf("@Op1::") + 6));
-                item.evolutionHint = op1;
-            }
-
-            if (datas[2].Contains("@Op2::"))
-            {
-                string op2 = datas[2].Substring(datas[2].IndexOf("@Op2::") + 6, datas[2].IndexOf("::Op2") - (datas[2].IndexOf("@Op2::") + 6));
-                item.evolutionDetail = op2;
-            }
+            item.evolutionHint = datas[2];
+            item.evolutionDetail = datas[3];
         }
     }
+
+    //public void Init_LocalData()
+    //{
+    //    so_data = Resources.LoadAll<SO_Monster>("Data/Monster");
+    //    foreach (var item in so_data)
+    //    {
+    //        string[] datas = Managers.Data.GetTextData_Object(item.id);
+
+    //        if (datas == null)
+    //        {
+    //            Debug.Log($"{item.id} : CSV Data Not Exist");
+    //            continue;
+    //        }
+
+    //        item.labelName = datas[0];
+    //        item.detail = datas[1];
+
+
+    //        if (datas[2].Contains("@Op1::"))
+    //        {
+    //            string op1 = datas[2].Substring(datas[2].IndexOf("@Op1::") + 6, datas[2].IndexOf("::Op1") - (datas[2].IndexOf("@Op1::") + 6));
+    //            item.evolutionHint = op1;
+    //        }
+
+    //        if (datas[2].Contains("@Op2::"))
+    //        {
+    //            string op2 = datas[2].Substring(datas[2].IndexOf("@Op2::") + 6, datas[2].IndexOf("::Op2") - (datas[2].IndexOf("@Op2::") + 6));
+    //            item.evolutionDetail = op2;
+    //        }
+    //    }
+    //}
 
     public List<SO_Monster> GetSummonList(int _DungeonRank = 1)
     {
@@ -194,11 +214,12 @@ public class MonsterManager
         foreach (var mon in sameList)
         {
             mon.EvolutionState = Monster.Evolution.Exclude;
+            mon.Regist_Evloution_Callback();
 
-            if (mon is GreyHound)
-            {
-                mon.UnitDialogueEvent.ClearEvent(UnitDialogueEventLabel.GreyHound_Evolution);
-            }
+            //if (mon is GreyHound)
+            //{
+            //    mon.UnitDialogueEvent.ClearEvent(UnitDialogueEventLabel.GreyHound_Evolution);
+            //}
         }
     }
 

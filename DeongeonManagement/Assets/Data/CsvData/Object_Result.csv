@@ -1,440 +1,440 @@
-KeyName,ID,Label_KR,Detail_KR,Option_KR,Label_EN,Detail_EN,Option_EN,Label_JP,Detail_JP,Option_JP,Label_SC,Detail_SC,Option_SC,Label_TC,Detail_TC,Option_TC
-,,,,,,,,,,,,,,,,
-0~999 monster,,,,,,,,,,,,,,,,
-,1,슬라임,자세히 보면 의외로 귀여운 슬라임입니다. \약하긴 하지만 성장가능성이 높은 몬스터입니다., @Op1::최대 레벨 달성 후 길드게시판을 확인::Op1 @Op2::슬라임 헌터 처치::Op2,Slime,It's a surprisingly cute slime if you look closely. \It's weak- but it's a monster with high potential for growth., @Op1::Check the guild board after maxing out::Op1 @Op2::Slay Slime Hunter::Op2,スライム,よく見るとかわいらしいスライムです。弱いですが、成長の可能性が高いモンスターです。, @Op1::最大レベル達成後、ギルド掲示板を確認::Op1 @Op2::スライムハンター討伐::Op2,史莱姆,仔细看的话- 意外地可爱的史莱姆。虽然很弱- 但是具有高成长潜力的怪物。, @Op1::达到最高等级后查看公会公告板::Op1 @Op2::击败史莱姆猎人::Op2,史莱姆,仔細看的話- 意外地可愛的史莱姆。雖然很弱- 但是具有高成長潜力的怪物。, @Op1::达到最高等級后查看公會公告板::Op1 @Op2::击敗史莱姆猎人::Op2
-,2,어스골렘,던전에 마나를 융합해 창조해낸 골렘입니다. \튼튼하고 강해서 모험가들을 상대로 제격이에요. 하지만 조금 한계가 있을지도?, @Op1::최대 레벨 달성 후 길드게시판을 확인::Op1 @Op2::도적 처치::Op2,EarthGolem,It's a golem created by fusing the Dungeon's mana. \It's sturdy and strong- perfect for facing adventurers. But it might have some limitations?, @Op1::Check the guild board after maxing out::Op1 @Op2::Slay Bandits::Op2,アースゴーレム,ダンジョンにマナを融合させて創造されたゴーレムです。\頑丈で強いので、冒険者相手に適していますが、少し限界があるかもしれません。, @Op1::最大レベル達成後、ギルド掲示板を確認::Op1 @Op2::盗賊退治::Op2,土元素巨像,通过融合地下城的魔力创造出的巨像。坚固强大- 非常适合对付冒险者。不过可能有一些局限性？, @Op1::达到最高等级后查看公会公告板::Op1 @Op2::击败盗贼::Op2,土元素巨像,通過融合地下城的魔力创造出的巨像。坚固強大- 非常適合對付冒險者。不過可能有一些局限性？, @Op1::达到最高等級后查看公會公告板::Op1 @Op2::击敗盗贼::Op2
-,3,머쉬보이,어둡고 습한곳을 좋아하는 버섯몬스터입니다. \높은 공격력을 지녔어요.,,MushBoy,It's a mushroom monster that loves dark and humid places. \It has high attack power.,,マッシュボーイ,暗くて湿った場所を好むキノコモンスターです。\高い攻撃力を持っています。,,蘑菇小子,喜欢阴暗潮湿地方的蘑菇怪物。拥有很高的攻击力。,,蘑菇小子,喜歡陰暗潮湿地方的蘑菇怪物。擁有很高的攻擊力。,
-,4,이블아이,매력적인 눈을 지닌 몬스터에요. \생김새때문에 피부가 약할 것 같지만- 실은 엄청 단단하기 때문에 수비용으로 적절합니다.,,EvilEye,It's a monster with captivating eyes. \Its appearance might make it seem fragile- but it's actually extremely tough- making it suitable for defense.,,イービルアイ,魅力的な目を持つモンスターです。\見た目から皮膚が弱そうに見えますが、実は非常に硬いので、防御用に適しています。,,邪恶之眼,拥有迷人眼睛的怪物。虽然外表看起来皮肤可能很脆弱- 但实际上非常坚硬- 所以适合用于防御。,,邪恶之眼,擁有迷人眼睛的怪物。雖然外表看起來皮肤可能很脆弱- 但實際上非常坚硬- 所以適合用於防禦。,
-,5,페어리,순수한 마나의 결정체인 요정 몬스터입니다. \여러방면에서 좋은 밸런스를 가지고 있고- 잠재력도 높은 편입니다., @Op1::최대한 많은 친구를 만들어주자::Op1 @Op2::다른 유닛 5개체와 같은 층에서 생존::Op2,Fairy,It's a fairy monster- a pure crystallization of mana. \It has a good balance in many areas- and high potential.,@Op1::Let's make as many friends as possible::Op1 @Op2::Survive on same floor with 5 other units::Op2,フェアリー,純粋なマナの結晶である妖精モンスターです。\様々な面でバランスが良く、潜在能力も高めです。,@Op1::できるだけたくさんの友達を作ってあげよう::Op1 @Op2::他のユニット5体と同じ階層で生存::Op2,精灵,纯粹魔力结晶的精灵怪物。\在各方面都有良好的平衡- 潜力也相当高。,@Op1::尽可能创造更多的朋友::Op1 @Op2::与其他5个单位在同一层存活::Op2,精靈,纯粹魔力结晶的精靈怪物。\在各方面都有良好的平衡- 潜力也相當高。,@Op1::盡可能创造更多的朋友::Op1 @Op2::与其他5個单位在同一層存活::Op2
-,6,살라만드라,원시적인 형태를 지닌 몬스터입니다. 불을 내뿜어 적을 공격합니다. \종족 특성으로 적을 위압하여 빨리 지치게 만들어요., @Op1::어느 정도 자란 개체는 추운 지역을 선호함::Op1 @Op2::레벨 20이상- 지하 5층에 배치::Op2,Salamandra,It's a monster with a primitive form. It breathes fire to attack enemies. \Its racial trait allows it to intimidate enemies and make them tire quickly.,@Op1::A grown individual prefers cold regions::Op1 @Op2::Level 20 or higher- Place on basement floor 5::Op2,サラマンダー,原始的な形態を持つモンスターです。火を吐いて敵を攻撃します。\種族特性で敵を威圧し、早く疲れさせます。,@Op1::ある程度成長した個体は寒冷地を好む::Op1 @Op2::レベル20以上- 地下5階に配置::Op2 ,火蜥蜴,具有原始形态的怪物。能喷火攻击敌人。\种族特性可以威慑敌人- 使其快速疲劳。, @Op1::成长到一定程度的个体更喜欢寒冷地区::Op1 @Op2::20级以上- 放置在地下5层::Op2,火蜥蜴,具有原始形態的怪物。能喷火攻擊敌人。\種族特性可以威慑敌人- 使其快速疲劳。, @Op1::成長到一定程度的個体更喜欢寒冷地区::Op1 @Op2::20級以上- 放置在地下5層::Op2
-,7,그레이하운드,친근감이 느껴지는 늑대형 몬스터입니다. \매우 용맹하고 재빠른 몸놀림을 지녔어요., @Op1::좋아하는 것을 구해주자::Op1 @Op2::레벨 20이상- 아티팩트 : 신비한 뼈::Op2,GreyHound,It's a friendly wolf^like monster. \It's very brave and agile.,@Op1::Let's get what it likes::Op1 @Op2::Level 20 or higher- Artifact : Mysterious Bone::Op2,グレイハウンド,親しみやすい狼型モンスターです。\非常に勇敢で素早い動きを持っています。,@Op1::好きなものを手に入れてあげよう::Op1 @Op2::レベル20以上- アーティファクト：神秘的な骨::Op2,灰狼,看起来很亲切的狼型怪物。非常勇猛- 动作敏捷。,@Op1::给它找来喜欢的东西::Op1 @Op2::等级20以上- 神器：神秘骨头::Op2,灰狼,看起來很親切的狼型怪物。非常勇猛- 动作敏捷。,@Op1::給它找來喜欢的東西::Op1 @Op2::等級20以上- 神器：神秘骨頭::Op2
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,10,부시몬,나무 덩쿨이 얽혀있는 듯한 모습의 몬스터입니다. \방어력이 높기 때문에 수비용으로 적절합니다.,,Bushimon,A monster that looks like intertwined wood vines. \Its high defense makes it suitable for defensive purposes.,,ブッシュモン,木のつるが絡まったような姿のモンスターです。\防御力が高いため- 防御用として適しています。,,布什魔,一种看起来像缠绕的木藤的怪物。\因为防御力高- 所以适合用于防守。,,布什魔,一種看起來像缠绕的木藤的怪物。\因為防禦力高- 所以適合用於防守。,
-,11,그리피,독수리와 사자의 모습을 가지고 있는 몬스터입니다. \충분히 강하지만- 더 강해질 수 있다고 하네요., @Op1::수많은 전투와 승리::Op1 @Op2::레벨 25이상- 모험가에게 100번 승리하기::Op2,Griffy,A monster with the appearance of an eagle and a lion. \It's already strong- but they say it can become even stronger., @Op1::Numerous battles and victories::Op1 @Op2::Level 25 or higher- win against adventurers 100 times::Op2,グリフィ,ワシとライオンの姿を持つモンスターです。\十分に強いですが- さらに強くなれるそうです。, @Op1::数多くの戦闘と勝利::Op1 @Op2::レベル25以上- 冒険者に100回勝利する::Op2,格里菲,一种具有鹰和狮子外貌的怪物。\虽然已经很强大- 但据说还能变得更强。, @Op1::无数次战斗与胜利::Op1 @Op2::等级25或以上- 击败冒险者100次::Op2,格里菲,一種具有鹰和狮子外貌的怪物。\雖然已經很強大- 但据說還能变得更強。, @Op1::無数次戰斗与胜利::Op1 @Op2::等級25或以上- 击敗冒險者100次::Op2
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,20,서큐버스,아름다운 모습으로 꿈 속에 나타나 정기를 빼앗는다고 알려진 몬스터입니다., @Op1::정기흡수를 충분히 한다면::Op1 @Op2::정기흡수가 1000이상일 때 대화::Op2,Succubus,A monster known to appear in dreams with beautiful form- stealing life essence.,@Op1::When enough life essence is absorbed::Op1 @Op2::Talk when life essence absorption exceeds 1000::Op2,サキュバス,美しい姿で夢の中に現れ、精気を奪うと言われるモンスターです。,@Op1::十分な生気を吸収したら::Op1 @Op2::生気吸収が1000以上の時に会話::Op2,魅魔,以美丽的形象出现在梦中- 据说会吸取精气的怪物。,@Op1::当吸收足够的精气时::Op1 @Op2::精气吸收超过1000时对话::Op2,魅魔,以美丽的形象出現在夢中- 据說會吸取精氣的怪物。,@Op1::當吸收足夠的精氣時::Op1 @Op2::精氣吸收超過1000時對話::Op2
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-Lievil,66,라이빌,무시무시한 힘을 가진 생명체. \무언가 비밀을 가지고 있어요.,,Lievil,A being with terrifying power. \Holds some kind of secret.,,リーヴィル,恐ろしい力を持つ生命体。\何か秘密を持っているようです。,,利维尔,拥有可怕力量的生命体。\似乎藏有某种秘密。,,利維尔,擁有可怕力量的生命体。\似乎藏有某種秘密。,
-,,,,,,,,,,,,,,,,
-Ravi,77,라비,따스하고 신비로운 힘을 가진 생명체. \무언가 비밀을 가지고 있어요.,,Ravi,A being with warm and mysterious power. \Holds some kind of secret.,,ラヴィ,温かく神秘的な力を持つ生命体。\何か秘密を持っているようです。,,拉维,拥有温暖而神秘力量的生命体。\似乎藏有某种秘密。,,拉維,擁有溫暖而神秘力量的生命体。\似乎藏有某種秘密。,
-,,,,,,,,,,,,,,,,
-Rideer,88,라이디아,강한 힘과 정의로움을 가진 생명체. \무언가 비밀을 가지고 있어요.,,Rideer,A being with strong power and righteousness. \Holds some kind of secret.,,リディア,強い力と正義を持つ生命体。\何か秘密を持っているようです。,,莱迪亚,拥有强大力量与正义的生命体。\似乎藏有某种秘密。,,莱迪亞,擁有強大力量与正義的生命体。\似乎藏有某種秘密。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,501,블러디슬라임,슬라임의 진화 형태인 블러디 슬라임입니다. \겉으로 보기엔 비슷해 보여도 상당히 강력해졌습니다.,,Bloody Slime,It's the evolved form of a slime- a Bloody Slime. It may look similar on the outside- but it has become considerably more powerful.,,ブラッディスライム,スライムの進化形態であるブラッディスライムです。外見は似ていても、かなり強力になっています。,,血腥史莱姆,史莱姆的进化形态- 血腥史莱姆。虽然外表看起来相似- 但变得相当强大。,,血腥史莱姆,史莱姆的進化形態- 血腥史莱姆。雖然外表看起來相似- 但变得相當強大。,
-,502,플레임골렘,어스 골렘의 진화 형태인 플레임 골렘입니다. \더 튼튼하고 더 강해졌습니다.,,Flame Golem,It's the evolved form of an Earth Golem- a Flame Golem. It's even sturdier and stronger.,,フレイムゴーレム,アースゴーレムの進化形態であるフレイムゴーレムです。より頑丈で、より強くなっています。,,烈焰巨像,土元素巨像的进化形态- 烈焰巨像。变得更加坚固和强大。,,烈焰巨像,土元素巨像的進化形態- 烈焰巨像。变得更加坚固和強大。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-Pixie,505,픽시,페어리가 진화한 형태. 모두와 사이좋게 지내는 착한 요정 친구입니다.,,Pixie,The evolved form of a Fairy. A friendly fairy who gets along well with everyone.,,ピクシー,フェアリーの進化形態。みんなと仲良く過ごす優しい妖精の友達です。,,小精灵,精灵的进化形态。是一个与所有人都友好相处的善良精灵朋友。,,小精靈,精靈的進化形態。是一個与所有人都友好相處的善良精靈朋友。,
-,506,샐린느,살라만드라가 진화한 형태. 어째서인지 두발로 걸을 수 있습니다. \보기와는 다르게 상당히 강합니다.,,Salinu,The evolved form of Salamandra. Can walk on two legs for some reason. \Much stronger than it appears.,,サリーヌ,サラマンドラの進化形態。なぜか二足歩行ができます。\見た目以上に非常に強いです。,,萨琳,火蜥蜴的进化形态。不知为何能够双足行走。\比外表看起来强大得多。,,萨琳,火蜥蜴的進化形態。不知为何能夠双足行走。\比外表看起來強大得多。,
-,507,헬하운드,그레이하운드가 진화하여 헬하운드가 되었습니다. \보기만 해도 든든한 친구입니다.,,Hellhound,The Greyhound has evolved into a Hellhound. \Just looking at it makes you feel secure.,,ヘルハウンド,グレイハウンドが進化してヘルハウンドになりました。\見ているだけで頼もしい仲間です。,,地狱犬,灰猎犬进化成了地狱犬。\光是看着就让人感到安心的伙伴。,,地狱犬,灰猎犬進化成了地狱犬。\光是看着就讓人感到安心的伙伴。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,511,그리폰,그리피의 진화 형태입니다. 비로소 완전한 형태가 되었습니다. \다방면에 뛰어난 모습을 보이는 만능형 몬스터입니다.,,Griffin,The evolved form of Griffy. It has finally reached its complete form. \This is a versatile monster that excels in various aspects.,,グリフォン,グリフィの進化形態です。ついに完全な形になりました。\様々な面で優れた能力を持つ万能型モンスターです。,,格里芬,格里菲的进化形态。终于达到了完整的形态。\这是一种在各方面都表现出色的全能型怪物。,,格里芬,格里菲的進化形態。終於达到了完整的形態。\這是一種在各方面都表現出色的全能型怪物。,
-,,,,,,,,,,,,,,,,
-Lilith,520,릴리트,몽마의 왕이며 상위 악마 중 하나입니다. \다가가기 어려운 존재이지만- 그렇게 나쁜 짓은 하지 않는다고 해요.,,Lilith,The queen of succubi and one of the high^ranking demons. \Though difficult to approach- it's said she doesn't commit particularly evil deeds.,,リリス,サキュバスの女王であり上位悪魔の一人です。\近寄りがたい存在ですが- それほど悪いことはしないと言われています。,,莉莉丝,魅魔之王- 也是高阶恶魔之一。\虽然难以接近- 但据说并不会做什么特别邪恶的事。,,莉莉絲,魅魔之王- 也是高階恶魔之一。\雖然難以接近- 但据說并不會做什么特别邪恶的事。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,901,녹빛 궁사,녹색 머리를 한 모험가. 무언가를 찾고 있는 것 같아요., @Op1::그녀의 이름은?::Op1 @Op2::그녀의 이름을 불러주자::Op2,Verdant Archer,An adventurer with green hair. Seems to be looking for something.,@Op1::What's her name?::Op1 @Op2::Let's call her name::Op2,緑色の弓矢,緑色の髪の冒険者。何かを探しているようだ。,@Op1::彼女の名前は何？::Op1 @Op2::彼女の名前を呼んであげよう::Op2,翠绿弓手,绿色头发的冒险者。似乎在寻找什么。, @Op1::她的名字是？::Op1 @Op2::让我们呼唤她的名字::Op2,翠綠弓手,綠色頭发的冒險者。似乎在寻找什么。, @Op1::她的名字是？::Op1 @Op2::讓我們呼唤她的名字::Op2
-,902,레나,내 이름을 불러줘서 고마워,,Rena,Thank you for calling my name,,レナ,私の名前を呼んでくれてありがとう,,雷娜,谢谢你呼唤我的名字,,雷娜,謝謝你呼唤我的名字,
-,,,,,,,,,,,,,,,,
-Utori,905,우투리,행상인 겸 모험가. \돈을 밝히고- 호기심이 매우 많은 편입니다.,,Utori,A traveling merchant and adventurer. \Loves gold and is very curious.,,ウトリ,行商人兼冒険者。\ゴールドを好み- 好奇心が非常に旺盛です。,,于斗莉,行商兼冒险者。\喜欢金币- 而且非常富有好奇心。,,於斗莉,行商兼冒險者。\喜歡金幣- 而且非常富有好奇心。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-Mastia,911,마스티아,우연히 던전을 찾아온 다른 세계의 손님. \무대 위에서 노래하는 것이 꿈이라고 한다.,,Mastia,A visitor from another world who happened to find the dungeon. \She dreams of singing on stage.,,マスティア,偶然ダンジョンを訪れた異世界からの客。\ステージで歌うことが夢だという。,,玛斯蒂娅,偶然找到地下城的异世界访客。\她梦想在舞台上唱歌。,,玛斯蒂娅,偶然找到地下城的異世界訪客。\她夢想在舞台上唱歌。,
-Karen,912,카렌,우연히 던전을 찾아온 다른 세계의 손님. \모험을 찾아 어디든 다니는 강한 모험가이다.,,Karen,A visitor from another world who happened to find the dungeon. \A strong adventurer who travels anywhere in search of adventure.,,カレン,偶然ダンジョンを訪れた異世界からの客。\冒険を求めてどこへでも行く強い冒険者だ。,,卡伦,偶然找到地下城的异世界访客。\一位为寻找冒险而四处旅行的强大冒险者。,,卡倫,偶然找到地下城的異世界訪客。\一位为寻找冒險而四處旅行的強大冒險者。,
-Stan,913,스탄,우연히 던전을 찾아온 다른 세계의 손님. \강하지만 성격은 본능에 충실한 특이한 모험가이다.,,Stan,A visitor from another world who happened to find the dungeon. \A strong but peculiar adventurer who stays true to their instincts.,,スタン,偶然ダンジョンを訪れた異世界からの客。\強いが性格は本能に忠実な変わった冒険者だ。,,斯坦,偶然找到地下城的异世界访客。\虽然强大但性格特异的冒险者 - 忠于本能。,,斯坦,偶然找到地下城的異世界訪客。\雖然強大但性格特異的冒險者 - 忠於本能。,
-Euh,914,에우,우연히 던전을 찾아온 다른 세계의 손님. \목검을 들었지만 매우 강하다. 그녀가 말하는 것은 아무도 본 적이 없다고 한다.,,Euh,A visitor from another world who happened to find the dungeon. \Although wielding a wooden sword - she is extremely powerful. They say no one has ever heard her speak.,,エウ,偶然ダンジョンを訪れた異世界からの客。\木刀を持っているが非常に強い。彼女が話すところを誰も見たことがないという。,,艾乌,偶然找到地下城的异世界访客。\虽然只持木剑 - 但非常强大。据说没人见过她说话。,,艾乌,偶然找到地下城的異世界訪客。\雖然只持木剑 - 但非常強大。据說沒人見過她說話。,
-Romys,915,로미스,우연히 던전을 찾아온 다른 세계의 손님. \무언가 위험한 오오라가 나오는 것 같다. \심기를 거스르지 않게 조심하자.,,Romys,A visitor from another world who happened to find the dungeon. \It seems a dangerous aura emanates from them. \Let's be careful not to upset them.,,ロミス,偶然ダンジョンを訪れた異世界からの客。\何か危険なオーラが出ているようだ。\機嫌を損ねないよう気をつけよう。,,罗米斯,偶然找到地下城的异世界访客。\似乎散发着某种危险的气息。\小心不要惹恼他。,,羅米斯,偶然找到地下城的異世界訪客。\似乎散发着某種危险的氣息。\小心不要惹恼他。,
-Siri,916,시리,우연히 던전을 찾아온 다른 세계의 손님. \주변까지 밝게 만드는 따뜻한 미소를 지녔다.,,Siri,A visitor from another world who happened to find the dungeon. \They possess a warm smile that brightens even their surroundings.,,シーリ,偶然ダンジョンを訪れた異世界からの客。\周囲まで明るくする温かい笑顔を持っている。,,希莉,偶然找到地下城的异世界访客。\拥有能照亮周围的温暖笑容。,,希莉,偶然找到地下城的異世界訪客。\擁有能照亮周围的溫暖笑容。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,991,초보자 던전 마스터,모험레벨은 낮아도 던전 지식은 상당한 편이에요.,,Novice Dungeon Master,Their adventure level is low- but they have quite a bit of Dungeon knowledge.,,見習いダンジョンマスター,冒険レベルは低くてもダンジョンの知識はかなりのものです。,,新手地下城主人,虽然冒险等级较低- 但对地下城的知识相当丰富。,,新手地下城主人,雖然冒險等級较低- 但對地下城的知識相當丰富。,
-,992,초보자 던전 마스터,모험레벨은 낮아도 던전 지식은 상당한 편이에요.,,Novice Dungeon Master,Their adventure level is low- but they have quite a bit of Dungeon knowledge.,,見習いダンジョンマスター,冒険レベルは低くてもダンジョンの知識はかなりのものです。,,新手地下城主人,虽然冒险等级较低- 但对地下城的知识相当丰富。,,新手地下城主人,雖然冒險等級较低- 但對地下城的知識相當丰富。,
-,993,초보자 던전 마스터,모험레벨은 낮아도 던전 지식은 상당한 편이에요.,,Novice Dungeon Master,Their adventure level is low- but they have quite a bit of Dungeon knowledge.,,見習いダンジョンマスター,冒険レベルは低くてもダンジョンの知識はかなりのものです。,,新手地下城主人,虽然冒险等级较低- 但对地下城的知识相当丰富。,,新手地下城主人,雖然冒險等級较低- 但對地下城的知識相當丰富。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-1000~1999 npc,,,,,,,,,,,,,,,,
-,1000,약초꾼,던전에서 나오는 약초나 풀들을 채취해서 마을과 길드에 공급해주는 역할을 합니다.,,Herbalist,They gather herbs and plants from the Dungeon and supply them to the village and guild.,,薬草採集人,ダンジョンで生える薬草や草を採取し、町やギルドに供給する役割を果たします。,,草药采集者,负责收集地下城中的药草和植物- 并供应给村庄和公会。,,草藥采集者,负责收集地下城中的藥草和植物- 并供应給村庄和公會。,
-,1001,베테랑 약초꾼,약초꾼을 업으로 오랜기간 일한 숙련자입니다.,,Veteran Herbalist,An experienced herbalist who has been in the profession for a long time.,,ベテラン薬草採集人,長期間薬草採集を生業としてきた熟練者です。,,资深草药采集者,长期从事草药采集工作的熟练者。,,資深草藥采集者,長期從事草藥采集工作的熟練者。,
-,1002,전설의 약초꾼,귀한 약초가 있는 곳이라면 아무리 위험한 곳이라도 가서 캐내고야 만다는 전설의 약초꾼입니다.,,Legendary Herbalist,A legendary herbalist who ventures into even the most dangerous places to gather rare herbs.,,伝説の薬草師,貴重な薬草があるところなら- どんなに危険な場所でも採取してしまう伝説の薬草師です。,,传奇药师,只要有珍贵药草的地方- 无论多么危险都会前去采集的传奇药师。,,傳奇藥师,只要有珍贵藥草的地方- 無論多么危险都會前去采集的傳奇藥师。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,1100,광부,던전에서 생성되는 다양한 광물을 캐내서 마을과 길드에 공급해주는 역할을 합니다.,,Miner,They mine various minerals generated in the Dungeon and supply them to the village and guild.,,鉱夫,ダンジョンで生成される様々な鉱物を採掘し、町やギルドに供給する役割を果たします。,,矿工,负责开采地下城中产生的各种矿物- 并供应给村庄和公会。,,矿工,负責開采地下城中產生的各種礦物- 并供应給村庄和公會。,
-,1101,베테랑 광부,광물캐기 숙련자입니다. 더 오래 효율적으로 일 할 수 있습니다.,,Veteran Miner,An experienced miner. They can work more efficiently for longer periods.,,ベテラン鉱夫,鉱物採掘の熟練者です。より長時間効率的に作業ができます。,,资深矿工,矿物开采的熟练者。可以更长时间高效工作。,,資深矿工,礦物開采的熟練者。可以更長時間高效工作。,
-,1102,모험 광부,전설의 광물을 찾아다니는 모험가 겸 광부입니다. 전설의 광물을 캐기 위해 그에 걸맞은 강함을 가지고 있어요.,,Adventure Miner,An adventurer^miner who searches for legendary minerals. Possesses strength befitting one who mines legendary materials.,,冒険鉱夫,伝説の鉱物を探し求める冒険者兼鉱夫です。伝説の鉱物を採掘するためにそれにふさわしい強さを持っています。,,冒险矿工,寻找传奇矿物的冒险家兼矿工。为了开采传奇矿物而拥有相应的强大实力。,,冒險矿工,寻找傳奇礦物的冒險家兼矿工。为了開采傳奇礦物而擁有相应的強大實力。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,1200,초보 모험가,모험가가 된지 얼마 안된 새내기 모험가입니다. 나름 모험가라서 자원보단 몬스터와 보물에 관심이 있습니다.,,Adventurer,They recently became an adventurer. As an adventurer- they're more interested in monsters and treasure than resources.,,駆け出し冒険者,冒険者になってからあまり経っていない新米冒険者です。冒険者なりに資源よりもモンスターと宝物に関心があります。,,新手冒险者,刚成为冒险者不久的新人。作为冒险者- 比起资源更对怪物和宝物感兴趣。,,新手冒險者,刚成為冒險者不久的新人。作为冒險者- 比起資源更對怪物和寶物感兴趣。,
-,1201,이름있는 모험가,꽤 이름있는 모험가입니다. 전투 능력과 상황판단 능력 등 새내기 모험가와는 비교할 수 없어요.,,Experienced Adventurer,They're a quite famous adventurer. Their combat abilities and situational judgment are incomparable to novice adventurers.,,名の知れた冒険者,かなり名の知れた冒険者です。戦闘能力や状況判断能力など、新米冒険者とは比べ物になりません。,,知名冒险者,相当有名的冒险者。战斗能力和判断力等方面与新手冒险者无法相比。,,知名冒險者,相當有名的冒險者。戰斗能力和判断力等方面与新手冒險者無法相比。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,1300,엘프,자연에 살고 마나 친화력이 높은 종족입니다. 약초에 관한 지식이 많으며 기본적인 전투력도 갖추고 있습니다.,,Elf,They're a race that lives in nature and has a high affinity for mana. They have extensive knowledge about herbs and possess basic combat abilities.,,エルフ,自然に生き、マナ親和性の高い種族です。薬草に関する知識が豊富で、基本的な戦闘力も備えています。,,精灵,生活在自然中- 与魔力亲和度高的种族。拥有丰富的草药知识- 同时具备基本的战斗能力。,,精靈,生活在自然中- 与魔力親和度高的種族。擁有豐富的草藥知識- 同時具備基本的戰鬥能力。,
-,1301,다크 엘프,타락한 엘프 종족입니다. 엘프와는 정반대로 전투와 파괴를 일삼는 종족입니다.,,Dark Elf,A corrupted elven race. Unlike elves- they are a race devoted to combat and destruction.,,ダークエルフ,堕落したエルフの種族です。エルフとは正反対に- 戦闘と破壊を繰り返す種族です。,,黑暗精灵,堕落的精灵族。与精灵族相反- 是一个热衷于战斗和破坏的种族。,,黑暗精靈,堕落的精靈族。与精靈族相反- 是一個热衷於戰鬥和破坏的種族。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,1400,위저드,마법과 물질- 기타 흥미로운 것들을 탐구하는 마법사입니다. 마법의 파괴력이 높기 때문에 상당히 위험합니다.,,Wizard,A wizard who explores magic- matter- and other interesting things. Their magic is highly destructive- making them quite dangerous.,,ウィザード,魔法と物質、その他興味深いものを探求する魔法使いです。魔法の破壊力が高いため、非常に危険です。,,法师,探索魔法- 物质和其他有趣事物的魔法师。魔法破坏力很高- 因此相当危险。,,法师,探索魔法- 物质和其他有趣事物的魔法师。魔法破坏力很高- 因此相當危险。,
-,1401,뱀파이어,영겁의 수명을 가지고 있는 종족입니다. 던전은 그저 심심풀이로 놀러 올 정도로 강합니다.,,Vampire,A race with eternal lifespan. So powerful that they visit dungeons merely for entertainment.,,ヴァンパイア,永劫の寿命を持つ種族です。ダンジョンは暇つぶしに訪れる程の強さを持っています。,,吸血鬼,拥有永恒寿命的种族。强大到会把地下城当作消遣场所。,,吸血鬼,擁有永恒寿命的種族。強大到會把地下城當作消遣场所。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,1500,고블린,던전의 모든 자원을 탐내는 고블린입니다.,,Goblin,A goblin coveting all resources in the dungeon.,,ゴブリン,ダンジョンの全ての資源を欲しがるゴブリンです。,,哥布林,觊觎地下城所有资源的哥布林。,,哥布林,觊觎地下城所有資源的哥布林。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,1700,마나 고블린,분명 많은 마나를 가지고 있을 게 분명하다.,,Mana Goblin,Surely possesses a large amount of mana.,,マナゴブリン,確かに大量のマナを持っているに違いない。,,魔力哥布林,肯定拥有大量魔力。,,魔力哥布林,肯定擁有大量魔力。,
-,1701,황금 리자드,온 몸이 금빛으로 빛나는 걸 보니 돈이 많아 보인다.,,Golden Lizard,Its shimmering golden body suggests great wealth.,,黄金トカゲ,全身が金色に輝いているのを見ると、お金持ちに見える。,,黄金蜥蜴,全身闪耀着金光- 看起来很富有。,,黄金蜥蜴,全身闪耀着金光- 看起來很富有。,
-,1702,호박머리,어째서인지 존재만으로도 몬스터들을 도발하는 효과가 있는 듯 하다.,,Pumpkin Head,For some reason- its mere presence seems to provoke monsters.,,カボチャ頭,なぜか存在するだけでモンスターを挑発する効果がありそうだ。,,南瓜头,不知为何- 似乎仅凭存在就能挑衅怪物。,,南瓜頭,不知為何- 似乎仅凭存在就能挑衅怪物。,
-,1703,산타,던전에 선물을 주러 온걸까?,,Santa,Has he come to give gifts to the dungeon?,,サンタ,ダンジョンにプレゼントを届けに来たのだろうか？,,圣诞老人,是来给地下城送礼物的吗？,,圣诞老人,是来給地下城送礼物的吗？,
-,1704,던전털이범,가만히 두면 보물만 얌체처럼 털어갈지도 모른다. 보이면 혼내주자.,,Dungeon Thief,If left alone- they might sneakily steal all the treasures. Let's teach them a lesson if spotted.,,ダンジョン荒らし,放っておくと宝物だけをずるがしこく盗んでいくかもしれない。見かけたら懲らしめよう。,,地下城盗贼,如果放任不管- 可能会像小偷一样偷走所有宝物。如果发现就教训他们一顿吧。,,地下城盗贼,如果放任不管- 可能會像小偷一樣偷走所有寶物。如果发現就教训他們一顿吧。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-Mastia,1711,마스티아,우연히 던전을 찾아온 다른 세계의 손님. \무대 위에서 노래하는 것이 꿈이라고 한다.,,Mastia,A visitor from another world who happened to find the dungeon. \She dreams of singing on stage.,,マスティア,偶然ダンジョンを訪れた異世界からの客。\ステージで歌うことが夢だという。,,玛斯蒂娅,偶然找到地下城的异世界访客。\她梦想在舞台上唱歌。,,玛斯蒂娅,偶然找到地下城的異世界访客。\她梦想在舞台上唱歌。,
-Karen,1712,카렌,우연히 던전을 찾아온 다른 세계의 손님. \모험을 찾아 어디든 다니는 강한 모험가이다.,,Karen,A visitor from another world who happened to find the dungeon. \A strong adventurer who travels anywhere in search of adventure.,,カレン,偶然ダンジョンを訪れた異世界からの客。\冒険を求めてどこへでも行く強い冒険者だ。,,卡伦,偶然找到地下城的异世界访客。\一位为寻找冒险而四处旅行的强大冒险者。,,卡伦,偶然找到地下城的異世界访客。\一位為寻找冒險而四處旅行的強大冒險者。,
-Stan,1713,스탄,우연히 던전을 찾아온 다른 세계의 손님. \강하지만 성격은 본능에 충실한 특이한 모험가이다.,,Stan,A visitor from another world who happened to find the dungeon. \A strong but peculiar adventurer who stays true to their instincts.,,スタン,偶然ダンジョンを訪れた異世界からの客。\強いが性格は本能に忠実な変わった冒険者だ。,,斯坦,偶然找到地下城的异世界访客。\虽然强大但性格特异的冒险者 - 忠于本能。,,斯坦,偶然找到地下城的異世界访客。\虽然強大但性格特異的冒險者 - 忠于本能。,
-Euh,1714,에우,우연히 던전을 찾아온 다른 세계의 손님. \목검을 들었지만 매우 강하다. 그녀가 말하는 것은 아무도 본 적이 없다고 한다.,,Euh,A visitor from another world who happened to find the dungeon. \Although wielding a wooden sword - she is extremely powerful. They say no one has ever heard her speak.,,エウ,偶然ダンジョンを訪れた異世界からの客。\木刀を持っているが非常に強い。彼女が話すところを誰も見たことがないという。,,艾乌,偶然找到地下城的异世界访客。\虽然只持木剑 - 但非常强大。据说没人见过她说话。,,艾乌,偶然找到地下城的異世界访客。\虽然只持木剑 - 但非常強大。据說没人见過她說話。,
-Romys,1715,로미스,우연히 던전을 찾아온 다른 세계의 손님. \무언가 위험한 오오라가 나오는 것 같다. \심기를 거스르지 않게 조심하자.,,Romys,A visitor from another world who happened to find the dungeon. \It seems a dangerous aura emanates from them. \Let's be careful not to upset them.,,ロミス,偶然ダンジョンを訪れた異世界からの客。\何か危険なオーラが出ているようだ。\機嫌を損ねないよう気をつけよう。,,罗米斯,偶然找到地下城的异世界访客。\似乎散发着某种危险的气息。\小心不要惹恼他。,,羅米斯,偶然找到地下城的異世界访客。\似乎散发着某種危险的氣息。\小心不要惹恼他。,
-Siri,1716,시리,우연히 던전을 찾아온 다른 세계의 손님. \주변까지 밝게 만드는 따뜻한 미소를 지녔다.,,Siri,A visitor from another world who happened to find the dungeon. \They possess a warm smile that brightens even their surroundings.,,シーリ,偶然ダンジョンを訪れた異世界からの客。\周囲まで明るくする温かい笑顔を持っている。,,希莉,偶然找到地下城的异世界访客。\拥有能照亮周围的温暖笑容。,,希莉,偶然找到地下城的異世界访客。\拥有能照亮周围的温暖笑容。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,1800,슬라임 헌터,길드의 퀘스트를 받고 출동한 몬스터 헌터,,Slime Hunter,A monster hunter dispatched by the guild to take on a quest,,スライムハンター,ギルドのクエストを受けて出動したモンスターハンター,,史莱姆猎人,接受公会任务出动的怪物猎人,,史莱姆猎人,接受公會任务出动的怪物猎人,
-,1801,뒷골목 도적,길드에서 골렘의 핵이 비싼값에 거래된다는 것을 듣고 온 뒷골목 출신 도적,,Back Alley Bandits,A back-alley thug who came after hearing that the guild is buying Golem cores at a premium,,裏路地の盗賊,ギルドでゴーレムの核が高値で取引されていると聞いて来た裏路地出身の盗賊,,后巷强盗,听说公会高价收购巨像核心后从后巷而来的盗贼,,后巷強盗,听說公會高价收购巨像核心后從后巷而来的盗贼,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,1903,새내기 모험가,방금 모험가가 된 새내기 모험가입니다. 나름 모험가라서 자원보단 몬스터와 보물에 관심이 있습니다.,,Newbie adventures,They recently became an adventurer. As an adventurer- they're more interested in monsters and treasure than resources.,,新米冒険者,冒険者になったばかりの新米です。冒険者なりに資源よりもモンスターと宝物に関心があります。,,新手冒险者,刚刚成为冒险者的新人。作为冒险者- 比起资源更对怪物和宝物感兴趣。,,新手冒險者,刚刚成為冒險者的新人。作為冒險者- 比起資源更對怪物和寶物感兴趣。,
-,,,,,,,,,,,,,,,,
-,1908,혈기왕성한 모험가,초보자 던전을 답파하여 스승의 인정을 받으려하는 모험가,,Bloodthirsty Adventurer,An adventurer trying to earn their master's recognition by conquering the Novice Dungeon,,血気盛んな冒険者,初心者ダンジョンを踏破して師匠の認定を得ようとする冒険者,,血气方刚的冒险者,试图通过攻克新手地下城来获得师傅认可的冒险者,,血氣方刚的冒險者,试图通過攻克新手地下城来获得师傅認可的冒險者,
-,,,,,,,,,,,,,,,,
-,1910,고블린,던전의 모든 자원을 탐내는 고블린입니다.,,Goblin,A goblin coveting all resources in the dungeon.,,ゴブリン,ダンジョンの全ての資源を欲しがるゴブリンです。,,哥布林,觊觎地下城所有资源的哥布林。,,哥布林,觊觎地下城所有資源的哥布林。,
-,1911,욕심많은 고블린,던전의 모든 자원을 탐내는 고블린입니다.,,Greedy Goblin,A goblin coveting all resources in the dungeon.,,欲張りゴブリン,ダンジョンの全ての資源を欲しがるゴブリンです。,,贪婪的哥布林,觊觎地下城所有资源的哥布林。,,贪婪的哥布林,觊觎地下城所有資源的哥布林。,
-Event_Goblin_Knight,1912,고블린 척후병,던전의 모든 자원을 탐내는 고블린입니다. \일반 고블린보다 조금 더 강합니다.,,Goblin Scout,A goblin coveting all dungeon resources. \Slightly stronger than regular goblins.,,ゴブリン斥候,ダンジョンの全ての資源を欲しがるゴブリンです。\通常のゴブリンよりも少し強いです。,,哥布林斥候,觊觎地下城所有资源的哥布林。\比普通哥布林稍强。,,哥布林斥候,觊觎地下城所有資源的哥布林。\比普通哥布林稍強。,
-,1913,오크,숲의 폭군인 오크입니다. 자원을 가리지 않고 탐내며- 전투 또한 피하지 않습니다.,,Orc,The tyrant of the forest. Covets all resources indiscriminately- and doesn't shy away from battle.,,オーク,森の暴君であるオークです。資源を問わず欲しがり- 戦闘も避けません。,,兽人,森林中的暴君。贪婪地觊觎着一切资源- 而且从不畏惧战斗。,,兽人,森林中的暴君。贪婪地觊觎着一切資源- 而且從不畏惧戰鬥。,
-,1914,오크 리더,숲의 폭군인 오크의 리더입니다. 오크 중에서 지능이 높은 오크로서- 다른 오크들을 통솔하고 있습니다.,,Orc Leader,The leader of orcs- the forest tyrants. An orc of higher intelligence among orcs- commanding other orcs.,,オークリーダー,森の暴君であるオークのリーダーです。オークの中でも知能が高く- 他のオークたちを統率しています。,,兽人首领,森林暴君兽人的首领。是兽人中智力较高的存在- 统领着其他兽人。,,兽人首领,森林暴君兽人的首领。是兽人中智力较高的存在- 统领着其他兽人。,
-,1915,리자드맨,오크와 동맹을 맺은 리자드맨입니다. 전투에 있어서는 오크 이상의 강함을 지니고 있습니다.,,Lizardman,A lizardman allied with the orcs. Possesses combat strength surpassing even the orcs.,,リザードマン,オークと同盟を結んだリザードマンです。戦闘ではオーク以上の強さを持っています。,,蜥蜴人,与兽人结盟的蜥蜴人。在战斗方面比兽人更强。,,蜥蜴人,与兽人结盟的蜥蜴人。在戰鬥方面比兽人更強。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,1916,녹빛 궁사,녹색 머리를 한 모험가. 무언가를 찾고 있는 것 같아요.,,Verdant Archer,An adventurer with green hair. Seems to be looking for something.,,緑色の弓矢,緑色の髪の冒険者。何かを探しているようだ。,,翠绿弓手,绿色头发的冒险者。似乎在寻找什么。,,翠绿弓手,绿色頭发的冒險者。似乎在寻找什么。,
-,1917,던전 레이서 [라이트닝],모든 던전의 [던전경주] 최고 기록을 노리고 있는 프로 던전 레이서입니다. \[던전경주]는 던전의 입구부터 최심부까지 최단 거리로 답파하는 일종의 챌린지입니다.,,Dungeon Racer [Lightning],A professional Dungeon Racer aiming for the best Dungeon Racing records in all dungeons. \Dungeon Racing is a type of challenge where one clears a dungeon from entrance to its deepest point via the shortest possible route.,,ダンジョンレーサー「ライトニング」,全てのダンジョンのダンジョンレース最高記録を狙うプロのダンジョンレーサーです。\ダンジョンレースとは- ダンジョンの入口から最深部まで最短距離で攻略するチャレンジの一種です。,,地下城竞速者[闪电],一位追求所有地下城竞速赛最佳记录的职业地下城竞速者。\地下城竞速赛是一种从地下城入口到最深处用最短路径通关的挑战活动。,,地下城競速者[闪電],一位追求所有地下城競速賽最佳記錄的职業地下城競速者。\地下城競速賽是一種從地下城入口到最深處用最短路径通关的挑战活动。,
-,1918,던전의 재앙,어디선가 나타난 정체 모를 생명체. 던전의 모든 것을 파괴합니다.,,Catastrophe of the dungeon,a mysterious creature that appeared out of nowhere. It destroys everything in the dungeon.,,ダンジョンの災厄,どこからか現れた正体不明の生命体。ダンジョンの全てを破壊する。,,地下城灾难,不知从何处出现的不明生命体。摧毁地下城的一切。,,地下城灾難,不知從何處出現的不明生命体。摧毁地下城的一切。,
-,1919,은퇴한 영웅,던전을 조사하러온 과거 영웅 출신의 모험가,,Retired Heroes,A former legendary adventurer who has come to investigate the Dungeon,,引退した英雄,ダンジョンを調査しに来た過去の英雄出身の冒険者,,退休的英雄,来调查地下城的前传奇冒险者,,退休的英雄,来調查地下城的前傳奇冒險者,
-,,,,,,,,,,,,,,,,
-,1920,피의 노래 리더,유명한 파티 피의 노래의 리더 겸 검사입니다.,,BloodSong Leader,Famous party BloodSong's leader and swordsman.,,ブラッドソングのリーダー,有名なパーティー「ブラッドソング」のリーダー兼剣士です。,,血之歌领袖,著名队伍血之歌的领袖兼剑士。,,血之歌领袖,著名隊伍血之歌的领袖兼剑士。,
-,1921,피의 노래 수호자,유명한 파티 피의 노래의 전위를 담당하는 수호자입니다.,,BloodSong Guardian,Famous party BloodSong's vanguard guardian.,,ブラッドソングの守護者,有名なパーティー「ブラッドソング」の前衛を担当する守護者です。,,血之歌守护者,著名队伍血之歌的前卫守护者。,,血之歌守護者,著名隊伍血之歌的前卫守護者。,
-,1922,피의 노래 위저드,유명한 파티 피의 노래의 공격을 담당하는 위저드입니다.,,BloodSong Wizard,Famous party BloodSong's attacking wizard.,,ブラッドソングのウィザード,有名なパーティー「ブラッドソング」の攻撃を担当するウィザードです。,,血之歌法师,著名队伍血之歌的攻击法师。,,血之歌法师,著名隊伍血之歌的攻擊法师。,
-,1923,피의 노래 레인저,유명한 파티 피의 노래의 후위을 담당하는 레인저입니다.,,BloodSong Ranger,Famous party BloodSong's rearguard ranger.,,ブラッドソングのレンジャー,有名なパーティー「ブラッドソング」の後衛を担当するレンジャーです。,,血之歌游侠,著名队伍血之歌的后卫游侠。,,血之歌游侠,著名隊伍血之歌的后卫游侠。,
-,1924,피의 노래 리더,유명한 파티 피의 노래의 리더 겸 검사입니다.,,BloodSong Leader,Famous party BloodSong's leader and swordsman.,,ブラッドソングのリーダー,有名なパーティー「ブラッドソング」のリーダー兼剣士です。,,血之歌领袖,著名队伍血之歌的领袖兼剑士。,,血之歌领袖,著名隊伍血之歌的领袖兼剑士。,
-,1925,피의 노래 수호자,유명한 파티 피의 노래의 전위를 담당하는 수호자입니다.,,BloodSong Guardian,Famous party BloodSong's vanguard guardian.,,ブラッドソングの守護者,有名なパーティー「ブラッドソング」の前衛を担当する守護者です。,,血之歌守护者,著名队伍血之歌的前卫守护者。,,血之歌守護者,著名隊伍血之歌的前卫守護者。,
-,1926,피의 노래 위저드,유명한 파티 피의 노래의 공격을 담당하는 위저드입니다.,,BloodSong Wizard,Famous party BloodSong's attacking wizard.,,ブラッドソングのウィザード,有名なパーティー「ブラッドソング」の攻撃を担当するウィザードです。,,血之歌法师,著名队伍血之歌的攻击法师。,,血之歌法师,著名隊伍血之歌的攻擊法师。,
-,1927,피의 노래 레인저,유명한 파티 피의 노래의 후위을 담당하는 레인저입니다.,,BloodSong Ranger,Famous party BloodSong's rearguard ranger.,,ブラッドソングのレンジャー,有名なパーティー「ブラッドソング」の後衛を担当するレンジャーです。,,血之歌游侠,著名队伍血之歌的后卫游侠。,,血之歌游侠,著名隊伍血之歌的后卫游侠。,
-,,,,,,,,,,,,,,,,
-,1930,길드 간부,길드에서 파견한 조사단의 분대장입니다.,,Guild Officer,The squad leader of the investigation team dispatched from the guild.,,ギルド幹部,ギルドから派遣された調査団の分隊長です。,,公会干部,公会派遣的调查团分队长。,,公會幹部,公會派遣的調查团分隊長。,
-,1931,길드 간부,길드에서 파견한 조사단의 분대장입니다.,,Guild Officer,The squad leader of the investigation team dispatched from the guild.,,ギルド幹部,ギルドから派遣された調査団の分隊長です。,,公会干部,公会派遣的调查团分队长。,,公會幹部,公會派遣的調查团分隊長。,
-,1932,영웅 [블루나이트],길드에서 파견한 조사단의 총대장입니다. 현재의 영웅이며 [블루나이트] 라고 불립니다.,,Hero [BlueKnight],The commander in chief of the investigation team dispatched from the guild. The current hero- and called [BlueKnight].,,英雄［ブルーナイト］,ギルドから派遣された調査団の総隊長です。現在の英雄であり、［ブルーナイト］と呼ばれています。,,英雄［蓝骑士］,公会派遣的调查团总队长。现任英雄- 被称为［蓝骑士］。,,英雄［蓝骑士］,公會派遣的調查团总隊長。現任英雄- 被称為［蓝骑士］。,
-,,,,,,,,,,,,,,,,
-,1941,길드 병사,길드에서 파견한 조사단의 병사입니다.,,Guild Soldier,A soldier of the investigation team dispatched from the guild.,,ギルド兵士,ギルドから派遣された調査団の兵士です。,,公会士兵,公会派遣的调查团士兵。,,公會士兵,公會派遣的調查团士兵。,
-,1942,길드 전투원,길드에서 파견한 조사단의 전투원입니다. 병사보다 좀 더 전투 경험이 많습니다.,,Guild Combatant,A combatant of the investigation team dispatched from the guild. More battle experience than soldiers.,,ギルド戦闘員,ギルドから派遣された調査団の戦闘員です。兵士よりも戦闘経験が豊富です。,,公会战斗员,公会派遣的调查团战斗员。比士兵更有战斗经验。,,公會戰鬥员,公會派遣的調查团戰鬥员。比士兵更有戰鬥經驗。,
-,1943,길드 정예병,길드에서 파견한 조사단의 정예병입니다. 한 명 한 명이 매우 강한 전투력을 가지고 있습니다.,,Guild Elite,An elite of the investigation team dispatched from the guild. Each one has very strong combat power.,,ギルド精鋭兵,ギルドから派遣された調査団の精鋭兵です。一人一人が非常に強い戦闘力を持っています。,,公会精英,公会派遣的调查团精英。每个人都拥有非常强大的战斗力。,,公會精英,公會派遣的調查团精英。每個人都拥有非常強大的戰鬥力。,
-,,,,,,,,,,,,,,,,
-,1958,왕국 기사,왕국을 지키는 정예 기사단의 기사입니다. 한명 한명이 용병단 대장과 맞먹을 정도로 강합니다.,,Royal Knight,A knight of the elite order protecting the kingdom. Each one is strong enough to match a mercenary captain.,,王国騎士,王国を守る精鋭騎士団の騎士です。一人一人が傭兵団長に匹敵するほどの強さを持っています。,,王国骑士,守护王国的精锐骑士团成员。每一位都拥有能与佣兵团长匹敌的实力。,,王国骑士,守護王国的精銳骑士团成员。每一位都拥有能与佣兵团長匹敌的實力。,
-,1959,용사 [저지먼트],현시대의 용사로 이명은 [저지먼트] 입니다. 가장 마지막에 나타나서 악한 대상을 심판한다고 해서 붙여진 이름입니다.,,Hero [Judgment],The hero of the current era- known as [Judgment]. This name was given because they appear last to pass judgment on evil beings.,,勇者「ジャッジメント」,現代の勇者で- 二つ名は「ジャッジメント」。最後に現れて邪悪なる者を裁くことからこの名が付けられました。,,勇者[审判],当代勇者- 别名"审判"。因为总是最后现身审判邪恶之物而得此名。,,勇者[审判],當代勇者- 别名"审判"。因為总是最后現身审判邪恶之物而得此名。,
-,1960,악마 [베놈],현시대에 알려진 마왕 후보 중 가장 유력한 후보. 어떠한 상대와 싸워도 지지 않을 만큼 강합니다.,,Demon [Venom],The most likely candidate among the known Demon Lord candidates of the current era. Strong enough to never lose against any opponent.,,魔王「ヴェノム」,現代に知られている魔王候補の中で最有力な候補。どんな相手と戦っても負けないほど強い存在です。,,恶魔[毒液],当代已知的魔王候选中最有力的一位。强大到无论面对何等对手都不会落败。,,恶魔[毒液],當代已知的魔王候選中最有力的一位。強大到無論面對何等對手都不會落败。,
-,1961,던전의 재앙,어디선가 나타난 정체 모를 생명체. 던전의 모든 것을 파괴합니다.,,Catastrophe of the dungeon,a mysterious creature that appeared out of nowhere. It destroys everything in the dungeon.,,ダンジョンの災厄,どこからか現れた正体不明の生命体。ダンジョンの全てを破壊する。,,地下城灾难,不知从何处出现的不明生命体。摧毁地下城的一切。,,地下城灾難,不知從何處出現的不明生命体。摧毁地下城的一切。,
-,,,,,,,,,,,,,,,,
-2000~2999 facility_Interaction,,,,,,,,,,,,,,,,
-,2000,하급 약초,흔한 약초입니다. 소량이지만 마나를 머금고 있고 던전에서만 얻을 수 있어 인기는 많습니다.,,Lower level herbs,It's a common herb. Although in small quantities- it contains mana and is popular since it can only be obtained from Dungeons.,,下級薬草,一般的な薬草です。少量ですがマナを含んでおり、ダンジョンでしか手に入らないため人気があります。,,低级药草,常见的药草。虽然含量不多- 但含有魔力- 而且只能在地下城获得- 所以很受欢迎。,,低級藥草,常见的藥草。虽然含量不多- 但含有魔力- 而且只能在地下城获得- 所以很受歡迎。,
-,2001,상급 약초,꽤 귀한 약초입니다. 고급 포션의 재료로 사용된다고 하네요.,,High level herbs,It's a quite rare herb. It's said to be used as an ingredient for high-grade potions.,,上級薬草,かなり貴重な薬草です。高級ポーションの材料として使用されるそうです。,,高级药草,相当稀有的药草。据说用作高级药剂的材料。,,高級藥草,相當稀有的藥草。据說用作高級藥剂的材料。,
-,2002,마나 무,마나를 지닌 무입니다. 최고급 식재료로 사용되며 기타 여러 합성에도 사용됩니다.,,Mana radish,It's a radish containing mana. It's used as a top-grade food ingredient and in various other compounds.,,マナ大根,マナを宿した大根です。最高級の食材として使用され、その他様々な合成にも使用されます。,,魔力萝卜,含有魔力的萝卜。用作顶级食材- 也用于各种合成。,,魔力萝卜,含有魔力的萝卜。用作頂級食材- 也用于各種合成。,
-,2003,팔손이,흔한 약초와 비슷하게 생겼지만 자세히보면 8갈래의 잎을 가진 다른 약초입니다. 숙련된 약초꾼만이 제대로 구분할 수 있다고 하네요.,,Fatsia,It looks like a common herb- but if you look closely- it's a different herb with 8-pronged leaves. Only an experienced herbalist can tell the difference.,,ヤツデ,一般的な薬草に似ていますが、よく見ると8本の葉を持つ別の薬草です。熟練した薬草師しか見分けられないそうです。,,八手叶,看起来像普通药草- 但仔细看是有8片叶子的不同药草。据说只有熟练的草药师才能正确区分。,,八手叶,看起来像普通藥草- 但仔细看是有8片叶子的不同藥草。据說只有熟練的草藥师才能正確区分。,
-,2004,던전 고사리,오래전부터 존재했던 양치식물입니다. 가끔씩 대량으로 발생하여 모험가들의 진행을 막기도 합니다.,,Dungeon fern,An ancient fern that has been around for ages. Occasionally occurs in large numbers- blocking adventurers' progress.,,ダンジョンシダ,古くから存在するシダ植物です。たまに大量に発生し、冒険者の進行を妨げることもあります。,,地下城蕨类,自古以来就存在的蕨类植物。有时会大量出现- 阻碍冒险者的前进。,,地下城蕨類,自古以来就存在的蕨類植物。有時會大量出現- 阻碍冒險者的前進。,
-,2005,활력초,매우 드물게 자라나는 약초입니다. 자양강장제- 활력 포션 등에 사용하며 가치가 높습니다.,,Vigor Herb,A medicinal herb that grows very rarely. It is used in vigor potions and is highly valued.,,活力草,非常に稀に育つ薬草です。滋養強壮剤・活力ポーションなどに使用され、価値が高いです。,,活力草,非常罕见的药草。用于滋补强身剂、活力药剂等- 价值很高。,,活力草,非常罕见的藥草。用于滋补強身剂、活力藥剂等- 价值很高。,
-,2006,알로에,다루기 꽤 어려운 식물이지만 쓰임새는 다양해서 식용- 포션- 약초- 합성 등등 많은 곳에 사용됩니다.,,Aloe,It's a fairly unwieldy plant- but it has many uses- including edibles- potions- herbal medicine- and synthetics.,,アロエ,かなり扱いにくい植物ですが、用途は様々で、食用、ポーション、薬草、合成など様々なところで使われています。,,芦荟,虽然是相当难以处理的植物- 但用途广泛- 可用于食用、药剂、草药、合成等多个方面。,,芦荟,虽然是相當難以處理的植物- 但用途广泛- 可用于食用、藥剂、草藥、合成等多個方面。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,2010,상급 약초의 뿌리,턴 시작 시 주변에 상급 약초를 퍼트리는 모체 약초입니다. \뿌리가 없어지면 생성 효과도 사라져요.,,High^grade Herb Root,A mother herb that spreads high^grade herbs around it at the start of each turn. \If the root is removed- the spawning effect disappears.,,上級薬草の根,ターン開始時に周囲に上級薬草を広げる母体となる薬草です。\根がなくなると- 生成効果も消えます。,,高级草药之根,在回合开始时向周围扩散高级草药的母体草药。\如果根部消失- 生成效果也会消失。,,高級草藥之根,在回合開始時向周围扩散高級草藥的母体草藥。\如果根部消失- 生成效果也會消失。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,2100,흔한 바위,흔한 던전의 바위입니다. 그렇지만 지상의 바위와는 완전히 다른 물질이에요.,,Common Rock,It's a common rock from the Dungeon. But it's a completely different material from rocks on the surface.,,一般的な岩,一般的なダンジョンの岩です。しかし、地上の岩とは全く異なる物質です。,,普通岩石,普通的地下城岩石。但与地表的岩石完全不同。,,普通岩石,普通的地下城岩石。但與地表的岩石完全不同。,
-,2101,모래바위,쉽게 부서져 모래가 되는 바위입니다. 마나를 가지고 있어 쉽게 뭉쳐지고 물과 잘 섞여 쓰임새가 많아요.,,Sandstone,It's a rock that easily crumbles into sand. It contains mana- making it easily moldable and mixable with water- giving it many uses.,,砂岩,簡単に崩れて砂になる岩です。マナを含んでいるため簡単に固まり、水とよく混ざるので用途が多いです。,,砂岩,容易碎成沙子的岩石。含有魔力- 容易凝结- 与水很好混合- 用途广泛。,,砂岩,容易碎成沙子的岩石。含有魔力- 容易凝結- 與水很好混合- 用途廣泛。,
-,2102,단단한 바위,단단한 바위입니다. 튼튼해서 부수려면 꽤나 많은 체력이 필요할 거에요. 건축재료로 사용되어 인기가 많습니다.,,Hard rock,It's a sturdy rock. It's so tough that you'd need quite a bit of stamina to break it. It's popular as a construction material.,,硬い岩,硬い岩です。頑丈なので壊すにはかなりの体力が必要でしょう。建築材料として使用され、人気があります。,,坚硬岩石,坚硬的岩石。非常结实- 需要相当大的体力才能打碎。作为建筑材料很受欢迎。,,堅硬岩石,堅硬的岩石。非常結實- 需要相當大的體力才能打碎。作為建築材料很受歡迎。,
-,2103,마나 철광석,순도가 높은 철을 포함하고 있는 철광석입니다. 무기를 만들 때도 쓰이고 각종 장신구에도 쓰여요.,,Mana Ironstone,It's an iron ore containing high-purity iron. It's used for making weapons and various pieces of jewelry.,,マナ鉄鉱石,純度の高い鉄を含む鉄鉱石です。武器を作る際にも使われ、各種装飾品にも使用されます。,,魔力铁矿石,含有高纯度铁的铁矿石。用于制作武器- 也用于各种饰品。,,魔力铁矿石,含有高純度铁的铁矿石。用於制作武器- 也用於各种饰品。,
-,2104,석탄,불이 잘 붙는 석탄입니다. 마나를 먹은 석탄은 화력도 유지력도 훨씬 길기 때문에 지상에선 고급 연료입니다.,,Coal,It's a coal that ignites easily. Coal infused with mana has much greater heat output and duration- making it a premium fuel on the surface.,,石炭,火がよく付く石炭です。マナを含んだ石炭は火力も持続力もはるかに長いため、地上では高級燃料です。,,煤炭,易燃的煤炭。吸收了魔力的煤炭热量和持续时间都更长- 因此在地表是高级燃料。,,煤炭,易燃的煤炭。吸收了魔力的煤炭热量和持续时间都更长- 因此在地表是高級燃料。,
-,2105,다이아몬드,매우 귀한 물질인 다이아몬드입니다. 마나의 순도가 높기때문에 마법무기의 핵심 부분이에요. 매우 단단하기 때문에 캐기도 힘들어요.,,Diamond,It's the extremely rare material- diamond. Its high mana purity makes it the core component of magical weapons. It's also extremely hard- making it difficult to mine.,,ダイヤモンド,非常に貴重な物質であるダイヤモンドです。マナの純度が高いため、魔法武器の核心部分に使用されます。非常に硬いため、採掘も困難です。,,钻石,非常稀有的钻石。由于魔力纯度高- 是魔法武器的核心部分。非常坚硬- 难以开采。,,钻石,非常稀有的钻石。由於魔力純度高- 是魔法武器的核心部分。非常堅硬- 难以开采。,
-,2106,루비,은은한 붉은빛의 내는 루비원석입니다. 장식품이나 관상용으로 많이 거래됩니다.,,Ruby,A ruby gemstone with a faint red glow. Widely traded for ornaments and viewing.,,ルビー,淡い赤色を放つルビー原石です。装飾品や観賞用として多く取引されます。,,红宝石,散发淡淡红光的红宝石原石。作为装饰品或观赏用品广泛交易。,,红寶石,散發淡淡紅光的红寶石原石。作為裝飾品或觀賞用品廣泛交易。,
-,2107,룬스톤,마법 룬 문자가 새겨진 희귀한 원석입니다. 상위 클래스 마법을 위해 꼭 필요한 재료이므로 고가에 거래됩니다.,,Runestone,A rare gemstone engraved with magic rune characters. Essential for higher class magic- so it's traded at a high price.,,ルーンストーン,魔法のルーン文字が刻まれた希少な原石です。上位クラスの魔法に必要不可欠な材料のため、高価で取引されます。,,符文石,刻有魔法符文文字的稀有原石。是高级魔法所必需的材料- 因此以高价交易。,,符文石,刻有魔法符文文字的稀有原石。是高級魔法所必需的材料- 因此以高價交易。,
-,2108,크리스탈,투명하고 흠이 적은 맑은 크리스탈입니다. 크기와 형태에 따라 가격이 천차만별이에요.,,Crystal,A clear crystal with few flaws. The price varies greatly depending on the size and shape.,,クリスタル,透明で欠陥の少ないきれいなクリスタルです。大きさや形状によって価格が千差万別です。,,水晶,透明且缺陷很少的清澈水晶。价格因大小和形状而千差万别。,,水晶,透明且缺陷很少的清澈水晶。價格因大小和形状而千差萬別。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,2200,골든 소드,금으로 만들어진 검입니다. 보기엔 멋져보이지만 실제 사용은 어렵고 장식용 입니다.,,Golden Sword,A sword made of gold. It looks impressive but is difficult to use and is for decorative purposes.,,ゴールデンソード,金で作られた剣です。見た目は素晴らしいですが、実際の使用は難しく装飾用です。,,黄金剑,由黄金制成的剑。看起来很漂亮- 但实际使用困难- 主要用于装饰。,,黃金劍,由黃金製成的劍。看起來很漂亮- 但实际使用困难- 主要用於裝飾。,
-,2201,모험가 소드,적당한 무게와 균형으로 실제 사용이 가능한 검입니다.,,Adventurer's Sword,A sword that is actually usable due to its appropriate weight and balance.,,冒険者の剣,適度な重量とバランスで実際に使用できる剣です。,,冒险者之剑,重量和平衡适中- 可以实际使用的剑。,,冒险者之劍,重量和平衡适中- 可以实际使用的劍。,
-,2202,불의 칼,불의 기운이 깃든 검입니다.,,Sword of Fire,A sword imbued with the essence of fire.,,炎の剣,炎の気が宿った剣です。,,火焰之剑,蕴含火焰力量的剑。,,火焰之劍,蕴含火焰力量的劍。,
-,2203,독의 칼,독이 묻어있는 검입니다.,,Sword of Poison,A sword coated with poison.,,毒の剣,毒が塗られている剣です。,,毒之剑,涂有毒药的剑。,,毒之劍,涂有毒药的劍。,
-,2204,대거,짧지만 매우 날카로운 대거입니다.,,Dagger,A short but very sharp dagger.,,ダガー,短いですが非常に鋭いダガーです。,,匕首,短小但非常锋利的匕首。,,匕首,短小但非常锋利的匕首。,
-,2205,세이버,사용하기 좋아보이는 세이버입니다.,,Saber,A saber that looks easy to use.,,セイバー,使いやすそうなセイバーです。,,军刀,看起来很好用的军刀。,,軍刀,看起來很好用的軍刀。,
-,2206,크리스탈 소드,크리스탈로 된 검입니다. 의식용으로 사용됩니다.,,Crystal Sword,A sword made of crystal. It is used for ceremonial purposes.,,クリスタルソード,クリスタルでできた剣です。儀式用に使用されます。,,水晶剑,由水晶制成的剑。用于仪式用途。,,水晶劍,由水晶製成的劍。用於儀式用途。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,2210,매직 링,모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.,,Magic Ring,It's treasure- the biggest reason adventurers explore Dungeons.,,マジックリング,冒険者たちがダンジョンを探索する最大の理由となる宝物です。,,魔法戒指,冒险者探索地下城的最大原因之一的宝物。,,魔法戒指,冒险者探索地下城的最大原因之一的宝物。,
-,,,,,,,,,,,,,,,,
-,2220,마법사의 모자,모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.,,Wizard's Hat,It's treasure- the biggest reason adventurers explore Dungeons.,,魔法使いの帽子,冒険者たちがダンジョンを探索する最大の理由となる宝物です。,,法师帽,冒险者探索地下城的最大原因之一的宝物。,,法师帽,冒险者探索地下城的最大原因之一的宝物。,
-,,,,,,,,,,,,,,,,
-,2230,마법 스크롤,모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.,,Magic Scroll,It's treasure- the biggest reason adventurers explore Dungeons.,,魔法の巻物,冒険者たちがダンジョンを探索する最大の理由となる宝物です。,,魔法卷轴,冒险者探索地下城的最大原因之一的宝物。,,魔法卷轴,冒险者探索地下城的最大原因之一的宝物。,
-,,,,,,,,,,,,,,,,
-,2240,천상의 하프,제대로 연주한다면 아무리 먼 거리라도 들린다고 하는 희귀 아티팩트 입니다.,,Celestial Harp,It's a rare artifact that is said to be audible from any distance if played properly.,,天上のハープ,正しく演奏すれば、どんなに遠い距離でも聞こえるという希少なアーティファクトです。,,天界竖琴,据说如果正确演奏- 无论多远都能听到的稀有神器。,,天界竖琴,据說如果正确演奏- 无论多远都能听到的稀有神器。,
-,2241,마법의 모래시계,시간의 흐름에 간섭할 수 있는 희귀 아티팩트 입니다.,,Magic Hourglass,It's a rare artifact that can interfere with the flow of time.,,魔法の砂時計,時の流れに干渉できる希少なアーティファクトです。,,魔法沙漏,可以干扰时间流动的稀有神器。,,魔法沙漏,可以干扰时间流动的稀有神器。,
-,2242,요술램프,소원을 들어주는 전설의 요술램프 입니다.,,Magic Lamp,It's the legendary lamp that grants wishes.,,魔法のランプ,願いを叶えてくれるという伝説の魔法のランプです。,,魔法灯,据说能实现愿望的传说中的魔法灯。,,魔法灯,据說能实现愿望的傳說中的魔法灯。,
-,2243,진실의 거울,비춘것의 진실된 모습을 드러내게 만드는 희귀 아티팩트 입니다.,,Mirror of Truth,It's a rare artifact that reveals the true nature of anything it shines upon.,,真実の鏡,映したものの真の姿を現す希少なアーティファクトです。,,真实之镜,能揭示被照射物真实面目的稀有神器。,,真实之镜,能揭示被照射物真实面目的稀有神器。,
-,2244,평화의 리라,평화를 불러온다고 알려진 전설의 리라입니다.,,Lira of Peace,A legendary lyre known to bring peace.,,平和のリラ,平和をもたらすと言われる伝説のリラです。,,和平里拉琴,据说能带来和平的传说中的里拉琴。,,和平里拉琴,据說能带來和平的傳說中的里拉琴。,
-,2245,해왕의 진주,고대부터 바닷속에 존재했던 보물인 해왕의 진주입니다.,,Sea King's Pearl,A treasure of the sea king that has existed in the ocean since ancient times.,,海王の真珠,古代から海底に存在していた宝物である海王の真珠です。,,海王珍珠,自古以来存在于海底的宝物- 海王的珍珠。,,海王珍珠,自古以來存在於海底的宝物- 海王的珍珠。,
-,2246,황금 잔,황금으로 만들어져 매우 값어치가 높은 물건이에요.,,Golden Goblet,An item made of gold that is very valuable,,黄金の杯,黄金で作られた非常に価値の高い物です。,,黄金杯,由黄金制成的非常贵重的物品。,,黃金杯,由黃金製成的非常贵重的物品。,
-,2247,고대 금화,과거에 사용되었던 금화입니다. 실제 가치는 아무도 알 수 없어요.,,Ancient Gold Coins,Ancient gold coins used in the past. Their actual value is unknown to anyone.,,古代の金貨,過去に使用されていた金貨です。実際の価値は誰にもわかりません。,,古代金币,过去使用的金币。实际价值无人知晓。,,古代金币,过去使用的金币。实际價值无人知晓。,
-,2248,봉인된 십자가,무언가 강한 존재를 봉인할 때 사용된 십자가입니다.,,Sealed Cross,A cross used to seal a powerful entity.,,封印された十字架,何か強力な存在を封印する際に使用された十字架です。,,封印十字架,用于封印某种强大存在的十字架。,,封印十字架,用於封印某种强大存在的十字架。,
-,2249,운명의 주사위,굴리는 대로 운명이 정해진다고 하는 무서운 주사위입니다.,,Dice of Fate,Scary dice that determine fate when rolled.,,運命のサイコロ,振った通りに運命が決まるという恐ろしいサイコロです。,,命运骰子,据说掷出的结果会决定命运的可怕骰子。,,命运骰子,据說掷出的结果會決定命运的可怕骰子。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,2250,황금 왕관,모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.,,Golden Crown,It's treasure- the biggest reason adventurers explore Dungeons.,,黄金の王冠,冒険者たちがダンジョンを探索する最大の理由となる宝物です。,,黄金王冠,冒险者探索地下城的最大原因之一的宝物。,,黃金王冠,冒险者探索地下城的最大原因之一的宝物。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,2260,보물상자 A,무엇이 들어있는지 모르는 상자입니다. 하지만 모험가라면 열어보지 않고는 참을 수 없을 거예요.,,Treasure Chest A,A chest whose contents are unknown. But an adventurer wouldn't be able to resist opening it-,,宝箱 A,中身が分からない箱です。しかし、冒険者なら開けずにはいられないでしょう。,,宝箱 A,内容未知的箱子。但冒险者肯定忍不住想打开看看。,,宝箱 A,內容未知的箱子。但冒险者肯定忍不住想打开看看。,
-,2261,보물상자 B,무엇이 들어있는지 모르는 상자입니다. 하지만 모험가라면 열어보지 않고는 참을 수 없을 거예요.,,Treasure Chest B,A chest whose contents are unknown. But an adventurer wouldn't be able to resist opening it-,,宝箱 B,中身が分からない箱です。しかし、冒険者なら開けずにはいられないでしょう。,,宝箱 B,内容未知的箱子。但冒险者肯定忍不住想打开看看。,,宝箱 B,內容未知的箱子。但冒险者肯定忍不住想打开看看。,
-,2262,보물상자 C,무엇이 들어있는지 모르는 상자입니다. 하지만 모험가라면 열어보지 않고는 참을 수 없을 거예요.,,Treasure Chest C,A chest whose contents are unknown. But an adventurer wouldn't be able to resist opening it-,,宝箱 C,中身が分からない箱です。しかし、冒険者なら開けずにはいられないでしょう。,,宝箱 C,内容未知的箱子。但冒险者肯定忍不住想打开看看。,,宝箱 C,內容未知的箱子。但冒险者肯定忍不住想打开看看。,
-,2263,보물상자 D,무엇이 들어있는지 모르는 상자입니다. 하지만 모험가라면 열어보지 않고는 참을 수 없을 거예요.,,Treasure Chest D,A chest whose contents are unknown. But an adventurer wouldn't be able to resist opening it-,,宝箱 D,中身が分からない箱です。しかし、冒険者なら開けずにはいられないでしょう。,,宝箱 D,内容未知的箱子。但冒险者肯定忍不住想打开看看。,,宝箱 D,內容未知的箱子。但冒险者肯定忍不住想打开看看。,
-,2264,보물상자 E,무엇이 들어있는지 모르는 상자입니다. 하지만 모험가라면 열어보지 않고는 참을 수 없을 거예요.,,Treasure Chest E,A chest whose contents are unknown. But an adventurer wouldn't be able to resist opening it-,,宝箱 E,中身が分からない箱です。しかし、冒険者なら開けずにはいられないでしょう。,,宝箱 E,内容未知的箱子。但冒险者肯定忍不住想打开看看。,,宝箱 E,內容未知的箱子。但冒险者肯定忍不住想打开看看。,
-,2265,보물상자 F,무엇이 들어있는지 모르는 상자입니다. 하지만 모험가라면 열어보지 않고는 참을 수 없을 거예요.,,Treasure Chest F,A chest whose contents are unknown. But an adventurer wouldn't be able to resist opening it-,,宝箱 F,中身が分からない箱です。しかし、冒険者なら開けずにはいられないでしょう。,,宝箱 F,内容未知的箱子。但冒险者肯定忍不住想打开看看。,,宝箱 F,內容未知的箱子。但冒险者肯定忍不住想打开看看。,
-,2266,보물상자 G,무엇이 들어있는지 모르는 상자입니다. 하지만 모험가라면 열어보지 않고는 참을 수 없을 거예요.,,Treasure Chest G,A chest whose contents are unknown. But an adventurer wouldn't be able to resist opening it-,,宝箱 G,中身が分からない箱です。しかし、冒険者なら開けずにはいられないでしょう。,,宝箱 G,内容未知的箱子。但冒险者肯定忍不住想打开看看。,,宝箱 G,內容未知的箱子。但冒险者肯定忍不住想打开看看。,
-,2267,보물상자 H,무엇이 들어있는지 모르는 상자입니다. 하지만 모험가라면 열어보지 않고는 참을 수 없을 거예요.,,Treasure Chest H,A chest whose contents are unknown. But an adventurer wouldn't be able to resist opening it-,,宝箱 H,中身が分からない箱です。しかし、冒険者なら開けずにはいられないでしょう。,,宝箱 H,内容未知的箱子。但冒险者肯定忍不住想打开看看。,,宝箱 H,內容未知的箱子。但冒险者肯定忍不住想打开看看。,
-,2268,보물상자 I,무엇이 들어있는지 모르는 상자입니다. 하지만 모험가라면 열어보지 않고는 참을 수 없을 거예요.,,Treasure Chest I,A chest whose contents are unknown. But an adventurer wouldn't be able to resist opening it-,,宝箱 I,中身が分からない箱です。しかし、冒険者なら開けずにはいられないでしょう。,,宝箱 I,内容未知的箱子。但冒险者肯定忍不住想打开看看。,,宝箱 I,內容未知的箱子。但冒险者肯定忍不住想打开看看。,
-,2269,보물상자 J,무엇이 들어있는지 모르는 상자입니다. 하지만 모험가라면 열어보지 않고는 참을 수 없을 거예요.,,Treasure Chest J,A chest whose contents are unknown. But an adventurer wouldn't be able to resist opening it-,,宝箱 J,中身が分からない箱です。しかし、冒険者なら開けずにはいられないでしょう。,,宝箱 J,内容未知的箱子。但冒险者肯定忍不住想打开看看。,,宝箱 J,內容未知的箱子。但冒险者肯定忍不住想打开看看。,
-,2270,보물상자 K,무엇이 들어있는지 모르는 상자입니다. 하지만 모험가라면 열어보지 않고는 참을 수 없을 거예요.,,Treasure Chest K,A chest whose contents are unknown. But an adventurer wouldn't be able to resist opening it-,,宝箱 K,中身が分からない箱です。しかし、冒険者なら開けずにはいられないでしょう。,,宝箱 K,内容未知的箱子。但冒险者肯定忍不住想打开看看。,,宝箱 K,內容未知的箱子。但冒险者肯定忍不住想打开看看。,
-,2271,보물상자 L,무엇이 들어있는지 모르는 상자입니다. 하지만 모험가라면 열어보지 않고는 참을 수 없을 거예요.,,Treasure Chest L,A chest whose contents are unknown. But an adventurer wouldn't be able to resist opening it-,,宝箱 L,中身が分からない箱です。しかし、冒険者なら開けずにはいられないでしょう。,,宝箱 L,内容未知的箱子。但冒险者肯定忍不住想打开看看。,,宝箱 L,內容未知的箱子。但冒险者肯定忍不住想打开看看。,
-,,,,,,,,,,,,,,,,
-,2400,맑은 우물,모험가가 쉴 수 있는 우물입니다. 마시면 힘이 나서 좀 더 활동할 수 있어요. \다 사용하면 다시 보충해야 합니다.,,Pure well,A well where adventurers can rest. \When you drink from it- you'll feel energized and be able to do more. \When you use it up- you'll need to replenish it.,,澄んだ井戸,冒険者が休憩できる井戸です。飲むと力がわいて、さらに活動できます。\n使い切ったら再度補充する必要があります。,,清澈的井,冒险者可以休息的井。喝了之后会恢复精力- 可以继续活动。\用完后需要重新补充。,,清澈的井,冒险者可以休息的井。喝了之后會恢复精力- 可以继续活动。\\用完后需要重新补充。,
-,,,,,,,,,,,,,,,,
-,2410,악마의 석상,불길한 기운이 느껴지는 석상입니다. \던전에 존재하는 것만으로 턴마다 위험도가 상승합니다.,,Devil statue,A statue emanating an ominous aura. \Its mere presence in the dungeon increases the danger level each turn. \As this cannot be undone- the decision must be made carefully.,,悪魔の像,不吉な気配を感じさせる石像です。\ダンジョンに存在するだけで- ターンごとに危険度が上昇します。,,恶魔雕像,散发不祥气息的雕像。\仅仅存在于地下城中- 每回合就会增加危险度。,,惡魔雕像,散發不祥氣息的雕像。\僅僅存在於地下城中- 每回合就會增加危險度。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,2901,신비로운 알,신비한 분위기를 지닌 알입니다. 계약기간 동안 지켜야 합니다.,,Mysterious Egg,An egg with a mysterious atmosphere. Must be kept during the contract period.,,神秘の卵,神秘的な雰囲気を持つ卵です。契約期間中は守らなければなりません。,,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。,,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。,
-,2902,신비로운 알,신비한 분위기를 지닌 알입니다. 계약기간 동안 지켜야 합니다.,,Mysterious Egg,An egg with a mysterious atmosphere. Must be kept during the contract period.,,神秘の卵,神秘的な雰囲気を持つ卵です。契約期間中は守らなければなりません。,,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。,,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。,
-,2903,신비로운 알,신비한 분위기를 지닌 알입니다. 계약기간 동안 지켜야 합니다.,,Mysterious Egg,An egg with a mysterious atmosphere. Must be kept during the contract period.,,神秘の卵,神秘的な雰囲気を持つ卵です。契約期間中は守らなければなりません。,,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。,,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,2910,신비로운 알,신비한 분위기를 지닌 알입니다. 계약기간 동안 지켜야 합니다. \따듯한 마나가 감돌고 있습니다.,,Mysterious Egg,An egg with a mysterious atmosphere. Must be kept during the contract period. \Warm mana is circulating.,,神秘の卵,神秘的な雰囲気を持つ卵です。契約期間中は守らなければなりません。\温かいマナが漂っています。,,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。\周围环绕着温暖的魔力。,,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。\\周围环绕著温暖的魔力。,
-,2911,신비로운 알,신비한 분위기를 지닌 알입니다. 계약기간 동안 지켜야 합니다. \조금 위험한 마나가 느껴집니다.,,Mysterious Egg,An egg with a mysterious atmosphere. Must be kept during the contract period. \Mana feels a little dangerous.,,神秘の卵,神秘的な雰囲気を持つ卵です。契約期間中は守らなければなりません。 \少し危険なマナが感じられます。,,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。\感觉到有点危险的魔力。,,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。\\感觉到有点危险的魔力。,
-,2912,신비로운 알,신비한 분위기를 지닌 알입니다. 계약기간 동안 지켜야 합니다. \밝고 활기찬 마나가 느껴집니다.,,Mysterious Egg,An egg with a mysterious atmosphere. Must be kept during the contract period. \Bright and vibrant mana can be felt.,,神秘の卵,神秘的な雰囲気を持つ卵です。契約期間中は守らなければなりません。\明るく活発なマナが感じられます。,,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。\能感受到明亮活跃的魔力。,,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。\\能感受到明亮活跃的魔力。,
-,2913,신비로운 알,신비한 분위기를 지닌 알입니다. 계약기간 동안 지켜야 합니다. \따듯한 마나가 감돌고 있습니다.,,Mysterious Egg,An egg with a mysterious atmosphere. Must be kept during the contract period. \Warm mana is circulating.,,神秘の卵,神秘的な雰囲気を持つ卵です。契約期間中は守らなければなりません。\温かいマナが漂っています。,,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。\周围环绕着温暖的魔力。,,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。\\周围环绕著温暖的魔力。,
-,2914,신비로운 알,신비한 분위기를 지닌 알입니다. 계약기간 동안 지켜야 합니다. \강렬한 빛이 알 주변을 감싸고 있습니다.,,Mysterious Egg,An egg with a mysterious atmosphere. Must be kept during the contract period. \An intense light surrounds the egg.,,神秘の卵,神秘的な雰囲気を持つ卵です。契約期間中は守らなければなりません。 \強烈な光が卵の周りを包んでいます。,,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。\强烈的光芒包围着蛋。,,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。\\强烈的光芒包围著蛋。,
-,2915,신비로운 알,신비한 분위기를 지닌 알입니다. 계약기간 동안 지켜야 합니다. \강하고 위험한 힘이 느껴집니다.,,Mysterious Egg,An egg with a mysterious atmosphere. Must be kept during the contract period. \A strong and dangerous power can be felt.,,神秘の卵,神秘的な雰囲気を持つ卵です。契約期間中は守らなければなりません。\強く危険な力が感じられます。,,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。\能感受到强大而危险的力量。,,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。\\能感受到强大而危险的力量。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-3000~3999 facility_Event,,,,,,,,,,,,,,,,
-,3000,상행 포탈,지상으로 향하는 포탈입니다.,,Ascending portal,A portal to the ground.,,上行ポータル,地上に向かうポータルです。,,上升传送门,通向地面的传送门。,,上升傳送門,通向地面的傳送門。,
-,3001,하행 포탈,지하로 향하는 포탈입니다.,,Descending portal,A portal to the underground.,,下行ポータル,地下に向かうポータルです。,,下降传送门,通向地下的传送门。,,下降傳送門,通向地下的傳送門。,
-,3002,전이 포탈,던전의 숨겨진 공간으로 이동할 수 있는 포탈입니다.,,Portal,A portal that allows you to travel to hidden areas of the dungeon.,,遷移ポータル,ダンジョンの隠されたエリアに移動できるポータルです。,,转移传送门,可以移动到地下城隐藏空间的传送门。,,轉移傳送門,可以移動到地下城隱藏空間的傳送門。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,3200,낙하 함정,뻔히 보이는 함정이지만 걸린다면 꽤 효과가 있을 거예요.,,Falling trap,It's an obvious trap- but if triggered- it can have quite an effect.,,落とし穴,一目で分かる罠ですが、引っかかれば結構効果がありそうです。,,陷阱,虽然是明显可见的陷阱- 但如果触发了还是会有相当的效果。,,陷阱,雖然是明显可見的陷阱- 但如果觸發了还是会有相当的效果。,
-,3201,강화 낙하 함정,뻔히 보이는 함정이지만 걸린다면 꽤 효과가 있을 거예요. 좀 더 여러번 사용 가능합니다.,,Enhanced Falling trap,It's an obvious trap- but if triggered- it can have quite an effect. It can be used a few more times.,,強化落とし穴,一目で分かる罠ですが、引っかかれば結構効果がありそうです。もう少し何回も使用できます。,,强化陷阱,虽然是明显可见的陷阱- 但如果触发了还是会有相当的效果。可以使用更多次。,,強化陷阱,雖然是明显可見的陷阱- 但如果觸發了还是会有相当的效果。可以使用更多次。,
-,3202,송곳 함정,무시무시한 송곳이 올라오는 함정이에요. 모르고 위를 지나간다면 크게 다칠 거예요.,,Awl trap,It's a terrifying trap with spikes that rise from the floor. If you unknowingly walk over it- you'll be seriously injured.,,トゲの罠,恐ろしいトゲが飛び出す罠です。知らずに上を通れば大怪我をしそうです。,,尖刺陷阱,一种可怕的陷阱- 尖刺会从地面升起。如果不小心踩上去- 会受重伤。,,尖刺陷阱,一种可怕的陷阱- 尖刺会从地面升起。如果不小心踩上去- 会受重傷。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,3260,가짜 보물 함정 (은),보물 상자처럼 보이지만 실은 미믹이 들어있는 함정이에요. \공격보다는 시간을 낭비하게 하는 데 효율적입니다.,,Silver Mimic Trap,Looks like a treasure chest but actually contains a mimic. \More efficient at wasting time than dealing damage.,,偽宝箱の罠（銀）,宝箱に見えますが- 実はミミックが入っている罠です。\攻撃よりも時間を浪費させるのに効率的です。,,伪宝箱陷阱（银）,看起来像宝箱但实际上内藏拟态怪的陷阱。\比起造成伤害- 更擅长浪费时间。,,伪寶箱陷阱（銀）,看起來像寶箱但實際上内藏擬態怪的陷阱。\\比起造成傷害- 更擅长浪費時間。,
-,3261,가짜 보물 함정 (금),보물 상자처럼 보이지만 실은 미믹이 들어있는 함정이에요. \공격보다는 시간을 낭비하게 하는 데 효율적입니다.,,Golden Mimic Trap,Looks like a treasure chest but actually contains a mimic. \More efficient at wasting time than dealing damage.,,偽宝箱の罠（金）,宝箱に見えますが- 実はミミックが入っている罠です。\攻撃よりも時間を浪費させるのに効率的です。,,伪宝箱陷阱（金）,看起来像宝箱但实际上内藏拟态怪的陷阱。\比起造成伤害- 更擅长浪费时间。,,伪寶箱陷阱（金）,看起來像寶箱但實際上内藏擬態怪的陷阱。\\比起造成傷害- 更擅长浪費時間。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,3500,건설 불가 타일,,,X,,,建設不可タイル,,,不可建设区域,,,不可建設區域,,
-,3501,Obstacle_Wall,,,Obstacle_Wall,,,Obstacle_Wall,,,障碍物_墙,,,障礙物_牆,,
-,,,,,,,,,,,,,,,,
-,3503,RemoveableObstacle,,,RemoveableObstacle,,,RemoveableObstacle,,,可移除障碍物,,,可移除障礙物,,
-,3504,Custom_Wall,,,Custom_Wall,,,Custom_Wall,,,Custom_Wall,,,Custom_Wall,,
-,,,,,,,,,,,,,,,,
-,3531,1x1,,,1x1,,,1x1,,,1x1,,,1x1,,
-,3532,1x2,,,1x2,,,1x2,,,1x2,,,1x2,,
-,3533,1x3,,,1x3,,,1x3,,,1x3,,,1x3,,
-,3534,2x1,,,2x1,,,2x1,,,2x1,,,2x1,,
-,3535,2x2,,,2x2,,,2x2,,,2x2,,,2x2,,
-,3536,2x3,,,2x3,,,2x3,,,2x3,,,2x3,,
-,3537,3x1,,,3x1,,,3x1,,,3x1,,,3x1,,
-,3538,3x2,,,3x2,,,3x2,,,3x2,,,3x2,,
-,3539,3x3,,,3x3,,,3x3,,,3x3,,,3x3,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,3900,StatueBase,,,StatueBase,,,StatueBase,,,雕像底座,,,雕像底座,,
-Gold,3901,금빛 천사상,황금으로 만들어진 천사상입니다. \기도를 올리면 소량의 골드를 얻습니다.,,Golden Angel Statue,It's an angel statue made of gold. \Praying to it rewards you with a small amount of gold.,,金色の天使像,黄金で作られた天使像です。\祈りを捧げると少量のゴールドを得られます。,,金色天使雕像,由黄金制成的天使雕像。\祈祷会获得少量金币。,,金色天使雕像,由黃金製成的天使雕像。\\祈禱会獲得少量金幣。,
-Mana,3902,은빛 천사상,순은으로 만들어진 천사상입니다. \기도를 올리면 소량의 마나를 얻습니다.,,Silver Angel Statue,It's an angel statue made of silver. \Praying to it rewards you with a small amount of mana.,,銀色の天使像,純銀で作られた天使像です。\祈りを捧げると少量のマナを得られます。,,银色天使雕像,由纯银制成的天使雕像。\祈祷会获得少量魔力。,,銀色天使雕像,由純銀製成的天使雕像。\\祈禱会獲得少量魔力。,
-Dog,3903,신뢰의 상,왠지 모를 신뢰가 느껴지는 형상입니다. \기도를 올리면 마나 혹은 골드를 얻습니다.,,Statue of Trust,A figure that emanates inexplicable trust. \Praying grants mana and gold.,,信頼の像,何となく信頼感を感じる像です。\祈りを捧げるとマナとゴールドを得られます。,,信任之像,散发着莫名信任感的形象。\祈祷可获得魔力和金币。,,信任之像,散發着莫名信任感的形象。\\祈禱可獲得魔力和金幣。,
-Dragon,3904,파멸의 상,강한 힘과 파괴의 충동이 느껴지는 형상입니다. \기도를 올리면 위험도가 상승합니다.,,Statue of Ruin,A figure emanating strong power and destructive impulses. \Praying increases danger.,,破滅の像,強い力と破壊の衝動を感じる像です。\祈りを捧げると危険度が上昇します。,,毁灭之像,散发着强大力量和破坏冲动的形象。\祈祷会提升危险度。,,毁灭之像,散發着強大力量和破坏冲动的形象。\\祈禱会提升危險度。,
-Ravi,3905,평온의 상,안정과 편안함을 주는 형상입니다. \기도를 올리면 인기도가 상승합니다.,,Statue of Tranquility,A figure that provides stability and comfort. \Praying increases popularity.,,安寧の像,安定と安らぎを与える像です。\祈りを捧げると人気度が上昇します。,,安宁之像,带来稳定与安详的形象。\祈祷会提升人气度。,,安寧之像,带来穩定與安詳的形象。\\祈禱会提升人氣度。,
-Cat,3906,친화의 상,문득 말을 걸고 싶어지게 만드는 형상입니다. \기도를 올리면 모든 유닛의 레벨이 1 상승합니다.,,Statue of Harmony,A figure that makes you want to speak to it. \Praying increases all units' levels by 1.,,親和の像,思わず話しかけたくなる像です。\祈りを捧げると全てのユニットのレベルが1上昇します。,,亲和之像,让人不禁想要搭话的形象。\祈祷会使所有单位等级提升1级。,,親和之像,让人不禁想要搭話的形象。\\祈禱会使所有單位等級提升1級。,
-Demon,3907,공포의 상,쉽사리 쳐다보기 힘든 무서운 형상입니다. \기도를 올리면 모든 유닛을 영구적으로 랜덤하게 강화합니다.,,Statue of Terror,A frightening figure difficult to look at. \Praying permanently enhances all units randomly.,,恐怖の像,容易に見つめられない恐ろしい像です。\祈りを捧げると全てのユニットをランダムに永続的に強化します。,,恐惧之像,令人难以直视的可怕形象。\祈祷会永久随机强化所有单位。,,恐懼之像,令人难以直視的可怕形象。\\祈禱会永久隨機強化所有單位。,
-Hero,3908,영웅의 상,밝은 기운을 내뿜는 형상입니다. \기도를 올리면 랜덤한 아티팩트를 하나 획득합니다.,,Statue of Heroes,A figure radiating bright energy. \Praying grants a random artifact.,,英雄の像,明るい気を放つ像です。\祈りを捧げるとランダムなアーティファクトを一つ獲得します。,,英雄之像,散发着光明气息的形象。\祈祷可获得一个随机神器。,,英雄之像,散發着光明氣息的形象。\\祈禱可獲得一個隨機神器。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-5000~6999 contents,,,,,,,,,,,,,,,,
-,5000,작은 약초밭,하급 약초가 자라나는 약초밭을 설치합니다. 흔하긴 해도 마나를 지니고 있기 때문에 쓰임새는 많은 편이에요.,,Small herb garden,It installs a herb garden where low-grade herbs grow. Although common- they contain mana- so they have many uses.,,小さな薬草畑,下級薬草が育つ薬草畑を設置します。ありふれていますが、マナを持っているため用途は多いです。,,小型药草园,设置生长低级药草的园地。虽然常见- 但含有魔力- 所以用途广泛。,,小型藥草園,設置生长低級藥草的園地。雖然常见- 但含有魔力- 所以用途廣泛。,
-,5001,큰 약초밭,하급 약초가 자라나는 약초밭을 설치합니다. 흔하긴 해도 마나를 지니고 있기 때문에 쓰임새는 많은 편이에요.,,Large herb garden,It installs a herb garden where low-grade herbs grow. Although common- they contain mana- so they have many uses.,,大きな薬草畑,下級薬草が育つ薬草畑を設置します。ありふれていますが、マナを持っているため用途は多いです。,,大型药草园,设置生长低级药草的园地。虽然常见- 但含有魔力- 所以用途广泛。,,大型藥草園,設置生长低級藥草的園地。雖然常见- 但含有魔力- 所以用途廣泛。,
-,5002,고급 약초밭,고급 약초가 자라나는 약초밭을 설치합니다. 쉽게 구할 수 없는 귀한 약초입니다. 마나 효율이 높아요.,,High level herb garden,It installs a herb garden where high-grade herbs grow. These are rare herbs that are not easily obtained. They are highly mana-efficient.,,高級薬草畑,高級薬草が育つ薬草畑を設置します。簡単に手に入らない貴重な薬草です。マナ効率が高いです。,,高级药草园,设置生长高级药草的园地。这些是难以获得的珍贵药草。魔力效率很高。,,高級藥草園,設置生长高級藥草的園地。这些是难以獲得的珍貴藥草。魔力效率很高。,
-,5003,마나 무밭,마나를 지닌 무입니다. 최고급 식재료로도 사용이 되며 기타 여러 합성에 재료로 사용됩니다.,,Mana radish Field,It's a radish containing mana. It's used as a top-grade food ingredient and in various other compounds.,,マナ大根畑,マナを宿した大根です。最高級食材としても使用され、その他様々な合成の材料としても使用されます。,,魔力萝卜田,含有魔力的萝卜。用作顶级食材- 也用于各种合成的材料。,,魔力蘿蔔田,含有魔力的蘿蔔。用作頂級食材- 也用於各种合成的材料。,
-,5004,고사리의 벽,던전 고사리를 대량으로 설치합니다. 하나하나의 효과는 약해도 모험가들의 발을 붙잡는데는 효과적입니다.,,Fern Wall,Sets up a large amount of dungeon ferns. Though each has a weak effect- they are effective at hindering adventurers' movements.,,シダの壁,ダンジョンシダを大量に設置します。一つ一つの効果は弱いですが、冒険者の足を止めるのに効果的です。,,蕨类墙,大量设置地下城蕨类。虽然单个效果较弱- 但能有效阻碍冒险者的行动。,,蕨類牆,大量設置地下城蕨類。雖然單個效果較弱- 但能有效阻礙冒險者的行動。,
-,5005,활력초밭,활력초를 설치합니다. 잘못하면 쉽게 손상되기 때문에 채집하는데 많은 시간이 필요합니다.,,Vital Herb Field,Sets up vital herbs. They are easily damaged if handled improperly- requiring a lot of time to gather.,,活力草畑,活力草を設置します。扱いを間違えると簡単に損傷するため、採集には多くの時間がかかります。,,活力草田,设置活力草。如果处理不当容易损坏- 需要很长时间采集。,,活力草田,設置活力草。如果处理不当容易损坏- 需要很长時間采集。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,5010,상급 약초의 뿌리,주변에 약초를 퍼트리는 모체 약초입니다. \턴 시작 시 해당 약초가 존재하면- 반경 3칸 이내에 상급약초를 최대 4개까지 생성합니다. \본체인 뿌리가 없어지면 생성 효과도 사라져요.,,High^grade Herb Root,A mother herb that spreads herbs around it. \When this herb exists at the start of a turn- it creates up to 4 high^grade herbs within a 3^tile radius. \If the root itself is removed- the spawning effect disappears.,,上級薬草の根,周囲に薬草を広げる母体となる薬草です。\ターン開始時にこの薬草が存在すると- 半径3マス以内に上級薬草を最大4個まで生成します。\本体である根がなくなると- 生成効果も消えます。,,高级草药之根,一种能在周围扩散草药的母体草药。\在回合开始时如果此草药存在- 会在3格范围内最多生成4个高级草药。\如果根部消失- 生成效果也会消失。,,高級草藥之根,一种能在周圍擴散草藥的母体草藥。\\在回合開始时如果此草藥存在- 会在3格範圍内最多生成4個高級草藥。\\如果根部消失- 生成效果也会消失。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,5100,작은 광맥,유용한 물질을 얻을 수 있는 광맥을 설치합니다. 여러 광물이 섞여있어요.,,Small Ore Vein,Sets up an ore vein from which useful materials can be obtained. It contains a mix of various minerals.,,小さな鉱脈,有用な物質を得ることができる鉱脈を設置します。様々な鉱物が混ざっています。,,小型矿脉,设置可以获得有用物质的矿脉。混合了各种矿物。,,小型礦脈,設置可以獲得有用物質的礦脈。混合了各种礦物。,
-,5101,큰 광맥,유용한 물질을 얻을 수 있는 광맥을 설치합니다. 여러 광물이 섞여있어요.,,Large Ore Vein,Sets up a larger ore vein from which useful materials can be obtained. It contains a mix of various minerals.,,大きな鉱脈,有用な物質を得ることができるより大きな鉱脈を設置します。様々な鉱物が混ざっています。,,大型矿脉,设置可以获得有用物质的更大矿脉。混合了各种矿物。,,大型礦脈,設置可以獲得有用物質的更大礦脈。混合了各种礦物。,
-,5102,루비 광맥,루비를 얻을 수 있는 광맥입니다. 꽤나 단단하기 때문에 시간을 들여 채굴해야 합니다.,,Ruby Ore Vein,An ore vein where rubies can be obtained. It is quite hard- requiring time to mine.,,ルビー鉱脈,ルビーを得ることができる鉱脈です。かなり硬いため、時間をかけて採掘する必要があります。,,红宝石矿脉,可以获得红宝石的矿脉。相当坚硬- 需要时间开采。,,紅寶石礦脈,可以獲得紅寶石的礦脈。相当堅硬- 需要時間開採。,
-,5103,석탄 광맥,석탄을 캘 수 있는 광맥입니다. 쉽고 빠른 채굴이 가능합니다.,,Coal Ore Vein,An ore vein where coal can be mined. It allows for easy and quick mining.,,石炭鉱脈,石炭を採掘できる鉱脈です。簡単かつ迅速に採掘が可能です。,,煤炭矿脉,可以开采煤炭的矿脉。可以快速简单地开采。,,煤炭礦脈,可以開採煤炭的礦脈。可以快速简單地開採。,
-,5104,마나 철광맥,순도 높은 마나 철광석을 다량 포함하고 있는 검은 크리스탈을 설치합니다.,,Mana Iron Ore Vein,Sets up a black crystal containing a large amount of high-purity mana iron ore.,,マナ鉄鉱脈,純度の高いマナ鉄鉱石を多量に含む黒いクリスタルを設置します。,,魔力铁矿脉,设置含有大量高纯度魔力铁矿石的黑色水晶。,,魔力鐵礦脈,設置含有大量高純度魔力鐵礦石的黑色水晶。,
-,5105,크리스탈의 벽,크리스탈로 이루어진 벽을 설치합니다. 쓸모는 많지만 채굴 난이도는 높은 편입니다.,,Crystal Wall,Sets up a wall made of crystal. It has many uses but is difficult to mine.,,クリスタルの壁,クリスタルでできた壁を設置します。用途は多いが、採掘の難易度は高いです。,,水晶墙,设置由水晶组成的墙。用途广泛- 但开采难度较高。,,水晶牆,設置由水晶组成的牆。用途廣泛- 但開採難度较高。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,5200,낙하 함정,고전식 발밑 함정을 설치합니다. 발동되면 시간과 체력에 피해를 줄 수 있어요.,,Falling trap,It installs a classic pit trap. If triggered- it can damage your time and stamina.,,落とし穴,古典的な足元の罠を設置します。作動すると時間と体力にダメージを与えられます。,,陷阱,设置经典的地面陷阱。触发后可以损耗时间和体力。,,陷阱,設置經典的地面陷阱。觸發后可以損耗時間和體力。,
-,5201,강화 낙하 함정,고전식 발밑 함정을 설치합니다. 기존의 함정보다 조금 더 효과가 강해졌어요.,,Enhanced Falling trap,It installs a classic pit trap. It's slightly more effective than the previous trap.,,強化落とし穴,古典的な足元の罠を設置します。既存の罠よりも少し効果が強くなっています。,,强化陷阱,设置经典的地面陷阱。比之前的陷阱效果稍强。,,強化陷阱,設置經典的地面陷阱。比之前的陷阱效果稍強。,
-,5202,송곳 함정,바닥에서 송곳이 올라오는 무시무시한 함정을 설치합니다. 발동되면 큰 피해를 입힙니다.,,Awl trap,It installs a terrifying trap with spikes that rise from the floor. If triggered- it will inflict severe damage.,,トゲの罠,床からトゲが飛び出す恐ろしい罠を設置します。作動すると大きなダメージを与えます。,,尖刺陷阱,设置从地面升起尖刺的可怕陷阱。触发后会造成巨大伤害。,,尖刺陷阱,設置从地面升起尖刺的可怕陷阱。觸發后会造成巨大傷害。,
-,,,,,,,,,,,,,,,,
-,5260,가짜 보물 함정 (은),가짜 보물 상자를 설치합니다. \보물인 줄 알고 다가간다면 미믹에게 공격당해 시간과 체력을 뺏길 거예요.,,Silver Mimic Trap,Sets up a fake treasure chest. \If someone approaches thinking it's treasure- they'll be attacked by a mimic and lose time and health.,,偽宝箱の罠（銀）,偽の宝箱を設置します。\宝物だと思って近づくとミミックに攻撃され- 時間と体力を奪われます。,,伪宝箱陷阱（银）,设置一个假宝箱。\如果有人以为是宝物而靠近- 就会被拟态怪袭击- 损失时间和体力。,,伪寶箱陷阱（銀）,設置一個假寶箱。\\如果有人以為是寶物而靠近- 就会被擬態怪袭擊- 损失時間和體力。,
-,5261,가짜 보물 함정 (금),가짜 보물 상자를 설치합니다. \보물인 줄 알고 다가간다면 미믹에게 공격당해 시간과 체력을 뺏길 거예요.,,Golden Mimic Trap,Sets up a fake treasure chest. \If someone approaches thinking it's treasure- they'll be attacked by a mimic and lose time and health.,,偽宝箱の罠（金）,偽の宝箱を設置します。\宝物だと思って近づくとミミックに攻撃され- 時間と体力を奪われます。,,伪宝箱陷阱（金）,设置一个假宝箱。\如果有人以为是宝物而靠近- 就会被拟态怪袭击- 损失时间和体力。,,伪寶箱陷阱（金）,設置一個假寶箱。\\如果有人以為是寶物而靠近- 就会被擬態怪袭擊- 损失時間和體力。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,5300,쓸만한 무기,모험가들이 좋아할만한 무기를 설치합니다. \모험가에게 발견되면 던전의 인기도나 위험도가 조금 올라요.,,Useful Swords,Sets up weapons that adventurers would like. \If discovered by adventurers- the dungeon's popularity or danger level slightly increases.,,使える武器,冒険者が好みそうな武器を設置します。\冒険者に発見されると、ダンジョンの人気度や危険度が少し上がります。,,实用武器,设置冒险者会喜欢的武器。\如果被冒险者发现- 地下城的人气或危险度会略微上升。,,實用武器,設置冒險者会喜歡的武器。\\如果被冒險者發現- 地下城的人氣或危險度会略微上升。,
-,,,,,,,,,,,,,,,,
-,5310,마법 반지,던전의 마나를 사용해서 만들어낸 마법 반지입니다. 착용자의 마나를 조금 흡수하는 효과가 걸려있습니다. \모험가에게 발견되면 던전의 인기도가 조금 올라요.,,Magic Ring,It's a magic ring created using the Dungeon's mana. It has an effect that slightly absorbs the wearer's mana. \If discovered by adventurers- the Dungeon's popularity will increase slightly.,,魔法の指輪,ダンジョンのマナを使って作り出した魔法の指輪です。着用者のマナを少し吸収する効果がかかっています。\冒険者に発見されるとダンジョンの人気度が少し上がります。,,魔法戒指,使用地下城的魔力制作的魔法戒指。有轻微吸收佩戴者魔力的效果。\如果被冒险者发现- 地下城的人气会略微上升。,,魔法戒指,使用地下城的魔力制作的魔法戒指。有輕微吸收佩戴者魔力的效果。\\如果被冒險者發現- 地下城的人氣会略微上升。,
-,,,,,,,,,,,,,,,,
-,5330,마법 스크롤,고대의 주문이 적힌 스크롤입니다. 고위 마법사들이 마법을 배우기 위해 필요한 아이템으로 인기가 많습니다.,,Magic Scroll,It's a scroll inscribed with ancient spells. It's a popular item needed by high-level mages to learn magic.,,魔法の巻物,古代の呪文が書かれた巻物です。上位魔法使いたちが魔法を学ぶために必要なアイテムとして人気があります。,,魔法卷轴,刻有古代咒语的卷轴。是高级法师学习魔法所需的热门物品。,,魔法捲軸,刻有古代咒語的捲軸。是高級法師學習魔法所需的熱門物品。,
-,,,,,,,,,,,,,,,,
-,5340,던전 아티팩트,던전에서만 얻을 수 있는 희귀한 아티팩트 입니다. \어떤 아티팩트가 나올지는 알 수 없습니다. \각기 다른 고유한 힘을 가지고 있어요.,,Dungeon Artifacts,It's a rare artifact that can only be obtained from Dungeons. \You can't know what artifact will appear. \Each one has a unique power.,,ダンジョンアーティファクト,ダンジョンでしか手に入らない希少なアーティファクトです。\どんなアーティファクトが出るかは分かりません。\それぞれ異なる固有の力を持っています。,,地下城神器,只能在地下城获得的稀有神器。\无法预知会出现什么神器。\每个都有独特的力量。,,地下城神器,只能在地下城獲得的稀有神器。\\无法预知会出现什麼神器。\\每個都有独特的力量。,
-,,,,,,,,,,,,,,,,
-,5360,보물상자,던전 탐색의 즐거움을 주는 보물상자를 만들어냅니다. \어떤 등급의 상자가 나올지- 상자 안에 무엇이 들었을지는 열어보기 전까진 알 수 없어요.,,Treasure Chest,Creates treasure chests that bring the joy of dungeon exploration. \What grade of chest will come out- and what's inside the chest can't be known until it's opened.,,宝箱,ダンジョン探索の楽しみを与える宝箱を作り出します。\どんな等級の箱が出るか、箱の中に何が入っているかは開けてみるまで分かりません。,,宝箱,创造给予地下城探索乐趣的宝箱。\在打开之前- 无法知道会出现什么等级的箱子- 以及里面装着什么。,,寶箱,创造给予地下城探索樂趣的寶箱。\\在打開之前- 无法知道会出现什麼等級的箱子- 以及里面装着什麼。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,5400,맑은 우물,모험가가 쉴 수 있는 우물입니다. 마시면 힘이 나서 좀 더 활동할 수 있어요. \모험가가 좀 더 멀리 갈 수 있도록 돕고 더 많은 마나를 얻게 하는 목적의 장치입니다만- 너무 많은 편의를 제공한다면 오히려 위험해질 수 있으니 신중하게 선택해야 합니다. \층마다 하나만 존재할 수 있는 오브젝트 입니다.,,Pure well,A well where adventurers can rest. \When you drink from it- you'll feel energized and be able to do more. \They're meant to help adventurers go farther and gain more mana- but they can be dangerous if they provide too much convenience. \This is an object that can only exist once per floor.,,清らかな井戸,冒険者が休める井戸です。飲むと力が湧いてもう少し活動できます。\冒険者がもう少し遠くまで行けるよう助け、より多くのマナを得られるようにする目的の装置ですが、あまりに多くの便宜を提供すれば逆に危険になる可能性があるので、慎重に選択する必要があります。\各階に一つしか設置できないオブジェクトです。,,清澈的井,冒险者可以休息的井。喝了之后会恢复精力- 可以继续活动。\这是为了帮助冒险者走得更远- 获得更多魔力的装置- 但如果提供太多便利- 反而可能变得危险- 所以要谨慎选择。\每层只能存在一个的物体。,,清澈的井,冒險者可以休息的井。喝了之后会恢复精力- 可以继续活动。\\这是為了帮助冒險者走得更遠- 獲得更多魔力的装置- 但如果提供太多便利- 反而可能变得危險- 所以要谨慎选择。\\每層只能存在一個的物体。,
-,,,,,,,,,,,,,,,,
-,5410,악마의 석상,불길한 기운이 느껴지는 석상입니다. \던전에 존재하는 것만으로 턴마다 위험도가 상승합니다. \되돌릴 수 없기 때문에 신중하게 결정해야 합니다. \층마다 하나만 존재할 수 있는 오브젝트 입니다.,,Devil statue,A statue emanating an ominous aura. \Its mere presence in the dungeon increases the danger level each turn. \As this cannot be undone- the decision must be made carefully. \This is an object that can only exist once per floor.,,悪魔の像,不吉な気配を感じさせる石像です。\ダンジョンに存在するだけで- ターンごとに危険度が上昇します。\元に戻すことができないため- 慎重に決断する必要があります。\各階に一つしか設置できないオブジェクトです。,,恶魔雕像,散发不祥气息的雕像。\仅仅存在于地下城中- 每回合就会增加危险度。\由于无法撤销- 必须谨慎决定。\每层只能存在一个的物体。,,恶魔雕像,散發不祥氣息的雕像。\\仅仅存在於地下城中- 每回合就会增加危險度。\\由於无法撤销- 必须谨慎决定。\\每層只能存在一個的物体。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,5500,상행 포탈,상행 포탈의 위치를 재지정합니다. \포탈은 층마다 한개만 존재할 수 있어요.,,Ascending portal,Repositions the Ascending portal. \There can only be one portal per floor.,,上行ポータル,上行ポータルの位置を再指定します。\ポータルはフロアごとに1つだけ存在することができます。,,上升传送门,重新指定上升传送门的位置。\每层只能存在一个传送门。,,上升傳送門,重新指定上升傳送門的位置。\\每層只能存在一個傳送門。,
-,5501,하행 포탈,하행 포탈의 위치를 재지정합니다. \포탈은 층마다 한개만 존재할 수 있어요.,,Descending portal,Repositions the Descending portal. \There can only be one portal per floor.,,下行ポータル,下行ポータルの位置を再指定します。ポータルはフロアごとに1つだけ存在することができます。,,下降传送门,重新指定下降传送门的位置。每层只能存在一个传送门。,,下降傳送門,重新指定下降傳送門的位置。每層只能存在一個傳送門。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,5901,1x1,,,1x1,,,1x1,,,1x1,,,1x1,,
-,5902,1x2,,,1x2,,,1x2,,,1x2,,,1x2,,
-,5903,1x3,,,1x3,,,1x3,,,1x3,,,1x3,,
-,5904,2x1,,,2x1,,,2x1,,,2x1,,,2x1,,
-,5905,장애물,2 by 2 의 장애물을 설치합니다. \다른 효과는 없고 모험가들을 돌아가게 만드는 역할입니다.,,Obstacle,Installs a 2 by 2 obstacle. \It has no other effects- its role is to make adventurers go around it.,,障害物,2 x 2の障害物を設置します。\他の効果はなく- 冒険者たちを迂回させる役割です。,,障碍物,安装一个2 x 2的障碍物。\没有其他效果- 只是用来让冒险者绕路的。,,障礙物,安装一個2 x 2的障礙物。\\没有其他效果- 只是用来让冒險者绕路的。,
-,5906,2x3,,,2x3,,,2x3,,,2x3,,,2x3,,
-,5907,3x1,,,3x1,,,3x1,,,3x1,,,3x1,,
-,5908,3x2,,,3x2,,,3x2,,,3x2,,,3x2,,
-,5909,장애물,3 by 3 의 장애물을 설치합니다. \다른 효과는 없고 모험가들을 돌아가게 만드는 역할입니다.,,Obstacle,Installs a 3 by 3 obstacle. \It has no other effects- its role is to make adventurers go around it.,,障害物,3 x 3の障害物を設置します。\他の効果はなく- 冒険者たちを迂回させる役割です。,,障碍物,安装一个3 x 3的障碍物。\没有其他效果- 只是用来让冒险者绕路的。,,障礙物,安装一個3 x 3的障礙物。\\没有其他效果- 只是用来让冒險者绕路的。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-7000~7999 Technical,,,,,,,,,,,,,,,,
-,7001,허브 농장 Lv1,2일마다 활성화 된 모든 층에 약초를 자라나게 합니다. \가끔 좋은 약초가 나올 때도 있어요!,,Herb Farm Lv1,Every 2 days- it supplies herbs to all activated floors. \Sometimes good herbs can appear!,,ハーブ農場 Lv1,2日ごとにアクティブな全ての階層に薬草を供給します。\たまに良い薬草が出ることもあります！,,草药农场 Lv1,每2天为所有激活的楼层供应草药。\有时会出现好草药！,,草藥农場 Lv1,每2天為所有激活的楼層供应草藥。\\有时会出现好草藥！,
-,7002,허브 농장 Lv2,2일마다 활성화 된 모든 층에 약초를 자라나게 합니다. \가끔 좋은 약초가 나올 때도 있어요!,,Herb Farm Lv2,Every 2 days- it supplies herbs to all activated floors. \Sometimes good herbs can appear!,,ハーブ農場 Lv2,2日ごとにアクティブな全ての階層に薬草を供給します。\たまに良い薬草が出ることもあります！,,草药农场 Lv2,每2天为所有激活的楼层供应草药。\有时会出现好草药！,,草藥农場 Lv2,每2天為所有激活的楼層供应草藥。\\有时会出现好草藥！,
-,7003,허브 농장 Lv3,2일마다 활성화 된 모든 층에 약초를 자라나게 합니다. \가끔 좋은 약초가 나올 때도 있어요!,,Herb Farm Lv3,Every 2 days- it supplies herbs to all activated floors. \Sometimes good herbs can appear!,,ハーブ農場 Lv3,2日ごとにアクティブな全ての階層に薬草を供給します。\たまに良い薬草が出ることもあります！,,草药农场 Lv3,每2天为所有激活的楼层供应草药。\有时会出现好草药！,,草藥农場 Lv3,每2天為所有激活的楼層供应草藥。\\有时会出现好草藥！,
-,,,,,,,,,,,,,,,,
-,7011,미네랄 코어 Lv1,3일마다 활성화 된 모든 층에 광물이 생성됩니다. \가끔 귀한 광물이 나올 때도 있어요!,,Mineral Core Lv1,Every 3 days- minerals spawn on all active floors. \Sometimes the minerals are extremely valuable!,,ミネラルコア Lv1,3日ごとに活性化されたすべての層に鉱物が生成されます。\たまに貴重な鉱物が出ることもあります！,,矿物核心 Lv1,每3天在所有激活的楼层生成矿物。\有时会出现稀有矿物！,,礦物核心 Lv1,每3天在所有激活的楼層生成礦物。\\有时会出现稀有礦物！,
-,7012,미네랄 코어 Lv2,3일마다 활성화 된 모든 층에 광물이 생성됩니다. \가끔 귀한 광물이 나올 때도 있어요!,,Mineral Core Lv2,Every 3 days- minerals spawn on all active floors. \Sometimes the minerals are extremely valuable!,,ミネラルコア Lv2,3日ごとに活性化されたすべての層に鉱物が生成されます。\たまに貴重な鉱物が出ることもあります！,,矿物核心 Lv2,每3天在所有激活的楼层生成矿物。\有时会出现稀有矿物！,,礦物核心 Lv2,每3天在所有激活的楼層生成礦物。\\有时会出现稀有礦物！,
-,7013,미네랄 코어 Lv3,3일마다 활성화 된 모든 층에 광물이 생성됩니다. \가끔 귀한 광물이 나올 때도 있어요!,,Mineral Core Lv3,Every 3 days- minerals spawn on all active floors. \Sometimes the minerals are extremely valuable!,,ミネラルコア Lv3,3日ごとに活性化されたすべての層に鉱物が生成されます。\たまに貴重な鉱物が出ることもあります！,,矿物核心 Lv3,每3天在所有激活的楼层生成矿物。\有时会出现稀有矿物！,,礦物核心 Lv3,每3天在所有激活的楼層生成礦物。\\有时会出现稀有礦物！,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,7100,기부함,던전 입구에 기부함을 설치합니다. 사실 말이 기부함이지 입장료를 받는거에요. \많은 인기있는 던전들이 입장료를 받지만 과연 우리 던전도 입장료를 내고서라도 들어올 만한 가치가 있을까요?,,Donation box,It installs a donation box at the Dungeon entrance. Actually- it's not a donation box- it's an entrance fee. \Many popular Dungeons charge an entrance fee- but will our Dungeon be worth paying to enter?,,募金箱,ダンジョン入口に募金箱を設置します。実際のところ募金箱と言っても入場料を取るんです。\多くの人気のあるダンジョンが入場料を取っていますが、果たして私たちのダンジョンも入場料を払ってまで入る価値があるでしょうか？,,捐款箱,在地下城入口设置捐款箱。实际上不是捐款箱- 而是收取入场费。\许多受欢迎的地下城都收取入场费- 但我们的地下城值得付费进入吗？,,捐款箱,在地下城入口設置捐款箱。實際上不是捐款箱- 而是收取入场费。\\许多受欢迎的地下城都收取入场费- 但我们的地下城值得付费进入吗？,
-,,,,,,,,,,,,,,,,
-,7110,감옥,모험가를 포로로 잡을 수 있는 감옥을 설치합니다. \쓰러트린 일부 모험가들에게서 교섭으로 골드를 뜯어낼 수 있을거에요.,,Prison,It installs a prison capable of capturing adventurers. \You can extort gold from some of the captured adventurers through negotiation.,,牢獄,冒険者を捕虜として捕らえられる牢獄を設置します。\倒した一部の冒険者たちから交渉でゴールドを巻き上げられそうです。,,监狱,设置可以捕获冒险者的监狱。\可以通过谈判从一些被击败的冒险者那里勒索金币。,,监狱,設置可以捕獲冒險者的监狱。\\可以通过谈判从一些被擊败的冒險者那里勒索金幣。,
-,,,,,,,,,,,,,,,,
-,7120,봉인결계,무언가를 봉인할 때 쓰는 결계입니다. \그런데 이걸 어디에 쓰죠?,,Barrier of Sealing,It's a Barrier of Sealing used to contain something. \But where should we use it?,,封印結界,何かを封印するときに使う結界です。\でも、これをどこに使うんですか？,,封印结界,用于封印某物的结界。\但这个要用在哪里呢？,,封印结界,用於封印某物的结界。\\但这個要用在哪里呢？,
-,7121,봉인결계,무언가를 봉인하고 있는 결계입니다. \봉인된 존재로 인해 매 턴 던전에 이로운 효과를 줍니다.,,Barrier of Sealing,A barrier sealing something away. \The sealed entity provides beneficial effects to the dungeon every turn.,,封印結界,何かを封印している結界です。\封印された存在により- 毎ターンダンジョンに有益な効果をもたらします。,,封印结界,正在封印某物的结界。\被封印的存在每回合为地下城带来有益效果。,,封印结界,正在封印某物的结界。\\被封印的存在每回合為地下城带来有益效果。,
-,,,,,,,,,,,,,,,,
-,7130,치료 시설,유닛을 보호하고 치료하는 시설입니다. \유닛의 부상 회복 비용을 줄여 줍니다. \매 턴 아군 유닛에게 [강건 x 2] 상태를 부여합니다.,,Medical Facility,A facility that protects and heals units. \It reduces the cost of recovering from injuries. \Grants [Robust x 2] status to allied units every turn.,,治療施設,ユニットを保護し治療する施設です。\ユニットの負傷回復コストを削減します。\毎ターン味方ユニットに[頑健 x 2]状態を付与します。,,治疗设施 ,保护和治疗单位的设施。\减少单位伤势恢复费用。\每回合对友方单位施加[强健 x 2]状态。,,治療設施 ,保護和治療單位的設施。\\减少單位伤势恢复费用。\\每回合對友方單位施加[強健 x 2]状态。,
-,,,,,,,,,,,,,,,,
-,7140,훈련 시설,유닛을 훈련시키는 시설입니다. \유닛의 훈련 효율을 증가시켜 줍니다. \매 턴 아군 유닛에게 [강화 x 2] 상태를 부여합니다.,,Training Facility,A facility for training units. \It increases training efficiency for units. \Grants [Empower x 2] status to allied units every turn.,,訓練施設,ユニットを訓練させる施設です。\ユニットの訓練効率を向上させます。\毎ターン味方ユニットに[強化 x 2]状態を付与します。,,训练设施,训练单位的设施。\提高单位的训练效率。\每回合对友方单位施加[强化 x 2]状态。,,训练設施,训练單位的設施。\\提高單位的训练效率。\\每回合對友方單位施加[強化 x 2]状态。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,7200,활력의 오브,매 턴 행동력이 1 늘어납니다. \역시 건강한게 제일이죠.,,Orb of Vitality,Your action points increase by 1 every turn. \Health is the most important- after all.,,活力のオーブ,毎ターン行動力が1増えます。\やはり健康が一番ですね。,,活力宝珠,每回合行动力增加1。\果然健康最重要。,,活力寶珠,每回合行動力增加1。\\果然健康最重要。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,7300,신전,마나를 제단에 바칠 수 있는 신전입니다. \많은 마나를 바치면- 보답받을지도 몰라요.,,Temple,A temple where you can offer mana to the altar. \If you offer enough mana- you might receive something in return.,,神殿,マナを祭壇に捧げることができる神殿です。\たくさんのマナを捧げれば- 見返りがあるかもしれません。,,神殿,可以在祭坛上供奉魔力的神殿。\如果供奉大量魔力- 可能会得到回报。,,神殿,可以在祭坛上供奉魔力的神殿。\\如果供奉大量魔力- 可能会得到回报。,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,
+KeyName,ID,Label_KR,Detail_KR,Label_EN,Detail_EN,Label_JP,Detail_JP,Label_SC,Detail_SC,Label_TC,Detail_TC
+,,,,,,,,,,,
+0~999 monster,,,,,,,,,,,
+,1,슬라임,자세히 보면 의외로 귀여운 슬라임입니다. \약하긴 하지만 성장가능성이 높은 몬스터입니다.,Slime,It's a surprisingly cute slime if you look closely. \It's weak- but it's a monster with high potential for growth.,スライム,よく見るとかわいらしいスライムです。弱いですが、成長の可能性が高いモンスターです。,史莱姆,仔细看的话- 意外地可爱的史莱姆。虽然很弱- 但是具有高成长潜力的怪物。,史莱姆,仔細看的話- 意外地可愛的史莱姆。雖然很弱- 但是具有高成長潜力的怪物。
+,2,어스골렘,던전에 마나를 융합해 창조해낸 골렘입니다. \튼튼하고 강해서 모험가들을 상대로 제격이에요. 하지만 조금 한계가 있을지도?,EarthGolem,It's a golem created by fusing the Dungeon's mana. \It's sturdy and strong- perfect for facing adventurers. But it might have some limitations?,アースゴーレム,ダンジョンにマナを融合させて創造されたゴーレムです。\頑丈で強いので、冒険者相手に適していますが、少し限界があるかもしれません。,土元素巨像,通过融合地下城的魔力创造出的巨像。坚固强大- 非常适合对付冒险者。不过可能有一些局限性？,土元素巨像,通過融合地下城的魔力创造出的巨像。坚固強大- 非常適合對付冒險者。不過可能有一些局限性？
+,3,머쉬보이,어둡고 습한곳을 좋아하는 버섯몬스터입니다. \높은 공격력을 지녔어요.,MushBoy,It's a mushroom monster that loves dark and humid places. \It has high attack power.,マッシュボーイ,暗くて湿った場所を好むキノコモンスターです。\高い攻撃力を持っています。,蘑菇小子,喜欢阴暗潮湿地方的蘑菇怪物。拥有很高的攻击力。,蘑菇小子,喜歡陰暗潮湿地方的蘑菇怪物。擁有很高的攻擊力。
+,4,이블아이,매력적인 눈을 지닌 몬스터에요. \생김새때문에 피부가 약할 것 같지만- 실은 엄청 단단하기 때문에 수비용으로 적절합니다.,EvilEye,It's a monster with captivating eyes. \Its appearance might make it seem fragile- but it's actually extremely tough- making it suitable for defense.,イービルアイ,魅力的な目を持つモンスターです。\見た目から皮膚が弱そうに見えますが、実は非常に硬いので、防御用に適しています。,邪恶之眼,拥有迷人眼睛的怪物。虽然外表看起来皮肤可能很脆弱- 但实际上非常坚硬- 所以适合用于防御。,邪恶之眼,擁有迷人眼睛的怪物。雖然外表看起來皮肤可能很脆弱- 但實際上非常坚硬- 所以適合用於防禦。
+,5,페어리,순수한 마나의 결정체인 요정 몬스터입니다. \여러방면에서 좋은 밸런스를 가지고 있고- 잠재력도 높은 편입니다.,Fairy,It's a fairy monster- a pure crystallization of mana. \It has a good balance in many areas- and high potential.,フェアリー,純粋なマナの結晶である妖精モンスターです。\様々な面でバランスが良く、潜在能力も高めです。,精灵,纯粹魔力结晶的精灵怪物。\在各方面都有良好的平衡- 潜力也相当高。,精靈,纯粹魔力结晶的精靈怪物。\在各方面都有良好的平衡- 潜力也相當高。
+,6,살라만드라,원시적인 형태를 지닌 몬스터입니다. 불을 내뿜어 적을 공격합니다. \종족 특성으로 적을 위압하여 빨리 지치게 만들어요.,Salamandra,It's a monster with a primitive form. It breathes fire to attack enemies. \Its racial trait allows it to intimidate enemies and make them tire quickly.,サラマンダー,原始的な形態を持つモンスターです。火を吐いて敵を攻撃します。\種族特性で敵を威圧し、早く疲れさせます。,火蜥蜴,具有原始形态的怪物。能喷火攻击敌人。\种族特性可以威慑敌人- 使其快速疲劳。,火蜥蜴,具有原始形態的怪物。能喷火攻擊敌人。\種族特性可以威慑敌人- 使其快速疲劳。
+,7,그레이하운드,친근감이 느껴지는 늑대형 몬스터입니다. \매우 용맹하고 재빠른 몸놀림을 지녔어요.,GreyHound,It's a friendly wolf^like monster. \It's very brave and agile.,グレイハウンド,親しみやすい狼型モンスターです。\非常に勇敢で素早い動きを持っています。,灰狼,看起来很亲切的狼型怪物。非常勇猛- 动作敏捷。,灰狼,看起來很親切的狼型怪物。非常勇猛- 动作敏捷。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,10,부시몬,나무 덩쿨이 얽혀있는 듯한 모습의 몬스터입니다. \방어력이 높기 때문에 수비용으로 적절합니다.,Bushimon,A monster that looks like intertwined wood vines. \Its high defense makes it suitable for defensive purposes.,ブッシュモン,木のつるが絡まったような姿のモンスターです。\防御力が高いため- 防御用として適しています。,布什魔,一种看起来像缠绕的木藤的怪物。\因为防御力高- 所以适合用于防守。,布什魔,一種看起來像缠绕的木藤的怪物。\因為防禦力高- 所以適合用於防守。
+,11,그리피,독수리와 사자의 모습을 가지고 있는 몬스터입니다. \충분히 강하지만- 더 강해질 수 있다고 하네요.,Griffy,A monster with the appearance of an eagle and a lion. \It's already strong- but they say it can become even stronger.,グリフィ,ワシとライオンの姿を持つモンスターです。\十分に強いですが- さらに強くなれるそうです。,格里菲,一种具有鹰和狮子外貌的怪物。\虽然已经很强大- 但据说还能变得更强。,格里菲,一種具有鹰和狮子外貌的怪物。\雖然已經很強大- 但据說還能变得更強。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,20,서큐버스,아름다운 모습으로 꿈 속에 나타나 정기를 빼앗는다고 알려진 몬스터입니다.,Succubus,A monster known to appear in dreams with beautiful form- stealing life essence.,サキュバス,美しい姿で夢の中に現れ、精気を奪うと言われるモンスターです。,魅魔,以美丽的形象出现在梦中- 据说会吸取精气的怪物。,魅魔,以美丽的形象出現在夢中- 据說會吸取精氣的怪物。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+Lievil,66,라이빌,무시무시한 힘을 가진 생명체. \무언가 비밀을 가지고 있어요.,Lievil,A being with terrifying power. \Holds some kind of secret.,リーヴィル,恐ろしい力を持つ生命体。\何か秘密を持っているようです。,利维尔,拥有可怕力量的生命体。\似乎藏有某种秘密。,利維尔,擁有可怕力量的生命体。\似乎藏有某種秘密。
+,,,,,,,,,,,
+Ravi,77,라비,따스하고 신비로운 힘을 가진 생명체. \무언가 비밀을 가지고 있어요.,Ravi,A being with warm and mysterious power. \Holds some kind of secret.,ラヴィ,温かく神秘的な力を持つ生命体。\何か秘密を持っているようです。,拉维,拥有温暖而神秘力量的生命体。\似乎藏有某种秘密。,拉維,擁有溫暖而神秘力量的生命体。\似乎藏有某種秘密。
+,,,,,,,,,,,
+Rideer,88,라이디아,강한 힘과 정의로움을 가진 생명체. \무언가 비밀을 가지고 있어요.,Rideer,A being with strong power and righteousness. \Holds some kind of secret.,リディア,強い力と正義を持つ生命体。\何か秘密を持っているようです。,莱迪亚,拥有强大力量与正义的生命体。\似乎藏有某种秘密。,莱迪亞,擁有強大力量与正義的生命体。\似乎藏有某種秘密。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,501,블러디슬라임,슬라임의 진화 형태인 블러디 슬라임입니다. \겉으로 보기엔 비슷해 보여도 상당히 강력해졌습니다.,Bloody Slime,It's the evolved form of a slime- a Bloody Slime. It may look similar on the outside- but it has become considerably more powerful.,ブラッディスライム,スライムの進化形態であるブラッディスライムです。外見は似ていても、かなり強力になっています。,血腥史莱姆,史莱姆的进化形态- 血腥史莱姆。虽然外表看起来相似- 但变得相当强大。,血腥史莱姆,史莱姆的進化形態- 血腥史莱姆。雖然外表看起來相似- 但变得相當強大。
+,502,플레임골렘,어스 골렘의 진화 형태인 플레임 골렘입니다. \더 튼튼하고 더 강해졌습니다.,Flame Golem,It's the evolved form of an Earth Golem- a Flame Golem. It's even sturdier and stronger.,フレイムゴーレム,アースゴーレムの進化形態であるフレイムゴーレムです。より頑丈で、より強くなっています。,烈焰巨像,土元素巨像的进化形态- 烈焰巨像。变得更加坚固和强大。,烈焰巨像,土元素巨像的進化形態- 烈焰巨像。变得更加坚固和強大。
+,503,머쉬걸,머쉬보이가 진화하여 머쉬걸이 되었습니다. \원거리에서 작은 버섯을 떨어트려 공격합니다.,MushGirl,MushBoy has evolved into MushGirl. \Attacks by dropping small mushrooms from long range.,マッシュガール,マッシュボーイが進化してマッシュガールになりました。\遠距離から小さなキノコを落として攻撃します。,蘑菇女孩,蘑菇小子进化成了蘑菇女孩。\从远距离投掷小蘑菇进行攻击。,蘑菇女孩,蘑菇小子進化成了蘑菇女孩。\從遠距離投擲小蘑菇進行攻擊。
+,,,,,,,,,,,
+Pixie,505,픽시,페어리가 진화한 형태. 모두와 사이좋게 지내는 착한 요정 친구입니다.,Pixie,The evolved form of a Fairy. A friendly fairy who gets along well with everyone.,ピクシー,フェアリーの進化形態。みんなと仲良く過ごす優しい妖精の友達です。,小精灵,精灵的进化形态。是一个与所有人都友好相处的善良精灵朋友。,小精靈,精靈的進化形態。是一個与所有人都友好相處的善良精靈朋友。
+,506,샐린느,살라만드라가 진화한 형태. 어째서인지 두발로 걸을 수 있습니다. \보기와는 다르게 상당히 강합니다.,Salinu,The evolved form of Salamandra. Can walk on two legs for some reason. \Much stronger than it appears.,サリーヌ,サラマンドラの進化形態。なぜか二足歩行ができます。\見た目以上に非常に強いです。,萨琳,火蜥蜴的进化形态。不知为何能够双足行走。\比外表看起来强大得多。,萨琳,火蜥蜴的進化形態。不知为何能夠双足行走。\比外表看起來強大得多。
+,507,헬하운드,그레이하운드가 진화하여 헬하운드가 되었습니다. \보기만 해도 든든한 친구입니다.,Hellhound,The Greyhound has evolved into a Hellhound. \Just looking at it makes you feel secure.,ヘルハウンド,グレイハウンドが進化してヘルハウンドになりました。\見ているだけで頼もしい仲間です。,地狱犬,灰猎犬进化成了地狱犬。\光是看着就让人感到安心的伙伴。,地狱犬,灰猎犬進化成了地狱犬。\光是看着就讓人感到安心的伙伴。
+,,,,,,,,,,,
+,510,트리몬,작은 덤불이 자라 큰 나무가 되었습니다. \더욱 튼튼해지고 강해졌어요.,TreeMon,A small bush has grown into a large tree. \It has become more sturdy and stronger.,ツリーモン,小さな茂みが成長して大きな木になりました。\より頑丈で強くなりました。,树怪,小灌木成长为大树。\变得更加坚固和强大了。,樹怪,小灌木成長為大樹。\變得更加堅固和強大了。
+,511,그리폰,그리피의 진화 형태입니다. 비로소 완전한 형태가 되었습니다. \다방면에 뛰어난 모습을 보이는 만능형 몬스터입니다.,Griffin,The evolved form of Griffy. It has finally reached its complete form. \This is a versatile monster that excels in various aspects.,グリフォン,グリフィの進化形態です。ついに完全な形になりました。\様々な面で優れた能力を持つ万能型モンスターです。,格里芬,格里菲的进化形态。终于达到了完整的形态。\这是一种在各方面都表现出色的全能型怪物。,格里芬,格里菲的進化形態。終於达到了完整的形態。\這是一種在各方面都表現出色的全能型怪物。
+,,,,,,,,,,,
+Lilith,520,릴리트,몽마의 왕이며 상위 악마 중 하나입니다. \다가가기 어려운 존재이지만- 그렇게 나쁜 짓은 하지 않는다고 해요.,Lilith,The queen of succubi and one of the high^ranking demons. \Though difficult to approach- it's said she doesn't commit particularly evil deeds.,リリス,サキュバスの女王であり上位悪魔の一人です。\近寄りがたい存在ですが- それほど悪いことはしないと言われています。,莉莉丝,魅魔之王- 也是高阶恶魔之一。\虽然难以接近- 但据说并不会做什么特别邪恶的事。,莉莉絲,魅魔之王- 也是高階恶魔之一。\雖然難以接近- 但据說并不會做什么特别邪恶的事。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,901,녹빛 궁사,녹색 머리를 한 모험가. 무언가를 찾고 있는 것 같아요.,Verdant Archer,An adventurer with green hair. Seems to be looking for something.,緑色の弓矢,緑色の髪の冒険者。何かを探しているようだ。,翠绿弓手,绿色头发的冒险者。似乎在寻找什么。,翠綠弓手,綠色頭发的冒險者。似乎在寻找什么。
+,902,레나,내 이름을 불러줘서 고마워,Rena,Thank you for calling my name,レナ,私の名前を呼んでくれてありがとう,雷娜,谢谢你呼唤我的名字,雷娜,謝謝你呼唤我的名字
+,,,,,,,,,,,
+Utori,905,우투리,행상인 겸 모험가. \돈을 밝히고- 호기심이 매우 많은 편입니다.,Utori,A traveling merchant and adventurer. \Loves gold and is very curious.,ウトリ,行商人兼冒険者。\ゴールドを好み- 好奇心が非常に旺盛です。,于斗莉,行商兼冒险者。\喜欢金币- 而且非常富有好奇心。,於斗莉,行商兼冒險者。\喜歡金幣- 而且非常富有好奇心。
+,,,,,,,,,,,
+,,,,,,,,,,,
+Mastia,911,마스티아,우연히 던전을 찾아온 다른 세계의 손님. \무대 위에서 노래하는 것이 꿈이라고 한다.,Mastia,A visitor from another world who happened to find the dungeon. \She dreams of singing on stage.,マスティア,偶然ダンジョンを訪れた異世界からの客。\ステージで歌うことが夢だという。,玛斯蒂娅,偶然找到地下城的异世界访客。\她梦想在舞台上唱歌。,玛斯蒂娅,偶然找到地下城的異世界訪客。\她夢想在舞台上唱歌。
+Karen,912,카렌,우연히 던전을 찾아온 다른 세계의 손님. \모험을 찾아 어디든 다니는 강한 모험가이다.,Karen,A visitor from another world who happened to find the dungeon. \A strong adventurer who travels anywhere in search of adventure.,カレン,偶然ダンジョンを訪れた異世界からの客。\冒険を求めてどこへでも行く強い冒険者だ。,卡伦,偶然找到地下城的异世界访客。\一位为寻找冒险而四处旅行的强大冒险者。,卡倫,偶然找到地下城的異世界訪客。\一位为寻找冒險而四處旅行的強大冒險者。
+Stan,913,스탄,우연히 던전을 찾아온 다른 세계의 손님. \강하지만 성격은 본능에 충실한 특이한 모험가이다.,Stan,A visitor from another world who happened to find the dungeon. \A strong but peculiar adventurer who stays true to their instincts.,スタン,偶然ダンジョンを訪れた異世界からの客。\強いが性格は本能に忠実な変わった冒険者だ。,斯坦,偶然找到地下城的异世界访客。\虽然强大但性格特异的冒险者 - 忠于本能。,斯坦,偶然找到地下城的異世界訪客。\雖然強大但性格特異的冒險者 - 忠於本能。
+Euh,914,에우,우연히 던전을 찾아온 다른 세계의 손님. \목검을 들었지만 매우 강하다. 그녀가 말하는 것은 아무도 본 적이 없다고 한다.,Euh,A visitor from another world who happened to find the dungeon. \Although wielding a wooden sword - she is extremely powerful. They say no one has ever heard her speak.,エウ,偶然ダンジョンを訪れた異世界からの客。\木刀を持っているが非常に強い。彼女が話すところを誰も見たことがないという。,艾乌,偶然找到地下城的异世界访客。\虽然只持木剑 - 但非常强大。据说没人见过她说话。,艾乌,偶然找到地下城的異世界訪客。\雖然只持木剑 - 但非常強大。据說沒人見過她說話。
+Romys,915,로미스,우연히 던전을 찾아온 다른 세계의 손님. \무언가 위험한 오오라가 나오는 것 같다. \심기를 거스르지 않게 조심하자.,Romys,A visitor from another world who happened to find the dungeon. \It seems a dangerous aura emanates from them. \Let's be careful not to upset them.,ロミス,偶然ダンジョンを訪れた異世界からの客。\何か危険なオーラが出ているようだ。\機嫌を損ねないよう気をつけよう。,罗米斯,偶然找到地下城的异世界访客。\似乎散发着某种危险的气息。\小心不要惹恼他。,羅米斯,偶然找到地下城的異世界訪客。\似乎散发着某種危险的氣息。\小心不要惹恼他。
+Siri,916,시리,우연히 던전을 찾아온 다른 세계의 손님. \주변까지 밝게 만드는 따뜻한 미소를 지녔다.,Siri,A visitor from another world who happened to find the dungeon. \They possess a warm smile that brightens even their surroundings.,シーリ,偶然ダンジョンを訪れた異世界からの客。\周囲まで明るくする温かい笑顔を持っている。,希莉,偶然找到地下城的异世界访客。\拥有能照亮周围的温暖笑容。,希莉,偶然找到地下城的異世界訪客。\擁有能照亮周围的溫暖笑容。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,991,초보자 던전 마스터,모험레벨은 낮아도 던전 지식은 상당한 편이에요.,Novice Dungeon Master,Their adventure level is low- but they have quite a bit of Dungeon knowledge.,見習いダンジョンマスター,冒険レベルは低くてもダンジョンの知識はかなりのものです。,新手地下城主人,虽然冒险等级较低- 但对地下城的知识相当丰富。,新手地下城主人,雖然冒險等級较低- 但對地下城的知識相當丰富。
+,992,초보자 던전 마스터,모험레벨은 낮아도 던전 지식은 상당한 편이에요.,Novice Dungeon Master,Their adventure level is low- but they have quite a bit of Dungeon knowledge.,見習いダンジョンマスター,冒険レベルは低くてもダンジョンの知識はかなりのものです。,新手地下城主人,虽然冒险等级较低- 但对地下城的知识相当丰富。,新手地下城主人,雖然冒險等級较低- 但對地下城的知識相當丰富。
+,993,초보자 던전 마스터,모험레벨은 낮아도 던전 지식은 상당한 편이에요.,Novice Dungeon Master,Their adventure level is low- but they have quite a bit of Dungeon knowledge.,見習いダンジョンマスター,冒険レベルは低くてもダンジョンの知識はかなりのものです。,新手地下城主人,虽然冒险等级较低- 但对地下城的知识相当丰富。,新手地下城主人,雖然冒險等級较低- 但對地下城的知識相當丰富。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+1000~1999 npc,,,,,,,,,,,
+,1000,약초꾼,던전에서 나오는 약초나 풀들을 채취해서 마을과 길드에 공급해주는 역할을 합니다.,Herbalist,They gather herbs and plants from the Dungeon and supply them to the village and guild.,薬草採集人,ダンジョンで生える薬草や草を採取し、町やギルドに供給する役割を果たします。,草药采集者,负责收集地下城中的药草和植物- 并供应给村庄和公会。,草藥采集者,负责收集地下城中的藥草和植物- 并供应給村庄和公會。
+,1001,베테랑 약초꾼,약초꾼을 업으로 오랜기간 일한 숙련자입니다.,Veteran Herbalist,An experienced herbalist who has been in the profession for a long time.,ベテラン薬草採集人,長期間薬草採集を生業としてきた熟練者です。,资深草药采集者,长期从事草药采集工作的熟练者。,資深草藥采集者,長期從事草藥采集工作的熟練者。
+,1002,전설의 약초꾼,귀한 약초가 있는 곳이라면 아무리 위험한 곳이라도 가서 캐내고야 만다는 전설의 약초꾼입니다.,Legendary Herbalist,A legendary herbalist who ventures into even the most dangerous places to gather rare herbs.,伝説の薬草師,貴重な薬草があるところなら- どんなに危険な場所でも採取してしまう伝説の薬草師です。,传奇药师,只要有珍贵药草的地方- 无论多么危险都会前去采集的传奇药师。,傳奇藥师,只要有珍贵藥草的地方- 無論多么危险都會前去采集的傳奇藥师。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,1100,광부,던전에서 생성되는 다양한 광물을 캐내서 마을과 길드에 공급해주는 역할을 합니다.,Miner,They mine various minerals generated in the Dungeon and supply them to the village and guild.,鉱夫,ダンジョンで生成される様々な鉱物を採掘し、町やギルドに供給する役割を果たします。,矿工,负责开采地下城中产生的各种矿物- 并供应给村庄和公会。,矿工,负責開采地下城中產生的各種礦物- 并供应給村庄和公會。
+,1101,베테랑 광부,광물캐기 숙련자입니다. 더 오래 효율적으로 일 할 수 있습니다.,Veteran Miner,An experienced miner. They can work more efficiently for longer periods.,ベテラン鉱夫,鉱物採掘の熟練者です。より長時間効率的に作業ができます。,资深矿工,矿物开采的熟练者。可以更长时间高效工作。,資深矿工,礦物開采的熟練者。可以更長時間高效工作。
+,1102,모험 광부,전설의 광물을 찾아다니는 모험가 겸 광부입니다. 전설의 광물을 캐기 위해 그에 걸맞은 강함을 가지고 있어요.,Adventure Miner,An adventurer^miner who searches for legendary minerals. Possesses strength befitting one who mines legendary materials.,冒険鉱夫,伝説の鉱物を探し求める冒険者兼鉱夫です。伝説の鉱物を採掘するためにそれにふさわしい強さを持っています。,冒险矿工,寻找传奇矿物的冒险家兼矿工。为了开采传奇矿物而拥有相应的强大实力。,冒險矿工,寻找傳奇礦物的冒險家兼矿工。为了開采傳奇礦物而擁有相应的強大實力。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,1200,초보 모험가,모험가가 된지 얼마 안된 새내기 모험가입니다. 나름 모험가라서 자원보단 몬스터와 보물에 관심이 있습니다.,Adventurer,They recently became an adventurer. As an adventurer- they're more interested in monsters and treasure than resources.,駆け出し冒険者,冒険者になってからあまり経っていない新米冒険者です。冒険者なりに資源よりもモンスターと宝物に関心があります。,新手冒险者,刚成为冒险者不久的新人。作为冒险者- 比起资源更对怪物和宝物感兴趣。,新手冒險者,刚成為冒險者不久的新人。作为冒險者- 比起資源更對怪物和寶物感兴趣。
+,1201,이름있는 모험가,꽤 이름있는 모험가입니다. 전투 능력과 상황판단 능력 등 새내기 모험가와는 비교할 수 없어요.,Experienced Adventurer,They're a quite famous adventurer. Their combat abilities and situational judgment are incomparable to novice adventurers.,名の知れた冒険者,かなり名の知れた冒険者です。戦闘能力や状況判断能力など、新米冒険者とは比べ物になりません。,知名冒险者,相当有名的冒险者。战斗能力和判断力等方面与新手冒险者无法相比。,知名冒險者,相當有名的冒險者。戰斗能力和判断力等方面与新手冒險者無法相比。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,1300,엘프,자연에 살고 마나 친화력이 높은 종족입니다. 약초에 관한 지식이 많으며 기본적인 전투력도 갖추고 있습니다.,Elf,They're a race that lives in nature and has a high affinity for mana. They have extensive knowledge about herbs and possess basic combat abilities.,エルフ,自然に生き、マナ親和性の高い種族です。薬草に関する知識が豊富で、基本的な戦闘力も備えています。,精灵,生活在自然中- 与魔力亲和度高的种族。拥有丰富的草药知识- 同时具备基本的战斗能力。,精靈,生活在自然中- 与魔力親和度高的種族。擁有豐富的草藥知識- 同時具備基本的戰鬥能力。
+,1301,다크 엘프,타락한 엘프 종족입니다. 엘프와는 정반대로 전투와 파괴를 일삼는 종족입니다.,Dark Elf,A corrupted elven race. Unlike elves- they are a race devoted to combat and destruction.,ダークエルフ,堕落したエルフの種族です。エルフとは正反対に- 戦闘と破壊を繰り返す種族です。,黑暗精灵,堕落的精灵族。与精灵族相反- 是一个热衷于战斗和破坏的种族。,黑暗精靈,堕落的精靈族。与精靈族相反- 是一個热衷於戰鬥和破坏的種族。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,1400,위저드,마법과 물질- 기타 흥미로운 것들을 탐구하는 마법사입니다. 마법의 파괴력이 높기 때문에 상당히 위험합니다.,Wizard,A wizard who explores magic- matter- and other interesting things. Their magic is highly destructive- making them quite dangerous.,ウィザード,魔法と物質、その他興味深いものを探求する魔法使いです。魔法の破壊力が高いため、非常に危険です。,法师,探索魔法- 物质和其他有趣事物的魔法师。魔法破坏力很高- 因此相当危险。,法师,探索魔法- 物质和其他有趣事物的魔法师。魔法破坏力很高- 因此相當危险。
+,1401,뱀파이어,영겁의 수명을 가지고 있는 종족입니다. 던전은 그저 심심풀이로 놀러 올 정도로 강합니다.,Vampire,A race with eternal lifespan. So powerful that they visit dungeons merely for entertainment.,ヴァンパイア,永劫の寿命を持つ種族です。ダンジョンは暇つぶしに訪れる程の強さを持っています。,吸血鬼,拥有永恒寿命的种族。强大到会把地下城当作消遣场所。,吸血鬼,擁有永恒寿命的種族。強大到會把地下城當作消遣场所。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,1500,고블린,던전의 모든 자원을 탐내는 고블린입니다.,Goblin,A goblin coveting all resources in the dungeon.,ゴブリン,ダンジョンの全ての資源を欲しがるゴブリンです。,哥布林,觊觎地下城所有资源的哥布林。,哥布林,觊觎地下城所有資源的哥布林。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,1700,마나 고블린,분명 많은 마나를 가지고 있을 게 분명하다.,Mana Goblin,Surely possesses a large amount of mana.,マナゴブリン,確かに大量のマナを持っているに違いない。,魔力哥布林,肯定拥有大量魔力。,魔力哥布林,肯定擁有大量魔力。
+,1701,황금 리자드,온 몸이 금빛으로 빛나는 걸 보니 돈이 많아 보인다.,Golden Lizard,Its shimmering golden body suggests great wealth.,黄金トカゲ,全身が金色に輝いているのを見ると、お金持ちに見える。,黄金蜥蜴,全身闪耀着金光- 看起来很富有。,黄金蜥蜴,全身闪耀着金光- 看起來很富有。
+,1702,호박머리,어째서인지 존재만으로도 몬스터들을 도발하는 효과가 있는 듯 하다.,Pumpkin Head,For some reason- its mere presence seems to provoke monsters.,カボチャ頭,なぜか存在するだけでモンスターを挑発する効果がありそうだ。,南瓜头,不知为何- 似乎仅凭存在就能挑衅怪物。,南瓜頭,不知為何- 似乎仅凭存在就能挑衅怪物。
+,1703,산타,던전에 선물을 주러 온걸까?,Santa,Has he come to give gifts to the dungeon?,サンタ,ダンジョンにプレゼントを届けに来たのだろうか？,圣诞老人,是来给地下城送礼物的吗？,圣诞老人,是来給地下城送礼物的吗？
+,1704,던전털이범,가만히 두면 보물만 얌체처럼 털어갈지도 모른다. 보이면 혼내주자.,Dungeon Thief,If left alone- they might sneakily steal all the treasures. Let's teach them a lesson if spotted.,ダンジョン荒らし,放っておくと宝物だけをずるがしこく盗んでいくかもしれない。見かけたら懲らしめよう。,地下城盗贼,如果放任不管- 可能会像小偷一样偷走所有宝物。如果发现就教训他们一顿吧。,地下城盗贼,如果放任不管- 可能會像小偷一樣偷走所有寶物。如果发現就教训他們一顿吧。
+,,,,,,,,,,,
+,,,,,,,,,,,
+Mastia,1711,마스티아,우연히 던전을 찾아온 다른 세계의 손님. \무대 위에서 노래하는 것이 꿈이라고 한다.,Mastia,A visitor from another world who happened to find the dungeon. \She dreams of singing on stage.,マスティア,偶然ダンジョンを訪れた異世界からの客。\ステージで歌うことが夢だという。,玛斯蒂娅,偶然找到地下城的异世界访客。\她梦想在舞台上唱歌。,玛斯蒂娅,偶然找到地下城的異世界访客。\她梦想在舞台上唱歌。
+Karen,1712,카렌,우연히 던전을 찾아온 다른 세계의 손님. \모험을 찾아 어디든 다니는 강한 모험가이다.,Karen,A visitor from another world who happened to find the dungeon. \A strong adventurer who travels anywhere in search of adventure.,カレン,偶然ダンジョンを訪れた異世界からの客。\冒険を求めてどこへでも行く強い冒険者だ。,卡伦,偶然找到地下城的异世界访客。\一位为寻找冒险而四处旅行的强大冒险者。,卡伦,偶然找到地下城的異世界访客。\一位為寻找冒險而四處旅行的強大冒險者。
+Stan,1713,스탄,우연히 던전을 찾아온 다른 세계의 손님. \강하지만 성격은 본능에 충실한 특이한 모험가이다.,Stan,A visitor from another world who happened to find the dungeon. \A strong but peculiar adventurer who stays true to their instincts.,スタン,偶然ダンジョンを訪れた異世界からの客。\強いが性格は本能に忠実な変わった冒険者だ。,斯坦,偶然找到地下城的异世界访客。\虽然强大但性格特异的冒险者 - 忠于本能。,斯坦,偶然找到地下城的異世界访客。\虽然強大但性格特異的冒險者 - 忠于本能。
+Euh,1714,에우,우연히 던전을 찾아온 다른 세계의 손님. \목검을 들었지만 매우 강하다. 그녀가 말하는 것은 아무도 본 적이 없다고 한다.,Euh,A visitor from another world who happened to find the dungeon. \Although wielding a wooden sword - she is extremely powerful. They say no one has ever heard her speak.,エウ,偶然ダンジョンを訪れた異世界からの客。\木刀を持っているが非常に強い。彼女が話すところを誰も見たことがないという。,艾乌,偶然找到地下城的异世界访客。\虽然只持木剑 - 但非常强大。据说没人见过她说话。,艾乌,偶然找到地下城的異世界访客。\虽然只持木剑 - 但非常強大。据說没人见過她說話。
+Romys,1715,로미스,우연히 던전을 찾아온 다른 세계의 손님. \무언가 위험한 오오라가 나오는 것 같다. \심기를 거스르지 않게 조심하자.,Romys,A visitor from another world who happened to find the dungeon. \It seems a dangerous aura emanates from them. \Let's be careful not to upset them.,ロミス,偶然ダンジョンを訪れた異世界からの客。\何か危険なオーラが出ているようだ。\機嫌を損ねないよう気をつけよう。,罗米斯,偶然找到地下城的异世界访客。\似乎散发着某种危险的气息。\小心不要惹恼他。,羅米斯,偶然找到地下城的異世界访客。\似乎散发着某種危险的氣息。\小心不要惹恼他。
+Siri,1716,시리,우연히 던전을 찾아온 다른 세계의 손님. \주변까지 밝게 만드는 따뜻한 미소를 지녔다.,Siri,A visitor from another world who happened to find the dungeon. \They possess a warm smile that brightens even their surroundings.,シーリ,偶然ダンジョンを訪れた異世界からの客。\周囲まで明るくする温かい笑顔を持っている。,希莉,偶然找到地下城的异世界访客。\拥有能照亮周围的温暖笑容。,希莉,偶然找到地下城的異世界访客。\拥有能照亮周围的温暖笑容。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,1800,슬라임 헌터,길드의 퀘스트를 받고 출동한 몬스터 헌터,Slime Hunter,A monster hunter dispatched by the guild to take on a quest,スライムハンター,ギルドのクエストを受けて出動したモンスターハンター,史莱姆猎人,接受公会任务出动的怪物猎人,史莱姆猎人,接受公會任务出动的怪物猎人
+,1801,뒷골목 도적,길드에서 골렘의 핵이 비싼값에 거래된다는 것을 듣고 온 뒷골목 출신 도적,Back Alley Bandits,A back-alley thug who came after hearing that the guild is buying Golem cores at a premium,裏路地の盗賊,ギルドでゴーレムの核が高値で取引されていると聞いて来た裏路地出身の盗賊,后巷强盗,听说公会高价收购巨像核心后从后巷而来的盗贼,后巷強盗,听說公會高价收购巨像核心后從后巷而来的盗贼
+,,,,,,,,,,,
+,,,,,,,,,,,
+,1903,새내기 모험가,방금 모험가가 된 새내기 모험가입니다. 나름 모험가라서 자원보단 몬스터와 보물에 관심이 있습니다.,Newbie adventures,They recently became an adventurer. As an adventurer- they're more interested in monsters and treasure than resources.,新米冒険者,冒険者になったばかりの新米です。冒険者なりに資源よりもモンスターと宝物に関心があります。,新手冒险者,刚刚成为冒险者的新人。作为冒险者- 比起资源更对怪物和宝物感兴趣。,新手冒險者,刚刚成為冒險者的新人。作為冒險者- 比起資源更對怪物和寶物感兴趣。
+,,,,,,,,,,,
+,1908,혈기왕성한 모험가,초보자 던전을 답파하여 스승의 인정을 받으려하는 모험가,Bloodthirsty Adventurer,An adventurer trying to earn their master's recognition by conquering the Novice Dungeon,血気盛んな冒険者,初心者ダンジョンを踏破して師匠の認定を得ようとする冒険者,血气方刚的冒险者,试图通过攻克新手地下城来获得师傅认可的冒险者,血氣方刚的冒險者,试图通過攻克新手地下城来获得师傅認可的冒險者
+,,,,,,,,,,,
+,1910,고블린,던전의 모든 자원을 탐내는 고블린입니다.,Goblin,A goblin coveting all resources in the dungeon.,ゴブリン,ダンジョンの全ての資源を欲しがるゴブリンです。,哥布林,觊觎地下城所有资源的哥布林。,哥布林,觊觎地下城所有資源的哥布林。
+,1911,욕심많은 고블린,던전의 모든 자원을 탐내는 고블린입니다.,Greedy Goblin,A goblin coveting all resources in the dungeon.,欲張りゴブリン,ダンジョンの全ての資源を欲しがるゴブリンです。,贪婪的哥布林,觊觎地下城所有资源的哥布林。,贪婪的哥布林,觊觎地下城所有資源的哥布林。
+Event_Goblin_Knight,1912,고블린 척후병,던전의 모든 자원을 탐내는 고블린입니다. \일반 고블린보다 조금 더 강합니다.,Goblin Scout,A goblin coveting all dungeon resources. \Slightly stronger than regular goblins.,ゴブリン斥候,ダンジョンの全ての資源を欲しがるゴブリンです。\通常のゴブリンよりも少し強いです。,哥布林斥候,觊觎地下城所有资源的哥布林。\比普通哥布林稍强。,哥布林斥候,觊觎地下城所有資源的哥布林。\比普通哥布林稍強。
+,1913,오크,숲의 폭군인 오크입니다. 자원을 가리지 않고 탐내며- 전투 또한 피하지 않습니다.,Orc,The tyrant of the forest. Covets all resources indiscriminately- and doesn't shy away from battle.,オーク,森の暴君であるオークです。資源を問わず欲しがり- 戦闘も避けません。,兽人,森林中的暴君。贪婪地觊觎着一切资源- 而且从不畏惧战斗。,兽人,森林中的暴君。贪婪地觊觎着一切資源- 而且從不畏惧戰鬥。
+,1914,오크 리더,숲의 폭군인 오크의 리더입니다. 오크 중에서 지능이 높은 오크로서- 다른 오크들을 통솔하고 있습니다.,Orc Leader,The leader of orcs- the forest tyrants. An orc of higher intelligence among orcs- commanding other orcs.,オークリーダー,森の暴君であるオークのリーダーです。オークの中でも知能が高く- 他のオークたちを統率しています。,兽人首领,森林暴君兽人的首领。是兽人中智力较高的存在- 统领着其他兽人。,兽人首领,森林暴君兽人的首领。是兽人中智力较高的存在- 统领着其他兽人。
+,1915,리자드맨,오크와 동맹을 맺은 리자드맨입니다. 전투에 있어서는 오크 이상의 강함을 지니고 있습니다.,Lizardman,A lizardman allied with the orcs. Possesses combat strength surpassing even the orcs.,リザードマン,オークと同盟を結んだリザードマンです。戦闘ではオーク以上の強さを持っています。,蜥蜴人,与兽人结盟的蜥蜴人。在战斗方面比兽人更强。,蜥蜴人,与兽人结盟的蜥蜴人。在戰鬥方面比兽人更強。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,1916,녹빛 궁사,녹색 머리를 한 모험가. 무언가를 찾고 있는 것 같아요.,Verdant Archer,An adventurer with green hair. Seems to be looking for something.,緑色の弓矢,緑色の髪の冒険者。何かを探しているようだ。,翠绿弓手,绿色头发的冒险者。似乎在寻找什么。,翠绿弓手,绿色頭发的冒險者。似乎在寻找什么。
+,1917,던전 레이서 [라이트닝],모든 던전의 [던전경주] 최고 기록을 노리고 있는 프로 던전 레이서입니다. \[던전경주]는 던전의 입구부터 최심부까지 최단 거리로 답파하는 일종의 챌린지입니다.,Dungeon Racer [Lightning],A professional Dungeon Racer aiming for the best Dungeon Racing records in all dungeons. \Dungeon Racing is a type of challenge where one clears a dungeon from entrance to its deepest point via the shortest possible route.,ダンジョンレーサー「ライトニング」,全てのダンジョンのダンジョンレース最高記録を狙うプロのダンジョンレーサーです。\ダンジョンレースとは- ダンジョンの入口から最深部まで最短距離で攻略するチャレンジの一種です。,地下城竞速者[闪电],一位追求所有地下城竞速赛最佳记录的职业地下城竞速者。\地下城竞速赛是一种从地下城入口到最深处用最短路径通关的挑战活动。,地下城競速者[闪電],一位追求所有地下城競速賽最佳記錄的职業地下城競速者。\地下城競速賽是一種從地下城入口到最深處用最短路径通关的挑战活动。
+,1918,던전의 재앙,어디선가 나타난 정체 모를 생명체. 던전의 모든 것을 파괴합니다.,Catastrophe of the dungeon,a mysterious creature that appeared out of nowhere. It destroys everything in the dungeon.,ダンジョンの災厄,どこからか現れた正体不明の生命体。ダンジョンの全てを破壊する。,地下城灾难,不知从何处出现的不明生命体。摧毁地下城的一切。,地下城灾難,不知從何處出現的不明生命体。摧毁地下城的一切。
+,1919,은퇴한 영웅,던전을 조사하러온 과거 영웅 출신의 모험가,Retired Heroes,A former legendary adventurer who has come to investigate the Dungeon,引退した英雄,ダンジョンを調査しに来た過去の英雄出身の冒険者,退休的英雄,来调查地下城的前传奇冒险者,退休的英雄,来調查地下城的前傳奇冒險者
+,,,,,,,,,,,
+,1920,피의 노래 리더,유명한 파티 피의 노래의 리더 겸 검사입니다.,BloodSong Leader,Famous party BloodSong's leader and swordsman.,ブラッドソングのリーダー,有名なパーティー「ブラッドソング」のリーダー兼剣士です。,血之歌领袖,著名队伍血之歌的领袖兼剑士。,血之歌领袖,著名隊伍血之歌的领袖兼剑士。
+,1921,피의 노래 수호자,유명한 파티 피의 노래의 전위를 담당하는 수호자입니다.,BloodSong Guardian,Famous party BloodSong's vanguard guardian.,ブラッドソングの守護者,有名なパーティー「ブラッドソング」の前衛を担当する守護者です。,血之歌守护者,著名队伍血之歌的前卫守护者。,血之歌守護者,著名隊伍血之歌的前卫守護者。
+,1922,피의 노래 위저드,유명한 파티 피의 노래의 공격을 담당하는 위저드입니다.,BloodSong Wizard,Famous party BloodSong's attacking wizard.,ブラッドソングのウィザード,有名なパーティー「ブラッドソング」の攻撃を担当するウィザードです。,血之歌法师,著名队伍血之歌的攻击法师。,血之歌法师,著名隊伍血之歌的攻擊法师。
+,1923,피의 노래 레인저,유명한 파티 피의 노래의 후위을 담당하는 레인저입니다.,BloodSong Ranger,Famous party BloodSong's rearguard ranger.,ブラッドソングのレンジャー,有名なパーティー「ブラッドソング」の後衛を担当するレンジャーです。,血之歌游侠,著名队伍血之歌的后卫游侠。,血之歌游侠,著名隊伍血之歌的后卫游侠。
+,1924,피의 노래 리더,유명한 파티 피의 노래의 리더 겸 검사입니다.,BloodSong Leader,Famous party BloodSong's leader and swordsman.,ブラッドソングのリーダー,有名なパーティー「ブラッドソング」のリーダー兼剣士です。,血之歌领袖,著名队伍血之歌的领袖兼剑士。,血之歌领袖,著名隊伍血之歌的领袖兼剑士。
+,1925,피의 노래 수호자,유명한 파티 피의 노래의 전위를 담당하는 수호자입니다.,BloodSong Guardian,Famous party BloodSong's vanguard guardian.,ブラッドソングの守護者,有名なパーティー「ブラッドソング」の前衛を担当する守護者です。,血之歌守护者,著名队伍血之歌的前卫守护者。,血之歌守護者,著名隊伍血之歌的前卫守護者。
+,1926,피의 노래 위저드,유명한 파티 피의 노래의 공격을 담당하는 위저드입니다.,BloodSong Wizard,Famous party BloodSong's attacking wizard.,ブラッドソングのウィザード,有名なパーティー「ブラッドソング」の攻撃を担当するウィザードです。,血之歌法师,著名队伍血之歌的攻击法师。,血之歌法师,著名隊伍血之歌的攻擊法师。
+,1927,피의 노래 레인저,유명한 파티 피의 노래의 후위을 담당하는 레인저입니다.,BloodSong Ranger,Famous party BloodSong's rearguard ranger.,ブラッドソングのレンジャー,有名なパーティー「ブラッドソング」の後衛を担当するレンジャーです。,血之歌游侠,著名队伍血之歌的后卫游侠。,血之歌游侠,著名隊伍血之歌的后卫游侠。
+,,,,,,,,,,,
+,1930,길드 간부,길드에서 파견한 조사단의 분대장입니다.,Guild Officer,The squad leader of the investigation team dispatched from the guild.,ギルド幹部,ギルドから派遣された調査団の分隊長です。,公会干部,公会派遣的调查团分队长。,公會幹部,公會派遣的調查团分隊長。
+,1931,길드 간부,길드에서 파견한 조사단의 분대장입니다.,Guild Officer,The squad leader of the investigation team dispatched from the guild.,ギルド幹部,ギルドから派遣された調査団の分隊長です。,公会干部,公会派遣的调查团分队长。,公會幹部,公會派遣的調查团分隊長。
+,1932,영웅 [블루나이트],길드에서 파견한 조사단의 총대장입니다. 현재의 영웅이며 [블루나이트] 라고 불립니다.,Hero [BlueKnight],The commander in chief of the investigation team dispatched from the guild. The current hero- and called [BlueKnight].,英雄［ブルーナイト］,ギルドから派遣された調査団の総隊長です。現在の英雄であり、［ブルーナイト］と呼ばれています。,英雄［蓝骑士］,公会派遣的调查团总队长。现任英雄- 被称为［蓝骑士］。,英雄［蓝骑士］,公會派遣的調查团总隊長。現任英雄- 被称為［蓝骑士］。
+,,,,,,,,,,,
+,1941,길드 병사,길드에서 파견한 조사단의 병사입니다.,Guild Soldier,A soldier of the investigation team dispatched from the guild.,ギルド兵士,ギルドから派遣された調査団の兵士です。,公会士兵,公会派遣的调查团士兵。,公會士兵,公會派遣的調查团士兵。
+,1942,길드 전투원,길드에서 파견한 조사단의 전투원입니다. 병사보다 좀 더 전투 경험이 많습니다.,Guild Combatant,A combatant of the investigation team dispatched from the guild. More battle experience than soldiers.,ギルド戦闘員,ギルドから派遣された調査団の戦闘員です。兵士よりも戦闘経験が豊富です。,公会战斗员,公会派遣的调查团战斗员。比士兵更有战斗经验。,公會戰鬥员,公會派遣的調查团戰鬥员。比士兵更有戰鬥經驗。
+,1943,길드 정예병,길드에서 파견한 조사단의 정예병입니다. 한 명 한 명이 매우 강한 전투력을 가지고 있습니다.,Guild Elite,An elite of the investigation team dispatched from the guild. Each one has very strong combat power.,ギルド精鋭兵,ギルドから派遣された調査団の精鋭兵です。一人一人が非常に強い戦闘力を持っています。,公会精英,公会派遣的调查团精英。每个人都拥有非常强大的战斗力。,公會精英,公會派遣的調查团精英。每個人都拥有非常強大的戰鬥力。
+,,,,,,,,,,,
+,1958,왕국 기사,왕국을 지키는 정예 기사단의 기사입니다. 한명 한명이 용병단 대장과 맞먹을 정도로 강합니다.,Royal Knight,A knight of the elite order protecting the kingdom. Each one is strong enough to match a mercenary captain.,王国騎士,王国を守る精鋭騎士団の騎士です。一人一人が傭兵団長に匹敵するほどの強さを持っています。,王国骑士,守护王国的精锐骑士团成员。每一位都拥有能与佣兵团长匹敌的实力。,王国骑士,守護王国的精銳骑士团成员。每一位都拥有能与佣兵团長匹敌的實力。
+,1959,용사 [저지먼트],현시대의 용사로 이명은 [저지먼트] 입니다. 가장 마지막에 나타나서 악한 대상을 심판한다고 해서 붙여진 이름입니다.,Hero [Judgment],The hero of the current era- known as [Judgment]. This name was given because they appear last to pass judgment on evil beings.,勇者「ジャッジメント」,現代の勇者で- 二つ名は「ジャッジメント」。最後に現れて邪悪なる者を裁くことからこの名が付けられました。,勇者[审判],"当代勇者- 别名""审判""。因为总是最后现身审判邪恶之物而得此名。",勇者[审判],"當代勇者- 别名""审判""。因為总是最后現身审判邪恶之物而得此名。"
+,1960,악마 [베놈],현시대에 알려진 마왕 후보 중 가장 유력한 후보. 어떠한 상대와 싸워도 지지 않을 만큼 강합니다.,Demon [Venom],The most likely candidate among the known Demon Lord candidates of the current era. Strong enough to never lose against any opponent.,魔王「ヴェノム」,現代に知られている魔王候補の中で最有力な候補。どんな相手と戦っても負けないほど強い存在です。,恶魔[毒液],当代已知的魔王候选中最有力的一位。强大到无论面对何等对手都不会落败。,恶魔[毒液],當代已知的魔王候選中最有力的一位。強大到無論面對何等對手都不會落败。
+,1961,던전의 재앙,어디선가 나타난 정체 모를 생명체. 던전의 모든 것을 파괴합니다.,Catastrophe of the dungeon,a mysterious creature that appeared out of nowhere. It destroys everything in the dungeon.,ダンジョンの災厄,どこからか現れた正体不明の生命体。ダンジョンの全てを破壊する。,地下城灾难,不知从何处出现的不明生命体。摧毁地下城的一切。,地下城灾難,不知從何處出現的不明生命体。摧毁地下城的一切。
+,,,,,,,,,,,
+2000~2999 facility_Interaction,,,,,,,,,,,
+,2000,하급 약초,흔한 약초입니다. 소량이지만 마나를 머금고 있고 던전에서만 얻을 수 있어 인기는 많습니다.,Lower level herbs,It's a common herb. Although in small quantities- it contains mana and is popular since it can only be obtained from Dungeons.,下級薬草,一般的な薬草です。少量ですがマナを含んでおり、ダンジョンでしか手に入らないため人気があります。,低级药草,常见的药草。虽然含量不多- 但含有魔力- 而且只能在地下城获得- 所以很受欢迎。,低級藥草,常见的藥草。虽然含量不多- 但含有魔力- 而且只能在地下城获得- 所以很受歡迎。
+,2001,상급 약초,꽤 귀한 약초입니다. 고급 포션의 재료로 사용된다고 하네요.,High level herbs,It's a quite rare herb. It's said to be used as an ingredient for high-grade potions.,上級薬草,かなり貴重な薬草です。高級ポーションの材料として使用されるそうです。,高级药草,相当稀有的药草。据说用作高级药剂的材料。,高級藥草,相當稀有的藥草。据說用作高級藥剂的材料。
+,2002,마나 무,마나를 지닌 무입니다. 최고급 식재료로 사용되며 기타 여러 합성에도 사용됩니다.,Mana radish,It's a radish containing mana. It's used as a top-grade food ingredient and in various other compounds.,マナ大根,マナを宿した大根です。最高級の食材として使用され、その他様々な合成にも使用されます。,魔力萝卜,含有魔力的萝卜。用作顶级食材- 也用于各种合成。,魔力萝卜,含有魔力的萝卜。用作頂級食材- 也用于各種合成。
+,2003,팔손이,흔한 약초와 비슷하게 생겼지만 자세히보면 8갈래의 잎을 가진 다른 약초입니다. 숙련된 약초꾼만이 제대로 구분할 수 있다고 하네요.,Fatsia,It looks like a common herb- but if you look closely- it's a different herb with 8-pronged leaves. Only an experienced herbalist can tell the difference.,ヤツデ,一般的な薬草に似ていますが、よく見ると8本の葉を持つ別の薬草です。熟練した薬草師しか見分けられないそうです。,八手叶,看起来像普通药草- 但仔细看是有8片叶子的不同药草。据说只有熟练的草药师才能正确区分。,八手叶,看起来像普通藥草- 但仔细看是有8片叶子的不同藥草。据說只有熟練的草藥师才能正確区分。
+,2004,던전 고사리,오래전부터 존재했던 양치식물입니다. 가끔씩 대량으로 발생하여 모험가들의 진행을 막기도 합니다.,Dungeon fern,An ancient fern that has been around for ages. Occasionally occurs in large numbers- blocking adventurers' progress.,ダンジョンシダ,古くから存在するシダ植物です。たまに大量に発生し、冒険者の進行を妨げることもあります。,地下城蕨类,自古以来就存在的蕨类植物。有时会大量出现- 阻碍冒险者的前进。,地下城蕨類,自古以来就存在的蕨類植物。有時會大量出現- 阻碍冒險者的前進。
+,2005,활력초,매우 드물게 자라나는 약초입니다. 자양강장제- 활력 포션 등에 사용하며 가치가 높습니다.,Vigor Herb,A medicinal herb that grows very rarely. It is used in vigor potions and is highly valued.,活力草,非常に稀に育つ薬草です。滋養強壮剤・活力ポーションなどに使用され、価値が高いです。,活力草,非常罕见的药草。用于滋补强身剂、活力药剂等- 价值很高。,活力草,非常罕见的藥草。用于滋补強身剂、活力藥剂等- 价值很高。
+,2006,알로에,다루기 꽤 어려운 식물이지만 쓰임새는 다양해서 식용- 포션- 약초- 합성 등등 많은 곳에 사용됩니다.,Aloe,It's a fairly unwieldy plant- but it has many uses- including edibles- potions- herbal medicine- and synthetics.,アロエ,かなり扱いにくい植物ですが、用途は様々で、食用、ポーション、薬草、合成など様々なところで使われています。,芦荟,虽然是相当难以处理的植物- 但用途广泛- 可用于食用、药剂、草药、合成等多个方面。,芦荟,虽然是相當難以處理的植物- 但用途广泛- 可用于食用、藥剂、草藥、合成等多個方面。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,2010,상급 약초의 뿌리,턴 시작 시 주변에 상급 약초를 퍼트리는 모체 약초입니다. \뿌리가 없어지면 생성 효과도 사라져요.,High^grade Herb Root,A mother herb that spreads high^grade herbs around it at the start of each turn. \If the root is removed- the spawning effect disappears.,上級薬草の根,ターン開始時に周囲に上級薬草を広げる母体となる薬草です。\根がなくなると- 生成効果も消えます。,高级草药之根,在回合开始时向周围扩散高级草药的母体草药。\如果根部消失- 生成效果也会消失。,高級草藥之根,在回合開始時向周围扩散高級草藥的母体草藥。\如果根部消失- 生成效果也會消失。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,2100,흔한 바위,흔한 던전의 바위입니다. 그렇지만 지상의 바위와는 완전히 다른 물질이에요.,Common Rock,It's a common rock from the Dungeon. But it's a completely different material from rocks on the surface.,一般的な岩,一般的なダンジョンの岩です。しかし、地上の岩とは全く異なる物質です。,普通岩石,普通的地下城岩石。但与地表的岩石完全不同。,普通岩石,普通的地下城岩石。但與地表的岩石完全不同。
+,2101,모래바위,쉽게 부서져 모래가 되는 바위입니다. 마나를 가지고 있어 쉽게 뭉쳐지고 물과 잘 섞여 쓰임새가 많아요.,Sandstone,It's a rock that easily crumbles into sand. It contains mana- making it easily moldable and mixable with water- giving it many uses.,砂岩,簡単に崩れて砂になる岩です。マナを含んでいるため簡単に固まり、水とよく混ざるので用途が多いです。,砂岩,容易碎成沙子的岩石。含有魔力- 容易凝结- 与水很好混合- 用途广泛。,砂岩,容易碎成沙子的岩石。含有魔力- 容易凝結- 與水很好混合- 用途廣泛。
+,2102,단단한 바위,단단한 바위입니다. 튼튼해서 부수려면 꽤나 많은 체력이 필요할 거에요. 건축재료로 사용되어 인기가 많습니다.,Hard rock,It's a sturdy rock. It's so tough that you'd need quite a bit of stamina to break it. It's popular as a construction material.,硬い岩,硬い岩です。頑丈なので壊すにはかなりの体力が必要でしょう。建築材料として使用され、人気があります。,坚硬岩石,坚硬的岩石。非常结实- 需要相当大的体力才能打碎。作为建筑材料很受欢迎。,堅硬岩石,堅硬的岩石。非常結實- 需要相當大的體力才能打碎。作為建築材料很受歡迎。
+,2103,마나 철광석,순도가 높은 철을 포함하고 있는 철광석입니다. 무기를 만들 때도 쓰이고 각종 장신구에도 쓰여요.,Mana Ironstone,It's an iron ore containing high-purity iron. It's used for making weapons and various pieces of jewelry.,マナ鉄鉱石,純度の高い鉄を含む鉄鉱石です。武器を作る際にも使われ、各種装飾品にも使用されます。,魔力铁矿石,含有高纯度铁的铁矿石。用于制作武器- 也用于各种饰品。,魔力铁矿石,含有高純度铁的铁矿石。用於制作武器- 也用於各种饰品。
+,2104,석탄,불이 잘 붙는 석탄입니다. 마나를 먹은 석탄은 화력도 유지력도 훨씬 길기 때문에 지상에선 고급 연료입니다.,Coal,It's a coal that ignites easily. Coal infused with mana has much greater heat output and duration- making it a premium fuel on the surface.,石炭,火がよく付く石炭です。マナを含んだ石炭は火力も持続力もはるかに長いため、地上では高級燃料です。,煤炭,易燃的煤炭。吸收了魔力的煤炭热量和持续时间都更长- 因此在地表是高级燃料。,煤炭,易燃的煤炭。吸收了魔力的煤炭热量和持续时间都更长- 因此在地表是高級燃料。
+,2105,다이아몬드,매우 귀한 물질인 다이아몬드입니다. 마나의 순도가 높기때문에 마법무기의 핵심 부분이에요. 매우 단단하기 때문에 캐기도 힘들어요.,Diamond,It's the extremely rare material- diamond. Its high mana purity makes it the core component of magical weapons. It's also extremely hard- making it difficult to mine.,ダイヤモンド,非常に貴重な物質であるダイヤモンドです。マナの純度が高いため、魔法武器の核心部分に使用されます。非常に硬いため、採掘も困難です。,钻石,非常稀有的钻石。由于魔力纯度高- 是魔法武器的核心部分。非常坚硬- 难以开采。,钻石,非常稀有的钻石。由於魔力純度高- 是魔法武器的核心部分。非常堅硬- 难以开采。
+,2106,루비,은은한 붉은빛의 내는 루비원석입니다. 장식품이나 관상용으로 많이 거래됩니다.,Ruby,A ruby gemstone with a faint red glow. Widely traded for ornaments and viewing.,ルビー,淡い赤色を放つルビー原石です。装飾品や観賞用として多く取引されます。,红宝石,散发淡淡红光的红宝石原石。作为装饰品或观赏用品广泛交易。,红寶石,散發淡淡紅光的红寶石原石。作為裝飾品或觀賞用品廣泛交易。
+,2107,룬스톤,마법 룬 문자가 새겨진 희귀한 원석입니다. 상위 클래스 마법을 위해 꼭 필요한 재료이므로 고가에 거래됩니다.,Runestone,A rare gemstone engraved with magic rune characters. Essential for higher class magic- so it's traded at a high price.,ルーンストーン,魔法のルーン文字が刻まれた希少な原石です。上位クラスの魔法に必要不可欠な材料のため、高価で取引されます。,符文石,刻有魔法符文文字的稀有原石。是高级魔法所必需的材料- 因此以高价交易。,符文石,刻有魔法符文文字的稀有原石。是高級魔法所必需的材料- 因此以高價交易。
+,2108,크리스탈,투명하고 흠이 적은 맑은 크리스탈입니다. 크기와 형태에 따라 가격이 천차만별이에요.,Crystal,A clear crystal with few flaws. The price varies greatly depending on the size and shape.,クリスタル,透明で欠陥の少ないきれいなクリスタルです。大きさや形状によって価格が千差万別です。,水晶,透明且缺陷很少的清澈水晶。价格因大小和形状而千差万别。,水晶,透明且缺陷很少的清澈水晶。價格因大小和形状而千差萬別。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,2200,골든 소드,금으로 만들어진 검입니다. 보기엔 멋져보이지만 실제 사용은 어렵고 장식용 입니다.,Golden Sword,A sword made of gold. It looks impressive but is difficult to use and is for decorative purposes.,ゴールデンソード,金で作られた剣です。見た目は素晴らしいですが、実際の使用は難しく装飾用です。,黄金剑,由黄金制成的剑。看起来很漂亮- 但实际使用困难- 主要用于装饰。,黃金劍,由黃金製成的劍。看起來很漂亮- 但实际使用困难- 主要用於裝飾。
+,2201,모험가 소드,적당한 무게와 균형으로 실제 사용이 가능한 검입니다.,Adventurer's Sword,A sword that is actually usable due to its appropriate weight and balance.,冒険者の剣,適度な重量とバランスで実際に使用できる剣です。,冒险者之剑,重量和平衡适中- 可以实际使用的剑。,冒险者之劍,重量和平衡适中- 可以实际使用的劍。
+,2202,불의 칼,불의 기운이 깃든 검입니다.,Sword of Fire,A sword imbued with the essence of fire.,炎の剣,炎の気が宿った剣です。,火焰之剑,蕴含火焰力量的剑。,火焰之劍,蕴含火焰力量的劍。
+,2203,독의 칼,독이 묻어있는 검입니다.,Sword of Poison,A sword coated with poison.,毒の剣,毒が塗られている剣です。,毒之剑,涂有毒药的剑。,毒之劍,涂有毒药的劍。
+,2204,대거,짧지만 매우 날카로운 대거입니다.,Dagger,A short but very sharp dagger.,ダガー,短いですが非常に鋭いダガーです。,匕首,短小但非常锋利的匕首。,匕首,短小但非常锋利的匕首。
+,2205,세이버,사용하기 좋아보이는 세이버입니다.,Saber,A saber that looks easy to use.,セイバー,使いやすそうなセイバーです。,军刀,看起来很好用的军刀。,軍刀,看起來很好用的軍刀。
+,2206,크리스탈 소드,크리스탈로 된 검입니다. 의식용으로 사용됩니다.,Crystal Sword,A sword made of crystal. It is used for ceremonial purposes.,クリスタルソード,クリスタルでできた剣です。儀式用に使用されます。,水晶剑,由水晶制成的剑。用于仪式用途。,水晶劍,由水晶製成的劍。用於儀式用途。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,2210,매직 링,모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.,Magic Ring,It's treasure- the biggest reason adventurers explore Dungeons.,マジックリング,冒険者たちがダンジョンを探索する最大の理由となる宝物です。,魔法戒指,冒险者探索地下城的最大原因之一的宝物。,魔法戒指,冒险者探索地下城的最大原因之一的宝物。
+,,,,,,,,,,,
+,2220,마법사의 모자,모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.,Wizard's Hat,It's treasure- the biggest reason adventurers explore Dungeons.,魔法使いの帽子,冒険者たちがダンジョンを探索する最大の理由となる宝物です。,法师帽,冒险者探索地下城的最大原因之一的宝物。,法师帽,冒险者探索地下城的最大原因之一的宝物。
+,,,,,,,,,,,
+,2230,마법 스크롤,모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.,Magic Scroll,It's treasure- the biggest reason adventurers explore Dungeons.,魔法の巻物,冒険者たちがダンジョンを探索する最大の理由となる宝物です。,魔法卷轴,冒险者探索地下城的最大原因之一的宝物。,魔法卷轴,冒险者探索地下城的最大原因之一的宝物。
+,,,,,,,,,,,
+,2240,천상의 하프,제대로 연주한다면 아무리 먼 거리라도 들린다고 하는 희귀 아티팩트 입니다.,Celestial Harp,It's a rare artifact that is said to be audible from any distance if played properly.,天上のハープ,正しく演奏すれば、どんなに遠い距離でも聞こえるという希少なアーティファクトです。,天界竖琴,据说如果正确演奏- 无论多远都能听到的稀有神器。,天界竖琴,据說如果正确演奏- 无论多远都能听到的稀有神器。
+,2241,마법의 모래시계,시간의 흐름에 간섭할 수 있는 희귀 아티팩트 입니다.,Magic Hourglass,It's a rare artifact that can interfere with the flow of time.,魔法の砂時計,時の流れに干渉できる希少なアーティファクトです。,魔法沙漏,可以干扰时间流动的稀有神器。,魔法沙漏,可以干扰时间流动的稀有神器。
+,2242,요술램프,소원을 들어주는 전설의 요술램프 입니다.,Magic Lamp,It's the legendary lamp that grants wishes.,魔法のランプ,願いを叶えてくれるという伝説の魔法のランプです。,魔法灯,据说能实现愿望的传说中的魔法灯。,魔法灯,据說能实现愿望的傳說中的魔法灯。
+,2243,진실의 거울,비춘것의 진실된 모습을 드러내게 만드는 희귀 아티팩트 입니다.,Mirror of Truth,It's a rare artifact that reveals the true nature of anything it shines upon.,真実の鏡,映したものの真の姿を現す希少なアーティファクトです。,真实之镜,能揭示被照射物真实面目的稀有神器。,真实之镜,能揭示被照射物真实面目的稀有神器。
+,2244,평화의 리라,평화를 불러온다고 알려진 전설의 리라입니다.,Lira of Peace,A legendary lyre known to bring peace.,平和のリラ,平和をもたらすと言われる伝説のリラです。,和平里拉琴,据说能带来和平的传说中的里拉琴。,和平里拉琴,据說能带來和平的傳說中的里拉琴。
+,2245,해왕의 진주,고대부터 바닷속에 존재했던 보물인 해왕의 진주입니다.,Sea King's Pearl,A treasure of the sea king that has existed in the ocean since ancient times.,海王の真珠,古代から海底に存在していた宝物である海王の真珠です。,海王珍珠,自古以来存在于海底的宝物- 海王的珍珠。,海王珍珠,自古以來存在於海底的宝物- 海王的珍珠。
+,2246,황금 잔,황금으로 만들어져 매우 값어치가 높은 물건이에요.,Golden Goblet,An item made of gold that is very valuable,黄金の杯,黄金で作られた非常に価値の高い物です。,黄金杯,由黄金制成的非常贵重的物品。,黃金杯,由黃金製成的非常贵重的物品。
+,2247,고대 금화,과거에 사용되었던 금화입니다. 실제 가치는 아무도 알 수 없어요.,Ancient Gold Coins,Ancient gold coins used in the past. Their actual value is unknown to anyone.,古代の金貨,過去に使用されていた金貨です。実際の価値は誰にもわかりません。,古代金币,过去使用的金币。实际价值无人知晓。,古代金币,过去使用的金币。实际價值无人知晓。
+,2248,봉인된 십자가,무언가 강한 존재를 봉인할 때 사용된 십자가입니다.,Sealed Cross,A cross used to seal a powerful entity.,封印された十字架,何か強力な存在を封印する際に使用された十字架です。,封印十字架,用于封印某种强大存在的十字架。,封印十字架,用於封印某种强大存在的十字架。
+,2249,운명의 주사위,굴리는 대로 운명이 정해진다고 하는 무서운 주사위입니다.,Dice of Fate,Scary dice that determine fate when rolled.,運命のサイコロ,振った通りに運命が決まるという恐ろしいサイコロです。,命运骰子,据说掷出的结果会决定命运的可怕骰子。,命运骰子,据說掷出的结果會決定命运的可怕骰子。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,2250,황금 왕관,모험가들이 던전을 탐색하는 가장 큰 이유가 되는 보물입니다.,Golden Crown,It's treasure- the biggest reason adventurers explore Dungeons.,黄金の王冠,冒険者たちがダンジョンを探索する最大の理由となる宝物です。,黄金王冠,冒险者探索地下城的最大原因之一的宝物。,黃金王冠,冒险者探索地下城的最大原因之一的宝物。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,2260,보물상자 A,무엇이 들어있는지 모르는 상자입니다. 하지만 모험가라면 열어보지 않고는 참을 수 없을 거예요.,Treasure Chest A,A chest whose contents are unknown. But an adventurer wouldn't be able to resist opening it-,宝箱 A,中身が分からない箱です。しかし、冒険者なら開けずにはいられないでしょう。,宝箱 A,内容未知的箱子。但冒险者肯定忍不住想打开看看。,宝箱 A,內容未知的箱子。但冒险者肯定忍不住想打开看看。
+,2261,보물상자 B,무엇이 들어있는지 모르는 상자입니다. 하지만 모험가라면 열어보지 않고는 참을 수 없을 거예요.,Treasure Chest B,A chest whose contents are unknown. But an adventurer wouldn't be able to resist opening it-,宝箱 B,中身が分からない箱です。しかし、冒険者なら開けずにはいられないでしょう。,宝箱 B,内容未知的箱子。但冒险者肯定忍不住想打开看看。,宝箱 B,內容未知的箱子。但冒险者肯定忍不住想打开看看。
+,2262,보물상자 C,무엇이 들어있는지 모르는 상자입니다. 하지만 모험가라면 열어보지 않고는 참을 수 없을 거예요.,Treasure Chest C,A chest whose contents are unknown. But an adventurer wouldn't be able to resist opening it-,宝箱 C,中身が分からない箱です。しかし、冒険者なら開けずにはいられないでしょう。,宝箱 C,内容未知的箱子。但冒险者肯定忍不住想打开看看。,宝箱 C,內容未知的箱子。但冒险者肯定忍不住想打开看看。
+,2263,보물상자 D,무엇이 들어있는지 모르는 상자입니다. 하지만 모험가라면 열어보지 않고는 참을 수 없을 거예요.,Treasure Chest D,A chest whose contents are unknown. But an adventurer wouldn't be able to resist opening it-,宝箱 D,中身が分からない箱です。しかし、冒険者なら開けずにはいられないでしょう。,宝箱 D,内容未知的箱子。但冒险者肯定忍不住想打开看看。,宝箱 D,內容未知的箱子。但冒险者肯定忍不住想打开看看。
+,2264,보물상자 E,무엇이 들어있는지 모르는 상자입니다. 하지만 모험가라면 열어보지 않고는 참을 수 없을 거예요.,Treasure Chest E,A chest whose contents are unknown. But an adventurer wouldn't be able to resist opening it-,宝箱 E,中身が分からない箱です。しかし、冒険者なら開けずにはいられないでしょう。,宝箱 E,内容未知的箱子。但冒险者肯定忍不住想打开看看。,宝箱 E,內容未知的箱子。但冒险者肯定忍不住想打开看看。
+,2265,보물상자 F,무엇이 들어있는지 모르는 상자입니다. 하지만 모험가라면 열어보지 않고는 참을 수 없을 거예요.,Treasure Chest F,A chest whose contents are unknown. But an adventurer wouldn't be able to resist opening it-,宝箱 F,中身が分からない箱です。しかし、冒険者なら開けずにはいられないでしょう。,宝箱 F,内容未知的箱子。但冒险者肯定忍不住想打开看看。,宝箱 F,內容未知的箱子。但冒险者肯定忍不住想打开看看。
+,2266,보물상자 G,무엇이 들어있는지 모르는 상자입니다. 하지만 모험가라면 열어보지 않고는 참을 수 없을 거예요.,Treasure Chest G,A chest whose contents are unknown. But an adventurer wouldn't be able to resist opening it-,宝箱 G,中身が分からない箱です。しかし、冒険者なら開けずにはいられないでしょう。,宝箱 G,内容未知的箱子。但冒险者肯定忍不住想打开看看。,宝箱 G,內容未知的箱子。但冒险者肯定忍不住想打开看看。
+,2267,보물상자 H,무엇이 들어있는지 모르는 상자입니다. 하지만 모험가라면 열어보지 않고는 참을 수 없을 거예요.,Treasure Chest H,A chest whose contents are unknown. But an adventurer wouldn't be able to resist opening it-,宝箱 H,中身が分からない箱です。しかし、冒険者なら開けずにはいられないでしょう。,宝箱 H,内容未知的箱子。但冒险者肯定忍不住想打开看看。,宝箱 H,內容未知的箱子。但冒险者肯定忍不住想打开看看。
+,2268,보물상자 I,무엇이 들어있는지 모르는 상자입니다. 하지만 모험가라면 열어보지 않고는 참을 수 없을 거예요.,Treasure Chest I,A chest whose contents are unknown. But an adventurer wouldn't be able to resist opening it-,宝箱 I,中身が分からない箱です。しかし、冒険者なら開けずにはいられないでしょう。,宝箱 I,内容未知的箱子。但冒险者肯定忍不住想打开看看。,宝箱 I,內容未知的箱子。但冒险者肯定忍不住想打开看看。
+,2269,보물상자 J,무엇이 들어있는지 모르는 상자입니다. 하지만 모험가라면 열어보지 않고는 참을 수 없을 거예요.,Treasure Chest J,A chest whose contents are unknown. But an adventurer wouldn't be able to resist opening it-,宝箱 J,中身が分からない箱です。しかし、冒険者なら開けずにはいられないでしょう。,宝箱 J,内容未知的箱子。但冒险者肯定忍不住想打开看看。,宝箱 J,內容未知的箱子。但冒险者肯定忍不住想打开看看。
+,2270,보물상자 K,무엇이 들어있는지 모르는 상자입니다. 하지만 모험가라면 열어보지 않고는 참을 수 없을 거예요.,Treasure Chest K,A chest whose contents are unknown. But an adventurer wouldn't be able to resist opening it-,宝箱 K,中身が分からない箱です。しかし、冒険者なら開けずにはいられないでしょう。,宝箱 K,内容未知的箱子。但冒险者肯定忍不住想打开看看。,宝箱 K,內容未知的箱子。但冒险者肯定忍不住想打开看看。
+,2271,보물상자 L,무엇이 들어있는지 모르는 상자입니다. 하지만 모험가라면 열어보지 않고는 참을 수 없을 거예요.,Treasure Chest L,A chest whose contents are unknown. But an adventurer wouldn't be able to resist opening it-,宝箱 L,中身が分からない箱です。しかし、冒険者なら開けずにはいられないでしょう。,宝箱 L,内容未知的箱子。但冒险者肯定忍不住想打开看看。,宝箱 L,內容未知的箱子。但冒险者肯定忍不住想打开看看。
+,,,,,,,,,,,
+,2400,맑은 우물,모험가가 쉴 수 있는 우물입니다. 마시면 힘이 나서 좀 더 활동할 수 있어요. \다 사용하면 다시 보충해야 합니다.,Pure well,A well where adventurers can rest. \When you drink from it- you'll feel energized and be able to do more. \When you use it up- you'll need to replenish it.,澄んだ井戸,冒険者が休憩できる井戸です。飲むと力がわいて、さらに活動できます。\n使い切ったら再度補充する必要があります。,清澈的井,冒险者可以休息的井。喝了之后会恢复精力- 可以继续活动。\用完后需要重新补充。,清澈的井,冒险者可以休息的井。喝了之后會恢复精力- 可以继续活动。\\用完后需要重新补充。
+,,,,,,,,,,,
+,2410,악마의 석상,불길한 기운이 느껴지는 석상입니다. \던전에 존재하는 것만으로 턴마다 위험도가 상승합니다.,Devil statue,A statue emanating an ominous aura. \Its mere presence in the dungeon increases the danger level each turn. \As this cannot be undone- the decision must be made carefully.,悪魔の像,不吉な気配を感じさせる石像です。\ダンジョンに存在するだけで- ターンごとに危険度が上昇します。,恶魔雕像,散发不祥气息的雕像。\仅仅存在于地下城中- 每回合就会增加危险度。,惡魔雕像,散發不祥氣息的雕像。\僅僅存在於地下城中- 每回合就會增加危險度。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,2901,신비로운 알,신비한 분위기를 지닌 알입니다. 계약기간 동안 지켜야 합니다.,Mysterious Egg,An egg with a mysterious atmosphere. Must be kept during the contract period.,神秘の卵,神秘的な雰囲気を持つ卵です。契約期間中は守らなければなりません。,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。
+,2902,신비로운 알,신비한 분위기를 지닌 알입니다. 계약기간 동안 지켜야 합니다.,Mysterious Egg,An egg with a mysterious atmosphere. Must be kept during the contract period.,神秘の卵,神秘的な雰囲気を持つ卵です。契約期間中は守らなければなりません。,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。
+,2903,신비로운 알,신비한 분위기를 지닌 알입니다. 계약기간 동안 지켜야 합니다.,Mysterious Egg,An egg with a mysterious atmosphere. Must be kept during the contract period.,神秘の卵,神秘的な雰囲気を持つ卵です。契約期間中は守らなければなりません。,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,2910,신비로운 알,신비한 분위기를 지닌 알입니다. 계약기간 동안 지켜야 합니다. \따듯한 마나가 감돌고 있습니다.,Mysterious Egg,An egg with a mysterious atmosphere. Must be kept during the contract period. \Warm mana is circulating.,神秘の卵,神秘的な雰囲気を持つ卵です。契約期間中は守らなければなりません。\温かいマナが漂っています。,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。\周围环绕着温暖的魔力。,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。\\周围环绕著温暖的魔力。
+,2911,신비로운 알,신비한 분위기를 지닌 알입니다. 계약기간 동안 지켜야 합니다. \조금 위험한 마나가 느껴집니다.,Mysterious Egg,An egg with a mysterious atmosphere. Must be kept during the contract period. \Mana feels a little dangerous.,神秘の卵,神秘的な雰囲気を持つ卵です。契約期間中は守らなければなりません。 \少し危険なマナが感じられます。,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。\感觉到有点危险的魔力。,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。\\感觉到有点危险的魔力。
+,2912,신비로운 알,신비한 분위기를 지닌 알입니다. 계약기간 동안 지켜야 합니다. \밝고 활기찬 마나가 느껴집니다.,Mysterious Egg,An egg with a mysterious atmosphere. Must be kept during the contract period. \Bright and vibrant mana can be felt.,神秘の卵,神秘的な雰囲気を持つ卵です。契約期間中は守らなければなりません。\明るく活発なマナが感じられます。,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。\能感受到明亮活跃的魔力。,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。\\能感受到明亮活跃的魔力。
+,2913,신비로운 알,신비한 분위기를 지닌 알입니다. 계약기간 동안 지켜야 합니다. \따듯한 마나가 감돌고 있습니다.,Mysterious Egg,An egg with a mysterious atmosphere. Must be kept during the contract period. \Warm mana is circulating.,神秘の卵,神秘的な雰囲気を持つ卵です。契約期間中は守らなければなりません。\温かいマナが漂っています。,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。\周围环绕着温暖的魔力。,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。\\周围环绕著温暖的魔力。
+,2914,신비로운 알,신비한 분위기를 지닌 알입니다. 계약기간 동안 지켜야 합니다. \강렬한 빛이 알 주변을 감싸고 있습니다.,Mysterious Egg,An egg with a mysterious atmosphere. Must be kept during the contract period. \An intense light surrounds the egg.,神秘の卵,神秘的な雰囲気を持つ卵です。契約期間中は守らなければなりません。 \強烈な光が卵の周りを包んでいます。,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。\强烈的光芒包围着蛋。,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。\\强烈的光芒包围著蛋。
+,2915,신비로운 알,신비한 분위기를 지닌 알입니다. 계약기간 동안 지켜야 합니다. \강하고 위험한 힘이 느껴집니다.,Mysterious Egg,An egg with a mysterious atmosphere. Must be kept during the contract period. \A strong and dangerous power can be felt.,神秘の卵,神秘的な雰囲気を持つ卵です。契約期間中は守らなければなりません。\強く危険な力が感じられます。,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。\能感受到强大而危险的力量。,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。\\能感受到强大而危险的力量。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+3000~3999 facility_Event,,,,,,,,,,,
+,3000,상행 포탈,지상으로 향하는 포탈입니다.,Ascending portal,A portal to the ground.,上行ポータル,地上に向かうポータルです。,上升传送门,通向地面的传送门。,上升傳送門,通向地面的傳送門。
+,3001,하행 포탈,지하로 향하는 포탈입니다.,Descending portal,A portal to the underground.,下行ポータル,地下に向かうポータルです。,下降传送门,通向地下的传送门。,下降傳送門,通向地下的傳送門。
+,3002,전이 포탈,던전의 숨겨진 공간으로 이동할 수 있는 포탈입니다.,Portal,A portal that allows you to travel to hidden areas of the dungeon.,遷移ポータル,ダンジョンの隠されたエリアに移動できるポータルです。,转移传送门,可以移动到地下城隐藏空间的传送门。,轉移傳送門,可以移動到地下城隱藏空間的傳送門。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,3200,낙하 함정,뻔히 보이는 함정이지만 걸린다면 꽤 효과가 있을 거예요.,Falling trap,It's an obvious trap- but if triggered- it can have quite an effect.,落とし穴,一目で分かる罠ですが、引っかかれば結構効果がありそうです。,陷阱,虽然是明显可见的陷阱- 但如果触发了还是会有相当的效果。,陷阱,雖然是明显可見的陷阱- 但如果觸發了还是会有相当的效果。
+,3201,강화 낙하 함정,뻔히 보이는 함정이지만 걸린다면 꽤 효과가 있을 거예요. 좀 더 여러번 사용 가능합니다.,Enhanced Falling trap,It's an obvious trap- but if triggered- it can have quite an effect. It can be used a few more times.,強化落とし穴,一目で分かる罠ですが、引っかかれば結構効果がありそうです。もう少し何回も使用できます。,强化陷阱,虽然是明显可见的陷阱- 但如果触发了还是会有相当的效果。可以使用更多次。,強化陷阱,雖然是明显可見的陷阱- 但如果觸發了还是会有相当的效果。可以使用更多次。
+,3202,송곳 함정,무시무시한 송곳이 올라오는 함정이에요. 모르고 위를 지나간다면 크게 다칠 거예요.,Awl trap,It's a terrifying trap with spikes that rise from the floor. If you unknowingly walk over it- you'll be seriously injured.,トゲの罠,恐ろしいトゲが飛び出す罠です。知らずに上を通れば大怪我をしそうです。,尖刺陷阱,一种可怕的陷阱- 尖刺会从地面升起。如果不小心踩上去- 会受重伤。,尖刺陷阱,一种可怕的陷阱- 尖刺会从地面升起。如果不小心踩上去- 会受重傷。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,3260,가짜 보물 함정 (은),보물 상자처럼 보이지만 실은 미믹이 들어있는 함정이에요. \공격보다는 시간을 낭비하게 하는 데 효율적입니다.,Silver Mimic Trap,Looks like a treasure chest but actually contains a mimic. \More efficient at wasting time than dealing damage.,偽宝箱の罠（銀）,宝箱に見えますが- 実はミミックが入っている罠です。\攻撃よりも時間を浪費させるのに効率的です。,伪宝箱陷阱（银）,看起来像宝箱但实际上内藏拟态怪的陷阱。\比起造成伤害- 更擅长浪费时间。,伪寶箱陷阱（銀）,看起來像寶箱但實際上内藏擬態怪的陷阱。\\比起造成傷害- 更擅长浪費時間。
+,3261,가짜 보물 함정 (금),보물 상자처럼 보이지만 실은 미믹이 들어있는 함정이에요. \공격보다는 시간을 낭비하게 하는 데 효율적입니다.,Golden Mimic Trap,Looks like a treasure chest but actually contains a mimic. \More efficient at wasting time than dealing damage.,偽宝箱の罠（金）,宝箱に見えますが- 実はミミックが入っている罠です。\攻撃よりも時間を浪費させるのに効率的です。,伪宝箱陷阱（金）,看起来像宝箱但实际上内藏拟态怪的陷阱。\比起造成伤害- 更擅长浪费时间。,伪寶箱陷阱（金）,看起來像寶箱但實際上内藏擬態怪的陷阱。\\比起造成傷害- 更擅长浪費時間。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,3500,건설 불가 타일,,X,,建設不可タイル,,不可建设区域,,不可建設區域,
+,3501,Obstacle_Wall,,Obstacle_Wall,,Obstacle_Wall,,障碍物_墙,,障礙物_牆,
+,,,,,,,,,,,
+,3503,RemoveableObstacle,,RemoveableObstacle,,RemoveableObstacle,,可移除障碍物,,可移除障礙物,
+,3504,Custom_Wall,,Custom_Wall,,Custom_Wall,,Custom_Wall,,Custom_Wall,
+,,,,,,,,,,,
+,3531,1x1,,1x1,,1x1,,1x1,,1x1,
+,3532,1x2,,1x2,,1x2,,1x2,,1x2,
+,3533,1x3,,1x3,,1x3,,1x3,,1x3,
+,3534,2x1,,2x1,,2x1,,2x1,,2x1,
+,3535,2x2,,2x2,,2x2,,2x2,,2x2,
+,3536,2x3,,2x3,,2x3,,2x3,,2x3,
+,3537,3x1,,3x1,,3x1,,3x1,,3x1,
+,3538,3x2,,3x2,,3x2,,3x2,,3x2,
+,3539,3x3,,3x3,,3x3,,3x3,,3x3,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,3900,StatueBase,,StatueBase,,StatueBase,,雕像底座,,雕像底座,
+Gold,3901,금빛 천사상,황금으로 만들어진 천사상입니다. \기도를 올리면 소량의 골드를 얻습니다.,Golden Angel Statue,It's an angel statue made of gold. \Praying to it rewards you with a small amount of gold.,金色の天使像,黄金で作られた天使像です。\祈りを捧げると少量のゴールドを得られます。,金色天使雕像,由黄金制成的天使雕像。\祈祷会获得少量金币。,金色天使雕像,由黃金製成的天使雕像。\\祈禱会獲得少量金幣。
+Mana,3902,은빛 천사상,순은으로 만들어진 천사상입니다. \기도를 올리면 소량의 마나를 얻습니다.,Silver Angel Statue,It's an angel statue made of silver. \Praying to it rewards you with a small amount of mana.,銀色の天使像,純銀で作られた天使像です。\祈りを捧げると少量のマナを得られます。,银色天使雕像,由纯银制成的天使雕像。\祈祷会获得少量魔力。,銀色天使雕像,由純銀製成的天使雕像。\\祈禱会獲得少量魔力。
+Dog,3903,신뢰의 상,왠지 모를 신뢰가 느껴지는 형상입니다. \기도를 올리면 마나와 골드를 얻습니다.,Statue of Trust,A figure that emanates inexplicable trust. \Praying grants mana and gold.,信頼の像,何となく信頼感を感じる像です。\祈りを捧げるとマナとゴールドを得られます。,信任之像,散发着莫名信任感的形象。\祈祷可获得魔力和金币。,信任之像,散發着莫名信任感的形象。\\祈禱可獲得魔力和金幣。
+Dragon,3904,파멸의 상,강한 힘과 파괴의 충동이 느껴지는 형상입니다. \기도를 올리면 위험도가 상승합니다.,Statue of Ruin,A figure emanating strong power and destructive impulses. \Praying increases danger.,破滅の像,強い力と破壊の衝動を感じる像です。\祈りを捧げると危険度が上昇します。,毁灭之像,散发着强大力量和破坏冲动的形象。\祈祷会提升危险度。,毁灭之像,散發着強大力量和破坏冲动的形象。\\祈禱会提升危險度。
+Ravi,3905,평온의 상,안정과 편안함을 주는 형상입니다. \기도를 올리면 인기도가 상승합니다.,Statue of Tranquility,A figure that provides stability and comfort. \Praying increases popularity.,安寧の像,安定と安らぎを与える像です。\祈りを捧げると人気度が上昇します。,安宁之像,带来稳定与安详的形象。\祈祷会提升人气度。,安寧之像,带来穩定與安詳的形象。\\祈禱会提升人氣度。
+Cat,3906,친화의 상,문득 말을 걸고 싶어지게 만드는 형상입니다. \기도를 올리면 모든 유닛의 레벨이 1 상승합니다.,Statue of Harmony,A figure that makes you want to speak to it. \Praying increases all units' levels by 1.,親和の像,思わず話しかけたくなる像です。\祈りを捧げると全てのユニットのレベルが1上昇します。,亲和之像,让人不禁想要搭话的形象。\祈祷会使所有单位等级提升1级。,親和之像,让人不禁想要搭話的形象。\\祈禱会使所有單位等級提升1級。
+Demon,3907,공포의 상,쉽사리 쳐다보기 힘든 무서운 형상입니다. \기도를 올리면 모든 유닛을 영구적으로 랜덤하게 강화합니다.,Statue of Terror,A frightening figure difficult to look at. \Praying permanently enhances all units randomly.,恐怖の像,容易に見つめられない恐ろしい像です。\祈りを捧げると全てのユニットをランダムに永続的に強化します。,恐惧之像,令人难以直视的可怕形象。\祈祷会永久随机强化所有单位。,恐懼之像,令人难以直視的可怕形象。\\祈禱会永久隨機強化所有單位。
+Hero,3908,영웅의 상,밝은 기운을 내뿜는 형상입니다. \기도를 올리면 랜덤한 아티팩트를 하나 획득합니다.,Statue of Heroes,A figure radiating bright energy. \Praying grants a random artifact.,英雄の像,明るい気を放つ像です。\祈りを捧げるとランダムなアーティファクトを一つ獲得します。,英雄之像,散发着光明气息的形象。\祈祷可获得一个随机神器。,英雄之像,散發着光明氣息的形象。\\祈禱可獲得一個隨機神器。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+5000~6999 contents,,,,,,,,,,,
+,5000,작은 약초밭,하급 약초가 자라나는 약초밭을 설치합니다. 흔하긴 해도 마나를 지니고 있기 때문에 쓰임새는 많은 편이에요.,Small herb garden,It installs a herb garden where low-grade herbs grow. Although common- they contain mana- so they have many uses.,小さな薬草畑,下級薬草が育つ薬草畑を設置します。ありふれていますが、マナを持っているため用途は多いです。,小型药草园,设置生长低级药草的园地。虽然常见- 但含有魔力- 所以用途广泛。,小型藥草園,設置生长低級藥草的園地。雖然常见- 但含有魔力- 所以用途廣泛。
+,5001,큰 약초밭,하급 약초가 자라나는 약초밭을 설치합니다. 흔하긴 해도 마나를 지니고 있기 때문에 쓰임새는 많은 편이에요.,Large herb garden,It installs a herb garden where low-grade herbs grow. Although common- they contain mana- so they have many uses.,大きな薬草畑,下級薬草が育つ薬草畑を設置します。ありふれていますが、マナを持っているため用途は多いです。,大型药草园,设置生长低级药草的园地。虽然常见- 但含有魔力- 所以用途广泛。,大型藥草園,設置生长低級藥草的園地。雖然常见- 但含有魔力- 所以用途廣泛。
+,5002,고급 약초밭,고급 약초가 자라나는 약초밭을 설치합니다. 쉽게 구할 수 없는 귀한 약초입니다. 마나 효율이 높아요.,High level herb garden,It installs a herb garden where high-grade herbs grow. These are rare herbs that are not easily obtained. They are highly mana-efficient.,高級薬草畑,高級薬草が育つ薬草畑を設置します。簡単に手に入らない貴重な薬草です。マナ効率が高いです。,高级药草园,设置生长高级药草的园地。这些是难以获得的珍贵药草。魔力效率很高。,高級藥草園,設置生长高級藥草的園地。这些是难以獲得的珍貴藥草。魔力效率很高。
+,5003,마나 무밭,마나를 지닌 무입니다. 최고급 식재료로도 사용이 되며 기타 여러 합성에 재료로 사용됩니다.,Mana radish Field,It's a radish containing mana. It's used as a top-grade food ingredient and in various other compounds.,マナ大根畑,マナを宿した大根です。最高級食材としても使用され、その他様々な合成の材料としても使用されます。,魔力萝卜田,含有魔力的萝卜。用作顶级食材- 也用于各种合成的材料。,魔力蘿蔔田,含有魔力的蘿蔔。用作頂級食材- 也用於各种合成的材料。
+,5004,고사리의 벽,던전 고사리를 대량으로 설치합니다. 하나하나의 효과는 약해도 모험가들의 발을 붙잡는데는 효과적입니다.,Fern Wall,Sets up a large amount of dungeon ferns. Though each has a weak effect- they are effective at hindering adventurers' movements.,シダの壁,ダンジョンシダを大量に設置します。一つ一つの効果は弱いですが、冒険者の足を止めるのに効果的です。,蕨类墙,大量设置地下城蕨类。虽然单个效果较弱- 但能有效阻碍冒险者的行动。,蕨類牆,大量設置地下城蕨類。雖然單個效果較弱- 但能有效阻礙冒險者的行動。
+,5005,활력초밭,활력초를 설치합니다. 잘못하면 쉽게 손상되기 때문에 채집하는데 많은 시간이 필요합니다.,Vital Herb Field,Sets up vital herbs. They are easily damaged if handled improperly- requiring a lot of time to gather.,活力草畑,活力草を設置します。扱いを間違えると簡単に損傷するため、採集には多くの時間がかかります。,活力草田,设置活力草。如果处理不当容易损坏- 需要很长时间采集。,活力草田,設置活力草。如果处理不当容易损坏- 需要很长時間采集。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,5010,상급 약초의 뿌리,주변에 약초를 퍼트리는 모체 약초입니다. \턴 시작 시 해당 약초가 존재하면- 반경 3칸 이내에 상급약초를 최대 4개까지 생성합니다. \본체인 뿌리가 없어지면 생성 효과도 사라져요.,High^grade Herb Root,A mother herb that spreads herbs around it. \When this herb exists at the start of a turn- it creates up to 4 high^grade herbs within a 3^tile radius. \If the root itself is removed- the spawning effect disappears.,上級薬草の根,周囲に薬草を広げる母体となる薬草です。\ターン開始時にこの薬草が存在すると- 半径3マス以内に上級薬草を最大4個まで生成します。\本体である根がなくなると- 生成効果も消えます。,高级草药之根,一种能在周围扩散草药的母体草药。\在回合开始时如果此草药存在- 会在3格范围内最多生成4个高级草药。\如果根部消失- 生成效果也会消失。,高級草藥之根,一种能在周圍擴散草藥的母体草藥。\\在回合開始时如果此草藥存在- 会在3格範圍内最多生成4個高級草藥。\\如果根部消失- 生成效果也会消失。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,5100,작은 광맥,유용한 물질을 얻을 수 있는 광맥을 설치합니다. 여러 광물이 섞여있어요.,Small Ore Vein,Sets up an ore vein from which useful materials can be obtained. It contains a mix of various minerals.,小さな鉱脈,有用な物質を得ることができる鉱脈を設置します。様々な鉱物が混ざっています。,小型矿脉,设置可以获得有用物质的矿脉。混合了各种矿物。,小型礦脈,設置可以獲得有用物質的礦脈。混合了各种礦物。
+,5101,큰 광맥,유용한 물질을 얻을 수 있는 광맥을 설치합니다. 여러 광물이 섞여있어요.,Large Ore Vein,Sets up a larger ore vein from which useful materials can be obtained. It contains a mix of various minerals.,大きな鉱脈,有用な物質を得ることができるより大きな鉱脈を設置します。様々な鉱物が混ざっています。,大型矿脉,设置可以获得有用物质的更大矿脉。混合了各种矿物。,大型礦脈,設置可以獲得有用物質的更大礦脈。混合了各种礦物。
+,5102,루비 광맥,루비를 얻을 수 있는 광맥입니다. 꽤나 단단하기 때문에 시간을 들여 채굴해야 합니다.,Ruby Ore Vein,An ore vein where rubies can be obtained. It is quite hard- requiring time to mine.,ルビー鉱脈,ルビーを得ることができる鉱脈です。かなり硬いため、時間をかけて採掘する必要があります。,红宝石矿脉,可以获得红宝石的矿脉。相当坚硬- 需要时间开采。,紅寶石礦脈,可以獲得紅寶石的礦脈。相当堅硬- 需要時間開採。
+,5103,석탄 광맥,석탄을 캘 수 있는 광맥입니다. 쉽고 빠른 채굴이 가능합니다.,Coal Ore Vein,An ore vein where coal can be mined. It allows for easy and quick mining.,石炭鉱脈,石炭を採掘できる鉱脈です。簡単かつ迅速に採掘が可能です。,煤炭矿脉,可以开采煤炭的矿脉。可以快速简单地开采。,煤炭礦脈,可以開採煤炭的礦脈。可以快速简單地開採。
+,5104,마나 철광맥,순도 높은 마나 철광석을 다량 포함하고 있는 검은 크리스탈을 설치합니다.,Mana Iron Ore Vein,Sets up a black crystal containing a large amount of high-purity mana iron ore.,マナ鉄鉱脈,純度の高いマナ鉄鉱石を多量に含む黒いクリスタルを設置します。,魔力铁矿脉,设置含有大量高纯度魔力铁矿石的黑色水晶。,魔力鐵礦脈,設置含有大量高純度魔力鐵礦石的黑色水晶。
+,5105,크리스탈의 벽,크리스탈로 이루어진 벽을 설치합니다. 쓸모는 많지만 채굴 난이도는 높은 편입니다.,Crystal Wall,Sets up a wall made of crystal. It has many uses but is difficult to mine.,クリスタルの壁,クリスタルでできた壁を設置します。用途は多いが、採掘の難易度は高いです。,水晶墙,设置由水晶组成的墙。用途广泛- 但开采难度较高。,水晶牆,設置由水晶组成的牆。用途廣泛- 但開採難度较高。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,5200,낙하 함정,고전식 발밑 함정을 설치합니다. 발동되면 시간과 체력에 피해를 줄 수 있어요.,Falling trap,It installs a classic pit trap. If triggered- it can damage your time and stamina.,落とし穴,古典的な足元の罠を設置します。作動すると時間と体力にダメージを与えられます。,陷阱,设置经典的地面陷阱。触发后可以损耗时间和体力。,陷阱,設置經典的地面陷阱。觸發后可以損耗時間和體力。
+,5201,강화 낙하 함정,고전식 발밑 함정을 설치합니다. 기존의 함정보다 조금 더 효과가 강해졌어요.,Enhanced Falling trap,It installs a classic pit trap. It's slightly more effective than the previous trap.,強化落とし穴,古典的な足元の罠を設置します。既存の罠よりも少し効果が強くなっています。,强化陷阱,设置经典的地面陷阱。比之前的陷阱效果稍强。,強化陷阱,設置經典的地面陷阱。比之前的陷阱效果稍強。
+,5202,송곳 함정,바닥에서 송곳이 올라오는 무시무시한 함정을 설치합니다. 발동되면 큰 피해를 입힙니다.,Awl trap,It installs a terrifying trap with spikes that rise from the floor. If triggered- it will inflict severe damage.,トゲの罠,床からトゲが飛び出す恐ろしい罠を設置します。作動すると大きなダメージを与えます。,尖刺陷阱,设置从地面升起尖刺的可怕陷阱。触发后会造成巨大伤害。,尖刺陷阱,設置从地面升起尖刺的可怕陷阱。觸發后会造成巨大傷害。
+,,,,,,,,,,,
+,5260,가짜 보물 함정 (은),가짜 보물 상자를 설치합니다. \보물인 줄 알고 다가간다면 미믹에게 공격당해 시간과 체력을 뺏길 거예요.,Silver Mimic Trap,Sets up a fake treasure chest. \If someone approaches thinking it's treasure- they'll be attacked by a mimic and lose time and health.,偽宝箱の罠（銀）,偽の宝箱を設置します。\宝物だと思って近づくとミミックに攻撃され- 時間と体力を奪われます。,伪宝箱陷阱（银）,设置一个假宝箱。\如果有人以为是宝物而靠近- 就会被拟态怪袭击- 损失时间和体力。,伪寶箱陷阱（銀）,設置一個假寶箱。\\如果有人以為是寶物而靠近- 就会被擬態怪袭擊- 损失時間和體力。
+,5261,가짜 보물 함정 (금),가짜 보물 상자를 설치합니다. \보물인 줄 알고 다가간다면 미믹에게 공격당해 시간과 체력을 뺏길 거예요.,Golden Mimic Trap,Sets up a fake treasure chest. \If someone approaches thinking it's treasure- they'll be attacked by a mimic and lose time and health.,偽宝箱の罠（金）,偽の宝箱を設置します。\宝物だと思って近づくとミミックに攻撃され- 時間と体力を奪われます。,伪宝箱陷阱（金）,设置一个假宝箱。\如果有人以为是宝物而靠近- 就会被拟态怪袭击- 损失时间和体力。,伪寶箱陷阱（金）,設置一個假寶箱。\\如果有人以為是寶物而靠近- 就会被擬態怪袭擊- 损失時間和體力。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,5300,쓸만한 무기,모험가들이 좋아할만한 무기를 설치합니다. \모험가에게 발견되면 던전의 인기도나 위험도가 조금 올라요.,Useful Swords,Sets up weapons that adventurers would like. \If discovered by adventurers- the dungeon's popularity or danger level slightly increases.,使える武器,冒険者が好みそうな武器を設置します。\冒険者に発見されると、ダンジョンの人気度や危険度が少し上がります。,实用武器,设置冒险者会喜欢的武器。\如果被冒险者发现- 地下城的人气或危险度会略微上升。,實用武器,設置冒險者会喜歡的武器。\\如果被冒險者發現- 地下城的人氣或危險度会略微上升。
+,,,,,,,,,,,
+,5310,마법 반지,던전의 마나를 사용해서 만들어낸 마법 반지입니다. 착용자의 마나를 조금 흡수하는 효과가 걸려있습니다. \모험가에게 발견되면 던전의 인기도가 조금 올라요.,Magic Ring,It's a magic ring created using the Dungeon's mana. It has an effect that slightly absorbs the wearer's mana. \If discovered by adventurers- the Dungeon's popularity will increase slightly.,魔法の指輪,ダンジョンのマナを使って作り出した魔法の指輪です。着用者のマナを少し吸収する効果がかかっています。\冒険者に発見されるとダンジョンの人気度が少し上がります。,魔法戒指,使用地下城的魔力制作的魔法戒指。有轻微吸收佩戴者魔力的效果。\如果被冒险者发现- 地下城的人气会略微上升。,魔法戒指,使用地下城的魔力制作的魔法戒指。有輕微吸收佩戴者魔力的效果。\\如果被冒險者發現- 地下城的人氣会略微上升。
+,,,,,,,,,,,
+,5330,마법 스크롤,고대의 주문이 적힌 스크롤입니다. 고위 마법사들이 마법을 배우기 위해 필요한 아이템으로 인기가 많습니다.,Magic Scroll,It's a scroll inscribed with ancient spells. It's a popular item needed by high-level mages to learn magic.,魔法の巻物,古代の呪文が書かれた巻物です。上位魔法使いたちが魔法を学ぶために必要なアイテムとして人気があります。,魔法卷轴,刻有古代咒语的卷轴。是高级法师学习魔法所需的热门物品。,魔法捲軸,刻有古代咒語的捲軸。是高級法師學習魔法所需的熱門物品。
+,,,,,,,,,,,
+,5340,던전 아티팩트,던전에서만 얻을 수 있는 희귀한 아티팩트 입니다. \어떤 아티팩트가 나올지는 알 수 없습니다. \각기 다른 고유한 힘을 가지고 있어요.,Dungeon Artifacts,It's a rare artifact that can only be obtained from Dungeons. \You can't know what artifact will appear. \Each one has a unique power.,ダンジョンアーティファクト,ダンジョンでしか手に入らない希少なアーティファクトです。\どんなアーティファクトが出るかは分かりません。\それぞれ異なる固有の力を持っています。,地下城神器,只能在地下城获得的稀有神器。\无法预知会出现什么神器。\每个都有独特的力量。,地下城神器,只能在地下城獲得的稀有神器。\\无法预知会出现什麼神器。\\每個都有独特的力量。
+,,,,,,,,,,,
+,5360,보물상자,던전 탐색의 즐거움을 주는 보물상자를 만들어냅니다. \어떤 등급의 상자가 나올지- 상자 안에 무엇이 들었을지는 열어보기 전까진 알 수 없어요.,Treasure Chest,Creates treasure chests that bring the joy of dungeon exploration. \What grade of chest will come out- and what's inside the chest can't be known until it's opened.,宝箱,ダンジョン探索の楽しみを与える宝箱を作り出します。\どんな等級の箱が出るか、箱の中に何が入っているかは開けてみるまで分かりません。,宝箱,创造给予地下城探索乐趣的宝箱。\在打开之前- 无法知道会出现什么等级的箱子- 以及里面装着什么。,寶箱,创造给予地下城探索樂趣的寶箱。\\在打開之前- 无法知道会出现什麼等級的箱子- 以及里面装着什麼。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,5400,맑은 우물,모험가가 쉴 수 있는 우물입니다. 마시면 힘이 나서 좀 더 활동할 수 있어요. \모험가가 좀 더 멀리 갈 수 있도록 돕고 더 많은 마나를 얻게 하는 목적의 장치입니다만- 너무 많은 편의를 제공한다면 오히려 위험해질 수 있으니 신중하게 선택해야 합니다. \층마다 하나만 존재할 수 있는 오브젝트 입니다.,Pure well,A well where adventurers can rest. \When you drink from it- you'll feel energized and be able to do more. \They're meant to help adventurers go farther and gain more mana- but they can be dangerous if they provide too much convenience. \This is an object that can only exist once per floor.,清らかな井戸,冒険者が休める井戸です。飲むと力が湧いてもう少し活動できます。\冒険者がもう少し遠くまで行けるよう助け、より多くのマナを得られるようにする目的の装置ですが、あまりに多くの便宜を提供すれば逆に危険になる可能性があるので、慎重に選択する必要があります。\各階に一つしか設置できないオブジェクトです。,清澈的井,冒险者可以休息的井。喝了之后会恢复精力- 可以继续活动。\这是为了帮助冒险者走得更远- 获得更多魔力的装置- 但如果提供太多便利- 反而可能变得危险- 所以要谨慎选择。\每层只能存在一个的物体。,清澈的井,冒險者可以休息的井。喝了之后会恢复精力- 可以继续活动。\\这是為了帮助冒險者走得更遠- 獲得更多魔力的装置- 但如果提供太多便利- 反而可能变得危險- 所以要谨慎选择。\\每層只能存在一個的物体。
+,,,,,,,,,,,
+,5410,악마의 석상,불길한 기운이 느껴지는 석상입니다. \던전에 존재하는 것만으로 턴마다 위험도가 상승합니다. \되돌릴 수 없기 때문에 신중하게 결정해야 합니다. \층마다 하나만 존재할 수 있는 오브젝트 입니다.,Devil statue,A statue emanating an ominous aura. \Its mere presence in the dungeon increases the danger level each turn. \As this cannot be undone- the decision must be made carefully. \This is an object that can only exist once per floor.,悪魔の像,不吉な気配を感じさせる石像です。\ダンジョンに存在するだけで- ターンごとに危険度が上昇します。\元に戻すことができないため- 慎重に決断する必要があります。\各階に一つしか設置できないオブジェクトです。,恶魔雕像,散发不祥气息的雕像。\仅仅存在于地下城中- 每回合就会增加危险度。\由于无法撤销- 必须谨慎决定。\每层只能存在一个的物体。,恶魔雕像,散發不祥氣息的雕像。\\仅仅存在於地下城中- 每回合就会增加危險度。\\由於无法撤销- 必须谨慎决定。\\每層只能存在一個的物体。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,5500,상행 포탈,상행 포탈의 위치를 재지정합니다. \포탈은 층마다 한개만 존재할 수 있어요.,Ascending portal,Repositions the Ascending portal. \There can only be one portal per floor.,上行ポータル,上行ポータルの位置を再指定します。\ポータルはフロアごとに1つだけ存在することができます。,上升传送门,重新指定上升传送门的位置。\每层只能存在一个传送门。,上升傳送門,重新指定上升傳送門的位置。\\每層只能存在一個傳送門。
+,5501,하행 포탈,하행 포탈의 위치를 재지정합니다. \포탈은 층마다 한개만 존재할 수 있어요.,Descending portal,Repositions the Descending portal. \There can only be one portal per floor.,下行ポータル,下行ポータルの位置を再指定します。ポータルはフロアごとに1つだけ存在することができます。,下降传送门,重新指定下降传送门的位置。每层只能存在一个传送门。,下降傳送門,重新指定下降傳送門的位置。每層只能存在一個傳送門。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,5901,1x1,,1x1,,1x1,,1x1,,1x1,
+,5902,1x2,,1x2,,1x2,,1x2,,1x2,
+,5903,1x3,,1x3,,1x3,,1x3,,1x3,
+,5904,2x1,,2x1,,2x1,,2x1,,2x1,
+,5905,장애물,2 by 2 의 장애물을 설치합니다. \다른 효과는 없고 모험가들을 돌아가게 만드는 역할입니다.,Obstacle,Installs a 2 by 2 obstacle. \It has no other effects- its role is to make adventurers go around it.,障害物,2 x 2の障害物を設置します。\他の効果はなく- 冒険者たちを迂回させる役割です。,障碍物,安装一个2 x 2的障碍物。\没有其他效果- 只是用来让冒险者绕路的。,障礙物,安装一個2 x 2的障礙物。\\没有其他效果- 只是用来让冒險者绕路的。
+,5906,2x3,,2x3,,2x3,,2x3,,2x3,
+,5907,3x1,,3x1,,3x1,,3x1,,3x1,
+,5908,3x2,,3x2,,3x2,,3x2,,3x2,
+,5909,장애물,3 by 3 의 장애물을 설치합니다. \다른 효과는 없고 모험가들을 돌아가게 만드는 역할입니다.,Obstacle,Installs a 3 by 3 obstacle. \It has no other effects- its role is to make adventurers go around it.,障害物,3 x 3の障害物を設置します。\他の効果はなく- 冒険者たちを迂回させる役割です。,障碍物,安装一个3 x 3的障碍物。\没有其他效果- 只是用来让冒险者绕路的。,障礙物,安装一個3 x 3的障礙物。\\没有其他效果- 只是用来让冒險者绕路的。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+7000~7999 Technical,,,,,,,,,,,
+,7001,허브 농장 Lv1,2일마다 활성화 된 모든 층에 약초를 자라나게 합니다. \가끔 좋은 약초가 나올 때도 있어요!,Herb Farm Lv1,Every 2 days- it supplies herbs to all activated floors. \Sometimes good herbs can appear!,ハーブ農場 Lv1,2日ごとにアクティブな全ての階層に薬草を供給します。\たまに良い薬草が出ることもあります！,草药农场 Lv1,每2天为所有激活的楼层供应草药。\有时会出现好草药！,草藥农場 Lv1,每2天為所有激活的楼層供应草藥。\\有时会出现好草藥！
+,7002,허브 농장 Lv2,2일마다 활성화 된 모든 층에 약초를 자라나게 합니다. \가끔 좋은 약초가 나올 때도 있어요!,Herb Farm Lv2,Every 2 days- it supplies herbs to all activated floors. \Sometimes good herbs can appear!,ハーブ農場 Lv2,2日ごとにアクティブな全ての階層に薬草を供給します。\たまに良い薬草が出ることもあります！,草药农场 Lv2,每2天为所有激活的楼层供应草药。\有时会出现好草药！,草藥农場 Lv2,每2天為所有激活的楼層供应草藥。\\有时会出现好草藥！
+,7003,허브 농장 Lv3,2일마다 활성화 된 모든 층에 약초를 자라나게 합니다. \가끔 좋은 약초가 나올 때도 있어요!,Herb Farm Lv3,Every 2 days- it supplies herbs to all activated floors. \Sometimes good herbs can appear!,ハーブ農場 Lv3,2日ごとにアクティブな全ての階層に薬草を供給します。\たまに良い薬草が出ることもあります！,草药农场 Lv3,每2天为所有激活的楼层供应草药。\有时会出现好草药！,草藥农場 Lv3,每2天為所有激活的楼層供应草藥。\\有时会出现好草藥！
+,,,,,,,,,,,
+,7011,미네랄 코어 Lv1,3일마다 활성화 된 모든 층에 광물이 생성됩니다. \가끔 귀한 광물이 나올 때도 있어요!,Mineral Core Lv1,Every 3 days- minerals spawn on all active floors. \Sometimes the minerals are extremely valuable!,ミネラルコア Lv1,3日ごとに活性化されたすべての層に鉱物が生成されます。\たまに貴重な鉱物が出ることもあります！,矿物核心 Lv1,每3天在所有激活的楼层生成矿物。\有时会出现稀有矿物！,礦物核心 Lv1,每3天在所有激活的楼層生成礦物。\\有时会出现稀有礦物！
+,7012,미네랄 코어 Lv2,3일마다 활성화 된 모든 층에 광물이 생성됩니다. \가끔 귀한 광물이 나올 때도 있어요!,Mineral Core Lv2,Every 3 days- minerals spawn on all active floors. \Sometimes the minerals are extremely valuable!,ミネラルコア Lv2,3日ごとに活性化されたすべての層に鉱物が生成されます。\たまに貴重な鉱物が出ることもあります！,矿物核心 Lv2,每3天在所有激活的楼层生成矿物。\有时会出现稀有矿物！,礦物核心 Lv2,每3天在所有激活的楼層生成礦物。\\有时会出现稀有礦物！
+,7013,미네랄 코어 Lv3,3일마다 활성화 된 모든 층에 광물이 생성됩니다. \가끔 귀한 광물이 나올 때도 있어요!,Mineral Core Lv3,Every 3 days- minerals spawn on all active floors. \Sometimes the minerals are extremely valuable!,ミネラルコア Lv3,3日ごとに活性化されたすべての層に鉱物が生成されます。\たまに貴重な鉱物が出ることもあります！,矿物核心 Lv3,每3天在所有激活的楼层生成矿物。\有时会出现稀有矿物！,礦物核心 Lv3,每3天在所有激活的楼層生成礦物。\\有时会出现稀有礦物！
+,,,,,,,,,,,
+,,,,,,,,,,,
+,7100,기부함,던전 입구에 기부함을 설치합니다. 사실 말이 기부함이지 입장료를 받는거에요. \많은 인기있는 던전들이 입장료를 받지만 과연 우리 던전도 입장료를 내고서라도 들어올 만한 가치가 있을까요?,Donation box,It installs a donation box at the Dungeon entrance. Actually- it's not a donation box- it's an entrance fee. \Many popular Dungeons charge an entrance fee- but will our Dungeon be worth paying to enter?,募金箱,ダンジョン入口に募金箱を設置します。実際のところ募金箱と言っても入場料を取るんです。\多くの人気のあるダンジョンが入場料を取っていますが、果たして私たちのダンジョンも入場料を払ってまで入る価値があるでしょうか？,捐款箱,在地下城入口设置捐款箱。实际上不是捐款箱- 而是收取入场费。\许多受欢迎的地下城都收取入场费- 但我们的地下城值得付费进入吗？,捐款箱,在地下城入口設置捐款箱。實際上不是捐款箱- 而是收取入场费。\\许多受欢迎的地下城都收取入场费- 但我们的地下城值得付费进入吗？
+,,,,,,,,,,,
+,7110,감옥,모험가를 포로로 잡을 수 있는 감옥을 설치합니다. \쓰러트린 일부 모험가들에게서 교섭으로 골드를 뜯어낼 수 있을거에요.,Prison,It installs a prison capable of capturing adventurers. \You can extort gold from some of the captured adventurers through negotiation.,牢獄,冒険者を捕虜として捕らえられる牢獄を設置します。\倒した一部の冒険者たちから交渉でゴールドを巻き上げられそうです。,监狱,设置可以捕获冒险者的监狱。\可以通过谈判从一些被击败的冒险者那里勒索金币。,监狱,設置可以捕獲冒險者的监狱。\\可以通过谈判从一些被擊败的冒險者那里勒索金幣。
+,,,,,,,,,,,
+,7120,봉인결계,무언가를 봉인할 때 쓰는 결계입니다. \그런데 이걸 어디에 쓰죠?,Barrier of Sealing,It's a Barrier of Sealing used to contain something. \But where should we use it?,封印結界,何かを封印するときに使う結界です。\でも、これをどこに使うんですか？,封印结界,用于封印某物的结界。\但这个要用在哪里呢？,封印结界,用於封印某物的结界。\\但这個要用在哪里呢？
+,7121,봉인결계,무언가를 봉인하고 있는 결계입니다. \봉인된 존재로 인해 매 턴 던전에 이로운 효과를 줍니다.,Barrier of Sealing,A barrier sealing something away. \The sealed entity provides beneficial effects to the dungeon every turn.,封印結界,何かを封印している結界です。\封印された存在により- 毎ターンダンジョンに有益な効果をもたらします。,封印结界,正在封印某物的结界。\被封印的存在每回合为地下城带来有益效果。,封印结界,正在封印某物的结界。\\被封印的存在每回合為地下城带来有益效果。
+,,,,,,,,,,,
+,7130,치료 시설,유닛을 보호하고 치료하는 시설입니다. \유닛의 부상 회복 비용을 줄여 줍니다. \매 턴 아군 유닛에게 [강건 x 2] 상태를 부여합니다.,Medical Facility,A facility that protects and heals units. \It reduces the cost of recovering from injuries. \Grants [Robust x 2] status to allied units every turn.,治療施設,ユニットを保護し治療する施設です。\ユニットの負傷回復コストを削減します。\毎ターン味方ユニットに[頑健 x 2]状態を付与します。,治疗设施 ,保护和治疗单位的设施。\减少单位伤势恢复费用。\每回合对友方单位施加[强健 x 2]状态。,治療設施 ,保護和治療單位的設施。\\减少單位伤势恢复费用。\\每回合對友方單位施加[強健 x 2]状态。
+,,,,,,,,,,,
+,7140,훈련 시설,유닛을 훈련시키는 시설입니다. \유닛의 훈련 효율을 증가시켜 줍니다. \매 턴 아군 유닛에게 [강화 x 2] 상태를 부여합니다.,Training Facility,A facility for training units. \It increases training efficiency for units. \Grants [Empower x 2] status to allied units every turn.,訓練施設,ユニットを訓練させる施設です。\ユニットの訓練効率を向上させます。\毎ターン味方ユニットに[強化 x 2]状態を付与します。,训练设施,训练单位的设施。\提高单位的训练效率。\每回合对友方单位施加[强化 x 2]状态。,训练設施,训练單位的設施。\\提高單位的训练效率。\\每回合對友方單位施加[強化 x 2]状态。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,7200,활력의 오브,매 턴 행동력이 1 늘어납니다. \역시 건강한게 제일이죠.,Orb of Vitality,Your action points increase by 1 every turn. \Health is the most important- after all.,活力のオーブ,毎ターン行動力が1増えます。\やはり健康が一番ですね。,活力宝珠,每回合行动力增加1。\果然健康最重要。,活力寶珠,每回合行動力增加1。\\果然健康最重要。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,7300,신전,마나를 제단에 바칠 수 있는 신전입니다. \많은 마나를 바치면- 보답받을지도 몰라요.,Temple,A temple where you can offer mana to the altar. \If you offer enough mana- you might receive something in return.,神殿,マナを祭壇に捧げることができる神殿です。\たくさんのマナを捧げれば- 見返りがあるかもしれません。,神殿,可以在祭坛上供奉魔力的神殿。\如果供奉大量魔力- 可能会得到回报。,神殿,可以在祭坛上供奉魔力的神殿。\\如果供奉大量魔力- 可能会得到回报。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,

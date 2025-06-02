@@ -473,10 +473,15 @@ public class UI_Collection : UI_PopUp
             //{
 
             //}
-            //if (data.info.level_5_Unlock)
-            //{
-
-            //}
+            if (data.info.level_5_Unlock)
+            {
+                if (string.IsNullOrEmpty(SO_Data.evolutionDetail) == false)
+                {
+                    Add_Header($"{UserData.Instance.LocaleText("진화 조건")}");
+                    var textbox2 = Add_TextBox();
+                    OptionContentSet(textbox2.GetComponentInChildren<TextMeshProUGUI>(), SO_Data.evolutionDetail, true);
+                }
+            }
         }
     }
 

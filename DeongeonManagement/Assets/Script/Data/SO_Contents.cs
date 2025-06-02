@@ -49,7 +49,7 @@ public class SO_Contents : ScriptableObject
     [Header("CSV(Localization)")] //? external CSV Data
     public string labelName;
     public string detail;
-    public string boundary;
+    //public string boundary;
 
     [System.Serializable]
     public class Option

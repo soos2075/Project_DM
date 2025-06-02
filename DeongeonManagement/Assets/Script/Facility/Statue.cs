@@ -102,7 +102,7 @@ public class Statue : Facility, IWall
             case StatueType.Statue_Dog:
                 //? 1행동력 / 마나 혹은 골드를 좀 더 많은양
                 ui.SetText($"{UserData.Instance.LocaleText("Confirm_Pray_신뢰의상")}", () => Statue_Dog());
-                ui.SetMode_Calculation(Define.DungeonRank.F, "0", "0", "1");
+                ui.SetMode_Calculation(Define.DungeonRank.F, "+75~150", "+50~100", "1");
                 break;
 
             case StatueType.Statue_Dragon:
@@ -195,21 +195,33 @@ public class Statue : Facility, IWall
 
         Main.Instance.Player_AP--;
 
-        //? 마나랑 골드 둘중에 하나만 오르게
-        if (Random.Range(0,2) == 0)
+        //? 마나랑 골드 둘중에 하나만 오르게 -> 그냥 둘다 얻도록 변경
         {
-            int mana = Random.Range(150, 300);
+            int mana = Random.Range(75, 150);
+            int gold = Random.Range(50, 100);
+
             Main.Instance.CurrentDay.AddMana(mana, Main.DayResult.EventType.Etc);
-            var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
-            msg.Message = $"{mana} {UserData.Instance.LocaleText("Message_Get_Mana")}";
-        }
-        else
-        {
-            int gold = Random.Range(100, 200);
             Main.Instance.CurrentDay.AddGold(gold, Main.DayResult.EventType.Etc);
+
             var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
-            msg.Message = $"{gold} {UserData.Instance.LocaleText("Message_Get_Gold")}";
+            msg.Message = $"{mana} {UserData.Instance.LocaleText("Message_Get_Mana")}" +
+                $"\n{gold} {UserData.Instance.LocaleText("Message_Get_Gold")}";
         }
+
+        //if (Random.Range(0,2) == 0)
+        //{
+        //    int mana = Random.Range(150, 300);
+        //    Main.Instance.CurrentDay.AddMana(mana, Main.DayResult.EventType.Etc);
+        //    var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
+        //    msg.Message = $"{mana} {UserData.Instance.LocaleText("Message_Get_Mana")}";
+        //}
+        //else
+        //{
+        //    int gold = Random.Range(100, 200);
+        //    Main.Instance.CurrentDay.AddGold(gold, Main.DayResult.EventType.Etc);
+        //    var msg = Managers.UI.ShowPopUp<UI_SystemMessage>();
+        //    msg.Message = $"{gold} {UserData.Instance.LocaleText("Message_Get_Gold")}";
+        //}
     }
     void Statue_Dragon()
     {

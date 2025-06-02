@@ -136,7 +136,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.93.1.2_EA
+  bundleVersion: 0.93.1.4_EA
   preloadedAssets:
   - {fileID: 11400000, guid: 145dcf66a0c2cf0489bc71f9ff792fc0, type: 2}
   metroInputSource: 0
@@ -160,7 +160,7 @@ PlayerSettings:
   applicationIdentifier:
     Standalone: com.LazyCnD.NoviceDungeonMaster
   buildNumber:
-    Standalone: 092
+    Standalone: 093
     iPhone: 0
     tvOS: 0
   overrideDefaultApplicationIdentifier: 1
@@ -711,7 +711,7 @@ PlayerSettings:
   webGLDecompressionFallback: 0
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Standalone: STEAMWORKS_NET;STEAM_BUILD
+    Standalone: STEAMWORKS_NET;CHEAT_BUILD
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

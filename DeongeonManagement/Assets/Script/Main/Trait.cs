@@ -944,55 +944,55 @@ public class Trait
     {
         public TraitGroup ID { get; } = TraitGroup.Reconfigure;
     }
-    public class Vitality : ITrait_Value
+    public class Vitality : ITrait
     {
         public TraitGroup ID { get; } = TraitGroup.Vitality;
-        public int ApplyHP(int current)
-        {
-            return 0;
-        }
-        public int ApplyHP_Max(int current)
-        {
-            return 0;
-        }
-        public int ApplyATK(int current)
-        {
-            return 0;
-        }
-        public int ApplyDEF(int current)
-        {
-            return 0;
-        }
-        public int ApplyAGI(int current)
-        {
-            return 0;
-        }
-        public int ApplyLUK(int current)
-        {
-            return 0;
-        }
+        //public int ApplyHP(int current)
+        //{
+        //    return 0;
+        //}
+        //public int ApplyHP_Max(int current)
+        //{
+        //    return 0;
+        //}
+        //public int ApplyATK(int current)
+        //{
+        //    return 0;
+        //}
+        //public int ApplyDEF(int current)
+        //{
+        //    return 0;
+        //}
+        //public int ApplyAGI(int current)
+        //{
+        //    return 0;
+        //}
+        //public int ApplyLUK(int current)
+        //{
+        //    return 0;
+        //}
 
-        public void DoSomething()
-        {
+        //public void DoSomething()
+        //{
 
-        }
-        public int GetSomething<T>(T current)
-        {
-            if (current is int)
-            {
-                int hp = (int)(object)current;
+        //}
+        //public int GetSomething<T>(T current)
+        //{
+        //    if (current is int)
+        //    {
+        //        int hp = (int)(object)current;
 
-                int recorverHP = Mathf.RoundToInt(hp * 0.1f);
+        //        int recorverHP = Mathf.RoundToInt(hp * 0.1f);
 
-                return recorverHP;
-            }
-            return 0;
-        }
+        //        return recorverHP;
+        //    }
+        //    return 0;
+        //}
 
-        public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
-        {
-            return current as T1;
-        }
+        //public T1 GetSomething<T1, T2>(T2 current) where T1 : UnityEngine.Object where T2 : UnityEngine.Object
+        //{
+        //    return current as T1;
+        //}
     }
     public class Predation : ITrait
     {

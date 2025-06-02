@@ -59,6 +59,11 @@ public class GreyHound : Monster
         EvolutionCheck();
     }
 
+    public override void Regist_Evloution_Callback()
+    {
+        UnitDialogueEvent.ClearEvent(UnitDialogueEventLabel.GreyHound_Evolution);
+    }
+
 
     void EvolutionCheck()
     {
