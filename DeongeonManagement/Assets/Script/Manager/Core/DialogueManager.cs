@@ -53,6 +53,10 @@ public class DialogueManager
             case Define.Language.SC:
                 currentData = Managers.Data.Dialogue_SC;
                 break;
+
+            case Define.Language.TC:
+                currentData = Managers.Data.Dialogue_TC;
+                break;
         }
     }
 
@@ -200,10 +204,16 @@ public class DialogueManager
             return;
         }
 
-        UserData.Instance.GameMode = Define.GameMode.Normal;
+        UserData.Instance.GameMode = Define.TimeMode.Normal;
         Managers.UI.ClosePopupPickType(typeof(UI_DialogueBubble));
         currentDialogue = null;
     }
+    //public void Close_DialogueAll()
+    //{
+    //    UserData.Instance.GameMode = Define.GameMode.Normal;
+    //    Managers.UI.ClosePopupPickTypeAll<UI_DialogueBubble>();
+    //    currentDialogue = null;
+    //}
 
 
     public bool AllowPerfectSkip { get; set; } = true;
@@ -283,6 +293,8 @@ public class DialogueManager
 
     public void OneTimeOption(List<int> optionList, int id)
     {
+        currentDialogue.CloseOptionBox();
+
         for (int i = 0; i < optionList.Count; i++)
         {
             DialogueData data = GetDialogue(optionList[i] + id);
@@ -349,7 +361,14 @@ public class DialogueManager
 
     void Select_NewDialogue(DialogueData data)
     {
-        currentDialogue.CloseOptionBox();
+        if (currentDialogue == null)
+        {
+            Managers.UI.ClosePopupPickType<UI_OptionBox>();
+        }
+        else
+        {
+            currentDialogue.CloseOptionBox();
+        }
         ShowDialogueUI(data);
     }
 
@@ -404,7 +423,7 @@ public class DialogueManager
     IEnumerator Dialogue_NPCEvent(int DialogueID, NPC target, Action<NPC> OverCallback)
     {
         Setting_EventRoom();
-        UserData.Instance.GameMode = Define.GameMode.Stop;
+        UserData.Instance.GameMode = Define.TimeMode.Stop;
 
         //? 먼저 해당위치 포커싱
         var Cam = Camera.main.GetComponent<CameraControl>();

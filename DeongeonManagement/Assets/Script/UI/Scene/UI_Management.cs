@@ -48,7 +48,7 @@ public class UI_Management : UI_Base
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && Time.timeScale != 0 && UserData.Instance.GameMode == Define.GameMode.Normal)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && Time.timeScale != 0 && UserData.Instance.GameMode == Define.TimeMode.Normal)
         {
             GameSpeedChange();
         }
@@ -121,6 +121,8 @@ public class UI_Management : UI_Base
 
         Image_Day_NX,
         Image_Day_XN,
+        Image_Day_NXX,
+
         Image_Rank,
 
         DifficultyLevel,
@@ -232,8 +234,21 @@ public class UI_Management : UI_Base
         int tens = Main.Instance.Turn / 10;
         int ones = Main.Instance.Turn % 10;
 
+        int hundred = tens / 10;
+        tens = tens % 10;
+
         GetImage((int)Images.Image_Day_NX).sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Number", $"{tens}");
         GetImage((int)Images.Image_Day_XN).sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Number", $"{ones}");
+
+        if (hundred > 0)
+        {
+            GetImage((int)Images.Image_Day_NXX).sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Number", $"{hundred}");
+            GetImage((int)Images.Image_Day_NXX).gameObject.SetActive(true);
+        }
+        else
+        {
+            GetImage((int)Images.Image_Day_NXX).gameObject.SetActive(false);
+        }
 
         GetImage((int)Images.Image_Rank).sprite = Managers.Sprite.Get_SLA(SpriteManager.Library.UI, "Rank", 
             $"{(Define.DungeonRank)Main.Instance.DungeonRank}");
@@ -357,7 +372,7 @@ public class UI_Management : UI_Base
     }
     public void Show_MainCanvas()
     {
-        if (UserData.Instance.GameMode == Define.GameMode.Stop)
+        if (UserData.Instance.GameMode == Define.TimeMode.Stop)
         {
             return;
         }

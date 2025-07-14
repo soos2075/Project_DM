@@ -263,9 +263,13 @@ public class UI_SaveLoad : UI_PopUp
             {
                 diff += "¡Ú";
             }
+            if (data.savefileConfig.GameMode == Define.ModeSelect.Endless)
+            {
+                diff = "¡Ä";
+            }
 
             SaveSlotList[_index - 1].transform.Find("_Slot").GetComponentInChildren<TextMeshProUGUI>().text = 
-                $"{UserData.Instance.LocaleText("Slot")} {_index} - {diff}";
+                $"{UserData.Instance.LocaleText("Slot")} {_index} : [{diff}]";
 
 
             SaveSlotList[_index - 1].transform.Find("_Date").GetComponentInChildren<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocalDateTime(data.dateTime)}";
@@ -281,6 +285,10 @@ public class UI_SaveLoad : UI_PopUp
             {
                 SaveSlotList[_index - 1].transform.Find("_Day").GetComponentInChildren<TextMeshProUGUI>().text = $"{data.mainData.turn} : Clear";
             }
+
+            SaveSlotList[_index - 1].transform.Find("Delete_Button").gameObject.SetActive(true);
+            SaveSlotList[_index - 1].transform.Find("Delete_Button").gameObject.RemoveUIEventAll();
+            SaveSlotList[_index - 1].transform.Find("Delete_Button").gameObject.AddUIEvent((data) => Delete_Slot_Confirm(_index));
         }
         else
         {
@@ -290,12 +298,28 @@ public class UI_SaveLoad : UI_PopUp
             SaveSlotList[_index - 1].transform.Find("_Rank").GetComponentInChildren<TextMeshProUGUI>().text = $"";
             SaveSlotList[_index - 1].transform.Find("_Pop").GetComponentInChildren<TextMeshProUGUI>().text = $"";
             SaveSlotList[_index - 1].transform.Find("_Danger").GetComponentInChildren<TextMeshProUGUI>().text = $"";
+
+            SaveSlotList[_index - 1].transform.Find("Delete_Button").gameObject.SetActive(false);
         }
-
-
-
-
     }
+
+
+
+
+    void Delete_Slot_Confirm(int _index)
+    {
+        var confirm = Managers.UI.ShowPopUpAlone<UI_Confirm>();
+        confirm.SetText($"{UserData.Instance.LocaleText("Slot")} {_index} {UserData.Instance.LocaleText("»èÁ¦")}", () => Delete_Slot(_index));
+    }
+
+    void Delete_Slot(int _index)
+    {
+        Managers.Data.DeleteSaveFile($"DM_Save_{_index}");
+        ShowDataInfo(_index);
+        SoundManager.Instance.PlaySound("SFX/Save");
+    }
+
+
     void ShowAutoInfo()
     {
         var autodata = Managers.Data.GetData($"AutoSave");
@@ -306,9 +330,13 @@ public class UI_SaveLoad : UI_PopUp
             {
                 diff += "¡Ú";
             }
+            if (autodata.savefileConfig.GameMode == Define.ModeSelect.Endless)
+            {
+                diff = "¡Ä";
+            }
 
             GetImage(((int)Slot.AutoSave)).transform.Find("_Slot").GetComponentInChildren<TextMeshProUGUI>().text = 
-                $"{UserData.Instance.LocaleText("AutoSave")} - {diff}";
+                $"{UserData.Instance.LocaleText("AutoSave")} : [{diff}]";
 
             GetImage(((int)Slot.AutoSave)).transform.Find("_Date").GetComponentInChildren<TextMeshProUGUI>().text = $"{UserData.Instance.GetLocalDateTime(autodata.dateTime)}";
 

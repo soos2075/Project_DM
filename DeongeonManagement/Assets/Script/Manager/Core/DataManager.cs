@@ -1312,6 +1312,11 @@ public class DataManager
         if (SaveFileSearch(targetFile))
         {
             File.Delete($"{Application.persistentDataPath}/Savefile/{targetFile}.json");
+
+            if (SaveFileList.ContainsKey(targetFile))
+            {
+                SaveFileList[targetFile] = null;
+            }
             Debug.Log(targetFile + " Delete Complete");
         }
         else

@@ -61,7 +61,8 @@ public class UI_Credit : UI_PopUp
 
     void Close_Credit()
     {
-        SoundManager.Instance.PlaySound("BGM/_Title_Arcade", Define.AudioType.BGM);
+        //SoundManager.Instance.PlaySound("BGM/_Title_Arcade", Define.AudioType.BGM);
+        SoundManager.Instance.Play_Main_Default();
         isOver = true;
         ClosePopUp();
     }

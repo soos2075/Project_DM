@@ -222,10 +222,14 @@ public class UIManager
         GameObject go = Managers.Resource.Instantiate($"UI/PopUp/{name}", UI_Root.transform);
         T uiComponent = Util.GetOrAddComponent<T>(go);
 
-        if (_popupStack.Count > 0 && _popupStack.Peek().GetType() == uiComponent.GetType())
+        if (CheckPopupExist<T>())
         {
-            ClosePopUp();
+            ClosePopupPickTypeAll<T>();
         }
+        //if (_popupStack.Count > 0 && _popupStack.Peek().GetType() == uiComponent.GetType())
+        //{
+        //    ClosePopUp();
+        //}
 
         _popupStack.Push(uiComponent);
 
@@ -236,6 +240,19 @@ public class UIManager
         T component = ShowPopUpAlone<T>(name);
         component.transform.SetParent(parents);
         return component;
+    }
+
+
+    public bool CheckPopupExist<T>()
+    {
+        foreach (var item in _popupStack)
+        {
+            if (item is T)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -305,6 +322,24 @@ public class UIManager
                 ClosePopupPick(item);
                 return;
             }
+        }
+    }
+    public void ClosePopupPickType<T>()
+    {
+        foreach (var item in _popupStack)
+        {
+            if (item is T)
+            {
+                ClosePopupPick(item);
+                return;
+            }
+        }
+    }
+    public void ClosePopupPickTypeAll<T>()
+    {
+        while (CheckPopupExist<T>())
+        {
+            ClosePopupPickType<T>();
         }
     }
 

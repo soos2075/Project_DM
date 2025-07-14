@@ -122,6 +122,10 @@ public class RandomEventManager : MonoBehaviour
         }
     }
 
+
+
+
+
     //? 이벤트 내용 전에 대충 그럴싸한 말을 추가할까? 할 때 쓸거
     public const string GoodEvent = "";
     public const string NormalEvent = "";
@@ -524,6 +528,105 @@ public class RandomEventManager : MonoBehaviour
         }
     }
     #endregion
+
+    //? 새 게임 시드 - 무한모드용
+    public void Init_RE_Seed_Endless()
+    {
+        AddPicker(RandomEventPool.Normal);
+
+        var tempList = new List<SO_RandomEventContent>();
+
+        for (int i = 0; i < PickerList.Count; i++)
+        {
+            tempList.Add(PickerList[i]);
+        }
+        for (int i = 0; i < PickerList_Continue.Count; i++)
+        {
+            tempList.Add(PickerList_Continue[i]);
+        }
+
+        Util.ListShuffle(tempList);
+
+
+
+        //? 뽑은거 적당히 분배하기
+        var re_Once = new List<SO_RandomEventContent>();
+        var re_Continue = new List<SO_RandomEventContent>();
+        foreach (var item in tempList)
+        {
+            switch (item.type)
+            {
+                case RandomEventType.Once:
+                    re_Once.Add(item);
+                    break;
+
+                case RandomEventType.Continuous:
+                    re_Continue.Add(item);
+                    break;
+            }
+        }
+
+
+        //? Once 이벤트 분배
+        int maxInterval = 6;
+        int startDay = 2;
+        int counter = 0;
+
+        foreach (var item in re_Once)
+        {
+            var content = new CurrentRandomEventContent();
+
+            counter++;
+
+            int ranInterval = UnityEngine.Random.Range(3, maxInterval + 1);
+            int tempStart = startDay + ranInterval;
+
+            startDay += ranInterval;
+
+            content.ID = item.ID;
+            content.index = counter;
+            content.startDay = tempStart;
+            content.endDay = tempStart + item.continuousDays;
+            content.type = item.continuousDays == 0 ? RandomEventType.Once : RandomEventType.Continuous;
+            content.eventValue = item.eventValue;
+
+            CurrentEventList.Add(content);
+
+            //? 디버그
+            content.Check_EventInfo();
+        }
+
+        //? Continue 이벤트 분배
+        maxInterval = 9;
+        startDay = 1;
+        counter = 0;
+        foreach (var item in re_Continue)
+        {
+            var content = new CurrentRandomEventContent();
+
+            counter++;
+
+            int ranInterval = UnityEngine.Random.Range(6, maxInterval + 1);
+            int tempStart = startDay + ranInterval;
+
+            startDay += ranInterval;
+
+            content.ID = item.ID;
+            content.index = counter;
+            content.startDay = tempStart;
+            content.endDay = tempStart + (item.continuousDays - 1);
+            content.type = item.continuousDays == 0 ? RandomEventType.Once : RandomEventType.Continuous;
+            content.eventValue = item.eventValue;
+
+            CurrentEventList.Add(content);
+
+            //? 디버그
+            content.Check_EventInfo();
+        }
+    }
+
+
+
 
 
     //? 새 게임 시드 만들기 - 2회차 이상 게임 시 호출하면 댐

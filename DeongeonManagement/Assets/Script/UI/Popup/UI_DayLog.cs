@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_DayLog : UI_PopUp
 {
@@ -21,6 +22,8 @@ public class UI_DayLog : UI_PopUp
 
     public override void Init()
     {
+        scroll = GetComponentInChildren<ScrollRect>();
+
         Managers.UI.SetCanvas(gameObject);
 
         Bind<GameObject>(typeof(Objects));
@@ -36,6 +39,7 @@ public class UI_DayLog : UI_PopUp
 
 
     Transform logBox;
+    ScrollRect scroll;
 
 
     void Init_LogButton()
@@ -44,6 +48,12 @@ public class UI_DayLog : UI_PopUp
         {
             var log = Managers.Resource.Instantiate("UI/PopUp/Element/DayLog", logBox);
             log.AddUIEvent(data => Show_DayResult(log.transform.GetSiblingIndex()));
+
+            //? 부모의 스크롤렉트의 드래그이벤트 연결
+            log.gameObject.AddUIEvent((data) => scroll.OnDrag(data), Define.UIEvent.Drag);
+            log.gameObject.AddUIEvent((data) => scroll.OnBeginDrag(data), Define.UIEvent.BeginDrag);
+            log.gameObject.AddUIEvent((data) => scroll.OnEndDrag(data), Define.UIEvent.EndDrag);
+
 
             log.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = $"{log.transform.GetSiblingIndex() + 1}";
         }

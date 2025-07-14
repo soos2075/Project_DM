@@ -28,6 +28,7 @@ public class UI_NewGamePlus : UI_PopUp
 
     public enum Panel
     {
+        ModePanel,
         DifficultyPanel,
         BuffPanel,
         StatuePanel,
@@ -53,7 +54,7 @@ public class UI_NewGamePlus : UI_PopUp
         Bind<Button>(typeof(Btn));
 
 
-
+        Init_Mode();
         Init_Difficulty();
         Init_Buff();
         Init_Statue();
@@ -76,6 +77,7 @@ public class UI_NewGamePlus : UI_PopUp
     void GameStart()
     {
         UserData.Instance.FileConfig.Difficulty = (Define.DifficultyLevel)currentSelectDifficulty;
+        UserData.Instance.FileConfig.GameMode = (Define.ModeSelect)currentSelectMode;
 
         foreach (var item in bonusList)
         {
@@ -90,59 +92,6 @@ public class UI_NewGamePlus : UI_PopUp
     }
 
 
-
-
-    #region SO_Data_Arti
-    //SO_Artifact[] so_data;
-
-    //public void Init_LocalData()
-    //{
-    //    so_data = Resources.LoadAll<SO_Artifact>("Data/Artifact");
-    //    foreach (var item in so_data)
-    //    {
-    //        string[] datas = Managers.Data.GetTextData_Artifact(item.id);
-
-    //        if (datas == null)
-    //        {
-    //            Debug.Log($"{item.id} : CSV Data Not Exist");
-    //            continue;
-    //        }
-
-    //        item.labelName = datas[0];
-    //        item.detail = datas[1];
-    //        item.tooltip_Effect = datas[2];
-    //    }
-    //}
-
-    //public SO_Artifact GetData(string _keyName)
-    //{
-    //    foreach (var item in so_data)
-    //    {
-    //        if (item.keyName == _keyName)
-    //        {
-    //            return item;
-    //        }
-    //    }
-    //    Debug.Log($"{_keyName}: Data Not Exist");
-    //    return null;
-    //}
-    //public SO_Artifact GetData(int _id)
-    //{
-    //    foreach (var item in so_data)
-    //    {
-    //        if (item.id == _id)
-    //        {
-    //            return item;
-    //        }
-    //    }
-    //    Debug.Log($"{_id}: Data Not Exist");
-    //    return null;
-    //}
-
-
-
-
-    #endregion
 
 
     #region SO_Data_ 필요한 툴팁 텍스트만 DataManager에서 직접 가져오기
@@ -221,44 +170,105 @@ public class UI_NewGamePlus : UI_PopUp
             GetImage(i).gameObject.SetActive(false);
         }
 
+        int pageIndex = System.Enum.GetNames(typeof(Panel)).Length - 1;
 
-        switch (currentPage)
+        if (currentPage <= 0)
         {
-            case 0:
-                GetButton((int)Btn.NextBtn).gameObject.SetActive(true);
-                GetButton((int)Btn.PrevBtn).gameObject.SetActive(false);
-                GetImage((int)Panel.DifficultyPanel).gameObject.SetActive(true);
-                break;
+            currentPage = 0;
+            GetButton((int)Btn.NextBtn).gameObject.SetActive(true);
+            GetButton((int)Btn.PrevBtn).gameObject.SetActive(false);
+        }
+        else if (currentPage >= pageIndex)
+        {
+            currentPage = pageIndex;
+            GetButton((int)Btn.NextBtn).gameObject.SetActive(false);
+            GetButton((int)Btn.PrevBtn).gameObject.SetActive(true);
+        }
+        else //if (0 < currentPage && currentPage < pageIndex)
+        {
+            GetButton((int)Btn.NextBtn).gameObject.SetActive(true);
+            GetButton((int)Btn.PrevBtn).gameObject.SetActive(true);
+        }
 
-            case 1:
-                GetButton((int)Btn.NextBtn).gameObject.SetActive(true);
-                GetButton((int)Btn.PrevBtn).gameObject.SetActive(true);
-                GetImage((int)Panel.BuffPanel).gameObject.SetActive(true);
-                break;
 
-            case 2:
-                GetButton((int)Btn.NextBtn).gameObject.SetActive(true);
-                GetButton((int)Btn.PrevBtn).gameObject.SetActive(true);
-                GetImage((int)Panel.StatuePanel).gameObject.SetActive(true);
-                break;
 
-            case 3:
-                GetButton((int)Btn.NextBtn).gameObject.SetActive(true);
-                GetButton((int)Btn.PrevBtn).gameObject.SetActive(true);
-                GetImage((int)Panel.UnitPanel).gameObject.SetActive(true);
-                break;
 
-            case 4:
-                GetButton((int)Btn.NextBtn).gameObject.SetActive(false);
-                GetButton((int)Btn.PrevBtn).gameObject.SetActive(true);
-                GetImage((int)Panel.ArtifactPanel).gameObject.SetActive(true);
-                break;
+        GetImage(currentPage).gameObject.SetActive(true);
+
+
+
+        //switch (currentPage)
+        //{
+        //    case 0:
+        //        GetButton((int)Btn.NextBtn).gameObject.SetActive(true);
+        //        GetButton((int)Btn.PrevBtn).gameObject.SetActive(false);
+        //        GetImage((int)Panel.DifficultyPanel).gameObject.SetActive(true);
+        //        break;
+
+        //    case 1:
+        //        GetButton((int)Btn.NextBtn).gameObject.SetActive(true);
+        //        GetButton((int)Btn.PrevBtn).gameObject.SetActive(true);
+        //        GetImage((int)Panel.BuffPanel).gameObject.SetActive(true);
+        //        break;
+
+        //    case 2:
+        //        GetButton((int)Btn.NextBtn).gameObject.SetActive(true);
+        //        GetButton((int)Btn.PrevBtn).gameObject.SetActive(true);
+        //        GetImage((int)Panel.StatuePanel).gameObject.SetActive(true);
+        //        break;
+
+        //    case 3:
+        //        GetButton((int)Btn.NextBtn).gameObject.SetActive(true);
+        //        GetButton((int)Btn.PrevBtn).gameObject.SetActive(true);
+        //        GetImage((int)Panel.UnitPanel).gameObject.SetActive(true);
+        //        break;
+
+        //    case 4:
+        //        GetButton((int)Btn.NextBtn).gameObject.SetActive(false);
+        //        GetButton((int)Btn.PrevBtn).gameObject.SetActive(true);
+        //        GetImage((int)Panel.ArtifactPanel).gameObject.SetActive(true);
+        //        break;
+        //}
+    }
+
+    public int currentSelectMode = 0;
+
+    void Init_Mode()
+    {
+        var parent = GetImage((int)Panel.ModePanel).GetComponentInChildren<GridLayoutGroup>();
+        var btn = parent.GetComponentsInChildren<Button>();
+
+        btn[0].gameObject.AddUIEvent(data => Mode_Select(0));
+        btn[1].gameObject.AddUIEvent(data => Mode_Select(1));
+
+        Mode_Select(0);
+
+        //? 툴팁 등록
+        {
+            var tool = btn[0].gameObject.GetOrAddComponent<UI_Tooltip>();
+            tool.SetTooltipContents("", UserData.Instance.LocaleText_NGP("스토리모드_설명"), UI_TooltipBox.ShowPosition.RightDown);
+            tool.SetFontSize(_contentSize: 30);
+        }
+        {
+            var tool = btn[1].gameObject.GetOrAddComponent<UI_Tooltip>();
+            tool.SetTooltipContents("", UserData.Instance.LocaleText_NGP("무한모드_설명"), UI_TooltipBox.ShowPosition.RightDown);
+            tool.SetFontSize(_contentSize: 30);
         }
     }
 
+    void Mode_Select(int _mode)
+    {
+        var parent = GetImage((int)Panel.ModePanel).GetComponentInChildren<GridLayoutGroup>();
+        var btn = parent.GetComponentsInChildren<Button>();
 
+        foreach (var item in btn)
+        {
+            item.image.sprite = defaultBtn;
+        }
 
-
+        currentSelectMode = _mode;
+        btn[_mode].image.sprite = selectBtn;
+    }
 
 
 
@@ -448,7 +458,7 @@ public class UI_NewGamePlus : UI_PopUp
         //? 툴팁 등록
         var tool = obj.GetOrAddComponent<UI_Tooltip>();
         tool.SetTooltipContents("", GetArtifactData(arti), UI_TooltipBox.ShowPosition.RightDown);
-
+        tool.SetFontSize(_contentSize: 30);
 
         //? 등록할 때 껐다 켜서 이미지 최신화
         ContentClick(_label, obj.GetComponent<Button>());
@@ -485,6 +495,7 @@ public class UI_NewGamePlus : UI_PopUp
         //? 툴팁 등록
         var tool = obj.GetOrAddComponent<UI_Tooltip>();
         tool.SetTooltipContents("", GetStatueData(_id), UI_TooltipBox.ShowPosition.RightDown);
+        tool.SetFontSize(_contentSize: 30);
 
         //? 등록할 때 껐다 켜서 이미지 최신화
         ContentClick_Statue(_label, obj.GetComponent<Button>());

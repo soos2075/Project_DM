@@ -244,8 +244,14 @@ public class Main : MonoBehaviour
             Technical_Expansion(1);
 
             //? 이벤트 시드
-            RandomEventManager.Instance.Init_RE_Seed(UserData.Instance.FileConfig.Difficulty);
-            //RandomEventManager.Instance.Test_Add_RE();
+            if (UserData.Instance.FileConfig.GameMode == Define.ModeSelect.Endless)
+            {
+                RandomEventManager.Instance.Init_RE_Seed_Endless();
+            }
+            else
+            {
+                RandomEventManager.Instance.Init_RE_Seed(UserData.Instance.FileConfig.Difficulty);
+            }
         }
         else
         {
@@ -953,11 +959,11 @@ public class Main : MonoBehaviour
         }
         if (RandomEventManager.Instance.Check_Current_ContinueEvent(RandomEventManager.ContinueRE.AP_Up))
         {
-            Player_AP += 2;
+            Player_AP += (Player_AP / 2);
         }
         if (RandomEventManager.Instance.Check_Current_ContinueEvent(RandomEventManager.ContinueRE.AP_Down))
         {
-            Player_AP -= 2;
+            Player_AP = 1;
         }
 
         //? 위가 적용 아래가 새로교체
@@ -982,11 +988,13 @@ public class Main : MonoBehaviour
         }
 #endif
 
-        if (Turn == 30)
+        if (Turn == 30 && UserData.Instance.FileConfig.GameMode == Define.ModeSelect.Story)
         {
             Managers.Dialogue.ShowDialogueUI(DialogueName.Day30_Over, Player);
             yield break;
         }
+
+
 
         Managers.UI.Popup_Reservation(() =>
         {
@@ -1462,13 +1470,16 @@ public class Main : MonoBehaviour
 
     #region Animation
     Animator ani_MainUI;
-    Animator ani_Sky;
+    Animator ani_Background;
     Animator ani_Dungeon;
 
     void Init_DefaultSetting()
     {
         ani_MainUI = UI_Main.GetComponent<Animator>();
-        ani_Sky = GameObject.Find("SkyBackground").GetComponent<Animator>();
+
+        //ani_Background = GameObject.Find("SkyBackground").GetComponent<Animator>();
+        ani_Background = GameObject.Find("NonScript").GetComponent<Animator>();
+
         ani_Dungeon = GameObject.Find("DungeonSprite").GetComponent<Animator>();
         mainCam = Camera.main.GetComponent<CameraControl>();
     }
@@ -1477,7 +1488,7 @@ public class Main : MonoBehaviour
     public void DayChangeAnimation()
     {
         ani_MainUI.SetBool("Management", Management);
-        ani_Sky.SetBool("Management", Management);
+        ani_Background.SetBool("Management", Management);
         //ani_Dungeon.SetBool("Management", Management);
     }
 
@@ -1785,6 +1796,14 @@ public class Main : MonoBehaviour
     public void ChangeEggState()
     {
         Debug.Log($"{Turn}일차 종료\nTotal Mana : {GetTotalMana()}\nTotal Gold : {GetTotalGold()}");
+
+        if (UserData.Instance.FileConfig.GameMode == Define.ModeSelect.Endless)
+        {
+            EggObj.GetComponent<SpecialEgg>().SetEggData(GameManager.Facility.GetData("Egg_Endless"));
+            return;
+        }
+
+
 
         if (Turn < 5)
         {

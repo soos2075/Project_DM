@@ -11,7 +11,7 @@ public class UI_Dialogue : UI_PopUp, IDialogue
     {
         Init();
         //Time.timeScale = 0;
-        UserData.Instance.GameMode = Define.GameMode.Stop;
+        UserData.Instance.GameMode = Define.TimeMode.Stop;
     }
     private void Update()
     {
@@ -46,7 +46,7 @@ public class UI_Dialogue : UI_PopUp, IDialogue
                 Managers.UI.ClosePopUp();
                 Managers.Dialogue.currentDialogue = null;
 
-                UserData.Instance.GameMode = Define.GameMode.Normal;
+                UserData.Instance.GameMode = Define.TimeMode.Normal;
 
             }, Define.UIEvent.RightClick);
         }
@@ -255,7 +255,7 @@ public class UI_Dialogue : UI_PopUp, IDialogue
             textCount++;
         }
         //Time.timeScale = 1;
-        UserData.Instance.GameMode = Define.GameMode.Normal;
+        UserData.Instance.GameMode = Define.TimeMode.Normal;
 
         Managers.UI.ClosePopUp(this);
         Managers.Dialogue.currentDialogue = null;

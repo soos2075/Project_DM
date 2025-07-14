@@ -1,8 +1,8 @@
 ID,KeyName,Name_KR,Detail_KR,Name_EN,Detail_EN,Name_JP,Detail_JP,Name_SC,Detail_SC,Name_TC,Detail_TC
 1,,던전 마스터의 일,이제부터 시작이군.  \\일단은 던전의 랭크를 높이는 걸 목표로 해볼까?,Dungeon Master's Work,Now it begins. \\Should I aim to raise the dungeon's rank first?,ダンジョンマスターの仕事,これからが始まりだな。\\まずはダンジョンのランクを上げることを目標にしてみようか？,地下城主人的工作,现在才刚刚开始。\\首先以提高地下城的等级为目标吧？,地下城主人的工作,現在才刚刚开始。\\首先以提高地下城的等級為目标吧？
 ,,,,,,,,,,,
-1000,,베스트 컨디션,컨디션이 최상이다. \최대 행동력 +2,Best Condition,Your condition is at its best. \Action Points +2,ベストコンディション,調子が最高だ。\AP +2,最佳状态,状态非常好。\行动力 +2,最佳状态,状态非常好。\\行動力 +2
-1001,,워스트 컨디션,컨디션이 최악이다. \최대 행동력 ^2,Worst Condition,Your condition is at its worst. \Action Points ^2,ワーストコンディション,調子が最悪だ。\AP ^2,最差状态,状态非常糟。\行动力 ^2,最差状态,状态非常糟。\\行動力 ^2
+1000,,베스트 컨디션,컨디션이 최상이다. \추가 행동력,Best Condition,Your condition is at its best. \Additional Action Points,ベストコンディション,調子が最高だ。\追加AP,最佳状态,状态非常好。\额外行动力,最佳状态,状态非常好。\\額外行動力
+1001,,워스트 컨디션,컨디션이 최악이다. \행동력이 1로 고정,Worst Condition,Your condition is at its worst. \Action Points fixed at 1,ワーストコンディション,調子が最悪だ。\APが1に固定,最差状态,状态非常糟。\行动力固定为1,最差状态,状态非常糟。\\行動力固定為1
 ,,,,,,,,,,,
 ,,,,,,,,,,,
 ,,,,,,,,,,,

@@ -292,6 +292,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CameraSpeed: 0
+  pixelCam: {fileID: 0}
 --- !u!81 &593201387
 AudioListener:
   m_ObjectHideFlags: 0
@@ -931,7 +932,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 6
-  m_Sprite: {fileID: 21300000, guid: d9537d57035326a43a263031e1d3fb78, type: 3}
+  m_Sprite: {fileID: 427100418, guid: aaabae63e9a950e42b17405624412303, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2420,7 +2421,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 6
-  m_Sprite: {fileID: 21300000, guid: 3063a557ea2e4ab4189bf950d1f42673, type: 3}
+  m_Sprite: {fileID: 1621433821, guid: aaabae63e9a950e42b17405624412303, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

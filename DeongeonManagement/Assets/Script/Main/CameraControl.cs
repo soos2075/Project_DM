@@ -46,7 +46,7 @@ public class CameraControl : MonoBehaviour
             return;
         }
 
-        if (UserData.Instance.GameMode == Define.GameMode.Stop) return;
+        if (UserData.Instance.GameMode == Define.TimeMode.Stop) return;
 
         if (Cor_CameraChasing != null) return;
 

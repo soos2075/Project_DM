@@ -22,16 +22,16 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
             return;
         }
 
-        if (Input.anyKey)
-        {
-            //seconds = 0.03f;
-            Time.timeScale = 2.0f;
-        }
-        else
-        {
-            //seconds = 0.06f;
-            Time.timeScale = 1.0f;
-        }
+        //if (Input.anyKey)
+        //{
+        //    //seconds = 0.03f;
+        //    Time.timeScale = 2.0f;
+        //}
+        //else
+        //{
+        //    //seconds = 0.06f;
+        //    Time.timeScale = 1.0f;
+        //}
 
 
         TurnOver_HotKey();
@@ -144,7 +144,26 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
 
     void Init_Conversation()
     {
-        seconds = 0.06f;
+        seconds = 0.08f;
+
+        //Debug.Log(UserData.Instance.Language + "%%");
+        //Debug.Log(UserData.Instance.CurrentPlayerData.option.Language + "@@");
+        switch (UserData.Instance.Language)
+        {
+            case Define.Language.EN:
+                seconds = 0.04f;
+                break;
+            case Define.Language.KR:
+                seconds = 0.06f;
+                break;
+            case Define.Language.JP:
+                break;
+            case Define.Language.SC:
+                break;
+            case Define.Language.TC:
+                break;
+        }
+
 
         if (EndingData == null)
         {
@@ -168,7 +187,7 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
             //mainText.text = "";
 
             var textData = Managers.Dialogue.GetDialogue(data.cutSceneList[i].dialogueName);
-            yield return StartCoroutine(SceneFadeAndShowText(mainImage, mainText, textData));
+            yield return StartCoroutine(SceneFadeAndShowText(mainImage, mainText, textData, data.cutSceneList[i].bgmName, data.cutSceneList[i].timer));
 
             mainText.text = "";
             mainText.color = Color.white;
@@ -219,16 +238,25 @@ public class UI_EndingCanvas : UI_Scene, IDialogue
     //    yield return StartCoroutine(Fade(FadeMode.ToClear, 2, targetImage, targetText));
     //}
 
-    IEnumerator SceneFadeAndShowText(Image targetImage, TextMeshProUGUI targetText, DialogueData dialogueData)
+    IEnumerator SceneFadeAndShowText(Image targetImage, TextMeshProUGUI targetText, DialogueData dialogueData, string bgmName, float timer)
     {
+        var first_Time = Time.time;
+
+        if (!string.IsNullOrEmpty(bgmName))
+        {
+            SoundManager.Instance.PlaySound($"New_BGM/{bgmName}", Define.AudioType.BGM);
+        }
+
         yield return StartCoroutine(Fade(FadeMode.ToAlpha, 2, targetImage));
 
         Data = dialogueData;
         yield return StartCoroutine(ContentsRoofWithType(Data));
 
-        yield return new WaitForSeconds(1);
-        var startTime = Time.time;
-        yield return new WaitUntil(() => Input.anyKeyDown || Input.GetMouseButtonDown(0) || Time.time >= startTime + 5f);
+        //yield return new WaitForSeconds(3);
+        //var startTime = Time.time;
+        //yield return new WaitUntil(() => Input.anyKeyDown || Input.GetMouseButtonDown(0) || Time.time >= startTime + 4f);
+
+        yield return new WaitUntil(() => Time.time >= first_Time + timer);
 
         yield return StartCoroutine(Fade(FadeMode.ToClear, 2, targetImage, targetText));
     }

@@ -145,6 +145,9 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         isClearable = Data.isClearable;
 
         Data_KeyName = Data.keyName;
+
+        bs_debuff = Data.battleStatus;
+        bs_value = Data.bs_Value;
     }
 
     protected float durationTime;
@@ -154,6 +157,9 @@ public abstract class Facility : MonoBehaviour, IPlacementable
     protected int gold_value;
     protected int pop_value;
     protected int danger_value;
+
+    protected BattleStatusLabel bs_debuff;
+    protected int bs_value;
 
 
 
@@ -232,6 +238,11 @@ public abstract class Facility : MonoBehaviour, IPlacementable
         {
             Main.Instance.CurrentDay.AddMana(applyMana, Main.DayResult.EventType.Facility);
             Main.Instance.ShowDM(applyMana, Main.TextType.mana, transform);
+        }
+
+        if (bs_debuff != BattleStatusLabel.None && bs_value > 0)
+        {
+            npc.CurrentBattleStatus.AddValue(bs_debuff, bs_value);
         }
 
         OverCor(npc, isLastInteraction);

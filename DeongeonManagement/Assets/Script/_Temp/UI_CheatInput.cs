@@ -69,7 +69,7 @@ public class UI_CheatInput : UI_PopUp
             if (string.IsNullOrEmpty(input) == false)
             {
                 var day = int.Parse(input);
-                day = Mathf.Clamp(day, 0, 29);
+                //day = Mathf.Clamp(day, 0, 29);
 
                 Main.Instance.Turn = day;
 

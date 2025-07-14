@@ -223,6 +223,26 @@ MonoBehaviour:
     m_Key: First_Clear_MSG
     m_Metadata:
       m_Items: []
+  - m_Id: 88911624548855808
+    m_Key: "\uAC8C\uC784 \uBAA8\uB4DC"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 88913877221453824
+    m_Key: Story Mode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 88914046570672128
+    m_Key: Endless Mode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 88929552723816448
+    m_Key: "\uC2A4\uD1A0\uB9AC\uBAA8\uB4DC_\uC124\uBA85"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 88929563549315072
+    m_Key: "\uBB34\uD55C\uBAA8\uB4DC_\uC124\uBA85"
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

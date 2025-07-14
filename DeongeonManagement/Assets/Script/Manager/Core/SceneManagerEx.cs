@@ -80,27 +80,28 @@ public class SceneManagerEx
         switch (_scene)
         {
             case SceneName._1_Start:
-                SoundManager.Instance.PlaySound("BGM/_Title_Arcade", Define.AudioType.BGM);
+                //SoundManager.Instance.PlaySound("BGM/_Title_Arcade", Define.AudioType.BGM);
+                SoundManager.Instance.PlaySound("New_BGM/Welcome, Heroes", Define.AudioType.BGM);
                 break;
 
             case SceneName._2_Management:
-                SoundManager.Instance.PlaySound("BGM/_Main_GameCenter", Define.AudioType.BGM);
+                //SoundManager.Instance.PlaySound("BGM/_Main_GameCenter", Define.AudioType.BGM);
+                SoundManager.Instance.PlaySound("New_BGM/Let_s build", Define.AudioType.BGM);
                 break;
 
             case SceneName._3_Guild:
-                SoundManager.Instance.PlaySound("BGM/_Guild_TimeLeft", Define.AudioType.BGM);
+                //SoundManager.Instance.PlaySound("BGM/_Guild_TimeLeft", Define.AudioType.BGM);
+                SoundManager.Instance.PlaySound("New_BGM/Anytime", Define.AudioType.BGM);
                 break;
 
             case SceneName._6_NewOpening:
-                SoundManager.Instance.PlaySound("BGM/_Openning_Grassland", Define.AudioType.BGM);
-                break;
-
-            case SceneName._5_Ending:
-                SoundManager.Instance.StopMusic();
+                //SoundManager.Instance.PlaySound("BGM/_Openning_Grassland", Define.AudioType.BGM);
+                SoundManager.Instance.PlaySound("New_BGM/What the heck", Define.AudioType.BGM);
                 break;
 
             case SceneName._7_NewEnding:
-                SoundManager.Instance.PlaySound("BGM/_Ending_LazyMidnight", Define.AudioType.BGM);
+                //SoundManager.Instance.PlaySound("BGM/_Ending_LazyMidnight", Define.AudioType.BGM);
+                SoundManager.Instance.PlaySound("New_BGM/The 30th day", Define.AudioType.BGM);
                 break;
 
             default:
@@ -168,10 +169,6 @@ public class SceneManagerEx
             case "_3_Guild":
                 return SceneName._3_Guild;
 
-            case "_5_Ending":
-                return SceneName._5_Ending;
-
-
             case "_6_NewOpening":
                 return SceneName._6_NewOpening;
 
@@ -199,12 +196,6 @@ public class SceneManagerEx
                 return SceneName._3_Guild;
 
 
-
-            case "_5_Ending":
-                return SceneName._5_Ending;
-
-
-
             case "_6_NewOpening":
                 return SceneName._6_NewOpening;
 
@@ -224,7 +215,7 @@ public enum SceneName
     _2_Management = 2,
     _3_Guild = 3,
     //_4_Direction = 4,
-    _5_Ending = 5,
+    //_5_Ending = 5,
     _6_NewOpening = 6,
     _7_NewEnding = 7,
 }

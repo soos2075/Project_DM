@@ -222,6 +222,10 @@ public class FloorInitializer : MonoBehaviour
         var egg = CreateObj_OnlyOne((int)Define.DungeonFloor.Egg, new Vector2Int(0, 2), "Egg_Lv1") as SpecialEgg;
         Main.Instance.EggObj = egg.GetObject();
         egg.SetEggData(GameManager.Facility.GetData("Egg_Lv1"));
+        if (UserData.Instance.FileConfig.GameMode == Define.ModeSelect.Endless)
+        {
+            egg.SetEggData(GameManager.Facility.GetData("Egg_Endless"));
+        }
 
         var sub1 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(0, 3), "Clone_Facility", CreateOption.Return) as Clone_Facility;
         var sub2 = CreateObj((int)Define.DungeonFloor.Egg, new Vector2Int(1, 2), "Clone_Facility", CreateOption.Return) as Clone_Facility;

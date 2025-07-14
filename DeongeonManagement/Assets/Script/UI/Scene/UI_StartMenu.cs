@@ -24,6 +24,12 @@ public class UI_StartMenu : UI_Scene
         }
     }
 
+
+    public GameObject Background_Normal;
+    public GameObject Background_AllClear;
+
+
+
     enum TMP_Texts
     {
         VersionText,
@@ -55,6 +61,8 @@ public class UI_StartMenu : UI_Scene
         LoadButtonActive();
 
         StartCoroutine(WaitFrame());
+
+        Init_Button_Select();
     }
 
 
@@ -63,6 +71,51 @@ public class UI_StartMenu : UI_Scene
         yield return null;
         Init_CollectionButton();
     }
+
+
+    void Init_Button_Select()
+    {
+        GetButton((int)Buttons.NewGame).gameObject.AddUIEvent(data => Button_Enter(Buttons.NewGame), Define.UIEvent.Enter);
+        GetButton((int)Buttons.NewGame).gameObject.AddUIEvent(data => Button_Exit(Buttons.NewGame), Define.UIEvent.Exit);
+
+        GetButton((int)Buttons.Load).gameObject.AddUIEvent(data => Button_Enter(Buttons.Load), Define.UIEvent.Enter);
+        GetButton((int)Buttons.Load).gameObject.AddUIEvent(data => Button_Exit(Buttons.Load), Define.UIEvent.Exit);
+
+        GetButton((int)Buttons.Pause).gameObject.AddUIEvent(data => Button_Enter(Buttons.Pause), Define.UIEvent.Enter);
+        GetButton((int)Buttons.Pause).gameObject.AddUIEvent(data => Button_Exit(Buttons.Pause), Define.UIEvent.Exit);
+
+        GetButton((int)Buttons.Quit).gameObject.AddUIEvent(data => Button_Enter(Buttons.Quit), Define.UIEvent.Enter);
+        GetButton((int)Buttons.Quit).gameObject.AddUIEvent(data => Button_Exit(Buttons.Quit), Define.UIEvent.Exit);
+
+        GetButton((int)Buttons.Elbum).gameObject.AddUIEvent(data => Button_Enter(Buttons.Elbum), Define.UIEvent.Enter);
+        GetButton((int)Buttons.Elbum).gameObject.AddUIEvent(data => Button_Exit(Buttons.Elbum), Define.UIEvent.Exit);
+
+        GetButton((int)Buttons.Credit).gameObject.AddUIEvent(data => Button_Enter(Buttons.Credit), Define.UIEvent.Enter);
+        GetButton((int)Buttons.Credit).gameObject.AddUIEvent(data => Button_Exit(Buttons.Credit), Define.UIEvent.Exit);
+    }
+
+
+    private static readonly Color MyYellow = new Color32(255, 249, 105, 255);
+
+    void Button_Enter(Buttons buttons)
+    {
+        //? 소리
+        SoundManager.Instance.PlaySound("SFX/UI_Enter", Define.AudioType.Effect);
+
+        ////? 텍스트색깔
+        //for (int i = 0; i < System.Enum.GetValues(typeof(Buttons)).Length; i++)
+        //{
+        //    GetButton(i).GetComponentInChildren<TMPro.TextMeshProUGUI>().color = Color.white;
+        //}
+
+        GetButton((int)buttons).GetComponentInChildren<TMPro.TextMeshProUGUI>().color = MyYellow;
+    }
+
+    void Button_Exit(Buttons buttons)
+    {
+        GetButton((int)buttons).GetComponentInChildren<TMPro.TextMeshProUGUI>().color = Color.white;
+    }
+
 
 
     void Init_CollectionButton()
@@ -100,7 +153,13 @@ public class UI_StartMenu : UI_Scene
         {
             GetButton((int)Buttons.Elbum).gameObject.SetActive(true);
             GetButton(((int)Buttons.Elbum)).gameObject.AddUIEvent(data => Managers.UI.ShowPopUp<UI_Elbum>());
-            Title_Clear();
+            Title_Clear(Background_Normal, Background_AllClear);
+        }
+
+        if (UserData.Instance.CurrentPlayerData.EndingClearNumber() >= System.Enum.GetValues(typeof(Endings)).Length)
+        {
+            Title_Clear(Background_AllClear, Background_Normal);
+            //SoundManager.Instance.PlaySound("New_BGM/Beyond the Dungeon", Define.AudioType.BGM);
         }
 
         //if (CollectionManager.Instance.RoundClearData != null)
@@ -111,9 +170,12 @@ public class UI_StartMenu : UI_Scene
         //}
     }
 
-    void Title_Clear()
+    void Title_Clear(GameObject active, GameObject inactive)
     {
-        var back = GameObject.Find("Background");
+        var back = active;
+
+        inactive.SetActive(false);
+        active.SetActive(true);
 
         if (UserData.Instance.CurrentPlayerData.EndingClearCheck(Endings.Dog))
         {
@@ -140,6 +202,11 @@ public class UI_StartMenu : UI_Scene
             back.transform.Find("Title_Deer").gameObject.SetActive(true);
         }
     }
+
+
+
+
+
 
 
 

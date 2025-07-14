@@ -43,6 +43,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 2057477471
+    locked: 0
+  - name: GroundObject
+    uniqueID: 4029895119
+    locked: 0
   - name: BattleField
     uniqueID: 4094214119
     locked: 0

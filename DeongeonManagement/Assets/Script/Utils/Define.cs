@@ -15,7 +15,7 @@ public class Define
         TC = 4,
     }
 
-    public enum GameMode
+    public enum TimeMode
     {
         Normal,
         Stop,
@@ -65,6 +65,13 @@ public class Define
         //VeryHard = 3,
         Master = 3,
     }
+
+    public enum ModeSelect
+    {
+        Story = 0,
+        Endless = 1,
+    }
+
 
     public enum StatType
     {
@@ -279,6 +286,12 @@ public class Define
         Boundary_3x1 = 301,
         Boundary_3x2 = 302,
         Boundary_3x3 = 303,
+
+        Boundary_3x3_empty = 313,
+        Boundary_H = 323,
+        Boundary_I = 333,
+
+
         Boundary_4x4 = 404,
         Boundary_5x5 = 505,
 
@@ -441,6 +454,22 @@ public class Define
     public static readonly Vector2Int[] Boundary_Empty_rhombus = {
         new Vector2Int(2, 0), new Vector2Int(-2, 0), new Vector2Int(0, 2), new Vector2Int(0, -2),
         new Vector2Int(1, 1), new Vector2Int(1, -1), new Vector2Int(-1, 1), new Vector2Int(-1, -1)};
+
+
+    public static readonly Vector2Int[] Boundary_3x3_empty = {
+         new Vector2Int(1, 0), new Vector2Int(-1, 0),
+        new Vector2Int(0, 1), new Vector2Int(1, 1), new Vector2Int(-1, 1),
+        new Vector2Int(0, -1), new Vector2Int(1, -1), new Vector2Int(-1, -1)};
+
+    public static readonly Vector2Int[] Boundary_H = {
+        new Vector2Int(0, 0), new Vector2Int(1, 0), new Vector2Int(-1, 0),
+        new Vector2Int(1, 1), new Vector2Int(-1, 1),
+        new Vector2Int(1, -1), new Vector2Int(-1, -1)};
+
+    public static readonly Vector2Int[] Boundary_I = {
+        new Vector2Int(0, 0),
+        new Vector2Int(0, 1), new Vector2Int(1, 1), new Vector2Int(-1, 1),
+        new Vector2Int(0, -1), new Vector2Int(1, -1), new Vector2Int(-1, -1)};
 
     #endregion Boundary
 

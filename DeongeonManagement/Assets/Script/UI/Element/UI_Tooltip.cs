@@ -34,12 +34,23 @@ public class UI_Tooltip : UI_Base
     }
 
 
+    int titleSize = 25;
+    int contentSize = 22;
+
+    public void SetFontSize(int _titleSize = 25, int _contentSize = 22)
+    {
+        titleSize = _titleSize;
+        contentSize = _contentSize;
+    }
+
+
     void ShowTooltip()
     {
         //Debug.Log(gameObject.name + "ShowTooltipBox");
 
         var ui = Managers.UI.ShowPopUpAlone<UI_TooltipBox>();
         ui.Init_Tooltip(title, detail, position);
+        ui.Init_TooltipSize(titleSize, contentSize);
     }
 
     void TooltipBoxClose()

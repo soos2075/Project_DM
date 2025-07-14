@@ -21,6 +21,12 @@ public class UI_TooltipBox : UI_PopUp
         BoxPosition = position;
     }
 
+    public void Init_TooltipSize(int titleSize, int contentSize)
+    {
+        text_Title.fontSize = titleSize;
+        text_Contents.fontSize = contentSize;
+    }
+
 
     public void SetCanvas()
     {

@@ -9,7 +9,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
     void Start()
     {
         //Time.timeScale = 0;
-        UserData.Instance.GameMode = Define.GameMode.Stop;
+        UserData.Instance.GameMode = Define.TimeMode.Stop;
         Init();
 
         mainCam = Camera.main.GetComponent<CameraControl>();
@@ -396,7 +396,7 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
         }
 
         //Time.timeScale = 1;
-        UserData.Instance.GameMode = Define.GameMode.Normal;
+        UserData.Instance.GameMode = Define.TimeMode.Normal;
         Managers.UI.ClosePopupPick(this);
         Managers.Dialogue.currentDialogue = null;
         Debug.Log("대화 종료");
@@ -517,12 +517,13 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
             return;
         }
 
+        StopAllCoroutines();
 
         DialogueData textData = Data;
 
-        while (textCount < textData.TextDataList.Count)
+        while (textCount - 1 < textData.TextDataList.Count)
         {
-            string option = textData.TextDataList[textCount].optionString;
+            string option = textData.TextDataList[textCount - 1].optionString;
             if (option == null)
             {
                 option = string.Empty;
@@ -563,6 +564,15 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
             //    textCount++;
             //    return;
             //}
+
+            if (option.Contains("@Option")) //? ID를 받아서 퀘스트만큼의 선택지를 제공
+            {
+                string npcID = option.Substring(option.IndexOf("@Option::") + 9, option.IndexOf("::Option") - (option.IndexOf("@Option::") + 9));
+                var npc = GuildManager.Instance.GetInteraction(int.Parse(npcID));
+                npc.OneTimeOptionButton();
+            }
+
+
             if (option.Contains("@Select")) //? 대화 중 선택지
             {
                 string selection = option.Substring(option.IndexOf("@Select::") + 9, option.IndexOf("::Select") - (option.IndexOf("@Select::") + 9));
@@ -574,13 +584,13 @@ public class UI_DialogueBubble : UI_PopUp, IWorldSpaceUI, IDialogue
                 }
 
                 Managers.Dialogue.Show_SelectOption(intList);
-                return;
+                //return;
             }
 
             textCount++;
         }
 
-        UserData.Instance.GameMode = Define.GameMode.Normal;
+        UserData.Instance.GameMode = Define.TimeMode.Normal;
         Managers.UI.ClosePopupPick(this);
         Managers.Dialogue.currentDialogue = null;
         Debug.Log("대화 스킵");

@@ -511,6 +511,7 @@ public class BattleStatus
 
 public enum BattleStatusLabel
 {
+    None = 0,
     //? 오리지널 상태이상 (특수 혹은 특성)
     Spiritual = 100,
     Heroism = 101,

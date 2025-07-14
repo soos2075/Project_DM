@@ -506,8 +506,8 @@ public class UserData : MonoBehaviour
 
 
 #region GameMode
-    private Define.GameMode _gameMode;
-    public Define.GameMode GameMode
+    private Define.TimeMode _gameMode;
+    public Define.TimeMode GameMode
     {
         get
         {
@@ -519,10 +519,10 @@ public class UserData : MonoBehaviour
 
             switch (_gameMode)
             {
-                case Define.GameMode.Normal:
+                case Define.TimeMode.Normal:
                     GamePlay();
                     break;
-                case Define.GameMode.Stop:
+                case Define.TimeMode.Stop:
                     GameStop();
                     break;
             }
@@ -541,7 +541,7 @@ public class UserData : MonoBehaviour
     void GameStop()
     {
         Time.timeScale = 1;
-        Wait_GamePlay = new WaitUntil(() => GameMode != Define.GameMode.Stop);
+        Wait_GamePlay = new WaitUntil(() => GameMode != Define.TimeMode.Stop);
     }
 
     public void GamePlay()
@@ -560,7 +560,7 @@ public class UserData : MonoBehaviour
         GameSpeed = 1;
         Time.timeScale = 1;
         //GameMode = Define.GameMode.Normal;
-        _gameMode = Define.GameMode.Normal;
+        _gameMode = Define.TimeMode.Normal;
     }
 
     public void GamePlay(int speed)
@@ -698,8 +698,8 @@ public class UserData : MonoBehaviour
         //? 난이도
         public Define.DifficultyLevel Difficulty;
 
-        //? 무한모드인가요?
-        public bool InfinityMode;
+        //? 게임모드
+        public Define.ModeSelect GameMode;
 
         // 몇회차인지에 대한 정보
         public int PlayRounds;

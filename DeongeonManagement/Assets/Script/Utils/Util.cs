@@ -166,6 +166,13 @@ public class Util
 
             case Define.Boundary.Boundary_Empty_rhombus:
                 return Define.Boundary_Empty_rhombus;
+
+            case Define.Boundary.Boundary_H:
+                return Define.Boundary_H;
+            case Define.Boundary.Boundary_I:
+                return Define.Boundary_I;
+            case Define.Boundary.Boundary_3x3_empty:
+                return Define.Boundary_3x3_empty;
         }
         return null;
     }

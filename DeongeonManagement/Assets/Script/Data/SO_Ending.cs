@@ -28,5 +28,7 @@ public class SO_Ending : ScriptableObject, I_SO_Collection
         public Sprite sprite;
         public string dialogueName;
         public UI_EndingCanvas.Preset preset;
+        public string bgmName;
+        public float timer;
     }
 }

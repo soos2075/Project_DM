@@ -260,6 +260,32 @@ MonoBehaviour:
       game- you can use Clear Points to get various bonuses.'
     m_Metadata:
       m_Items: []
+  - m_Id: 88911624548855808
+    m_Localized: Game Mode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 88913877221453824
+    m_Localized: Story Mode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 88914046570672128
+    m_Localized: Endless Mode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 88929552723816448
+    m_Localized: 'A mode that progresses for 30 days and allows you to see the ending.
+
+      Enemies
+      become stronger based on difficulty.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 88929563549315072
+    m_Localized: 'A mode that progresses without date limits and has no ending.
+
+      Regardless
+      of difficulty, enemies become stronger as days pass.'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

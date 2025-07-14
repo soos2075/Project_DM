@@ -51,6 +51,8 @@ public class GuildHelper : MonoBehaviour
         FindAnyObjectByType<UI_DialogueBubble>().transform.localScale = Vector3.one * 0.015f;
 
         Managers.Dialogue.ActionReserve(() => {
+            //Managers.Dialogue.Close_DialogueAll();
+
             CamChange_ToMain();
             Managers.Resource.Destroy(left);
             Managers.Resource.Destroy(right);

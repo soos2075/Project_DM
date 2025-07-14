@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
    
     void Update()
     {
-        if (Time.timeScale == 0 || Managers.UI._popupStack.Count > 0 || UserData.Instance.GameMode == Define.GameMode.Stop)
+        if (Time.timeScale == 0 || Managers.UI._popupStack.Count > 0 || UserData.Instance.GameMode == Define.TimeMode.Stop)
         {
             return;
         }
@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
     {
         Key_Esc();
 
-        if (Time.timeScale == 0 || Managers.UI._popupStack.Count > 0 || UserData.Instance.GameMode == Define.GameMode.Stop)
+        if (Time.timeScale == 0 || Managers.UI._popupStack.Count > 0 || UserData.Instance.GameMode == Define.TimeMode.Stop)
         {
             return;
         }

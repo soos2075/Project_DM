@@ -39,6 +39,10 @@ public class SO_Facility : ScriptableObject, I_SO_Collection
     public int pop_value;
     public int danger_value;
 
+    [Header("Status")]
+    public BattleStatusLabel battleStatus;
+    public int bs_Value;
+
 
     [Header("Category")]
     public InteractionGroup category;

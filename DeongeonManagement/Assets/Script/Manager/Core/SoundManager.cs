@@ -91,11 +91,30 @@ public class SoundManager : MonoBehaviour
     {
         yield return null;
 
-        AudioSources[(int)Define.AudioType.BGM].volume = UserData.Instance.CurrentPlayerData.option.Volume_BGM;
-        AudioSources[(int)Define.AudioType.Effect].volume = UserData.Instance.CurrentPlayerData.option.Volume_Effect;
+        //AudioSources[(int)Define.AudioType.BGM].volume = UserData.Instance.CurrentPlayerData.option.Volume_BGM;
+        //AudioSources[(int)Define.AudioType.Effect].volume = UserData.Instance.CurrentPlayerData.option.Volume_Effect;
 
-        PlaySound("BGM/_Title_Arcade", Define.AudioType.BGM);
+        SetVolume_Offset(Define.AudioType.BGM, UserData.Instance.CurrentPlayerData.option.Volume_BGM);
+        SetVolume_Offset(Define.AudioType.Effect, UserData.Instance.CurrentPlayerData.option.Volume_Effect);
+
+
+        //PlaySound("BGM/_Title_Arcade", Define.AudioType.BGM);
+        //PlaySound("New_BGM/Welcome, Heroes", Define.AudioType.BGM);
+        Play_Main_Default();
     }
+
+    public void Play_Main_Default()
+    {
+        if (UserData.Instance.CurrentPlayerData.EndingClearNumber() >= System.Enum.GetValues(typeof(Endings)).Length)
+        {
+            PlaySound("New_BGM/Beyond the Dungeon", Define.AudioType.BGM);
+        }
+        else
+        {
+            PlaySound("New_BGM/Welcome, Heroes", Define.AudioType.BGM);
+        }
+    }
+
 
 
 
@@ -110,9 +129,27 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+
+    void SetVolume_Offset(Define.AudioType type, float value)
+    {
+        switch (type)
+        {
+            case Define.AudioType.Effect:
+                AudioSources[(int)type].volume = value;
+                break;
+
+            case Define.AudioType.BGM:
+                AudioSources[(int)type].volume = value * 0.4f;
+                break;
+        }
+    }
+
+
+
     public void SetVolume(Define.AudioType type, float value)
     {
-        AudioSources[(int)type].volume = value;
+        SetVolume_Offset(type, value);
+        //AudioSources[(int)type].volume = value;
 
 
         switch (type)

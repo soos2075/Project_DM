@@ -46,7 +46,7 @@ public class ArtifactBox : MonoBehaviour
     {
         if (Main.Instance.Management == false) return true;
         if (Main.Instance.CurrentAction != null) return true;
-        if (UserData.Instance.GameMode == Define.GameMode.Stop) return true;
+        if (UserData.Instance.GameMode == Define.TimeMode.Stop) return true;
         if (Time.timeScale == 0) return true;
 
 

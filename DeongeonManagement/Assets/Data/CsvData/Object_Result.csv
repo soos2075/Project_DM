@@ -172,6 +172,9 @@ Event_Goblin_Knight,1912,고블린 척후병,던전의 모든 자원을 탐내�
 ,,,,,,,,,,,
 ,2010,상급 약초의 뿌리,턴 시작 시 주변에 상급 약초를 퍼트리는 모체 약초입니다. \뿌리가 없어지면 생성 효과도 사라져요.,High^grade Herb Root,A mother herb that spreads high^grade herbs around it at the start of each turn. \If the root is removed- the spawning effect disappears.,上級薬草の根,ターン開始時に周囲に上級薬草を広げる母体となる薬草です。\根がなくなると- 生成効果も消えます。,高级草药之根,在回合开始时向周围扩散高级草药的母体草药。\如果根部消失- 生成效果也会消失。,高級草藥之根,在回合開始時向周围扩散高級草藥的母体草藥。\如果根部消失- 生成效果也會消失。
 ,,,,,,,,,,,
+,2020,독초,독을 가진 약초입니다. 쓰임새는 많지만 위험하므로 채집 시 유의해야 합니다. \대상에게 [약화] 상태를 부여합니다.,Poison Herb,A herb containing poison. It has many uses but is dangerous - so caution is required when harvesting. \Inflicts [Weaken] status on targets.,毒草,毒を持つ薬草です。用途は多いですが危険なので採取時には注意が必要です。\対象に[弱化]状態を付与します。,毒草,含有毒素的药草。用途很多但很危险，采集时需要注意。\对目标施加[弱化]状态。,毒草,含有毒素的藥草。用途很多但很危險，採集時需要注意。\對目標施加[弱化]狀態。
+,2021,가시넝쿨,가시가 달린 덩굴입니다. 마나가 별로 없어 가치는 없지만- 무시하면 다칠 수 있기 때문에 처리하고 가야 합니다. \대상에게 [슬로우] 상태를 부여합니다.,Thorn Vine,A vine with thorns. It has little mana and no value - but must be dealt with as ignoring it could cause injury. \Inflicts [Slow] status on targets.,棘蔓,棘のついた蔓です。マナがあまりなく価値はありませんが、無視すると怪我をする可能性があるため処理して進む必要があります。\対象に[スロウ]状態を付与します。,刺藤,带刺的藤蔓。魔力不多没有价值，但如果忽视可能会受伤，所以必须处理后通过。\对目标施加[减速]状态。,刺藤,帶刺的藤蔓。魔力不多沒有價值，但如果忽視可能會受傷，所以必須處理後通過。\對目標施加[減速]狀態。
+,,,,,,,,,,,
 ,,,,,,,,,,,
 ,,,,,,,,,,,
 ,2100,흔한 바위,흔한 던전의 바위입니다. 그렇지만 지상의 바위와는 완전히 다른 물질이에요.,Common Rock,It's a common rock from the Dungeon. But it's a completely different material from rocks on the surface.,一般的な岩,一般的なダンジョンの岩です。しかし、地上の岩とは全く異なる物質です。,普通岩石,普通的地下城岩石。但与地表的岩石完全不同。,普通岩石,普通的地下城岩石。但與地表的岩石完全不同。
@@ -183,6 +186,12 @@ Event_Goblin_Knight,1912,고블린 척후병,던전의 모든 자원을 탐내�
 ,2106,루비,은은한 붉은빛의 내는 루비원석입니다. 장식품이나 관상용으로 많이 거래됩니다.,Ruby,A ruby gemstone with a faint red glow. Widely traded for ornaments and viewing.,ルビー,淡い赤色を放つルビー原石です。装飾品や観賞用として多く取引されます。,红宝石,散发淡淡红光的红宝石原石。作为装饰品或观赏用品广泛交易。,红寶石,散發淡淡紅光的红寶石原石。作為裝飾品或觀賞用品廣泛交易。
 ,2107,룬스톤,마법 룬 문자가 새겨진 희귀한 원석입니다. 상위 클래스 마법을 위해 꼭 필요한 재료이므로 고가에 거래됩니다.,Runestone,A rare gemstone engraved with magic rune characters. Essential for higher class magic- so it's traded at a high price.,ルーンストーン,魔法のルーン文字が刻まれた希少な原石です。上位クラスの魔法に必要不可欠な材料のため、高価で取引されます。,符文石,刻有魔法符文文字的稀有原石。是高级魔法所必需的材料- 因此以高价交易。,符文石,刻有魔法符文文字的稀有原石。是高級魔法所必需的材料- 因此以高價交易。
 ,2108,크리스탈,투명하고 흠이 적은 맑은 크리스탈입니다. 크기와 형태에 따라 가격이 천차만별이에요.,Crystal,A clear crystal with few flaws. The price varies greatly depending on the size and shape.,クリスタル,透明で欠陥の少ないきれいなクリスタルです。大きさや形状によって価格が千差万別です。,水晶,透明且缺陷很少的清澈水晶。价格因大小和形状而千差万别。,水晶,透明且缺陷很少的清澈水晶。價格因大小和形状而千差萬別。
+,,,,,,,,,,,
+,2120,합성광물,바위에 마나를 인공적으로 섞어 넣어 최대한 단단하게 만든 광물입니다. 캐려고 한다면 장비 손상은 각오해야 할거에요. \대상에게 [쇠약] 상태를 부여합니다.,Synthetic Mineral,A mineral made by artificially mixing mana into rock to make it as hard as possible. If you try to mine it - be prepared for equipment damage. \Inflicts [Wither] status on targets.,合成鉱物,岩にマナを人工的に混ぜ入れて最大限硬くした鉱物です。採掘しようとするなら装備の損傷は覚悟する必要があるでしょう。\対象に[衰弱]状態を付与します。,合成矿物,在岩石中人工混入魔力制成的最坚硬矿物。如果想要开采，要做好装备损坏的准备。\对目标施加[衰弱]状态。,合成礦物,在岩石中人工混入魔力製成的最堅硬礦物。如果想要開採，要做好裝備損壞的準備。\對目標施加[衰弱]狀態。
+,2121,유독성 바위,유독가스를 품고 있는 바위입니다. 조심하지 않으면 가스에 노출되어 약화될 수 있습니다. \대상에게 [약화] 상태를 부여합니다.,Toxic Rock,A rock containing toxic gas. Without caution - you could be exposed to gas and weakened. \Inflicts [Weaken] status on targets.,有毒岩,有毒ガスを含んでいる岩です。注意しないとガスに曝露されて弱化する可能性があります。\対象に[弱化]状態を付与します。,有毒岩石,含有有毒气体的岩石。如果不小心，可能会接触到气体而变弱。\对目标施加[弱化]状态。,有毒岩石,含有有毒氣體的岩石。如果不小心，可能會接觸到氣體而變弱。\對目標施加[弱化]狀態。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
 ,,,,,,,,,,,
 ,,,,,,,,,,,
 ,2200,골든 소드,금으로 만들어진 검입니다. 보기엔 멋져보이지만 실제 사용은 어렵고 장식용 입니다.,Golden Sword,A sword made of gold. It looks impressive but is difficult to use and is for decorative purposes.,ゴールデンソード,金で作られた剣です。見た目は素晴らしいですが、実際の使用は難しく装飾用です。,黄金剑,由黄金制成的剑。看起来很漂亮- 但实际使用困难- 主要用于装饰。,黃金劍,由黃金製成的劍。看起來很漂亮- 但实际使用困难- 主要用於裝飾。
@@ -238,7 +247,7 @@ Event_Goblin_Knight,1912,고블린 척후병,던전의 모든 자원을 탐내�
 ,,,,,,,,,,,
 ,,,,,,,,,,,
 ,,,,,,,,,,,
-,,,,,,,,,,,
+,2900,무한의 알,끝없는 힘을 지닌 알입니다.,Infinite Egg,An egg that possesses endless power.,無限の卵,無限の力を持つ卵です。,无限之卵,拥有无尽力量的卵。,無限之卵,擁有無盡力量的卵。
 ,2901,신비로운 알,신비한 분위기를 지닌 알입니다. 계약기간 동안 지켜야 합니다.,Mysterious Egg,An egg with a mysterious atmosphere. Must be kept during the contract period.,神秘の卵,神秘的な雰囲気を持つ卵です。契約期間中は守らなければなりません。,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。
 ,2902,신비로운 알,신비한 분위기를 지닌 알입니다. 계약기간 동안 지켜야 합니다.,Mysterious Egg,An egg with a mysterious atmosphere. Must be kept during the contract period.,神秘の卵,神秘的な雰囲気を持つ卵です。契約期間中は守らなければなりません。,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。
 ,2903,신비로운 알,신비한 분위기를 지닌 알입니다. 계약기간 동안 지켜야 합니다.,Mysterious Egg,An egg with a mysterious atmosphere. Must be kept during the contract period.,神秘の卵,神秘的な雰囲気を持つ卵です。契約期間中は守らなければなりません。,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。,神秘之蛋,具有神秘氛围的蛋。必须在契约期间保护它。
@@ -341,6 +350,10 @@ Hero,3908,영웅의 상,밝은 기운을 내뿜는 형상입니다. \기도를 �
 ,,,,,,,,,,,
 ,5010,상급 약초의 뿌리,주변에 약초를 퍼트리는 모체 약초입니다. \턴 시작 시 해당 약초가 존재하면- 반경 3칸 이내에 상급약초를 최대 4개까지 생성합니다. \본체인 뿌리가 없어지면 생성 효과도 사라져요.,High^grade Herb Root,A mother herb that spreads herbs around it. \When this herb exists at the start of a turn- it creates up to 4 high^grade herbs within a 3^tile radius. \If the root itself is removed- the spawning effect disappears.,上級薬草の根,周囲に薬草を広げる母体となる薬草です。\ターン開始時にこの薬草が存在すると- 半径3マス以内に上級薬草を最大4個まで生成します。\本体である根がなくなると- 生成効果も消えます。,高级草药之根,一种能在周围扩散草药的母体草药。\在回合开始时如果此草药存在- 会在3格范围内最多生成4个高级草药。\如果根部消失- 生成效果也会消失。,高級草藥之根,一种能在周圍擴散草藥的母体草藥。\\在回合開始时如果此草藥存在- 会在3格範圍内最多生成4個高級草藥。\\如果根部消失- 生成效果也会消失。
 ,,,,,,,,,,,
+,5020,독초,독을 가진 약초입니다. 쓰임새는 많지만 위험하므로 채집 시 유의해야 합니다. \대상에게 [약화] 상태를 부여합니다.,Poison Herb,A herb containing poison. It has many uses but is dangerous - so caution is required when harvesting. \Inflicts [Weaken] status on targets.,毒草,毒を持つ薬草です。用途は多いですが危険なので採取時には注意が必要です。\対象に[弱化]状態を付与します。,毒草,含有毒素的药草。用途很多但很危险，采集时需要注意。\对目标施加[弱化]状态。,毒草,含有毒素的藥草。用途很多但很危險，採集時需要注意。\對目標施加[弱化]狀態。
+,5021,가시넝쿨,가시가 달린 덩굴입니다. 마나가 별로 없어 가치는 없지만- 무시하면 다칠 수 있기 때문에 처리하고 가야 합니다. \대상에게 [슬로우] 상태를 부여합니다.,Thorn Vine,A vine with thorns. It has little mana and no value - but must be dealt with as ignoring it could cause injury. \Inflicts [Slow] status on targets.,棘蔓,棘のついた蔓です。マナがあまりなく価値はありませんが、無視すると怪我をする可能性があるため処理して進む必要があります。\対象に[スロウ]状態を付与します。,刺藤,带刺的藤蔓。魔力不多没有价值，但如果忽视可能会受伤，所以必须处理后通过。\对目标施加[减速]状态。,刺藤,帶刺的藤蔓。魔力不多沒有價值，但如果忽視可能會受傷，所以必須處理後通過。\對目標施加[減速]狀態。
+,,,,,,,,,,,
+,,,,,,,,,,,
 ,,,,,,,,,,,
 ,5100,작은 광맥,유용한 물질을 얻을 수 있는 광맥을 설치합니다. 여러 광물이 섞여있어요.,Small Ore Vein,Sets up an ore vein from which useful materials can be obtained. It contains a mix of various minerals.,小さな鉱脈,有用な物質を得ることができる鉱脈を設置します。様々な鉱物が混ざっています。,小型矿脉,设置可以获得有用物质的矿脉。混合了各种矿物。,小型礦脈,設置可以獲得有用物質的礦脈。混合了各种礦物。
 ,5101,큰 광맥,유용한 물질을 얻을 수 있는 광맥을 설치합니다. 여러 광물이 섞여있어요.,Large Ore Vein,Sets up a larger ore vein from which useful materials can be obtained. It contains a mix of various minerals.,大きな鉱脈,有用な物質を得ることができるより大きな鉱脈を設置します。様々な鉱物が混ざっています。,大型矿脉,设置可以获得有用物质的更大矿脉。混合了各种矿物。,大型礦脈,設置可以獲得有用物質的更大礦脈。混合了各种礦物。
@@ -348,6 +361,12 @@ Hero,3908,영웅의 상,밝은 기운을 내뿜는 형상입니다. \기도를 �
 ,5103,석탄 광맥,석탄을 캘 수 있는 광맥입니다. 쉽고 빠른 채굴이 가능합니다.,Coal Ore Vein,An ore vein where coal can be mined. It allows for easy and quick mining.,石炭鉱脈,石炭を採掘できる鉱脈です。簡単かつ迅速に採掘が可能です。,煤炭矿脉,可以开采煤炭的矿脉。可以快速简单地开采。,煤炭礦脈,可以開採煤炭的礦脈。可以快速简單地開採。
 ,5104,마나 철광맥,순도 높은 마나 철광석을 다량 포함하고 있는 검은 크리스탈을 설치합니다.,Mana Iron Ore Vein,Sets up a black crystal containing a large amount of high-purity mana iron ore.,マナ鉄鉱脈,純度の高いマナ鉄鉱石を多量に含む黒いクリスタルを設置します。,魔力铁矿脉,设置含有大量高纯度魔力铁矿石的黑色水晶。,魔力鐵礦脈,設置含有大量高純度魔力鐵礦石的黑色水晶。
 ,5105,크리스탈의 벽,크리스탈로 이루어진 벽을 설치합니다. 쓸모는 많지만 채굴 난이도는 높은 편입니다.,Crystal Wall,Sets up a wall made of crystal. It has many uses but is difficult to mine.,クリスタルの壁,クリスタルでできた壁を設置します。用途は多いが、採掘の難易度は高いです。,水晶墙,设置由水晶组成的墙。用途广泛- 但开采难度较高。,水晶牆,設置由水晶组成的牆。用途廣泛- 但開採難度较高。
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,5120,합성광물,바위에 마나를 인공적으로 섞어 넣어 최대한 단단하게 만든 광물입니다. 캐려고 한다면 장비 손상은 각오해야 할거에요. \대상에게 [쇠약] 상태를 부여합니다.,Synthetic Mineral,A mineral made by artificially mixing mana into rock to make it as hard as possible. If you try to mine it - be prepared for equipment damage. \Inflicts [Wither] status on targets.,合成鉱物,岩にマナを人工的に混ぜ入れて最大限硬くした鉱物です。採掘しようとするなら装備の損傷は覚悟する必要があるでしょう。\対象に[衰弱]状態を付与します。,合成矿物,在岩石中人工混入魔力制成的最坚硬矿物。如果想要开采，要做好装备损坏的准备。\对目标施加[衰弱]状态。,合成礦物,在岩石中人工混入魔力製成的最堅硬礦物。如果想要開採，要做好裝備損壞的準備。\對目標施加[衰弱]狀態。
+,5121,유독성 바위,유독가스를 품고 있는 바위입니다. 조심하지 않으면 가스에 노출되어 약화될 수 있습니다. \대상에게 [약화] 상태를 부여합니다.,Toxic Rock,A rock containing toxic gas. Without caution - you could be exposed to gas and weakened. \Inflicts [Weaken] status on targets.,有毒岩,有毒ガスを含んでいる岩です。注意しないとガスに曝露されて弱化する可能性があります。\対象に[弱化]状態を付与します。,有毒岩石,含有有毒气体的岩石。如果不小心，可能会接触到气体而变弱。\对目标施加[弱化]状态。,有毒岩石,含有有毒氣體的岩石。如果不小心，可能會接觸到氣體而變弱。\對目標施加[弱化]狀態。
+,,,,,,,,,,,
 ,,,,,,,,,,,
 ,,,,,,,,,,,
 ,5200,낙하 함정,고전식 발밑 함정을 설치합니다. 발동되면 시간과 체력에 피해를 줄 수 있어요.,Falling trap,It installs a classic pit trap. If triggered- it can damage your time and stamina.,落とし穴,古典的な足元の罠を設置します。作動すると時間と体力にダメージを与えられます。,陷阱,设置经典的地面陷阱。触发后可以损耗时间和体力。,陷阱,設置經典的地面陷阱。觸發后可以損耗時間和體力。

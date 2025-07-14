@@ -13,6 +13,7 @@ public class UI_GameOver : UI_PopUp
 
     enum Btn
     {
+        Btn_Result,
         Btn_Main,
         Btn_Load,
     }
@@ -30,6 +31,8 @@ public class UI_GameOver : UI_PopUp
         UserData.Instance.CurrentPlayerData.config.GameOverCount++;
 
         StartCoroutine(GameOver());
+
+        UserData.Instance.FileConfig.PlayTimeApply();
     }
 
 
@@ -39,8 +42,15 @@ public class UI_GameOver : UI_PopUp
         Time.timeScale = 0;
         yield return new WaitForSecondsRealtime(1);
 
+        GetButton((int)Btn.Btn_Result).gameObject.AddUIEvent(data => ShowResult());
         GetButton((int)Btn.Btn_Main).gameObject.AddUIEvent(data => ToMain());
         GetButton((int)Btn.Btn_Load).gameObject.AddUIEvent(data => Load());
+    }
+
+
+    void ShowResult()
+    {
+        Managers.UI.ShowPopUp<UI_FinalResult>();
     }
 
 

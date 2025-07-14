@@ -1823,7 +1823,7 @@ public class EventManager : MonoBehaviour
     {
         var Dungeon = Main.Instance.Dungeon;
         GameManager.NPC.CustomStage = true;
-        UserData.Instance.GameMode = Define.GameMode.Stop;
+        UserData.Instance.GameMode = Define.TimeMode.Stop;
 
         var fade = Managers.UI.ShowPopUp<UI_Fade>();
         fade.SetFadeOption(UI_Fade.FadeMode.WhiteIn, 1, true);
@@ -1896,7 +1896,7 @@ public class EventManager : MonoBehaviour
         var Dungeon = Main.Instance.Dungeon;
 
         GameManager.NPC.CustomStage = true;
-        UserData.Instance.GameMode = Define.GameMode.Stop;
+        UserData.Instance.GameMode = Define.TimeMode.Stop;
 
         var fade = Managers.UI.ShowPopUp<UI_Fade>();
         fade.SetFadeOption(UI_Fade.FadeMode.WhiteIn, 1, true);
@@ -2043,7 +2043,7 @@ public class EventManager : MonoBehaviour
     {
         var Dungeon = Main.Instance.Dungeon;
         GameManager.NPC.CustomStage = true;
-        UserData.Instance.GameMode = Define.GameMode.Stop;
+        UserData.Instance.GameMode = Define.TimeMode.Stop;
 
         var fade = Managers.UI.ShowPopUp<UI_Fade>();
         fade.SetFadeOption(UI_Fade.FadeMode.WhiteIn, 1, true);
@@ -2097,7 +2097,7 @@ public class EventManager : MonoBehaviour
         yield return null;
         yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
 
-        UserData.Instance.GameMode = Define.GameMode.Normal;
+        UserData.Instance.GameMode = Define.TimeMode.Normal;
 
         cap_A.Departure(cap_A.transform.position, Dungeon.position);
         foreach (var item in group1)
@@ -2126,7 +2126,7 @@ public class EventManager : MonoBehaviour
     {
         var Dungeon = Main.Instance.Dungeon;
         GameManager.NPC.CustomStage = true;
-        UserData.Instance.GameMode = Define.GameMode.Stop;
+        UserData.Instance.GameMode = Define.TimeMode.Stop;
 
         var fade = Managers.UI.ShowPopUp<UI_Fade>();
         fade.SetFadeOption(UI_Fade.FadeMode.WhiteIn, 1, true);
@@ -2181,7 +2181,7 @@ public class EventManager : MonoBehaviour
         yield return null;
         yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
 
-        UserData.Instance.GameMode = Define.GameMode.Normal;
+        UserData.Instance.GameMode = Define.TimeMode.Normal;
 
         cap_A.Departure(cap_A.transform.position, Dungeon.position);
         foreach (var item in group1)
@@ -2215,7 +2215,7 @@ public class EventManager : MonoBehaviour
         //? 사전준비
         var Dungeon = Main.Instance.Dungeon;
         GameManager.NPC.CustomStage = true;
-        UserData.Instance.GameMode = Define.GameMode.Stop;
+        UserData.Instance.GameMode = Define.TimeMode.Stop;
 
         var fade = Managers.UI.ShowPopUp<UI_Fade>();
         fade.SetFadeOption(UI_Fade.FadeMode.WhiteIn, 1, true);
@@ -2247,7 +2247,7 @@ public class EventManager : MonoBehaviour
         yield return null;
         yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
 
-        UserData.Instance.GameMode = Define.GameMode.Normal;
+        UserData.Instance.GameMode = Define.TimeMode.Normal;
 
         foreach (var item in group1)
         {
@@ -2272,7 +2272,7 @@ public class EventManager : MonoBehaviour
         //? 사전준비
         var Dungeon = Main.Instance.Dungeon;
         GameManager.NPC.CustomStage = true;
-        UserData.Instance.GameMode = Define.GameMode.Stop;
+        UserData.Instance.GameMode = Define.TimeMode.Stop;
 
         var fade = Managers.UI.ShowPopUp<UI_Fade>();
         fade.SetFadeOption(UI_Fade.FadeMode.WhiteIn, 1, true);
@@ -2305,7 +2305,7 @@ public class EventManager : MonoBehaviour
         yield return null;
         yield return new WaitUntil(() => Managers.Dialogue.GetState() == DialogueManager.DialogueState.None);
 
-        UserData.Instance.GameMode = Define.GameMode.Normal;
+        UserData.Instance.GameMode = Define.TimeMode.Normal;
 
         foreach (var item in group1)
         {

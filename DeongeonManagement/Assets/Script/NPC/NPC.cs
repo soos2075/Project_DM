@@ -15,7 +15,17 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
         //AttackOption = new AttackEffect(AttackType.Normal);
         //Init_AttackEffect();
 
-        Difficulty_Setting();
+
+        if (UserData.Instance.FileConfig.GameMode == Define.ModeSelect.Endless)
+        {
+            EndlessMode_Setting();
+        }
+        else
+        {
+            Difficulty_Setting();
+        }
+
+
 
         SetRandomClothes();
         Init_Trait();
@@ -77,6 +87,42 @@ public abstract class NPC : MonoBehaviour, IPlacementable, I_BattleStat, I_Trait
                 break;
         }
     }
+
+    protected virtual void EndlessMode_Setting()
+    {
+        if (UserData.Instance.FileConfig.GameMode != Define.ModeSelect.Endless) return;
+
+        //? 턴수에 따른 버프
+        float Last_value = 0;
+        int turn = Main.Instance.Turn;
+
+        if (turn <= 30)
+        {
+            Last_value += (turn * 0.02f);
+        }
+        else
+        {
+            Last_value += 0.6f;
+            turn -= 30;
+
+            Last_value += (turn * 0.03f);
+        }
+
+        BasicStatUp(Last_value);
+    }
+
+    protected void BasicStatUp(float ratio)
+    {
+        HP += Mathf.RoundToInt(HP * ratio);
+        HP_MAX += Mathf.RoundToInt(HP_MAX * ratio);
+        ATK += Mathf.RoundToInt(ATK * ratio);
+        DEF += Mathf.RoundToInt(DEF * ratio);
+        AGI += Mathf.RoundToInt(AGI * ratio);
+        LUK += Mathf.RoundToInt(LUK * ratio);
+        ActionPoint += Mathf.RoundToInt(ActionPoint * ratio);
+        Mana += Mathf.RoundToInt(Mana * (ratio / 2));
+    }
+
 
 
 
