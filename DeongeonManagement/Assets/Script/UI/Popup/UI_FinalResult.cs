@@ -20,6 +20,8 @@ public class UI_FinalResult : UI_PopUp
 
     public override void Init()
     {
+        Managers.UI.SetCanvas(gameObject);
+
         Bind<GameObject>(typeof(Objects));
 
         GetObject((int)Objects.Close).AddUIEvent(data => ClosePopUp());
@@ -49,7 +51,7 @@ public class UI_FinalResult : UI_PopUp
 
         AddContents(UserData.Instance.LocaleText("È¹µæÇÑ ¸¶³ª"), main.GetTotalMana().ToString());
         //AddContents(UserData.Instance.LocaleText("»ç¿ëÇÑ ¸¶³ª"), main.GetTotalVisit().ToString());
-        AddContents(UserData.Instance.LocaleText("È¹µæÇÑ °ñµå"), main.GetTotalVisit().ToString());
+        AddContents(UserData.Instance.LocaleText("È¹µæÇÑ °ñµå"), main.GetTotalGold().ToString());
         //AddContents(UserData.Instance.LocaleText("»ç¿ëÇÑ °ñµå"), main.GetTotalVisit().ToString());
 
         AddContents(UserData.Instance.LocaleText("Rank"), (Define.DungeonRank)main.DungeonRank);

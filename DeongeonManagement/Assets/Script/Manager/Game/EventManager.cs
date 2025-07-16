@@ -75,12 +75,14 @@ public class EventManager : MonoBehaviour
         {
             //? 30일 이벤트를 셀프로 대체
             Last_Judgment();
+            SoundManager.Instance.ChangeBGM("I_m Ready", 1.0f);
             ClearQuestAction(10003);
         }
         else if (CurrentTurn == 30 && Main.Instance.CurrentEndingState == Endings.Hero)
         {
             //? 30일 이벤트를 셀프로 대체
             Hero_Final();
+            SoundManager.Instance.ChangeBGM("I_m Ready", 1.0f);
         }
         else if (TodayEvent != null)
         {
@@ -809,6 +811,7 @@ public class EventManager : MonoBehaviour
         DayEventActionRegister.Add(DayEventLabel.Guild_Raid_1, () => {
             Debug.Log("길드 토벌대 1 이벤트");
             Guild_Raid_First();
+            SoundManager.Instance.ChangeBGM("Are You Ready", 1.0f);
             ClearQuestAction(7010);
             Clear_GuildQuest(7010);
         });
@@ -816,6 +819,7 @@ public class EventManager : MonoBehaviour
         DayEventActionRegister.Add(DayEventLabel.Guild_Raid_2, () => {
             Debug.Log("길드 토벌대 2 이벤트");
             Guild_Raid_Second();
+            SoundManager.Instance.ChangeBGM("I_m Ready", 1.0f);
             ClearQuestAction(7020);
             Clear_GuildQuest(7020);
         });
@@ -823,6 +827,7 @@ public class EventManager : MonoBehaviour
         DayEventActionRegister.Add(DayEventLabel.Forest_Raid_1, () => {
             Debug.Log("숲레이드 1 이벤트");
             Forest_Raid_1();
+            SoundManager.Instance.ChangeBGM("Are You Ready", 1.0f);
             ClearQuestAction(8010);
             Clear_GuildQuest(8010);
         });
@@ -830,6 +835,7 @@ public class EventManager : MonoBehaviour
         DayEventActionRegister.Add(DayEventLabel.Forest_Raid_2, () => {
             Debug.Log("숲레이드 2 이벤트");
             Forest_Raid_2();
+            SoundManager.Instance.ChangeBGM("I_m Ready", 1.0f);
             ClearQuestAction(8020);
             Clear_GuildQuest(8020);
         });
@@ -2124,6 +2130,7 @@ public class EventManager : MonoBehaviour
 
     void Forest_Raid_2()
     {
+
         var Dungeon = Main.Instance.Dungeon;
         GameManager.NPC.CustomStage = true;
         UserData.Instance.GameMode = Define.TimeMode.Stop;
@@ -2211,6 +2218,7 @@ public class EventManager : MonoBehaviour
     void Last_Judgment()
     {
         Debug.Log("마왕엔딩 - 최후의 결전 이벤트 시작");
+
 
         //? 사전준비
         var Dungeon = Main.Instance.Dungeon;

@@ -10,6 +10,17 @@ public class UI_GameOver : UI_PopUp
         Init();
     }
 
+    [Header("텍스트 이미지")]
+    public Sprite txt_gameOver;
+    public Sprite txt_victory;
+    public Sprite txt_result;
+
+    [Header("메인 이미지")]
+    public Sprite main_defeat;
+    public Sprite main_win30;
+    public Sprite main_win50;
+    public Sprite main_win100;
+
 
     enum Btn
     {
@@ -18,11 +29,18 @@ public class UI_GameOver : UI_PopUp
         Btn_Load,
     }
 
+    enum Images
+    {
+        Image_Text,
+        Image_Main,
+    }
+
     public override void Init()
     {
         Managers.UI.SetCanvas(gameObject);
 
         Bind<Button>(typeof(Btn));
+        Bind<Image>(typeof(Images));
 
         SoundManager.Instance.StopMusic();
         SoundManager.Instance.PlaySound("SFX/GameOver");
@@ -33,7 +51,36 @@ public class UI_GameOver : UI_PopUp
         StartCoroutine(GameOver());
 
         UserData.Instance.FileConfig.PlayTimeApply();
+        CurrentImage();
     }
+
+
+    void CurrentImage()
+    {
+        int turn = Main.Instance.Turn;
+
+        if (turn <= 30)
+        {
+            GetImage((int)Images.Image_Main).sprite = main_defeat;
+            GetImage((int)Images.Image_Text).sprite = txt_gameOver;
+        }
+        else if (turn > 30 && turn <= 50)
+        {
+            GetImage((int)Images.Image_Main).sprite = main_win30;
+            GetImage((int)Images.Image_Text).sprite = txt_result;
+        }
+        else if (turn > 50 && turn <= 100)
+        {
+            GetImage((int)Images.Image_Main).sprite = main_win50;
+            GetImage((int)Images.Image_Text).sprite = txt_result;
+        }
+        else if (turn > 100)
+        {
+            GetImage((int)Images.Image_Main).sprite = main_win100;
+            GetImage((int)Images.Image_Text).sprite = txt_result;
+        }
+    }
+
 
 
 

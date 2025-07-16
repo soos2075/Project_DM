@@ -121,6 +121,7 @@ ID,TraitName,Name_KR,Detail_KR,Acquire_KR,Name_EN,Detail_EN,Acquire_EN,Name_JP,D
 5003,DoubleAttack,2연격,공격 시 2회 공격,,DoubleAttack,Attack 2 times when attacking,,2連撃,攻撃時に2回攻撃,,二连击,攻击时连续攻击2次,,二連击,攻擊時連續攻擊2次,
 5004,TripleAttack,3연격,공격 시 3회 공격,,TripleAttack,Attack 3 times when attacking,,3連撃,攻撃時に3回攻撃,,三连击,攻击时连续攻击3次,,三連击,攻擊時連續攻擊3次,
 ,,,,,,,,,,,,,,,,
+5010,Grit,투지,전투가 시작될 때마다 자신에게 [강화] 상태 부여,,Grit,Grants [Empower] status to self at the start of every battle,,闘志,戦闘が始まるたびに自身に[強化]状態を付与,,斗志,每次战斗开始时对自身施加[强化]状态,,鬥志,每次戰鬥開始時對自身施加[強化]狀態,
 ,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,
 7000,Herbalism,약초학,약초류 보너스,,Herbalism,Herb Bonus,,薬草学,薬草系ボーナス,,草药学,草药类加成,,草藥学,草藥類加成,

@@ -61,6 +61,7 @@ public class SpecialEgg : Facility
             InteractionOfTimes--;
             Cor_Facility = StartCoroutine(FacilityEvent(npc, 3, UserData.Instance.LocaleText("Event_Egg"), ap: 0, mp: 0, hp: 0));
 
+            PlacementState = PlacementState.Standby;
             //Managers.UI.ClearAndShowPopUp<UI_GameOver>();
 
             Managers.Dialogue.ShowDialogueUI(DialogueName.GameOver, transform.Find("EggPos"));

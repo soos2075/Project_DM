@@ -630,6 +630,8 @@ public class BattleField : MonoBehaviour
         DEF = 3,
         AGI = 4,
         LUK = 5,
+
+        All = 6,
     }
     public enum EffectType
     {
@@ -909,6 +911,13 @@ public class BattleField : MonoBehaviour
     void StartEffect<T1, T2>(T1 attacker, T2 defender) where T1 : I_TraitSystem, I_BattleStat where T2 : I_TraitSystem, I_BattleStat
     {
         //? น๖วม
+        if (attacker.TraitCheck(TraitGroup.Grit))
+        {
+            attacker.CurrentBattleStatus.AddValue(BattleStatusLabel.Empower, 1);
+            openingList.Add(new OpeningTrait(EffectType.Up_Status, attacker, StatType.All, 0));
+        }
+
+
 
         if (attacker.TraitCheck(TraitGroup.Fierce))
         {

@@ -1229,6 +1229,9 @@ public class Main : MonoBehaviour
                 //? 메인 UI 업데이트
                 UI_Main.TurnOverEvent();
                 DayChangeAnimation();
+
+                //? 사운드 리셋
+                SoundManager.Instance.Reset_MainBGM();
             }
         }
     }
@@ -1457,10 +1460,6 @@ public class Main : MonoBehaviour
 
 
     #endregion
-
-
-
-
 
 
 

@@ -239,6 +239,44 @@ public class SoundManager : MonoBehaviour
     }
 
 
+    public void Reset_MainBGM()
+    {
+        if (AudioSources[(int)Define.AudioType.BGM].clip.name != "Let_s build")
+        {
+            ChangeBGM("Let_s build", 2.0f);
+        }
+    }
+
+    public void ChangeBGM(string _name, float duration)
+    {
+        StartCoroutine(FadeChangeBGM(_name, duration));
+    }
+
+
+
+    IEnumerator FadeChangeBGM(string _name, float duration)
+    {
+        float startVolume = AudioSources[(int)Define.AudioType.BGM].volume;
+
+        float elapsedTime = 0;
+
+        while (duration > elapsedTime)
+        {
+            elapsedTime += Time.unscaledDeltaTime;
+            float currentValue = Mathf.Lerp(startVolume, 0f, elapsedTime / duration);
+            AudioSources[(int)Define.AudioType.BGM].volume = currentValue;
+            yield return null;
+        }
+
+        AudioSources[(int)Define.AudioType.BGM].volume = 0;
+
+        yield return new WaitForSecondsRealtime(1.0f);
+
+        PlaySound($"New_BGM/{_name}", Define.AudioType.BGM);
+        AudioSources[(int)Define.AudioType.BGM].volume = startVolume;
+    }
+
+
     public void ReplaceSound(string _clipPath)
     {
         StartCoroutine(WaitForSound(_clipPath));

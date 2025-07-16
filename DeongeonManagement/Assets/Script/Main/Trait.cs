@@ -1350,6 +1350,22 @@ public class Trait
         public TraitGroup ID { get; } = TraitGroup.EagleEye;
     }
 
+
+    public class DoubleAttack : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.DoubleAttack;
+    }
+    public class TripleAttack : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.TripleAttack;
+    }
+
+    public class Grit : ITrait
+    {
+        public TraitGroup ID { get; } = TraitGroup.Grit;
+    }
+
+
     #endregion
 
 
@@ -1609,6 +1625,8 @@ public enum TraitGroup
 
     DoubleAttack = 5003,
     TripleAttack = 5004,
+
+    Grit = 5010,
 
 
 
