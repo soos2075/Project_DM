@@ -23,7 +23,8 @@ public class UI_NewGamePlus : UI_PopUp
 
     enum Texts
     {
-        ClearPoint
+        ClearPoint,
+        Record,
     }
 
     public enum Panel
@@ -66,9 +67,22 @@ public class UI_NewGamePlus : UI_PopUp
 
         CurrentPage = 0;
         CurrentPoint = UserData.Instance.CurrentPlayerData.GetClearPoint();
+        Init_Record();
 
 
         GetButton((int)Btn.GameStart).gameObject.AddUIEvent(data => GameStart());
+    }
+
+
+    void Init_Record()
+    {
+        var data = UserData.Instance.CurrentPlayerData;
+
+        GetTMP(((int)Texts.Record)).GetComponent<TextMeshProUGUI>().text =
+            $"{UserData.Instance.LocaleText_NGP("Log_클리어횟수")} : {data.GetClearCount()}" +
+            $"\n{UserData.Instance.LocaleText_NGP("Log_엔딩")} : {data.EndingClearNumber()} / {Enum.GetValues(typeof(Endings)).Length}" +
+            $"\n{UserData.Instance.LocaleText_NGP("Log_클리어난이도")} : {Util.GetDiffStar(data.GetHighestDifficultyLevel())}" +
+            $"\n{UserData.Instance.LocaleText_NGP("Log_최고턴")} : {data.GetHighestTurn()}";
     }
 
 
@@ -78,6 +92,11 @@ public class UI_NewGamePlus : UI_PopUp
     {
         UserData.Instance.FileConfig.Difficulty = (Define.DifficultyLevel)currentSelectDifficulty;
         UserData.Instance.FileConfig.GameMode = (Define.ModeSelect)currentSelectMode;
+
+        if ((Define.ModeSelect)currentSelectMode == Define.ModeSelect.Endless)
+        {
+            UserData.Instance.FileConfig.Difficulty = Define.DifficultyLevel.Normal;
+        }
 
         foreach (var item in bonusList)
         {
@@ -106,6 +125,18 @@ public class UI_NewGamePlus : UI_PopUp
         }
 
         return datas[2];
+    }
+    public string GetArtifactLabel(ArtifactLabel label)
+    {
+        string[] datas = Managers.Data.GetTextData_Artifact((int)label);
+
+        if (datas == null)
+        {
+            Debug.Log($"{label} : CSV Data Not Exist");
+            return "";
+        }
+
+        return datas[0];
     }
 
     public string GetStatueData(int id)
@@ -190,45 +221,7 @@ public class UI_NewGamePlus : UI_PopUp
             GetButton((int)Btn.PrevBtn).gameObject.SetActive(true);
         }
 
-
-
-
         GetImage(currentPage).gameObject.SetActive(true);
-
-
-
-        //switch (currentPage)
-        //{
-        //    case 0:
-        //        GetButton((int)Btn.NextBtn).gameObject.SetActive(true);
-        //        GetButton((int)Btn.PrevBtn).gameObject.SetActive(false);
-        //        GetImage((int)Panel.DifficultyPanel).gameObject.SetActive(true);
-        //        break;
-
-        //    case 1:
-        //        GetButton((int)Btn.NextBtn).gameObject.SetActive(true);
-        //        GetButton((int)Btn.PrevBtn).gameObject.SetActive(true);
-        //        GetImage((int)Panel.BuffPanel).gameObject.SetActive(true);
-        //        break;
-
-        //    case 2:
-        //        GetButton((int)Btn.NextBtn).gameObject.SetActive(true);
-        //        GetButton((int)Btn.PrevBtn).gameObject.SetActive(true);
-        //        GetImage((int)Panel.StatuePanel).gameObject.SetActive(true);
-        //        break;
-
-        //    case 3:
-        //        GetButton((int)Btn.NextBtn).gameObject.SetActive(true);
-        //        GetButton((int)Btn.PrevBtn).gameObject.SetActive(true);
-        //        GetImage((int)Panel.UnitPanel).gameObject.SetActive(true);
-        //        break;
-
-        //    case 4:
-        //        GetButton((int)Btn.NextBtn).gameObject.SetActive(false);
-        //        GetButton((int)Btn.PrevBtn).gameObject.SetActive(true);
-        //        GetImage((int)Panel.ArtifactPanel).gameObject.SetActive(true);
-        //        break;
-        //}
     }
 
     public int currentSelectMode = 0;
@@ -322,8 +315,12 @@ public class UI_NewGamePlus : UI_PopUp
         Add_Content(Panel.BuffPanel, Bonus.Buff_PopBonus);
         Add_Content(Panel.BuffPanel, Bonus.Buff_DangerBonus);
         Add_Content(Panel.BuffPanel, Bonus.Buff_ManaBonus);
+        Add_Content(Panel.BuffPanel, Bonus.Buff_ManaBonus1000);
         Add_Content(Panel.BuffPanel, Bonus.Buff_GoldBonus);
+        Add_Content(Panel.BuffPanel, Bonus.Buff_GoldBonus1000);
 
+        Add_Content(Panel.BuffPanel, Bonus.Buff_Starting_4F);
+        Add_Content(Panel.BuffPanel, Bonus.Buff_Starting_Facility);
     }
 
     void Init_Statue()
@@ -442,6 +439,19 @@ public class UI_NewGamePlus : UI_PopUp
         {
             Add_Content_Artifact(Panel.ArtifactPanel, Bonus.Arti_Hero, ArtifactLabel.ProofOfHero);
         }
+
+        if (UserData.Instance.CurrentPlayerData.GetHighestDifficultyLevel() >= 1)
+        {
+            Add_Content_Artifact(Panel.ArtifactPanel, Bonus.Arti_Lv_1, ArtifactLabel.LvBook_1);
+        }
+        if (UserData.Instance.CurrentPlayerData.GetHighestDifficultyLevel() >= 2)
+        {
+            Add_Content_Artifact(Panel.ArtifactPanel, Bonus.Arti_Lv_2, ArtifactLabel.LvBook_2);
+        }
+        if (UserData.Instance.CurrentPlayerData.GetHighestDifficultyLevel() >= 3)
+        {
+            Add_Content_Artifact(Panel.ArtifactPanel, Bonus.Arti_Lv_3, ArtifactLabel.LvBook_3);
+        }
     }
 
 
@@ -450,7 +460,8 @@ public class UI_NewGamePlus : UI_PopUp
         var parent = GetImage((int)_panel).GetComponentInChildren<GridLayoutGroup>();
 
         var obj = Managers.Resource.Instantiate("UI/PopUp/Element/NewGameBonusElement", parent.transform);
-        obj.GetComponentInChildren<TextMeshProUGUI>().text = $"{UserData.Instance.LocaleText_NGP($"{_label}")} <b>({BonusDict[_label].point}P)</b>";
+        obj.GetComponentInChildren<TextMeshProUGUI>().text = $"{GetArtifactLabel(arti)} <b>({BonusDict[_label].point}P)</b>";
+            //$"{UserData.Instance.LocaleText_NGP($"{_label}")} <b>({BonusDict[_label].point}P)</b>";
 
         //? AddEvent - ContentClick
         obj.AddUIEvent(data => ContentClick(_label, obj.GetComponent<Button>()));
@@ -571,14 +582,23 @@ public class UI_NewGamePlus : UI_PopUp
 
     void Init_EventData()
     {
+        //? 시작효과
         BonusDict.Add(Bonus.Buff_ApBonusOne, new BtnEvent(Panel.BuffPanel, Bonus.Buff_ApBonusOne, 15));
         BonusDict.Add(Bonus.Buff_ApBonusTwo, new BtnEvent(Panel.BuffPanel, Bonus.Buff_ApBonusTwo, 30));
         BonusDict.Add(Bonus.Buff_PopBonus, new BtnEvent(Panel.BuffPanel, Bonus.Buff_PopBonus, 5));
         BonusDict.Add(Bonus.Buff_DangerBonus, new BtnEvent(Panel.BuffPanel, Bonus.Buff_DangerBonus, 5));
         BonusDict.Add(Bonus.Buff_ManaBonus, new BtnEvent(Panel.BuffPanel, Bonus.Buff_ManaBonus, 2));
-        BonusDict.Add(Bonus.Buff_GoldBonus, new BtnEvent(Panel.BuffPanel, Bonus.Buff_GoldBonus, 3));
+        BonusDict.Add(Bonus.Buff_GoldBonus, new BtnEvent(Panel.BuffPanel, Bonus.Buff_GoldBonus, 4));
+
+        BonusDict.Add(Bonus.Buff_ManaBonus1000, new BtnEvent(Panel.BuffPanel, Bonus.Buff_ManaBonus1000, 6));
+        BonusDict.Add(Bonus.Buff_GoldBonus1000, new BtnEvent(Panel.BuffPanel, Bonus.Buff_GoldBonus1000, 12));
+
+        BonusDict.Add(Bonus.Buff_Starting_4F, new BtnEvent(Panel.BuffPanel, Bonus.Buff_Starting_4F, 10));
+        BonusDict.Add(Bonus.Buff_Starting_Facility, new BtnEvent(Panel.BuffPanel, Bonus.Buff_Starting_Facility, 10));
 
 
+
+        //? 조각상
         BonusDict.Add(Bonus.Statue_Mana, new BtnEvent(Panel.StatuePanel, Bonus.Statue_Mana, 0));
         BonusDict.Add(Bonus.Statue_Gold, new BtnEvent(Panel.StatuePanel, Bonus.Statue_Gold, 0));
         BonusDict.Add(Bonus.Statue_Dog, new BtnEvent(Panel.StatuePanel, Bonus.Statue_Dog, 5));
@@ -589,7 +609,7 @@ public class UI_NewGamePlus : UI_PopUp
         BonusDict.Add(Bonus.Statue_Hero, new BtnEvent(Panel.StatuePanel, Bonus.Statue_Hero, 10));
 
 
-
+        //? 유닛
         BonusDict.Add(Bonus.Unit_BloodySlime, new BtnEvent(Panel.UnitPanel, Bonus.Unit_BloodySlime, 5));
         BonusDict.Add(Bonus.Unit_FlameGolem, new BtnEvent(Panel.UnitPanel, Bonus.Unit_FlameGolem, 5));
 
@@ -601,7 +621,7 @@ public class UI_NewGamePlus : UI_PopUp
         BonusDict.Add(Bonus.Unit_Lilith, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Lilith, 13));
 
 
-        BonusDict.Add(Bonus.Unit_Rena, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Rena, 15));
+        BonusDict.Add(Bonus.Unit_Rena, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Rena, 10));
 
         BonusDict.Add(Bonus.Unit_Ravi, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Ravi, 15));
         BonusDict.Add(Bonus.Unit_Lievil, new BtnEvent(Panel.UnitPanel, Bonus.Unit_Lievil, 15));
@@ -616,6 +636,10 @@ public class UI_NewGamePlus : UI_PopUp
         BonusDict.Add(Bonus.Arti_Danger, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_Danger, 5));
         BonusDict.Add(Bonus.Arti_DownDanger, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_DownDanger,7));
         BonusDict.Add(Bonus.Arti_DownPop, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_DownPop, 7));
+
+        BonusDict.Add(Bonus.Arti_Lv_1, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_Lv_1, 5));
+        BonusDict.Add(Bonus.Arti_Lv_2, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_Lv_2, 10));
+        BonusDict.Add(Bonus.Arti_Lv_3, new BtnEvent(Panel.ArtifactPanel, Bonus.Arti_Lv_3, 15));
     }
 
 
@@ -639,6 +663,12 @@ public class UI_NewGamePlus : UI_PopUp
         Buff_DangerBonus,
         Buff_ManaBonus,
         Buff_GoldBonus,
+        Buff_ManaBonus1000,
+        Buff_GoldBonus1000,
+
+        Buff_Starting_4F,
+        Buff_Starting_Facility,
+
 
         //? 유닛
         Unit_BloodySlime,
@@ -662,6 +692,10 @@ public class UI_NewGamePlus : UI_PopUp
 
         Arti_DownDanger,
         Arti_DownPop,
+
+        Arti_Lv_1,
+        Arti_Lv_2,
+        Arti_Lv_3,
     }
 
 

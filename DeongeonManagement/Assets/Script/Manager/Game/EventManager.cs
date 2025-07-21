@@ -2457,7 +2457,7 @@ public class EventManager : MonoBehaviour
 
         Managers.Dialogue.AllowPerfectSkip = true;
     }
-    void EntranceMove_3to4_Skip()
+    public void EntranceMove_3to4_Skip()
     {
         if (Managers.Dialogue.GetState() == DialogueManager.DialogueState.None)
         {

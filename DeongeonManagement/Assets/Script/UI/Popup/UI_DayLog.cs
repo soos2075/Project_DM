@@ -44,7 +44,14 @@ public class UI_DayLog : UI_PopUp
 
     void Init_LogButton()
     {
-        for (int i = 0; i < Main.Instance.Turn; i++)
+        int turn = Main.Instance.Turn;
+        if (Main.Instance.Management == false)
+        {
+            turn -= 1;
+        }
+
+
+        for (int i = 0; i < turn; i++)
         {
             var log = Managers.Resource.Instantiate("UI/PopUp/Element/DayLog", logBox);
             log.AddUIEvent(data => Show_DayResult(log.transform.GetSiblingIndex()));
@@ -60,16 +67,18 @@ public class UI_DayLog : UI_PopUp
     }
 
 
-    void Show_DayResult(int day)
+    void Show_DayResult(int day) //? day는 슬롯 index라서 0부터 시작 :: [0] == day 1
     {
-        if (day == 0 && Main.Instance.Management == false)
-        {
-            return;
-        }
-
         var ui = Managers.UI.ShowPopUp<UI_DayResult>();
 
-        Main.DayResult current = (day == Main.Instance.Turn - 1) ? Main.Instance.CurrentDay : Main.Instance.DayList[day + 1];
+        int currentTurn = Main.Instance.Turn;
+
+        if (Main.Instance.Management == false)
+        {
+            currentTurn -= 1;
+        }
+
+        Main.DayResult current = (day == currentTurn - 1) ? Main.Instance.CurrentDay : Main.Instance.DayList[day + 1];
 
         ui.TextContents(Main.Instance.DayList[day], current);
     }

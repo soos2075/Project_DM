@@ -302,6 +302,39 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
     public int AGI_Status { get => CurrentBattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(AGI_normal * CurrentBattleStatus.Get_AGI_Status()); }
     public int LUK_Status { get => CurrentBattleStatus.Get_Fixed_AllStat() + Mathf.RoundToInt(LUK_normal * CurrentBattleStatus.Get_LUK_Status()); }
 
+
+
+    public int Lv_Bonus { get => Get_LvBonus(); }
+
+    int Get_LvBonus()
+    {
+        int bonus = 0;
+
+        if (GameManager.Artifact.Check_Artifact_Exist(ArtifactLabel.LvBook_1))
+        {
+            bonus += 3;
+        }
+        if (GameManager.Artifact.Check_Artifact_Exist(ArtifactLabel.LvBook_2))
+        {
+            bonus += 5;
+        }
+        if (GameManager.Artifact.Check_Artifact_Exist(ArtifactLabel.LvBook_3))
+        {
+            bonus += 10;
+        }
+        if (GameManager.Artifact.Check_Artifact_Exist(ArtifactLabel.LvBook_4))
+        {
+            bonus += 12;
+        }
+        if (GameManager.Artifact.Check_Artifact_Exist(ArtifactLabel.LvBook_5))
+        {
+            bonus += 15;
+        }
+        return bonus;
+    }
+
+    public int MaxLv { get => Mathf.Clamp(Lv_Bonus + Data.maxLv, 1, 99); }
+
     #endregion
 
 
@@ -1682,7 +1715,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
         LevelUpEvent(LevelUpEventType.Battle);
 
-        if (LV >= Data.maxLv) return;
+        if (LV >= MaxLv) return;
         GameManager.Monster.AddLevelUpEvent(this);
     }
 
@@ -1827,7 +1860,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
             ui.Message = UserData.Instance.LocaleText("Message_No_AP");
             return;
         }
-        if (Data.maxLv <= LV)
+        if (MaxLv <= LV)
         {
             var ui = Managers.UI.ShowPopUpAlone<UI_SystemMessage>();
             ui.Message = UserData.Instance.LocaleText("Message_MaxLv");
@@ -1859,7 +1892,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
     public void Statue_Cat()
     {
-        if (Data.maxLv <= LV)
+        if (MaxLv <= LV)
         {
             return;
         }
@@ -1903,7 +1936,7 @@ public abstract class Monster : MonoBehaviour, IPlacementable, I_BattleStat, I_T
 
     public void LevelUp(bool _showPopup, bool TrainingBonus = false, bool OneMore = false)
     {
-        if (Data.maxLv <= LV)
+        if (MaxLv <= LV)
         {
             Debug.Log("최대레벨임");
             return;

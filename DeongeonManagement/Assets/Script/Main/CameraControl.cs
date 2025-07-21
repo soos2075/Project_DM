@@ -7,8 +7,8 @@ using UnityEngine.U2D;
 public class CameraControl : MonoBehaviour
 {
 
-    float limit_up = 6;
-    float limit_down = -17;
+    public float limit_up = 8;
+    public float limit_down = -17;
 
     float limit_left;
     float limit_right;

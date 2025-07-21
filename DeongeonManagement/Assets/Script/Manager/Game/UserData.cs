@@ -618,6 +618,13 @@ public class UserData : MonoBehaviour
         //? 컬렉션 데이터 업데이트
         Managers.Data.SaveCollectionData();
     }
+    public void GameOver(DataManager.SaveData data)
+    {
+        Debug.Log("GameOver");
+        CurrentPlayerData.GameOver(data);
+        //? 컬렉션 데이터 업데이트
+        Managers.Data.SaveCollectionData();
+    }
 
 
     //IEnumerator Init_MultiData(Save_MonsterData[] data)
@@ -765,6 +772,10 @@ public class UserData : MonoBehaviour
         public bool Buff_DangerBonus;
         public bool Buff_ManaBonus;
         public bool Buff_GoldBonus;
+        public bool Buff_ManaBonus1000;
+        public bool Buff_GoldBonus1000;
+        public bool Buff_Starting_4F;
+        public bool Buff_Starting_Facility;
 
         //? 유닛
         public bool Unit_BloodySlime;
@@ -786,7 +797,11 @@ public class UserData : MonoBehaviour
         public bool Arti_Danger;
         public bool Arti_DownDanger;
         public bool Arti_DownPop;
-#endregion
+        public bool Arti_Lv_1;
+        public bool Arti_Lv_2;
+        public bool Arti_Lv_3;
+        
+        #endregion
 
         public void SetBoolValue(string boolName, bool value)
         {
@@ -1100,6 +1115,9 @@ public class UserData : MonoBehaviour
         {
             public int ID;
 
+            public Define.ModeSelect gamdMode;
+            public int highestTurn;
+
             public Endings endings;
             public int difficultyLevel;
             public float clearTime;
@@ -1121,6 +1139,9 @@ public class UserData : MonoBehaviour
             public void Set_Data(DataManager.SaveData data)
             {
                 ID = data.savefileConfig.fileID;
+
+                gamdMode = data.savefileConfig.GameMode;
+                highestTurn = data.mainData.turn;
 
                 endings = data.endgins;
                 difficultyLevel = data.difficultyLevel;
@@ -1152,6 +1173,14 @@ public class UserData : MonoBehaviour
 
         public void Add_ClearLog(DataManager.SaveData data) 
         {
+            //foreach (var item in clearLog) //? 파일이 너무 길어진다 싶으면 무한모드 하나로 합치는건데... 굳이긴함. 걍 겜오버마다 저장하자
+            //{
+            //    if (item.ID == data.savefileConfig.fileID)
+            //    {
+            //        item.Set_Data(data);
+            //    }
+            //}
+
             var newLog = new ClearDataLog();
             newLog.Set_Data(data);
             clearLog.Add(newLog);
@@ -1165,9 +1194,10 @@ public class UserData : MonoBehaviour
         {
             int point = 0;
 
+            point += GetHighestTurn();
             point += GetClearCount() * 5;
-            point += GetHighestDifficultyLevel() * 10;
             point += EndingClearNumber() * 10;
+            point += GetHighestDifficultyLevel() * 15;
 
             return point;
         }
@@ -1234,6 +1264,27 @@ public class UserData : MonoBehaviour
         }
 
 
+        //? 무한모드라면 최대로 버틴 날짜
+        public int GetHighestTurn()
+        {
+            int value = 0;
+
+            foreach (var item in clearLog)
+            {
+                if (item.gamdMode == Define.ModeSelect.Endless)
+                {
+                    if (item.highestTurn > value)
+                    {
+                        value = item.highestTurn;
+                    }
+                }
+            }
+
+            return value;
+        }
+
+
+
         //? 클리어 횟수 (중복 X)
         public int GetClearCount()
         {
@@ -1253,6 +1304,11 @@ public class UserData : MonoBehaviour
             int lv = 0;
             foreach (var item in clearLog)
             {
+                if (item.gamdMode == Define.ModeSelect.Endless)
+                {
+                    continue;
+                }
+
                 if (lv < item.difficultyLevel)
                 {
                     lv = item.difficultyLevel;
@@ -1269,6 +1325,12 @@ public class UserData : MonoBehaviour
         {
             Add_ClearLog(data);
 
+            UserData.Instance.Save_PlayerData();
+        }
+
+        public void GameOver(DataManager.SaveData data)
+        {
+            Add_ClearLog(data);
             UserData.Instance.Save_PlayerData();
         }
 

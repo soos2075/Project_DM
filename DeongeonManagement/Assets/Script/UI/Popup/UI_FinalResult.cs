@@ -15,6 +15,7 @@ public class UI_FinalResult : UI_PopUp
     {
         Close,
         ContentArea,
+        ContentArea_Right,
     }
 
 
@@ -26,16 +27,9 @@ public class UI_FinalResult : UI_PopUp
 
         GetObject((int)Objects.Close).AddUIEvent(data => ClosePopUp());
 
-        grid = GetObject((int)Objects.ContentArea).transform;
         main = Main.Instance;
-
         DefaultResult();
     }
-
-
-    
-
-    Transform grid;
 
 
     Main main;
@@ -50,23 +44,26 @@ public class UI_FinalResult : UI_PopUp
         AddContents(UserData.Instance.LocaleText("ÆÐ¹èÇÑ ¸ðÇè°¡"), main.GetTotalKill().ToString());
 
         AddContents(UserData.Instance.LocaleText("È¹µæÇÑ ¸¶³ª"), main.GetTotalMana().ToString());
-        //AddContents(UserData.Instance.LocaleText("»ç¿ëÇÑ ¸¶³ª"), main.GetTotalVisit().ToString());
-        AddContents(UserData.Instance.LocaleText("È¹µæÇÑ °ñµå"), main.GetTotalGold().ToString());
-        //AddContents(UserData.Instance.LocaleText("»ç¿ëÇÑ °ñµå"), main.GetTotalVisit().ToString());
+        //AddContents(UserData.Instance.LocaleText("»ç¿ëÇÑ ¸¶³ª"), main.UseTotalMana().ToString());
 
-        AddContents(UserData.Instance.LocaleText("Rank"), (Define.DungeonRank)main.DungeonRank);
-        AddContents(UserData.Instance.LocaleText("Popularity"), main.PopularityOfDungeon);
-        AddContents(UserData.Instance.LocaleText("Danger"), main.DangerOfDungeon);
+        AddContents(UserData.Instance.LocaleText("È¹µæÇÑ °ñµå"), main.GetTotalGold().ToString());
+        //AddContents(UserData.Instance.LocaleText("»ç¿ëÇÑ °ñµå"), main.UseTotalGold().ToString());
+
+        AddContents(UserData.Instance.LocaleText("Rank"), (Define.DungeonRank)main.DungeonRank, Objects.ContentArea_Right);
+        AddContents(UserData.Instance.LocaleText("Popularity"), main.PopularityOfDungeon, Objects.ContentArea_Right);
+        AddContents(UserData.Instance.LocaleText("Danger"), main.DangerOfDungeon, Objects.ContentArea_Right);
 
         AddContents(UserData.Instance.LocaleText("ÇÃ·¹ÀÌ ½Ã°£"), 
-            $"{(int)UserData.Instance.FileConfig.PlayTimes / 60}m {(int)UserData.Instance.FileConfig.PlayTimes % 60}s");
+            $"{(int)UserData.Instance.FileConfig.PlayTimes / 60}m {(int)UserData.Instance.FileConfig.PlayTimes % 60}s", Objects.ContentArea_Right);
     }
 
 
 
 
-    void AddContents(string subtitle, object value)
+    void AddContents(string subtitle, object value, Objects location = Objects.ContentArea)
     {
+        var grid = GetObject((int)location).transform;
+
         var box = Managers.Resource.Instantiate("UI/PopUp/Element/FinalResult_ContentsBox", grid);
         box.transform.Find("Subtitle").GetComponent<TextMeshProUGUI>().text = subtitle;
         box.transform.Find("Result").GetComponent<TextMeshProUGUI>().text = value.ToString();

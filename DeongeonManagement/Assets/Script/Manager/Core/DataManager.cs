@@ -999,10 +999,9 @@ public class DataManager
 
 
 
-
-    public SaveData SaveCurrentData(string fileName, int index = -1)
+    public SaveData SaveCurrentData(string fileName, int index = -1, bool allow_day = false)
     {
-        if (Main.Instance.Management == false)
+        if (Main.Instance.Management == false && allow_day == false)
         {
             Debug.Log("낮동안은 저장불가");
             return null;

@@ -92,6 +92,29 @@ public class Util
 
 
 
+    public static string GetDiffStar(Define.DifficultyLevel _lv)
+    {
+        switch (_lv)
+        {
+            case Define.DifficultyLevel.Easy:
+                return "☆";
+
+            case Define.DifficultyLevel.Normal:
+                return "★";
+
+            case Define.DifficultyLevel.Hard:
+                return "★★★";
+
+            case Define.DifficultyLevel.Master:
+                return "★★★★★";
+        }
+        return "";
+    }
+    public static string GetDiffStar(int _lv)
+    {
+        return GetDiffStar((Define.DifficultyLevel)_lv);
+    }
+
 
     public static Vector2Int[] GetBoundary(Define.Boundary _boundary)
     {

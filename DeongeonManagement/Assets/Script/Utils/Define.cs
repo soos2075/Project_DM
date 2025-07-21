@@ -66,6 +66,7 @@ public class Define
         Master = 3,
     }
 
+
     public enum ModeSelect
     {
         Story = 0,

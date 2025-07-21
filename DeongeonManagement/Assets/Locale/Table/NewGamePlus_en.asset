@@ -286,6 +286,30 @@ MonoBehaviour:
       of difficulty, enemies become stronger as days pass.'
     m_Metadata:
       m_Items: []
+  - m_Id: 93142664293330944
+    m_Localized: Mana +1000
+    m_Metadata:
+      m_Items: []
+  - m_Id: 93142660614926336
+    m_Localized: Gold +1000
+    m_Metadata:
+      m_Items: []
+  - m_Id: 93143141303136256
+    m_Localized: Basement 4th Floor Unlocked
+    m_Metadata:
+      m_Items: []
+  - m_Id: 93143414880808960
+    m_Localized: More Starting Resources
+    m_Metadata:
+      m_Items: []
+  - m_Id: 93160978738524160
+    m_Localized: Highest Turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 93160975538270208
+    m_Localized: Ending
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

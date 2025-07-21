@@ -143,15 +143,7 @@ public class UI_Elbum : UI_PopUp
             int clearcount = UserData.Instance.CurrentPlayerData.GetEndingCount(log.endings);
             //CollectionManager.Instance.RoundClearData.endingClearCount.TryGetValue(log.endings, out clearcount);
 
-            string diff = "★";
-            for (int i = 0; i < log.difficultyLevel; i++)
-            {
-                diff += "★";
-                if (i == 2)
-                {
-                    diff += "★";
-                }
-            }
+            string diff = Util.GetDiffStar(log.difficultyLevel);
 
             GetTMP((int)TMP_Texts.HintText).text = $"{UserData.Instance.LocaleText_NGP("Log_클리어횟수")} : {clearcount}" +
                 $"\n{UserData.Instance.LocaleText_NGP("Log_클리어난이도")} : {diff}" +

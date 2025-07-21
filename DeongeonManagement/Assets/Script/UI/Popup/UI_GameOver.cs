@@ -47,6 +47,7 @@ public class UI_GameOver : UI_PopUp
 
         //UserData.Instance.SetData(PrefsKey.GameOverTimes, UserData.Instance.GetDataInt(PrefsKey.GameOverTimes) + 1);
         UserData.Instance.CurrentPlayerData.config.GameOverCount++;
+        UserData.Instance.GameOver(Managers.Data.SaveCurrentData("Result_Temp", allow_day: true));
 
         StartCoroutine(GameOver());
 

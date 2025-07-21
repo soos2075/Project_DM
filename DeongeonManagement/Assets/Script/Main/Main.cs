@@ -293,6 +293,21 @@ public class Main : MonoBehaviour
         {
             Player_Gold += 500;
         }
+        if (UserData.Instance.FileConfig.Buff_ManaBonus1000)
+        {
+            Player_Mana += 1000;
+        }
+        if (UserData.Instance.FileConfig.Buff_GoldBonus1000)
+        {
+            Player_Gold += 1000;
+        }
+
+        if (UserData.Instance.FileConfig.Buff_Starting_4F)
+        {
+            ActiveFloor_Basement = 5;
+            ActiveFloor_Technical = 2;
+        }
+
 
         StartCoroutine(Wait_NewGamePlus());
     }
@@ -382,6 +397,19 @@ public class Main : MonoBehaviour
         {
             GameManager.Artifact.AddArtifact(ArtifactLabel.MarbleOfOblivion);
         }
+
+        if (UserData.Instance.FileConfig.Arti_Lv_1)
+        {
+            GameManager.Artifact.AddArtifact(ArtifactLabel.LvBook_1);
+        }
+        if (UserData.Instance.FileConfig.Arti_Lv_2)
+        {
+            GameManager.Artifact.AddArtifact(ArtifactLabel.LvBook_2);
+        }
+        if (UserData.Instance.FileConfig.Arti_Lv_3)
+        {
+            GameManager.Artifact.AddArtifact(ArtifactLabel.LvBook_3);
+        }
     }
 
 
@@ -409,6 +437,10 @@ public class Main : MonoBehaviour
     {
         yield return StartCoroutine(Instantiate_DayOne());
         EventManager.Instance.FirstPortalAppearSkip();
+        if (UserData.Instance.FileConfig.Buff_Starting_4F)
+        {
+            EventManager.Instance.EntranceMove_3to4_Skip();
+        }
     }
 
     IEnumerator Instantiate_DayOne()
@@ -639,7 +671,12 @@ public class Main : MonoBehaviour
     }
     public void Technical_Expansion(int floor)
     {
-        if (ActiveFloor_Technical < floor)
+        //if (ActiveFloor_Technical < floor)
+        //{
+        //    ActiveFloor_Technical++;
+        //    GameManager.Technical.Expantion_Technical();
+        //}
+        for (; ActiveFloor_Technical < floor; ActiveFloor_Technical++)
         {
             ActiveFloor_Technical++;
             GameManager.Technical.Expantion_Technical();
@@ -1011,43 +1048,98 @@ public class Main : MonoBehaviour
     #region 각종 통계 (세이브파일 및 DayResult 기준, 그리고 DayResult에 없는 통계들도 포함함
     public int GetTotalMana()
     {
-        int mana = Player_Mana;
+        int mana = 0;
 
         foreach (var item in DayList)
         {
-            mana += item.Mana_Use_Etc;
-            mana += item.Mana_Use_Facility;
-            mana += item.Mana_Use_Monster;
+            mana += item.Mana_Get_Artifacts;
+            mana += item.Mana_Get_Bonus;
+            mana += item.Mana_Get_Etc;
+            mana += item.Mana_Get_Facility;
+            mana += item.Mana_Get_Monster;
         }
         if (CurrentDay != null)
         {
-            mana += CurrentDay.Mana_Use_Etc;
-            mana += CurrentDay.Mana_Use_Facility;
-            mana += CurrentDay.Mana_Use_Monster;
+            mana += CurrentDay.Mana_Get_Artifacts;
+            mana += CurrentDay.Mana_Get_Bonus;
+            mana += CurrentDay.Mana_Get_Etc;
+            mana += CurrentDay.Mana_Get_Facility;
+            mana += CurrentDay.Mana_Get_Monster;
         }
 
         return mana;
     }
-
-    public int GetTotalGold()
+    public int UseTotalMana()
     {
-        int gold = Player_Gold;
+        int use = 0;
 
         foreach (var item in DayList)
         {
-            gold += item.Gold_Use_Etc;
-            gold += item.Gold_Use_Facility;
-            gold += item.Gold_Use_Monster;
+            use += item.Mana_Use_Etc;
+            use += item.Mana_Use_Facility;
+            use += item.Mana_Use_Monster;
+            use += item.Mana_Use_Technical;
         }
         if (CurrentDay != null)
         {
-            gold += CurrentDay.Gold_Use_Etc;
-            gold += CurrentDay.Gold_Use_Facility;
-            gold += CurrentDay.Gold_Use_Monster;
+            use += CurrentDay.Mana_Use_Etc;
+            use += CurrentDay.Mana_Use_Facility;
+            use += CurrentDay.Mana_Use_Monster;
+            use += CurrentDay.Mana_Use_Technical;
+        }
+
+        return use;
+    }
+
+
+
+    public int GetTotalGold()
+    {
+        int gold = 0;
+
+        foreach (var item in DayList)
+        {
+            gold += item.Gold_Get_Bonus;
+            gold += item.Gold_Get_Etc;
+            gold += item.Gold_Get_Facility;
+            gold += item.Gold_Get_Monster;
+            gold += item.Gold_Get_Technical;
+        }
+        if (CurrentDay != null)
+        {
+            gold += CurrentDay.Gold_Get_Bonus;
+            gold += CurrentDay.Gold_Get_Etc;
+            gold += CurrentDay.Gold_Get_Facility;
+            gold += CurrentDay.Gold_Get_Monster;
+            gold += CurrentDay.Gold_Get_Technical;
         }
 
         return gold;
     }
+
+    public int UseTotalGold() //? 길드에서 사용한 골드는 기록이 안되있어서 안쓰는게 좋을듯. 뭐 추가하면 하는데, 딱히 필요없는 수치라서
+    {
+        int use = 0;
+
+        foreach (var item in DayList)
+        {
+            use += item.Gold_Use_Etc;
+            use += item.Gold_Use_Facility;
+            use += item.Gold_Use_Monster;
+            use += item.Gold_Use_Technical;
+        }
+        if (CurrentDay != null)
+        {
+            use += CurrentDay.Mana_Use_Etc;
+            use += CurrentDay.Mana_Use_Facility;
+            use += CurrentDay.Mana_Use_Monster;
+            use += CurrentDay.Mana_Use_Technical;
+        }
+
+        return use;
+    }
+
+
 
     public int GetTotalVisit()
     {

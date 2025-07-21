@@ -392,6 +392,13 @@ public enum ArtifactLabel
     SoothsayerOrb = 20,
 
 
+    //? 레벨확장
+    LvBook_1 = 80,
+    LvBook_2 = 81,
+    LvBook_3 = 82,
+    LvBook_4 = 83,
+    LvBook_5 = 84,
+
     //? 진화재료 (효과없음)
     BananaBone = 100,
 

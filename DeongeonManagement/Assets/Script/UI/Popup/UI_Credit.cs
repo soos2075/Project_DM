@@ -119,12 +119,12 @@ public class UI_Credit : UI_PopUp
         Add_Blank(new Vector2Int(1200, 50));
 
         Add_Text("<b>Art & Graphics", 72);
-        Add_Text("QU4RTER \nBongbong", 64);
+        Add_Text("QU4RTER \nCaptain Bongbong", 64);
         Add_Blank(new Vector2Int(1200, 50));
 
 
         Add_Text("<b> Music", 72);
-        Add_Text("Homi", 64);
+        Add_Text("È£¹Ì", 64);
         Add_Blank(new Vector2Int(1200, 50));
 
         Add_Text("<b>Localization", 72);

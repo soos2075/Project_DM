@@ -55,12 +55,28 @@ MonoBehaviour:
     m_Key: Buff_GoldBonus
     m_Metadata:
       m_Items: []
+  - m_Id: 93142660614926336
+    m_Key: Buff_GoldBonus1000
+    m_Metadata:
+      m_Items: []
   - m_Id: 26455436374016
     m_Key: Buff_ManaBonus
     m_Metadata:
       m_Items: []
+  - m_Id: 93142664293330944
+    m_Key: Buff_ManaBonus1000
+    m_Metadata:
+      m_Items: []
   - m_Id: 26270354321408
     m_Key: Buff_PopBonus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 93143141303136256
+    m_Key: Buff_Starting_4F
+    m_Metadata:
+      m_Items: []
+  - m_Id: 93143414880808960
+    m_Key: Buff_Starting_Facility
     m_Metadata:
       m_Items: []
   - m_Id: 10720772236718080
@@ -87,6 +103,14 @@ MonoBehaviour:
     m_Key: Clear_Ravi
     m_Metadata:
       m_Items: []
+  - m_Id: 88914046570672128
+    m_Key: Endless Mode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16369532891508736
+    m_Key: First_Clear_MSG
+    m_Metadata:
+      m_Items: []
   - m_Id: 10719134927237120
     m_Key: Hint_Cat
     m_Metadata:
@@ -109,6 +133,18 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 10719611786047488
     m_Key: Hint_Ravi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13568335893704704
+    m_Key: "Log_\uD074\uB9AC\uC5B4\uB09C\uC774\uB3C4"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13568384786706432
+    m_Key: "Log_\uD074\uB9AC\uC5B4\uC2DC\uAC04"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13568274728169472
+    m_Key: "Log_\uD074\uB9AC\uC5B4\uD69F\uC218"
     m_Metadata:
       m_Items: []
   - m_Id: 94637585018880
@@ -141,6 +177,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 94638637789184
     m_Key: Statue_Ravi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 88913877221453824
+    m_Key: Story Mode
     m_Metadata:
       m_Items: []
   - m_Id: 748699515039744
@@ -187,8 +227,20 @@ MonoBehaviour:
     m_Key: Unit_Salinu
     m_Metadata:
       m_Items: []
+  - m_Id: 88911624548855808
+    m_Key: "\uAC8C\uC784 \uBAA8\uB4DC"
+    m_Metadata:
+      m_Items: []
   - m_Id: 24040351936512
     m_Key: "\uB09C\uC774\uB3C4"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 88929563549315072
+    m_Key: "\uBB34\uD55C\uBAA8\uB4DC_\uC124\uBA85"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 88929552723816448
+    m_Key: "\uC2A4\uD1A0\uB9AC\uBAA8\uB4DC_\uC124\uBA85"
     m_Metadata:
       m_Items: []
   - m_Id: 85482221568
@@ -207,40 +259,12 @@ MonoBehaviour:
     m_Key: "\uC870\uAC01\uC0C1"
     m_Metadata:
       m_Items: []
-  - m_Id: 13568274728169472
-    m_Key: "Log_\uD074\uB9AC\uC5B4\uD69F\uC218"
+  - m_Id: 93160975538270208
+    m_Key: "Log_\uC5D4\uB529"
     m_Metadata:
       m_Items: []
-  - m_Id: 13568335893704704
-    m_Key: "Log_\uD074\uB9AC\uC5B4\uB09C\uC774\uB3C4"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 13568384786706432
-    m_Key: "Log_\uD074\uB9AC\uC5B4\uC2DC\uAC04"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 16369532891508736
-    m_Key: First_Clear_MSG
-    m_Metadata:
-      m_Items: []
-  - m_Id: 88911624548855808
-    m_Key: "\uAC8C\uC784 \uBAA8\uB4DC"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 88913877221453824
-    m_Key: Story Mode
-    m_Metadata:
-      m_Items: []
-  - m_Id: 88914046570672128
-    m_Key: Endless Mode
-    m_Metadata:
-      m_Items: []
-  - m_Id: 88929552723816448
-    m_Key: "\uC2A4\uD1A0\uB9AC\uBAA8\uB4DC_\uC124\uBA85"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 88929563549315072
-    m_Key: "\uBB34\uD55C\uBAA8\uB4DC_\uC124\uBA85"
+  - m_Id: 93160978738524160
+    m_Key: "Log_\uCD5C\uACE0\uD134"
     m_Metadata:
       m_Items: []
   m_Metadata:

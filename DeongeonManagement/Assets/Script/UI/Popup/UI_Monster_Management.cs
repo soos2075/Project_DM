@@ -488,7 +488,18 @@ public class UI_Monster_Management : UI_PopUp
 
         //GetImage((int)Images.ProfilePanel).gameObject.SetActive(true);
 
-        GetTMP((int)Texts.Lv).text = $"Lv.{Current.monster.LV} / {Current.monster.Data.maxLv}";
+
+
+        GetTMP((int)Texts.Lv).text = $"Lv.{Current.monster.LV} / {Current.monster.MaxLv}";
+        if (Current.monster.Lv_Bonus > 0)
+        {
+            int value = Current.monster.MaxLv - Current.monster.Data.maxLv;
+            if (value > 0)
+            {
+                GetTMP((int)Texts.Lv).text += $"{Util.SetTextColorTag($"(+{value})", Define.TextColor.Plus_Blue)}";
+            }
+        }
+
         GetTMP((int)Texts.Name).text = Current.monster.CallName;
 
         int currentHP = Mathf.Clamp(Current.monster.B_HP, 0, Current.monster.B_HP);

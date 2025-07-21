@@ -173,20 +173,20 @@ public class UI_Ending : UI_PopUp
 
 
 
-    IEnumerator SaveClearData()
-    {
-        var save = Managers.UI.ShowPopUp<UI_SaveLoad>();
-        save.SetMode(UI_SaveLoad.DataState.Save);
+    //IEnumerator SaveClearData()
+    //{
+    //    var save = Managers.UI.ShowPopUp<UI_SaveLoad>();
+    //    save.SetMode(UI_SaveLoad.DataState.Save);
 
-        yield return new WaitUntil(() => save == null);
+    //    yield return new WaitUntil(() => save == null);
 
-        // 오토세이브에 저장
-        Managers.Data.SaveAndAddFile(EventManager.Instance.Temp_saveData, "AutoSave", 0);
-        var autosaveData = Managers.Data.GetData($"AutoSave");
+    //    // 오토세이브에 저장
+    //    Managers.Data.SaveAndAddFile(EventManager.Instance.Temp_saveData, "AutoSave", 0);
+    //    var autosaveData = Managers.Data.GetData($"AutoSave");
 
-        EventManager.Instance.Temp_saveData = null;
+    //    EventManager.Instance.Temp_saveData = null;
 
-    }
+    //}
 
 
 

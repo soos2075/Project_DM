@@ -182,16 +182,21 @@ public class UI_SaveLoad : UI_PopUp
                 {
                     return;
                 }
-                if (EventManager.Instance.Temp_saveData != null)
-                {
-                    Managers.Data.SaveAndAddFile(EventManager.Instance.Temp_saveData, $"DM_Save_{index}", index);
-                }
-                else
-                {
-                    Managers.Data.SaveAndAddFile($"DM_Save_{index}", index);
-                    //UserData.Instance.SetData(PrefsKey.SaveTimes, UserData.Instance.GetDataInt(PrefsKey.SaveTimes) + 1);
-                    UserData.Instance.CurrentPlayerData.config.SaveCount++;
-                }
+
+
+                //if (EventManager.Instance.Temp_saveData != null)
+                //{
+                //    Managers.Data.SaveAndAddFile(EventManager.Instance.Temp_saveData, $"DM_Save_{index}", index);
+                //}
+                //else
+                //{
+                //    Managers.Data.SaveAndAddFile($"DM_Save_{index}", index);
+                //    //UserData.Instance.SetData(PrefsKey.SaveTimes, UserData.Instance.GetDataInt(PrefsKey.SaveTimes) + 1);
+                //    UserData.Instance.CurrentPlayerData.config.SaveCount++;
+                //}
+
+                Managers.Data.SaveAndAddFile($"DM_Save_{index}", index);
+                UserData.Instance.CurrentPlayerData.config.SaveCount++;
 
                 ShowDataInfo(index);
 
@@ -258,11 +263,8 @@ public class UI_SaveLoad : UI_PopUp
 
         if (data != null)
         {
-            string diff = "¡Ú";
-            for (int i = 0; i < data.difficultyLevel; i++)
-            {
-                diff += "¡Ú";
-            }
+            string diff = Util.GetDiffStar(data.difficultyLevel);
+
             if (data.savefileConfig.GameMode == Define.ModeSelect.Endless)
             {
                 diff = "¡Ä";

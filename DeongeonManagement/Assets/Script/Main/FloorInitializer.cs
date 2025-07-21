@@ -73,30 +73,55 @@ public class FloorInitializer : MonoBehaviour
     #region 醴蝶籤 億衛濛 爾傘蝶
     public void Init_FirstPlay_Bonus()
     {
-        for (int k = 0; k < 8; k++)
+        int offset = 1;
+        if (UserData.Instance.FileConfig.Buff_Starting_Facility)
+        {
+            offset = 4;
+        }
+
+        //? 1類
+        for (int k = 0; k < 8 * offset; k++)
         {
             BasementTile tile = Main.Instance.Floor[1].GetRandomTile();
             var info = new PlacementInfo(Main.Instance.Floor[1], tile);
             var obj = GameManager.Facility.CreateFacility("Herb_Low", info);
         }
-        for (int k = 0; k < 5; k++)
+        //? 2類
+        for (int k = 0; k < 5 * offset; k++)
         {
             BasementTile tile = Main.Instance.Floor[2].GetRandomTile();
             var info = new PlacementInfo(Main.Instance.Floor[2], tile);
             var facil = GameManager.Facility.CreateFacility("Mineral_Rock", info);
         }
-
-        for (int k = 0; k < 2; k++)
+        //? 3類
+        for (int k = 0; k < 2 * offset; k++)
         {
             BasementTile tile = Main.Instance.Floor[3].GetRandomTile();
             var info = new PlacementInfo(Main.Instance.Floor[3], tile);
             var facil = GameManager.Facility.CreateFacility("Mineral_Stone", info);
         }
-        for (int k = 0; k < 2; k++)
+        for (int k = 0; k < 2 * offset; k++)
         {
             BasementTile tile = Main.Instance.Floor[3].GetRandomTile();
             var info = new PlacementInfo(Main.Instance.Floor[3], tile);
             var obj = GameManager.Facility.CreateFacility("Herb_High", info);
+        }
+
+        //? 4類
+        if (UserData.Instance.FileConfig.Buff_Starting_4F)
+        {
+            for (int k = 0; k < 3 * offset; k++)
+            {
+                BasementTile tile = Main.Instance.Floor[4].GetRandomTile();
+                var info = new PlacementInfo(Main.Instance.Floor[4], tile);
+                var obj = GameManager.Facility.CreateFacility("Herb_Radish", info);
+            }
+            for (int k = 0; k < 7 * offset; k++)
+            {
+                BasementTile tile = Main.Instance.Floor[4].GetRandomTile();
+                var info = new PlacementInfo(Main.Instance.Floor[4], tile);
+                var obj = GameManager.Facility.CreateFacility("Herb_Low", info);
+            }
         }
     }
     #endregion
